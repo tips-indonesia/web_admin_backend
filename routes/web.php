@@ -26,6 +26,7 @@ Route::prefix('admin')->group(function () {
         Route::resource('roles','Admin\RoleAdminController');
         Route::resource('users','Admin\UserAdminController');
         Route::resource('airlineslists','Admin\AirlinesListAdminController');
+        Route::resource('officetypes','Admin\OfficeTypeAdminController');
     });
     
     
