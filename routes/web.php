@@ -24,6 +24,7 @@ Route::prefix('admin')->group(function () {
         });
         Route::resource('countrylists','Admin\CountryListAdminController');
         Route::resource('roles','Admin\RoleAdminController');
+        Route::resource('users','Admin\UserAdminController');
     });
     
     

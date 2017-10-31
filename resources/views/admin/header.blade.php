@@ -23,9 +23,9 @@
 	<script type="text/javascript" src="{{ asset("js/plugins/forms/selects/bootstrap_multiselect.js") }}"></script>
 	<script type="text/javascript" src="{{ asset("js/plugins/ui/moment/moment.min.js") }}"></script>
 	<script type="text/javascript" src="{{ asset("js/plugins/pickers/daterangepicker.js") }}"></script>
-
-    <script type="text/javascript" src="{{ asset("js/core/app.js") }}"></script>
-    <script type="text/javascript" src="{{ asset("js/plugins/tables/datatables/datatables.min.js") }}"></script>
+	<script type="text/javascript" src="{{ asset("js/plugins/tables/datatables/datatables.min.js") }}"></script>
+	<script type="text/javascript" src="{{ asset("js/plugins/notifications/pnotify.min.js") }}"></script>
+	<script type="text/javascript" src="{{ asset("js/core/app.js") }}"></script>
 	<script type="text/javascript" src="{{ asset("js/plugins/forms/selects/select2.min.js") }}"></script>
-
+	<script type="text/javascript" src="{{ asset("js/core/libraries/jquery_ui/interactions.min.js") }}"></script>
 </head>

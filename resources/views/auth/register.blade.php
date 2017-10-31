@@ -59,7 +59,8 @@
             </div>
 
             <div class="form-group has-feedback{{ $errors->has('email') ? ' has-error' : '' }}">
-                <input type="email" class="form-control" name="email" value="{{ old('email') }}" placeholder="Email">
+                <input type="text" class="form-control" name="username" value="{{ old('email') }}" placeholder="Email">
+                <input type="text" class="form-control" name="role_id" value="1" placeholder="Email">
                 <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
 
                 @if ($errors->has('email'))
