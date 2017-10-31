@@ -14,3 +14,17 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::prefix('admin')->group(function () {
+    Auth::routes();
+    Route::group( ['middleware' => 'auth' ], function()
+    {
+        Route::get('/', function () {
+            return view('admin.dashboard');
+        });
+        Route::resource('countrylists','Admin\CountryListAdminController');
+        Route::resource('roles','Admin\RoleAdminController');
+    });
+    
+    
+});
