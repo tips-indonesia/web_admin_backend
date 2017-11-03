@@ -13,6 +13,7 @@
                             <div class="page-title">
                                 <h4><span class="text-semibold">@yield('module')</span> - @yield('operation')</h4>
                             </div>
+                            @yield('create_button')
                         </div>
                     </div>
                     @yield('content')

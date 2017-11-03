@@ -1,10 +1,10 @@
 @extends('admin.app')
 
 @section('title')
-    Country List
+    Airline List
 @endsection
 @section('module')
-    Country List
+    Airline List
 @endsection
 @section('operation')
     Show All
@@ -28,7 +28,7 @@
                             {{ $data->name }}
                         </td>
                         <td>
-                            {{ $data->status }}
+                            {{ $data->status == 1 ? 'Active' : 'Inactive' }}
                         </td>
                         <td>
                             <ul class="icons-list">

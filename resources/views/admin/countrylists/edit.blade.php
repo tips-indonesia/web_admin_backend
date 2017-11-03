@@ -27,4 +27,5 @@
                 </div>
             {{ Form::close() }}
         </div>
+    </div>
 @endsection

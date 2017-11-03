@@ -9,10 +9,15 @@
 @section('operation')
     Show All
 @endsection
+@section('create_button')
+    <div class="heading-elements">
+        <div class="heading-btn-group">
+            <a href="{{ route('countrylists.create') }}" class="btn btn-success btn-float ">Create new</a>
+        </div>
+    </div>
+@endsection('create_button')
 @section('content')
     <div class="panel panel-flat">
-        
-
         <table class="table datatable-pagination">
             <thead>
                 <tr>

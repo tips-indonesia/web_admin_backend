@@ -39,14 +39,19 @@
 					<form action="{{ Auth::routes('login') }}" method="POST" class="form-validate">
                         
                         <div class="panel panel-body login-form">
+							
                             {{ csrf_field() }}
 							<div class="text-center">
 								<div class="icon-object border-slate-300 text-slate-300"><i class="icon-reading"></i></div>
 								<h5 class="content-group">Login to your account <small class="display-block">Your credentials</small></h5>
 							</div>
-
+							@if ($errors->has('username') || $errors->has('password'))
+								<div class="alert alert-danger no-border">
+									Incorrect Credentials !
+								</div>
+							@endif
 							<div class="form-group has-feedback has-feedback-left">
-                                <input type="email" name="email" id="email" value="{{ old('email') }}" placeholder="E-mail" class="form-control" required>
+                                <input type="text" name="username" id="username" value="{{ old('username') }}" placeholder="Username" class="form-control" required>
                                 <div class="form-control-feedback">
 									<i class="icon-user text-muted"></i>
 								</div>

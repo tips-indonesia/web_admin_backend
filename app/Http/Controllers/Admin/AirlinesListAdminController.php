@@ -128,6 +128,7 @@ class AirlinesListAdminController extends Controller
         //
         $airlinesList = AirlinesList::find($id);
         $airlinesList->status = 0;
+        $airlinesList->save();
 
         // redirect
         Session::flash('message', 'Successfully deleted the nerd!');

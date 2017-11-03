@@ -1,10 +1,10 @@
 @extends('admin.app')
 
 @section('title')
-    Country List
+    Office Type
 @endsection
 @section('module')
-    Country List
+    Office Type
 @endsection
 @section('operation')
     Show All

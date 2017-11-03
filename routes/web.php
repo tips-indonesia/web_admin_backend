@@ -23,6 +23,9 @@ Route::prefix('admin')->group(function () {
             return view('admin.dashboard');
         });
         Route::resource('countrylists','Admin\CountryListAdminController');
+        Route::resource('provincelists','Admin\ProvinceListAdminController');
+        Route::resource('citylists','Admin\ProvinceListAdminController');
+        
         Route::resource('roles','Admin\RoleAdminController');
         Route::resource('users','Admin\UserAdminController');
         Route::resource('airlineslists','Admin\AirlinesListAdminController');

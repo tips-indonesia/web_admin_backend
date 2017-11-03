@@ -47,6 +47,7 @@
                 </div>
             {{ Form::close() }}
         </div>
+    </div>
         <script>
             $('.select-search').select2();
         </script>

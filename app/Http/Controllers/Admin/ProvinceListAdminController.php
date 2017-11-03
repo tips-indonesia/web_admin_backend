@@ -4,14 +4,14 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\User;
-use Spatie\Permission\Models\Role;
+use App\ProvinceList;
+use App\CountryList;
 use Validator;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 
-class UserAdminController extends Controller
+class ProvinceListAdminController extends Controller
 {
     /**
     * Display a listing of the resource.
@@ -21,8 +21,8 @@ class UserAdminController extends Controller
     public function index()
     {
         //
-        $data['datas'] = User::paginate(10);
-        return view('admin.users.index', $data);
+        $data['datas'] = ProvinceList::paginate(10);
+        return view('admin.provincelists.index', $data);
     }
 
     /**
@@ -33,8 +33,8 @@ class UserAdminController extends Controller
     public function create()
     {
         //
-        $data['roles'] = Role::all();
-        return view('admin.users.create', $data);
+        $data['countries'] = CountryList::all();
+        return view('admin.provincelists.create', $data);
     }
 
     /**
@@ -46,26 +46,23 @@ class UserAdminController extends Controller
     {
         //
         $rules = array(
-            'name' => 'required',
-            'username' => 'required|unique:users',
-            'password' => 'required|min:6|confirmed',
-            'role' => 'required'
+            'name'       => 'required',
+            'country' => 'required'
         );
         $validator = Validator::make(Input::all(), $rules);
 
         // process the login
         if ($validator->fails()) {
-            return Redirect::to(route('users.create'))
+            return Redirect::to(route('provincelists.create'))
                 ->withErrors($validator)
                 ->withInput();
         } else {
-            $user = User::create(['name' => Input::get('name'), 
-            'username' => Input::get('username'), 
-            'password' => bcrypt(Input::get('password'))]);
-            $role = Role::find(Input::get('role'));
-            $user->assignRole($role->name);
+            $provinceList = new ProvinceList;
+            $provinceList->name = Input::get('name');
+            $provinceList->id_country = CountryList::find(Input::get('country'))->id;
+            $provinceList->save();
             Session::flash('message', 'Successfully created nerd!');
-            return Redirect::to(route('users.index'));
+            return Redirect::to(route('provincelists.index'));
         }
 
     }
@@ -90,10 +87,9 @@ class UserAdminController extends Controller
     public function edit($id)
     {
         //
-        $data['roles'] = Role::all();
-        $user = User::find($id);
-        $data['datas'] =  $user;
-        return view('admin.users.edit', $data);
+        $provinceList = ProvinceList::find($id);
+        $data['datas'] =  $provinceList;
+        return view('admin.provincelists.edit', $data);
     }
 
     /**
@@ -112,15 +108,15 @@ class UserAdminController extends Controller
 
         // process the login
         if ($validator->fails()) {
-            return Redirect::to(route('users.edit'))
+            return Redirect::to(route('provincelists.edit'))
                 ->withErrors($validator)
                 ->withInput();
         } else {
-            $user = User::find($id);
-            $user->name = Input::get('name');
-            $user->save();
+            $provinceList = ProvinceList::find($id);
+            $provinceList->name = Input::get('name');
+            $provinceList->save();
             Session::flash('message', 'Successfully created nerd!');
-            return Redirect::to(route('users.index'));
+            return Redirect::to(route('provincelists.index'));
         }
     }
 
@@ -133,11 +129,11 @@ class UserAdminController extends Controller
     public function destroy($id)
     {
         //
-        $user = User::find($id);
-        $user->delete();
+        $provinceList = ProvinceList::find($id);
+        $provinceList->delete();
 
         // redirect
         Session::flash('message', 'Successfully deleted the nerd!');
-        return Redirect::to(route('users.index'));
+        return Redirect::to(route('provincelists.index'));
     }
 }
