@@ -1,11 +1,11 @@
 @extends('admin.app')
 
 @section('title')
-    Province List
+    City List
 @endsection
 @section('page_title')
-    <span class="text-semibold">Province List</span> - Show All
-    <button type="button" class="btn btn-success" onclick="window.location.href='{{ route('provincelists.create') }}'">Create</button>
+    <span class="text-semibold">City List</span> - Show All
+    <button type="button" class="btn btn-success" onclick="window.location.href='{{ route('citylists.create') }}'">Create</button>
 @endsection
 @section('content')
     <div class="panel panel-flat">     
@@ -26,12 +26,12 @@
                         <td>
                         <ul class="icons-list">
                         <li>
-                        {{ Form::open(array('method' => 'GET', 'url' => route('provincelists.edit', $data->id))) }}
+                        {{ Form::open(array('method' => 'GET', 'url' => route('citylists.edit', $data->id))) }}
                         <button type="submit" class="btn btn-primary"><i class="icon-pencil"></i> Edit</button>
                         {{ Form::close() }}
                         </li>
                         <li>
-                        {{ Form::open(array('method' => 'DELETE', 'url' => route('provincelists.destroy', $data->id))) }}
+                        {{ Form::open(array('method' => 'DELETE', 'url' => route('citylists.destroy', $data->id))) }}
                         <button type="submit" class="btn btn-danger"><i class="icon-trash"></i> Delete</button>
                         {{ Form::close() }}
                         </li>

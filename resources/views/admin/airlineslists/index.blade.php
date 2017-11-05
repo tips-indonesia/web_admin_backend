@@ -1,13 +1,11 @@
 @extends('admin.app')
 
 @section('title')
-    Airline List
+    Edit Airline List
 @endsection
-@section('module')
-    Airline List
-@endsection
-@section('operation')
-    Show All
+@section('page_title')
+<span class="text-semibold">Airline List</span> - Show All
+<button type="button" class="btn btn-success" onclick="window.location.href='{{ route('airlineslists.create') }}'">Create</button>
 @endsection
 @section('content')
     <div class="panel panel-flat">

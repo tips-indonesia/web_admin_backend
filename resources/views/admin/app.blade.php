@@ -6,14 +6,19 @@
         <div class="page-container">
 		    <div class="page-content">
                 @include('admin.sidebar')
-                
                 <div class="content-wrapper">
                     <div class="page-header">
                         <div class="page-header-content">
                             <div class="page-title">
-                                <h4><span class="text-semibold">@yield('module')</span> - @yield('operation')</h4>
+                                <h4><span class="text-semibold">@yield('page_title')</h4>
                             </div>
-                            @yield('create_button')
+                            @if (request()->route()->getName() != '')
+                                <div class="heading-elements">
+                                    <div class="heading-btn-group">
+                                        <a href="{{ url('/admin') }}" class="btn btn-link btn-float has-text"><i class="icon-close2 text-primary"></i>Close</a>
+                                    </div>
+                                </div>
+                            @endif
                         </div>
                     </div>
                     @yield('content')

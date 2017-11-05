@@ -16,8 +16,9 @@ class CreateAirportListsTable extends Migration
         Schema::create('airport_lists', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('inital_code');
+            $table->string('initial_code');
             $table->boolean('is_domestic');
+            $table->boolean('is_international');
             $table->boolean('status');
             $table->timestamps();
         });

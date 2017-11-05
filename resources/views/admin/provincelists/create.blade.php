@@ -1,13 +1,10 @@
 @extends('admin.app')
 
 @section('title')
-    Create Country List
+    Create Province List
 @endsection
-@section('module')
-    Country List
-@endsection
-@section('operation')
-    Create
+@section('page_title')
+    <span class="text-semibold">Province List</span> - Create
 @endsection
 @section('content')
     <!-- Vertical form options -->
@@ -18,7 +15,7 @@
                     <div class="panel-body">
                         <div class="form-group">
                             <label>Name :</label>
-                            {{ Form::text('name', null, array('class' => 'form-control', 'placeholder' => 'Country Name')) }}
+                            {{ Form::text('name', null, array('class' => 'form-control', 'placeholder' => 'Province Name')) }}
                         </div>
                         <div class="form-group">
                             <label>Country :</label>

@@ -1,13 +1,10 @@
 @extends('admin.app')
 
 @section('title')
-    Create Country List
+    Edit Country List
 @endsection
-@section('module')
-    Country List
-@endsection
-@section('operation')
-    Create
+@section('page_title')
+<span class="text-semibold">Country List</span> - Edit
 @endsection
 @section('content')
     <!-- Vertical form options -->

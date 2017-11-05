@@ -1,13 +1,10 @@
 @extends('admin.app')
 
 @section('title')
-    Create Office Type
+    Create Office Type List
 @endsection
-@section('module')
-    Office Type
-@endsection
-@section('operation')
-    Create
+@section('page_title')
+    <span class="text-semibold">Office Type List</span> - Create
 @endsection
 @section('content')
     <!-- Vertical form options -->

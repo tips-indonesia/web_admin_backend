@@ -64,20 +64,10 @@ $(function() {
                 error.insertAfter(element);
             }
         },
-        validClass: "validation-valid-label",
-        success: function(label) {
-            label.addClass("validation-valid-label").text("Successfully")
-        },
-        rules: {
-            password: {
-                minlength: 5
-            }
-        },
         messages: {
             username: "Enter your username",
             password: {
             	required: "Enter your password",
-            	minlength: jQuery.validator.format("At least {0} characters required")
             }
         }
     });

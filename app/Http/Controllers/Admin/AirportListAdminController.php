@@ -4,13 +4,13 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\AirlinesList;
+use App\AirportList;
 use Validator;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 
-class AirlinesListAdminController extends Controller
+class AirportListAdminController extends Controller
 {
     /**
     * Display a listing of the resource.
@@ -20,8 +20,8 @@ class AirlinesListAdminController extends Controller
     public function index()
     {
         //
-        $data['datas'] = AirlinesList::paginate(10);
-        return view('admin.airlineslists.index', $data);
+        $data['datas'] = AirportList::paginate(10);
+        return view('admin.airportlists.index', $data);
     }
 
     /**
@@ -32,7 +32,7 @@ class AirlinesListAdminController extends Controller
     public function create()
     {
         //
-        return view('admin.airlineslists.create');
+        return view('admin.airportlists.create');
     }
 
     /**
@@ -45,21 +45,27 @@ class AirlinesListAdminController extends Controller
         //
         $rules = array(
             'name'       => 'required',
+            'initial_code'       => 'required',
+            'is_international'       => 'required',
+            'is_domestic'       => 'required',
         );
         $validator = Validator::make(Input::all(), $rules);
 
         // process the login
         if ($validator->fails()) {
-            return Redirect::to(route('airlineslists.create'))
+            return Redirect::to(route('airportlists.create'))
                 ->withErrors($validator)
                 ->withInput();
         } else {
-            $airlinesList = new AirlinesList;
-            $airlinesList->name = Input::get('name');
-            $airlinesList->status = 1;
-            $airlinesList->save();
+            $airportList = new AirportList;
+            $airportList->name = Input::get('name');
+            $airportList->initial_code = Input::get('initial_code');
+            $airportList->is_domestic = Input::get('is_domestic');
+            $airportList->is_international = Input::get('is_international');
+            $airportList->status = 1;
+            $airportList->save();
             Session::flash('message', 'Successfully created nerd!');
-            return Redirect::to(route('airlineslists.index'));
+            return Redirect::to(route('airportlists.index'));
         }
 
     }
@@ -84,9 +90,9 @@ class AirlinesListAdminController extends Controller
     public function edit($id)
     {
         //
-        $airlinesList = AirlinesList::find($id);
-        $data['datas'] =  $airlinesList;
-        return view('admin.airlineslists.edit', $data);
+        $airportList = AirportList::find($id);
+        $data['datas'] =  $airportList;
+        return view('admin.airportlists.edit', $data);
     }
 
     /**
@@ -100,22 +106,27 @@ class AirlinesListAdminController extends Controller
         //
         $rules = array(
             'name'       => 'required',
-            'status'       => 'required',
+            'initial_code'       => 'required',
+            'is_international'       => 'required',
+            'is_domestic'       => 'required',
         );
         $validator = Validator::make(Input::all(), $rules);
 
         // process the login
         if ($validator->fails()) {
-            return Redirect::to(route('airlineslists.edit'))
+            return Redirect::to(route('airportlists.edit'))
                 ->withErrors($validator)
                 ->withInput();
         } else {
-            $airlinesList = AirlinesList::find($id);
-            $airlinesList->name = Input::get('name');
-            $airlinesList->status = Input::get('status');
-            $airlinesList->save();
+            $airportList = AirportList::find($id);
+            $airportList->name = Input::get('name');
+            $airportList->initial_code = Input::get('initial_code');
+            $airportList->is_domestic = Input::get('is_domestic');
+            $airportList->is_international = Input::get('is_international');
+            $airportList->status = Input::get('status');;
+            $airportList->save();
             Session::flash('message', 'Successfully created nerd!');
-            return Redirect::to(route('airlineslists.index'));
+            return Redirect::to(route('airportlists.index'));
         }
     }
 
@@ -128,11 +139,11 @@ class AirlinesListAdminController extends Controller
     public function destroy($id)
     {
         //
-        $airlinesList = AirlinesList::find($id);
-        $airlinesList->delete();
+        $airportList = AirportList::find($id);
+        $airportList->delete();
 
         // redirect
         Session::flash('message', 'Successfully deleted the nerd!');
-        return Redirect::to(route('airlineslists.index'));
+        return Redirect::to(route('airportlists.index'));
     }
 }

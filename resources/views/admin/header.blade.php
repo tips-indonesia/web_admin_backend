@@ -10,7 +10,8 @@
 	<link href="{{ asset("css/core.css") }}"rel="stylesheet" type="text/css">
 	<link href="{{ asset("css/components.css") }}"rel="stylesheet" type="text/css">
     <link href="{{ asset("css/colors.css") }}"rel="stylesheet" type="text/css">
-    
+	<link href="{{ asset("css/extras/animate.min.css") }}" rel="stylesheet" type="text/css">
+	
 	<script type="text/javascript" src="{{ asset("js/plugins/loaders/pace.min.js") }}"></script>
 	<script type="text/javascript" src="{{ asset("js/core/libraries/jquery.min.js") }}"></script>
 	<script type="text/javascript" src="{{ asset("js/core/libraries/bootstrap.min.js") }}"></script>
@@ -28,4 +29,6 @@
 	<script type="text/javascript" src="{{ asset("js/core/app.js") }}"></script>
 	<script type="text/javascript" src="{{ asset("js/plugins/forms/selects/select2.min.js") }}"></script>
 	<script type="text/javascript" src="{{ asset("js/core/libraries/jquery_ui/interactions.min.js") }}"></script>
+	<script type="text/javascript" src="{{ asset("js/plugins/forms/selects/bootstrap_select.min.js") }}"></script>
+	<script type="text/javascript" src="{{ asset("js/pages/form_bootstrap_select.js") }}"></script>
 </head>

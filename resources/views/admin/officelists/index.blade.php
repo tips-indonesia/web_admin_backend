@@ -1,11 +1,11 @@
 @extends('admin.app')
 
 @section('title')
-    Office Type List
+    Office List
 @endsection
 @section('page_title')
-    <span class="text-semibold">Office Type List</span> - Show All
-    <button type="button" class="btn btn-success" onclick="window.location.href='{{ route('officetypes.create') }}'">Create</button>
+    <span class="text-semibold">Office List</span> - Show All
+    <button type="button" class="btn btn-success" onclick="window.location.href='{{ route('officelists.create') }}'">Create</button>
 @endsection
 @section('content')
 
@@ -13,7 +13,9 @@
         <table class="table datatable-pagination">
             <thead>
                 <tr>
-                    <th>Name</th>
+                    <th>Office Name</th>
+                    <th>Address</th>
+                    <th>Status</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -24,14 +26,20 @@
                             {{ $data->name }}
                         </td>
                         <td>
+                            {{ $data->address }}
+                        </td>
+                        <td>
+                            {{ $data->status ? 'Active' : 'Inactive' }}
+                        </td>
+                        <td>
                             <ul class="icons-list">
                             <li>
-                            {{ Form::open(array('method' => 'GET', 'url' => route('officetypes.edit', $data->id))) }}
+                            {{ Form::open(array('method' => 'GET', 'url' => route('officelists.edit', $data->id))) }}
                         <button type="submit" class="btn btn-primary"><i class="icon-pencil"></i> Edit</button>
                         {{ Form::close() }}
                             </li>
                             <li>
-                            {{ Form::open(array('method' => 'DELETE', 'url' => route('officetypes.destroy', $data->id))) }}
+                            {{ Form::open(array('method' => 'DELETE', 'url' => route('officelists.destroy', $data->id))) }}
                             <button type="submit" class="btn btn-danger"><i class="icon-trash"></i> Delete</button>
                             {{ Form::close() }}
                             </li>

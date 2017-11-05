@@ -24,12 +24,15 @@ Route::prefix('admin')->group(function () {
         });
         Route::resource('countrylists','Admin\CountryListAdminController');
         Route::resource('provincelists','Admin\ProvinceListAdminController');
-        Route::resource('citylists','Admin\ProvinceListAdminController');
+        Route::resource('citylists','Admin\CityListAdminController');
+
+        Route::resource('officetypes','Admin\OfficeTypeAdminController');
+        Route::resource('officelists','Admin\OfficeListAdminController');
         
         Route::resource('roles','Admin\RoleAdminController');
         Route::resource('users','Admin\UserAdminController');
         Route::resource('airlineslists','Admin\AirlinesListAdminController');
-        Route::resource('officetypes','Admin\OfficeTypeAdminController');
+        Route::resource('airportlists','Admin\AirportListAdminController');
     });
     
     

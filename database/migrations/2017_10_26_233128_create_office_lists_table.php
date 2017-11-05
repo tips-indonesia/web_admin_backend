@@ -21,6 +21,7 @@ class CreateOfficeListsTable extends Migration
             $table->unsignedInteger('id_country');
             $table->unsignedInteger('id_province');
             $table->unsignedInteger('id_city');
+            $table->unsignedInteger('id_airport');
             $table->string('phone_no');
             $table->string('fax_no');
             $table->string('email_address');

@@ -4,13 +4,15 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\AirlinesList;
+use App\CityList;
+use App\CountryList;
+use App\ProvinceList;
 use Validator;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 
-class AirlinesListAdminController extends Controller
+class CityListAdminController extends Controller
 {
     /**
     * Display a listing of the resource.
@@ -20,8 +22,8 @@ class AirlinesListAdminController extends Controller
     public function index()
     {
         //
-        $data['datas'] = AirlinesList::paginate(10);
-        return view('admin.airlineslists.index', $data);
+        $data['datas'] = CityList::paginate(10);
+        return view('admin.citylists.index', $data);
     }
 
     /**
@@ -32,7 +34,9 @@ class AirlinesListAdminController extends Controller
     public function create()
     {
         //
-        return view('admin.airlineslists.create');
+        $data['countries'] = CountryList::all();
+        $data['provinces'] = ProvinceList::all();
+        return view('admin.citylists.create', $data);
     }
 
     /**
@@ -45,21 +49,22 @@ class AirlinesListAdminController extends Controller
         //
         $rules = array(
             'name'       => 'required',
+            'province' => 'required',
         );
         $validator = Validator::make(Input::all(), $rules);
 
         // process the login
         if ($validator->fails()) {
-            return Redirect::to(route('airlineslists.create'))
+            return Redirect::to(route('citylists.create'))
                 ->withErrors($validator)
                 ->withInput();
         } else {
-            $airlinesList = new AirlinesList;
-            $airlinesList->name = Input::get('name');
-            $airlinesList->status = 1;
-            $airlinesList->save();
+            $cityList = new CityList;
+            $cityList->name = Input::get('name');
+            $cityList->id_province = Input::get('province');
+            $cityList->save();
             Session::flash('message', 'Successfully created nerd!');
-            return Redirect::to(route('airlineslists.index'));
+            return Redirect::to(route('citylists.index'));
         }
 
     }
@@ -84,9 +89,12 @@ class AirlinesListAdminController extends Controller
     public function edit($id)
     {
         //
-        $airlinesList = AirlinesList::find($id);
-        $data['datas'] =  $airlinesList;
-        return view('admin.airlineslists.edit', $data);
+        $cityList = CityList::find($id);
+        $data['datas'] =  $cityList;
+        $data['city_country_id'] = ProvinceList::find($cityList->id_province)->id_country;
+        $data['countries'] = CountryList::all();
+        $data['provinces'] = ProvinceList::all();
+        return view('admin.citylists.edit', $data);
     }
 
     /**
@@ -100,22 +108,22 @@ class AirlinesListAdminController extends Controller
         //
         $rules = array(
             'name'       => 'required',
-            'status'       => 'required',
+            'province' => 'required',
         );
         $validator = Validator::make(Input::all(), $rules);
 
         // process the login
         if ($validator->fails()) {
-            return Redirect::to(route('airlineslists.edit'))
+            return Redirect::to(route('citylists.edit'))
                 ->withErrors($validator)
                 ->withInput();
         } else {
-            $airlinesList = AirlinesList::find($id);
-            $airlinesList->name = Input::get('name');
-            $airlinesList->status = Input::get('status');
-            $airlinesList->save();
+            $cityList = CityList::find($id);
+            $cityList->name = Input::get('name');
+            $cityList->id_province = Input::get('province');
+            $cityList->save();
             Session::flash('message', 'Successfully created nerd!');
-            return Redirect::to(route('airlineslists.index'));
+            return Redirect::to(route('citylists.index'));
         }
     }
 
@@ -128,11 +136,11 @@ class AirlinesListAdminController extends Controller
     public function destroy($id)
     {
         //
-        $airlinesList = AirlinesList::find($id);
-        $airlinesList->delete();
+        $cityList = CityList::find($id);
+        $cityList->delete();
 
         // redirect
         Session::flash('message', 'Successfully deleted the nerd!');
-        return Redirect::to(route('airlineslists.index'));
+        return Redirect::to(route('citylists.index'));
     }
 }

@@ -89,6 +89,7 @@ class ProvinceListAdminController extends Controller
         //
         $provinceList = ProvinceList::find($id);
         $data['datas'] =  $provinceList;
+        $data['countries'] = CountryList::all();
         return view('admin.provincelists.edit', $data);
     }
 
@@ -103,6 +104,7 @@ class ProvinceListAdminController extends Controller
         //
         $rules = array(
             'name'       => 'required',
+            'country' => 'required'
         );
         $validator = Validator::make(Input::all(), $rules);
 
@@ -114,6 +116,7 @@ class ProvinceListAdminController extends Controller
         } else {
             $provinceList = ProvinceList::find($id);
             $provinceList->name = Input::get('name');
+            $provinceList->id_country = CountryList::find(Input::get('country'))->id;
             $provinceList->save();
             Session::flash('message', 'Successfully created nerd!');
             return Redirect::to(route('provincelists.index'));

@@ -3,11 +3,8 @@
 @section('title')
     Create Airline List
 @endsection
-@section('module')
-    Airline List
-@endsection
-@section('operation')
-    Create
+@section('page_title')
+<span class="text-semibold">Airline List</span> - Create
 @endsection
 @section('content')
     <!-- Vertical form options -->
