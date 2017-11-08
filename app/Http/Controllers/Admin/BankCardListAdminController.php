@@ -4,13 +4,14 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\CountryList;
+use App\BankCardList;
+use App\BankList;
 use Validator;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 
-class CountryListAdminController extends Controller
+class BankCardListAdminController extends Controller
 {
     /**
     * Display a listing of the resource.
@@ -20,8 +21,7 @@ class CountryListAdminController extends Controller
     public function index()
     {
         //
-        $data['datas'] = CountryList::paginate(10);
-        return view('admin.countrylists.index', $data);
+        
     }
 
     /**
@@ -29,10 +29,11 @@ class CountryListAdminController extends Controller
     *
     * @return Response
     */
-    public function create()
+    public function create($bank)
     {
         //
-        return view('admin.countrylists.create');
+        $data['bank'] = BankList::find($bank);
+        return view('admin.bankcardlists.create', $data);
     }
 
     /**
@@ -40,7 +41,7 @@ class CountryListAdminController extends Controller
     *
     * @return Response
     */
-    public function store()
+    public function store($bank)
     {
         //
         $rules = array(
@@ -50,15 +51,17 @@ class CountryListAdminController extends Controller
 
         // process the login
         if ($validator->fails()) {
-            return Redirect::to(route('countrylists.create'))
+            return Redirect::to(route('bankcardlists.create', $bank))
                 ->withErrors($validator)
                 ->withInput();
         } else {
-            $countryList = new CountryList;
-            $countryList->name = Input::get('name');
-            $countryList->save();
+            $bankcardList = new BankCardList;
+            $bankcardList->name = Input::get('name');
+            $bankcardList->id_bank = $bank;
+            $bankcardList->status = 1;
+            $bankcardList->save();
             Session::flash('message', 'Successfully created nerd!');
-            return Redirect::to(route('countrylists.index'));
+            return Redirect::to(route('banklists.show', $bank));
         }
 
     }
@@ -80,12 +83,12 @@ class CountryListAdminController extends Controller
     * @param  int  $id
     * @return Response
     */
-    public function edit($id)
+    public function edit($bank, $id)
     {
         //
-        $countryList = CountryList::find($id);
-        $data['datas'] =  $countryList;
-        return view('admin.countrylists.edit', $data);
+        $bankcardList = BankCardList::find($id);
+        $data['datas'] =  $bankcardList;
+        return view('admin.bankcardlists.edit', $data);
     }
 
     /**
@@ -94,25 +97,27 @@ class CountryListAdminController extends Controller
     * @param  int  $id
     * @return Response
     */
-    public function update($id)
+    public function update($bank, $id)
     {
         //
         $rules = array(
             'name'       => 'required',
+            'status'       => 'required',
         );
         $validator = Validator::make(Input::all(), $rules);
 
         // process the login
         if ($validator->fails()) {
-            return Redirect::to(route('countrylists.edit'))
+            return Redirect::to(route('bankcardlists.edit', [$bank, $id]))
                 ->withErrors($validator)
                 ->withInput();
         } else {
-            $countryList = CountryList::find($id);
-            $countryList->name = Input::get('name');
-            $countryList->save();
+            $bankcardList = BankCardList::find($id);
+            $bankcardList->name = Input::get('name');
+            $bankcardList->status = Input::get('status');
+            $bankcardList->save();
             Session::flash('message', 'Successfully created nerd!');
-            return Redirect::to(route('countrylists.index'));
+            return Redirect::to(route('banklists.show', $bank));
         }
     }
 
@@ -122,14 +127,14 @@ class CountryListAdminController extends Controller
     * @param  int  $id
     * @return Response
     */
-    public function destroy($id)
+    public function destroy($bank,$id)
     {
         //
-        $countryList = CountryList::find($id);
-        $countryList->delete();
+        $bankcardList = BankCardList::find($id);
+        $bankcardList->delete();
 
         // redirect
         Session::flash('message', 'Successfully deleted the nerd!');
-        return Redirect::to(route('countrylists.index'));
+        return Redirect::to(route('banklists.show', $bank));
     }
 }

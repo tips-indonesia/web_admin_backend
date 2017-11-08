@@ -34,9 +34,7 @@ class CityListAdminController extends Controller
     public function create()
     {
         //
-        $data['countries'] = CountryList::all();
-        $data['provinces'] = ProvinceList::all();
-        return view('admin.citylists.create', $data);
+        return view('admin.citylists.create');
     }
 
     /**
@@ -49,7 +47,6 @@ class CityListAdminController extends Controller
         //
         $rules = array(
             'name'       => 'required',
-            'province' => 'required',
         );
         $validator = Validator::make(Input::all(), $rules);
 
@@ -61,7 +58,6 @@ class CityListAdminController extends Controller
         } else {
             $cityList = new CityList;
             $cityList->name = Input::get('name');
-            $cityList->id_province = Input::get('province');
             $cityList->save();
             Session::flash('message', 'Successfully created nerd!');
             return Redirect::to(route('citylists.index'));
@@ -91,9 +87,6 @@ class CityListAdminController extends Controller
         //
         $cityList = CityList::find($id);
         $data['datas'] =  $cityList;
-        $data['city_country_id'] = ProvinceList::find($cityList->id_province)->id_country;
-        $data['countries'] = CountryList::all();
-        $data['provinces'] = ProvinceList::all();
         return view('admin.citylists.edit', $data);
     }
 
@@ -108,19 +101,17 @@ class CityListAdminController extends Controller
         //
         $rules = array(
             'name'       => 'required',
-            'province' => 'required',
         );
         $validator = Validator::make(Input::all(), $rules);
 
         // process the login
         if ($validator->fails()) {
-            return Redirect::to(route('citylists.edit'))
+            return Redirect::to(route('citylists.edit', $id))
                 ->withErrors($validator)
                 ->withInput();
         } else {
             $cityList = CityList::find($id);
             $cityList->name = Input::get('name');
-            $cityList->id_province = Input::get('province');
             $cityList->save();
             Session::flash('message', 'Successfully created nerd!');
             return Redirect::to(route('citylists.index'));

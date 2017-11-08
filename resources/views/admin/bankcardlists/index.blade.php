@@ -1,19 +1,21 @@
 @extends('admin.app')
 
 @section('title')
-    Country List
+    Bank Card List
 @endsection
 @section('page_title')
-    <span class="text-semibold">Country List</span> - Show All
-    <button type="button" class="btn btn-success" onclick="window.location.href='{{ route('countrylists.create') }}'">Create</button>
+<span class="text-semibold">Bank Card List</span> - {{ $bank->name }}
+<button type="button" class="btn btn-success" onclick="window.location.href='{{ route('bankcardlists.create', $bank->id) }}'">Create</button>
 @endsection
 @section('content')
-
     <div class="panel panel-flat">
+        
+
         <table class="table datatable-pagination">
             <thead>
                 <tr>
                     <th>Name</th>
+                    <th>Status</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -24,14 +26,17 @@
                             {{ $data->name }}
                         </td>
                         <td>
+                            {{ $data->status == 1 ? 'Active' : 'Inactive' }}
+                        </td>
+                        <td>
                             <ul class="icons-list">
                             <li>
-                            {{ Form::open(array('method' => 'GET', 'url' => route('countrylists.edit', $data->id))) }}
+                            {{ Form::open(array('method' => 'GET', 'url' => route('bankcardlists.edit', [$bank->id,$data->id] ))) }}
                         <button type="submit" class="btn btn-primary"><i class="icon-pencil"></i> Edit</button>
                         {{ Form::close() }}
                             </li>
                             <li>
-                            {{ Form::open(array('method' => 'DELETE', 'url' => route('countrylists.destroy', $data->id))) }}
+                            {{ Form::open(array('method' => 'DELETE', 'url' => route('bankcardlists.destroy',  [$bank->id, $data->id]))) }}
                             <button type="submit" class="btn btn-danger"><i class="icon-trash"></i> Delete</button>
                             {{ Form::close() }}
                             </li>

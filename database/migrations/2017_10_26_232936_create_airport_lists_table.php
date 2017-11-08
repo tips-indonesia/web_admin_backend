@@ -17,8 +17,6 @@ class CreateAirportListsTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('initial_code');
-            $table->boolean('is_domestic');
-            $table->boolean('is_international');
             $table->boolean('status');
             $table->timestamps();
         });

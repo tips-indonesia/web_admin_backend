@@ -4,14 +4,13 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\ProvinceList;
-use App\CountryList;
+use App\GoodsCategory;
 use Validator;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 
-class ProvinceListAdminController extends Controller
+class GoodsCategoryAdminController extends Controller
 {
     /**
     * Display a listing of the resource.
@@ -21,8 +20,8 @@ class ProvinceListAdminController extends Controller
     public function index()
     {
         //
-        $data['datas'] = ProvinceList::paginate(10);
-        return view('admin.provincelists.index', $data);
+        $data['datas'] = GoodsCategory::paginate(10);
+        return view('admin.goodscategories.index', $data);
     }
 
     /**
@@ -33,8 +32,7 @@ class ProvinceListAdminController extends Controller
     public function create()
     {
         //
-        $data['countries'] = CountryList::all();
-        return view('admin.provincelists.create', $data);
+        return view('admin.goodscategories.create');
     }
 
     /**
@@ -47,22 +45,20 @@ class ProvinceListAdminController extends Controller
         //
         $rules = array(
             'name'       => 'required',
-            'country' => 'required'
         );
         $validator = Validator::make(Input::all(), $rules);
 
         // process the login
         if ($validator->fails()) {
-            return Redirect::to(route('provincelists.create'))
+            return Redirect::to(route('goodscategories.create'))
                 ->withErrors($validator)
                 ->withInput();
         } else {
-            $provinceList = new ProvinceList;
-            $provinceList->name = Input::get('name');
-            $provinceList->id_country = CountryList::find(Input::get('country'))->id;
-            $provinceList->save();
+            $countryList = new GoodsCategory;
+            $countryList->name = Input::get('name');
+            $countryList->save();
             Session::flash('message', 'Successfully created nerd!');
-            return Redirect::to(route('provincelists.index'));
+            return Redirect::to(route('goodscategories.index'));
         }
 
     }
@@ -87,10 +83,9 @@ class ProvinceListAdminController extends Controller
     public function edit($id)
     {
         //
-        $provinceList = ProvinceList::find($id);
-        $data['datas'] =  $provinceList;
-        $data['countries'] = CountryList::all();
-        return view('admin.provincelists.edit', $data);
+        $countryList = GoodsCategory::find($id);
+        $data['datas'] =  $countryList;
+        return view('admin.goodscategories.edit', $data);
     }
 
     /**
@@ -104,22 +99,20 @@ class ProvinceListAdminController extends Controller
         //
         $rules = array(
             'name'       => 'required',
-            'country' => 'required'
         );
         $validator = Validator::make(Input::all(), $rules);
 
         // process the login
         if ($validator->fails()) {
-            return Redirect::to(route('provincelists.edit'))
+            return Redirect::to(route('goodscategories.edit'))
                 ->withErrors($validator)
                 ->withInput();
         } else {
-            $provinceList = ProvinceList::find($id);
-            $provinceList->name = Input::get('name');
-            $provinceList->id_country = CountryList::find(Input::get('country'))->id;
-            $provinceList->save();
+            $countryList = GoodsCategory::find($id);
+            $countryList->name = Input::get('name');
+            $countryList->save();
             Session::flash('message', 'Successfully created nerd!');
-            return Redirect::to(route('provincelists.index'));
+            return Redirect::to(route('goodscategories.index'));
         }
     }
 
@@ -132,11 +125,11 @@ class ProvinceListAdminController extends Controller
     public function destroy($id)
     {
         //
-        $provinceList = ProvinceList::find($id);
-        $provinceList->delete();
+        $countryList = GoodsCategory::find($id);
+        $countryList->delete();
 
         // redirect
         Session::flash('message', 'Successfully deleted the nerd!');
-        return Redirect::to(route('provincelists.index'));
+        return Redirect::to(route('goodscategories.index'));
     }
 }

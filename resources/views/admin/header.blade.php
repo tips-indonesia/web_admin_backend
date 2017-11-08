@@ -5,11 +5,11 @@
     <title>@yield('title')</title>
     
 	<link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
-	<link href="{{ asset("css/icons/icomoon/styles.css") }}"rel="stylesheet" type="text/css">
-	<link href="{{ asset("css/bootstrap.css") }}"rel="stylesheet" type="text/css">
-	<link href="{{ asset("css/core.css") }}"rel="stylesheet" type="text/css">
-	<link href="{{ asset("css/components.css") }}"rel="stylesheet" type="text/css">
-    <link href="{{ asset("css/colors.css") }}"rel="stylesheet" type="text/css">
+	<link href="{{ asset("css/icons/icomoon/styles.css") }}" rel="stylesheet" type="text/css">
+	<link href="{{ asset("css/bootstrap.css") }}" rel="stylesheet" type="text/css">
+	<link href="{{ asset("css/core.css") }}" rel=" stylesheet" type="text/css">
+	<link href="{{ asset("css/components.css") }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset("css/colors.css") }}" rel="stylesheet" type="text/css">
 	<link href="{{ asset("css/extras/animate.min.css") }}" rel="stylesheet" type="text/css">
 	
 	<script type="text/javascript" src="{{ asset("js/plugins/loaders/pace.min.js") }}"></script>

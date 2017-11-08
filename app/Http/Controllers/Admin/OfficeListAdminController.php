@@ -7,8 +7,6 @@ use App\Http\Controllers\Controller;
 use App\OfficeList;
 use App\OfficeType;
 use App\CityList;
-use App\ProvinceList;
-use App\CountryList;
 use App\AirportList;
 use Validator;
 use Illuminate\Support\Facades\Input;
@@ -38,9 +36,8 @@ class OfficeListAdminController extends Controller
     {
         //
         $data['officetypes'] = OfficeType::all();
-        $data['provinces'] = ProvinceList::all();
+        $data['offices'] = OfficeList::where('id_office_type', OfficeType::where('name', 'Counter')->first()->id);
         $data['cities'] = CityList::all();
-        $data['countries'] = CountryList::all();
         $data['airports'] = AirportList::all();
         return view('admin.officelists.create', $data);
     }
@@ -57,8 +54,6 @@ class OfficeListAdminController extends Controller
             'name'       => 'required',
             'office_type' => 'required',
             'address' => 'required',
-            'country' => 'required',
-            'province' => 'required',
             'city' => 'required',
             'latitude' => 'required',
             'longitude' => 'required',
@@ -80,8 +75,6 @@ class OfficeListAdminController extends Controller
             $officeLists->name = Input::get('name');
             $officeLists->id_office_type = Input::get('office_type');
             $officeLists->address = Input::get('address');
-            $officeLists->id_country = Input::get('country');
-            $officeLists->id_province = Input::get('province');
             $officeLists->id_city = Input::get('city');
             $officeLists->phone_no = Input::get('phone_no');
             $officeLists->fax_no = Input::get('fax_no');
@@ -120,9 +113,8 @@ class OfficeListAdminController extends Controller
         //
         $data['datas'] = $officeLists = OfficeList::find($id);
         $data['officetypes'] = OfficeType::all();
-        $data['provinces'] = ProvinceList::all();
+        $data['offices'] = OfficeList::where('id_office_type', OfficeType::where('name', 'Counter')->first()->id);
         $data['cities'] = CityList::all();
-        $data['countries'] = CountryList::all();
         $data['airports'] = AirportList::all();
         return view('admin.officelists.edit', $data);
     }
@@ -140,8 +132,6 @@ class OfficeListAdminController extends Controller
             'name'       => 'required',
             'office_type' => 'required',
             'address' => 'required',
-            'country' => 'required',
-            'province' => 'required',
             'city' => 'required',
             'latitude' => 'required',
             'longitude' => 'required',
@@ -150,6 +140,7 @@ class OfficeListAdminController extends Controller
             'email_address' => 'required',
             'airport' => 'required',
             'contact_person' => 'required',
+            'airport_counter' => 'required',
             'status' => 'required',
         );
         $validator = Validator::make(Input::all(), $rules);
@@ -164,10 +155,9 @@ class OfficeListAdminController extends Controller
             $officeLists->name = Input::get('name');
             $officeLists->id_office_type = Input::get('office_type');
             $officeLists->address = Input::get('address');
-            $officeLists->id_country = Input::get('country');
-            $officeLists->id_province = Input::get('province');
             $officeLists->id_city = Input::get('city');
             $officeLists->id_airport = Input::get('airport');
+            $officeLists->id_office_counter = Input::get('airport_counter');
             $officeLists->phone_no = Input::get('phone_no');
             $officeLists->fax_no = Input::get('fax_no');
             $officeLists->email_address = Input::get('email_address');

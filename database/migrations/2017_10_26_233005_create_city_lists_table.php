@@ -16,7 +16,6 @@ class CreateCityListsTable extends Migration
         Schema::create('city_lists', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->unsignedInteger('id_province');
             $table->timestamps();
         });
     }

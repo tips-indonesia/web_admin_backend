@@ -32,24 +32,12 @@
                                 <textarea rows="5" class="form-control" placeholder="Enter your address here" name="address">{{ $datas->address }}</textarea>
                             </div>
                             <div class="form-group">
-                                <label>Country :</label>
-                                <select name="country" class="select-search" id="country">
-                                    <option disabled selected></option>
-                                    @foreach ($countries as $country)
-                                        <option value="{{ $country->id }}" @if ($country->id == $datas->id_country) selected @endif>{{ $country->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>Province :</label>
-                                <select name="province" class="select-search" id="province">
-                                    <option disabled selected></option>
-                                </select>
-                            </div>
-                            <div class="form-group">
                                 <label>City :</label>
-                                <select name="city" class="select-search" id="city">
+                                <select name="city" class="select-search">
                                     <option disabled selected></option>
+                                    @foreach ($cities as $city)
+                                        <option value="{{ $city->id }}">{{ $city->name }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="row">
@@ -95,6 +83,15 @@
                                 </div>
                             </div>
                             <div class="form-group">
+                                <label>Airport Counter Name :</label>
+                                <select name="airport_counter" class="select-search" id="airport_counter">
+                                    <option disabled selected></option>
+                                    @foreach ($offices as $office)
+                                        <option value="{{ $office->id }}">{{ $office->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group">
                                 <label>Airport :</label>
                                 <select name="airport" class="select-search" id="airport">
                                     <option disabled selected></option>
@@ -122,43 +119,5 @@
 
     <script>
         $('.select-search').select2();
-        function dynamic_province() {
-            $('#province').empty();
-            var option = new Option();
-            option.disabled = true;
-            option.selected = true;
-            $('#province').append(option);
-            var country = $('#country');
-            @foreach ($provinces as $province)
-                if (country.val() == {{ $province->id_country }}) 
-                    option = new Option('{{ $province->name }}', {{ $province->id }} );
-                    if ({{ $datas->id_province }} == {{ $province->id }} )
-                            option.selected = true;
-                    $('#province').append(option);
-            @endforeach
-        }
-        function dynamic_city() {
-            $('#city').empty();
-            var option = new Option();
-            option.disabled = true;
-            option.selected = true;
-            $('#city').append(option);
-            var province = $('#province');
-            @foreach ($cities as $city)
-                if (province.val() == {{ $city->id_province }}) 
-                    option = new Option('{{ $city->name }}', {{ $city->id }} )
-                    if ({{ $datas->id_city }} == {{ $city->id }} )
-                        option.selected = true;
-                    $('#city').append(option);
-            @endforeach
-        }
-        $('#country').on("select2:select", function(e) { 
-            dynamic_province();
-        });
-        $('#province').on("select2:select", function(e) { 
-            dynamic_city();
-        });
-        dynamic_province();
-        dynamic_city();
     </script>
 @endsection

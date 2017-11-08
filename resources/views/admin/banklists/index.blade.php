@@ -1,11 +1,11 @@
 @extends('admin.app')
 
 @section('title')
-    Airport List
+    Bank List
 @endsection
 @section('page_title')
-<span class="text-semibold">Airport List</span> - Show All
-<button type="button" class="btn btn-success" onclick="window.location.href='{{ route('airportlists.create') }}'">Create</button>
+<span class="text-semibold">Bank List</span> - Show All
+<button type="button" class="btn btn-success" onclick="window.location.href='{{ route('banklists.create') }}'">Create</button>
 @endsection
 @section('content')
     <div class="panel panel-flat">
@@ -15,8 +15,7 @@
             <thead>
                 <tr>
                     <th>Name</th>
-                    <th>Initial</th>
-                    <th>Details</th>
+                    <th>Card Type</th>
                     <th>Status</th>
                     <th>Actions</th>
                 </tr>
@@ -28,10 +27,7 @@
                             {{ $data->name }}
                         </td>
                         <td>
-                            {{ $data->initial_code }}
-                        </td>
-                        <td>
-                        <button type="button" class="btn btn-default btn-sm" onclick="window.location.href='{{ route('airportlists.show', $data->id) }}'">City Scope Details</button>
+                            <button type="button" class="btn btn-default btn-sm" onclick="window.location.href='{{ route('banklists.show', $data->id) }}'">Card Details</button>
                         </td>
                         <td>
                             {{ $data->status == 1 ? 'Active' : 'Inactive' }}
@@ -39,12 +35,12 @@
                         <td>
                             <ul class="icons-list">
                             <li>
-                            {{ Form::open(array('method' => 'GET', 'url' => route('airportlists.edit', $data->id))) }}
+                            {{ Form::open(array('method' => 'GET', 'url' => route('banklists.edit', $data->id))) }}
                         <button type="submit" class="btn btn-primary"><i class="icon-pencil"></i> Edit</button>
                         {{ Form::close() }}
                             </li>
                             <li>
-                            {{ Form::open(array('method' => 'DELETE', 'url' => route('airportlists.destroy', $data->id))) }}
+                            {{ Form::open(array('method' => 'DELETE', 'url' => route('banklists.destroy', $data->id))) }}
                             <button type="submit" class="btn btn-danger"><i class="icon-trash"></i> Delete</button>
                             {{ Form::close() }}
                             </li>
@@ -57,5 +53,4 @@
 
 {{ $datas->links() }}
     </div>
-
 @endsection

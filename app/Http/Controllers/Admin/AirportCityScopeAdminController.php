@@ -4,15 +4,15 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\AirportCityScope;
 use App\AirportList;
 use App\CityList;
-use App\AirportCityScope;
 use Validator;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 
-class AirportListAdminController extends Controller
+class AirportCityScopeAdminController extends Controller
 {
     /**
     * Display a listing of the resource.
@@ -22,8 +22,7 @@ class AirportListAdminController extends Controller
     public function index()
     {
         //
-        $data['datas'] = AirportList::paginate(10);
-        return view('admin.airportlists.index', $data);
+        
     }
 
     /**
@@ -31,10 +30,12 @@ class AirportListAdminController extends Controller
     *
     * @return Response
     */
-    public function create()
+    public function create($airport)
     {
         //
-        return view('admin.airportlists.create');
+        $data['airport'] = AirportList::find($airport);
+        $data['cities'] = CityList::all();
+        return view('admin.airportcityscopes.create', $data);
     }
 
     /**
@@ -42,28 +43,27 @@ class AirportListAdminController extends Controller
     *
     * @return Response
     */
-    public function store()
+    public function store($airport)
     {
         //
         $rules = array(
-            'name'       => 'required',
-            'initial_code'       => 'required',
+            'city'       => 'required',
         );
         $validator = Validator::make(Input::all(), $rules);
 
         // process the login
         if ($validator->fails()) {
-            return Redirect::to(route('airportlists.create'))
+            return Redirect::to(route('airportcityscopes.create', $airport))
                 ->withErrors($validator)
                 ->withInput();
         } else {
-            $airportList = new AirportList;
-            $airportList->name = Input::get('name');
-            $airportList->initial_code = Input::get('initial_code');
-            $airportList->status = 1;
-            $airportList->save();
+            $airportcityScope = new AirportCityScope;
+            $airportcityScope->id_city = Input::get('city');
+            $airportcityScope->id_airport = $airport;
+            $airportcityScope->status = 1;
+            $airportcityScope->save();
             Session::flash('message', 'Successfully created nerd!');
-            return Redirect::to(route('airportlists.index'));
+            return Redirect::to(route('airportlists.show', $airport));
         }
 
     }
@@ -77,13 +77,6 @@ class AirportListAdminController extends Controller
     public function show($id)
     {
         //
-        $data['airport'] = AirportList::find($id);
-        $data['datas'] = AirportCityScope::where('id_airport', $id)->paginate(10);
-        foreach ($data['datas'] as $dat) {
-            $dat['name'] = CityList::find($dat->id_city)->name;
-        }
-        
-        return view('admin.airportcityscopes.index', $data);
     }
 
     /**
@@ -92,12 +85,13 @@ class AirportListAdminController extends Controller
     * @param  int  $id
     * @return Response
     */
-    public function edit($id)
+    public function edit($airport, $id)
     {
         //
-        $airportList = AirportList::find($id);
-        $data['datas'] =  $airportList;
-        return view('admin.airportlists.edit', $data);
+        $airportcityScope = AirportCityScope::find($id);
+        $data['datas'] =  $airportcityScope;
+        $data['cities'] = CityList::all();
+        return view('admin.airportcityscopes.edit', $data);
     }
 
     /**
@@ -106,28 +100,27 @@ class AirportListAdminController extends Controller
     * @param  int  $id
     * @return Response
     */
-    public function update($id)
+    public function update($airport, $id)
     {
         //
         $rules = array(
-            'name'       => 'required',
-            'initial_code'       => 'required',
+            'city'       => 'required',
+            'status'       => 'required',
         );
         $validator = Validator::make(Input::all(), $rules);
 
         // process the login
         if ($validator->fails()) {
-            return Redirect::to(route('airportlists.edit'))
+            return Redirect::to(route('airportcityscopes.edit', [$airport, $id]))
                 ->withErrors($validator)
                 ->withInput();
         } else {
-            $airportList = AirportList::find($id);
-            $airportList->name = Input::get('name');
-            $airportList->initial_code = Input::get('initial_code');
-            $airportList->status = Input::get('status');;
-            $airportList->save();
+            $airportcityScope = AirportCityScope::find($id);
+            $airportcityScope->id_city = Input::get('city');
+            $airportcityScope->status = Input::get('status');
+            $airportcityScope->save();
             Session::flash('message', 'Successfully created nerd!');
-            return Redirect::to(route('airportlists.index'));
+            return Redirect::to(route('airportlists.show', $airport));
         }
     }
 
@@ -137,14 +130,14 @@ class AirportListAdminController extends Controller
     * @param  int  $id
     * @return Response
     */
-    public function destroy($id)
+    public function destroy($airport,$id)
     {
         //
-        $airportList = AirportList::find($id);
-        $airportList->delete();
+        $airportcityScope = AirportCityScope::find($id);
+        $airportcityScope->delete();
 
         // redirect
         Session::flash('message', 'Successfully deleted the nerd!');
-        return Redirect::to(route('airportlists.index'));
+        return Redirect::to(route('airportlists.show', $airport));
     }
 }
