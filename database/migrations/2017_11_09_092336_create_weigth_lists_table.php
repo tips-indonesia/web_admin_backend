@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCityListsTable extends Migration
+class CreateWeigthListsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,8 @@ class CreateCityListsTable extends Migration
      */
     public function up()
     {
-        Schema::create('city_lists', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('name');
+        Schema::create('weigth_lists', function (Blueprint $table) {
+            $table->increments('weigth_kg');
             $table->timestamps();
         });
     }
@@ -27,6 +26,6 @@ class CreateCityListsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('city_lists');
+        Schema::dropIfExists('weigth_lists');
     }
 }

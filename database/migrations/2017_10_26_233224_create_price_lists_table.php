@@ -15,9 +15,11 @@ class CreatePriceListsTable extends Migration
     {
         Schema::create('price_lists', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('id_airline');
-            $table->unsignedInteger('id_airport_origin');
-            $table->unsignedInteger('id_airport_destination');
+            $table->unsignedInteger('id_origin_city');
+            $table->unsignedInteger('id_destination_city');
+            $table->decimal('tipster_price',18,2);
+            $table->decimal('freight_cost',18,2);
+            $table->decimal('add_first_class',18,2);
             $table->timestamps();
         });
     }

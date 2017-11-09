@@ -21,3 +21,6 @@ Route::get('/demo', 'UtilityController@test');
 
 Route::post('/register', 'API\\UserController@register');
 Route::post('/login', 'API\\UserController@login');
+Route::get('/city', 'API\\CityController@get_list');
+Route::get('/city/price', 'API\\CityController@get_price');
+Route::get('/weight', 'API\\WeightController@get_list');
