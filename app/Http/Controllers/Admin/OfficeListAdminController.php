@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\OfficeList;
 use App\OfficeType;
 use App\CityList;
+use App\OfficeDropPoint;
 use App\AirportList;
 use Validator;
 use Illuminate\Support\Facades\Input;
@@ -24,6 +25,8 @@ class OfficeListAdminController extends Controller
     {
         //
         $data['datas'] = OfficeList::paginate(10);
+        $data['processing_center'] = OfficeType::where('name', 'Processing Center')->first();
+        
         return view('admin.officelists.index', $data);
     }
 
@@ -36,9 +39,10 @@ class OfficeListAdminController extends Controller
     {
         //
         $data['officetypes'] = OfficeType::all();
-        $data['offices'] = OfficeList::where('id_office_type', OfficeType::where('name', 'Counter')->first()->id);
+        $data['offices'] = OfficeList::where('id_office_type', OfficeType::where('name', 'Counter')->first()->id)->get();
         $data['cities'] = CityList::all();
         $data['airports'] = AirportList::all();
+        $data['processing_center'] = OfficeType::where('name', 'Processing Center')->first();
         return view('admin.officelists.create', $data);
     }
 
@@ -61,8 +65,10 @@ class OfficeListAdminController extends Controller
             'fax_no' => 'required',
             'email_address' => 'required',
             'airport' => 'required',
+            'airport_counter' => 'required_if:office_type,'.OfficeType::where('name', 'Processing Center')->first()->id,
             'contact_person' => 'required',
         );
+
         $validator = Validator::make(Input::all(), $rules);
 
         // process the login
@@ -83,6 +89,7 @@ class OfficeListAdminController extends Controller
             $officeLists->latitude = Input::get('latitude');
             $officeLists->longitude = Input::get('longitude');
             $officeLists->id_airport = Input::get('airport');
+            $officeLists->id_office_counter = Input::get('airport_counter');
             $officeLists->status = 1;
             $officeLists->save();
             Session::flash('message', 'Successfully created nerd!');
@@ -100,6 +107,14 @@ class OfficeListAdminController extends Controller
     public function show($id)
     {
         //
+        $data['office'] = OfficeList::find($id);
+        if ($data['office']->id_office_type == OfficeType::where('name', 'Processing Center')->first()->id) {
+            $data['datas'] = OfficeDropPoint::where('id_office', $id)->paginate(10);
+            foreach ($data['datas'] as $dat) {
+                $dat['name'] = OfficeList::find($dat->id_drop_point)->name;
+            }
+            return view('admin.officedroppoints.index', $data);
+        }
     }
 
     /**
@@ -115,6 +130,7 @@ class OfficeListAdminController extends Controller
         $data['officetypes'] = OfficeType::all();
         $data['offices'] = OfficeList::where('id_office_type', OfficeType::where('name', 'Counter')->first()->id);
         $data['cities'] = CityList::all();
+        $data['processing_center'] = OfficeType::where('name', 'Processing Center')->first();
         $data['airports'] = AirportList::all();
         return view('admin.officelists.edit', $data);
     }
@@ -139,15 +155,14 @@ class OfficeListAdminController extends Controller
             'fax_no' => 'required',
             'email_address' => 'required',
             'airport' => 'required',
+            'airport_counter' => 'required_if:office_type,'.OfficeType::where('name', 'Processing Center')->first()->id,
             'contact_person' => 'required',
-            'airport_counter' => 'required',
-            'status' => 'required',
         );
         $validator = Validator::make(Input::all(), $rules);
 
         // process the login
         if ($validator->fails()) {
-            return Redirect::to(route('officelists.edit'))
+            return Redirect::to(route('officelists.edit', $id))
                 ->withErrors($validator)
                 ->withInput();
         } else {
@@ -164,6 +179,7 @@ class OfficeListAdminController extends Controller
             $officeLists->contact_person_name = Input::get('contact_person');
             $officeLists->latitude = Input::get('latitude');
             $officeLists->longitude = Input::get('longitude');
+            $officeLists->id_office_counter = Input::get('airport_counter');
             $officeLists->status = Input::get('status');
             $officeLists->save();
             Session::flash('message', 'Successfully created nerd!');

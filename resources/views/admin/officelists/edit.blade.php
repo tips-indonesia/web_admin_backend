@@ -84,7 +84,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Airport Counter Name :</label>
-                                <select name="airport_counter" class="select-search" id="airport_counter">
+                                <select name="airport_counter" class="select-search" id="airport_counter" disabled>
                                     <option disabled selected></option>
                                     @foreach ($offices as $office)
                                         <option value="{{ $office->id }}">{{ $office->name }}</option>
@@ -93,7 +93,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Airport :</label>
-                                <select name="airport" class="select-search" id="airport">
+                                <select name="airport" class="select-search" id="airport" >
                                     <option disabled selected></option>
                                     @foreach ($airports as $airport)
                                         <option value="{{ $airport->id }}" @if ($airport->id == $datas->id_airport) selected @endif>{{ $airport->name }}</option>
@@ -119,5 +119,12 @@
 
     <script>
         $('.select-search').select2();
+        $('#office_type').on('select2:select', function() {
+            if ($('#office_type').val() == {{ $processing_center->id }}){
+                $('#airport_counter').removeAttr("disabled");
+            } else {
+                $('#airport_counter').prop('disabled', 'disabled');
+            }
+        })
     </script>
 @endsection

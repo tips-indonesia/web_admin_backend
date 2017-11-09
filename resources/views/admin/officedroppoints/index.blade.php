@@ -1,20 +1,20 @@
- @extends('admin.app')
+@extends('admin.app')
 
 @section('title')
-    Office List
+    Office Drop Point
 @endsection
 @section('page_title')
-    <span class="text-semibold">Office List</span> - Show All
-    <button type="button" class="btn btn-success" onclick="window.location.href='{{ route('officelists.create') }}'">Create</button>
+<span class="text-semibold">Office Drop Point</span> - {{ $office->name }}
+<button type="button" class="btn btn-success" onclick="window.location.href='{{ route('officedroppoints.create', $office->id) }}'">Create</button>
 @endsection
 @section('content')
-
     <div class="panel panel-flat">
+        
+
         <table class="table datatable-pagination">
             <thead>
                 <tr>
-                    <th>Office Name</th>
-                    <th>Address</th>
+                    <th>Name</th>
                     <th>Status</th>
                     <th>Actions</th>
                 </tr>
@@ -26,27 +26,19 @@
                             {{ $data->name }}
                         </td>
                         <td>
-                            {{ $data->address }}
-                        </td>
-                        <td>
-                            {{ $data->status ? 'Active' : 'Inactive' }}
+                            {{ $data->status == 1 ? 'Active' : 'Inactive' }}
                         </td>
                         <td>
                             <ul class="icons-list">
                             <li>
-                            {{ Form::open(array('method' => 'GET', 'url' => route('officelists.edit', $data->id))) }}
+                            {{ Form::open(array('method' => 'GET', 'url' => route('officedroppoints.edit', [$office->id,$data->id] ))) }}
                         <button type="submit" class="btn btn-primary"><i class="icon-pencil"></i> Edit</button>
                         {{ Form::close() }}
                             </li>
                             <li>
-                            {{ Form::open(array('method' => 'DELETE', 'url' => route('officelists.destroy', $data->id))) }}
+                            {{ Form::open(array('method' => 'DELETE', 'url' => route('officedroppoints.destroy',  [$office->id, $data->id]))) }}
                             <button type="submit" class="btn btn-danger"><i class="icon-trash"></i> Delete</button>
                             {{ Form::close() }}
-                            </li>
-                            <li>
-                                @if ($data->id_office_type == $processing_center->id)
-                            <button type="button" class="btn btn-primary" onclick="window.location.href='{{ route('officelists.show', $data->id) }}'"><i class="icon-pencil"></i> Add Drop Point</button>
-                                @endif
                             </li>
                             </ul>
                         </td>

@@ -35,6 +35,11 @@ Route::prefix('admin')->group(function () {
 
         Route::resource('officetypes','Admin\OfficeTypeAdminController');
         Route::resource('officelists','Admin\OfficeListAdminController');
+        Route::get('officelists/{officelist}/create', 'Admin\OfficeDropPointAdminController@create')->name('officedroppoints.create');
+        Route::post('officelists/{officelist}/create', 'Admin\OfficeDropPointAdminController@store')->name('officedroppoints.store');
+        Route::get('officelists/{officelist}/{officedroppoint}/edit', 'Admin\OfficeDropPointAdminController@edit')->name('officedroppoints.edit');
+        Route::put('officelists/{officelist}/{officedroppoint}/edit', 'Admin\OfficeDropPointAdminController@update')->name('officedroppoints.update');
+        Route::delete('officelists/{officelist}/{officedroppoint}', 'Admin\OfficeDropPointAdminController@destroy')->name('officedroppoints.destroy');
 
         Route::resource('banklists','Admin\BankListAdminController');        
         Route::get('banklists/{banklist}/create', 'Admin\BankCardListAdminController@create')->name('bankcardlists.create');

@@ -13,5 +13,7 @@ class DatabaseSeeder extends Seeder
          $this->call(UserTableSeeder::class);
          $this->call(MenuTableSeeder::class);
          $this->call(RegionListTableSeeder::class);
+         $this->call(PermissionTableSeeder::class);
+         $this->call(OfficeTypeTableSeeder::class);
     }
 }
