@@ -21,7 +21,7 @@ class CreateBarangsTable extends Migration
             $table->integer('berat');
             $table->string('status_barang')->default('PENDING');
             $table->integer('id_keberangkatan')->unsigned()->nullable();
-            $table->foreign('id_keberangkatan')->references('id')->on('keberangkatans')->onDelete('cascade');;
+            $table->foreign('id_keberangkatan')->references('id')->on('keberangkatans')->onDelete('cascade');
             $table->timestamps();
         });
     }
