@@ -26,6 +26,9 @@ class PermissionTableSeeder extends Seeder
         Permission::create(['name' => 'insurances.']);
         Permission::create(['name' => 'weightlists.']);
 
+
+        Permission::create(['name' => 'shipmentstatuses.']);
+
         Permission::create(['name' => 'roles.']);
         Permission::create(['name' => 'users.']);
         Permission::create(['name' => 'permissions.']);
