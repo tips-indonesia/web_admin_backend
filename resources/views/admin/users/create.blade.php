@@ -1,13 +1,10 @@
 @extends('admin.app')
 
 @section('title')
-    Create Country List
+    Create User List
 @endsection
-@section('module')
-    Country List
-@endsection
-@section('operation')
-    Create
+@section('page_title')
+    <span class="text-semibold">User List</span> - Create
 @endsection
 @section('content')
     <!-- Vertical form options -->
@@ -18,15 +15,16 @@
                     <div class="panel-body">
                         <div class="form-group">
                             <label>Name :</label>
-                            {{ Form::text('name', null, array('class' => 'form-control', 'placeholder' => 'Country Name')) }}
+                            {{ Form::text('name', null, array('class' => 'form-control', 'placeholder' => 'Name')) }}
                         </div>
                         <div class="form-group">
                             <label>Username :</label>
-                            {{ Form::text('username', null, array('class' => 'form-control', 'placeholder' => 'Country Name')) }}
+                            {{ Form::text('username', null, array('class' => 'form-control', 'placeholder' => 'Username')) }}
                         </div>
                         <div class="form-group">
                             <label>Role :</label>
                             <select name="role" class="select-search">
+                                <option selected disabled></option> 
                                 @foreach ($roles as $role)
                                     <option value="{{ $role->id }}">{{ $role->name }}</option>
                                 @endforeach
@@ -34,11 +32,11 @@
                         </div>
                         <div class="form-group">
                             <label>Password :</label>
-                            {{ Form::password('password', array('class' => 'form-control', 'placeholder' => 'Country Name')) }}
+                            {{ Form::password('password', array('class' => 'form-control', 'placeholder' => 'Password')) }}
                         </div>
                         <div class="form-group">
-                            <label>Password :</label>
-                            {{ Form::password('password_confirmation', array('class' => 'form-control', 'placeholder' => 'Country Name')) }}
+                            <label>Confirm Password :</label>
+                            {{ Form::password('password_confirmation', array('class' => 'form-control', 'placeholder' => 'Confirm Password')) }}
                         </div>
                         <div class="text-right form-group">
                             <button type="submit" class="btn btn-primary">Submit form <i class="icon-arrow-right14 position-right"></i></button>

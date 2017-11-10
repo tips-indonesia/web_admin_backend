@@ -1,13 +1,11 @@
 @extends('admin.app')
 
 @section('title')
-    Country List
+    Role List
 @endsection
-@section('module')
-    Country List
-@endsection
-@section('operation')
-    Show All
+@section('page_title')
+    <span class="text-semibold">Role List</span> - Show All
+    <button type="button" class="btn btn-success" onclick="window.location.href='{{ route('roles.create') }}'">Create</button>
 @endsection
 @section('content')
     <div class="panel panel-flat">

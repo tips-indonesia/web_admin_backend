@@ -4,14 +4,13 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\User;
-use Spatie\Permission\Models\Role;
+use App\WeightList;
 use Validator;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 
-class UserAdminController extends Controller
+class WeightListAdminController extends Controller
 {
     /**
     * Display a listing of the resource.
@@ -21,8 +20,8 @@ class UserAdminController extends Controller
     public function index()
     {
         //
-        $data['datas'] = User::paginate(10);
-        return view('admin.users.index', $data);
+        $data['datas'] = WeightList::paginate(10);
+        return view('admin.weightlists.index', $data);
     }
 
     /**
@@ -33,8 +32,7 @@ class UserAdminController extends Controller
     public function create()
     {
         //
-        $data['roles'] = Role::all();
-        return view('admin.users.create', $data);
+        return view('admin.weightlists.create');
     }
 
     /**
@@ -46,26 +44,22 @@ class UserAdminController extends Controller
     {
         //
         $rules = array(
-            'name' => 'required',
-            'username' => 'required|unique:users',
-            'password' => 'required|min:6|confirmed',
-            'role' => 'required'
+            'weight_kg'       => 'required',
         );
         $validator = Validator::make(Input::all(), $rules);
 
         // process the login
         if ($validator->fails()) {
-            return Redirect::to(route('users.create'))
+            return Redirect::to(route('weightlists.create'))
                 ->withErrors($validator)
                 ->withInput();
         } else {
-            $user = User::create(['name' => Input::get('name'), 
-            'username' => Input::get('username'), 
-            'password' => bcrypt(Input::get('password'))]);
-            $role = Role::find(Input::get('role'));
-            $user->assignRole($role->name);
+            $WeightList = new WeightList;
+            $WeightList->weight_kg = Input::get('weight_kg');
+            $WeightList->status = 1;
+            $WeightList->save();
             Session::flash('message', 'Successfully created nerd!');
-            return Redirect::to(route('users.index'));
+            return Redirect::to(route('weightlists.index'));
         }
 
     }
@@ -90,10 +84,9 @@ class UserAdminController extends Controller
     public function edit($id)
     {
         //
-        $data['roles'] = Role::all();
-        $user = User::find($id);
-        $data['datas'] =  $user;
-        return view('admin.users.edit', $data);
+        $WeightList = WeightList::find($id);
+        $data['datas'] =  $WeightList;
+        return view('admin.weightlists.edit', $data);
     }
 
     /**
@@ -106,24 +99,23 @@ class UserAdminController extends Controller
     {
         //
         $rules = array(
-            'name'       => 'required',
-            'role'  => 'required'
+            'weight_kg'       => 'required',
+            'status'       => 'required',
         );
         $validator = Validator::make(Input::all(), $rules);
 
         // process the login
         if ($validator->fails()) {
-            return Redirect::to(route('users.edit'))
+            return Redirect::to(route('weightlists.edit'))
                 ->withErrors($validator)
                 ->withInput();
         } else {
-            $user = User::find($id);
-            $user->name = Input::get('name');
-            $role = Role::find(Input::get('role'));
-            $user->syncRoles($role);
-            $user->save();
+            $WeightList = WeightList::find($id);
+            $WeightList->weight_kg = Input::get('weight_kg');
+            $WeightList->status = Input::get('status');
+            $WeightList->save();
             Session::flash('message', 'Successfully created nerd!');
-            return Redirect::to(route('users.index'));
+            return Redirect::to(route('weightlists.index'));
         }
     }
 
@@ -136,11 +128,11 @@ class UserAdminController extends Controller
     public function destroy($id)
     {
         //
-        $user = User::find($id);
-        $user->delete();
+        $WeightList = WeightList::find($id);
+        $WeightList->delete();
 
         // redirect
         Session::flash('message', 'Successfully deleted the nerd!');
-        return Redirect::to(route('users.index'));
+        return Redirect::to(route('weightlists.index'));
     }
 }

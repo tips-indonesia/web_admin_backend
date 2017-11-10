@@ -4,13 +4,13 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\GoodsCategory;
+use App\Insurance;
 use Validator;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 
-class GoodsCategoryAdminController extends Controller
+class InsuranceAdminController extends Controller
 {
     /**
     * Display a listing of the resource.
@@ -20,8 +20,8 @@ class GoodsCategoryAdminController extends Controller
     public function index()
     {
         //
-        $data['datas'] = GoodsCategory::paginate(10);
-        return view('admin.goodscategories.index', $data);
+        $data['datas'] = Insurance::all()->first();
+        return view('admin.insurances.create', $data);
     }
 
     /**
@@ -31,8 +31,7 @@ class GoodsCategoryAdminController extends Controller
     */
     public function create()
     {
-        //
-        return view('admin.goodscategories.create');
+        
     }
 
     /**
@@ -43,23 +42,7 @@ class GoodsCategoryAdminController extends Controller
     public function store()
     {
         //
-        $rules = array(
-            'name'       => 'required',
-        );
-        $validator = Validator::make(Input::all(), $rules);
 
-        // process the login
-        if ($validator->fails()) {
-            return Redirect::to(route('goodscategories.create'))
-                ->withErrors($validator)
-                ->withInput();
-        } else {
-            $countryList = new GoodsCategory;
-            $countryList->name = Input::get('name');
-            $countryList->save();
-            Session::flash('message', 'Successfully created nerd!');
-            return Redirect::to(route('goodscategories.index'));
-        }
 
     }
 
@@ -83,9 +66,7 @@ class GoodsCategoryAdminController extends Controller
     public function edit($id)
     {
         //
-        $countryList = GoodsCategory::find($id);
-        $data['datas'] =  $countryList;
-        return view('admin.goodscategories.edit', $data);
+
     }
 
     /**
@@ -98,21 +79,23 @@ class GoodsCategoryAdminController extends Controller
     {
         //
         $rules = array(
-            'name'       => 'required',
+            'default_insurance'       => 'required',
+            'additional_insurance'       => 'required',
         );
         $validator = Validator::make(Input::all(), $rules);
 
         // process the login
         if ($validator->fails()) {
-            return Redirect::to(route('goodscategories.edit'))
+            return Redirect::to(route('insurances.index'))
                 ->withErrors($validator)
                 ->withInput();
         } else {
-            $countryList = GoodsCategory::find($id);
-            $countryList->name = Input::get('name');
-            $countryList->save();
+            $airlinesList = Insurance::find($id);
+            $airlinesList->default_insurance = Input::get('default_insurance');
+            $airlinesList->additional_insurance = Input::get('additional_insurance');
+            $airlinesList->save();
             Session::flash('message', 'Successfully created nerd!');
-            return Redirect::to(route('goodscategories.index'));
+            return Redirect::to(route('insurances.index'));
         }
     }
 
@@ -125,11 +108,5 @@ class GoodsCategoryAdminController extends Controller
     public function destroy($id)
     {
         //
-        $countryList = GoodsCategory::find($id);
-        $countryList->delete();
-
-        // redirect
-        Session::flash('message', 'Successfully deleted the nerd!');
-        return Redirect::to(route('goodscategories.index'));
     }
 }

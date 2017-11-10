@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class GoodsCategory extends Model
+class WeightList extends Model
 {
     //
 }

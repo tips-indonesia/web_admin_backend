@@ -14,7 +14,8 @@ class MenuTableSeeder extends Seeder
     {
         //
         MenuList::create([
-            'name' => 'Master File'
+            'name' => 'Master File',
+            'class_name' => 'officetypes.|officelists.|citylists.|airlineslists.|airportlists.|banklists.|paymenttypes.|pricelists.|insurances.|weightlists.'
         ]);
             MenuList::create([
                 'name' => 'City List',
@@ -36,7 +37,8 @@ class MenuTableSeeder extends Seeder
             ]);
             MenuList::create([
                 'name' => 'Office List',
-                'menu_parent_id' => 1
+                'menu_parent_id' => 1,
+                'class_name' => 'officetypes.|officelists.'
             ]);
                 MenuList::create([
                     'name' => 'Office Type',
@@ -63,31 +65,43 @@ class MenuTableSeeder extends Seeder
                 'class_name' => 'paymenttypes.'
             ]);  
             MenuList::create([
-                'name' => 'Goods Category',
-                'menu_parent_id' => 1,
-                'url' => route('goodscategories.index'),
-                'class_name' => 'goodscategories.'
-            ]); 
-            MenuList::create([
                 'name' => 'Price List',
                 'menu_parent_id' => 1,
                 'url' => route('pricelists.index'),
                 'class_name' => 'pricelists.'
+            ]);  
+            MenuList::create([
+                'name' => 'Insurance',
+                'menu_parent_id' => 1,
+                'url' => route('insurances.index'),
+                'class_name' => 'insurances.'
+            ]); 
+            MenuList::create([
+                'name' => 'Weight List',
+                'menu_parent_id' => 1,
+                'url' => route('weightlists.index'),
+                'class_name' => 'weightlists.'
             ]);    
-        // MenuList::create([
-        //     'name' => 'Setting'
-        // ]);
-        //     MenuList::create([
-        //         'name' => 'Role List',
-        //         'menu_parent_id' => 15,
-        //         'url' => route('roles.index'),
-        //         'class_name' => 'roles.'
-        //     ]);
-        //     MenuList::create([
-        //         'name' => 'User List',
-        //         'menu_parent_id' => 15,
-        //         'url' => route('users.index'),
-        //         'class_name' => 'users.'
-        //     ]);
+        MenuList::create([
+            'name' => 'Setting',
+            'class_name' => 'roles.|users.'
+        ]);
+            MenuList::create([
+                'name' => 'User Application',
+                'menu_parent_id' => 13,
+                'class_name' => 'roles.|users.'
+            ]);
+                MenuList::create([
+                    'name' => 'Role List',
+                    'menu_parent_id' => 14,
+                    'url' => route('roles.index'),
+                    'class_name' => 'roles.'
+                ]);
+                MenuList::create([
+                    'name' => 'User List',
+                    'menu_parent_id' => 14,
+                    'url' => route('users.index'),
+                    'class_name' => 'users.'
+                ]);
     }
 }

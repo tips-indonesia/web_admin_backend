@@ -1,13 +1,11 @@
 @extends('admin.app')
 
 @section('title')
-    Country List
+    User List
 @endsection
-@section('module')
-    Country List
-@endsection
-@section('operation')
-    Show All
+@section('page_title')
+    <span class="text-semibold">User List</span> - Show All
+    <button type="button" class="btn btn-success" onclick="window.location.href='{{ route('users.create') }}'">Create</button>
 @endsection
 @section('content')
     <div class="panel panel-flat">
@@ -33,10 +31,12 @@
                         <button type="submit" class="btn btn-primary"><i class="icon-pencil"></i> Edit</button>
                         {{ Form::close() }}
                         </li>
+                        @if (Auth::user()->id != $data->id)
                         <li>
                         {{ Form::open(array('method' => 'DELETE', 'url' => route('users.destroy', $data->id))) }}
                         <button type="submit" class="btn btn-danger"><i class="icon-trash"></i> Delete</button>
                         {{ Form::close() }}
+                        @endif
                         </li>
                         </ul>
                         </td>

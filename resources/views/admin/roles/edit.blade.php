@@ -1,13 +1,10 @@
 @extends('admin.app')
 
 @section('title')
-    Create Country List
+    Create Role List
 @endsection
-@section('module')
-    Country List
-@endsection
-@section('operation')
-    Create
+@section('page_title')
+    <span class="text-semibold">Role List</span> - Create
 @endsection
 @section('content')
     <!-- Vertical form options -->
@@ -18,7 +15,7 @@
                     <div class="panel-body">
                         <div class="form-group">
                             <label>Name :</label>
-                            {{ Form::text('name', $datas->name, array('class' => 'form-control', 'placeholder' => 'Country Name')) }}
+                            {{ Form::text('name', $datas->name, array('class' => 'form-control', 'placeholder' => 'Role Name')) }}
                         </div>
                         <div class="text-right form-group">
                             <button type="submit" class="btn btn-primary">Submit form <i class="icon-arrow-right14 position-right"></i></button>
