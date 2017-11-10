@@ -33,11 +33,18 @@
                         </div>
                         <div class="form-group">
                             <label>Tipster Price (Per Kg) :</label>
-                            {{ Form::text('tipster_price', $datas->tipster_price, array('class' => 'form-control', 'placeholder' => 'Office Type Name')) }}
+                            {{ Form::text('tipster_price', $datas->tipster_price, array('class' => 'form-control', 'placeholder' => 'Tipster Price')) }}
                         </div>
                         <div class="form-group">
                             <label>Freight Cost (Per Kg) :</label>
-                            {{ Form::text('freight_cost', $datas->freight_cost, array('class' => 'form-control', 'placeholder' => 'Office Type Name')) }}
+                            {{ Form::text('freight_cost', $datas->freight_cost, array('class' => 'form-control', 'placeholder' => 'Freight Cost')) }}
+                        </div>
+                        <div class="form-group">
+                            <label>Add First Class (Per Kg) :</label>
+                            {{ Form::text('add_first_class', $datas->add_first_class, array('class' => 'form-control', 'placeholder' => 'Add First Class')) }}
+                        </div>
+                        <div class="text-right form-group">
+                            <button type="submit" class="btn btn-primary">Submit form <i class="icon-arrow-right14 position-right"></i></button>
                         </div>
                     </div>
                 </div>

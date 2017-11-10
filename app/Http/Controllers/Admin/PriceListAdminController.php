@@ -53,6 +53,7 @@ class PriceListAdminController extends Controller
             'destination' => 'required',
             'tipster_price' => 'required',
             'freight_cost' => 'required',
+            'add_first_class' => 'required',
         );
         $validator = Validator::make(Input::all(), $rules);
 
@@ -67,6 +68,7 @@ class PriceListAdminController extends Controller
             $priceList->id_destination_city = Input::get('destination');
             $priceList->tipster_price = Input::get('tipster_price');
             $priceList->freight_cost = Input::get('freight_cost');
+            $priceList->add_first_class = Input::get('add_first_class');
             $priceList->save();
             Session::flash('message', 'Successfully created nerd!');
             return Redirect::to(route('pricelists.index'));
@@ -114,6 +116,7 @@ class PriceListAdminController extends Controller
             'destination' => 'required',
             'tipster_price' => 'required',
             'freight_cost' => 'required',
+            'add_first_class' => 'required',
         );
         $validator = Validator::make(Input::all(), $rules);
 
@@ -128,6 +131,7 @@ class PriceListAdminController extends Controller
             $priceList->id_destination_city = Input::get('destination');
             $priceList->tipster_price = Input::get('tipster_price');
             $priceList->freight_cost = Input::get('freight_cost');
+            $priceList->add_first_class = Input::get('add_first_class');
             $priceList->save();
             Session::flash('message', 'Successfully created nerd!');
             return Redirect::to(route('pricelists.index'));

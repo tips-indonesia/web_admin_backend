@@ -16,6 +16,7 @@
                     <th>Destination City Name</th>
                     <th>Tipster / Kg</th>
                     <th>Freight Cost / Kg</th>
+                    <th>Add First Class / Kg</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -30,6 +31,9 @@
                         </td>
                         <td>
                             {{ $data->freight_cost }}
+                        </td>
+                        <td>
+                            {{ $data->add_first_class }}
                         </td>
                         <td>
                             <ul class="icons-list">

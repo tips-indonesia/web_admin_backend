@@ -19,6 +19,7 @@ class CreatePriceListsTable extends Migration
             $table->unsignedInteger('id_destination_city');
             $table->unsignedInteger('tipster_price');
             $table->unsignedInteger('freight_cost');
+            $table->unsignedInteger('add_first_class')->nullable();
             $table->timestamps();
         });
     }
