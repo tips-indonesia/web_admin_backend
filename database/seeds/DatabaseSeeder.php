@@ -15,7 +15,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-
         DB::table('daftar_barang_regulars')->delete();
         DB::table('daftar_barang_golds')->delete();
         DB::table('keberangkatans')->delete();
@@ -194,5 +193,11 @@ class DatabaseSeeder extends Seeder
         $this->call(MemberListSeeder::class);
         $this->call(WeigthListSeeder::class);
         $this->call(PriceListSeeder::class);
+        $this->call(UserTableSeeder::class);
+        $this->call(MenuTableSeeder::class);
+        $this->call(RegionListTableSeeder::class);
+        $this->call(PermissionTableSeeder::class);
+        $this->call(OfficeTypeTableSeeder::class);
+        $this->call(InsuranceTableSeeder::class);
     }
 }

@@ -16,10 +16,10 @@ class CreateMenuListsTable extends Migration
         Schema::create('menu_lists', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('url');
-            $table->string('image_url');
-            $table->unsignedInteger('menu_parent_code');
-            $table->unsignedInteger('id_menu');
+            $table->string('class_name')->nullable();
+            $table->string('url')->default('#');
+            $table->string('image_url')->default('https://cdn3.iconfinder.com/data/icons/brain-games/1042/Brain-Games.png');
+            $table->unsignedInteger('menu_parent_id')->nullable();
             $table->timestamps();
         });
     }
