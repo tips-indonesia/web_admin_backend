@@ -36,6 +36,11 @@
                         <button type="submit" class="btn btn-danger"><i class="icon-trash"></i> Delete</button>
                         {{ Form::close() }}
                         </li>
+                        @if (Auth::user()->hasPermissionTo('permissions.'))
+                        <li>
+                            <button type="button" class="btn btn-default btn-sm" onclick="window.location.href='{{ route('permissions.edit', $data->id) }}'">Manage Permissions</button>
+                        </li>
+                        @endif
                         </ul>
                         </td>
                     </tr>

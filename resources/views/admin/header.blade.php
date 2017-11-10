@@ -31,4 +31,5 @@
 	<script type="text/javascript" src="{{ asset("js/core/libraries/jquery_ui/interactions.min.js") }}"></script>
 	<script type="text/javascript" src="{{ asset("js/plugins/forms/selects/bootstrap_select.min.js") }}"></script>
 	<script type="text/javascript" src="{{ asset("js/pages/form_bootstrap_select.js") }}"></script>
+	<script type="text/javascript" src="{{ asset("js/plugins/forms/inputs/duallistbox.min.js") }}"></script>
 </head>
