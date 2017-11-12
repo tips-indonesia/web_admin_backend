@@ -15,23 +15,36 @@ class PermissionTableSeeder extends Seeder
     {
         //
         app()['cache']->forget('spatie.permission.cache');
-        Permission::create(['name' => 'citylists.']);
-        Permission::create(['name' => 'airlineslists.']);
-        Permission::create(['name' => 'airportlists.']);
-        Permission::create(['name' => 'officelists.']);
-        Permission::create(['name' => 'officetypes.']);
-        Permission::create(['name' => 'banklists.']);
-        Permission::create(['name' => 'paymenttypes.']);
-        Permission::create(['name' => 'pricelists.']);
-        Permission::create(['name' => 'insurances.']);
-        Permission::create(['name' => 'weightlists.']);
+
+        // Master File
+        Permission::create(['name' => 'citylists.', 'show_name' => 'City List']);
+        Permission::create(['name' => 'airlineslists.', 'show_name' => 'Airline List']);
+        Permission::create(['name' => 'airportlists.', 'show_name' => 'Airport List']);
+            // Office List
+            Permission::create(['name' => 'officelists.', 'show_name' => 'Office List']);
+            Permission::create(['name' => 'officetypes.', 'show_name' => 'Office Type']);
+            // End of Office List
+        Permission::create(['name' => 'banklists.', 'show_name' => 'Bank List']);
+        Permission::create(['name' => 'paymenttypes.', 'show_name' => 'Payment Type']);
+        Permission::create(['name' => 'pricelists.', 'show_name' => 'Price List']);
+        Permission::create(['name' => 'insurances.', 'show_name' => 'Insurance']);
+        Permission::create(['name' => 'weightlists.', 'show_name' => 'Weight List']);
+        // End of Master File
+
+        // Transaction
+        Permission::create(['name' => 'shipments.', 'show_name' => 'Shipment List']);
+        // End of Transaction
 
 
-        Permission::create(['name' => 'shipmentstatuses.']);
+        // Setting
+        Permission::create(['name' => 'shipmentstatuses.', 'show_name' => 'Shipment Status']);
 
-        Permission::create(['name' => 'roles.']);
-        Permission::create(['name' => 'users.']);
-        Permission::create(['name' => 'permissions.']);
+            // User 
+            Permission::create(['name' => 'roles.', 'show_name' => 'Role List']);
+            Permission::create(['name' => 'users.', 'show_name' => 'User List']);
+            Permission::create(['name' => 'permissions.', 'show_name' => 'Permission Management']);
+            // End of User
+        // End of Setting
         $role = Role::all()->first();
         $permissions = Permission::all();
         foreach ($permissions as $permission) {

@@ -81,31 +81,41 @@ class MenuTableSeeder extends Seeder
                 'menu_parent_id' => 1,
                 'url' => route('weightlists.index'),
                 'class_name' => 'weightlists.'
-            ]);    
-        MenuList::create([
+            ]);
+        $transaction = MenuList::create([
+            'name' => 'Transaction',
+            'class_name' => 'shipments.'
+        ]);
+            MenuList::create([
+                'name' => 'Shipment List',
+                'menu_parent_id' => $transaction->id,
+                'url' => route('shipments.index'),
+                'class_name' => 'shipments.'
+            ]);
+        $setting = MenuList::create([
             'name' => 'Setting',
             'class_name' => 'roles.|users.|shipmentstatuses.'
         ]);
             MenuList::create([
                 'name' => 'Shipment Status',
-                'menu_parent_id' => 13,
+                'menu_parent_id' => $setting->id,
                 'url' => route('shipmentstatuses.index'),
                 'class_name' => 'shipmentstatuses.'
             ]);
-            MenuList::create([
+            $user = MenuList::create([
                 'name' => 'User Application',
-                'menu_parent_id' => 13,
+                'menu_parent_id' => $setting->id,
                 'class_name' => 'roles.|users.'
             ]);
                 MenuList::create([
                     'name' => 'Role List',
-                    'menu_parent_id' => 15,
+                    'menu_parent_id' => $user->id,
                     'url' => route('roles.index'),
                     'class_name' => 'roles.'
                 ]);
                 MenuList::create([
                     'name' => 'User List',
-                    'menu_parent_id' => 15,
+                    'menu_parent_id' => $user->id,
                     'url' => route('users.index'),
                     'class_name' => 'users.'
                 ]);

@@ -16,10 +16,10 @@
                         <div class="text-right form-group">
                             <select multiple="multiple" class="form-control listbox" name="permission[]">
                                 @foreach ($set as $s)
-                                    <option value="{{ $s->id }}" selected>{{ $s->name }}</option>
+                                    <option value="{{ $s->id }}" selected>{{ $s->show_name }}</option>
                                 @endforeach
                                 @foreach ($unset as $s)
-                                    <option value="{{ $s->id }}">{{ $s->name }}</option>
+                                    <option value="{{ $s->id }}">{{ $s->show_name }}</option>
                                 @endforeach
                             </select>
                         </div>

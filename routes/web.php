@@ -71,7 +71,9 @@ Route::prefix('admin')->group(function () {
         Route::group(['middleware' => ['permission:weightlists.']], function () {
             Route::resource('weightlists','Admin\WeightListAdminController');
         });
-
+        Route::group(['middleware' => ['permission:shipments.']], function () {
+            Route::resource('shipments','Admin\ShipmentAdminController');
+        });
         Route::group(['middleware' => ['permission:shipmentstatuses.']], function () {
             Route::resource('shipmentstatuses','Admin\ShipmentStatusAdminController');
         });
