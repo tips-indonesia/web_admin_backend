@@ -66,7 +66,7 @@
                             <select name="shipment_status" class="select-search">
                                 <option disabled selected></option>
                                 @foreach ($shipment_statuses as $shipment_status)
-                                    <option value="{{ $shipment_status->id }}">{{ $shipment_status->name }}</option>
+                                    <option value="{{ $shipment_status->id }}">{{ $shipment_status->description }}</option>
                                 @endforeach
                             </select>
                         </div>

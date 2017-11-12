@@ -90,7 +90,7 @@ class PermissionAdminController extends Controller
 
         // process the login
         if ($validator->fails()) {
-            return Redirect::to(route('roles.show', $id))
+            return Redirect::to(route('permissions.edit', $id))
                 ->withErrors($validator)
                 ->withInput();
         } else {
@@ -98,7 +98,7 @@ class PermissionAdminController extends Controller
             $role = Role::find($id);
             $arr_permissions = Permission::whereIn('id', $permissions)->get();
             $role->syncPermissions($arr_permissions);
-            return Redirect::to(route('roles.show', $id));
+            return Redirect::to(route('permissions.edit', $id));
         }
     	return;
     }
