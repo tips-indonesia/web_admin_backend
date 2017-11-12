@@ -15,6 +15,7 @@ class CreateShipmentsTable extends Migration
     {
         Schema::create('shipments', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('shipment_id');
             $table->boolean('is_online');
             $table->date('transaction_date');
             $table->unsignedInteger('id_office');

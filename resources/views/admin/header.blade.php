@@ -32,4 +32,15 @@
 	<script type="text/javascript" src="{{ asset("js/plugins/forms/selects/bootstrap_select.min.js") }}"></script>
 	<script type="text/javascript" src="{{ asset("js/pages/form_bootstrap_select.js") }}"></script>
 	<script type="text/javascript" src="{{ asset("js/plugins/forms/inputs/duallistbox.min.js") }}"></script>
+
+
+	<script type="text/javascript" src="{{ asset("js/plugins/notifications/jgrowl.min.js") }}"></script>
+	<script type="text/javascript" src="{{ asset("js/plugins/ui/moment/moment.min.js") }}"></script>
+	<script type="text/javascript" src="{{ asset("js/plugins/pickers/daterangepicker.js") }}"></script>
+	<script type="text/javascript" src="{{ asset("js/plugins/pickers/anytime.min.js") }}"></script>
+	<script type="text/javascript" src="{{ asset("js/plugins/pickers/pickadate/picker.js") }}"></script>
+	<script type="text/javascript" src="{{ asset("js/plugins/pickers/pickadate/picker.date.js") }}"></script>
+	<script type="text/javascript" src="{{ asset("js/plugins/pickers/pickadate/picker.time.js") }}"></script>
+	<script type="text/javascript" src="{{ asset("js/plugins/pickers/pickadate/legacy.js") }}"></script>
+
 </head>

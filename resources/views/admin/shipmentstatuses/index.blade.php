@@ -1,7 +1,7 @@
 @extends('admin.app')
 
 @section('title')
-    Edit Shipment Status
+    Shipment Status
 @endsection
 @section('page_title')
 <span class="text-semibold">Shipment Status</span> - Show All

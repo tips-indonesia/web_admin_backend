@@ -74,9 +74,13 @@ class BankListAdminController extends Controller
     public function show($id)
     {
         //
-        $data['bank'] = BankList::find($id);
-        $data['datas'] = BankCardList::where('id_bank', $id)->paginate(10);
-        return view('admin.bankcardlists.index', $data);
+        if (Input::get('ajax') == 1) {
+            return json_encode(BankCardList::where('id_bank', $id)->get(['id', 'name']));
+        } else {
+            $data['bank'] = BankList::find($id);
+            $data['datas'] = BankCardList::where('id_bank', $id)->paginate(10);
+            return view('admin.bankcardlists.index', $data);
+        }
     }
 
     /**
