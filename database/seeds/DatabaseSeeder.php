@@ -190,7 +190,7 @@ class DatabaseSeeder extends Seeder
         DaftarBarangRegular::create(array('id_barang' => $temp->id));
 
         $this->call(CitySedder::class);
-        $this->call(MemberListSeeder::class);
+//        $this->call(MemberListSeeder::class);
         $this->call(WeigthListSeeder::class);
         $this->call(PriceListSeeder::class);
         $this->call(UserTableSeeder::class);

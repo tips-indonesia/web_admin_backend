@@ -31,5 +31,6 @@ class CreateAirportCityScopeTables extends Migration
     public function down()
     {
         //
+        Schema::dropIfExists('airport_city_scopes');
     }
 }

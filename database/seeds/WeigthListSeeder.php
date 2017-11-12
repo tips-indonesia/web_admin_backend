@@ -13,8 +13,8 @@ class WeigthListSeeder extends Seeder
     {
         //
         for($i = 1 ; $i < 20 ; $i++) {
-            DB::table('weigth_lists')->insert([
-                'weigth_kg' => $i,
+            DB::table('weight_lists')->insert([
+                'weight_kg' => $i,
             ]);
         }
     }

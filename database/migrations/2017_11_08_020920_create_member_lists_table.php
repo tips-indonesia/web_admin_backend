@@ -15,17 +15,15 @@ class CreateMemberListsTable extends Migration
     {
         Schema::create('member_lists', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('username');
-            $table->string('password');
-            $table->date('registered_date');
-            $table->string('first_name');
-            $table->string('last_name')->nullable();
-            $table->date('birth_date')->nullable();
-            $table->string('address');
-            $table->string('mobile_phone_no')->nullable();
+            $table->string('name');
             $table->string('email');
+            $table->string('password');
+            $table->string('mobile_phone_no');
+            $table->date('registered_date');
+            $table->date('birth_date')->nullable();
+            $table->string('address')->nullable();
             $table->boolean('status')->default(true);
-            $table->unsignedInteger('id_city');
+            $table->unsignedInteger('id_city')->nullable();
             $table->timestamps();
         });
     }
