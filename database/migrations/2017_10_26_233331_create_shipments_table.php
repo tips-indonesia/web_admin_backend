@@ -51,8 +51,9 @@ class CreateShipmentsTable extends Migration
             $table->unsignedInteger('card_security_code')->nullable();
 //            $table->unsignedInteger('created_by');
             $table->unsignedInteger('id_shipment_status')->default(1);
-            $table->date('shipment_status_date')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->time('shipment_status_time')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('shipment_status_update_timestamp')->default(\DB::raw('CURRENT_TIMESTAMP'));
+//            $table->date('shipment_status_date')->default(\Carbon\Carbon::now());
+//            $table->time('shipment_status_time')->default(\Carbon\Carbon::now());
             $table->unsignedInteger('id_packaging')->nullable();
             $table->date('packaging_date')->nullable();
             $table->time('packaging_time')->nullable();
