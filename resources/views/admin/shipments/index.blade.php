@@ -27,7 +27,15 @@
                 @foreach ($datas as $data)
                     <tr>
                         <td>
-                            {{ $data->shipment_code }}
+                            @if ($data->is_posted == 0)
+                                <a href="{{ route('shipments.edit', $data->id) }}">
+                                {{ $data->shipment_id }}
+                                </a>
+                            @else
+                                <a href="{{ route('shipments.show', $data->id) }}">
+                                {{ $data->shipment_id }}
+                                </a>
+                            @endif
                         </td>
                         <td>
                             {{ $data->shipper_name }}
@@ -50,13 +58,8 @@
                         <td>
                             <ul class="icons-list">
                             <li>
-                            {{ Form::open(array('method' => 'GET', 'url' => route('shipmentstatuses.edit', $data->id))) }}
-                        <button type="submit" class="btn btn-primary"><i class="icon-pencil"></i> Edit</button>
-                        {{ Form::close() }}
-                            </li>
-                            <li>
                             {{ Form::open(array('method' => 'DELETE', 'url' => route('shipmentstatuses.destroy', $data->id))) }}
-                            <button type="submit" class="btn btn-danger"><i class="icon-trash"></i> Delete</button>
+                            <button type="submit" class="btn btn-danger"><i class="icon-trash"></i> Cancel</button>
                             {{ Form::close() }}
                             </li>
                             </ul>

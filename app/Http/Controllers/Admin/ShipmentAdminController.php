@@ -8,9 +8,11 @@ use App\Shipment;
 use App\ShipmentStatus;
 use App\User;
 use App\CityList;
+use App\Insurance;
 use App\PaymentType;
 use App\BankList;
 use Validator;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
@@ -26,6 +28,11 @@ class ShipmentAdminController extends Controller
     {
         //
         $data['datas'] = Shipment::paginate(10);
+        foreach($data['datas'] as $dat) {
+            $dat['name_origin'] = CityList::find($dat->id_origin_city)->name;
+            $dat['name_destination'] = CityList::find($dat->id_destination_city)->name;
+            $dat['status'] = ShipmentStatus::find($dat->id_shipment_status)->description;
+        }
         return view('admin.shipments.index', $data);
     }
 
@@ -52,53 +59,84 @@ class ShipmentAdminController extends Controller
     */
     public function store()
     {
-        //
-        if (Input::get('submit') == 'post') {
-
+        $rules = array (
+            'origin_city'=>'required',
+            'destination_city'=>'required',
+            'class_type'=>'required',
+            'dispatch_type'=>'required',
+            'shipment_status'=>'required',
+            'received_by'=>'required',
+            'received_date'=>'required',
+            'shipper_name'=>'required',
+            'shipper_address'=>'required',
+            'shipper_mobile'=>'required',
+            'shipper_email_address'=>'required',
+            'shipper_latitude'=>'required',
+            'shipper_longitude'=>'required',
+            'consignee_name'=>'required',
+            'consignee_address'=>'required',
+            'consignee_phone'=>'required',
+            'consignee_mobile'=>'required',
+            'consignee_email_address'=>'required',
+            'shipment_content'=>'required',
+            'estimated_goods_value'=>'required',
+            'estimated_weight'=>'required',
+            'additional_insurance'=>'required',
+            'online_payment'=>'required',
+            'payment_type'=>'required_if:online_payment,1',
+            'bank'=>'required_if:online_payment,1',
+            'card_type'=>'required_if:online_payment,1',
+            'card_number'=>'required_if:online_payment,1',
+            'security_code'=>'required_if:online_payment,1',
+            'expired_date'=>'required_if:online_payment,1',
+        );
+        $validator = Validator::make(Input::all(), $rules);
+        if ($validator->fails()) {
+            return Redirect::to(route('shipments.create'))
+                ->withErrors($validator)
+                ->withInput();
         } else {
-
+            $shipment = new Shipment;
+            $shipment->shipment_id = 'X2017';
+            $shipment->transaction_date = Carbon::now();
+            $shipment->id_origin_city = Input::get('origin_city');
+            $shipment->id_destination_city = Input::get('destination_city');
+            $shipment->is_first_class = Input::get('class_type') == 1;
+            $shipment->id_shipper = Input::get('shipper_name');
+            $shipper = User::find(Input::get('shipper_name'));
+            $shipment->shipper_name = $shipper->name;
+            $shipment->shipper_address = Input::get('shipper_address');
+            $shipment->shipper_mobile_phone = Input::get('shipper_mobile');
+            $shipment->shipper_latitude = Input::get('shipper_latitude');
+            $shipment->shipper_longitude = Input::get('shipper_longitude');
+            $shipment->shipper_email_address = Input::get('shipper_email_address');
+            $shipment->consignee_email_address = Input::get('consignee_email_address');
+            $shipment->consignee_name = Input::get('consignee_name');
+            $shipment->consignee_address = Input::get('consignee_address');
+            $shipment->consignee_phone_no = Input::get('consignee_phone');
+            $shipment->consignee_mobile_phone = Input::get('consignee_mobile');
+            $shipment->is_online_payment = Input::get('online_payment');
+            $shipment->shipment_contents = Input::get('shipment_content');
+            $shipment->estimate_goods_value = Input::get('estimated_goods_value');
+            $shipment->estimate_weight = Input::get('estimated_weight');
+            $shipment->id_payment_type = Input::get('payment_type');
+            $shipment->id_bank = Input::get('bank');
+            $shipment->bank_card_type = Input::get('card_type');
+            $shipment->card_no = Input::get('card_number');
+            $shipment->card_expired_date = Input::get('card_expired_date');
+            $shipment->card_security_code = Input::get('card_security_code');
+            $shipment->id_shipment_status = Input::get('shipment_status');
+            $shipment->add_notes = Input::get('addtional_notes');
+            $shipment->insurance_cost = Insurance::all()->first()->default_insurance;
+            $shipment->is_add_insurance = Input::get('additional_insurance') == 1;
+            $shipment->add_insurance_cost = Input::get('additional_insurance') * Insurance::all()->first()->additional_insurance * Input::get('estimated_weight');
+            $shipment->save();
+            $shipment->shipment_id = $shipment->id.'2017';
+            $shipment->dispatch_type = Input::get('dispatch_type');
+            $shipment->save();
+            Session::flash('message', 'Successfully created nerd!');
+            return Redirect::to(route('shipments.index'));
         }
-        // $rules = array(
-        //     'name'       => 'required',
-        //     'office_type' => 'required',
-        //     'address' => 'required',
-        //     'city' => 'required',
-        //     'latitude' => 'required',
-        //     'longitude' => 'required',
-        //     'phone_no' => 'required',
-        //     'fax_no' => 'required',
-        //     'email_address' => 'required',
-        //     'airport' => 'required',
-        //     'airport_counter' => 'required_if:office_type,'.OfficeType::where('name', 'Processing Center')->first()->id,
-        //     'contact_person' => 'required',
-        // );
-
-        // $validator = Validator::make(Input::all(), $rules);
-
-        // // process the login
-        // if ($validator->fails()) {
-        //     return Redirect::to(route('shipments.create'))
-        //         ->withErrors($validator)
-        //         ->withInput();
-        // } else {
-        //     $officeLists = new Shipment;
-        //     $officeLists->name = Input::get('name');
-        //     $officeLists->id_office_type = Input::get('office_type');
-        //     $officeLists->address = Input::get('address');
-        //     $officeLists->id_city = Input::get('city');
-        //     $officeLists->phone_no = Input::get('phone_no');
-        //     $officeLists->fax_no = Input::get('fax_no');
-        //     $officeLists->email_address = Input::get('email_address');
-        //     $officeLists->contact_person_name = Input::get('contact_person');
-        //     $officeLists->latitude = Input::get('latitude');
-        //     $officeLists->longitude = Input::get('longitude');
-        //     $officeLists->id_airport = Input::get('airport');
-        //     $officeLists->id_office_counter = Input::get('airport_counter');
-        //     $officeLists->status = 1;
-        //     $officeLists->save();
-        //     Session::flash('message', 'Successfully created nerd!');
-        //     return Redirect::to(route('shipments.index'));
-        // }
 
     }
 
@@ -108,88 +146,132 @@ class ShipmentAdminController extends Controller
     * @param  int  $id
     * @return Response
     */
-    // public function show($id)
-    // {
-    //     //
-    //     $data['office'] = Shipment::find($id);
-    //     if ($data['office']->id_office_type == OfficeType::where('name', 'Processing Center')->first()->id) {
-    //         $data['datas'] = OfficeDropPoint::where('id_office', $id)->paginate(10);
-    //         foreach ($data['datas'] as $dat) {
-    //             $dat['name'] = Shipment::find($dat->id_drop_point)->name;
-    //         }
-    //         return view('admin.officedroppoints.index', $data);
-    //     }
-    // }
+    public function show($id)
+    {
 
-    // /**
-    // * Show the form for editing the specified resource.
-    // *
-    // * @param  int  $id
-    // * @return Response
-    // */
-    // public function edit($id)
-    // {
-    //     //
-    //     $data['datas'] = $officeLists = Shipment::find($id);
-    //     $data['officetypes'] = OfficeType::all();
-    //     $data['offices'] = Shipment::where('id_office_type', OfficeType::where('name', 'Counter')->first()->id);
-    //     $data['cities'] = CityList::all();
-    //     $data['processing_center'] = OfficeType::where('name', 'Processing Center')->first();
-    //     $data['airports'] = AirportList::all();
-    //     return view('admin.shipments.edit', $data);
-    // }
+        $data['data'] = Shipment::find($id);
+        if ($data['data']->is_posted == 0) {
+            return Redirect::to(route('shipments.edit', $id));
+        }
+        $data['cities'] = CityList::all();
+        $data['shipment_statuses'] = ShipmentStatus::all();
+        $data['users'] = User::all();
+        $data['payment_types'] = PaymentType::all();
+        $data['banklists'] = BankList::all();
+        return view('admin.shipments.show', $data);
+    }
 
-    // /**
-    // * Update the specified resource in storage.
-    // *
-    // * @param  int  $id
-    // * @return Response
-    // */
-    // public function update($id)
-    // {
-    //     //
-    //     $rules = array(
-    //         'name'       => 'required',
-    //         'office_type' => 'required',
-    //         'address' => 'required',
-    //         'city' => 'required',
-    //         'latitude' => 'required',
-    //         'longitude' => 'required',
-    //         'phone_no' => 'required',
-    //         'fax_no' => 'required',
-    //         'email_address' => 'required',
-    //         'airport' => 'required',
-    //         'airport_counter' => 'required_if:office_type,'.OfficeType::where('name', 'Processing Center')->first()->id,
-    //         'contact_person' => 'required',
-    //     );
-    //     $validator = Validator::make(Input::all(), $rules);
+    /**
+    * Show the form for editing the specified resource.
+    *
+    * @param  int  $id
+    * @return Response
+    */
+    public function edit($id)
+    {
+        $data['data'] = Shipment::find($id);
+        if ($data['data']->is_posted == 1) {
+            return Redirect::to(route('shipments.show', $id));
+        }
+        $data['cities'] = CityList::all();
+        $data['shipment_statuses'] = ShipmentStatus::all();
+        $data['users'] = User::all();
+        $data['payment_types'] = PaymentType::all();
+        $data['banklists'] = BankList::all();
 
-    //     // process the login
-    //     if ($validator->fails()) {
-    //         return Redirect::to(route('shipments.edit', $id))
-    //             ->withErrors($validator)
-    //             ->withInput();
-    //     } else {
-    //         $officeLists = Shipment::find($id);
-    //         $officeLists->name = Input::get('name');
-    //         $officeLists->id_office_type = Input::get('office_type');
-    //         $officeLists->address = Input::get('address');
-    //         $officeLists->id_city = Input::get('city');
-    //         $officeLists->id_airport = Input::get('airport');
-    //         $officeLists->id_office_counter = Input::get('airport_counter');
-    //         $officeLists->phone_no = Input::get('phone_no');
-    //         $officeLists->fax_no = Input::get('fax_no');
-    //         $officeLists->email_address = Input::get('email_address');
-    //         $officeLists->contact_person_name = Input::get('contact_person');
-    //         $officeLists->latitude = Input::get('latitude');
-    //         $officeLists->longitude = Input::get('longitude');
-    //         $officeLists->id_office_counter = Input::get('airport_counter');
-    //         $officeLists->status = Input::get('status');
-    //         $officeLists->save();
-    //         Session::flash('message', 'Successfully created nerd!');
-    //         return Redirect::to(route('shipments.index'));
-    //     }
-    // }
+        return view('admin.shipments.edit', $data);
+    }
+
+    /**
+    * Update the specified resource in storage.
+    *
+    * @param  int  $id
+    * @return Response
+    */
+    public function update($id)
+    {
+        $rules = array (
+            'origin_city'=>'required',
+            'destination_city'=>'required',
+            'class_type'=>'required',
+            'dispatch_type'=>'required',
+            'shipment_status'=>'required',
+            'received_by'=>'required',
+            'received_date'=>'required',
+            'shipper_name'=>'required',
+            'shipper_address'=>'required',
+            'shipper_mobile'=>'required',
+            'shipper_email_address'=>'required',
+            'shipper_latitude'=>'required',
+            'shipper_longitude'=>'required',
+            'consignee_name'=>'required',
+            'consignee_address'=>'required',
+            'consignee_phone'=>'required',
+            'consignee_mobile'=>'required',
+            'consignee_email_address'=>'required',
+            'shipment_content'=>'required',
+            'estimated_goods_value'=>'required',
+            'estimated_weight'=>'required',
+            'additional_insurance'=>'required',
+            'online_payment'=>'required',
+            'payment_type'=>'required_if:online_payment,1',
+            'bank'=>'required_if:online_payment,1',
+            'card_type'=>'required_if:online_payment,1',
+            'card_number'=>'required_if:online_payment,1',
+            'security_code'=>'required_if:online_payment,1',
+            'expired_date'=>'required_if:online_payment,1',
+        );
+        $validator = Validator::make(Input::all(), $rules);
+        if ($validator->fails()) {
+            return Redirect::to(route('shipments.edit', $id))
+                ->withErrors($validator)
+                ->withInput();
+        } else {
+            $shipment = new Shipment;
+            $shipment->shipment_id = 'X2017';
+            $shipment->transaction_date = Carbon::now();
+            $shipment->id_origin_city = Input::get('origin_city');
+            $shipment->id_destination_city = Input::get('destination_city');
+            $shipment->is_first_class = Input::get('class_type') == 1;
+            $shipment->id_shipper = Input::get('shipper_name');
+            $shipper = User::find(Input::get('shipper_name'));
+            $shipment->shipper_name = $shipper->name;
+            $shipment->shipper_address = Input::get('shipper_address');
+            $shipment->shipper_mobile_phone = Input::get('shipper_mobile');
+            $shipment->shipper_latitude = Input::get('shipper_latitude');
+            $shipment->shipper_longitude = Input::get('shipper_longitude');
+            $shipment->shipper_email_address = Input::get('shipper_email_address');
+            $shipment->consignee_email_address = Input::get('consignee_email_address');
+            $shipment->consignee_name = Input::get('consignee_name');
+            $shipment->consignee_address = Input::get('consignee_address');
+            $shipment->consignee_phone_no = Input::get('consignee_phone');
+            $shipment->consignee_mobile_phone = Input::get('consignee_mobile');
+            $shipment->is_online_payment = Input::get('online_payment');
+            $shipment->shipment_contents = Input::get('shipment_content');
+            $shipment->estimate_goods_value = Input::get('estimated_goods_value');
+            $shipment->estimate_weight = Input::get('estimated_weight');
+            $shipment->id_payment_type = Input::get('payment_type');
+            $shipment->id_bank = Input::get('bank');
+            $shipment->bank_card_type = Input::get('card_type');
+            $shipment->card_no = Input::get('card_number');
+            $shipment->card_expired_date = Input::get('card_expired_date');
+            $shipment->card_security_code = Input::get('card_security_code');
+            $shipment->id_shipment_status = Input::get('shipment_status');
+            $shipment->add_notes = Input::get('addtional_notes');
+            $shipment->insurance_cost = Insurance::all()->first()->default_insurance;
+            $shipment->is_add_insurance = Input::get('additional_insurance') == 1;
+            $shipment->add_insurance_cost = Input::get('additional_insurance') * Insurance::all()->first()->additional_insurance * Input::get('estimated_weight');
+            $shipment->save();
+            $shipment->shipment_id = $shipment->id.'2017';
+            $shipment->dispatch_type = Input::get('dispatch_type');
+            if (Input::get('submit') == 'post') {
+                $shipment->is_posted = true;
+            }
+            $shipment->save();
+            Session::flash('message', 'Successfully created nerd!');
+            return Redirect::to(route('shipments.index'));
+        }
+    }
 
     // /**
     // * Remove the specified resource from storage.
@@ -197,14 +279,14 @@ class ShipmentAdminController extends Controller
     // * @param  int  $id
     // * @return Response
     // */
-    // public function destroy($id)
-    // {
-    //     //
-    //     $officeLists = Shipment::find($id);
-    //     $officeLists->delete();
+    public function destroy($id)
+    {
+        //
+        $shipment = Shipment::find($id);
+        $shipment->delete();
 
-    //     // redirect
-    //     Session::flash('message', 'Successfully deleted the nerd!');
-    //     return Redirect::to(route('shipments.index'));
-    // }
+        // redirect
+        Session::flash('message', 'Successfully deleted the nerd!');
+        return Redirect::to(route('shipments.index'));
+    }
 }

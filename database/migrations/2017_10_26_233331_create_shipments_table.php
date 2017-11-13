@@ -35,11 +35,11 @@ class CreateShipmentsTable extends Migration
             $table->string('consignee_mobile_phone');
             $table->enum('dispatch_type', ['D', 'P'])->default('P');
             $table->boolean('is_online_payment');
-            $table->unsignedInteger('id_payment_type');
+            $table->unsignedInteger('id_payment_type')->nullable();
             $table->string('shipment_contents');
             $table->unsignedInteger('estimate_goods_value');
             $table->unsignedInteger('estimate_weight');
-            $table->unsignedInteger('flight_cost');
+            $table->unsignedInteger('flight_cost')->nullable();
             $table->unsignedInteger('insurance_cost');
             $table->boolean('is_add_insurance');
             $table->unsignedInteger('add_insurance_cost');
@@ -49,17 +49,16 @@ class CreateShipmentsTable extends Migration
             $table->unsignedInteger('card_no')->nullable();
             $table->date('card_expired_date')->nullable();
             $table->unsignedInteger('card_security_code')->nullable();
-//            $table->unsignedInteger('created_by');
             $table->unsignedInteger('id_shipment_status')->default(1);
             $table->timestamp('shipment_status_update_timestamp')->default(\DB::raw('CURRENT_TIMESTAMP'));
-//            $table->date('shipment_status_date')->default(\Carbon\Carbon::now());
-//            $table->time('shipment_status_time')->default(\Carbon\Carbon::now());
             $table->unsignedInteger('id_packaging')->nullable();
             $table->date('packaging_date')->nullable();
             $table->time('packaging_time')->nullable();
             $table->string('received_by')->nullable();
             $table->timestamp('received_time')->nullable();
             $table->string('received_image')->nullable();
+            $table->boolean('is_posted')->default(false);
+            $table->timestamp();
 
         });
     }

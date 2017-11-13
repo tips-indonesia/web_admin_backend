@@ -199,7 +199,7 @@ class DatabaseSeeder extends Seeder
         $this->call(PermissionTableSeeder::class);
         $this->call(OfficeTypeTableSeeder::class);
         $this->call(InsuranceTableSeeder::class);
-        $this->call(BankSeeder::class);
+        $this->call(BankTableSeeder::class);
         $this->call(PriceGoodsEstimateSeeder::class);
     }
 }
