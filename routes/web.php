@@ -74,6 +74,9 @@ Route::prefix('admin')->group(function () {
         Route::group(['middleware' => ['permission:shipments.']], function () {
             Route::resource('shipments','Admin\ShipmentAdminController');
         });
+        Route::group(['middleware' => ['permission:slotlists.']], function () {
+            Route::resource('slotlists','Admin\SlotListAdminController');
+        });
         Route::group(['middleware' => ['permission:shipmentstatuses.']], function () {
             Route::resource('shipmentstatuses','Admin\ShipmentStatusAdminController');
         });

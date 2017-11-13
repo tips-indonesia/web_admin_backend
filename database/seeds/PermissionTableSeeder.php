@@ -33,6 +33,7 @@ class PermissionTableSeeder extends Seeder
 
         // Transaction
         Permission::create(['name' => 'shipments.', 'show_name' => 'Shipment List']);
+        Permission::create(['name' => 'slotlists.', 'show_name' => 'Slot List']);
         // End of Transaction
 
 

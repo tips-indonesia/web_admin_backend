@@ -81,6 +81,11 @@ class MenuTableSeeder extends Seeder
                 'menu_parent_id' => $transaction->id,
                 'class_name' => 'shipments.'
             ]);
+            MenuList::create([
+                'name' => 'Slot List',
+                'menu_parent_id' => $transaction->id,
+                'class_name' => 'slotlists.'
+            ]);
         $setting = MenuList::create([
             'name' => 'Setting',
             'class_name' => 'roles.|users.|shipmentstatuses.'

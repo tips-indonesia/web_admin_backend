@@ -58,7 +58,7 @@ class CreateShipmentsTable extends Migration
             $table->timestamp('received_time')->nullable();
             $table->string('received_image')->nullable();
             $table->boolean('is_posted')->default(false);
-            $table->timestamp();
+            $table->timestamps();
 
         });
     }

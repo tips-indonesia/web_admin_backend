@@ -1,10 +1,10 @@
 @extends('admin.app')
 
 @section('title')
-    Create Shipment List
+    Shipment List Detail
 @endsection
 @section('page_title')
-<span class="text-semibold">Shipment List</span> - Create
+<span class="text-semibold">Shipment List</span> - Detail
 @endsection
 @section('content')
     <!-- Vertical form options -->
