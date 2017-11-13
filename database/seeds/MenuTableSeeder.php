@@ -20,19 +20,16 @@ class MenuTableSeeder extends Seeder
             MenuList::create([
                 'name' => 'City List',
                 'menu_parent_id' => 1,
-                'url' => route('citylists.index'),
                 'class_name' => 'citylists.'
             ]);
             MenuList::create([
                 'name' => 'Airline List',
                 'menu_parent_id' => 1,
-                'url' => route('airlineslists.index'),
                 'class_name' => 'airlineslists.'
             ]);
             MenuList::create([
                 'name' => 'Airport List',
                 'menu_parent_id' => 1,
-                'url' => route('airportlists.index'),
                 'class_name' => 'airportlists.'
             ]);
             MenuList::create([
@@ -43,43 +40,36 @@ class MenuTableSeeder extends Seeder
                 MenuList::create([
                     'name' => 'Office Type',
                     'menu_parent_id' => 5,
-                    'url' => route('officetypes.index'),
                     'class_name' => 'officetypes.'
                 ]);
                 MenuList::create([
                     'name' => 'Office List',
                     'menu_parent_id' => 5,
-                    'url' => route('officelists.index'),
                     'class_name' => 'officelists.'
                 ]);
             MenuList::create([
                 'name' => 'Bank List',
                 'menu_parent_id' => 1,
-                'url' => route('banklists.index'),
                 'class_name' => 'banklists.'
             ]);  
             MenuList::create([
                 'name' => 'Payment Type',
                 'menu_parent_id' => 1,
-                'url' => route('paymenttypes.index'),
                 'class_name' => 'paymenttypes.'
             ]);  
             MenuList::create([
                 'name' => 'Price List',
                 'menu_parent_id' => 1,
-                'url' => route('pricelists.index'),
                 'class_name' => 'pricelists.'
             ]);  
             MenuList::create([
                 'name' => 'Insurance',
                 'menu_parent_id' => 1,
-                'url' => route('insurances.index'),
                 'class_name' => 'insurances.'
             ]); 
             MenuList::create([
                 'name' => 'Weight List',
                 'menu_parent_id' => 1,
-                'url' => route('weightlists.index'),
                 'class_name' => 'weightlists.'
             ]);
         $transaction = MenuList::create([
@@ -89,7 +79,6 @@ class MenuTableSeeder extends Seeder
             MenuList::create([
                 'name' => 'Shipment List',
                 'menu_parent_id' => $transaction->id,
-                'url' => route('shipments.index'),
                 'class_name' => 'shipments.'
             ]);
         $setting = MenuList::create([
@@ -99,7 +88,6 @@ class MenuTableSeeder extends Seeder
             MenuList::create([
                 'name' => 'Shipment Status',
                 'menu_parent_id' => $setting->id,
-                'url' => route('shipmentstatuses.index'),
                 'class_name' => 'shipmentstatuses.'
             ]);
             $user = MenuList::create([
@@ -110,13 +98,11 @@ class MenuTableSeeder extends Seeder
                 MenuList::create([
                     'name' => 'Role List',
                     'menu_parent_id' => $user->id,
-                    'url' => route('roles.index'),
                     'class_name' => 'roles.'
                 ]);
                 MenuList::create([
                     'name' => 'User List',
                     'menu_parent_id' => $user->id,
-                    'url' => route('users.index'),
                     'class_name' => 'users.'
                 ]);
     }

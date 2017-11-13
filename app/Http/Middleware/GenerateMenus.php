@@ -23,7 +23,11 @@ class GenerateMenus
                 if ($menuList->menu_parent_id == null) {
                     $menu->add($menuList->name, $menuList->url)->id($menuList->id)->data('class', $menuList->class_name);
                 } else {
-                    $menu->find($menuList->menu_parent_id)->add($menuList->name, $menuList->url)->id($menuList->id)->data('class', $menuList->class_name);
+                    if (sizeof(explode('|', $menuList->class_name)) == 1) {
+                        $menu->find($menuList->menu_parent_id)->add($menuList->name, route(($menuList->class_name).'index') )->id($menuList->id)->data('class', $menuList->class_name);
+                    } else {
+                        $menu->find($menuList->menu_parent_id)->add($menuList->name, '#' )->id($menuList->id)->data('class', $menuList->class_name);
+                    }
                 }
             }
 
