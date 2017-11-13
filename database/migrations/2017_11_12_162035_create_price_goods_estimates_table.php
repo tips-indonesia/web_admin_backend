@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateBankCardListsTable extends Migration
+class CreatePriceGoodsEstimatesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,9 @@ class CreateBankCardListsTable extends Migration
      */
     public function up()
     {
-        Schema::create('bank_card_lists', function (Blueprint $table) {
+        Schema::create('price_goods_estimates', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('id_bank');
-            $table->string('name');
-            $table->string('card_number');
-            $table->boolean('status')->default(true);
+            $table->decimal('price_estimate', 18, 2);
             $table->timestamps();
         });
     }
@@ -30,6 +27,6 @@ class CreateBankCardListsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('bank_card_lists');
+        Schema::dropIfExists('price_goods_estimates');
     }
 }

@@ -21,6 +21,11 @@ Route::get('/demo', 'UtilityController@test');
 
 Route::post('/register', 'API\\UserController@register');
 Route::post('/login', 'API\\UserController@login');
+Route::get('/payment/bank', 'API\\PaymentController@bank_list');
+
 Route::get('/city', 'API\\CityController@get_list');
 Route::get('/city/price', 'API\\CityController@get_price');
-Route::get('/weight', 'API\\WeightController@get_list');
+
+Route::get('/goods/weight', 'API\\GoodsController@get_list_weight');
+Route::get('/goods/price_estimate', 'API\\GoodsController@get_list_price_estimate');
+Route::get('/goods/insurance', 'API\\GoodsController@get_insurance_price');

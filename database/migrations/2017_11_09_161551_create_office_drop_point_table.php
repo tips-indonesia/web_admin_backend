@@ -29,6 +29,6 @@ class CreateOfficeDropPointTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('office_drop_point');
+        Schema::dropIfExists('office_drop_points');
     }
 }
