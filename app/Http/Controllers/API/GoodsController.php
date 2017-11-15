@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 
 use App\PriceGoodsEstimate;
 use App\WeightList;
+use App\Insurance;
 
 class GoodsController extends Controller
 {
@@ -44,13 +45,11 @@ class GoodsController extends Controller
     }
 
     function get_insurance_price(Request $request) {
-        $goods_price_estimate = $request->goods_price;
-
+        $insurance = Insurance::first();
         $data = array(
             'err' => null,
             'result' => array(
-                'reguler' => (int)(0.05 * $goods_price_estimate),
-                'gold' => (int)(0.1 * $goods_price_estimate)
+                'price' => $insurance->additional_insurance,
             )
         );
 
