@@ -28,6 +28,7 @@ class PermissionTableSeeder extends Seeder
         Permission::create(['name' => 'paymenttypes.', 'show_name' => 'Payment Type']);
         Permission::create(['name' => 'pricelists.', 'show_name' => 'Price List']);
         Permission::create(['name' => 'insurances.', 'show_name' => 'Insurance']);
+        Permission::create(['name' => 'memberlists.', 'show_name' => 'Member List']);
         Permission::create(['name' => 'weightlists.', 'show_name' => 'Weight List']);
         // End of Master File
 

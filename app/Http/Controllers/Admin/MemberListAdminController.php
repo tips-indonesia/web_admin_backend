@@ -4,17 +4,13 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\AirportList;
-use App\MemberList;
-use App\SlotList;
-use App\ShipmentStatus;
+use App\Insurance;
 use Validator;
-use Auth;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 
-class SlotListAdminController extends Controller
+class MemberListAdminController extends Controller
 {
     /**
     * Display a listing of the resource.
@@ -23,13 +19,7 @@ class SlotListAdminController extends Controller
     */
     public function index()
     {
-        $data['datas'] = SlotList::paginate(10);
-        foreach($data['datas'] as $dat) {
-            $dat['member_name'] = MemberList::find($dat->id_member)->name;
-            $dat['destination_airport'] = AirportList::find($dat->id_destination_airport)->name;
-            $dat['origin_airport'] = AirportList::find($dat->id_origin_airport)->name;
-        }
-        return view('admin.slotlists.index', $data);
+        //
     }
 
     /**
@@ -39,6 +29,7 @@ class SlotListAdminController extends Controller
     */
     public function create()
     {
+        
     }
 
     /**
@@ -48,7 +39,8 @@ class SlotListAdminController extends Controller
     */
     public function store()
     {
-       
+        //
+
 
     }
 
@@ -61,15 +53,6 @@ class SlotListAdminController extends Controller
     public function show($id)
     {
         //
-        // $slot = SlotList::find($id);
-        // $data['data'] = $slot;
-        // $data['data']['origin_airport'] = AirportList::find($slot->id_origin_airport)->name;
-        // $data['data']['destination_airport'] = AirportList::find($slot->id_destination_airport)->name;
-        // $member = MemberList::find($slot->id_member);
-        // $data['data']['member'] = $member;
-        $data['data'] =  Auth::user();
-        $data['data']['member'] = Auth::user();
-        return view('admin.slotlists.show', $data);
     }
 
     /**
@@ -80,6 +63,8 @@ class SlotListAdminController extends Controller
     */
     public function edit($id)
     {
+        //
+
     }
 
     /**
@@ -90,7 +75,7 @@ class SlotListAdminController extends Controller
     */
     public function update($id)
     {
-        
+        //
     }
 
     /**
@@ -101,5 +86,6 @@ class SlotListAdminController extends Controller
     */
     public function destroy($id)
     {
+        //
     }
 }

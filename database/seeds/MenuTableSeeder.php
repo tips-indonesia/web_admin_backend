@@ -63,6 +63,11 @@ class MenuTableSeeder extends Seeder
                 'class_name' => 'pricelists.'
             ]);  
             MenuList::create([
+                'name' => 'Member List',
+                'menu_parent_id' => 1,
+                'class_name' => 'memberlists.'
+            ]);
+            MenuList::create([
                 'name' => 'Insurance',
                 'menu_parent_id' => 1,
                 'class_name' => 'insurances.'

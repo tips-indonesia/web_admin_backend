@@ -64,6 +64,10 @@ Route::prefix('admin')->group(function () {
             Route::resource('pricelists','Admin\PriceListAdminController');
         });
 
+        Route::group(['middleware' => ['permission:memberlists.']], function () {
+            Route::resource('memberlists','Admin\MemberListAdminController');
+        });
+
         Route::group(['middleware' => ['permission:insurances.']], function () {
             Route::resource('insurances','Admin\InsuranceAdminController');
         });
