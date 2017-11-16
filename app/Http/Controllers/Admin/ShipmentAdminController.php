@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Shipment;
 use App\ShipmentStatus;
 use App\User;
+use App\MemberList;
 use App\CityList;
 use App\Insurance;
 use App\PaymentType;
@@ -46,7 +47,7 @@ class ShipmentAdminController extends Controller
         //
         $data['cities'] = CityList::all();
         $data['shipment_statuses'] = ShipmentStatus::all();
-        $data['users'] = User::all();
+        $data['users'] = MemberList::all();
         $data['payment_types'] = PaymentType::all();
         $data['banklists'] = BankList::all();
         return view('admin.shipments.create', $data);
@@ -103,7 +104,7 @@ class ShipmentAdminController extends Controller
             $shipment->id_destination_city = Input::get('destination_city');
             $shipment->is_first_class = Input::get('class_type') == 1;
             $shipment->id_shipper = Input::get('shipper_name');
-            $shipper = User::find(Input::get('shipper_name'));
+            $shipper = MemberList::find(Input::get('shipper_name'));
             $shipment->shipper_name = $shipper->name;
             $shipment->shipper_address = Input::get('shipper_address');
             $shipment->shipper_mobile_phone = Input::get('shipper_mobile');
@@ -155,7 +156,7 @@ class ShipmentAdminController extends Controller
         }
         $data['cities'] = CityList::all();
         $data['shipment_statuses'] = ShipmentStatus::all();
-        $data['users'] = User::all();
+        $data['users'] = MemberList::all();
         $data['payment_types'] = PaymentType::all();
         $data['banklists'] = BankList::all();
         return view('admin.shipments.show', $data);
@@ -175,7 +176,7 @@ class ShipmentAdminController extends Controller
         }
         $data['cities'] = CityList::all();
         $data['shipment_statuses'] = ShipmentStatus::all();
-        $data['users'] = User::all();
+        $data['users'] = MemberList::all();
         $data['payment_types'] = PaymentType::all();
         $data['banklists'] = BankList::all();
 
@@ -234,7 +235,7 @@ class ShipmentAdminController extends Controller
             $shipment->id_destination_city = Input::get('destination_city');
             $shipment->is_first_class = Input::get('class_type') == 1;
             $shipment->id_shipper = Input::get('shipper_name');
-            $shipper = User::find(Input::get('shipper_name'));
+            $shipper = MemberList::find(Input::get('shipper_name'));
             $shipment->shipper_name = $shipper->name;
             $shipment->shipper_address = Input::get('shipper_address');
             $shipment->shipper_mobile_phone = Input::get('shipper_mobile');

@@ -50,9 +50,6 @@
                             {{ $data->depart_date }}
                         </td>
                         <td>
-                            {{ $data->depart_time }}
-                        </td>
-                        <td>
                             {{ $data->status }}
                         </td>
                         <td>
