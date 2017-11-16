@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use App\Shipment;
+use App\PriceList;
 use App\Insurance;
 
 class ShipmentController extends Controller
@@ -16,6 +17,10 @@ class ShipmentController extends Controller
         do{
             $random_string = $this->generateRandomString();
         }while(Shipment::where('shipment_id', $random_string)->first() != null);
+
+        $id_origin_city = $request->id_origin_city;
+        $id_destination_city = $request->id_destination_city;
+        $price = PriceList::where('id_origin_city', $id_origin_city)->where('id_destination_city', $id_destination_city)->first();
 
         $shipment = new Shipment;
         $shipment->shipment_id = $random_string;
@@ -38,8 +43,16 @@ class ShipmentController extends Controller
         $shipment->estimate_weight = $request->estimate_weight;
         $shipment->insurance_cost = $insurance->default_insurance;
         $shipment->is_add_insurance = $request->is_add_insurance;
-        if($request->is_add_insurance == true) {
+        if($request->is_add_insurance == 1) {
             $shipment->add_insurance_cost = $insurance->additional_insurance;
+        } else {
+            $shipment->add_insurance_cost = 0;
+        }
+
+        if($request->is_first_class == 1) {
+            $shipment->flight_cost = ($price->tipster_price + $price->add_first_class)*$request->estimate_weight;
+        } else {
+            $shipment->flight_cost = $price->tipster_price*$request->estimate_weight;
         }
 
         $shipment->save();
