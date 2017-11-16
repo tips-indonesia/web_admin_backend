@@ -124,10 +124,6 @@
                                                 {{ Form::text('shipper_mobile', $data->shipper_mobile_phone, array('class' => 'form-control', 'placeholder' => 'Shipper Mobile Phone')) }}
                                             </div>
                                             <div class="form-group">
-                                                <label>E-mail :</label>
-                                                {{ Form::email('shipper_email_address', $data->shipper_email_address, array('class' => 'form-control', 'placeholder' => 'Shipper E-mail address')) }}
-                                            </div>
-                                            <div class="form-group">
                                                 <label>Latitude :</label>
                                                 {{ Form::text('shipper_latitude', $data->shipper_latitude, array('class' => 'form-control', 'placeholder' => 'Shipper Latitude')) }}
                                             </div>
@@ -147,16 +143,8 @@
                                                 <textarea rows="5" class="form-control" placeholder="Enter consignee address here" name="consignee_address">{{ $data->consignee_address }}</textarea>
                                             </div>
                                             <div class="form-group">
-                                                <label>Phone Number :</label>
-                                                {{ Form::text('consignee_phone', $data->consignee_phone_no, array('class' => 'form-control', 'placeholder' => 'Consignee Phone Number')) }}
-                                            </div>
-                                            <div class="form-group">
                                                 <label>Mobile Phone :</label>
                                                 {{ Form::text('consignee_mobile', $data->consignee_mobile_phone, array('class' => 'form-control', 'placeholder' => 'Consignee Mobile Phone')) }}
-                                            </div>
-                                            <div class="form-group">
-                                                <label>E-mail :</label>
-                                                {{ Form::email('consignee_email_address', $data->consignee_email_address, array('class' => 'form-control', 'placeholder' => 'Consignee E-mail address')) }}
                                             </div>
                                         </div>
                                     </div>
@@ -221,7 +209,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Bank Name :</label>
-                                        <select name="bank" class="select-search" id="bank" disabled>
+                                        <select name="bank" class="select-search" id="bank" @if ($data->is_online_payment == 0) disabled @endif>
                                             <option disabled selected></option>
                                             @foreach ($banklists as $bank)
                                                 <option value="{{ $bank->id }}" @if($data->id_bank == $bank->id) selected @endif>{{ $bank->name }}</option>
@@ -230,22 +218,28 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Card Type :</label>
-                                        <select name="card_type" class="select-search" id="card" disabled>
+                                        <select name="card_type" class="select-search" id="card" @if ($data->is_online_payment == 0) disabled @endif>
+                                            <option disabled selected></option>
+                                            @if ($data->is_online_payment == 1)
+                                                @foreach ($bankcardlists as $bankcard)
+                                                    <option value="{{ $bankcard->id }}" @if($data->bank_card_type == $bankcard->id) selected @endif>{{ $bankcard->name }}</option>
+                                                @endforeach
+                                            @endif
                                         </select>
                                     </div>
                                     <div class="form-group">
                                         <label>Card Number :</label>
-                                        {{ Form::number('card_number', $data->card_no, array('class' => 'form-control', 'placeholder' => 'Card Number', 'disabled'=> 'disabled')) }}
+                                        <input type="number" name="card_number" id="card_number" value="{{$data->card_no }}" class="form-control" placeholder="Card Number" @if($data->is_online_payment == 0) disabled @endif>
                                     </div>
                                     <div class="form-group">
                                         <label>Security Code :</label>
-                                        {{ Form::number('security_code', $data->card_security_code, array('class' => 'form-control', 'placeholder' => 'Card Security Number', 'disabled'=> 'disabled')) }}
+                                        <input type="number" name="security_code" id="security_code" value="{{$data->card_security_code }}" class="form-control" placeholder="Card Number" @if($data->is_online_payment == 0) disabled @endif>
                                     </div>
                                     <div class="form-group">
                                         <label>Expired Date :</label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="icon-calendar5"></i></span>
-                                            <input type="text" name="expired_date" class="form-control pickadate-year" id="expired_date" placeholder="Expired date" disabled>
+                                            <input type="text" name="expired_date" class="form-control  pickadate-year" id="expired_date" placeholder="Expired date" value="{{ $data->card_expired_date }}" disabled>
                                         </div>
                                     </div>
                                 </div>
@@ -268,7 +262,7 @@
         </div>
         <script>
         $('.select-search').select2();
-        $('.pickadate-year').datepicker();
+        $('.pickadate-year').datepicker({format: 'yyyy-mm-dd',});
         $('#bank').on('select2:select', function(){
             var card = $('#card');
             card.empty();
