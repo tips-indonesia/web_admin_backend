@@ -10,6 +10,7 @@
     <!-- Vertical form options -->
     <div class="row">
         <div class="col-md-12">
+            @foreach ($errors->all() as $error) {{ $error }} @endforeach
             {{ Form::open(array('url' => route('shipments.update', $data->id), 'method' => 'PUT')) }}
                 <div class="panel panel-flat">
                     <div class="panel-body">
@@ -40,12 +41,12 @@
                         <div class="form-group">
                             <label class="display-block text-semibold">Class Type :</label>
                             <label class="radio-inline">
-                                <input type="radio" name="class_type" @if($data->is_first_class == 1) checked="checked" @endif value="0">
+                                <input type="radio" name="class_type" @if($data->is_first_class == 0) checked="checked" @endif value="0">
                                 Regular
                             </label>
 
                             <label class="radio-inline">
-                                <input type="radio" name="class_type" @if($data->is_first_class == 0) checked="checked" @endif value="1">
+                                <input type="radio" name="class_type" @if($data->is_first_class == 1) checked="checked" @endif value="1">
                                 First Class
                             </label>
                         </div>
@@ -77,7 +78,7 @@
                                     <select name="received_by" class="select-search">
                                         <option disabled selected></option>
                                         @foreach ($users as $user)
-                                            <option value="{{ $user->id }}" >{{ $user->name }}</option>
+                                            <option value="{{ $user->id }}" @if($data->received_by == $user->id) selected @endif>{{ $user->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -87,7 +88,7 @@
                                     <label>Received Date :</label>
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="icon-calendar5"></i></span>
-                                        <input type="text" name="received_date" class="form-control pickadate-year" placeholder="Received date">
+                                        <input type="text" name="received_date" class="form-control pickadate-year" placeholder="Received date" value="{{ $data->received_time }}">
                                     </div>
                                 </div>
                             </div>
@@ -198,25 +199,25 @@
 
                                 <div class="tab-pane" id="payment">
                                     <div class="form-group">
-                                        <label class="display-block text-semibold">Online Payment :</label>
-                                        <label class="radio-inline">
-                                            <input type="radio" name="online_payment" @if($data->is_online == 0) checked="checked" @endif  value="0">
-                                            No
-                                        </label>
-
-                                        <label class="radio-inline">
-                                            <input type="radio" name="online_payment" @if($data->is_online == 1) checked="checked" @endif  value="1">
-                                            Yes
-                                        </label>
-                                    </div>
-                                    <div class="form-group">
                                         <label>Payment Type :</label>
-                                        <select name="payment_type" class="select-search" id="payment_type" disabled>
+                                        <select name="payment_type" class="select-search" id="payment_type" >
                                             <option disabled selected></option>
                                             @foreach ($payment_types as $payment_type)
                                                 <option value="{{ $payment_type->id }}" @if($data->id_payment_type == $payment_type->id) selected @endif >{{ $payment_type->name }}</option>
                                             @endforeach
                                         </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="display-block text-semibold">Online Payment :</label>
+                                        <label class="radio-inline">
+                                            <input type="radio" name="online_payment" @if($data->is_online_payment == 0) checked="checked" @endif  value="0">
+                                            No
+                                        </label>
+
+                                        <label class="radio-inline">
+                                            <input type="radio" name="online_payment" @if($data->is_online_payment == 1) checked="checked" @endif  value="1">
+                                            Yes
+                                        </label>
                                     </div>
                                     <div class="form-group">
                                         <label>Bank Name :</label>
@@ -244,7 +245,7 @@
                                         <label>Expired Date :</label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="icon-calendar5"></i></span>
-                                            <input type="text" name="expired_date" class="form-control pickadate-year" placeholder="Expired date" disabled>
+                                            <input type="text" name="expired_date" class="form-control pickadate-year" id="expired_date" placeholder="Expired date" disabled>
                                         </div>
                                     </div>
                                 </div>
@@ -293,14 +294,12 @@
                 $('input[name="security_code"]').prop('disabled', 'disabled');
                 $('#card').prop('disabled', 'disabled');
                 $('#bank').prop('disabled', 'disabled');
-                $('#payment_type').prop('disabled', 'disabled');
                 $('#expired_date').prop('disabled', 'disabled');
             } else {
                 $('input[name="card_number"]').removeAttr('disabled');
                 $('input[name="security_code"]').removeAttr('disabled');
                 $('#card').removeAttr('disabled');
                 $('#bank').removeAttr('disabled');
-                $('#payment_type').removeAttr('disabled');
                 $('#expired_date').removeAttr('disabled');
 
             }

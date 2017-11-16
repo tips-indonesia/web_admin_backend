@@ -84,7 +84,7 @@ class ShipmentAdminController extends Controller
             'estimated_weight'=>'required',
             'additional_insurance'=>'required',
             'online_payment'=>'required',
-            'payment_type'=>'required_if:online_payment,1',
+            'payment_type'=>'required',
             'bank'=>'required_if:online_payment,1',
             'card_type'=>'required_if:online_payment,1',
             'card_number'=>'required_if:online_payment,1',
@@ -110,11 +110,12 @@ class ShipmentAdminController extends Controller
             $shipment->shipper_mobile_phone = Input::get('shipper_mobile');
             $shipment->shipper_latitude = Input::get('shipper_latitude');
             $shipment->shipper_longitude = Input::get('shipper_longitude');
-            $shipment->shipper_email_address = Input::get('shipper_email_address');
-            $shipment->consignee_email_address = Input::get('consignee_email_address');
+            // $shipment->shipper_email_address = Input::get('shipper_email_address');
+            // $shipment->consignee_email_address = Input::get('consignee_email_address');
             $shipment->consignee_name = Input::get('consignee_name');
+            // $shipment->received_time = Input::get('received_date');
             $shipment->consignee_address = Input::get('consignee_address');
-            $shipment->consignee_phone_no = Input::get('consignee_phone');
+            // $shipment->consignee_phone_no = Input::get('consignee_phone');
             $shipment->consignee_mobile_phone = Input::get('consignee_mobile');
             $shipment->is_online_payment = Input::get('online_payment');
             $shipment->shipment_contents = Input::get('shipment_content');
@@ -128,6 +129,7 @@ class ShipmentAdminController extends Controller
             $shipment->card_security_code = Input::get('card_security_code');
             $shipment->id_shipment_status = Input::get('shipment_status');
             $shipment->add_notes = Input::get('addtional_notes');
+            $shipment->received_by = Input::get('received_by');
             $shipment->insurance_cost = Insurance::all()->first()->default_insurance;
             $shipment->is_add_insurance = Input::get('additional_insurance') == 1;
             $shipment->add_insurance_cost = Input::get('additional_insurance') * Insurance::all()->first()->additional_insurance * Input::get('estimated_weight');
@@ -228,7 +230,7 @@ class ShipmentAdminController extends Controller
                 ->withErrors($validator)
                 ->withInput();
         } else {
-            $shipment = new Shipment;
+            $shipment = Shipment::find($id);
             $shipment->shipment_id = 'X2017';
             $shipment->transaction_date = Carbon::now();
             $shipment->id_origin_city = Input::get('origin_city');
@@ -241,11 +243,12 @@ class ShipmentAdminController extends Controller
             $shipment->shipper_mobile_phone = Input::get('shipper_mobile');
             $shipment->shipper_latitude = Input::get('shipper_latitude');
             $shipment->shipper_longitude = Input::get('shipper_longitude');
-            $shipment->shipper_email_address = Input::get('shipper_email_address');
-            $shipment->consignee_email_address = Input::get('consignee_email_address');
+            // $shipment->received_time = Input::get('received_date');
+            // $shipment->shipper_email_address = Input::get('shipper_email_address');
+            // $shipment->consignee_email_address = Input::get('consignee_email_address');
             $shipment->consignee_name = Input::get('consignee_name');
             $shipment->consignee_address = Input::get('consignee_address');
-            $shipment->consignee_phone_no = Input::get('consignee_phone');
+            // $shipment->consignee_phone_no = Input::get('consignee_phone');
             $shipment->consignee_mobile_phone = Input::get('consignee_mobile');
             $shipment->is_online_payment = Input::get('online_payment');
             $shipment->shipment_contents = Input::get('shipment_content');
@@ -259,6 +262,7 @@ class ShipmentAdminController extends Controller
             $shipment->card_security_code = Input::get('card_security_code');
             $shipment->id_shipment_status = Input::get('shipment_status');
             $shipment->add_notes = Input::get('addtional_notes');
+            $shipment->received_by = Input::get('received_by');
             $shipment->insurance_cost = Insurance::all()->first()->default_insurance;
             $shipment->is_add_insurance = Input::get('additional_insurance') == 1;
             $shipment->add_insurance_cost = Input::get('additional_insurance') * Insurance::all()->first()->additional_insurance * Input::get('estimated_weight');

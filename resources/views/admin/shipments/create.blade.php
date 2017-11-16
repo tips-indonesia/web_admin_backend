@@ -198,6 +198,15 @@
 
                                 <div class="tab-pane" id="payment">
                                     <div class="form-group">
+                                        <label>Payment Type :</label>
+                                        <select name="payment_type" class="select-search" id="payment_type" >
+                                            <option disabled selected></option>
+                                            @foreach ($payment_types as $payment_type)
+                                                <option value="{{ $payment_type->id }}">{{ $payment_type->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
                                         <label class="display-block text-semibold">Online Payment :</label>
                                         <label class="radio-inline">
                                             <input type="radio" name="online_payment" checked="checked" value="0">
@@ -208,15 +217,6 @@
                                             <input type="radio" name="online_payment" value="1">
                                             Yes
                                         </label>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Payment Type :</label>
-                                        <select name="payment_type" class="select-search" id="payment_type" disabled>
-                                            <option disabled selected></option>
-                                            @foreach ($payment_types as $payment_type)
-                                                <option value="{{ $payment_type->id }}">{{ $payment_type->name }}</option>
-                                            @endforeach
-                                        </select>
                                     </div>
                                     <div class="form-group">
                                         <label>Bank Name :</label>
@@ -289,18 +289,21 @@
         });
         $('input[name="online_payment"]').on('change', function(){
             if ($('input[name="online_payment"]:checked').val() == 0) {
+                $('input[name="card_number"]').removeAttr('disabled');
+                $('input[name="security_code"]').removeAttr('disabled');
+                $('#card').removeAttr('disabled');
+                $('#bank').removeAttr('disabled');
+                $('#expired_date').removeAttr('disabled');
                 $('input[name="card_number"]').prop('disabled', 'disabled');
                 $('input[name="security_code"]').prop('disabled', 'disabled');
                 $('#card').prop('disabled', 'disabled');
                 $('#bank').prop('disabled', 'disabled');
-                $('#payment_type').prop('disabled', 'disabled');
                 $('#expired_date').prop('disabled', 'disabled');
             } else {
                 $('input[name="card_number"]').removeAttr('disabled');
                 $('input[name="security_code"]').removeAttr('disabled');
                 $('#card').removeAttr('disabled');
                 $('#bank').removeAttr('disabled');
-                $('#payment_type').removeAttr('disabled');
                 $('#expired_date').removeAttr('disabled');
 
             }
