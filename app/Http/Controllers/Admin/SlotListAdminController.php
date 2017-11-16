@@ -61,14 +61,12 @@ class SlotListAdminController extends Controller
     public function show($id)
     {
         //
-        // $slot = SlotList::find($id);
-        // $data['data'] = $slot;
-        // $data['data']['origin_airport'] = AirportList::find($slot->id_origin_airport)->name;
-        // $data['data']['destination_airport'] = AirportList::find($slot->id_destination_airport)->name;
-        // $member = MemberList::find($slot->id_member);
-        // $data['data']['member'] = $member;
-        $data['data'] =  Auth::user();
-        $data['data']['member'] = Auth::user();
+        $slot = SlotList::find($id);
+        $data['data'] = $slot;
+        $data['data']['origin_airport'] = AirportList::find($slot->id_origin_airport)->name;
+        $data['data']['destination_airport'] = AirportList::find($slot->id_destination_airport)->name;
+        $member = MemberList::find($slot->id_member);
+        $data['data']['member'] = $member;
         return view('admin.slotlists.show', $data);
     }
 

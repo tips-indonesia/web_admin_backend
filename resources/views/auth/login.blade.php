@@ -43,7 +43,7 @@
                             {{ csrf_field() }}
 							<div class="text-center">
 								<div class="icon-object border-slate-300 text-slate-300" style="background: #4A83AF; background: -webkit-linear-gradient(left, #50BECC , #4A83AF); background: -o-linear-gradient(right, #50BECC, #4A83AF); background: -moz-linear-gradient(right, #50BECC, #4A83AF); background: linear-gradient(to right, #50BECC , #4A83AF);">
-									<img width="92" style="padding: 34px 0" src="{{ asset('images/logo.png') }}" alt="">
+									<img width="92" style="padding: 10px 0" src="{{ asset('images/logo.png') }}" alt="">
 								</div>
 								<h5 class="content-group">Login to your account <small class="display-block">Your credentials</small></h5>
 							</div>

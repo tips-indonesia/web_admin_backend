@@ -31,12 +31,12 @@
                             <div class="form-group">
 	                            <label class="display-block text-semibold">Domestic Shipment :</label>
 	                            <label class="radio-inline">
-	                                <input type="radio" name="domestic_shipment" checked="checked" value="0">
+	                                <input type="radio" name="domestic_shipment" checked="checked" value="0" readonly disabled>
 	                                No
 	                            </label>
 
 	                            <label class="radio-inline">
-	                                <input type="radio" name="domestic_shipment" value="1">
+	                                <input type="radio" name="domestic_shipment" value="1" readonly disabled>
 	                                Yes
 	                            </label>
 	                        </div>
@@ -166,32 +166,32 @@
                         <legend class="text-bold">Transactional Detail</legend>
                             <div class="form-group">
                                 <label>Packaging ID :</label>
-                                {{ Form::text('Packaging ID', $data->packaging_id, array('class' => 'form-control', 'placeholder' => 'Slot ID', 'readonly' => 'readonly', 'disabled' => 'disabled' )) }}
+                                {{ Form::text('Packaging ID', null, array('class' => 'form-control', 'placeholder' => 'Slot ID', 'readonly' => 'readonly', 'disabled' => 'disabled' )) }}
                             </div>
                             <div class="form-group">
                                 <label>Packaging Date :</label>
-                                {{ Form::text('slot_date', $data->slot_date, array('class' => 'form-control', 'placeholder' => 'Slot ID', 'readonly' => 'readonly', 'disabled' => 'disabled' )) }}
+                                {{ Form::text('slot_date', null, array('class' => 'form-control', 'placeholder' => 'Slot ID', 'readonly' => 'readonly', 'disabled' => 'disabled' )) }}
                             </div>  
                             <div class="form-group">
                                 <label>Packaging Size :</label>
-                                {{ Form::text('slot_date', $data->slot_date, array('class' => 'form-control', 'placeholder' => 'Slot ID', 'readonly' => 'readonly', 'disabled' => 'disabled' )) }}
+                                {{ Form::text('slot_date', null, array('class' => 'form-control', 'placeholder' => 'Slot ID', 'readonly' => 'readonly', 'disabled' => 'disabled' )) }}
                             </div>  
                         </div>
                         <div class="col-md-6">
                         <legend class="text-bold">Distribution Data</legend>
                             <div class="form-group">
                                 <label>Date :</label>
-                                {{ Form::text('Packaging ID', $data->packaging_id, array('class' => 'form-control', 'placeholder' => 'Slot ID', 'readonly' => 'readonly', 'disabled' => 'disabled' )) }}
+                                {{ Form::text('Packaging ID', null, array('class' => 'form-control', 'placeholder' => 'Slot ID', 'readonly' => 'readonly', 'disabled' => 'disabled' )) }}
                             </div>
                             <div class="form-group">
                                 <label class="display-block text-semibold">Dispatch Type :</label>
                                 <label class="radio-inline">
-                                    <input type="radio" name="domestic_shipment" checked="checked" value="0">
+                                    <input type="radio" name="domestic_shipment" checked="checked" value="0" readonly disabled>
                                     Dispatch to Last Mile
                                 </label>
 
                                 <label class="radio-inline">
-                                    <input type="radio" name="domestic_shipment" value="1">
+                                    <input type="radio" name="domestic_shipment" value="1" readonly disabled>
                                     Pickup at Drop Point
                                 </label>
                             </div>
@@ -202,12 +202,12 @@
                             <div class="form-group">
                                 <label class="display-block text-semibold">Dispatch By :</label>
                                 <label class="radio-inline">
-                                    <input type="radio" name="domestic_shipment" checked="checked" value="0">
+                                    <input type="radio" name="domestic_shipment" checked="checked" value="0" readonly disabled>
                                     Team Logistics
                                 </label>
 
                                 <label class="radio-inline">
-                                    <input type="radio" name="domestic_shipment" value="1">
+                                    <input type="radio" name="domestic_shipment" value="1" readonly disabled>
                                     Others
                                 </label>
                             </div>  
