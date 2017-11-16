@@ -50,9 +50,9 @@ class ShipmentController extends Controller
         }
 
         if($request->is_first_class == 1) {
-            $shipment->flight_cost = ($price->tipster_price + $price->add_first_class)*$request->estimate_weight;
+            $shipment->flight_cost = ($price->freight_cost + $price->add_first_class)*$request->estimate_weight;
         } else {
-            $shipment->flight_cost = $price->tipster_price*$request->estimate_weight;
+            $shipment->flight_cost = $price->freight_cost*$request->estimate_weight;
         }
 
         $shipment->save();

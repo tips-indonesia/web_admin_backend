@@ -16,42 +16,49 @@ class AirportSeeder extends Seeder
             'name' => 'Husein Sastranegara International Airport',
             'initial_code' => 'BDO',
             'status' => 1,
+            'id_city' => rand(1,4)
         ]);
 
         DB::table('airport_lists')->insert([
             'name' => 'Blimbingsari Airport',
             'initial_code' => 'BWX',
             'status' => 1,
+            'id_city' => rand(1,4)
         ]);
 
         DB::table('airport_lists')->insert([
             'name' => 'Penggung Airport',
             'initial_code' => 'CBN',
             'status' => 1,
+            'id_city' => rand(1,4)
         ]);
 
         DB::table('airport_lists')->insert([
             'name' => 'Tunggul Wulung Airport',
             'initial_code' => 'CXP',
             'status' => 1,
+            'id_city' => rand(1,4)
         ]);
 
         DB::table('airport_lists')->insert([
             'name' => 'Pondok Cabe Airport',
             'initial_code' => 'PCB',
             'status' => 1,
+            'id_city' => rand(1,4)
         ]);
 
         DB::table('airport_lists')->insert([
             'name' => 'Halim Perdanakusuma International Airport',
             'initial_code' => 'HLP',
             'status' => 1,
+            'id_city' => rand(1,4)
         ]);
 
         DB::table('airport_lists')->insert([
             'name' => 'Soekarno–Hatta International Airport',
             'initial_code' => 'CGK',
             'status' => 1,
+            'id_city' => rand(1,4)
         ]);
     }
 }

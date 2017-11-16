@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\ShipmentStatus
+use App\ShipmentStatus;
 
 class ShipmentStatusSeeder extends Seeder
 {
@@ -13,7 +13,7 @@ class ShipmentStatusSeeder extends Seeder
     public function run()
     {
         //
-        ShipmentStatus::create('step'=>1, 'description' => 'manifest');
+        ShipmentStatus::create(['step'=>1, 'description' => 'manifest']);
         
     }
 }

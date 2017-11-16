@@ -20,8 +20,8 @@ class PriceListSeeder extends Seeder
                     DB::table('price_lists')->insert([
                         'id_origin_city' => $i,
                         'id_destination_city' => $j,
-                        'tipster_price' => ($random_price+2) * 1000,
-                        'freight_cost' => $random_price*1000,
+                        'tipster_price' => $random_price * 1000,
+                        'freight_cost' => ($random_price+2)*1000,
                         'add_first_class' => $add_first_class*1000,
                     ]);
                 }
