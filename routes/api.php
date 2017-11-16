@@ -31,3 +31,6 @@ Route::get('/goods/price_estimate', 'API\\GoodsController@get_list_price_estimat
 Route::get('/goods/insurance', 'API\\GoodsController@get_insurance_price');
 
 Route::post('/shipment', 'API\\ShipmentController@submit');
+
+
+Route::post('/worker/login', 'API\\Worker\\AuthController@login');
