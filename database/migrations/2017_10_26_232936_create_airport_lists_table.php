@@ -18,7 +18,6 @@ class CreateAirportListsTable extends Migration
             $table->string('name');
             $table->string('initial_code');
             $table->boolean('status');
-            $table->unsignedInteger('id_city');
             $table->timestamps();
         });
     }
