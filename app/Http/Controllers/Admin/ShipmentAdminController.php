@@ -12,6 +12,7 @@ use App\CityList;
 use App\Insurance;
 use App\PaymentType;
 use App\BankList;
+use App\BankCardList;
 use Validator;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Input;
@@ -71,14 +72,14 @@ class ShipmentAdminController extends Controller
             'shipper_name'=>'required',
             'shipper_address'=>'required',
             'shipper_mobile'=>'required',
-            'shipper_email_address'=>'required',
+            // 'shipper_email_address'=>'required',
             'shipper_latitude'=>'required',
             'shipper_longitude'=>'required',
             'consignee_name'=>'required',
             'consignee_address'=>'required',
-            'consignee_phone'=>'required',
+            // 'consignee_phone'=>'required',
             'consignee_mobile'=>'required',
-            'consignee_email_address'=>'required',
+            // 'consignee_email_address'=>'required',
             'shipment_content'=>'required',
             'estimated_goods_value'=>'required',
             'estimated_weight'=>'required',
@@ -122,11 +123,19 @@ class ShipmentAdminController extends Controller
             $shipment->estimate_goods_value = Input::get('estimated_goods_value');
             $shipment->estimate_weight = Input::get('estimated_weight');
             $shipment->id_payment_type = Input::get('payment_type');
-            $shipment->id_bank = Input::get('bank');
-            $shipment->bank_card_type = Input::get('card_type');
-            $shipment->card_no = Input::get('card_number');
-            $shipment->card_expired_date = Input::get('card_expired_date');
-            $shipment->card_security_code = Input::get('card_security_code');
+            if (Input::get('online_payment') == 1){
+                $shipment->id_bank = Input::get('bank');
+                $shipment->bank_card_type = Input::get('card_type');
+                $shipment->card_no = Input::get('card_number');
+                $shipment->card_expired_date = Input::get('expired_date');
+                $shipment->card_security_code = Input::get('security_code');
+            } else {
+                $shipment->id_bank = null;
+                $shipment->bank_card_type = null;
+                $shipment->card_no = null;
+                $shipment->card_expired_date = null;
+                $shipment->card_security_code = null;
+            }
             $shipment->id_shipment_status = Input::get('shipment_status');
             $shipment->add_notes = Input::get('addtional_notes');
             $shipment->received_by = Input::get('received_by');
@@ -181,6 +190,7 @@ class ShipmentAdminController extends Controller
         $data['users'] = MemberList::all();
         $data['payment_types'] = PaymentType::all();
         $data['banklists'] = BankList::all();
+        $data['bankcardlists'] = BankCardList::where('id_bank', $data['data']->id_bank)->get();
 
         return view('admin.shipments.edit', $data);
     }
@@ -204,14 +214,14 @@ class ShipmentAdminController extends Controller
             'shipper_name'=>'required',
             'shipper_address'=>'required',
             'shipper_mobile'=>'required',
-            'shipper_email_address'=>'required',
+            // 'shipper_email_address'=>'required',
             'shipper_latitude'=>'required',
             'shipper_longitude'=>'required',
             'consignee_name'=>'required',
             'consignee_address'=>'required',
-            'consignee_phone'=>'required',
+            // 'consignee_phone'=>'required',
             'consignee_mobile'=>'required',
-            'consignee_email_address'=>'required',
+            // 'consignee_email_address'=>'required',
             'shipment_content'=>'required',
             'estimated_goods_value'=>'required',
             'estimated_weight'=>'required',
@@ -255,11 +265,19 @@ class ShipmentAdminController extends Controller
             $shipment->estimate_goods_value = Input::get('estimated_goods_value');
             $shipment->estimate_weight = Input::get('estimated_weight');
             $shipment->id_payment_type = Input::get('payment_type');
-            $shipment->id_bank = Input::get('bank');
-            $shipment->bank_card_type = Input::get('card_type');
-            $shipment->card_no = Input::get('card_number');
-            $shipment->card_expired_date = Input::get('card_expired_date');
-            $shipment->card_security_code = Input::get('card_security_code');
+            if (Input::get('online_payment') == 1){
+                $shipment->id_bank = Input::get('bank');
+                $shipment->bank_card_type = Input::get('card_type');
+                $shipment->card_no = Input::get('card_number');
+                $shipment->card_expired_date = Input::get('expired_date');
+                $shipment->card_security_code = Input::get('security_code');
+            } else {
+                $shipment->id_bank = null;
+                $shipment->bank_card_type = null;
+                $shipment->card_no = null;
+                $shipment->card_expired_date = null;
+                $shipment->card_security_code = null;
+            }
             $shipment->id_shipment_status = Input::get('shipment_status');
             $shipment->add_notes = Input::get('addtional_notes');
             $shipment->received_by = Input::get('received_by');

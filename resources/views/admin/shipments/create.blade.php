@@ -123,10 +123,6 @@
                                                 {{ Form::text('shipper_mobile', null, array('class' => 'form-control', 'placeholder' => 'Shipper Mobile Phone')) }}
                                             </div>
                                             <div class="form-group">
-                                                <label>E-mail :</label>
-                                                {{ Form::email('shipper_email_address', null, array('class' => 'form-control', 'placeholder' => 'Shipper E-mail address')) }}
-                                            </div>
-                                            <div class="form-group">
                                                 <label>Latitude :</label>
                                                 {{ Form::text('shipper_latitude', null, array('class' => 'form-control', 'placeholder' => 'Shipper Latitude')) }}
                                             </div>
@@ -146,16 +142,8 @@
                                                 <textarea rows="5" class="form-control" placeholder="Enter consignee address here" name="consignee_address"></textarea>
                                             </div>
                                             <div class="form-group">
-                                                <label>Phone Number :</label>
-                                                {{ Form::text('consignee_phone', null, array('class' => 'form-control', 'placeholder' => 'Consignee Phone Number')) }}
-                                            </div>
-                                            <div class="form-group">
                                                 <label>Mobile Phone :</label>
                                                 {{ Form::text('consignee_mobile', null, array('class' => 'form-control', 'placeholder' => 'Consignee Mobile Phone')) }}
-                                            </div>
-                                            <div class="form-group">
-                                                <label>E-mail :</label>
-                                                {{ Form::email('consignee_email_address', null, array('class' => 'form-control', 'placeholder' => 'Consignee E-mail address')) }}
                                             </div>
                                         </div>
                                     </div>
@@ -267,7 +255,7 @@
         </div>
         <script>
         $('.select-search').select2();
-        $('.pickadate-year').datepicker();
+        $('.pickadate-year').datepicker({format: 'yyyy-mm-dd',});
         $('#bank').on('select2:select', function(){
             var card = $('#card');
             card.empty();
