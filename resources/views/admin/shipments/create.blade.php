@@ -244,7 +244,7 @@
                                         <label>Expired Date :</label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="icon-calendar5"></i></span>
-                                            <input type="text" name="expired_date" class="form-control pickadate-year" placeholder="Expired date" >
+                                            <input type="text" name="expired_date" id="expired_date" class="form-control pickadate-year" placeholder="Expired date" disabled>
                                         </div>
                                     </div>
                                 </div>
@@ -267,9 +267,7 @@
         </div>
         <script>
         $('.select-search').select2();
-        $('.pickadate-year').pickadate({
-            selectYears: 4
-        });
+        $('.pickadate-year').datepicker();
         $('#bank').on('select2:select', function(){
             var card = $('#card');
             card.empty();
@@ -296,12 +294,14 @@
                 $('#card').prop('disabled', 'disabled');
                 $('#bank').prop('disabled', 'disabled');
                 $('#payment_type').prop('disabled', 'disabled');
+                $('#expired_date').prop('disabled', 'disabled');
             } else {
                 $('input[name="card_number"]').removeAttr('disabled');
                 $('input[name="security_code"]').removeAttr('disabled');
                 $('#card').removeAttr('disabled');
                 $('#bank').removeAttr('disabled');
                 $('#payment_type').removeAttr('disabled');
+                $('#expired_date').removeAttr('disabled');
 
             }
         }); 

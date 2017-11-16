@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Insurance;
+use App\MemberList;
 use Validator;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
@@ -20,6 +20,8 @@ class MemberListAdminController extends Controller
     public function index()
     {
         //
+        $data['datas'] = MemberList::paginate(10);
+        return view('admin.memberlists.index', $data);
     }
 
     /**
