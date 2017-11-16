@@ -201,5 +201,7 @@ class DatabaseSeeder extends Seeder
         $this->call(InsuranceTableSeeder::class);
         $this->call(BankTableSeeder::class);
         $this->call(PriceGoodsEstimateSeeder::class);
+        $this->call(AirportSeeder::class);
+        $this->call(FlightBookingSeeder::class);
     }
 }

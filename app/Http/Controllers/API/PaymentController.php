@@ -13,7 +13,6 @@ class PaymentController extends Controller
     //
     function bank_list() {
         $bank_list_init = BankList::all();
-        $bank_list = [];
         $cards = [];
 
         foreach ($bank_list_init as $bank) {
