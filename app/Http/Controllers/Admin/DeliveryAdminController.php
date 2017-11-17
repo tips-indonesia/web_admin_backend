@@ -4,8 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Insurance;
+use App\Shipment;
+use App\DeliveryShipment;
+use App\DeliveryShipmentDetail;
 use Validator;
+use Auth;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
@@ -20,7 +24,10 @@ class DeliveryAdminController extends Controller
     public function index()
     {
         //
-        $data['datas'] = Insurance::paginate(10);
+        $data['datas'] = DeliveryShipment::paginate(10);
+        foreach ($data['datas'] as $dat) {
+            $dat['total'] = DeliveryShipmentDetail::where('id_delivery', $dat->id)->get()->count();
+        }
         return view('admin.deliveries.index', $data);
     }
 
@@ -31,7 +38,15 @@ class DeliveryAdminController extends Controller
     */
     public function create()
     {
-        return view('admin.deliveries.create');
+        $date = Input::get('date');
+        $data['date'] = null;
+        if ($date == null) {
+            $data['datas'] = array(); 
+        } else {
+            $data['datas'] = Shipment::where([['transaction_date', '=', $date], ['is_posted', '=', 1]])->get();
+            $data['date'] = $date;
+        }
+        return view('admin.deliveries.create', $data);
     }
 
     /**
@@ -42,6 +57,24 @@ class DeliveryAdminController extends Controller
     public function store()
     {
         //
+        if(Input::get('submit') == 'save'){
+            $delivery = new DeliveryShipment;
+            $delivery->delivery_date = Input::get('date');
+            $delivery->delivery_time = Carbon::now()->hour.':'.Carbon::now()->minute;
+            $delivery->created_by = Auth::user()->id; 
+            $delivery->save();
+            $delivery->delivery_id='DEL'.$delivery->id.'2017';
+            $delivery->save();
+            foreach(Input::get('shipments') as $shipment) {
+                $deliv_details = new DeliveryShipmentDetail;
+                $deliv_details->id_shipment = $shipment;
+                $deliv_details->id_delivery = $delivery->id;
+                $deliv_details->save();
+
+            }
+        }
+        return Redirect::to(route('deliveries.index'));
+
 
 
     }
@@ -66,6 +99,13 @@ class DeliveryAdminController extends Controller
     public function edit($id)
     {
         //
+        
+        $data['datas'] = DeliveryShipmentDetail::where([['id_delivery', '=', $id]])->get(['id_shipment']);
+        foreach($data['datas'] as $dat){
+            $dat['shipment_id'] = Shipment::find($dat['id_shipment'])->shipment_id;
+        }
+        $data['data'] = DeliveryShipment::find($id);
+        return view('admin.deliveries.edit', $data);
 
     }
 
@@ -77,6 +117,21 @@ class DeliveryAdminController extends Controller
     */
     public function update($id)
     {
+        $delivery = DeliveryShipment::find($id);
+        if (Input::get('submit') =='post') {
+            $delivery->is_posted = 1;
+            $delivery->save();
+        }
+        $delivdetails = DeliveryShipmentDetail::where('id_delivery', $id)->delete();
+        if (Input::get('shipments') != null){
+            foreach(Input::get('shipments') as $shipment){
+                $deliv_details = new DeliveryShipmentDetail;
+                $deliv_details->id_shipment = $shipment;
+                $deliv_details->id_delivery = $delivery->id;
+                $deliv_details->save();
+            }
+        }
+        return Redirect::to(route('deliveries.index'));
     }
 
     /**

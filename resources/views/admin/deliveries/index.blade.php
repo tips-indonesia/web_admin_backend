@@ -22,18 +22,18 @@
                 @foreach ($datas as $data)
                     <tr>
                         <td>
-                            {{ $data->name }}
+                            <a href="{{ route('deliveries.edit', $data->id) }}">
+                            {{ $data->delivery_id }}
+                            </a>
                         </td>
                         <td>
-                            {{ $data->name }}
+                            {{ $data->total }}
                         </td>
                         <td>
                         <ul class="icons-list">
                         
                         <li>
-                        {{ Form::open(array('method' => 'DELETE', 'url' => route('deliveries.destroy', $data->id))) }}
-                        <button type="submit" class="btn btn-danger"><i class="icon-trash"></i> Delete</button>
-                        {{ Form::close() }}
+                            {{ $data->is_posted == 1 ? 'Submited' : 'Not Submited' }}
                         </li>
                         </ul>
                         </td>

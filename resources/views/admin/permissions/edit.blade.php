@@ -32,7 +32,11 @@
         </div>
         <script type="text/javascript">
          
-    $('.listbox').bootstrapDualListbox();
+    $('.listbox').bootstrapDualListbox({
+
+        nonSelectedListLabel: 'Not Allowed',
+        selectedListLabel: 'Allowed',
+    });
 
         </script>
     </div>

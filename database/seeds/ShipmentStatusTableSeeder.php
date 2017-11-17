@@ -14,6 +14,9 @@ class ShipmentStatusTableSeeder extends Seeder
     public function run()
     {
         //
-        ShipmentStatus::create(['step'=>1, 'description' => 'manifest']);
+        ShipmentStatus::create(['step'=>1, 'description' => 'Manifest']);
+        ShipmentStatus::create(['step'=>2, 'description' => 'Bagasi TIPS']);
+        ShipmentStatus::create(['step'=>3, 'description' => 'Pending']);
+        ShipmentStatus::create(['step'=>4, 'description' => 'Received']);
     }
 }
