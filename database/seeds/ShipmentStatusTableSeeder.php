@@ -1,9 +1,10 @@
+
 <?php
 
 use Illuminate\Database\Seeder;
 use App\ShipmentStatus;
 
-class ShipmentStatusSeeder extends Seeder
+class ShipmentStatusTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,6 +15,5 @@ class ShipmentStatusSeeder extends Seeder
     {
         //
         ShipmentStatus::create(['step'=>1, 'description' => 'manifest']);
-        
     }
 }
