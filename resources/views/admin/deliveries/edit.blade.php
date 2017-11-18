@@ -28,13 +28,13 @@
                         <div class="text-right form-group">
                             <select multiple="multiple" class="form-control listbox" name="shipments[]">
                                @foreach ($datas as $datax)
-                                    <option value="{{ $datax->id }}" @if ($datax->id_shipment_status != 2) selected @endif> {{ $data->delivery_date }} &nbsp; - &nbsp; {{ $datax->shipment_id }} </option>
+                                    <option value="{{ $datax->id_shipment }}" @if ($datax->id_shipment_status != 2) selected @endif> {{ $data->delivery_date }} &nbsp; - &nbsp; {{ $datax->shipment_id }} </option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="text-right form-group">
-                            <button type="submit" value="save" class="btn btn-primary">Save <i class="icon-arrow-right14 position-right"></i></button>
-                            <button type="submit" value="post"  class="btn btn-success">Submit <i class="icon-arrow-right14 position-right"></i></button>
+                            <button type="submit" value="save" class="btn btn-primary" name="submit">Save <i class="icon-arrow-right14 position-right"></i></button>
+                            <button type="submit" value="post"  class="btn btn-success" name="submit">Submit <i class="icon-arrow-right14 position-right"></i></button>
                         </div>
             {{ Form::close() }}
         </div>

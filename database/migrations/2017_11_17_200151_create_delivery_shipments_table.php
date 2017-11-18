@@ -21,7 +21,7 @@ class CreateDeliveryShipmentsTable extends Migration
             $table->unsignedInteger('id_origin_office')->nullable();
             $table->unsignedInteger('id_destination_office')->nullable();
             $table->unsignedInteger('created_by');
-            $table->boolean('is_posted');
+            $table->boolean('is_posted')->default(false);
             $table->timestamps();
         });
     }

@@ -57,21 +57,19 @@ class DeliveryAdminController extends Controller
     public function store()
     {
         //
-        if(Input::get('submit') == 'save'){
-            $delivery = new DeliveryShipment;
-            $delivery->delivery_date = Input::get('date');
-            $delivery->delivery_time = Carbon::now()->hour.':'.Carbon::now()->minute;
-            $delivery->created_by = Auth::user()->id; 
-            $delivery->save();
-            $delivery->delivery_id='DEL'.$delivery->id.'2017';
-            $delivery->save();
-            foreach(Input::get('shipments') as $shipment) {
-                $deliv_details = new DeliveryShipmentDetail;
-                $deliv_details->id_shipment = $shipment;
-                $deliv_details->id_delivery = $delivery->id;
-                $deliv_details->save();
+        $delivery = new DeliveryShipment;
+        $delivery->delivery_date = Input::get('date');
+        $delivery->delivery_time = Carbon::now()->hour.':'.Carbon::now()->minute;
+        $delivery->created_by = Auth::user()->id; 
+        $delivery->save();
+        $delivery->delivery_id='DEL'.$delivery->id.'2017';
+        $delivery->save();
+        foreach(Input::get('shipments') as $shipment) {
+            $deliv_details = new DeliveryShipmentDetail;
+            $deliv_details->id_shipment = $shipment;
+            $deliv_details->id_delivery = $delivery->id;
+            $deliv_details->save();
 
-            }
         }
         return Redirect::to(route('deliveries.index'));
 

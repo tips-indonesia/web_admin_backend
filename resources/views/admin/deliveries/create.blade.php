@@ -35,9 +35,7 @@
                         <input type="hidden" value="{{ $date }}" name="date"/>
                         <div class="text-right form-group">
                             <button type="submit" value="save" class="btn btn-primary">Save <i class="icon-arrow-right14 position-right"></i></button>
-                        </div>
-                        <div class="text-right form-group">
-                            <button type="submit" class="btn btn-primary">Submit <i class="icon-arrow-right14 position-right"></i></button>
+                            <button type="submit" class="btn btn-primary" disabled>Submit <i class="icon-arrow-right14 position-right" ></i></button>
                         </div>
             {{ Form::close() }}
         </div>
