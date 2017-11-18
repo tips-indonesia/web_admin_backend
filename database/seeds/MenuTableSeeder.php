@@ -79,7 +79,7 @@ class MenuTableSeeder extends Seeder
             ]);
         $transaction = MenuList::create([
             'name' => 'Transaction',
-            'class_name' => 'shipments.|slotlists.|deliveries.|receiveds'
+            'class_name' => 'shipments.|slotlists.|deliveries.|receiveds.|shipmenttrackings.'
         ]);
             MenuList::create([
                 'name' => 'Shipment List',
@@ -100,6 +100,11 @@ class MenuTableSeeder extends Seeder
                 'name' => 'Received by Processing Center',
                 'menu_parent_id' => $transaction->id,
                 'class_name' => 'receiveds.'
+            ]);
+            MenuList::create([
+                'name' => 'Shipment Tracking',
+                'menu_parent_id' => $transaction->id,
+                'class_name' => 'shipmenttrackings.'
             ]);
         $setting = MenuList::create([
             'name' => 'Setting',

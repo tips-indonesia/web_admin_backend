@@ -90,6 +90,10 @@ Route::prefix('admin')->group(function () {
             Route::resource('receiveds','Admin\ReceivedAdminController');
         });
 
+        Route::group(['middleware' => ['permission:receiveds.']], function () {
+            Route::resource('shipmenttrackings','Admin\ShipmentTrackingAdminController');
+        });
+
         Route::group(['middleware' => ['permission:shipmentstatuses.']], function () {
             Route::resource('shipmentstatuses','Admin\ShipmentStatusAdminController');
         });
