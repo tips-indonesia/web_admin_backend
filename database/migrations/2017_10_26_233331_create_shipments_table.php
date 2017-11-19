@@ -32,7 +32,7 @@ class CreateShipmentsTable extends Migration
             $table->string('consignee_name');
             $table->string('consignee_address');
             $table->string('consignee_mobile_phone');
-            $table->enum('dispatch_type', ['D', 'P'])->default('P');
+            $table->enum('dispatch_type', ['Pending', 'Process', 'Complete', 'Canceled'])->default('Pending');
             $table->boolean('is_online_payment')->nullable();
             $table->unsignedInteger('id_payment_type');
             $table->string('shipment_contents');
@@ -57,6 +57,7 @@ class CreateShipmentsTable extends Migration
             $table->timestamp('received_time')->nullable();
             $table->string('received_image')->nullable();
             $table->boolean('is_posted')->default(false);
+            $table->string('detail_status')->nullable();
             $table->timestamps();
 
         });

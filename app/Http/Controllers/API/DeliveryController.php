@@ -11,6 +11,7 @@ use App\MemberList;
 use App\AirportList;
 use App\PriceList;
 use App\DeliveryStatus;
+use App\CityList;
 
 class DeliveryController extends Controller
 {
@@ -19,6 +20,7 @@ class DeliveryController extends Controller
     function submit(Request $request) {
         $member = MemberList::find($request->id_member);
         $booking = FlightBookingList::where('booking_code', $request->booking_code)->first();
+        $slot = SlotList::where('booking_code', $request->booking_code)->first();
 
         if($member == null) {
             $data = array(
@@ -33,6 +35,14 @@ class DeliveryController extends Controller
                 'err' => [
                     'code' => 0,
                     'message' => 'Booking tidak ditemukan'
+                ],
+                'result' => null
+            );
+        } else if($slot != null){
+            $data = array(
+                'err' => [
+                    'code' => 0,
+                    'message' => 'Booking telah didaftarkan'
                 ],
                 'result' => null
             );
@@ -57,6 +67,8 @@ class DeliveryController extends Controller
             $slot->flight_code = $booking->flight_code;
             $slot->baggage_space = $request->baggage_space;
             $slot->slot_price_kg = $price->tipster_price;
+            $slot->origin_city = CityList::find($airport_origin->id_city)->name;
+            $slot->destination_city = CityList::find($airport_destination->id_city)->name;
 
             $slot->save();
 

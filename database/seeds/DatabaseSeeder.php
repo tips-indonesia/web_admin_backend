@@ -202,6 +202,7 @@ class DatabaseSeeder extends Seeder
         $this->call(BankTableSeeder::class);
         $this->call(PriceGoodsEstimateSeeder::class);
         $this->call(ShipmentStatusTableSeeder::class);
+        $this->call(DeliveryStatusTableSeeder::class);
         $this->call(AirportSeeder::class);
         $this->call(FlightBookingSeeder::class);
     }

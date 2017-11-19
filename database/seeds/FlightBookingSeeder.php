@@ -13,7 +13,7 @@ class FlightBookingSeeder extends Seeder
     {
         //
 
-        for($i = 0; $i < 10 ; $i++) {
+        for($i = 0; $i < 30 ; $i++) {
             $booking_code = $this->generateRandomString(9);
             $flight_code = $this->generateRandomString(5);
             $id_origin_airport = rand(1,7);
