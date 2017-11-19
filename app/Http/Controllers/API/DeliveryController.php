@@ -102,16 +102,21 @@ class DeliveryController extends Controller
             $delivery_status = DeliveryStatus::find($slot->id_slot_status);
             $data = array(
                 'err' => null,
-                'status' => array(
-                    'step' => $delivery_status->id,
-                    'status' => $delivery_status->name,
-                    'description' => $delivery_status->description
+                'result' => array(
+                    'status' => array(
+                        'step' => $delivery_status->step,
+                        'description' => $delivery_status->description,
+                        'detail' => $slot->detail_status
+                    ),
+                    'delivery' => $slot
                 )
+
             );
         }
 
         return response()->json($data, 200);
     }
+
     function generateRandomString($length = 7) {
         $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $charactersLength = strlen($characters);

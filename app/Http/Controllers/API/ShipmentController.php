@@ -9,6 +9,7 @@ use App\Shipment;
 use App\PriceList;
 use App\Insurance;
 use App\CityList;
+use App\ShipmentStatus;
 
 class ShipmentController extends Controller
 {
@@ -66,6 +67,37 @@ class ShipmentController extends Controller
                 'shipment' => $shipment,
             )
         );
+
+        return response()->json($data, 200);
+    }
+
+    function get_status(Request $request) {
+        $shipment_id = $request->shipment_id;
+        $shipment = Shipment::where('shipment_id', $shipment_id)->first();
+
+        if($shipment == null) {
+            $data = array(
+                'err' => [
+                    'code' => 0,
+                    'message' => 'Shipment tidak ditemukan'
+                ],
+                'result' => null
+            );
+        } else {
+            $shipment_status = ShipmentStatus::find($shipment->id_shipment_status);
+            $data = array(
+                'err' => null,
+                'result' => array(
+                    'status' => array(
+                        'step' => $shipment_status->step,
+                        'description' => $shipment_status->description,
+                        'detail' => $shipment->detail_status
+                    ),
+                    'shipment' => $shipment
+                )
+
+            );
+        }
 
         return response()->json($data, 200);
     }
