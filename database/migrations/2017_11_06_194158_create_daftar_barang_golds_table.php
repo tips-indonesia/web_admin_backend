@@ -16,7 +16,7 @@ class CreateDaftarBarangGoldsTable extends Migration
         Schema::create('daftar_barang_golds', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('id_barang')->unsigned();
-            $table->foreign('id_barang')->references('id')->on('barangs')->onDelete('cascade');;
+            $table->foreign('id_barang')->references('id')->on('shipments')->onDelete('cascade');
             $table->timestamps();
         });
     }
