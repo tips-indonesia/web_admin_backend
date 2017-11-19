@@ -72,6 +72,9 @@ class DeliveryController extends Controller
 
             $slot->save();
 
+            $slot->origin_airport = $airport_origin;
+            $slot->destination_airport = $airport_destination;
+
 
 
             $data = array(

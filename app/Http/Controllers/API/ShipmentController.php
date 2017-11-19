@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Shipment;
 use App\PriceList;
 use App\Insurance;
+use App\CityList;
 
 class ShipmentController extends Controller
 {
@@ -56,6 +57,8 @@ class ShipmentController extends Controller
         }
 
         $shipment->save();
+        $shipment->origin_city = CityList::find($shipment->id_origin_city)->name;
+        $shipment->destination_city = CityList::find($shipment->id_destination_city)->name;
 
         $data = array(
             'err' => null,
