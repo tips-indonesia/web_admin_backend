@@ -5,6 +5,8 @@ use App\Keberangkatan;
 use App\Barang;
 use App\DaftarBarangGold;
 use App\DaftarBarangRegular;
+use App\AirportList;
+use App\CityList;
 
 class DatabaseSeeder extends Seeder
 {
@@ -19,6 +21,41 @@ class DatabaseSeeder extends Seeder
         DB::table('daftar_barang_golds')->delete();
         DB::table('keberangkatans')->delete();
         DB::table('barangs')->delete();
+        DB::table('airport_lists')->delete();
+        DB::table('city_lists')->delete();
+
+        $a1 = AirportList::create(array(
+            'name' => 'Bandara 1',
+            'initial_code' => 'AA',
+            'status' => true
+        ));
+
+        $a2 = AirportList::create(array(
+            'name' => 'Bandara 2',
+            'initial_code' => 'AB',
+            'status' => true
+        ));
+
+        $a3 = AirportList::create(array(
+            'name' => 'Bandara 3',
+            'initial_code' => 'AC',
+            'status' => true
+        ));
+
+        $c1 = CityList::create(array(
+            'name' => 'Bandung'
+        ));
+
+        $c1->airports()->attach($a1->id);
+        $c1->airports()->attach($a3->id);
+
+        $c2 = CityList::create(array(
+            'name' => 'Jakarta'
+        ));
+
+        $c2 = CityList::create(array(
+            'name' => 'Medan'
+        ));
 
         Keberangkatan::create(array(
         	'id_tipster' => 0,

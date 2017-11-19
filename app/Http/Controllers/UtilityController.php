@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Keberangkatan;
+use App\SlotList;
 use App\Barang;
 use App\DaftarBarangGold;
 use App\DaftarBarangRegular;
@@ -39,6 +39,87 @@ class UtilityController extends Controller
         }
     }
 
+    private function tambahBarang($barang){
+        if(!$barang['jenis'])
+            return false;
+
+        $instanceBarang = Barang::create(array(
+            'asal'          => $barang['asal'],
+            'tujuan'        => $barang['tujuan'],
+            'jenis'         => $barang['jenis'],
+            'created_at'    => \Carbon\Carbon::createFromFormat('Y-m-d H:i', 
+                               $barang['waktu_masuk'])->toDateTimeString(),
+            'berat'         => $barang['berat'],
+        ));
+        if($barang['jenis'] == 'REGULAR')
+            DaftarBarangRegular::create(array('id_barang' => $instanceBarang->id));
+        else
+            DaftarBarangGold::create(array('id_barang' => $instanceBarang->id));
+
+        return $instanceBarang;
+    }
+
+    private function tambahSlotTipster($slot){
+        $instanceSlot = SlotList::create(array(
+
+            // STRING
+            'slot_id'               => $slot['slot_id'],
+
+            // DATE
+            'slot_date'             => $slot['slot_date'],
+
+            // TIME
+            'slot_time'             => $slot['slot_time'],
+
+            // UINT
+            'id_member'             => $slot['id_member'],
+
+            // UINT
+            'id_flight_booking'     => $slot['id_flight_booking'],
+
+            // UINT
+            'id_airline'            => $slot['id_airline'],
+
+            // UINT
+            'id_origin_airport'     => $slot['id_origin_airport'],
+
+            // UINT
+            'id_destination_airport'=> $slot['id_destination_airport'],
+
+            // TIME
+            'departure_time'        => $slot['departure_time'],
+
+            // DATE
+            'departure_date'        => $slot['departure_date'],
+
+            // DATE
+            'arrival_date'          => $slot['arrival_date'],
+
+            // TIME
+            'arrival_time'          => $slot['arrival_time'],
+
+            // UINT
+            'baggage_space'         => $slot['baggage_space'],
+
+            // UINT
+            'sold_baggage_space'    => 0,
+
+            // UINT
+            'sold_baggage_space_kg' => 0,
+
+            // UINT
+            'slot_price_kg'         => $slot['slot_price_kg'],
+
+            // STRING
+            'status'                => $slot['status'],
+
+            // UINT
+            'create_by'             => $slot['create_by']
+        ));
+
+        return $instanceSlot;
+    }
+
     /**
       * For debugging purpose
       *
@@ -47,10 +128,17 @@ class UtilityController extends Controller
         if(!$this->DEBUG)
             return;
 
-        foreach (Keberangkatan::all() as $keberangkatan){
-            echo 'K-' . $keberangkatan->id . ' dari ' . $keberangkatan->asal . ' menuju ' . $keberangkatan->tujuan . ', mengangkut ' . sizeof($keberangkatan->barang2) . ' barang, tersisa bagasi ' . $keberangkatan->berat_tersedia . ' muatan sbb:<br/>';
-            foreach ($keberangkatan->barang2 as $barang){
-                echo '> B-' . $barang->id . ', jenis ' . $barang->jenis . ', berat ' . $barang->berat . '<br/>';
+        foreach (SlotList::all() as $keberangkatan){
+            echo 'K-' . $keberangkatan->id . 
+                 ' dari ' . $keberangkatan->airportOrigin->name . 
+                 ' menuju ' . $keberangkatan->airportDestination->name . 
+                 ', mengangkut ' . sizeof($keberangkatan->shipments) . 
+                 ' barang, tersisa bagasi ' . ($keberangkatan->baggage_space - $keberangkatan->sold_baggage_space) . 
+                 ' muatan sbb:<br/>';
+            foreach ($keberangkatan->shipments as $barang){
+                echo '> B-' . $barang->id . 
+                     ', jenis ' . $barang->is_first_class ? 'GOLD' : 'REGULAR' . 
+                     ', berat ' . $barang->estimate_weight . '<br/>';
             }
             echo "<br/>";
         }
@@ -83,24 +171,34 @@ class UtilityController extends Controller
       * @return Integer     ID keberangkatan yang tersedia, -1 jika tidak tersedia
       */
     public function CekKetersediaanKeberangkatan($Barang){
-        $keberangkatanTersedia = Keberangkatan::where('asal', $Barang->asal)
-                -> where('tujuan', $Barang->tujuan)->get();
+        $daftarAirportAsal = $Barang->cityOrigin->airports;
+        $daftarAirportTujuan = $Barang->cityDestination->airports;
+
+        $keberangkatanTersedia = array();
+        foreach ($daftarAirportAsal as $airportAsal) {
+            foreach ($daftarAirportTujuan as $airportTujuan) {
+                array_push($keberangkatanTersedia, 
+                    SlotList::where('id_origin_airport', $airportAsal->id)
+                    -> where('id_destination_airport', $airportTujuan->id)->get());
+            }
+        }
 
         if(sizeof($keberangkatanTersedia) == 0)
             return -1;
 
-        foreach ($keberangkatanTersedia as $keberangkatan){
-            if($keberangkatan->is_full)
-                continue;
+        return $keberangkatanTersedia;
+        // foreach ($keberangkatanTersedia as $keberangkatan){
+        //     if($keberangkatan->is_full)
+        //         continue;
 
-            $hoursDifferent = $this->hDiffTime($keberangkatan->dt_berangkat, $Barang->created_at);
-            if($hoursDifferent >= $this->FINAL_HOURS && $Barang->berat <= $keberangkatan->berat_tersedia)
-                return $keberangkatan->id;
-            else
-                continue;
-        }
+        //     $hoursDifferent = $this->hDiffTime($keberangkatan->dt_berangkat, $Barang->created_at);
+        //     if($hoursDifferent >= $this->FINAL_HOURS && $Barang->berat <= $keberangkatan->berat_tersedia)
+        //         return $keberangkatan->id;
+        //     else
+        //         continue;
+        // }
 
-        return -1;
+        // return -1;
     }
 
 

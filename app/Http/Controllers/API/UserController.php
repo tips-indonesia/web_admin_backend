@@ -32,6 +32,7 @@ class UserController extends Controller
                 );
 
 
+
             } else {
                 unset($member_list['password']);
                 $data = array(
