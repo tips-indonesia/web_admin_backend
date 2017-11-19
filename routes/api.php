@@ -35,6 +35,8 @@ Route::post('/shipment', 'API\\ShipmentController@submit');
 Route::get('/flight/booking', 'API\\FlightController@get_flight_booking');
 
 Route::post('/delivery', 'API\\DeliveryController@submit');
+Route::get('/delivery/status', 'API\\DeliveryController@get_status');
 
+Route::get('/home', 'API\\HomeController@list_of_shipment_and_delivery');
 
 Route::post('/worker/login', 'API\\Worker\\AuthController@login');

@@ -10,6 +10,7 @@ use App\SlotList;
 use App\MemberList;
 use App\AirportList;
 use App\PriceList;
+use App\DeliveryStatus;
 
 class DeliveryController extends Controller
 {
@@ -70,6 +71,32 @@ class DeliveryController extends Controller
         return response()->json($data, 200);
     }
 
+    function get_status(Request $request) {
+        $slot_id = $request->slot_id;
+        $slot = SlotList::where('slot_id', $slot_id)->first();
+
+        if($slot == null) {
+            $data = array(
+                'err' => [
+                    'code' => 0,
+                    'message' => 'Slot id tidak ditemukan'
+                ],
+                'result' => null
+            );
+        } else {
+            $delivery_status = DeliveryStatus::find($slot->id_slot_status);
+            $data = array(
+                'err' => null,
+                'status' => array(
+                    'step' => $delivery_status->id,
+                    'status' => $delivery_status->name,
+                    'description' => $delivery_status->description
+                )
+            );
+        }
+
+        return response()->json($data, 200);
+    }
     function generateRandomString($length = 7) {
         $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $charactersLength = strlen($characters);
