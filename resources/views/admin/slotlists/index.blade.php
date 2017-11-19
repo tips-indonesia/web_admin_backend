@@ -26,9 +26,12 @@
                 @foreach ($datas as $data)
                     <tr>
                         <td>
-                            <a href="{{ route('slotlists.show', $data->id) }}"
+                            <a href="{{ route('slotlists.show', $data->id) }}">
                             {{ $data->slot_id }}
                             </a>
+                        </td>
+                        <td>
+                            {{ $data->member_name }}
                         </td>
                         <td>
                             {{ $data->origin_airport }}

@@ -15,8 +15,8 @@ class CreateDeliveryStatusesTable extends Migration
     {
         Schema::create('delivery_statuses', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
-            $table->text('description');
+            $table->unsignedInteger('step')->unique();
+            $table->string('description');
             $table->timestamps();
         });
     }

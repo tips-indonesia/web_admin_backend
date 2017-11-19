@@ -23,7 +23,8 @@ class PriceListAdminController extends Controller
         //
         $data['datas'] = PriceList::paginate(10);
         foreach($data['datas'] as $dat) {
-            $dat['name'] = CityList::where('id', $dat->id_destination_city)->first()->name;
+            $dat['dest_name'] = CityList::find($dat->id_destination_city)->name;
+            $dat['origin_name'] = CityList::find($dat->id_origin_city)->name;
         }
         return view('admin.pricelists.index', $data);
     }

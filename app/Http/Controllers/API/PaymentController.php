@@ -13,16 +13,19 @@ class PaymentController extends Controller
     //
     function bank_list() {
         $bank_list_init = BankList::all();
-        $bank_list = [];
+        $cards = [];
 
         foreach ($bank_list_init as $bank) {
-            $bank->card = BankCardList::where('id_bank', $bank->id)->get();
-            array_push($bank_list, $bank);
+            foreach (BankCardList::where('id_bank', $bank->id)->get() as $card) {
+                $card->name = $bank->name.' - '.$card->name;
+                array_push($cards, $card);
+            }
+
         }
 
         $data = array(
             'err' => null,
-            'result' => $bank_list
+            'result' => $cards
         );
 
         return response()->json($data, 200);

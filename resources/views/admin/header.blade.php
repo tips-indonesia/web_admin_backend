@@ -11,7 +11,9 @@
 	<link href="{{ asset("css/components.css") }}" rel="stylesheet" type="text/css">
     <link href="{{ asset("css/colors.css") }}" rel="stylesheet" type="text/css">
 	<link href="{{ asset("css/extras/animate.min.css") }}" rel="stylesheet" type="text/css">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css"  rel="stylesheet" type="text/css">
 	
+
 	<script type="text/javascript" src="{{ asset("js/plugins/loaders/pace.min.js") }}"></script>
 	<script type="text/javascript" src="{{ asset("js/core/libraries/jquery.min.js") }}"></script>
 	<script type="text/javascript" src="{{ asset("js/core/libraries/bootstrap.min.js") }}"></script>
@@ -32,15 +34,11 @@
 	<script type="text/javascript" src="{{ asset("js/plugins/forms/selects/bootstrap_select.min.js") }}"></script>
 	<script type="text/javascript" src="{{ asset("js/pages/form_bootstrap_select.js") }}"></script>
 	<script type="text/javascript" src="{{ asset("js/plugins/forms/inputs/duallistbox.min.js") }}"></script>
-
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
 
 	<script type="text/javascript" src="{{ asset("js/plugins/notifications/jgrowl.min.js") }}"></script>
 	<script type="text/javascript" src="{{ asset("js/plugins/ui/moment/moment.min.js") }}"></script>
 	<script type="text/javascript" src="{{ asset("js/plugins/pickers/daterangepicker.js") }}"></script>
 	<script type="text/javascript" src="{{ asset("js/plugins/pickers/anytime.min.js") }}"></script>
-	<script type="text/javascript" src="{{ asset("js/plugins/pickers/pickadate/picker.js") }}"></script>
-	<script type="text/javascript" src="{{ asset("js/plugins/pickers/pickadate/picker.date.js") }}"></script>
-	<script type="text/javascript" src="{{ asset("js/plugins/pickers/pickadate/picker.time.js") }}"></script>
-	<script type="text/javascript" src="{{ asset("js/plugins/pickers/pickadate/legacy.js") }}"></script>
 
 </head>

@@ -18,7 +18,7 @@
                             <select name="origin" class="select-search">
                                 <option disabled selected></option>
                                 @foreach ($cities as $city)
-                                    <option value="{{ $city->id }}">{{ $city->name }}</option>
+                                    <option value="{{ $city->id }}" @if ($datas->id_origin_city == $city->id) selected @endif>{{ $city->name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -27,7 +27,7 @@
                             <select name="destination" class="select-search">
                                 <option disabled selected></option>
                                 @foreach ($cities as $city)
-                                    <option value="{{ $city->id }}">{{ $city->name }}</option>
+                                    <option value="{{ $city->id }}" @if ($datas->id_destination_city == $city->id) selected @endif>{{ $city->name }}</option>
                                 @endforeach
                             </select>
                         </div>

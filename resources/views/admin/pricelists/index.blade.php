@@ -13,6 +13,7 @@
         <table class="table datatable-pagination">
             <thead>
                 <tr>
+                    <th>Origin City Name</th>
                     <th>Destination City Name</th>
                     <th>Tipster / Kg</th>
                     <th>Freight Cost / Kg</th>
@@ -24,7 +25,10 @@
                 @foreach ($datas as $data)
                     <tr>
                         <td>
-                            {{ $data->name }}
+                            {{ $data->origin_name }}
+                        </td>
+                        <td>
+                            {{ $data->dest_name }}
                         </td>
                         <td>
                             {{ $data->tipster_price }}

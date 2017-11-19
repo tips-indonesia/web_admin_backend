@@ -29,3 +29,15 @@ Route::get('/city/price', 'API\\CityController@get_price');
 Route::get('/goods/weight', 'API\\GoodsController@get_list_weight');
 Route::get('/goods/price_estimate', 'API\\GoodsController@get_list_price_estimate');
 Route::get('/goods/insurance', 'API\\GoodsController@get_insurance_price');
+
+Route::post('/shipment', 'API\\ShipmentController@submit');
+Route::get('/shipment/status', 'API\\ShipmentController@get_status');
+
+Route::get('/flight/booking', 'API\\FlightController@get_flight_booking');
+
+Route::post('/delivery', 'API\\DeliveryController@submit');
+Route::get('/delivery/status', 'API\\DeliveryController@get_status');
+
+Route::get('/home', 'API\\HomeController@list_of_shipment_and_delivery');
+
+Route::post('/worker/login', 'API\\Worker\\AuthController@login');

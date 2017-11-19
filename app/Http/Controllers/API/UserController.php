@@ -58,7 +58,7 @@ class UserController extends Controller
         } else {
             $member_list = new MemberList;
             $member_list->mobile_phone_no = $request->mobile_phone_no;
-            $member_list->name = $request->first_name . ($request->last_name != null ? " " . $request->last_name : "");
+            $member_list->name = $request->name;
             $member_list->email = $request->email;
             $member_list->password = bcrypt($request->password);
             $member_list->registered_date = date('Y-m-d');

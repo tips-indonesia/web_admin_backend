@@ -15,7 +15,7 @@ class CreateShipmentStatusesTable extends Migration
     {
         Schema::create('shipment_statuses', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('step');
+            $table->unsignedInteger('step')->unique();
             $table->string('description');
             $table->timestamps();
         });

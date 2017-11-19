@@ -50,15 +50,12 @@
                             {{ $data->depart_date }}
                         </td>
                         <td>
-                            {{ $data->depart_time }}
-                        </td>
-                        <td>
                             {{ $data->status }}
                         </td>
                         <td>
                             <ul class="icons-list">
                             <li>
-                            {{ Form::open(array('method' => 'DELETE', 'url' => route('shipmentstatuses.destroy', $data->id))) }}
+                            {{ Form::open(array('method' => 'DELETE', 'url' => route('shipments.destroy', $data->id))) }}
                             <button type="submit" class="btn btn-danger"><i class="icon-trash"></i> Cancel</button>
                             {{ Form::close() }}
                             </li>

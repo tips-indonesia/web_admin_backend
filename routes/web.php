@@ -64,6 +64,10 @@ Route::prefix('admin')->group(function () {
             Route::resource('pricelists','Admin\PriceListAdminController');
         });
 
+        Route::group(['middleware' => ['permission:memberlists.']], function () {
+            Route::resource('memberlists','Admin\MemberListAdminController');
+        });
+
         Route::group(['middleware' => ['permission:insurances.']], function () {
             Route::resource('insurances','Admin\InsuranceAdminController');
         });
@@ -77,6 +81,19 @@ Route::prefix('admin')->group(function () {
         Route::group(['middleware' => ['permission:slotlists.']], function () {
             Route::resource('slotlists','Admin\SlotListAdminController');
         });
+
+        Route::group(['middleware' => ['permission:deliveries.']], function () {
+            Route::resource('deliveries','Admin\DeliveryAdminController');
+        });
+
+        Route::group(['middleware' => ['permission:receiveds.']], function () {
+            Route::resource('receiveds','Admin\ReceivedAdminController');
+        });
+
+        Route::group(['middleware' => ['permission:receiveds.']], function () {
+            Route::resource('shipmenttrackings','Admin\ShipmentTrackingAdminController');
+        });
+
         Route::group(['middleware' => ['permission:shipmentstatuses.']], function () {
             Route::resource('shipmentstatuses','Admin\ShipmentStatusAdminController');
         });

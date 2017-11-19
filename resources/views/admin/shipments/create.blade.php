@@ -123,10 +123,6 @@
                                                 {{ Form::text('shipper_mobile', null, array('class' => 'form-control', 'placeholder' => 'Shipper Mobile Phone')) }}
                                             </div>
                                             <div class="form-group">
-                                                <label>E-mail :</label>
-                                                {{ Form::email('shipper_email_address', null, array('class' => 'form-control', 'placeholder' => 'Shipper E-mail address')) }}
-                                            </div>
-                                            <div class="form-group">
                                                 <label>Latitude :</label>
                                                 {{ Form::text('shipper_latitude', null, array('class' => 'form-control', 'placeholder' => 'Shipper Latitude')) }}
                                             </div>
@@ -146,16 +142,8 @@
                                                 <textarea rows="5" class="form-control" placeholder="Enter consignee address here" name="consignee_address"></textarea>
                                             </div>
                                             <div class="form-group">
-                                                <label>Phone Number :</label>
-                                                {{ Form::text('consignee_phone', null, array('class' => 'form-control', 'placeholder' => 'Consignee Phone Number')) }}
-                                            </div>
-                                            <div class="form-group">
                                                 <label>Mobile Phone :</label>
                                                 {{ Form::text('consignee_mobile', null, array('class' => 'form-control', 'placeholder' => 'Consignee Mobile Phone')) }}
-                                            </div>
-                                            <div class="form-group">
-                                                <label>E-mail :</label>
-                                                {{ Form::email('consignee_email_address', null, array('class' => 'form-control', 'placeholder' => 'Consignee E-mail address')) }}
                                             </div>
                                         </div>
                                     </div>
@@ -198,6 +186,15 @@
 
                                 <div class="tab-pane" id="payment">
                                     <div class="form-group">
+                                        <label>Payment Type :</label>
+                                        <select name="payment_type" class="select-search" id="payment_type" >
+                                            <option disabled selected></option>
+                                            @foreach ($payment_types as $payment_type)
+                                                <option value="{{ $payment_type->id }}">{{ $payment_type->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
                                         <label class="display-block text-semibold">Online Payment :</label>
                                         <label class="radio-inline">
                                             <input type="radio" name="online_payment" checked="checked" value="0">
@@ -208,15 +205,6 @@
                                             <input type="radio" name="online_payment" value="1">
                                             Yes
                                         </label>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Payment Type :</label>
-                                        <select name="payment_type" class="select-search" id="payment_type" disabled>
-                                            <option disabled selected></option>
-                                            @foreach ($payment_types as $payment_type)
-                                                <option value="{{ $payment_type->id }}">{{ $payment_type->name }}</option>
-                                            @endforeach
-                                        </select>
                                     </div>
                                     <div class="form-group">
                                         <label>Bank Name :</label>
@@ -244,7 +232,7 @@
                                         <label>Expired Date :</label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="icon-calendar5"></i></span>
-                                            <input type="text" name="expired_date" class="form-control pickadate-year" placeholder="Expired date" >
+                                            <input type="text" name="expired_date" id="expired_date" class="form-control pickadate-year" placeholder="Expired date" disabled>
                                         </div>
                                     </div>
                                 </div>
@@ -267,9 +255,7 @@
         </div>
         <script>
         $('.select-search').select2();
-        $('.pickadate-year').pickadate({
-            selectYears: 4
-        });
+        $('.pickadate-year').datepicker({format: 'yyyy-mm-dd',});
         $('#bank').on('select2:select', function(){
             var card = $('#card');
             card.empty();
@@ -291,17 +277,22 @@
         });
         $('input[name="online_payment"]').on('change', function(){
             if ($('input[name="online_payment"]:checked').val() == 0) {
+                $('input[name="card_number"]').removeAttr('disabled');
+                $('input[name="security_code"]').removeAttr('disabled');
+                $('#card').removeAttr('disabled');
+                $('#bank').removeAttr('disabled');
+                $('#expired_date').removeAttr('disabled');
                 $('input[name="card_number"]').prop('disabled', 'disabled');
                 $('input[name="security_code"]').prop('disabled', 'disabled');
                 $('#card').prop('disabled', 'disabled');
                 $('#bank').prop('disabled', 'disabled');
-                $('#payment_type').prop('disabled', 'disabled');
+                $('#expired_date').prop('disabled', 'disabled');
             } else {
                 $('input[name="card_number"]').removeAttr('disabled');
                 $('input[name="security_code"]').removeAttr('disabled');
                 $('#card').removeAttr('disabled');
                 $('#bank').removeAttr('disabled');
-                $('#payment_type').removeAttr('disabled');
+                $('#expired_date').removeAttr('disabled');
 
             }
         }); 

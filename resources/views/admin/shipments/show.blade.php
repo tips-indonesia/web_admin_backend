@@ -243,7 +243,7 @@
                                     <label>Expired Date :</label>
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="icon-calendar5"></i></span>
-                                        <input type="text" name="expired_date" class="form-control pickadate-year" placeholder="Expired date" >
+                                        <input type="text" name="expired_date" class="form-control pickadate-year" placeholder="Expired date" value="{{ $data->card_expired_date }}" >
                                     </div>
                                 </div>
                             </div>

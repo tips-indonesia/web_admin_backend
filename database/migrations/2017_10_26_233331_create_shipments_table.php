@@ -31,11 +31,10 @@ class CreateShipmentsTable extends Migration
             $table->decimal('shipper_longitude');
             $table->string('consignee_name');
             $table->string('consignee_address');
-            $table->string('consignee_phone_no');
             $table->string('consignee_mobile_phone');
-            $table->enum('dispatch_type', ['D', 'P'])->default('P');
-            $table->boolean('is_online_payment');
-            $table->unsignedInteger('id_payment_type')->nullable();
+            $table->enum('dispatch_type', ['Pending', 'Process', 'Complete', 'Canceled'])->default('Pending');
+            $table->boolean('is_online_payment')->nullable();
+            $table->unsignedInteger('id_payment_type');
             $table->string('shipment_contents');
             $table->unsignedInteger('estimate_goods_value');
             $table->unsignedInteger('estimate_weight');
@@ -58,6 +57,7 @@ class CreateShipmentsTable extends Migration
             $table->timestamp('received_time')->nullable();
             $table->string('received_image')->nullable();
             $table->boolean('is_posted')->default(false);
+            $table->string('detail_status')->nullable();
             $table->timestamps();
 
         });
