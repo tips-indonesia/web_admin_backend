@@ -6,6 +6,13 @@ use Illuminate\Http\Request;
 
 class FCMSender extends Controller
 {
+
+	public function testTopic(){
+		FCMSender::post(array(
+			'code' => 200,
+			'text' => "hahahaha"
+		), "/topics/tipster");
+	}
 	/**
 	  * @param payload data
 	  * @param destination -> dapat berupa token spesifik user atau topik
