@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Shipment;
 use App\DeliveryShipment;
 use App\DeliveryShipmentDetail;
+use App\ShipmentHistory;
 use Validator;
 use Auth;
 use Carbon\Carbon;
@@ -43,7 +44,7 @@ class DeliveryAdminController extends Controller
         if ($date == null) {
             $data['datas'] = array(); 
         } else {
-            $data['datas'] = Shipment::where([['transaction_date', '=', $date], ['is_posted', '=', 1]])->get();
+            $data['datas'] = Shipment::where([['transaction_date', '=', $date], ['is_posted', '=', 1], ['id_shipment_status', '=', 2]])->get();
             $data['date'] = $date;
         }
         return view('admin.deliveries.create', $data);
@@ -69,7 +70,6 @@ class DeliveryAdminController extends Controller
             $deliv_details->id_shipment = $shipment;
             $deliv_details->id_delivery = $delivery->id;
             $deliv_details->save();
-
         }
         return Redirect::to(route('deliveries.index'));
 
@@ -97,12 +97,12 @@ class DeliveryAdminController extends Controller
     public function edit($id)
     {
         //
-        
-        $data['datas'] = DeliveryShipmentDetail::where([['id_delivery', '=', $id]])->get(['id_shipment']);
-        foreach($data['datas'] as $dat){
-            $dat['shipment_id'] = Shipment::find($dat['id_shipment'])->shipment_id;
-        }
-        $data['data'] = DeliveryShipment::find($id);
+        $delivery_shipment_info = DeliveryShipment::find($id);
+        $delivery_shipments = DeliveryShipmentDetail::where([['id_delivery', '=', $id]])->pluck('id_shipment')->toArray();
+        $temp_shipments = Shipment::where([['transaction_date', '=', $delivery_shipment_info->delivery_date], ['is_posted', '=', 1], ['id_shipment_status', '=', 2]])->get();
+        $data['delivery_shipments'] = $delivery_shipments;
+        $data['shipment_lists'] = $temp_shipments;
+        $data['data'] = $delivery_shipment_info;
         return view('admin.deliveries.edit', $data);
 
     }
@@ -119,6 +119,15 @@ class DeliveryAdminController extends Controller
         if (Input::get('submit') =='post') {
             $delivery->is_posted = 1;
             $delivery->save();
+            foreach(Input::get('shipments') as $shipment){
+                $shipment_data = Shipment::find($shipment);
+                $shipment_data->id_shipment_status = 3;
+                $shipment_data->save();
+                $shipment_history = new ShipmentHistory;
+                $shipment_history->id_shipment = $shipment_data->id;
+                $shipment_history->id_shipment_status = 3;
+                $shipment_history->save();
+            }
         }
         $delivdetails = DeliveryShipmentDetail::where('id_delivery', $id)->delete();
         if (Input::get('shipments') != null){

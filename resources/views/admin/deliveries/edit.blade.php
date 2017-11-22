@@ -27,8 +27,8 @@
             {{ Form::open(array('url' => route('deliveries.update', $data->id), 'method' => 'PUT')) }}
                         <div class="text-right form-group">
                             <select multiple="multiple" class="form-control listbox" name="shipments[]">
-                               @foreach ($datas as $datax)
-                                    <option value="{{ $datax->id_shipment }}" @if ($datax->id_shipment_status != 2) selected @endif> {{ $data->delivery_date }} &nbsp; - &nbsp; {{ $datax->shipment_id }} </option>
+                               @foreach ($shipment_lists as $datax)
+                                    <option value="{{ $datax->id }}" @if (in_array($datax->id, $delivery_shipments)) selected @endif> {{ $data->delivery_date }} &nbsp; - &nbsp; {{ $datax->shipment_id }} </option>
                                 @endforeach
                             </select>
                         </div>

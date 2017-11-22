@@ -28,7 +28,7 @@
                 </ul>
             </li>
 
-            <li class="dropdown">
+            <!--li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     <i class="icon-bubbles4"></i>
                     <span class="visible-xs-inline-block position-right">Messages</span>
@@ -117,7 +117,7 @@
                         <a href="#" data-popup="tooltip" title="All messages"><i class="icon-menu display-block"></i></a>
                     </div>
                 </div>
-            </li>
+            </li-->
 
             <li class="dropdown dropdown-user">
                 <a class="dropdown-toggle" data-toggle="dropdown">
