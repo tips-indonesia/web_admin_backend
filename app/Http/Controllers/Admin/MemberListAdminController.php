@@ -89,5 +89,11 @@ class MemberListAdminController extends Controller
     public function destroy($id)
     {
         //
+        $member = MemberList::find($id);
+        $member->delete();
+
+        // redirect
+        Session::flash('message', 'Successfully deleted the nerd!');
+        return Redirect::to(route('memberlists.index'));
     }
 }
