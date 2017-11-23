@@ -62,10 +62,13 @@ class ShipmentController extends Controller
         $shipment->save();
 
         if($shipment->is_first_class) {
-            DaftarBarangGold::create(array('id_barang' => $shipment->id));
+            $daftar_barang = new DaftarBarangGold;
         } else {
-            DaftarBarangRegular::create(array('id_barang' => $shipment->id));
+            $daftar_barang = new DaftarBarangRegular;
         }
+
+        $daftar_barang->id_barang = $shipment->id;
+        $daftar_barang->save();
 
         $shipment->origin_city = CityList::find($shipment->id_origin_city)->name;
         $shipment->destination_city = CityList::find($shipment->id_destination_city)->name;
