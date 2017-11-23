@@ -8,6 +8,7 @@ use App\DeliveryShipment;
 use App\DeliveryShipmentDetail;
 use App\Shipment;
 use App\ShipmentStatus;
+use App\ShipmentHistory;
 use App\CityList;
 use Auth;
 use Carbon\Carbon;
@@ -64,6 +65,8 @@ class ShipmentTrackingAdminController extends Controller
         $data['data']['origin_city'] = CityList::find($shipment->id_origin_city)->name;
         $data['data']['destination_city'] = CityList::find($shipment->id_destination_city)->name;
         $data['delivery'] = DeliveryShipmentDetail::where('id_shipment', $id);
+        $data['shipment_trackings'] = ShipmentHistory::where('id_shipment', $shipment->id)->orderBy('created_at')->get();
+        $data['shipment_status'] = ShipmentStatus::all()->keyBy('id');
         return view('admin.shipmenttrackings.show', $data);
     }
 

@@ -13,11 +13,9 @@ class MemberListSeeder extends Seeder
     {
         //
         DB::table('member_lists')->insert([
-            'username' => 'test',
+            'name' => 'test',
             'password' => bcrypt('password'),
             'registered_date' => \Carbon\Carbon::now(),
-            'first_name' => 'Test First Name',
-            'last_name' => 'Test Last Name',
             'birth_date' => '1990-01-01',
             'address' => 'Test Address',
             'mobile_phone_no' => '+62123456789',

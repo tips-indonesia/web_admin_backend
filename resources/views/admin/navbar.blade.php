@@ -28,7 +28,7 @@
                 </ul>
             </li>
 
-            <li class="dropdown">
+            <!--li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     <i class="icon-bubbles4"></i>
                     <span class="visible-xs-inline-block position-right">Messages</span>
@@ -117,7 +117,7 @@
                         <a href="#" data-popup="tooltip" title="All messages"><i class="icon-menu display-block"></i></a>
                     </div>
                 </div>
-            </li>
+            </li-->
 
             <li class="dropdown dropdown-user">
                 <a class="dropdown-toggle" data-toggle="dropdown">
@@ -125,7 +125,7 @@
                     <span>{{ Auth::user()->name }}</span>
                     <i class="caret"></i>
                 </a>
-                <ul class="dropdown-menu dropdown-menu-right">
+                <!--ul class="dropdown-menu dropdown-menu-right">
                     <li><a href="#"><i class="icon-user-plus"></i> My profile</a></li>
                     <li><a href="#"><i class="icon-coins"></i> My balance</a></li>
                     <li><a href="#"><span class="badge bg-teal-400 pull-right">58</span> <i class="icon-comment-discussion"></i> Messages</a></li>
@@ -135,7 +135,7 @@
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                         {{ csrf_field() }}
                     </form>
-                </ul>
+                </ul-->
             </li>
         </ul>
     </div>

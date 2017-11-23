@@ -97,7 +97,7 @@ class DatabaseSeeder extends Seeder
 
         SlotList::create(array(
             'slot_id' => 'AAAB',
-        	'id_member' => 0,
+        	'id_member' => 1,
             'booking_code' => 'AV12453',
             'id_airline' => 0,
             'id_origin_airport' => $a1->id,
@@ -113,7 +113,7 @@ class DatabaseSeeder extends Seeder
 
         SlotList::create(array(
             'slot_id' => 'AAAB',
-            'id_member' => 0,
+            'id_member' => 1,
             'booking_code' => 'AW12454',
             'id_airline' => 0,
             'id_origin_airport' => $a1->id,
@@ -129,7 +129,7 @@ class DatabaseSeeder extends Seeder
 
         SlotList::create(array(
             'slot_id' => 'AAAB',
-            'id_member' => 0,
+            'id_member' => 1,
             'booking_code' => 'AX12455',
             'id_airline' => 0,
             'id_origin_airport' => $a7->id,
@@ -212,5 +212,6 @@ class DatabaseSeeder extends Seeder
         $this->call(DeliveryStatusTableSeeder::class);
         $this->call(AirportSeeder::class);
         $this->call(FlightBookingSeeder::class);
+        $this->call(MemberListSeeder::class);
     }
 }

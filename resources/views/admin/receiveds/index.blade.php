@@ -26,6 +26,7 @@
                             {{ $data->status_name }}
                         </td>
                         <td>
+                            @if ($data->id_shipment_status == 3)
                             <ul class="icons-list">
                             <li>
                             {{ Form::open(array('method' => 'PUT', 'url' => route('receiveds.update', $data->id))) }}
@@ -36,6 +37,7 @@
                             {{ Form::close() }}
                             </li>
                             </ul>
+                            @endif
                         </td>
                     </tr>
                 @endforeach

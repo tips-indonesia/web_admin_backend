@@ -53,13 +53,20 @@
                         <div class="form-group">
                             <label class="display-block text-semibold">Dispatch Type :</label>
                             <label class="radio-inline">
-                                <input type="radio" name="dispatch_type" @if($data->dispatch_type == 'D') checked="checked" @endif value="D">
-                                Dispatch to Consignee
+                                <input type="radio" name="dispatch_type" @if($data->dispatch_type == 'Pending') checked="checked" @endif value="Pending">
+                                Pending
                             </label>
-
                             <label class="radio-inline">
-                                <input type="radio" name="dispatch_type" @if($data->dispatch_type == 'P') checked="checked" @endif value="P">
-                                Pickup by Consignee
+                                <input type="radio" name="dispatch_type" @if($data->dispatch_type == 'Process') checked="checked" @endif value="Process">
+                                Process
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="dispatch_type" @if($data->dispatch_type == 'Complete') checked="checked" @endif value="Complete">
+                                Complete
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="dispatch_type" @if($data->dispatch_type == 'Cancelled') checked="checked" @endif value="Cancelled">
+                                Cancelled
                             </label>
                         </div>
                         <div class="form-group">

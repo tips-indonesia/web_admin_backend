@@ -8,6 +8,7 @@ use App\DeliveryShipment;
 use App\DeliveryShipmentDetail;
 use App\Shipment;
 use App\ShipmentStatus;
+use App\ShipmentHistory;
 use Auth;
 use Carbon\Carbon;
 use Validator;
@@ -84,8 +85,12 @@ class ReceivedAdminController extends Controller
             $shipments->processing_center_received_time = Carbon::now();
             $shipments->save();
             $process = Shipment::find($id);
-            $process->id_shipment_status = ShipmentStatus::where('description', 'Received')->get()->id;
+            $process->id_shipment_status = 4;
             $process->save();
+            $shipment_history = new ShipmentHistory;
+            $shipment_history->id_shipment_status = 4;
+            $shipment_history->id_shipment = $id;
+            $shipment_history->save();
         }
         return Redirect::to(route('receiveds.index'));
     }
