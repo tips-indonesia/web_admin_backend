@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\FlightBookingList;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\FCMSender;
 
 use App\SlotList;
 use App\MemberList;
@@ -12,6 +13,10 @@ use App\AirportList;
 use App\PriceList;
 use App\DeliveryStatus;
 use App\CityList;
+use App\Shipment;
+use App\DaftarBarangGold;
+use App\DaftarBarangRegular;
+use App\ShipmentStatus;
 
 class DeliveryController extends Controller
 {
@@ -114,6 +119,96 @@ class DeliveryController extends Controller
                 )
 
             );
+        }
+
+        return response()->json($data, 200);
+    }
+
+    function confirm(Request $request) {
+        $slot = SlotList::where('slot_id', $request->slot_id)->first();
+        if($slot == null) {
+            $data = array(
+                'err' => [
+                    'code' => 0,
+                    'message' => 'Slot id tidak ditemukan'
+                ],
+                'result' => null
+            );
+        } else {
+            $confirmation = $request->confirmation;
+            $shipments = Shipment::where('id_slot', $slot->id)->get();
+
+            if($confirmation == 0) {
+                $slot->dispatch_type = 'Canceled';
+                $slot->save();
+
+                foreach ($shipments as $shipment) {
+                    $shipment->dispatch_type = 'Pending';
+                    $shipment->id_slot_status = 1;
+                    $shipment->save();
+
+                    if($shipment->is_first_class) {
+                        $daftar_barang = DaftarBarangGold::where('id_barang', $shipment->id)->first();
+                    } else {
+                        $daftar_barang = DaftarBarangRegular::where('id_barang', $shipment->id)->first();
+                    }
+
+                    $daftar_barang->is_assigned = false;
+                    $daftar_barang->save();
+
+                }
+
+                $data = array(
+                    'err' => null,
+                    'result' => $slot
+                );
+
+            } else {
+                $slot->dispatch_type = 'Process';
+                $slot->id_slot_status = 3;
+                $slot->save();
+                $shipment_status = ShipmentStatus::where('step', 2)->first();
+
+                foreach ($shipments as $shipment) {
+                    $shipment->dispatch_type = 'Process';
+                    $shipment->id_slot_status = 2;
+                    $shipment->save();
+
+                    if($shipment->is_first_class) {
+                        $daftar_barang = DaftarBarangGold::where('id_barang', $shipment->id)->delete();
+                    } else {
+                        $daftar_barang = DaftarBarangRegular::where('id_barang', $shipment->id)->delete();
+                    }
+
+                    $member = MemberList::find($shipment->id_shipper);
+
+                    if($member->token != null) {
+                        FCMSender::post(array(
+                            'type' => 'Shipment',
+                            'id' => $shipment->shipment_id,
+                            'status' => 2,
+                            'message' => $shipment_status->description,
+                            'detail' => null
+                        ), $member->token);
+                    }
+                }
+
+                $delivery_status = DeliveryStatus::find($slot->id_slot_status);
+                $slot->origin_airport = AirportList::find($slot->id_origin_airport);
+                $slot->destination_airport = AirportList::find($slot->id_destination_airport);
+
+                $data = array(
+                    'err' => null,
+                    'result' => array(
+                        'status' => array(
+                            'step' => $delivery_status->step,
+                            'description' => $delivery_status->description,
+                            'detail' => $slot->detail_status
+                        ),
+                        'delivery' => $slot
+                    )
+                );
+            }
         }
 
         return response()->json($data, 200);

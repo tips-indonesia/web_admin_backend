@@ -38,6 +38,7 @@ Route::get('/flight/booking', 'API\\FlightController@get_flight_booking');
 
 Route::post('/delivery', 'API\\DeliveryController@submit');
 Route::get('/delivery/status', 'API\\DeliveryController@get_status');
+Route::post('/delivery/confirm', 'API\\DeliveryController@confirm');
 
 Route::get('/home', 'API\\HomeController@list_of_shipment_and_delivery');
 
