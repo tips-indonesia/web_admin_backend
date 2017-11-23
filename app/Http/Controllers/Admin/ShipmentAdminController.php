@@ -114,7 +114,7 @@ class ShipmentAdminController extends Controller
             // $shipment->shipper_email_address = Input::get('shipper_email_address');
             // $shipment->consignee_email_address = Input::get('consignee_email_address');
             $shipment->consignee_name = Input::get('consignee_name');
-            // $shipment->received_time = Input::get('received_date');
+            $shipment->received_time = Input::get('received_date');
             $shipment->consignee_address = Input::get('consignee_address');
             // $shipment->consignee_phone_no = Input::get('consignee_phone');
             $shipment->consignee_mobile_phone = Input::get('consignee_mobile');
@@ -253,7 +253,7 @@ class ShipmentAdminController extends Controller
             $shipment->shipper_mobile_phone = Input::get('shipper_mobile');
             $shipment->shipper_latitude = Input::get('shipper_latitude');
             $shipment->shipper_longitude = Input::get('shipper_longitude');
-            // $shipment->received_time = Input::get('received_date');
+            $shipment->received_time = Input::get('received_date');
             // $shipment->shipper_email_address = Input::get('shipper_email_address');
             // $shipment->consignee_email_address = Input::get('consignee_email_address');
             $shipment->consignee_name = Input::get('consignee_name');

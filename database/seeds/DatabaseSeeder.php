@@ -212,5 +212,6 @@ class DatabaseSeeder extends Seeder
         $this->call(DeliveryStatusTableSeeder::class);
         $this->call(AirportSeeder::class);
         $this->call(FlightBookingSeeder::class);
+        $this->call(MemberListSeeder::class);
     }
 }

@@ -52,13 +52,19 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @foreach($shipment_trackings as $shipment_tracking)
                                 <tr>
                                     <td>
-                                        
+                                        {{ $shipment_tracking->created_at->format('d-m-Y') }}
                                     </td>
                                     <td>
+                                        {{ $shipment_tracking->created_at->format('H:i') }}
+                                    </td>
+                                    <td>
+                                        {{ $shipment_status[$shipment_tracking->id_shipment_status]->description }}
                                     </td>
                                 </tr>
+                            @endforeach
                         </tbody>
                     </table>
                     

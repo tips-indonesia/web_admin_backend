@@ -53,7 +53,7 @@
                         <div class="form-group">
                             <label class="display-block text-semibold">Dispatch Type :</label>
                             <label class="radio-inline">
-                                <input type="radio" name="dispatch_type" @if($data->dispatch_type == 'D') checked="checked" @endif value="D">
+                                <input type="radio" name="dispatch_type" @if($data->dispatch_type == 'D') checked="checked" @endif value="Pending">
                                 Dispatch to Consignee
                             </label>
 
