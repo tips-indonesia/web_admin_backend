@@ -225,10 +225,15 @@ class UtilityController extends Controller
 
         foreach($daftarBarang as $_barang){
             $barang = $_barang->barang;
+            if($barang->is_assigned)
+              continue;
+            
             $id = $this->CekKetersediaanKeberangkatan($barang);
             if($id != -1){
                 $this->AssignBarangKeKeberangkatan($barang, $id);
-                $_barang->delete();
+                $_barang->is_assigned = true;
+                $_barang->save();
+
             }else{
                 if($this->DEBUG) echo "[X] B-" . $barang->id . ' berat ' . $barang->estimate_weight . ' tidak dapat diassign<br/>';
                 if($this->DEBUG) echo "</br>";

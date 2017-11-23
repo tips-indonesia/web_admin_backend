@@ -17,6 +17,7 @@ class CreateDaftarBarangGoldsTable extends Migration
             $table->increments('id');
             $table->integer('id_barang')->unsigned();
             $table->foreign('id_barang')->references('id')->on('shipments')->onDelete('cascade');
+            $table->boolean('is_assigned')->default(false);
             $table->timestamps();
         });
     }
