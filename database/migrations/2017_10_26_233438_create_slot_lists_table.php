@@ -18,6 +18,7 @@ class CreateSlotListsTable extends Migration
             $table->string('slot_id');
             $table->unsignedInteger('id_member');
             $table->string('booking_code')->unique();
+            $table->enum('dispatch_type', ['Pending', 'Process', 'Complete', 'Canceled'])->default('Pending');
             $table->unsignedInteger('id_airline');
             $table->unsignedInteger('id_origin_airport');
             $table->unsignedInteger('id_destination_airport');
