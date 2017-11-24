@@ -192,6 +192,8 @@ class UtilityController extends Controller
             return false;
 
         $tempK->sold_baggage_space = $tempK->sold_baggage_space + $Barang->estimate_weight;
+        $temp->dispatch_type = 'Process';
+        $temp->id_slot_status = 2;
 
         FCMSender::post(array(
           'type' => "Delivery",
