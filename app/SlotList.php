@@ -12,7 +12,11 @@ class SlotList extends Model
     }
 
     public function airportOrigin(){
-    	return $this->hasOne('App\AirportList', 'id', 'id_origin_airport');
+        return $this->hasOne('App\AirportList', 'id', 'id_origin_airport');
+    }
+
+    public function member(){
+        return $this->hasOne('App\MemberList', 'id', 'id_member');
     }
 
     public function airportDestination(){
