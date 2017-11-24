@@ -17,7 +17,6 @@ class CreateBankCardListsTable extends Migration
             $table->increments('id');
             $table->integer('id_bank');
             $table->string('name');
-            $table->string('card_number');
             $table->boolean('status')->default(true);
             $table->timestamps();
         });
