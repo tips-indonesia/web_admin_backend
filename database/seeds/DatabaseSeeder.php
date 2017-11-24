@@ -39,7 +39,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Medan'
         ));
 
-        $c3 = CityList::create(array(
+        $c4 = CityList::create(array(
             'name' => 'Surabaya'
         ));
 
@@ -212,7 +212,7 @@ class DatabaseSeeder extends Seeder
         ));
         DaftarBarangGold::create(array('id_barang' => $temp->id));
 
-        $this->call(CitySedder::class);
+//        $this->call(CitySedder::class);
 //        $this->call(MemberListSeeder::class);
         $this->call(WeigthListSeeder::class);
         $this->call(PriceListSeeder::class);
