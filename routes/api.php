@@ -44,3 +44,5 @@ Route::post('/delivery/send_tag', 'API\\DeliveryController@send_tag');
 Route::get('/home', 'API\\HomeController@list_of_shipment_and_delivery');
 
 Route::post('/worker/login', 'API\\Worker\\AuthController@login');
+Route::get('/worker/delivery', 'API\\Worker\\DeliveryController@get_detail');
+Route::post('/worker/delivery/departure', 'API\\Worker\\DeliveryController@departure');

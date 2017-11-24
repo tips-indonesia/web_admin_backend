@@ -186,9 +186,9 @@ class DeliveryController extends Controller
                         FCMSender::post(array(
                             'type' => 'Shipment',
                             'id' => $shipment->shipment_id,
-                            'status' => 2,
+                            'status' => "2",
                             'message' => $shipment_status->description,
-                            'detail' => null
+                            'detail' => ""
                         ), $member->token);
                     }
                 }
@@ -266,9 +266,9 @@ class DeliveryController extends Controller
                     FCMSender::post(array(
                         'type' => 'Shipment',
                         'id' => $shipment->shipment_id,
-                        'status' => 5,
+                        'status' => "5",
                         'message' => $shipment_status->description,
-                        'detail' => null
+                        'detail' => ""
                     ), $member->token);
                 }
             }
