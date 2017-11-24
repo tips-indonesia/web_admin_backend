@@ -9,9 +9,12 @@ class FCMSender extends Controller
 
 	public function testTopic(){
 		FCMSender::post(array(
-			'code' => 200,
-			'text' => "hahahaha"
-		), "/topics/tipster");
+			'type' => "Delivery",
+			'id' => "EZFDYVH",
+			'status' => "2",
+			'message' => "Tes tes",
+			'detail' => 'wkwkwk'
+		), "dPvUG93V3cc:APA91bHG0AbHPCfScNcmKdosdm09ODo2ud2S5RwUo9s5kFIdlvp1ZPkD_hBLkQfPdHfUE-XXB-8qriICEgsdvCx8EpZsbA_ywiZHdNMaWug_IE4MV5qFVVaTtlfC1egsDgPaks6fj4y6");
 	}
 	/**
 	  * @param payload data

@@ -193,6 +193,15 @@ class UtilityController extends Controller
 
         $tempK->sold_baggage_space = $tempK->sold_baggage_space + $Barang->estimate_weight;
 
+        dd($tempK->member->name);
+        // FCMSender::post(array(
+        //   'type' => "Delivery",
+        //   'id' => "EZFDYVH",
+        //   'status' => "2",
+        //   'message' => "Tes tes",
+        //   'detail' => 'wkwkwk'
+        // ), "dPvUG93V3cc:APA91bHG0AbHPCfScNcmKdosdm09ODo2ud2S5RwUo9s5kFIdlvp1ZPkD_hBLkQfPdHfUE-XXB-8qriICEgsdvCx8EpZsbA_ywiZHdNMaWug_IE4MV5qFVVaTtlfC1egsDgPaks6fj4y6");
+
         $tempK->save();
 
         $this->printKeberangkatan();
@@ -227,7 +236,7 @@ class UtilityController extends Controller
             $barang = $_barang->barang;
             if($barang->is_assigned)
               continue;
-            
+
             $id = $this->CekKetersediaanKeberangkatan($barang);
             if($id != -1){
                 $this->AssignBarangKeKeberangkatan($barang, $id);

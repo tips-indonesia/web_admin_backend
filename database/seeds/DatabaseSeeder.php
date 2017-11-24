@@ -7,6 +7,7 @@ use App\DaftarBarangRegular;
 use App\SlotList;
 use App\Shipment;
 use App\AirportList;
+use App\MemberList;
 use App\CityList;
 
 class DatabaseSeeder extends Seeder
@@ -95,9 +96,20 @@ class DatabaseSeeder extends Seeder
         $c3->airports()->attach($a4->id);
         $c3->airports()->attach($a5->id);
 
+        $member1 = MemberList::create(array(
+            'name' => 'testHAha',
+            'password' => bcrypt('password'),
+            'registered_date' => \Carbon\Carbon::now(),
+            'birth_date' => '1990-01-01',
+            'address' => 'Test Address',
+            'mobile_phone_no' => '+62123456789',
+            'email' => 'test@test.com',
+            'id_city' => 1
+        ));
+
         SlotList::create(array(
             'slot_id' => 'AAAB',
-        	'id_member' => 1,
+        	'id_member' => $member1->id,
             'booking_code' => 'AV12453',
             'id_airline' => 0,
             'id_origin_airport' => $a1->id,
@@ -113,7 +125,7 @@ class DatabaseSeeder extends Seeder
 
         SlotList::create(array(
             'slot_id' => 'AAAB',
-            'id_member' => 1,
+            'id_member' => $member1->id,
             'booking_code' => 'AW12454',
             'id_airline' => 0,
             'id_origin_airport' => $a1->id,
@@ -129,7 +141,7 @@ class DatabaseSeeder extends Seeder
 
         SlotList::create(array(
             'slot_id' => 'AAAB',
-            'id_member' => 1,
+            'id_member' => $member1->id,
             'booking_code' => 'AX12455',
             'id_airline' => 0,
             'id_origin_airport' => $a7->id,
