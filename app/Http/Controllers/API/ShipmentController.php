@@ -70,13 +70,14 @@ class ShipmentController extends Controller
         $daftar_barang->id_barang = $shipment->id;
         $daftar_barang->save();
 
-        $shipment->origin_city = CityList::find($shipment->id_origin_city)->name;
-        $shipment->destination_city = CityList::find($shipment->id_destination_city)->name;
+        $shipment_out = Shipment::where('shipment_id', $shipment->shipment_id)->first();
+        $shipment_out->origin_city = CityList::find($shipment->id_origin_city)->name;
+        $shipment_out->destination_city = CityList::find($shipment->id_destination_city)->name;
 
         $data = array(
             'err' => null,
             'result' => array(
-                'shipment' => $shipment,
+                'shipment' => $shipment_out,
             )
         );
 
@@ -97,6 +98,8 @@ class ShipmentController extends Controller
             );
         } else {
             $shipment_status = ShipmentStatus::find($shipment->id_shipment_status);
+            $shipment->origin_city = CityList::find($shipment->id_origin_city)->name;
+            $shipment->destination_city = CityList::find($shipment->id_destination_city)->name;
             $data = array(
                 'err' => null,
                 'result' => array(
