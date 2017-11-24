@@ -10,6 +10,8 @@ use App\PriceList;
 use App\Insurance;
 use App\CityList;
 use App\ShipmentStatus;
+use App\DaftarBarangRegular;
+use App\DaftarBarangGold;
 
 class ShipmentController extends Controller
 {
@@ -58,6 +60,16 @@ class ShipmentController extends Controller
         }
 
         $shipment->save();
+
+        if($shipment->is_first_class) {
+            $daftar_barang = new DaftarBarangGold;
+        } else {
+            $daftar_barang = new DaftarBarangRegular;
+        }
+
+        $daftar_barang->id_barang = $shipment->id;
+        $daftar_barang->save();
+
         $shipment->origin_city = CityList::find($shipment->id_origin_city)->name;
         $shipment->destination_city = CityList::find($shipment->id_destination_city)->name;
 

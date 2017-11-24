@@ -24,6 +24,7 @@ class CreateMemberListsTable extends Migration
             $table->string('address')->nullable();
             $table->boolean('status')->default(true);
             $table->unsignedInteger('id_city')->nullable();
+            $table->string('token')->nullable();
             $table->timestamps();
         });
     }

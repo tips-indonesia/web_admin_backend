@@ -31,6 +31,7 @@ class CreateSlotListsTable extends Migration
             $table->unsignedInteger('sold_baggage_space')->default(0);
             $table->unsignedInteger('slot_price_kg');
             $table->unsignedInteger('id_slot_status')->default(1);
+            $table->string('photo_tag')->nullable();
             $table->string('detail_status')->nullable();
             
             $table->timestamps();

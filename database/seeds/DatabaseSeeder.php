@@ -39,6 +39,10 @@ class DatabaseSeeder extends Seeder
             'name' => 'Medan'
         ));
 
+        $c3 = CityList::create(array(
+            'name' => 'Surabaya'
+        ));
+
         $a1 = AirportList::create(array(
             'name' => 'Husein Sastranegara International Airport',
             'initial_code' => 'BDO',

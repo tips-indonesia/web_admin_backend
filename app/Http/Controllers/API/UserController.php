@@ -34,6 +34,10 @@ class UserController extends Controller
 
 
             } else {
+                if($request->has('token')) {
+                    $member_list->token = $request->token;
+                }
+                $member_list->save();
                 unset($member_list['password']);
                 $data = array(
                     'err' => null,
@@ -73,6 +77,10 @@ class UserController extends Controller
 
             if($request->has('address')) {
                 $member_list->address = $request->address;
+            }
+
+            if($request->has('token')) {
+                $member_list->token = $request->token;
             }
 
             $member_list->save();
