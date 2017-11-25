@@ -224,7 +224,7 @@ class DeliveryController extends Controller
                 ],
                 'result' => null
             );
-        } else if($request->has('photo_tag')){
+        } else if(!$request->has('photo_tag')){
             $data = array(
                 'err' => [
                     'code' => 0,
