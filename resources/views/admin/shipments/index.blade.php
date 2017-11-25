@@ -20,6 +20,7 @@
                     <th>Destination</th>
                     <th>Depart Date</th>
                     <th>Status</th>
+                    <th>Submit</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -51,6 +52,9 @@
                         </td>
                         <td>
                             {{ $data->status }}
+                        </td>
+                        <td>
+                            {{ $data->is_posted ==1 ? 'Submitted' : 'Not Submitted' }}
                         </td>
                         <td>
                             <ul class="icons-list">

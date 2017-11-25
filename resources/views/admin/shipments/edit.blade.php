@@ -71,7 +71,7 @@
                         </div>
                         <div class="form-group">
                             <label>Shipment Status :</label>
-                            <select name="shipment_status" class="select-search">
+                            <select name="shipment_status" class="select-search" disabled readonly>
                                 <option disabled selected></option>
                                 @foreach ($shipment_statuses as $shipment_status)
                                     <option value="{{ $shipment_status->id }}" @if($data->id_shipment_status == $shipment_status->id) selected @endif>{{ $shipment_status->description }}</option>
@@ -82,7 +82,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Received By :</label>
-                                    <select name="received_by" class="select-search">
+                                    <select name="received_by" class="select-search" disabled readonly>
                                         <option disabled selected></option>
                                         @foreach ($users as $user)
                                             <option value="{{ $user->id }}" @if($data->received_by == $user->id) selected @endif>{{ $user->name }}</option>
@@ -95,7 +95,7 @@
                                     <label>Received Date :</label>
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="icon-calendar5"></i></span>
-                                        <input type="text" name="received_date" class="form-control pickadate-year" placeholder="Received date" value="{{ $data->received_time }}">
+                                        <input type="text" name="received_date" class="form-control pickadate-year" placeholder="Received date" value="{{ $data->received_time }}" disabled readonly>
                                     </div>
                                 </div>
                             </div>
