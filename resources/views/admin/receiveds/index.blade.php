@@ -26,7 +26,7 @@
                             {{ $data->status_name }}
                         </td>
                         <td>
-                            @if ($data->id_shipment_status == 3)
+                            @if ($data->id_shipment_status == 1 || $data->id_shipment_status == 2)
                             <ul class="icons-list">
                             <li>
                             {{ Form::open(array('method' => 'PUT', 'url' => route('receiveds.update', $data->id))) }}

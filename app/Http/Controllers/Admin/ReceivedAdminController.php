@@ -85,10 +85,10 @@ class ReceivedAdminController extends Controller
             $shipments->processing_center_received_time = Carbon::now();
             $shipments->save();
             $process = Shipment::find($id);
-            $process->id_shipment_status = 4;
+            $process->id_shipment_status = 3;
             $process->save();
             $shipment_history = new ShipmentHistory;
-            $shipment_history->id_shipment_status = 4;
+            $shipment_history->id_shipment_status = 3;
             $shipment_history->id_shipment = $id;
             $shipment_history->save();
         }
