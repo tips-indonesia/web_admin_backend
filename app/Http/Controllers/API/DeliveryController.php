@@ -256,7 +256,7 @@ class DeliveryController extends Controller
 
             foreach ($shipments as $shipment) {
 
-                $shipment->id_slot_status = 5;
+                $shipment->id_shipment_status = 5;
                 $shipment->save();
 
 
