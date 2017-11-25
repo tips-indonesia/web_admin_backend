@@ -58,6 +58,7 @@ class FCMSender extends Controller
         if (strpos($http_response_header[0], '200') === false)
             return false;
 		else
-			print_r($result);
+		    return true;
+//			print_r($result);
 	}
 }
