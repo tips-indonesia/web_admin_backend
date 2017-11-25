@@ -108,6 +108,8 @@ Route::prefix('admin')->group(function () {
         Route::group(['middleware' => ['permission:permissions.']], function () {
             Route::resource('permissions','Admin\PermissionAdminController');
         });
+
+        Route::resource('suddenfuckingshits', 'Admin\SuddenFuckingShitController');
     });
     
     
