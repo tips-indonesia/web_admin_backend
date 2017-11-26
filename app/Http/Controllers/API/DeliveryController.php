@@ -148,7 +148,7 @@ class DeliveryController extends Controller
 
                 foreach ($shipments as $shipment) {
                     $shipment->dispatch_type = 'Pending';
-                    $shipment->id_slot_status = 1;
+                    $shipment->id_shipment_status = 1;
                     $shipment->save();
 
                     if($shipment->is_first_class) {
@@ -175,7 +175,7 @@ class DeliveryController extends Controller
 
                 foreach ($shipments as $shipment) {
                     $shipment->dispatch_type = 'Process';
-                    $shipment->id_slot_status = 2;
+                    $shipment->id_shipment_status = 2;
                     $shipment->save();
 
                     if($shipment->is_first_class) {
