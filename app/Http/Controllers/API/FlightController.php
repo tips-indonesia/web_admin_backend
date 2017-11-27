@@ -40,4 +40,27 @@ class FlightController extends Controller
 
         return response()->json($data, 200);
     }
+
+    function get_booking_code_by_city(Request $request) {
+        $airport_origin_init = AirportList::select('id')->where('id_city',$request->id_city_origin)->get();
+        $airport_destination_init = AirportList::select('id')->where('id_city',$request->id_city_destination)->get();
+        $airport_origin = [];
+        $airport_destination = [];
+
+        foreach ($airport_origin_init as $airport) {
+            array_push($airport_origin, $airport->id);
+        }
+
+        foreach ($airport_destination_init as $airport) {
+            array_push($airport_destination, $airport->id);
+        }
+
+        $booking_init = FlightBookingList::whereIn('id_origin_airport', $airport_origin)->whereIn('id_destination_airport', $airport_destination)->get();
+        $code_booking = [];
+        foreach ($booking_init as $booking) {
+            array_push($code_booking, $booking->booking_code);
+        }
+
+        return response()->json($code_booking, 200);
+    }
 }

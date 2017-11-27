@@ -35,6 +35,7 @@ Route::post('/shipment', 'API\\ShipmentController@submit');
 Route::get('/shipment/status', 'API\\ShipmentController@get_status');
 
 Route::get('/flight/booking', 'API\\FlightController@get_flight_booking');
+Route::get('/flight/booking/city', 'API\\FlightController@get_booking_code_by_city');
 
 Route::post('/delivery', 'API\\DeliveryController@submit');
 Route::get('/delivery/status', 'API\\DeliveryController@get_status');
