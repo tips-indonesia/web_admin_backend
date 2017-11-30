@@ -22,7 +22,8 @@ Route::get('/fcmtest', 'FCMSender@testTopic');
 
 Route::post('/register', 'API\\UserController@register');
 Route::post('/login', 'API\\UserController@login');
-Route::get('/payment/bank', 'API\\PaymentController@bank_list');
+
+Route::get('/payment', 'API\\PaymentController@list_type_payment');
 
 Route::get('/city', 'API\\CityController@get_list');
 Route::get('/city/price', 'API\\CityController@get_price');

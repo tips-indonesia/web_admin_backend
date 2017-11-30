@@ -32,6 +32,10 @@ class DeliveryController extends Controller
             $delivery_status = DeliveryStatus::find($slot->id_slot_status);
             $slot->origin_airport = AirportList::find($slot->id_origin_airport);
             $slot->destination_airport = AirportList::find($slot->id_destination_airport);
+            if($slot->photo_tag){
+                $slot->photo_tag = url('/image/photo_tag').'/'.$slot->photo_tag;
+            }
+
             $user = MemberList::find($slot->id_member);
             unset($user['password']);
             unset($user['token']);
