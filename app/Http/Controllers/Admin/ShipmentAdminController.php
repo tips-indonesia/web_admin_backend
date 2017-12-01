@@ -227,7 +227,7 @@ class ShipmentAdminController extends Controller
             'estimated_weight'=>'required',
             'additional_insurance'=>'required',
             'online_payment'=>'required',
-            'payment_type'=>'required_if',
+            'payment_type'=>'required',
             'bank'=>'required_if:online_payment,1',
             'card_type'=>'required_if:online_payment,1',
             'card_number'=>'required_if:online_payment,1',
