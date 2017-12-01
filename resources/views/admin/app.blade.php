@@ -14,7 +14,7 @@
                             </div>
                                 <div class="heading-elements">
                                     <div class="heading-btn-group">
-                                        <a href="javascript:history.back()" class="btn btn-link btn-float has-text"><i class="icon-close2 text-primary" id="back"></i>Back</a>
+                                        <a href="javascript:history.back()" class="btn btn-link btn-float has-text"><i class="icon-arrow-left7 text-primary" id="back"></i>Back</a>
                                     @if (request()->route()->getName() != '')
                                     <a href="{{ url('/admin') }}" class="btn btn-link btn-float has-text"><i class="icon-close2 text-primary"></i>Close</a>
                                     @endif
