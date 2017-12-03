@@ -160,17 +160,20 @@ class ShipmentAdminController extends Controller
     */
     public function show($id)
     {
-
-        $data['data'] = Shipment::find($id);
-        if ($data['data']->is_posted == 0) {
-            return Redirect::to(route('shipments.edit', $id));
+        if (Input::get('ajax') == 1) {
+            return json_encode(Shipment::where('id_slot', $id)->get(['shipment_id', 'estimate_weight']));
+        } else {
+            $data['data'] = Shipment::find($id);
+            if ($data['data']->is_posted == 0) {
+                return Redirect::to(route('shipments.edit', $id));
+            }
+            $data['cities'] = CityList::all();
+            $data['shipment_statuses'] = ShipmentStatus::all();
+            $data['users'] = MemberList::all();
+            $data['payment_types'] = PaymentType::all();
+            $data['banklists'] = BankList::all();
+            return view('admin.shipments.show', $data);
         }
-        $data['cities'] = CityList::all();
-        $data['shipment_statuses'] = ShipmentStatus::all();
-        $data['users'] = MemberList::all();
-        $data['payment_types'] = PaymentType::all();
-        $data['banklists'] = BankList::all();
-        return view('admin.shipments.show', $data);
     }
 
     /**
