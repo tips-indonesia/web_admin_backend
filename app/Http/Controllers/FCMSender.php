@@ -10,11 +10,11 @@ class FCMSender extends Controller
 	public function testTopic(){
 		FCMSender::post(array(
 			'type' => "Delivery",
-			'id' => "EZFDYVH",
+			'id' => "YPTR35P",
 			'status' => "2",
 			'message' => "Tes tes",
 			'detail' => 'wkwkwk'
-		), "dPvUG93V3cc:APA91bHG0AbHPCfScNcmKdosdm09ODo2ud2S5RwUo9s5kFIdlvp1ZPkD_hBLkQfPdHfUE-XXB-8qriICEgsdvCx8EpZsbA_ywiZHdNMaWug_IE4MV5qFVVaTtlfC1egsDgPaks6fj4y6");
+		), "cQBJ3VMAIwE:APA91bERNl6c2Dql2ZvT6P4ZoGkAaNnNSIvaimdmh3ICb3tDT2uIW02HtQVOzsQfL9Ib65HKWS-l-eMfNya_etBX8J6oQi0sujPVqFYhIu1u_K-d5XVnoZVHVPNtFoyM6KgrUiHXdVMM");
 	}
 	/**
 	  * @param payload data

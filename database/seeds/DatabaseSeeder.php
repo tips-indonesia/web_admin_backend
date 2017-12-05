@@ -39,10 +39,6 @@ class DatabaseSeeder extends Seeder
             'name' => 'Medan'
         ));
 
-        $c3 = CityList::create(array(
-            'name' => 'Surabaya'
-        ));
-
         $a1 = AirportList::create(array(
             'name' => 'Husein Sastranegara International Airport',
             'initial_code' => 'BDO',
@@ -208,7 +204,7 @@ class DatabaseSeeder extends Seeder
             'insurance_cost' => 1000,
             'is_add_insurance' => true,
             'add_insurance_cost' => 102,
-            'received_time' => \Carbon\Carbon::createFromFormat('Y-m-d H:i', '2017-11-7 12:00')->toDateTimeString(),
+            'received_time' => \Carbon\Carbon::createFromFormat('Y-m-d H:i', '2017-11-7 10:00')->toDateTimeString(),
         ));
         DaftarBarangGold::create(array('id_barang' => $temp->id));
 

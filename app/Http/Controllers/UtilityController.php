@@ -11,7 +11,7 @@ use App\DaftarBarangRegular;
 class UtilityController extends Controller
 {
 
-    private $FINAL_HOURS = 04;
+    private $FINAL_HOURS = 01;
     private $DEBUG = true;
 
     /**
