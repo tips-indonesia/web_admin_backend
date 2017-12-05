@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\SlotList;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -56,6 +57,17 @@ class FlightController extends Controller
         }
 
         $booking_init = FlightBookingList::whereIn('id_origin_airport', $airport_origin)->whereIn('id_destination_airport', $airport_destination)->get();
+        $code_booking = [];
+        foreach ($booking_init as $booking) {
+            array_push($code_booking, $booking->booking_code);
+        }
+
+        return response()->json($code_booking, 200);
+    }
+
+    function get_used_booking_code() {
+        $booking_init = SlotList::all();
+
         $code_booking = [];
         foreach ($booking_init as $booking) {
             array_push($code_booking, $booking->booking_code);

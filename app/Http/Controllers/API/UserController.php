@@ -95,4 +95,44 @@ class UserController extends Controller
         return response()->json($data, 200);
 
     }
+
+    function update_profile(Request $request) {
+        $member = MemberList::find($request->member_id);
+
+        if($member == null) {
+            $data = array(
+                'err' => [
+                    'code' => 0,
+                    'message' => 'User Id tidak ditemukan'
+                ],
+                'result' => null
+            );
+        } else {
+            if($request->has('name')) {
+                $member->name = $request->name;
+            }
+
+            if($request->has('email')) {
+                $member->email = $request->email;
+            }
+
+            if($request->has('mobile_phone_no')) {
+                $member->mobile_phone_no = $request->mobile_phone_no;
+            }
+
+            if($request->has('password')) {
+                $member->password = bcrypt($request->password);
+            }
+
+            if($request->has('birth_date')) {
+                $member->birth_date = date('Y-m-d', strtotime($request->birth_date));
+            }
+
+
+
+            $member->save();
+        }
+
+        return response()->json($data, 200);
+    }
 }
