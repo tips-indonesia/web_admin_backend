@@ -132,7 +132,7 @@ class UserController extends Controller
 
             $member->save();
         }
-
-        return response()->json($data, 200);
+        unset ($member['password']);
+        return response()->json($member, 200);
     }
 }
