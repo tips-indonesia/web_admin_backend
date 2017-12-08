@@ -86,6 +86,10 @@ Route::prefix('admin')->group(function () {
             Route::resource('packagingslots','Admin\PackagingSlotAdminController');
         });
 
+        Route::group(['middleware' => ['permission:packagingprocessingcenters.']], function () {
+            Route::resource('packagingprocessingcenters','Admin\PackagingProcessingCenterAdminController');
+        });
+
         Route::group(['middleware' => ['permission:deliveries.']], function () {
             Route::resource('deliveries','Admin\DeliveryAdminController');
         });

@@ -1,0 +1,11 @@
+- welcome page
+- login facebook, twitter
+- forget password
+- ads?
+- lacak
+- foto profil
+- saldo
+- menu2 pada dash
+- bahasa
+- map lokasi pengirim
+- foto tag pada worker

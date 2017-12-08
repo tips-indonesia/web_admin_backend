@@ -39,6 +39,7 @@ class PermissionTableSeeder extends Seeder
         Permission::create(['name' => 'deliveries.', 'show_name' => 'Shipment Delivery to Processing Center']);
         Permission::create(['name' => 'receiveds.', 'show_name' => 'Shipment Received by Processing Center']);
         Permission::create(['name' => 'shipmenttrackings.', 'show_name' => 'Shipment Tracking']);
+        Permission::create(['name' => 'packagingprocessingcenters.', 'show_name' => 'Processing Center Package List']);
         // End of Transaction
 
 
