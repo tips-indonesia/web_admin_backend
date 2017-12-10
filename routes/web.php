@@ -105,6 +105,10 @@ Route::prefix('admin')->group(function () {
         Route::group(['middleware' => ['permission:shipmentstatuses.']], function () {
             Route::resource('shipmentstatuses','Admin\ShipmentStatusAdminController');
         });
+        Route::group(['middleware' => ['permission:terms.']], function () {
+            Route::resource('terms','Admin\TermAdminController');
+        });
+
         Route::group(['middleware' => ['permission:users.']], function () {
             Route::resource('users','Admin\UserAdminController');
         });
