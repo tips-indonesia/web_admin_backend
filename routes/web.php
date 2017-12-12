@@ -116,6 +116,10 @@ Route::prefix('admin')->group(function () {
         Route::group(['middleware' => ['permission:roles.']], function () {
             Route::resource('roles','Admin\RoleAdminController');
         });
+        
+        Route::group(['middleware' => ['permission:backups.']], function () {
+            Route::resource('backups','Admin\BackupAdminController');
+        });
 
         Route::group(['middleware' => ['permission:permissions.']], function () {
             Route::resource('permissions','Admin\PermissionAdminController');

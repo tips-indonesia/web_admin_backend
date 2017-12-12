@@ -44,5 +44,6 @@
 	<script type="text/javascript" src="{{ asset("js/plugins/editors/wysihtml5/toolbar.js") }}"></script>
 	<script type="text/javascript" src="{{ asset("js/plugins/editors/wysihtml5/parsers.js") }}"></script>
 	<script type="text/javascript" src="{{ asset("js/plugins/editors/wysihtml5/locales/bootstrap-wysihtml5.ua-UA.js") }}"></script>
+	<script type="text/javascript" src=" {{ asset("js/pages/form_inputs.js") }}""></script>
 
 </head>

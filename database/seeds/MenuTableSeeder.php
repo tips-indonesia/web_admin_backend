@@ -130,6 +130,11 @@ class MenuTableSeeder extends Seeder
                 'menu_parent_id' => $setting->id,
                 'class_name' => 'shipmentstatuses.'
             ]);
+            MenuList::create([
+                'name' => 'Backup Database',
+                'menu_parent_id' => $setting->id,
+                'class_name' => 'backups.'
+            ]);
             $user = MenuList::create([
                 'name' => 'User Application',
                 'menu_parent_id' => $setting->id,

@@ -17,6 +17,7 @@ class CreateShipmentStatusesTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('step')->unique();
             $table->string('description');
+            $table->boolean('is_hidden')->default(false);
             $table->timestamps();
         });
     }

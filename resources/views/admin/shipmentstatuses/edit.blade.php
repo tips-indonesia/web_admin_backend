@@ -18,6 +18,13 @@
                             {{ Form::text('step', $datas->step, array('class' => 'form-control', 'placeholder' => 'Shipment Status Step')) }}
                         </div>
                         <div class="form-group">
+                                <label>Hiden :</label>
+                                <select name="hidden" class="select-search">
+                                    <option value="0">No</option>
+                                    <option value="1" @if ($datas->is_hidden == 1) selected @endif >Yes</option>
+                                </select>
+                            </div>
+                        <div class="form-group">
                             <label>Description :</label>
                             {{ Form::text('description', $datas->description, array('class' => 'form-control', 'placeholder' => 'Shipment Status Description')) }}
                         </div>
@@ -28,5 +35,9 @@
                 </div>
             {{ Form::close() }}
         </div>
+        <script type="text/javascript">
+            
+        $('.select-search').select2();
+        </script>
     </div>
 @endsection
