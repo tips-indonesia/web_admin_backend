@@ -133,7 +133,7 @@ class UserController extends Controller
             }
 
             if($request->has('profil_picture')) {
-                $file = $request->file('photo_tag');
+                $file = $request->file('profil_picture');
 
                 $dataImg = $file;
                 $t = microtime(true);
