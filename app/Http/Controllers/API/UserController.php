@@ -39,6 +39,10 @@ class UserController extends Controller
                 }
                 $member_list->save();
                 unset($member_list['password']);
+                if($member_list->profil_picture){
+                    $member_list->profil_picture = url('/image/profil_picture').'/'.$member_list->profil_picture;
+
+                }
                 $data = array(
                     'err' => null,
                     'result' => $member_list
@@ -128,11 +132,32 @@ class UserController extends Controller
                 $member->birth_date = date('Y-m-d', strtotime($request->birth_date));
             }
 
+            if($request->has('profil_picture')) {
+                $file = $request->file('photo_tag');
+
+                $dataImg = $file;
+                $t = microtime(true);
+                $micro = sprintf("%06d", ($t - floor($t)) * 1000000);
+                $timestamp = date('YmdHis' . $micro, $t) . "_" . rand(0, 1000);
+
+                $ext_file = $dataImg->getClientOriginalExtension();
+                $name_file = $timestamp . '_img_item.' . $ext_file;
+                $path_file = public_path() . '/image/profil_picture/';
+
+                if($dataImg->move($path_file,$name_file)) {
+                    $member->profil_picture = $name_file;
+                }
+            }
+
 
 
             $member->save();
         }
         unset ($member['password']);
+        if($member->profil_picture){
+            $member->profil_picture = url('/image/profil_picture').'/'.$member->profil_picture;
+
+        }
         return response()->json($member, 200);
     }
 }
