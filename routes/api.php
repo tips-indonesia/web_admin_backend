@@ -47,6 +47,8 @@ Route::post('/delivery/send_tag', 'API\\DeliveryController@send_tag');
 
 Route::get('/home', 'API\\HomeController@list_of_shipment_and_delivery');
 
+Route::get('/term', 'API\\TermConditionsController@index');
+
 Route::post('/profile/update', 'API\\UserController@update_profile');
 
 Route::post('/worker/login', 'API\\Worker\\AuthController@login');

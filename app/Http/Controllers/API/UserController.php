@@ -113,39 +113,51 @@ class UserController extends Controller
             );
         } else {
             if($request->has('name')) {
-                $member->name = $request->name;
+                if($request->name != null && $request->name != ''){
+                    $member->name = $request->name;
+                }
             }
 
             if($request->has('email')) {
-                $member->email = $request->email;
+                if($request->email != null && $request->email != '') {
+                    $member->email = $request->email;
+                }
             }
 
             if($request->has('mobile_phone_no')) {
-                $member->mobile_phone_no = $request->mobile_phone_no;
+                if($request->mobile_phone_no != null && $request->mobile_phone_no != '') {
+                    $member->mobile_phone_no = $request->mobile_phone_no;
+                }
             }
 
             if($request->has('password')) {
-                $member->password = bcrypt($request->password);
+                if($request->password != null && $request->password != '') {
+                    $member->password = bcrypt($request->password);
+                }
             }
 
             if($request->has('birth_date')) {
-                $member->birth_date = date('Y-m-d', strtotime($request->birth_date));
+                if($request->birth_date != null && $request->birth_date != '') {
+                    $member->birth_date = date('Y-m-d', strtotime($request->birth_date));
+                }
             }
 
             if($request->has('profil_picture')) {
-                $file = $request->file('profil_picture');
+                if($request->profil_picture != null && $request->profil_picture != '') {
+                    $file = $request->file('profil_picture');
 
-                $dataImg = $file;
-                $t = microtime(true);
-                $micro = sprintf("%06d", ($t - floor($t)) * 1000000);
-                $timestamp = date('YmdHis' . $micro, $t) . "_" . rand(0, 1000);
+                    $dataImg = $file;
+                    $t = microtime(true);
+                    $micro = sprintf("%06d", ($t - floor($t)) * 1000000);
+                    $timestamp = date('YmdHis' . $micro, $t) . "_" . rand(0, 1000);
 
-                $ext_file = $dataImg->getClientOriginalExtension();
-                $name_file = $timestamp . '_img_item.' . $ext_file;
-                $path_file = public_path() . '/image/profil_picture/';
+                    $ext_file = $dataImg->getClientOriginalExtension();
+                    $name_file = $timestamp . '_img_item.' . $ext_file;
+                    $path_file = public_path() . '/image/profil_picture/';
 
-                if($dataImg->move($path_file,$name_file)) {
-                    $member->profil_picture = $name_file;
+                    if ($dataImg->move($path_file, $name_file)) {
+                        $member->profil_picture = $name_file;
+                    }
                 }
             }
 
