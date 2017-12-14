@@ -15,7 +15,7 @@
                     <div class="panel-body">
                         <div class="form-group">
                             <label>Default Insurance (% / M <sup>3</sup>) :</label>
-                            {{ Form::number('default_insurance', $datas->default_insurance, array('class' => 'form-control', 'placeholder' => 'Goods Category Name')) }}
+                            {{ Form::number('default_insurance', $datas->default_insurance, array('class' => 'form-control', 'placeholder' => 'Goods Category Name', 'step' => 'any')) }}
                         </div>
                         <div class="form-group">
                             <label>Additional Insurance (/ M <sup>3</sup>) :</label>

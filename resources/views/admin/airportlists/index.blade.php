@@ -31,7 +31,7 @@
                             {{ $data->initial_code }}
                         </td>
                         <td>
-                        <button type="button" class="btn btn-default btn-sm" onclick="window.location.href='{{ route('airportlists.show', $data->id) }}'">City Scope Details</button>
+                        <button type="button" class="btn btn-default btn-sm" onclick="window.location.href='{{ route('airportlists.show', $data->id) }}'">City Lists</button>
                         </td>
                         <td>
                             {{ $data->status == 1 ? 'Active' : 'Inactive' }}

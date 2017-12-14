@@ -32,7 +32,7 @@ class OfficeTypeAdminController extends Controller
     public function create()
     {
         //
-        return view('admin.officetypes.create');
+        // return view('admin.officetypes.create');
     }
 
     /**
@@ -43,23 +43,23 @@ class OfficeTypeAdminController extends Controller
     public function store()
     {
         //
-        $rules = array(
-            'name'       => 'required',
-        );
-        $validator = Validator::make(Input::all(), $rules);
+        // $rules = array(
+        //     'name'       => 'required',
+        // );
+        // $validator = Validator::make(Input::all(), $rules);
 
-        // process the login
-        if ($validator->fails()) {
-            return Redirect::to(route('officetypes.create'))
-                ->withErrors($validator)
-                ->withInput();
-        } else {
-            $officeTypes = new OfficeType;
-            $officeTypes->name = Input::get('name');
-            $officeTypes->save();
-            Session::flash('message', 'Successfully created nerd!');
-            return Redirect::to(route('officetypes.index'));
-        }
+        // // process the login
+        // if ($validator->fails()) {
+        //     return Redirect::to(route('officetypes.create'))
+        //         ->withErrors($validator)
+        //         ->withInput();
+        // } else {
+        //     $officeTypes = new OfficeType;
+        //     $officeTypes->name = Input::get('name');
+        //     $officeTypes->save();
+        //     Session::flash('message', 'Successfully created nerd!');
+        //     return Redirect::to(route('officetypes.index'));
+        // }
 
     }
 
@@ -83,9 +83,9 @@ class OfficeTypeAdminController extends Controller
     public function edit($id)
     {
         //
-        $officeTypes = OfficeType::find($id);
-        $data['datas'] =  $officeTypes;
-        return view('admin.officetypes.edit', $data);
+        // $officeTypes = OfficeType::find($id);
+        // $data['datas'] =  $officeTypes;
+        // return view('admin.officetypes.edit', $data);
     }
 
     /**
@@ -97,23 +97,23 @@ class OfficeTypeAdminController extends Controller
     public function update($id)
     {
         //
-        $rules = array(
-            'name'       => 'required',
-        );
-        $validator = Validator::make(Input::all(), $rules);
+        // $rules = array(
+        //     'name'       => 'required',
+        // );
+        // $validator = Validator::make(Input::all(), $rules);
 
-        // process the login
-        if ($validator->fails()) {
-            return Redirect::to(route('officetypes.edit'))
-                ->withErrors($validator)
-                ->withInput();
-        } else {
-            $officeTypes = OfficeType::find($id);
-            $officeTypes->name = Input::get('name');
-            $officeTypes->save();
-            Session::flash('message', 'Successfully created nerd!');
-            return Redirect::to(route('officetypes.index'));
-        }
+        // // process the login
+        // if ($validator->fails()) {
+        //     return Redirect::to(route('officetypes.edit'))
+        //         ->withErrors($validator)
+        //         ->withInput();
+        // } else {
+        //     $officeTypes = OfficeType::find($id);
+        //     $officeTypes->name = Input::get('name');
+        //     $officeTypes->save();
+        //     Session::flash('message', 'Successfully created nerd!');
+        //     return Redirect::to(route('officetypes.index'));
+        // }
     }
 
     /**
@@ -124,12 +124,12 @@ class OfficeTypeAdminController extends Controller
     */
     public function destroy($id)
     {
-        //
-        $officeTypes = OfficeType::find($id);
-        $officeTypes->delete();
+        // //
+        // $officeTypes = OfficeType::find($id);
+        // $officeTypes->delete();
 
-        // redirect
-        Session::flash('message', 'Successfully deleted the nerd!');
-        return Redirect::to(route('officetypes.index'));
+        // // redirect
+        // Session::flash('message', 'Successfully deleted the nerd!');
+        // return Redirect::to(route('officetypes.index'));
     }
 }

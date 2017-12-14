@@ -44,11 +44,13 @@ class BackupAdminController extends Controller
     public function store()
     {
         //
-        Backup::setPath('/root/web_admin_backend/backup_folder');
-        Backup::setFilename(Carbon::now());
+        $name = Carbon::now();
+        $path = '/root/web_admin_backend/backup_folder';
+        Backup::setPath($path);
+        Backup::setFilename($name);
         Backup::setCompress(false);
         Backup::export();
-        return Redirect::to(route('backups.index'));
+        return response()->download($path.'/'.$name.'.sql')->deleteFileAfterSend(true);
     }
 
     /**

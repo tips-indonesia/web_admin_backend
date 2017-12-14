@@ -32,8 +32,8 @@ class MemberListAdminController extends Controller
     */
     public function create()
     {
-        $data['cities'] = CityList::all();
-        return view('admin.memberlists.create', $data);
+        // $data['cities'] = CityList::all();
+        // return view('admin.memberlists.create', $data);
         
     }
 
@@ -45,36 +45,36 @@ class MemberListAdminController extends Controller
     public function store()
     {
         //
-        $rules = array(
-            'name' => 'required',
-            'birth_date' => 'required',
-            'address' => 'required',
-            'phone_no' => 'required',
-            'email_address' => 'required',
-            'city' => 'required',
-            'password' => 'required|min:6|confirmed',
-        );
-        $validator = Validator::make(Input::all(), $rules);
+        // $rules = array(
+        //     'name' => 'required',
+        //     'birth_date' => 'required',
+        //     'address' => 'required',
+        //     'phone_no' => 'required',
+        //     'email_address' => 'required',
+        //     'city' => 'required',
+        //     'password' => 'required|min:6|confirmed',
+        // );
+        // $validator = Validator::make(Input::all(), $rules);
 
-        // process the login
-        if ($validator->fails()) {
-            return Redirect::to(route('memberlists.create'))
-                ->withErrors($validator)
-                ->withInput();
-        } else {
-            $member = new MemberList;
-            $member->name = Input::get('name');
-            $member->birth_date = Input::get('birth_date');
-            $member->registered_date = \Carbon\Carbon::now();
-            $member->password = bcrypt(Input::get('password'));
-            $member->address = Input::get('address');
-            $member->mobile_phone_no = Input::get('phone_no');
-            $member->email = Input::get('email_address');
-            $member->id_city = Input::get('city');
-            $member->save();
-            Session::flash('message', 'Successfully created nerd!');
-            return Redirect::to(route('memberlists.index'));
-        }
+        // // process the login
+        // if ($validator->fails()) {
+        //     return Redirect::to(route('memberlists.create'))
+        //         ->withErrors($validator)
+        //         ->withInput();
+        // } else {
+        //     $member = new MemberList;
+        //     $member->name = Input::get('name');
+        //     $member->birth_date = Input::get('birth_date');
+        //     $member->registered_date = \Carbon\Carbon::now();
+        //     $member->password = bcrypt(Input::get('password'));
+        //     $member->address = Input::get('address');
+        //     $member->mobile_phone_no = Input::get('phone_no');
+        //     $member->email = Input::get('email_address');
+        //     $member->id_city = Input::get('city');
+        //     $member->save();
+        //     Session::flash('message', 'Successfully created nerd!');
+        //     return Redirect::to(route('memberlists.index'));
+        // }
     }
 
     /**
@@ -86,6 +86,9 @@ class MemberListAdminController extends Controller
     public function show($id)
     {
         //
+        $data['member'] = MemberList::find($id);
+        $data['cities'] = CityList::all();
+        return view('admin.memberlists.show', $data);
     }
 
     /**
@@ -97,9 +100,9 @@ class MemberListAdminController extends Controller
     public function edit($id)
     {
         //
-        $data['member'] = MemberList::find($id);
-        $data['cities'] = CityList::all();
-        return view('admin.memberlists.edit', $data);
+        // $data['member'] = MemberList::find($id);
+        // $data['cities'] = CityList::all();
+        // return view('admin.memberlists.edit', $data);
 
     }
 
@@ -112,37 +115,37 @@ class MemberListAdminController extends Controller
     public function update($id)
     {
         //
-        $rules = array(
-            'name' => 'required',
-            'birth_date' => 'required',
-            'address' => 'required',
-            'phone_no' => 'required',
-            'email_address' => 'required',
-            'city' => 'required',
-            'password' => 'required|min:6|confirmed',
-        );
-        $validator = Validator::make(Input::all(), $rules);
+        // $rules = array(
+        //     'name' => 'required',
+        //     'birth_date' => 'required',
+        //     'address' => 'required',
+        //     'phone_no' => 'required',
+        //     'email_address' => 'required',
+        //     'city' => 'required',
+        //     'password' => 'required|min:6|confirmed',
+        // );
+        // $validator = Validator::make(Input::all(), $rules);
 
-        // process the login
-        $changepass = false;
-        if ($validator->fails()) {
-            return Redirect::to(route('memberlists.edit', $id))
-                ->withErrors($validator)
-                ->withInput();
-        } else {
-            $member = MemberList::find($id);
-            $member->name = Input::get('name');
-            $member->birth_date = Input::get('birth_date');
-            $member->registered_date = \Carbon\Carbon::now();
-            $member->address = Input::get('address');
-            $member->password = bcrypt(Input::get('password'));
-            $member->mobile_phone_no = Input::get('phone_no');
-            $member->email = Input::get('email_address');
-            $member->id_city = Input::get('city');
-            $member->save();
-            Session::flash('message', 'Successfully created nerd!');
-            return Redirect::to(route('memberlists.index'));
-        }
+        // // process the login
+        // $changepass = false;
+        // if ($validator->fails()) {
+        //     return Redirect::to(route('memberlists.edit', $id))
+        //         ->withErrors($validator)
+        //         ->withInput();
+        // } else {
+        //     $member = MemberList::find($id);
+        //     $member->name = Input::get('name');
+        //     $member->birth_date = Input::get('birth_date');
+        //     $member->registered_date = \Carbon\Carbon::now();
+        //     $member->address = Input::get('address');
+        //     $member->password = bcrypt(Input::get('password'));
+        //     $member->mobile_phone_no = Input::get('phone_no');
+        //     $member->email = Input::get('email_address');
+        //     $member->id_city = Input::get('city');
+        //     $member->save();
+        //     Session::flash('message', 'Successfully created nerd!');
+        //     return Redirect::to(route('memberlists.index'));
+        // }
     }
 
     /**
@@ -154,11 +157,11 @@ class MemberListAdminController extends Controller
     public function destroy($id)
     {
         //
-        $member = MemberList::find($id);
-        $member->delete();
+        // $member = MemberList::find($id);
+        // $member->delete();
 
-        // redirect
-        Session::flash('message', 'Successfully deleted the nerd!');
-        return Redirect::to(route('memberlists.index'));
+        // // redirect
+        // Session::flash('message', 'Successfully deleted the nerd!');
+        // return Redirect::to(route('memberlists.index'));
     }
 }
