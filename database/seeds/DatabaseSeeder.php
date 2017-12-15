@@ -7,6 +7,7 @@ use App\DaftarBarangRegular;
 use App\SlotList;
 use App\Shipment;
 use App\AirportList;
+use App\Term;
 use App\MemberList;
 use App\CityList;
 
@@ -211,7 +212,7 @@ class DatabaseSeeder extends Seeder
             'received_time' => \Carbon\Carbon::createFromFormat('Y-m-d H:i', '2017-11-7 12:00')->toDateTimeString(),
         ));
         DaftarBarangGold::create(array('id_barang' => $temp->id));
-
+        Term::create(array('content' => 'test content'));
 //        $this->call(CitySedder::class);
 //        $this->call(MemberListSeeder::class);
         $this->call(WeigthListSeeder::class);

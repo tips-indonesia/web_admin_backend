@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateShipmentStatusesTable extends Migration
+class CreateTermsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,9 @@ class CreateShipmentStatusesTable extends Migration
      */
     public function up()
     {
-        Schema::create('shipment_statuses', function (Blueprint $table) {
+        Schema::create('terms', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('step')->unique();
-            $table->string('description');
-            $table->boolean('is_hidden')->default(false);
+            $table->longText('content');
             $table->timestamps();
         });
     }
@@ -29,6 +27,6 @@ class CreateShipmentStatusesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('shipment_statuses');
+        Schema::dropIfExists('term');
     }
 }

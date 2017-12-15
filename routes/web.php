@@ -86,6 +86,10 @@ Route::prefix('admin')->group(function () {
             Route::resource('packagingslots','Admin\PackagingSlotAdminController');
         });
 
+        Route::group(['middleware' => ['permission:packagingprocessingcenters.']], function () {
+            Route::resource('packagingprocessingcenters','Admin\PackagingProcessingCenterAdminController');
+        });
+
         Route::group(['middleware' => ['permission:deliveries.']], function () {
             Route::resource('deliveries','Admin\DeliveryAdminController');
         });
@@ -101,12 +105,20 @@ Route::prefix('admin')->group(function () {
         Route::group(['middleware' => ['permission:shipmentstatuses.']], function () {
             Route::resource('shipmentstatuses','Admin\ShipmentStatusAdminController');
         });
+        Route::group(['middleware' => ['permission:terms.']], function () {
+            Route::resource('terms','Admin\TermAdminController');
+        });
+
         Route::group(['middleware' => ['permission:users.']], function () {
             Route::resource('users','Admin\UserAdminController');
         });
 
         Route::group(['middleware' => ['permission:roles.']], function () {
             Route::resource('roles','Admin\RoleAdminController');
+        });
+        
+        Route::group(['middleware' => ['permission:backups.']], function () {
+            Route::resource('backups','Admin\BackupAdminController');
         });
 
         Route::group(['middleware' => ['permission:permissions.']], function () {

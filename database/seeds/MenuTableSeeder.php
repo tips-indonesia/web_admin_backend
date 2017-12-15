@@ -79,7 +79,7 @@ class MenuTableSeeder extends Seeder
             ]);
         $transaction = MenuList::create([
             'name' => 'Transaction',
-            'class_name' => 'shipments.|slotlists.|deliveries.|receiveds.|shipmenttrackings.|packagingslots.'
+            'class_name' => 'shipments.|slotlists.|deliveries.|receiveds.|shipmenttrackings.|packagingslots.|packagingprocessingcenters.'
         ]);
             MenuList::create([
                 'name' => 'Shipment List',
@@ -102,6 +102,11 @@ class MenuTableSeeder extends Seeder
                 'class_name' => 'deliveries.'
             ]);
             MenuList::create([
+                'name' => 'Processing Center Package List',
+                'menu_parent_id' => $transaction->id,
+                'class_name' => 'packagingprocessingcenters.'
+            ]);
+            MenuList::create([
                 'name' => 'Received by Processing Center',
                 'menu_parent_id' => $transaction->id,
                 'class_name' => 'receiveds.'
@@ -113,12 +118,22 @@ class MenuTableSeeder extends Seeder
             ]);
         $setting = MenuList::create([
             'name' => 'Setting',
-            'class_name' => 'roles.|users.|shipmentstatuses.'
+            'class_name' => 'roles.|users.|shipmentstatuses.|terms.'
         ]);
+            MenuList::create([
+                'name' => 'Term and Agreement',
+                'menu_parent_id' => $setting->id,
+                'class_name' => 'terms.'
+            ]);
             MenuList::create([
                 'name' => 'Shipment Status',
                 'menu_parent_id' => $setting->id,
                 'class_name' => 'shipmentstatuses.'
+            ]);
+            MenuList::create([
+                'name' => 'Backup Database',
+                'menu_parent_id' => $setting->id,
+                'class_name' => 'backups.'
             ]);
             $user = MenuList::create([
                 'name' => 'User Application',

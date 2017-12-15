@@ -13,8 +13,8 @@ class FlightBookingSeeder extends Seeder
     {
         //
 
-        for($i = 0; $i < 30 ; $i++) {
-            $booking_code = $this->generateRandomString(9);
+        for($i = 0; $i < 100 ; $i++) {
+            $booking_code = $this->generateRandomString(6);
             $flight_code = $this->generateRandomString(5);
             $id_origin_airport = rand(1,7);
             $id_destination_airport = rand(1,7);
@@ -27,14 +27,14 @@ class FlightBookingSeeder extends Seeder
                 'id_airline' => 1,
                 'id_origin_airport' => $id_origin_airport,
                 'id_destination_airport' => $id_destination_airport,
-                'depature' => '2017-11-29 12:20',
-                'arrival' => '2017-11-29 13:20',
+                'depature' => '2017-12-29 12:20',
+                'arrival' => '2017-12-29 13:20',
                 'flight_code' => $flight_code,
             ]);
         }
     }
 
-    function generateRandomString($length = 7) {
+    function generateRandomString($length = 6) {
         $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $charactersLength = strlen($characters);
         $randomString = '';

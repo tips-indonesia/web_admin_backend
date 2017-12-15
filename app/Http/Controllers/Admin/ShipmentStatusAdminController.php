@@ -102,6 +102,7 @@ class ShipmentStatusAdminController extends Controller
         $rules = array(
             'description'       => 'required',
             'step'       => 'required',
+            'hidden'    => 'required'
         );
         $validator = Validator::make(Input::all(), $rules);
 
@@ -113,6 +114,7 @@ class ShipmentStatusAdminController extends Controller
         } else {
             $shipmentStatus = ShipmentStatus::find($id);
             $shipmentStatus->step = Input::get('step');
+            $shipmentStatus->is_hidden = Input::get('hidden');
             $shipmentStatus->description = Input::get('description');
             $shipmentStatus->save();
             Session::flash('message', 'Successfully created nerd!');

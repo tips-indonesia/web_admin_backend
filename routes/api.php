@@ -37,6 +37,7 @@ Route::post('/shipment', 'API\\ShipmentController@submit');
 Route::get('/shipment/status', 'API\\ShipmentController@get_status');
 
 Route::get('/flight/booking', 'API\\FlightController@get_flight_booking');
+Route::get('/flight/booking/used', 'API\\FlightController@get_used_booking_code');
 Route::get('/flight/booking/city', 'API\\FlightController@get_booking_code_by_city');
 
 Route::post('/delivery', 'API\\DeliveryController@submit');
@@ -45,6 +46,10 @@ Route::post('/delivery/confirm', 'API\\DeliveryController@confirm');
 Route::post('/delivery/send_tag', 'API\\DeliveryController@send_tag');
 
 Route::get('/home', 'API\\HomeController@list_of_shipment_and_delivery');
+
+Route::get('/term', 'API\\TermConditionsController@index');
+
+Route::post('/profile/update', 'API\\UserController@update_profile');
 
 Route::post('/worker/login', 'API\\Worker\\AuthController@login');
 Route::get('/worker/delivery', 'API\\Worker\\DeliveryController@get_detail');

@@ -20,6 +20,7 @@ class CreateMemberListsTable extends Migration
             $table->string('password');
             $table->string('mobile_phone_no');
             $table->date('registered_date');
+            $table->string('profil_picture')->nullable();
             $table->date('birth_date')->nullable();
             $table->string('address')->nullable();
             $table->boolean('status')->default(true);

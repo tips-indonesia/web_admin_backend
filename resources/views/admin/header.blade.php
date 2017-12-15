@@ -40,5 +40,10 @@
 	<script type="text/javascript" src="{{ asset("js/plugins/ui/moment/moment.min.js") }}"></script>
 	<script type="text/javascript" src="{{ asset("js/plugins/pickers/daterangepicker.js") }}"></script>
 	<script type="text/javascript" src="{{ asset("js/plugins/pickers/anytime.min.js") }}"></script>
+	<script type="text/javascript" src="{{ asset("js/pages/editor_wysihtml5.js") }}"></script><script type="text/javascript" src="{{ asset("js/plugins/editors/wysihtml5/wysihtml5.min.js") }}"></script>
+	<script type="text/javascript" src="{{ asset("js/plugins/editors/wysihtml5/toolbar.js") }}"></script>
+	<script type="text/javascript" src="{{ asset("js/plugins/editors/wysihtml5/parsers.js") }}"></script>
+	<script type="text/javascript" src="{{ asset("js/plugins/editors/wysihtml5/locales/bootstrap-wysihtml5.ua-UA.js") }}"></script>
+	<script type="text/javascript" src=" {{ asset("js/pages/form_inputs.js") }}""></script>
 
 </head>
