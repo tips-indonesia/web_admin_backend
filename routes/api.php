@@ -22,7 +22,9 @@ Route::get('/fcmtest', 'FCMSender@testTopic');
 
 Route::post('/register', 'API\\UserController@register');
 Route::post('/login', 'API\\UserController@login');
+
 Route::get('/payment/bank', 'API\\PaymentController@bank_list');
+Route::get('/payment', 'API\\PaymentController@list_type_payment');
 
 Route::get('/city', 'API\\CityController@get_list');
 Route::get('/city/price', 'API\\CityController@get_price');
@@ -35,6 +37,7 @@ Route::post('/shipment', 'API\\ShipmentController@submit');
 Route::get('/shipment/status', 'API\\ShipmentController@get_status');
 
 Route::get('/flight/booking', 'API\\FlightController@get_flight_booking');
+Route::get('/flight/booking/city', 'API\\FlightController@get_booking_code_by_city');
 
 Route::post('/delivery', 'API\\DeliveryController@submit');
 Route::get('/delivery/status', 'API\\DeliveryController@get_status');
@@ -44,3 +47,7 @@ Route::post('/delivery/send_tag', 'API\\DeliveryController@send_tag');
 Route::get('/home', 'API\\HomeController@list_of_shipment_and_delivery');
 
 Route::post('/worker/login', 'API\\Worker\\AuthController@login');
+Route::get('/worker/delivery', 'API\\Worker\\DeliveryController@get_detail');
+Route::post('/worker/delivery/departure', 'API\\Worker\\DeliveryController@departure');
+Route::get('/worker/arrival', 'API\\Worker\\ArrivalController@get_list');
+Route::post('/worker/arrival/confirm', 'API\\Worker\\ArrivalController@confirm');

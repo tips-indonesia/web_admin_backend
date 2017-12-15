@@ -15,7 +15,7 @@ class CreateInsurancesTable extends Migration
     {
         Schema::create('insurances', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('default_insurance');
+            $table->decimal('default_insurance');
             $table->unsignedInteger('additional_insurance');
             $table->timestamps();
         });

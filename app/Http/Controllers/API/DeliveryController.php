@@ -107,6 +107,10 @@ class DeliveryController extends Controller
             $delivery_status = DeliveryStatus::find($slot->id_slot_status);
             $slot->origin_airport = AirportList::find($slot->id_origin_airport);
             $slot->destination_airport = AirportList::find($slot->id_destination_airport);
+            if($slot->photo_tag){
+                $slot->photo_tag = url('/image/photo_tag').'/'.$slot->photo_tag;
+
+            }
             $data = array(
                 'err' => null,
                 'result' => array(
@@ -144,7 +148,7 @@ class DeliveryController extends Controller
 
                 foreach ($shipments as $shipment) {
                     $shipment->dispatch_type = 'Pending';
-                    $shipment->id_slot_status = 1;
+                    $shipment->id_shipment_status = 1;
                     $shipment->save();
 
                     if($shipment->is_first_class) {
@@ -171,7 +175,7 @@ class DeliveryController extends Controller
 
                 foreach ($shipments as $shipment) {
                     $shipment->dispatch_type = 'Process';
-                    $shipment->id_slot_status = 2;
+                    $shipment->id_shipment_status = 2;
                     $shipment->save();
 
                     if($shipment->is_first_class) {
@@ -186,9 +190,9 @@ class DeliveryController extends Controller
                         FCMSender::post(array(
                             'type' => 'Shipment',
                             'id' => $shipment->shipment_id,
-                            'status' => 2,
+                            'status' => "2",
                             'message' => $shipment_status->description,
-                            'detail' => null
+                            'detail' => ""
                         ), $member->token);
                     }
                 }
@@ -224,7 +228,7 @@ class DeliveryController extends Controller
                 ],
                 'result' => null
             );
-        } else if($request->has('photo_tag')){
+        } else if(!$request->has('photo_tag')){
             $data = array(
                 'err' => [
                     'code' => 0,
@@ -256,7 +260,7 @@ class DeliveryController extends Controller
 
             foreach ($shipments as $shipment) {
 
-                $shipment->id_slot_status = 5;
+                $shipment->id_shipment_status = 5;
                 $shipment->save();
 
 
@@ -266,9 +270,9 @@ class DeliveryController extends Controller
                     FCMSender::post(array(
                         'type' => 'Shipment',
                         'id' => $shipment->shipment_id,
-                        'status' => 5,
+                        'status' => "5",
                         'message' => $shipment_status->description,
-                        'detail' => null
+                        'detail' => ""
                     ), $member->token);
                 }
             }
@@ -276,7 +280,7 @@ class DeliveryController extends Controller
             $delivery_status = DeliveryStatus::find($slot->id_slot_status);
             $slot->origin_airport = AirportList::find($slot->id_origin_airport);
             $slot->destination_airport = AirportList::find($slot->id_destination_airport);
-
+            $slot->photo_tag = url('/image/photo_tag').'/'.$slot->photo_tag;
             $data = array(
                 'err' => null,
                 'result' => array(

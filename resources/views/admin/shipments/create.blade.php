@@ -70,12 +70,7 @@
                         </div>
                         <div class="form-group">
                             <label>Shipment Status :</label>
-                            <select name="shipment_status" class="select-search">
-                                <option disabled selected></option>
-                                @foreach ($shipment_statuses as $shipment_status)
-                                    <option value="{{ $shipment_status->id }}">{{ $shipment_status->description }}</option>
-                                @endforeach
-                            </select>
+                            <input type="text" class="form-control" value="{{ $shipment_status->description }}" disabled readonly>
                         </div>
                         <div class="row">
                             <div class="col-md-6">

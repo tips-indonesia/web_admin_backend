@@ -44,7 +44,7 @@ class DeliveryAdminController extends Controller
         if ($date == null) {
             $data['datas'] = array(); 
         } else {
-            $data['datas'] = Shipment::where([['transaction_date', '=', $date], ['is_posted', '=', 1], ['id_shipment_status', '=', 2]])->get();
+            $data['datas'] = Shipment::where([['transaction_date', '=', $date], ['is_posted', '=', 1]])->whereIn('id_shipment_status', [1,2])->get();
             $data['date'] = $date;
         }
         return view('admin.deliveries.create', $data);
@@ -53,7 +53,7 @@ class DeliveryAdminController extends Controller
     /**
     * Store a newly created resource in storage.
     *
-    * @return Response
+-    * @return Response
     */
     public function store()
     {
@@ -99,7 +99,7 @@ class DeliveryAdminController extends Controller
         //
         $delivery_shipment_info = DeliveryShipment::find($id);
         $delivery_shipments = DeliveryShipmentDetail::where([['id_delivery', '=', $id]])->pluck('id_shipment')->toArray();
-        $temp_shipments = Shipment::where([['transaction_date', '=', $delivery_shipment_info->delivery_date], ['is_posted', '=', 1], ['id_shipment_status', '=', 2]])->get();
+        $temp_shipments = Shipment::where([['transaction_date', '=', $delivery_shipment_info->delivery_date], ['is_posted', '=', 1]])->whereIn('id_shipment_status', [1,2])->get();
         $data['delivery_shipments'] = $delivery_shipments;
         $data['shipment_lists'] = $temp_shipments;
         $data['data'] = $delivery_shipment_info;
@@ -119,7 +119,7 @@ class DeliveryAdminController extends Controller
         if (Input::get('submit') =='post') {
             $delivery->is_posted = 1;
             $delivery->save();
-            foreach(Input::get('shipments') as $shipment){
+/*            foreach(Input::get('shipments') as $shipment){
                 $shipment_data = Shipment::find($shipment);
                 $shipment_data->id_shipment_status = 3;
                 $shipment_data->save();
@@ -127,7 +127,7 @@ class DeliveryAdminController extends Controller
                 $shipment_history->id_shipment = $shipment_data->id;
                 $shipment_history->id_shipment_status = 3;
                 $shipment_history->save();
-            }
+            }*/
         }
         $delivdetails = DeliveryShipmentDetail::where('id_delivery', $id)->delete();
         if (Input::get('shipments') != null){

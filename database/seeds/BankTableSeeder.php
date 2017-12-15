@@ -22,20 +22,17 @@ class BankTableSeeder extends Seeder
 
         DB::table('bank_card_lists')->insert([
             'id_bank' => 1,
-            'name' => 'Aprilia',
-            'card_number' => '7771-1213-131'
+            'name' => 'Aprilia'
         ]);
 
         DB::table('bank_card_lists')->insert([
             'id_bank' => 1,
-            'name' => 'Liem',
-            'card_number' => '2133-1233-090'
+            'name' => 'Liem'
         ]);
 
         DB::table('bank_card_lists')->insert([
             'id_bank' => 2,
-            'name' => 'Sintia',
-            'card_number' => '111-133-0900'
+            'name' => 'Sintia'
         ]);
     }
 }

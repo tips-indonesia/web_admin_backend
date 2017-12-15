@@ -28,7 +28,7 @@
                         <div class="text-right form-group">
                             <select multiple="multiple" class="form-control listbox" name="shipments[]">
                                @foreach ($datas as $data)
-                                    <option value="{{ $data->id }}" @if ($data->id_shipment_status != 2) selected @endif> {{ $data->transaction_date }} &nbsp; - &nbsp; {{ $data->shipment_id }} </option>
+                                    <option value="{{ $data->id }}"> {{ $data->transaction_date }} &nbsp; - &nbsp; {{ $data->shipment_id }} </option>
                                 @endforeach
                             </select>
                         </div>

@@ -15,7 +15,8 @@ class CreatePackagingDeliveriesTable extends Migration
     {
         Schema::create('packaging_deliveries', function (Blueprint $table) {
             $table->increments('id');
-          
+            $table->string('packaging_id');
+            $table->string('deliveries_id');          
             $table->timestamps();
         });
     }

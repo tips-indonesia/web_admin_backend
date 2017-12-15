@@ -15,11 +15,11 @@
                     <div class="panel-body">
                         <div class="form-group">
                             <label>Default Insurance (% / M <sup>3</sup>) :</label>
-                            {{ Form::text('default_insurance', $datas->default_insurance, array('class' => 'form-control', 'placeholder' => 'Goods Category Name')) }}
+                            {{ Form::number('default_insurance', $datas->default_insurance, array('class' => 'form-control', 'placeholder' => 'Goods Category Name')) }}
                         </div>
                         <div class="form-group">
                             <label>Additional Insurance (/ M <sup>3</sup>) :</label>
-                            {{ Form::text('additional_insurance', $datas->additional_insurance, array('class' => 'form-control', 'placeholder' => 'Goods Category Name')) }}
+                            {{ Form::number('additional_insurance', $datas->additional_insurance, array('class' => 'form-control', 'placeholder' => 'Goods Category Name')) }}
                         </div>
                         <div class="text-right form-group">
                             <button type="submit" class="btn btn-primary">Submit form <i class="icon-arrow-right14 position-right"></i></button>
@@ -29,4 +29,5 @@
             {{ Form::close() }}
         </div>
     </div>
+   <script>
 @endsection

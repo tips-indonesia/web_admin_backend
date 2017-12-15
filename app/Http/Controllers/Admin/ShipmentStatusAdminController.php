@@ -32,7 +32,7 @@ class ShipmentStatusAdminController extends Controller
     public function create()
     {
         //
-        return view('admin.shipmentstatuses.create');
+        // return view('admin.shipmentstatuses.create');
     }
 
     /**
@@ -43,25 +43,25 @@ class ShipmentStatusAdminController extends Controller
     public function store()
     {
         //
-        $rules = array(
-            'description'       => 'required',
-            'step'       => 'required',
-        );
-        $validator = Validator::make(Input::all(), $rules);
+        // $rules = array(
+        //     'description'       => 'required',
+        //     'step'       => 'required',
+        // );
+        // $validator = Validator::make(Input::all(), $rules);
 
-        // process the login
-        if ($validator->fails()) {
-            return Redirect::to(route('shipmentstatuses.create'))
-                ->withErrors($validator)
-                ->withInput();
-        } else {
-            $shipmentStatus = new ShipmentStatus;
-            $shipmentStatus->step = Input::get('step');
-            $shipmentStatus->description = Input::get('description');
-            $shipmentStatus->save();
-            Session::flash('message', 'Successfully created nerd!');
-            return Redirect::to(route('shipmentstatuses.index'));
-        }
+        // // process the login
+        // if ($validator->fails()) {
+        //     return Redirect::to(route('shipmentstatuses.create'))
+        //         ->withErrors($validator)
+        //         ->withInput();
+        // } else {
+        //     $shipmentStatus = new ShipmentStatus;
+        //     $shipmentStatus->step = Input::get('step');
+        //     $shipmentStatus->description = Input::get('description');
+        //     $shipmentStatus->save();
+        //     Session::flash('message', 'Successfully created nerd!');
+        //     return Redirect::to(route('shipmentstatuses.index'));
+        // }
 
     }
 
