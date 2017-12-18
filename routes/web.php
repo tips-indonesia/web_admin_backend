@@ -124,6 +124,10 @@ Route::prefix('admin')->group(function () {
         Route::group(['middleware' => ['permission:permissions.']], function () {
             Route::resource('permissions','Admin\PermissionAdminController');
         });
+
+        Route::group(['middleware' => ['permission:packagingrestshipments.']], function () {
+            Route::resource('packagingrestshipments','Admin\PackagingRestShipmentAdminController');
+        });
     });
     
     
