@@ -34,6 +34,15 @@
                             <label>New Password :</label>
                             {{ Form::password('password', array('class' => 'form-control', 'placeholder' => 'Password', 'disabled' => 'disabled')) }}
                         </div>
+                        <div class="form-group">
+                            <label>Office Name :</label>
+                            <select name="office" class="select-search" id="office">
+                                <option disabled selected></option>
+                                @foreach ($offices as $office)
+                                    <option value="{{ $office->id }}">{{ $office->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                         <div class="text-right form-group">
                             <button type="submit" class="btn btn-primary">Submit form <i class="icon-arrow-right14 position-right"></i></button>
                         </div>

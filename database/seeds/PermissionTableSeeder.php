@@ -46,8 +46,8 @@ class PermissionTableSeeder extends Seeder
 
         // Setting
         Permission::create(['name' => 'shipmentstatuses.', 'show_name' => 'Shipment Status']);
-        Permission::create(['name' => 'terms.', 'show_name' => 'Term and Agreement']);  
-        Permission::create(['name' => 'backups.', 'show_name' => 'Backup Database']);  
+        Permission::create(['name' => 'terms.', 'show_name' => 'Term and Agreement']); 
+        Permission::create(['name' => 'tipstermilestones.', 'show_name' => 'Tipster Milestone']);
 
             // User 
             Permission::create(['name' => 'roles.', 'show_name' => 'Role List']);
@@ -55,6 +55,10 @@ class PermissionTableSeeder extends Seeder
             Permission::create(['name' => 'permissions.', 'show_name' => 'Permission Management']);
             // End of User
         // End of Setting
+
+        // Utility
+        Permission::create(['name' => 'backups.', 'show_name' => 'Backup Database']);  
+        
         $role = Role::all()->first();
         $permissions = Permission::all();
         foreach ($permissions as $permission) {

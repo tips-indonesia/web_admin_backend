@@ -128,6 +128,10 @@ Route::prefix('admin')->group(function () {
         Route::group(['middleware' => ['permission:packagingrestshipments.']], function () {
             Route::resource('packagingrestshipments','Admin\PackagingRestShipmentAdminController');
         });
+
+        Route::group(['middleware' => ['permission:tipstermilestones.']], function () {
+            Route::resource('tipstermilestones','Admin\TipsterMilestoneAdminController');
+        });
     });
     
     

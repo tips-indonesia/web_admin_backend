@@ -230,5 +230,6 @@ class DatabaseSeeder extends Seeder
         $this->call(AirportSeeder::class);
         $this->call(FlightBookingSeeder::class);
         $this->call(MemberListSeeder::class);
+        $this->call(TipsterMilestoneTableSeeder::class);
     }
 }
