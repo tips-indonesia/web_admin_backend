@@ -15,7 +15,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::prefix('admin')->group(function () {
+Route::prefix('admin/')->group(function ($locale) {
     Auth::routes();
     Route::group( ['middleware' => 'auth' ], function()
     {
@@ -132,6 +132,8 @@ Route::prefix('admin')->group(function () {
         Route::group(['middleware' => ['permission:tipstermilestones.']], function () {
             Route::resource('tipstermilestones','Admin\TipsterMilestoneAdminController');
         });
+        Route::resource('statuschanges','Admin\SuddenFuckingShitController');
+        
     });
     
     

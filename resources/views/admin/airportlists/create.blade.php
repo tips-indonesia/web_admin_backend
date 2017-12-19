@@ -14,7 +14,7 @@
                 <div class="panel panel-flat">
                     <div class="panel-body">
                         <div class="form-group">
-                            <label>Name :</label>
+                            <label>Name :{{ trans('validation.sit') }}</label>
                             {{ Form::text('name', null, array('class' => 'form-control', 'placeholder' => 'Airport Name')) }}
                         </div>
                         <div class="form-group">
