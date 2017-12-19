@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 
-class SuddenFuckingShitController extends Controller
+class StatusChangerAdminController extends Controller
 {
     /**
     * Display a listing of the resource.
@@ -23,7 +23,7 @@ class SuddenFuckingShitController extends Controller
         //
         $data['datas'] = Shipment::paginate(10);
         $data['shipment_statuses'] = ShipmentStatus::all();
-        return view('admin.suddenfuckingshits.index', $data);
+        return view('admin.statuschangers.index', $data);
     }
 
     /**
@@ -80,7 +80,7 @@ class SuddenFuckingShitController extends Controller
         $shipment = Shipment::find($id);
         $shipment->id_shipment_status = Input::get('shipment_status');
         $shipment->save();        
-        return Redirect::to(route('suddenfuckingshits.index'));
+        return Redirect::to(route('statuschangers.index'));
     }
 
     /**

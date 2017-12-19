@@ -166,7 +166,8 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         Lavary\Menu\ServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
-	Cornford\Backup\Providers\BackupServiceProvider::class,
+	   Cornford\Backup\Providers\BackupServiceProvider::class,
+       Waavi\Translation\TranslationServiceProvider::class,
         /*
          * Package Service Providers...
          */

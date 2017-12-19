@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User;
+use App\OfficeList;
 use Spatie\Permission\Models\Role;
 use Validator;
 use Illuminate\Support\Facades\Input;
@@ -34,6 +35,7 @@ class UserAdminController extends Controller
     {
         //
         $data['roles'] = Role::all();
+        $data['offices'] = OfficeList::all();
         return view('admin.users.create', $data);
     }
 
@@ -49,7 +51,8 @@ class UserAdminController extends Controller
             'name' => 'required',
             'username' => 'required|unique:users',
             'password' => 'required|min:6|confirmed',
-            'role' => 'required'
+            'role' => 'required',
+            'office' => 'required'
         );
         $validator = Validator::make(Input::all(), $rules);
 
@@ -61,6 +64,7 @@ class UserAdminController extends Controller
         } else {
             $user = User::create(['name' => Input::get('name'), 
             'username' => Input::get('username'), 
+            'id_office' => Input::get('office'),
             'password' => bcrypt(Input::get('password'))]);
             $role = Role::find(Input::get('role'));
             $user->assignRole($role->name);
@@ -92,6 +96,7 @@ class UserAdminController extends Controller
         //
         $data['roles'] = Role::all();
         $user = User::find($id);
+        $data['offices'] = OfficeList::all();
         $data['datas'] =  $user;
         return view('admin.users.edit', $data);
     }
@@ -107,7 +112,8 @@ class UserAdminController extends Controller
         //
         $rules = array(
             'name'       => 'required',
-            'role'  => 'required'
+            'role'  => 'required',
+            'office' => 'required'
         );
         $validator = Validator::make(Input::all(), $rules);
 
@@ -120,6 +126,7 @@ class UserAdminController extends Controller
             $user = User::find($id);
             $user->name = Input::get('name');
             $role = Role::find(Input::get('role'));
+            $user->id_office = Input::get('office');
             $user->syncRoles($role);
             $user->save();
             Session::flash('message', 'Successfully created nerd!');

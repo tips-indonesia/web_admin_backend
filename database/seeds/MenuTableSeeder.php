@@ -79,7 +79,7 @@ class MenuTableSeeder extends Seeder
             ]);
         $transaction = MenuList::create([
             'name' => 'Transaction',
-            'class_name' => 'shipments.|slotlists.|deliveries.|receiveds.|shipmenttrackings.|packagingslots.|packagingprocessingcenters.'
+            'class_name' => 'shipments.|slotlists.|deliveries.|receiveds.|shipmenttrackings.|packagingslots.|packagingprocessingcenters.|packagingrestshipments.'
         ]);
             MenuList::create([
                 'name' => 'Shipment List',
@@ -116,9 +116,14 @@ class MenuTableSeeder extends Seeder
                 'menu_parent_id' => $transaction->id,
                 'class_name' => 'shipmenttrackings.'
             ]);
+            MenuList::create([
+                'name' => 'Packaging Rest Shipment',
+                'menu_parent_id' => $transaction->id,
+                'class_name' => 'packagingrestshipments.'
+            ]);
         $setting = MenuList::create([
             'name' => 'Setting',
-            'class_name' => 'roles.|users.|shipmentstatuses.|terms.'
+            'class_name' => 'roles.|users.|shipmentstatuses.|terms.|tipstermilestones.'
         ]);
             MenuList::create([
                 'name' => 'Term and Agreement',
@@ -130,10 +135,10 @@ class MenuTableSeeder extends Seeder
                 'menu_parent_id' => $setting->id,
                 'class_name' => 'shipmentstatuses.'
             ]);
-            MenuList::create([
-                'name' => 'Backup Database',
+            $user = MenuList::create([
+                'name' => 'Tipster Milestone',
                 'menu_parent_id' => $setting->id,
-                'class_name' => 'backups.'
+                'class_name' => 'tipstermilestones.'
             ]);
             $user = MenuList::create([
                 'name' => 'User Application',
@@ -150,5 +155,15 @@ class MenuTableSeeder extends Seeder
                     'menu_parent_id' => $user->id,
                     'class_name' => 'users.'
                 ]);
+
+        $utility = MenuList::create([
+            'name' => 'Utility',
+            'class_name' => 'backups.'
+        ]); 
+            MenuList::create([
+                'name' => 'Backup Database',
+                'menu_parent_id' => $utility->id,
+                'class_name' => 'backups.'
+            ]);
     }
 }

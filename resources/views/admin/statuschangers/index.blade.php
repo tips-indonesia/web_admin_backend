@@ -1,10 +1,10 @@
 @extends('admin.app')
 
 @section('title')
-    Sudden List
+    Status Changer
 @endsection
 @section('page_title')
-    <span class="text-semibold">Sudden List</span> - Show All
+    <span class="text-semibold">Status Changer</span> - Show All
 @endsection
 @section('content')
 
@@ -25,7 +25,7 @@
                         <td>
                             <ul class="icons-list">
                             <li>
-                            {{ Form::open(array('method' => 'PUT', 'url' => route('suddenfuckingshits.update', $data->id))) }}
+                            {{ Form::open(array('method' => 'PUT', 'url' => route('statuschangers.update', $data->id))) }}
                                 <div class="form-group">
                                     <select name="shipment_status" class="select-search">
                                         <option disabled selected></option>

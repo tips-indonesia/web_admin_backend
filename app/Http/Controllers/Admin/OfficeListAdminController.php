@@ -39,7 +39,8 @@ class OfficeListAdminController extends Controller
     {
         //
         $data['officetypes'] = OfficeType::all();
-        $data['offices'] = OfficeList::where('id_office_type', OfficeType::where('name', 'Counter')->first()->id)->get();
+        $data['offices'] = OfficeList::where('id_office_type', OfficeType::where('id', 2)->first()->id)->get();
+        $data['pcs'] = OfficeList::where('id_office_type', OfficeType::where('id', 3)->first()->id)->get();
         $data['cities'] = CityList::all();
         $data['airports'] = AirportList::all();
         $data['processing_center'] = OfficeType::where('name', 'Processing Center')->first();
