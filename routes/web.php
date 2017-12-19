@@ -132,7 +132,7 @@ Route::prefix('admin/')->group(function ($locale) {
         Route::group(['middleware' => ['permission:tipstermilestones.']], function () {
             Route::resource('tipstermilestones','Admin\TipsterMilestoneAdminController');
         });
-        Route::resource('suddenfuckingshits','Admin\SuddenFuckingShitController');
+        Route::resource('statuschangers','Admin\StatusChangerAdminController');
         
     });
     
