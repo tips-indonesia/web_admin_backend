@@ -22,6 +22,8 @@ Route::get('/fcmtest', 'FCMSender@testTopic');
 
 Route::post('/register', 'API\\UserController@register');
 Route::post('/login', 'API\\UserController@login');
+Route::post('/login/fb', 'API\\UserController@actionFB');
+Route::post('/login/twitter', 'API\\UserController@actionTwitter');
 
 Route::get('/payment/bank', 'API\\PaymentController@bank_list');
 Route::get('/payment', 'API\\PaymentController@list_type_payment');
@@ -56,3 +58,7 @@ Route::get('/worker/delivery', 'API\\Worker\\DeliveryController@get_detail');
 Route::post('/worker/delivery/departure', 'API\\Worker\\DeliveryController@departure');
 Route::get('/worker/arrival', 'API\\Worker\\ArrivalController@get_list');
 Route::post('/worker/arrival/confirm', 'API\\Worker\\ArrivalController@confirm');
+
+Route::post('/payment/inquiry', 'API\\PaymentController@receiveInquiry');
+Route::post('/payment/payment', 'API\\PaymentController@receivePaymentNotification');
+

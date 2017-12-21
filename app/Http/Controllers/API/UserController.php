@@ -100,6 +100,102 @@ class UserController extends Controller
 
     }
 
+    /*
+        {
+            "name": "rio",
+            "email": "rio@aa.aa",
+            "fb_token": "aaazzz",
+            "birth_date": "sama seperti register biasa", // opsional
+            "id_city": "bandung", // opsional
+            "address": "cisitu", // opsional
+        }
+     */
+    function actionFB(Request $request) {
+        $member_list = MemberList::where('fb_token', $request->fb_token)->first();
+        if($member_list != null) {
+            $data = array(
+                'err' => null,
+                'result' => $member_list
+            );
+        } else {
+            $member_list = new MemberList;
+            $member_list->name = $request->name;
+            $member_list->email = $request->email;
+            $member_list->registered_date = date('Y-m-d');
+            $member_list->fb_token = $request->fb_token;
+
+            if($request->has('birth_date')) {
+                $member_list->birth_date = date('Y-m-d', strtotime($request->birth_date));
+            }
+
+            if($request->has('id_city')) {
+                $member_list->id_city = $request->id_city;
+            }
+
+            if($request->has('address')) {
+                $member_list->address = $request->address;
+            }
+
+            $member_list->save();
+            unset($member_list['password']);
+            $data = array(
+                'err' => null,
+                'result' => $member_list
+            );
+
+        }
+
+        return response()->json($data, 200);
+    }
+
+    /*
+        {
+            "name": "rio",
+            "email": "rio@aa.aa",
+            "twitter_token": "aaazzz",
+            "birth_date": "sama seperti register biasa", // opsional
+            "id_city": "bandung", // opsional
+            "address": "cisitu", // opsional
+        }
+     */
+    function actionTwitter(Request $request) {
+        $member_list = MemberList::where('twitter_token', $request->twitter_token)->first();
+        if($member_list != null) {
+            $data = array(
+                'err' => null,
+                'result' => $member_list
+            );
+        } else {
+            $member_list = new MemberList;
+            $member_list->name = $request->name;
+            $member_list->email = $request->email;
+            $member_list->registered_date = date('Y-m-d');
+            $member_list->twitter_token = $request->twitter_token;
+
+            if($request->has('birth_date')) {
+                $member_list->birth_date = date('Y-m-d', strtotime($request->birth_date));
+            }
+
+            if($request->has('id_city')) {
+                $member_list->id_city = $request->id_city;
+            }
+
+            if($request->has('address')) {
+                $member_list->address = $request->address;
+            }
+
+            $member_list->save();
+            unset($member_list['password']);
+            $data = array(
+                'err' => null,
+                'result' => $member_list
+            );
+
+        }
+
+        return response()->json($data, 200);
+    }
+
     function update_profile(Request $request) {
         $member = MemberList::find($request->member_id);
 
