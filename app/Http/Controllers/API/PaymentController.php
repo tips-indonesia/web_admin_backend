@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\BankCardList;
 use App\BankList;
 use App\PaymentType;
+use Storage;
 
 class PaymentController extends Controller
 {
@@ -46,6 +47,29 @@ class PaymentController extends Controller
         $data = array(
             'err' => null,
             'result' => $cards
+        );
+        return response()->json($data, 200);
+    }
+
+
+    // this is rio authority
+    public function receiveInquiry(Request $request){
+        // dd($request->all());
+        Storage::disk('public')->append('inquiry.txt', json_encode($request->all()));
+        $data = array(
+            'err' => null,
+            'result' => $request->all()
+        );
+        return response()->json($data, 200);
+    }
+
+    // this is rio authority
+    public function receivePaymentNotification(Request $request){
+        // dd($request->all());
+        Storage::disk('public')->append('payment.txt', json_encode($request->all()));
+        $data = array(
+            'err' => null,
+            'result' => $request->all()
         );
         return response()->json($data, 200);
     }
