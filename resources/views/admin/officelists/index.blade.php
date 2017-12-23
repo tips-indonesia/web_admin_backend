@@ -14,6 +14,7 @@
             <thead>
                 <tr>
                     <th>Office Name</th>
+                    <th>Office Type</th>
                     <th>Address</th>
                     <th>Status</th>
                     <th>Actions</th>
@@ -24,6 +25,9 @@
                     <tr>
                         <td>
                             {{ $data->name }}
+                        </td>
+                        <td>
+                            {{ $data->office_type_name }}
                         </td>
                         <td>
                             {{ $data->address }}
@@ -45,7 +49,12 @@
                             </li>
                             <li>
                                 @if ($data->id_office_type == $processing_center->id)
-                            <button type="button" class="btn btn-primary" onclick="window.location.href='{{ route('officelists.show', $data->id) }}'"><i class="icon-pencil"></i> Add Drop Point</button>
+                            <button type="button" class="btn btn-primary" onclick="window.location.href='{{ route('officedroppoints.show', $data->id) }}'"><i class="icon-pencil"></i> Drop Point List</button>
+                                @endif
+                            </li>
+                            <li>
+                                @if ($data->id_office_type == 2)
+                            <button type="button" class="btn btn-primary" onclick="window.location.href='{{ route('officeairports.show', $data->id) }}'"><i class="icon-pencil"></i> Airport List</button>
                                 @endif
                             </li>
                             </ul>

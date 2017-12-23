@@ -14,9 +14,9 @@ class OfficeTypeTableSeeder extends Seeder
     {
         //
         OfficeType::create(['name' => 'Head Office']);
-        OfficeType::create(['name' => 'Pick Up Drop Point']);
-        OfficeType::create(['name' => 'Drop Point']);
         OfficeType::create(['name' => 'Airport Counter']);
         OfficeType::create(['name' => 'Processing Center']);
+        OfficeType::create(['name' => 'Pick Up Drop Point']);
+        OfficeType::create(['name' => 'Drop Point']);
     }
 }

@@ -87,17 +87,17 @@
                                 <label>Airport Counter Name :</label>
                                 <select name="airport_counter" class="select-search" id="airport_counter" disabled>
                                     <option disabled selected></option>
-                                    @foreach ($offices as $office)
+                                    @foreach ($acs as $office)
                                         <option value="{{ $office->id }}">{{ $office->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label>Airport :</label>
-                                <select name="airport" class="select-search" id="airport">
+                                <label>Processing Center Name :</label>
+                                <select name="processing_center" class="select-search" id="processing_center" disabled>
                                     <option disabled selected></option>
-                                    @foreach ($airports as $airport)
-                                        <option value="{{ $airport->id }}">{{ $airport->name }}</option>
+                                    @foreach ($pcs as $office)
+                                        <option value="{{ $office->id }}">{{ $office->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -114,10 +114,13 @@
     <script>
         $('.select-search').select2();
         $('#office_type').on('select2:select', function() {
-            if ($('#office_type').val() == {{ $processing_center->id }}){
+            if ($('#office_type').val() == 4 || $('#office_type').val() == 5){
+                $('#processing_center').removeAttr("disabled");
+            } else if ($('#office_type').val() == 3) { 
                 $('#airport_counter').removeAttr("disabled");
             } else {
                 $('#airport_counter').prop('disabled', 'disabled');
+                $('#processing_center').prop('disabled', 'disabled');
             }
         })
     </script>
