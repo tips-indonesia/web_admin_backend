@@ -137,12 +137,7 @@ class UserController extends Controller
             }
 
             $member_list->save();
-            unset($member_list['password']);
-            $data = array(
-                'err' => null,
-                'result' => $member_list
-            );
-
+            $member_list = MemberList::where('fb_token', $request->fb_token)->first();
         }
 
         return response()->json($data, 200);
@@ -185,12 +180,7 @@ class UserController extends Controller
             }
 
             $member_list->save();
-            unset($member_list['password']);
-            $data = array(
-                'err' => null,
-                'result' => $member_list
-            );
-
+            $member_list = MemberList::where('twitter_token', $request->twitter_token)->first();
         }
 
         return response()->json($data, 200);
