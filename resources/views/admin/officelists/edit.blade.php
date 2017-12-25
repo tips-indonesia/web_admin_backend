@@ -85,18 +85,18 @@
                             <div class="form-group">
                                 <label>Airport Counter Name :</label>
                                 <select name="airport_counter" class="select-search" id="airport_counter" disabled>
-                                    <option disabled selected></option>
-                                    @foreach ($offices as $office)
-                                        <option value="{{ $office->id }}">{{ $office->name }}</option>
+                                    <option disabled></option>
+                                    @foreach ($acs as $office)
+                                        <option value="{{ $office->id }}" @if ($datas->id_airport_counter == $office->id) selected @endif>{{ $office->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label>Airport :</label>
-                                <select name="airport" class="select-search" id="airport" >
-                                    <option disabled selected></option>
-                                    @foreach ($airports as $airport)
-                                        <option value="{{ $airport->id }}" @if ($airport->id == $datas->id_airport) selected @endif>{{ $airport->name }}</option>
+                                <label>Processing Center Name :</label>
+                                <select name="processing_center" class="select-search" id="processing_center" disabled>
+                                    <option disabled></option>
+                                    @foreach ($pcs as $office)
+                                        <option value="{{ $office->id }}" @if ($datas->id_processing_center == $office->id) selected @endif>{{ $office->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -119,11 +119,19 @@
 
     <script>
         $('.select-search').select2();
+        if ($('#office_type').val() == 4 || $('#office_type').val() == 5){
+            $('#processing_center').removeAttr("disabled");
+        } else if ($('#office_type').val() == 3) { 
+            $('#airport_counter').prop('disabled', 'disabled');                
+        }
         $('#office_type').on('select2:select', function() {
-            if ($('#office_type').val() == {{ $processing_center->id }}){
-                $('#airport_counter').removeAttr("disabled");
+            if ($('#office_type').val() == 4 || $('#office_type').val() == 5){
+                $('#processing_center').removeAttr("disabled");
+            } else if ($('#office_type').val() == 3) { 
+                $('#airport_counter').prop('disabled', 'disabled');                
             } else {
                 $('#airport_counter').prop('disabled', 'disabled');
+                $('#processing_center').prop('disabled', 'disabled');
             }
         })
     </script>

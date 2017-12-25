@@ -25,6 +25,9 @@ class OfficeListAdminController extends Controller
     {
         //
         $data['datas'] = OfficeList::paginate(10);
+        foreach ($data['datas'] as $dat) {
+            $dat['office_type_name'] = OfficeType::find($dat->id_office_type)->name;
+        }
         $data['processing_center'] = OfficeType::where('name', 'Processing Center')->first();
         
         return view('admin.officelists.index', $data);
@@ -39,11 +42,11 @@ class OfficeListAdminController extends Controller
     {
         //
         $data['officetypes'] = OfficeType::all();
-        $data['offices'] = OfficeList::where('id_office_type', OfficeType::where('id', 2)->first()->id)->get();
-        $data['pcs'] = OfficeList::where('id_office_type', OfficeType::where('id', 3)->first()->id)->get();
+        $data['pcs'] = OfficeList::where('id_office_type', 3)->get();
+
+        $data['acs'] = OfficeList::where('id_office_type', 2)->get();
         $data['cities'] = CityList::all();
         $data['airports'] = AirportList::all();
-        $data['processing_center'] = OfficeType::where('name', 'Processing Center')->first();
         return view('admin.officelists.create', $data);
     }
 
@@ -65,8 +68,8 @@ class OfficeListAdminController extends Controller
             'phone_no' => 'required',
             'fax_no' => 'required',
             'email_address' => 'required',
-            'airport' => 'required',
-            'airport_counter' => 'required_if:office_type,'.OfficeType::where('name', 'Processing Center')->first()->id,
+            'airport_counter' => 'required_if:office_type,3',
+            'processing_center' => 'required_if:office_type,4|required_if:office_type,5',
             'contact_person' => 'required',
         );
 
@@ -89,8 +92,10 @@ class OfficeListAdminController extends Controller
             $officeLists->contact_person_name = Input::get('contact_person');
             $officeLists->latitude = Input::get('latitude');
             $officeLists->longitude = Input::get('longitude');
-            $officeLists->id_airport = Input::get('airport');
-            $officeLists->id_office_counter = Input::get('airport_counter');
+            if (Input::get('airport_counter'))
+                $officeLists->id_office_counter = Input::get('airport_counter');
+            if (Input::get('processing_center'))
+                $officeLists->processing_center = Input::get('processing_center');
             $officeLists->status = 1;
             $officeLists->save();
             Session::flash('message', 'Successfully created nerd!');
@@ -108,14 +113,6 @@ class OfficeListAdminController extends Controller
     public function show($id)
     {
         //
-        $data['office'] = OfficeList::find($id);
-        if ($data['office']->id_office_type == OfficeType::where('name', 'Processing Center')->first()->id) {
-            $data['datas'] = OfficeDropPoint::where('id_office', $id)->paginate(10);
-            foreach ($data['datas'] as $dat) {
-                $dat['name'] = OfficeList::find($dat->id_drop_point)->name;
-            }
-            return view('admin.officedroppoints.index', $data);
-        }
     }
 
     /**
@@ -129,7 +126,9 @@ class OfficeListAdminController extends Controller
         //
         $data['datas'] = $officeLists = OfficeList::find($id);
         $data['officetypes'] = OfficeType::all();
-        $data['offices'] = OfficeList::where('id_office_type', OfficeType::where('name', 'Counter')->first()->id);
+        $data['pcs'] = OfficeList::where('id_office_type', 3)->get();
+
+        $data['acs'] = OfficeList::where('id_office_type', 2)->get();
         $data['cities'] = CityList::all();
         $data['processing_center'] = OfficeType::where('name', 'Processing Center')->first();
         $data['airports'] = AirportList::all();
@@ -180,7 +179,10 @@ class OfficeListAdminController extends Controller
             $officeLists->contact_person_name = Input::get('contact_person');
             $officeLists->latitude = Input::get('latitude');
             $officeLists->longitude = Input::get('longitude');
-            $officeLists->id_office_counter = Input::get('airport_counter');
+            if (Input::get('airport_counter'))
+                $officeLists->id_office_counter = Input::get('airport_counter');
+            if (Input::get('processing_center'))
+                $officeLists->processing_center = Input::get('processing_center');
             $officeLists->status = Input::get('status');
             $officeLists->save();
             Session::flash('message', 'Successfully created nerd!');

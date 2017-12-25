@@ -42,11 +42,19 @@ Route::prefix('admin/')->group(function ($locale) {
         });
         Route::group(['middleware' => ['permission:officelists.']], function () {
             Route::resource('officelists','Admin\OfficeListAdminController');
-            Route::get('officelists/{officelist}/create', 'Admin\OfficeDropPointAdminController@create')->name('officedroppoints.create');
-            Route::post('officelists/{officelist}/create', 'Admin\OfficeDropPointAdminController@store')->name('officedroppoints.store');
-            Route::get('officelists/{officelist}/{officedroppoint}/edit', 'Admin\OfficeDropPointAdminController@edit')->name('officedroppoints.edit');
-            Route::put('officelists/{officelist}/{officedroppoint}/edit', 'Admin\OfficeDropPointAdminController@update')->name('officedroppoints.update');
-            Route::delete('officelists/{officelist}/{officedroppoint}', 'Admin\OfficeDropPointAdminController@destroy')->name('officedroppoints.destroy');
+            Route::get('officelists/{officelist}/droppoints', 'Admin\OfficeDropPointAdminController@show')->name('officedroppoints.show');
+            Route::get('officelists/{officelist}/droppoints/create', 'Admin\OfficeDropPointAdminController@create')->name('officedroppoints.create');
+            Route::post('officelists/{officelist}/droppoints/create', 'Admin\OfficeDropPointAdminController@store')->name('officedroppoints.store');
+            Route::get('officelists/{officelist}/droppoints/{officedroppoint}/edit', 'Admin\OfficeDropPointAdminController@edit')->name('officedroppoints.edit');
+            Route::put('officelists/{officelist}/droppoints/{officedroppoint}/edit', 'Admin\OfficeDropPointAdminController@update')->name('officedroppoints.update');
+            Route::delete('officelists/{officelist}/droppoints/{officedroppoint}', 'Admin\OfficeDropPointAdminController@destroy')->name('officedroppoints.destroy');
+
+            Route::get('officelists/{officelist}/airports', 'Admin\OfficeAirportAdminController@show')->name('officeairports.show');
+            Route::get('officelists/{officelist}/airports/create', 'Admin\OfficeAirportAdminController@create')->name('officeairports.create');
+            Route::post('officelists/{officelist}/airports/create', 'Admin\OfficeAirportAdminController@store')->name('officeairports.store');
+            Route::get('officelists/{officelist}/airports/{officedroppoint}/edit', 'Admin\OfficeAirportAdminController@edit')->name('officeairports.edit');
+            Route::put('officelists/{officelist}/airports/{officedroppoint}/edit', 'Admin\OfficeAirportAdminController@update')->name('officeairports.update');
+            Route::delete('officelists/{officelist}/airports/{officedroppoint}', 'Admin\OfficeAirportAdminController@destroy')->name('officeairports.destroy');
         });
         Route::group(['middleware' => ['permission:banklists.']], function () {
             Route::resource('banklists','Admin\BankListAdminController');        

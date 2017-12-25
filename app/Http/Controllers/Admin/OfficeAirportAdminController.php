@@ -4,15 +4,16 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\OfficeDropPoint;
+use App\OfficeAirport;
 use App\OfficeList;
 use App\OfficeType;
+use App\AirportList;
 use Validator;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 
-class OfficeDropPointAdminController extends Controller
+class OfficeAirportAdminController extends Controller
 {
     /**
     * Display a listing of the resource.
@@ -33,8 +34,8 @@ class OfficeDropPointAdminController extends Controller
     {
         //
         $data['office'] = OfficeList::find($office);
-        $data['drop_point'] = OfficeList::where('id', OfficeType::where('name', 'Drop Point')->first()->id)->get();
-        return view('admin.officedroppoints.create', $data);
+        $data['airport'] = AirportList::all();
+        return view('admin.officeairports.create', $data);
     }
 
     /**
@@ -46,23 +47,23 @@ class OfficeDropPointAdminController extends Controller
     {
         //
         $rules = array(
-            'drop_point'       => 'required',
+            'airport'       => 'required',
         );
         $validator = Validator::make(Input::all(), $rules);
 
         // process the login
         if ($validator->fails()) {
-            return Redirect::to(route('officedroppoints.create', $office))
+            return Redirect::to(route('officeairports.create', $office))
                 ->withErrors($validator)
                 ->withInput();
         } else {
-            $officedropPoint = new OfficeDropPoint;
-            $officedropPoint->id_drop_point = Input::get('drop_point');
+            $officedropPoint = new OfficeAirport;
+            $officedropPoint->id_airport = Input::get('airport');
             $officedropPoint->id_office = $office;
             $officedropPoint->status = 1;
             $officedropPoint->save();
             Session::flash('message', 'Successfully created nerd!');
-            return Redirect::to(route('officedroppoints.show', $office));
+            return Redirect::to(route('officeairports.show', $office));
         }
 
     }
@@ -77,12 +78,12 @@ class OfficeDropPointAdminController extends Controller
     {
         //
         $data['office'] = OfficeList::find($id);
-        if ($data['office']->id_office_type == OfficeType::where('name', 'Processing Center')->first()->id) {
-            $data['datas'] = OfficeDropPoint::where('id_office', $id)->paginate(10);
+        if ($data['office']->id_office_type == 2) {
+            $data['datas'] = OfficeAirport::where('id_office', $id)->paginate(10);
             foreach ($data['datas'] as $dat) {
-                $dat['name'] = OfficeList::find($dat->id_drop_point)->name;
+                $dat['name'] = AirportList::find($dat->id_airport)->name;
             }
-            return view('admin.officedroppoints.index', $data);
+            return view('admin.officeairports.index', $data);
         }
     }
 
@@ -95,10 +96,10 @@ class OfficeDropPointAdminController extends Controller
     public function edit($office, $id)
     {
         //
-        $officedropPoint = OfficeDropPoint::find($id);
+        $officedropPoint = OfficeAirport::find($id);
         $data['datas'] =  $officedropPoint;
-        $data['drop_point'] = OfficeList::where('id', OfficeType::where('name', 'Drop Point')->first()->id)->get();
-        return view('admin.officedroppoints.edit', $data);
+        $data['airport'] = AirportList::all();
+        return view('admin.officeairports.edit', $data);
     }
 
     /**
@@ -111,23 +112,23 @@ class OfficeDropPointAdminController extends Controller
     {
         //
         $rules = array(
-            'drop_point'       => 'required',
+            'airport'       => 'required',
             'status'       => 'required',
         );
         $validator = Validator::make(Input::all(), $rules);
 
         // process the login
         if ($validator->fails()) {
-            return Redirect::to(route('officedroppoints.edit', [$office, $id]))
+            return Redirect::to(route('officeairports.edit', [$office, $id]))
                 ->withErrors($validator)
                 ->withInput();
         } else {
-            $officedropPoint = OfficeDropPoint::find($id);
-            $officedropPoint->id_drop_point = Input::get('drop_point');
+            $officedropPoint = OfficeAirport::find($id);
+            $officedropPoint->id_airport = Input::get('airport');
             $officedropPoint->status = Input::get('status');
             $officedropPoint->save();
             Session::flash('message', 'Successfully created nerd!');
-            return Redirect::to(route('officedroppoints.show', $office));
+            return Redirect::to(route('officeairports.show', $office));
         }
     }
 
@@ -140,11 +141,11 @@ class OfficeDropPointAdminController extends Controller
     public function destroy($office,$id)
     {
         //
-        $officedropPoint = OfficeDropPoint::find($id);
+        $officedropPoint = OfficeAirport::find($id);
         $officedropPoint->delete();
 
         // redirect
         Session::flash('message', 'Successfully deleted the nerd!');
-        return Redirect::to(route('officedroppoints.show', $office));
+        return Redirect::to(route('officeairports.show', $office));
     }
 }
