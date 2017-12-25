@@ -138,6 +138,11 @@ class UserController extends Controller
 
             $member_list->save();
             $member_list = MemberList::where('fb_token', $request->fb_token)->first();
+            
+            $data = array(
+                'err' => null,
+                'result' => $member_list
+            );
         }
 
         return response()->json($data, 200);
@@ -181,6 +186,11 @@ class UserController extends Controller
 
             $member_list->save();
             $member_list = MemberList::where('twitter_token', $request->twitter_token)->first();
+
+            $data = array(
+                'err' => null,
+                'result' => $member_list
+            );
         }
 
         return response()->json($data, 200);
