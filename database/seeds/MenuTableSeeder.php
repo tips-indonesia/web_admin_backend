@@ -99,7 +99,7 @@ class MenuTableSeeder extends Seeder
             ]);
         $transaction = MenuList::create([
             'name' => 'Transaction',
-            'class_name' => 'shipments.|slotlists.|deliveries.|receiveds.|shipmenttrackings.|packagingslots.|packagingprocessingcenters.|packagingrestshipments.'
+            'class_name' => 'shipments.|slotlists.|deliveries.|receiveds.|shipmenttrackings.|packagingslots.|packagingprocessingcenters.|packagingrestshipments.|shipmentpickups.'
         ]);
             MenuList::create([
                 'name' => 'Shipment List',
@@ -140,6 +140,11 @@ class MenuTableSeeder extends Seeder
                 'name' => 'Packaging Rest Shipment',
                 'menu_parent_id' => $transaction->id,
                 'class_name' => 'packagingrestshipments.'
+            ]);
+            MenuList::create([
+                'name' => 'Shipment Pick Up List',
+                'menu_parent_id' => $transaction->id,
+                'class_name' => 'shipmentpickups.'
             ]);
         $setting = MenuList::create([
             'name' => 'Setting',

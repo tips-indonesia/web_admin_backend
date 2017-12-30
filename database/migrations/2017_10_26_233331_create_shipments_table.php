@@ -58,6 +58,9 @@ class CreateShipmentsTable extends Migration
             $table->string('received_image')->nullable();
             $table->boolean('is_posted')->default(false);
             $table->string('detail_status')->nullable();
+            $table->enum('pickup_status', ['Pending', 'Done'])->default('Pending');
+            $table->date('pickup_date')->nullable();
+            $table->time('pickup_time')->nullable();
             $table->timestamps();
 
         });
