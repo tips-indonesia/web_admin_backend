@@ -311,7 +311,7 @@
                     </div>
 
                     <div class="modal-body">
-                        <div id="qr" style="left:50%"></div>
+                        <div id="qr"></div>
                     </div>
 
                     <div class="modal-footer">
@@ -329,9 +329,11 @@
             showSeconds: false
           });
         jQuery('#qr').qrcode({
-            text    : "http://jetienne.com",
+            text    : "Gatau mau isi apa jadi ini shipment idnya : {{ $data->shipment_id }}",
             render : "canvas"
         }); 
+        $('canvas').css("margin", "auto auto");
+        $('canvas').css("display", "block");
         // $('#bank').on('select2:select', function(){
         //     var card = $('#card');
         //     card.empty();
