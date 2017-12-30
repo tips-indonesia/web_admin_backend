@@ -14,6 +14,15 @@
                 <div class="panel panel-flat">
                     <div class="panel-body">
                         <div class="form-group">
+                            <label>Province :</label>
+                            <select name="province" class="select-search">
+                                <option disabled></option>
+                                @foreach ($provinces as $province)
+                                    <option value="{{ $province->id }}" @if ($datas->name == $province->id) selected @endif>{{ $province->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
                             <label>Name :</label>
                             {{ Form::text('name', $datas->name, array('class' => 'form-control', 'placeholder' => 'City Name')) }}
                         </div>
@@ -25,5 +34,8 @@
             {{ Form::close() }}
         </div>
     </div>
+        <script>
+            $('.select-search').select2();
+        </script>
         
 @endsection

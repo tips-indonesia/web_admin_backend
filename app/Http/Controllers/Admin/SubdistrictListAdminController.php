@@ -4,15 +4,15 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\AirportList;
-use App\AirportcityList;
-use App\AirportCityScope;
+use App\SubdistrictList;
+use App\ProvinceList;
+use App\CityList;
 use Validator;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 
-class AirportListAdminController extends Controller
+class SubdistrictListAdminController extends Controller
 {
     /**
     * Display a listing of the resource.
@@ -22,8 +22,8 @@ class AirportListAdminController extends Controller
     public function index()
     {
         //
-        $data['datas'] = AirportList::paginate(10);
-        return view('admin.airportlists.index', $data);
+        $data['datas'] = SubdistrictList::paginate(10);
+        return view('admin.subdistrictlists.index', $data);
     }
 
     /**
@@ -34,8 +34,8 @@ class AirportListAdminController extends Controller
     public function create()
     {
         //
-        $data['cities'] = AirportcityList::all();
-        return view('admin.airportlists.create', $data);
+        $data['provinces'] = ProvinceList::all();
+        return view('admin.subdistrictlists.create', $data);
     }
 
     /**
@@ -48,25 +48,24 @@ class AirportListAdminController extends Controller
         //
         $rules = array(
             'name'       => 'required',
-            'initial_code'       => 'required',
+            'province' => 'required',
             'city' => 'required'
         );
         $validator = Validator::make(Input::all(), $rules);
 
         // process the login
         if ($validator->fails()) {
-            return Redirect::to(route('airportlists.create'))
+            return Redirect::to(route('subdistrictlists.create'))
                 ->withErrors($validator)
                 ->withInput();
         } else {
-            $airportList = new AirportList;
-            $airportList->name = Input::get('name');
-            $airportList->initial_code = Input::get('initial_code');
-            $airportList->id_city = Input::get('city');
-            $airportList->status = 1;
-            $airportList->save();
+            $subdistrictList = new SubdistrictList;
+            $subdistrictList->name = Input::get('name');
+            $subdistrictList->id_province = Input::get('province');
+            $subdistrictList->id_city = Input::get('city');
+            $subdistrictList->save();
             Session::flash('message', 'Successfully created nerd!');
-            return Redirect::to(route('airportlists.index'));
+            return Redirect::to(route('subdistrictlists.index'));
         }
 
     }
@@ -80,13 +79,6 @@ class AirportListAdminController extends Controller
     public function show($id)
     {
         //
-        // $data['airport'] = AirportList::find($id);
-        // $data['datas'] = AirportCityScope::where('id_airport', $id)->paginate(10);
-        // foreach ($data['datas'] as $dat) {
-        //     $dat['name'] = CityList::find($dat->id_city)->name;
-        // }
-        
-        // return view('admin.airportcityscopes.index', $data);
     }
 
     /**
@@ -98,10 +90,10 @@ class AirportListAdminController extends Controller
     public function edit($id)
     {
         //
-        $airportList = AirportList::find($id);
-        $data['cities'] = AirportcityList::all();
-        $data['datas'] =  $airportList;
-        return view('admin.airportlists.edit', $data);
+        $subdistrictList = SubdistrictList::find($id);
+        $data['datas'] =  $subdistrictList;
+        $data['provinces'] = ProvinceList::all();
+        return view('admin.subdistrictlists.edit', $data);
     }
 
     /**
@@ -115,25 +107,24 @@ class AirportListAdminController extends Controller
         //
         $rules = array(
             'name'       => 'required',
-            'initial_code'       => 'required',
-            'city'       => 'required'
+            'province' => 'required',
+            'city' => 'required'
         );
         $validator = Validator::make(Input::all(), $rules);
 
         // process the login
         if ($validator->fails()) {
-            return Redirect::to(route('airportlists.edit'))
+            return Redirect::to(route('subdistrictlists.edit', $id))
                 ->withErrors($validator)
                 ->withInput();
         } else {
-            $airportList = AirportList::find($id);
-            $airportList->name = Input::get('name');
-            $airportList->initial_code = Input::get('initial_code');
-            $airportList->id_city = Input::get('city');
-            $airportList->status = Input::get('status');;
-            $airportList->save();
+            $subdistrictList = SubdistrictList::find($id);
+            $subdistrictList->name = Input::get('name');
+            $subdistrictList->id_province = Input::get('province');
+            $subdistrictList->id_city = Input::get('city');
+            $subdistrictList->save();
             Session::flash('message', 'Successfully created nerd!');
-            return Redirect::to(route('airportlists.index'));
+            return Redirect::to(route('subdistrictlists.index'));
         }
     }
 
@@ -146,11 +137,11 @@ class AirportListAdminController extends Controller
     public function destroy($id)
     {
         //
-        $airportList = AirportList::find($id);
-        $airportList->delete();
+        $subdistrictList = SubdistrictList::find($id);
+        $subdistrictList->delete();
 
         // redirect
         Session::flash('message', 'Successfully deleted the nerd!');
-        return Redirect::to(route('airportlists.index'));
+        return Redirect::to(route('subdistrictlists.index'));
     }
 }

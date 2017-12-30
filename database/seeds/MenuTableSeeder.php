@@ -15,13 +15,28 @@ class MenuTableSeeder extends Seeder
         //
         MenuList::create([
             'name' => 'Master File',
-            'class_name' => 'officetypes.|officelists.|citylists.|airlineslists.|airportlists.|banklists.|paymenttypes.|pricelists.|insurances.|weightlists.'
+            'class_name' => 'officetypes.|officelists.|citylists.|airlineslists.|airportlists.|banklists.|paymenttypes.|pricelists.|insurances.|weightlists.|provincelists.|airportcitylists.|subdistrictlists.'
         ]);
             MenuList::create([
-                'name' => 'City List',
+                'name' => 'Region List',
                 'menu_parent_id' => 1,
-                'class_name' => 'citylists.'
+                'class_name' => 'citylists.|provincelists.|subdistrictlists.'
             ]);
+                MenuList::create([
+                    'name' => 'City List',
+                    'menu_parent_id' => 2,
+                    'class_name' => 'citylists.'
+                ]);
+                MenuList::create([
+                    'name' => 'Province List',
+                    'menu_parent_id' => 2,
+                    'class_name' => 'provincelists.'
+                ]);
+                MenuList::create([
+                    'name' => 'Subdistrict List',
+                    'menu_parent_id' => 2,
+                    'class_name' => 'subdistrictlists.'
+                ]);
             MenuList::create([
                 'name' => 'Airline List',
                 'menu_parent_id' => 1,
@@ -33,18 +48,23 @@ class MenuTableSeeder extends Seeder
                 'class_name' => 'airportlists.'
             ]);
             MenuList::create([
+                'name' => 'Airportcity List',
+                'menu_parent_id' => 1,
+                'class_name' => 'airportcitylists.'
+            ]);
+            MenuList::create([
                 'name' => 'Office List',
                 'menu_parent_id' => 1,
                 'class_name' => 'officetypes.|officelists.'
             ]);
                 MenuList::create([
                     'name' => 'Office Type',
-                    'menu_parent_id' => 5,
+                    'menu_parent_id' => 9,
                     'class_name' => 'officetypes.'
                 ]);
                 MenuList::create([
                     'name' => 'Office List',
-                    'menu_parent_id' => 5,
+                    'menu_parent_id' => 9,
                     'class_name' => 'officelists.'
                 ]);
             MenuList::create([

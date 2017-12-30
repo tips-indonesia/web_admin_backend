@@ -17,9 +17,14 @@ class PermissionTableSeeder extends Seeder
         app()['cache']->forget('spatie.permission.cache');
 
         // Master File
-        Permission::create(['name' => 'citylists.', 'show_name' => 'City List']);
+            // Region List
+            Permission::create(['name' => 'citylists.', 'show_name' => 'City List']);
+            Permission::create(['name' => 'provincelists.', 'show_name' => 'Province List']);
+            Permission::create(['name' => 'subdistrictlists.', 'show_name' => 'Subdistrict List']);
+            // End of Region List
         Permission::create(['name' => 'airlineslists.', 'show_name' => 'Airline List']);
         Permission::create(['name' => 'airportlists.', 'show_name' => 'Airport List']);
+        Permission::create(['name' => 'airportcitylists.', 'show_name' => 'Airportcity List']);
             // Office List
             Permission::create(['name' => 'officelists.', 'show_name' => 'Office List']);
             Permission::create(['name' => 'officetypes.', 'show_name' => 'Office Type']);

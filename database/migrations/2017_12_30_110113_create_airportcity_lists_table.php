@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCityListsTable extends Migration
+class CreateAirportcityListsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,8 @@ class CreateCityListsTable extends Migration
      */
     public function up()
     {
-        Schema::create('city_lists', function (Blueprint $table) {
+        Schema::create('airportcity_lists', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('id_province');
             $table->string('name');
             $table->timestamps();
         });
@@ -28,6 +27,6 @@ class CreateCityListsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('city_lists');
+        Schema::dropIfExists('airportcity_lists');
     }
 }

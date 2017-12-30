@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCityListsTable extends Migration
+class CreateSubdistrictListsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,10 @@ class CreateCityListsTable extends Migration
      */
     public function up()
     {
-        Schema::create('city_lists', function (Blueprint $table) {
+        Schema::create('subdistrict_lists', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('id_province');
+            $table->unsignedInteger('id_city');
             $table->string('name');
             $table->timestamps();
         });
@@ -28,6 +29,6 @@ class CreateCityListsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('city_lists');
+        Schema::dropIfExists('subdistrict_lists');
     }
 }
