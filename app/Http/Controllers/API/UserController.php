@@ -103,8 +103,9 @@ class UserController extends Controller
     /*
         {
             "name": "rio",
-            "email": "rio@aa.aa",
             "fb_token": "aaazzz",
+            "uniq_social_id": "11223",
+            "email": "rio@aa.aa", // opsional
             "birth_date": "sama seperti register biasa", // opsional
             "id_city": "bandung", // opsional
             "address": "cisitu", // opsional
@@ -118,11 +119,19 @@ class UserController extends Controller
                 'result' => $member_list
             );
         } else {
-            $member_list = new MemberList;
+            $member_list = MemberList::where('uniq_social_id', $request->uniq_social_id)->first();
+
+            if($member_list == null)
+                $member_list = new MemberList;
+
             $member_list->name = $request->name;
-            $member_list->email = $request->email;
             $member_list->registered_date = date('Y-m-d');
             $member_list->fb_token = $request->fb_token;
+            $member_list->uniq_social_id = $request->uniq_social_id;
+
+            if($request->has('email')) {
+                $member_list->email = $request->email;
+            }
 
             if($request->has('birth_date')) {
                 $member_list->birth_date = date('Y-m-d', strtotime($request->birth_date));
@@ -138,7 +147,7 @@ class UserController extends Controller
 
             $member_list->save();
             $member_list = MemberList::where('fb_token', $request->fb_token)->first();
-            
+
             $data = array(
                 'err' => null,
                 'result' => $member_list
@@ -151,8 +160,9 @@ class UserController extends Controller
     /*
         {
             "name": "rio",
-            "email": "rio@aa.aa",
             "twitter_token": "aaazzz",
+            "uniq_social_id": "11223",
+            "email": "rio@aa.aa", // opsional
             "birth_date": "sama seperti register biasa", // opsional
             "id_city": "bandung", // opsional
             "address": "cisitu", // opsional
@@ -166,11 +176,19 @@ class UserController extends Controller
                 'result' => $member_list
             );
         } else {
-            $member_list = new MemberList;
+            $member_list = MemberList::where('uniq_social_id', $request->uniq_social_id)->first();
+
+            if($member_list == null)
+                $member_list = new MemberList;
+
             $member_list->name = $request->name;
-            $member_list->email = $request->email;
             $member_list->registered_date = date('Y-m-d');
             $member_list->twitter_token = $request->twitter_token;
+            $member_list->uniq_social_id = $request->uniq_social_id;
+
+            if($request->has('email')) {
+                $member_list->email = $request->email;
+            }
 
             if($request->has('birth_date')) {
                 $member_list->birth_date = date('Y-m-d', strtotime($request->birth_date));

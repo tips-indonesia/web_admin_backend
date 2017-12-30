@@ -16,7 +16,7 @@ class CreateMemberListsTable extends Migration
         Schema::create('member_lists', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('email');
+            $table->string('email')->nullable();
             $table->string('password')->nullable();
             $table->string('mobile_phone_no')->nullable();
             $table->date('registered_date');
@@ -28,6 +28,7 @@ class CreateMemberListsTable extends Migration
             $table->string('token')->nullable();
             $table->string('fb_token', 512)->nullable();
             $table->string('twitter_token', 512)->nullable();
+            $table->string('uniq_social_id', 512)->nullable();
             $table->timestamps();
         });
     }
