@@ -18,7 +18,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Origin City :</label>
-                                    <select name="origin_city" class="select-search">
+                                    <select name="origin_city" class="select-search" disabled readonly>
                                         <option disabled selected></option>
                                         @foreach ($cities as $origin_city)
                                             <option value="{{ $origin_city->id }}" @if ($data->id_origin_city == $origin_city->id) selected @endif>{{ $origin_city->name }}</option>
@@ -29,7 +29,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Destination City :</label>
-                                    <select name="destination_city" class="select-search">
+                                    <select name="destination_city" class="select-search" disabled readonly>
                                         <option disabled selected></option>
                                         @foreach ($cities as $destination_city)
                                             <option value="{{ $destination_city->id }}"@if ($data->id_destination_city == $destination_city->id) selected @endif>{{ $destination_city->name }}</option>
@@ -41,31 +41,31 @@
                         <div class="form-group">
                             <label class="display-block text-semibold">Class Type :</label>
                             <label class="radio-inline">
-                                <input type="radio" name="class_type" @if($data->is_first_class == 0) checked="checked" @endif value="0">
+                                <input type="radio" name="class_type" @if($data->is_first_class == 0) checked="checked" @endif value="0" disabled readonly>
                                 Regular
                             </label>
 
                             <label class="radio-inline">
-                                <input type="radio" name="class_type" @if($data->is_first_class == 1) checked="checked" @endif value="1">
+                                <input type="radio" name="class_type" @if($data->is_first_class == 1) checked="checked" @endif value="1" disabled readonly>
                                 First Class
                             </label>
                         </div>
                         <div class="form-group">
                             <label class="display-block text-semibold">Dispatch Type :</label>
                             <label class="radio-inline">
-                                <input type="radio" name="dispatch_type" @if($data->dispatch_type == 'Pending') checked="checked" @endif value="Pending">
+                                <input type="radio" name="dispatch_type" @if($data->dispatch_type == 'Pending') checked="checked" @endif value="Pending" disabled readonly>
                                 Pending
                             </label>
                             <label class="radio-inline">
-                                <input type="radio" name="dispatch_type" @if($data->dispatch_type == 'Process') checked="checked" @endif value="Process">
+                                <input type="radio" name="dispatch_type" @if($data->dispatch_type == 'Process') checked="checked" @endif value="Process" disabled readonly>
                                 Process
                             </label>
                             <label class="radio-inline">
-                                <input type="radio" name="dispatch_type" @if($data->dispatch_type == 'Complete') checked="checked" @endif value="Complete">
+                                <input type="radio" name="dispatch_type" @if($data->dispatch_type == 'Complete') checked="checked" @endif value="Complete" disabled readonly>
                                 Complete
                             </label>
                             <label class="radio-inline">
-                                <input type="radio" name="dispatch_type" @if($data->dispatch_type == 'Cancelled') checked="checked" @endif value="Cancelled">
+                                <input type="radio" name="dispatch_type" @if($data->dispatch_type == 'Cancelled') checked="checked" @endif value="Cancelled" disabled readonly>
                                 Cancelled
                             </label>
                         </div>
@@ -100,6 +100,38 @@
                                 </div>
                             </div>
                         </div>
+                        <legend class="text-bold">Pickup</legend>
+                        <div class="row">
+                            <div class="form-group">
+                                <label>Pickup By :</label>
+                                <select name="pickup_by" class="select-search" >
+                                    <option disabled selected></option>
+                                    @foreach ($users as $user)
+                                        <option value="{{ $user->id }}" @if($data->pickup_by == $user->id) selected @endif>{{ $user->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Pickup Date :</label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="icon-calendar5"></i></span>
+                                        <input type="text" name="pickup_date" class="form-control pickadate-year" placeholder="Received date" value="{{ $data->pickup_date }}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Pickup Time :</label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="icon-calendar5"></i></span>
+                                        <input type="text" name="pickup_time" class="form-control pickatime" placeholder="Received date" value="{{ $data->pickup_date }}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="tabbable">
                             <ul class="nav nav-tabs nav-tabs-highlight nav-justified">
                                 <li class="active"><a href="#shipper_consignee" data-toggle="tab">Shipper & Consignee</a></li>
@@ -115,7 +147,7 @@
                                             <legend class="text-bold">Shipper</legend>
                                             <div class="form-group">
                                                 <label>Name :</label>
-                                                <select name="shipper_name" class="select-search">
+                                                <select name="shipper_name" class="select-search" disabled readonly >
                                                     <option disabled selected></option>
                                                     @foreach ($users as $user)
                                                         <option value="{{ $user->id }}" @if($data->id_shipper == $user->id) selected @endif>{{ $user->name }}</option>
@@ -124,34 +156,34 @@
                                             </div>
                                             <div class="form-group">
                                                 <label>Address :</label>
-                                                <textarea rows="5" class="form-control" placeholder="Enter shipper address here" name="shipper_address">{{ $data->shipper_address }}</textarea>
+                                                <textarea rows="5" class="form-control" placeholder="Enter shipper address here" name="shipper_address" disabled readonly>{{ $data->shipper_address }}</textarea>
                                             </div>
                                             <div class="form-group">
                                                 <label>Mobile Phone :</label>
-                                                {{ Form::text('shipper_mobile', $data->shipper_mobile_phone, array('class' => 'form-control', 'placeholder' => 'Shipper Mobile Phone')) }}
+                                                {{ Form::text('shipper_mobile', $data->shipper_mobile_phone, array('class' => 'form-control', 'placeholder' => 'Shipper Mobile Phone', 'disabled'=>'', 'readonly'=> '')) }}
                                             </div>
                                             <div class="form-group">
                                                 <label>Latitude :</label>
-                                                {{ Form::text('shipper_latitude', $data->shipper_latitude, array('class' => 'form-control', 'placeholder' => 'Shipper Latitude')) }}
+                                                {{ Form::text('shipper_latitude', $data->shipper_latitude, array('class' => 'form-control', 'placeholder' => 'Shipper Latitude', 'disabled'=>'', 'readonly'=> '')) }}
                                             </div>
                                             <div class="form-group">
                                                 <label>Longitude :</label>
-                                                {{ Form::text('shipper_longitude', $data->shipper_longitude, array('class' => 'form-control', 'placeholder' => 'Shipper Longitude')) }}
+                                                {{ Form::text('shipper_longitude', $data->shipper_longitude, array('class' => 'form-control', 'placeholder' => 'Shipper Longitude', 'disabled'=>'', 'readonly'=> '')) }}
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <legend class="text-bold">Consignee</legend>
                                             <div class="form-group">
                                                 <label>Name :</label>
-                                                {{ Form::text('consignee_name', $data->consignee_name, array('class' => 'form-control', 'placeholder' => 'Consignee Name')) }}
+                                                {{ Form::text('consignee_name', $data->consignee_name, array('class' => 'form-control', 'placeholder' => 'Consignee Name', 'disabled'=>'', 'readonly'=> '')) }}
                                             </div>
                                             <div class="form-group">
                                                 <label>Address :</label>
-                                                <textarea rows="5" class="form-control" placeholder="Enter consignee address here" name="consignee_address">{{ $data->consignee_address }}</textarea>
+                                                <textarea rows="5" class="form-control" placeholder="Enter consignee address here" name="consignee_address" disabled readonly>{{ $data->consignee_address }}</textarea>
                                             </div>
                                             <div class="form-group">
                                                 <label>Mobile Phone :</label>
-                                                {{ Form::text('consignee_mobile', $data->consignee_mobile_phone, array('class' => 'form-control', 'placeholder' => 'Consignee Mobile Phone')) }}
+                                                {{ Form::text('consignee_mobile', $data->consignee_mobile_phone, array('class' => 'form-control', 'placeholder' => 'Consignee Mobile Phone', 'disabled'=>'', 'readonly'=> '')) }}
                                             </div>
                                         </div>
                                     </div>
@@ -163,15 +195,15 @@
                                             <legend class="text-bold">Goods Detail</legend>
                                             <div class="form-group">
                                                 <label>Shipment Content :</label>
-                                                {{ Form::text('shipment_content', $data->shipment_contents, array('class' => 'form-control', 'placeholder' => 'Shipment Content')) }}
+                                                {{ Form::text('shipment_content', $data->shipment_contents, array('class' => 'form-control', 'placeholder' => 'Shipment Content', 'disabled'=>'', 'readonly'=> '')) }}
                                             </div>
                                             <div class="form-group">
                                                 <label>Estimated Goods Value :</label>
-                                                {{ Form::text('estimated_goods_value', $data->estimate_goods_value, array('class' => 'form-control', 'placeholder' => 'Estimated Goods Value')) }}
+                                                {{ Form::text('estimated_goods_value', $data->estimate_goods_value, array('class' => 'form-control', 'placeholder' => 'Estimated Goods Value', 'disabled'=>'', 'readonly'=> '')) }}
                                             </div>
                                             <div class="form-group">
                                                 <label>Estimated Weight :</label>
-                                                {{ Form::number('estimated_weight', $data->estimate_weight, array('class' => 'form-control', 'placeholder' => 'Estimated Weight')) }}
+                                                {{ Form::number('estimated_weight', $data->estimate_weight, array('class' => 'form-control', 'placeholder' => 'Estimated Weight', 'disabled'=>'', 'readonly'=> '')) }}
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -179,12 +211,12 @@
                                             <div class="form-group">
                                                 <label class="display-block text-semibold">Additional Insurance :</label>
                                                 <label class="radio-inline">
-                                                    <input type="radio" name="additional_insurance" @if($data->is_add_insurance == 0) checked="checked" @endif value="0">
+                                                    <input type="radio" name="additional_insurance" @if($data->is_add_insurance == 0) checked="checked" @endif value="0" disabled readonly>
                                                     No
                                                 </label>
 
                                                 <label class="radio-inline">
-                                                    <input type="radio" name="additional_insurance" @if($data->is_add_insurance == 1) checked="checked" @endif  value="1">
+                                                    <input type="radio" name="additional_insurance" @if($data->is_add_insurance == 1) checked="checked" @endif  value="1" disabled readonly>
                                                     Yes
                                                 </label>
                                             </div>
@@ -195,7 +227,7 @@
                                 <div class="tab-pane" id="payment">
                                     <div class="form-group">
                                         <label>Payment Type :</label>
-                                        <select name="payment_type" class="select-search" id="payment_type" >
+                                        <select name="payment_type" class="select-search" id="payment_type"  disabled readonly>
                                             <option disabled selected></option>
                                             @foreach ($payment_types as $payment_type)
                                                 <option value="{{ $payment_type->id }}" @if($data->id_payment_type == $payment_type->id) selected @endif >{{ $payment_type->name }}</option>
@@ -205,18 +237,18 @@
                                     <div class="form-group">
                                         <label class="display-block text-semibold">Online Payment :</label>
                                         <label class="radio-inline">
-                                            <input type="radio" name="online_payment" @if($data->is_online_payment == 0) checked="checked" @endif  value="0">
+                                            <input type="radio" name="online_payment" @if($data->is_online_payment == 0) checked="checked" @endif  value="0" disabled readonly>
                                             No
                                         </label>
 
                                         <label class="radio-inline">
-                                            <input type="radio" name="online_payment" @if($data->is_online_payment == 1) checked="checked" @endif  value="1">
+                                            <input type="radio" name="online_payment" @if($data->is_online_payment == 1) checked="checked" @endif  value="1" disabled readonly>
                                             Yes
                                         </label>
                                     </div>
                                     <div class="form-group">
                                         <label>Bank Name :</label>
-                                        <select name="bank" class="select-search" id="bank" @if ($data->is_online_payment == 0) disabled @endif>
+                                        <select name="bank" class="select-search" id="bank" @if ($data->is_online_payment == 0) disabled @endif disabled readonly>
                                             <option disabled selected></option>
                                             @foreach ($banklists as $bank)
                                                 <option value="{{ $bank->id }}" @if($data->id_bank == $bank->id) selected @endif>{{ $bank->name }}</option>
@@ -225,7 +257,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Card Type :</label>
-                                        <select name="card_type" class="select-search" id="card" @if ($data->is_online_payment == 0) disabled @endif>
+                                        <select name="card_type" class="select-search" id="card" @if ($data->is_online_payment == 0) disabled @endif disabled readonly>
                                             <option disabled selected></option>
                                             @if ($data->is_online_payment == 1)
                                                 @foreach ($bankcardlists as $bankcard)
@@ -236,17 +268,17 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Card Number :</label>
-                                        <input type="number" name="card_number" id="card_number" value="{{$data->card_no }}" class="form-control" placeholder="Card Number" @if($data->is_online_payment == 0) disabled @endif>
+                                        <input type="number" name="card_number" id="card_number" value="{{$data->card_no }}" class="form-control" placeholder="Card Number" @if($data->is_online_payment == 0) disabled @endif disabled readonly>
                                     </div>
                                     <div class="form-group">
                                         <label>Security Code :</label>
-                                        <input type="number" name="security_code" id="security_code" value="{{$data->card_security_code }}" class="form-control" placeholder="Card Number" @if($data->is_online_payment == 0) disabled @endif>
+                                        <input type="number" name="security_code" id="security_code" value="{{$data->card_security_code }}" class="form-control" placeholder="Card Number" @if($data->is_online_payment == 0) disabled @endif disabled readonly>
                                     </div>
                                     <div class="form-group">
                                         <label>Expired Date :</label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="icon-calendar5"></i></span>
-                                            <input type="text" name="expired_date" class="form-control  pickadate-year" id="expired_date" placeholder="Expired date" value="{{ $data->card_expired_date }}" disabled>
+                                            <input type="text" name="expired_date" class="form-control  pickadate-year" id="expired_date" placeholder="Expired date" value="{{ $data->card_expired_date }}"  disabled readonly>
                                         </div>
                                     </div>
                                 </div>
@@ -254,7 +286,7 @@
                                 <div class="tab-pane" id="notes">
                                     <div class="form-group">
                                         <label>Additional Notes :</label>
-                                        <textarea rows="10" class="form-control" placeholder="Additional Notes" name="addtional_notes">{{ $data->add_notes }}</textarea>
+                                        <textarea rows="10" class="form-control" placeholder="Additional Notes" name="addtional_notes" disabled readonly>{{ $data->add_notes }}</textarea>
                                     </div>
                                 </div>
                             </div>
@@ -270,41 +302,46 @@
         <script>
         $('.select-search').select2();
         $('.pickadate-year').datepicker({format: 'yyyy-mm-dd',});
-        $('#bank').on('select2:select', function(){
-            var card = $('#card');
-            card.empty();
-            $.ajax({
-                url: '{{ route("banklists.index") }}/'+$('#bank').val(),
-                data: {'ajax': 1},
-                type: 'GET',
-                dataType: 'json',
-                success: function(data) {
-                    var option = new Option;
-                    option.disabled = true;
-                    option.selected = true;
-                    card.append(option);
-                    for(var i = 0 ; i < data.length; i++) {
-                        card.append(new Option(data[i].name, data[i].id));
-                    }
-                }
-            });
-        });
-        $('input[name="online_payment"]').on('change', function(){
-            if ($('input[name="online_payment"]:checked').val() == 0) {
-                $('input[name="card_number"]').prop('disabled', 'disabled');
-                $('input[name="security_code"]').prop('disabled', 'disabled');
-                $('#card').prop('disabled', 'disabled');
-                $('#bank').prop('disabled', 'disabled');
-                $('#expired_date').prop('disabled', 'disabled');
-            } else {
-                $('input[name="card_number"]').removeAttr('disabled');
-                $('input[name="security_code"]').removeAttr('disabled');
-                $('#card').removeAttr('disabled');
-                $('#bank').removeAttr('disabled');
-                $('#expired_date').removeAttr('disabled');
+        $('.pickatime').timepicker({
+            template : 'dropdown',
+            showInputs: false,
+            showSeconds: false
+          });
+        // $('#bank').on('select2:select', function(){
+        //     var card = $('#card');
+        //     card.empty();
+        //     $.ajax({
+        //         url: '{{ route("banklists.index") }}/'+$('#bank').val(),
+        //         data: {'ajax': 1},
+        //         type: 'GET',
+        //         dataType: 'json',
+        //         success: function(data) {
+        //             var option = new Option;
+        //             option.disabled = true;
+        //             option.selected = true;
+        //             card.append(option);
+        //             for(var i = 0 ; i < data.length; i++) {
+        //                 card.append(new Option(data[i].name, data[i].id));
+        //             }
+        //         }
+        //     });
+        // });
+        // $('input[name="online_payment"]').on('change', function(){
+        //     if ($('input[name="online_payment"]:checked').val() == 0) {
+        //         $('input[name="card_number"]').prop('disabled', 'disabled');
+        //         $('input[name="security_code"]').prop('disabled', 'disabled');
+        //         $('#card').prop('disabled', 'disabled');
+        //         $('#bank').prop('disabled', 'disabled');
+        //         $('#expired_date').prop('disabled', 'disabled');
+        //     } else {
+        //         $('input[name="card_number"]').removeAttr('disabled');
+        //         $('input[name="security_code"]').removeAttr('disabled');
+        //         $('#card').removeAttr('disabled');
+        //         $('#bank').removeAttr('disabled');
+        //         $('#expired_date').removeAttr('disabled');
 
-            }
-        }); 
+        //     }
+        // }); 
         </script>
     </div>
 @endsection

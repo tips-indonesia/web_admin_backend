@@ -5,7 +5,6 @@
 @endsection
 @section('page_title')
 <span class="text-semibold">Shipment List</span> - Show All
-<button type="button" class="btn btn-success" onclick="window.location.href='{{ route('shipments.create') }}'">Create</button>
 @endsection
 @section('content')
     <div class="panel panel-flat">
@@ -18,8 +17,8 @@
                     <th>Shipper Name</th>
                     <th>Origin</th>
                     <th>Destination</th>
-                    <th>Depart Date</th>
-                    <th>Status</th>
+                    <th>Pickup By</th>
+                    <th>Pickup Status</th>
                     <th>Submit</th>
                     <th>Action</th>
                 </tr>
@@ -48,10 +47,10 @@
                             {{ $data->name_destination }}
                         </td>
                         <td>
-                            {{ $data->depart_date }}
+                            {{ $data->pickup_by }}
                         </td>
                         <td>
-                            {{ $data->status }}
+                            {{ $data->pickup_status }}
                         </td>
                         <td>
                             {{ $data->is_posted ==1 ? 'Submitted' : 'Not Submitted' }}
