@@ -10,6 +10,7 @@
     <!-- Vertical form options -->
     <div class="row">
         <div class="col-md-12">
+            {{ Form::open(array('url' => route('shipments.store'))) }}
                 <div class="panel panel-flat">
                     <div class="panel-body">
                         <div class="row">
@@ -252,6 +253,7 @@
                         </div>
                     </div>
                 </div>
+            {{ Form::close() }}
         </div>
         <script>
         $('.select-search').select2();
