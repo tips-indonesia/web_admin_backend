@@ -66,7 +66,15 @@ class UserController extends Controller
         } else {
             $member_list = new MemberList;
             $member_list->mobile_phone_no = $request->mobile_phone_no;
-            $member_list->name = $request->name;
+//            $member_list->name = $request->name;
+            $member_list->first_name = $request->first_name;
+
+            if($request->has('last_name')) {
+                if($request->last_name != "" && $request->last_name != null){
+                    $member_list->last_name = $request->last_name;
+                }
+            }
+
             $member_list->email = $request->email;
             $member_list->password = bcrypt($request->password);
             $member_list->registered_date = date('Y-m-d');
@@ -226,9 +234,15 @@ class UserController extends Controller
                 'result' => null
             );
         } else {
-            if($request->has('name')) {
-                if($request->name != null && $request->name != ''){
-                    $member->name = $request->name;
+            if($request->has('first_name')) {
+                if($request->first_name != null && $request->first_name != ''){
+                    $member->first_name = $request->first_name;
+                }
+            }
+
+            if($request->has('last_name')) {
+                if($request->last_name != null && $request->last_name != ''){
+                    $member->last_name = $request->last_name;
                 }
             }
 

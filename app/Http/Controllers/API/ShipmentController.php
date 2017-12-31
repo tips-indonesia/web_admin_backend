@@ -12,11 +12,24 @@ use App\CityList;
 use App\ShipmentStatus;
 use App\DaftarBarangRegular;
 use App\DaftarBarangGold;
+use App\Province;
+use App\City;
+use App\Districts;
+
 
 class ShipmentController extends Controller
 {
     //
     function submit(Request $request) {
+        $shipper_districts = Districts::find($request->id_shipper_district);
+        $consignee_districts = Districts::find($request->id_consignee_district);
+
+        $shipper_city = City::find($shipper_districts->id_city);
+        $consignee_city = City::find($consignee_districts->id_city);
+
+        $shipper_province = Province::find($shipper_city->id_province);
+        $consignee_province = Province::find($consignee_city->id_province);
+
         $insurance = Insurance::first();
         do{
             $random_string = $this->generateRandomString();
@@ -32,13 +45,48 @@ class ShipmentController extends Controller
         $shipment->id_origin_city = $request->id_origin_city;
         $shipment->id_destination_city = $request->id_destination_city;
         $shipment->is_first_class = $request->is_first_class;
-        $shipment->id_shipper = $request->id_shipper;
-        $shipment->shipper_name = $request->shipper_name;
+        $shipment->id_device = $request->id_device;
+        if($request->has('id_shipper')){
+            if($request->id_shipper != null && $request->id_shipper != ""){
+                $shipment->id_shipper = $request->id_shipper;
+            }
+        }
+
+        $shipment->shipper_first_name = $request->shipper_first_name;
+        if($request->has('shipper_last_name')) {
+            if($request->shipper_last_name != null && $request->shipper_last_name != ""){
+                $shipment->shipper_last_name = $request->shipper_last_name;
+            }
+        }
+
+        $shipment->id_shipper_districts = $shipper_districts->id;
+        $shipment->shipper_districts = $shipper_districts->name;
+        $shipment->id_shipper_city = $shipper_city->id;
+        $shipment->shipper_city = $shipper_city->name;
+        $shipment->id_shipper_province = $shipper_province->id;
+        $shipment->shipper_province = $shipper_province->name;
+
         $shipment->shipper_address = $request->shipper_address;
         $shipment->shipper_mobile_phone = $request->shipper_mobile_phone;
         $shipment->shipper_latitude = $request->shipper_latitude;
         $shipment->shipper_longitude = $request->shipper_longitude;
-        $shipment->consignee_name = $request->consignee_name;
+
+//        $shipment->consignee_name = $request->consignee_name;
+        $shipment->consignee_first_name = $request->consignee_first_name;
+
+        if($request->has('consignee_last_name')) {
+            if($request->consignee_last_name != null && $request->consignee_last_name != ""){
+                $shipment->consignee_last_name = $request->consignee_last_name;
+            }
+        }
+
+        $shipment->id_consignee_districts = $consignee_districts->id;
+        $shipment->consignee_districts = $consignee_districts->name;
+        $shipment->id_consignee_city = $consignee_city->id;
+        $shipment->consignee_city = $consignee_city->name;
+        $shipment->id_consignee_province = $consignee_province->id;
+        $shipment->consignee_province = $consignee_province->name;
+
         $shipment->consignee_address = $request->consignee_address;
         $shipment->consignee_mobile_phone = $request->consignee_mobile_phone;
         $shipment->id_payment_type = $request->id_payment_type;
@@ -58,6 +106,9 @@ class ShipmentController extends Controller
         } else {
             $shipment->flight_cost = $price->freight_cost*$request->estimate_weight;
         }
+
+        $shipment->is_delivery = $request->is_delivery;
+        $shipment->is_take = $request->is_take;
 
         $shipment->save();
 
