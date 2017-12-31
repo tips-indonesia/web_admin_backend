@@ -101,6 +101,16 @@
                                     @endforeach
                                 </select>
                             </div>
+
+                            <div class="form-group">
+                                <label>Airport Name :</label>
+                                <select name="airport" class="select-search" id="airport" disabled>
+                                    <option disabled selected></option>
+                                    @foreach ($airports as $airport)
+                                        <option value="{{ $airport->id }}" >{{ $airport->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                             <div class="text-right form-group">
                                 <button type="submit" class="btn btn-primary">Submit form <i class="icon-arrow-right14 position-right"></i></button>
                             </div>
@@ -114,13 +124,15 @@
     <script>
         $('.select-search').select2();
         $('#office_type').on('select2:select', function() {
+            $('#airport_counter').prop('disabled', 'disabled');
+            $('#processing_center').prop('disabled', 'disabled');
+            $('#airport').prop('disabled', 'disabled');
             if ($('#office_type').val() == 4 || $('#office_type').val() == 5){
                 $('#processing_center').removeAttr("disabled");
             } else if ($('#office_type').val() == 3) { 
                 $('#airport_counter').removeAttr("disabled");
-            } else {
-                $('#airport_counter').prop('disabled', 'disabled');
-                $('#processing_center').prop('disabled', 'disabled');
+            }  else if ($('#office_type').val() == 2) { 
+                $('#airport').removeAttr("disabled");
             }
         })
     </script>

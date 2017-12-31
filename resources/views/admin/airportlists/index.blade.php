@@ -16,7 +16,6 @@
                 <tr>
                     <th>Name</th>
                     <th>Initial</th>
-                    <th>Details</th>
                     <th>Status</th>
                     <th>Actions</th>
                 </tr>
@@ -29,9 +28,6 @@
                         </td>
                         <td>
                             {{ $data->initial_code }}
-                        </td>
-                        <td>
-                        <button type="button" class="btn btn-default btn-sm" onclick="window.location.href='{{ route('airportlists.show', $data->id) }}'">City Lists</button>
                         </td>
                         <td>
                             {{ $data->status == 1 ? 'Active' : 'Inactive' }}

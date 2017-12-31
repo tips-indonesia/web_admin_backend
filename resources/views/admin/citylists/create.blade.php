@@ -14,6 +14,15 @@
                 <div class="panel panel-flat">
                     <div class="panel-body">
                         <div class="form-group">
+                            <label>Province :</label>
+                            <select name="province" class="select-search">
+                                <option disabled selected></option>
+                                @foreach ($provinces as $province)
+                                    <option value="{{ $province->id }}">{{ $province->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
                             <label>Name :</label>
                             {{ Form::text('name', null, array('class' => 'form-control', 'placeholder' => 'City Name')) }}
                         </div>
@@ -24,5 +33,8 @@
                 </div>
             {{ Form::close() }}
         </div>
+        <script>
+            $('.select-search').select2();
+        </script>
     </div>
 @endsection

@@ -27,25 +27,35 @@ class DatabaseSeeder extends Seeder
         DB::table('slot_lists')->delete();
 
 
+        $p1 = CityList::create(array(
+            'name' => 'DKI Jakarta'
+        ));
+
+        $p2 = CityList::create(array(
+            'name' => 'Jawa Barat'
+        ));
+
+
         $c1 = CityList::create(array(
-            'name' => 'Bandung'
+            'name' => 'Bandung',
+            'id_province' => 2
         ));
 
         $c2 = CityList::create(array(
-            'name' => 'Jakarta'
+            'name' => 'Cirebon',
+            'id_province' => 2
         ));
 
         $c3 = CityList::create(array(
-            'name' => 'Medan'
+            'name' => 'Jakarta Utara',
+            'id_province' => 1
         ));
 
-<<<<<<< HEAD
-=======
         $c4 = CityList::create(array(
-            'name' => 'Surabaya'
+            'name' => 'Jakarta Barat',
+            'id_province' => 2
         ));
 
->>>>>>> 5ba8bd063d71f218898c8933fb7a6f448214e138
         $a1 = AirportList::create(array(
             'name' => 'Husein Sastranegara International Airport',
             'initial_code' => 'BDO',

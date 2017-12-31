@@ -10,6 +10,7 @@ use App\AirportList;
 use App\Term;
 use App\MemberList;
 use App\CityList;
+use App\ProvinceList;
 
 class DatabaseSeeder extends Seeder
 {
@@ -27,21 +28,27 @@ class DatabaseSeeder extends Seeder
         DB::table('shipments')->delete();
         DB::table('slot_lists')->delete();
 
-
+        $p1 = ProvinceList::create(array(
+            'name' => 'DKI Jakarta'
+        ));
         $c1 = CityList::create(array(
-            'name' => 'Bandung'
+            'name' => 'Jakarta Utara',
+            'id_province' => 1
         ));
 
         $c2 = CityList::create(array(
-            'name' => 'Jakarta'
+            'name' => 'Jakarta Barat',
+            'id_province' => 1
         ));
 
         $c3 = CityList::create(array(
-            'name' => 'Medan'
+            'name' => 'Jakarta Selatan',
+            'id_province' => 1
         ));
 
         $c4 = CityList::create(array(
-            'name' => 'Surabaya'
+            'name' => 'Jakarta Pusat',
+            'id_province' => 1
         ));
 
         $a1 = AirportList::create(array(
