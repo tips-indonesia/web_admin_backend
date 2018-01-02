@@ -22,7 +22,16 @@ class SubdistrictListAdminController extends Controller
     public function index()
     {
         //
-        $data['datas'] = SubdistrictList::paginate(10);
+        $data['provinces'] = ProvinceList::all();
+        if (Input::get('province') && Input::get('city')){
+            $data['province'] = Input::get('province');
+            $data['city'] = Input::get('city');
+            $data['datas'] = SubdistrictList::where('id_province', Input::get('province'))->where('id_city', Input::get('city'))->paginate(10);
+        } else {
+            $data['province'] = null;
+            $data['city'] = null;
+            $data['datas'] = SubdistrictList::paginate(10);
+        }
         return view('admin.subdistrictlists.index', $data);
     }
 
@@ -34,13 +43,14 @@ class SubdistrictListAdminController extends Controller
     public function create()
     {
         //
-        if (Input::get('province') && Input::get('city')) {
-            $data['province'] = Input::get('province');
-            $data['city'] = Input::get('city');
-            return view('admin.subdistrictlists.create_subdistrict', $data);    
+        if (Input::get('province') && Input::get('city')){
+            $data['province'] = ProvinceList::find(Input::get('province'));
+            $data['city'] = CityList::find(Input::get('city'));
+            return view('admin.subdistrictlists.create', $data);
+
+        } else {
+            return $this->index();
         }
-        $data['provinces'] = ProvinceList::all();
-        return view('admin.subdistrictlists.create', $data);
     }
 
     /**

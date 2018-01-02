@@ -26,7 +26,14 @@ class CityListAdminController extends Controller
             $cities = CityList::where('id_province', Input::get('province'))->get(['id', 'name']);
             return response()->json($cities);
         }
-        $data['datas'] = CityList::paginate(10);
+        $data['provinces'] = ProvinceList::all();
+        if (Input::get('province')){
+            $data['province'] = Input::get('province');
+            $data['datas'] = CityList::where('id_province', Input::get('province'))->paginate(10);
+        } else {
+            $data['province'] = null;
+            $data['datas'] = CityList::paginate(10);
+        }
         return view('admin.citylists.index', $data);
     }
 
@@ -39,11 +46,11 @@ class CityListAdminController extends Controller
     {
         //
         if (Input::get('province')){
-            $data['province'] = Input::get('province');
-            return view('admin.citylists.create_city', $data);
+            $data['province'] = ProvinceList::find(Input::get('province'));
+            return view('admin.citylists.create', $data);
+        } else  {
+            return $this->index();
         }
-        $data['provinces'] = ProvinceList::all();
-        return view('admin.citylists.create', $data);
     }
 
     /**
@@ -62,7 +69,7 @@ class CityListAdminController extends Controller
 
         // process the login
         if ($validator->fails()) {
-            return Redirect::to(route('citylists.create'))
+            return Redirect::to(route('citylists.create', ['province' => Input::get('province')]) )
                 ->withErrors($validator)
                 ->withInput();
         } else {
