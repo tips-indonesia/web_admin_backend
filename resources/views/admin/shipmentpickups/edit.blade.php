@@ -51,22 +51,16 @@
                             </label>
                         </div>
                         <div class="form-group">
+
                             <label class="display-block text-semibold">Dispatch Type :</label>
                             <label class="radio-inline">
-                                <input type="radio" name="dispatch_type" @if($data->dispatch_type == 'Pending') checked="checked" @endif value="Pending" disabled readonly>
-                                Pending
+                                <input type="radio" name="dispatch_type" @if($data->dispatch_type == 'Dispatch to consignee') checked="checked" @endif value="Dispatch to consignee" disabled readonly>
+                                Dispatch to consignee
                             </label>
                             <label class="radio-inline">
-                                <input type="radio" name="dispatch_type" @if($data->dispatch_type == 'Process') checked="checked" @endif value="Process" disabled readonly>
-                                Process
+                                <input type="radio" name="dispatch_type" @if($data->dispatch_type == 'Pickup to consignee') checked="checked" @endif value="Pickup to consignee" disabled readonly>
+                                Pickup to consignee
                             </label>
-                            <label class="radio-inline">
-                                <input type="radio" name="dispatch_type" @if($data->dispatch_type == 'Complete') checked="checked" @endif value="Complete" disabled readonly>
-                                Complete
-                            </label>
-                            <label class="radio-inline">
-                                <input type="radio" name="dispatch_type" @if($data->dispatch_type == 'Cancelled') checked="checked" @endif value="Cancelled" disabled readonly>
-                                Cancelled
                             </label>
                         </div>
                         <div class="form-group">
