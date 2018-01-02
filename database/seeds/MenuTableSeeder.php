@@ -23,14 +23,14 @@ class MenuTableSeeder extends Seeder
                 'class_name' => 'citylists.|provincelists.|subdistrictlists.'
             ]);
                 MenuList::create([
-                    'name' => 'City List',
-                    'menu_parent_id' => 2,
-                    'class_name' => 'citylists.'
-                ]);
-                MenuList::create([
                     'name' => 'Province List',
                     'menu_parent_id' => 2,
                     'class_name' => 'provincelists.'
+                ]);
+                MenuList::create([
+                    'name' => 'City List',
+                    'menu_parent_id' => 2,
+                    'class_name' => 'citylists.'
                 ]);
                 MenuList::create([
                     'name' => 'Subdistrict List',

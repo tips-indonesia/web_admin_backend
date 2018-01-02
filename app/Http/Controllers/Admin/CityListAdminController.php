@@ -38,6 +38,10 @@ class CityListAdminController extends Controller
     public function create()
     {
         //
+        if (Input::get('province')){
+            $data['province'] = Input::get('province');
+            return view('admin.citylists.create_city', $data);
+        }
         $data['provinces'] = ProvinceList::all();
         return view('admin.citylists.create', $data);
     }

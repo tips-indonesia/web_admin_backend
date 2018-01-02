@@ -34,6 +34,11 @@ class SubdistrictListAdminController extends Controller
     public function create()
     {
         //
+        if (Input::get('province') && Input::get('city')) {
+            $data['province'] = Input::get('province');
+            $data['city'] = Input::get('city');
+            return view('admin.subdistrictlists.create_subdistrict', $data);    
+        }
         $data['provinces'] = ProvinceList::all();
         return view('admin.subdistrictlists.create', $data);
     }
