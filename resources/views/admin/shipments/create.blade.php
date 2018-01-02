@@ -52,20 +52,12 @@
                         <div class="form-group">
                             <label class="display-block text-semibold">Dispatch Type :</label>
                             <label class="radio-inline">
-                                <input type="radio" name="dispatch_type" value="Pending">
-                                Pending
+                                <input type="radio" name="dispatch_type" value="Dispatch to consignee">
+                                Dispatch to consignee
                             </label>
                             <label class="radio-inline">
-                                <input type="radio" name="dispatch_type"  value="Process">
-                                Process
-                            </label>
-                            <label class="radio-inline">
-                                <input type="radio" name="dispatch_type"  value="Complete">
-                                Complete
-                            </label>
-                            <label class="radio-inline">
-                                <input type="radio" name="dispatch_type" value="Cancelled">
-                                Cancelled
+                                <input type="radio" name="dispatch_type"  value="Pickup to consignee">
+                                Pickup to consignee
                             </label>
                         </div>
                         <div class="form-group">

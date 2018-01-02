@@ -49,7 +49,7 @@ class CreateShipmentsTable extends Migration
             $table->string('consignee_province');
             $table->string('consignee_address');
             $table->string('consignee_mobile_phone');
-            $table->enum('dispatch_type', ['Pending', 'Process', 'Complete', 'Canceled'])->default('Pending');
+            $table->enum('dispatch_type', ['Dispatch to consignee', 'Pickup to consignee'])->default('Dispatch to consignee');
             $table->boolean('is_online_payment')->nullable();
             $table->unsignedInteger('id_payment_type');
             $table->string('shipment_contents');
