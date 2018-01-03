@@ -79,6 +79,10 @@ Route::prefix('admin/')->group(function ($locale) {
             Route::resource('paymenttypes','Admin\PaymentTypeAdminController');
         });
 
+        Route::group(['middleware' => ['permission:shipmentmatchingmonitors.']], function () {
+            Route::resource('shipmentmatchingmonitors','Admin\ShipmentMatchingMonitorAdminController');
+        });
+
         Route::group(['middleware' => ['permission:pricelists.']], function () {
             Route::resource('pricelists','Admin\PriceListAdminController');
         });
