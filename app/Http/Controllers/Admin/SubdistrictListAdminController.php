@@ -30,7 +30,7 @@ class SubdistrictListAdminController extends Controller
         } else {
             $data['province'] = null;
             $data['city'] = null;
-            $data['datas'] = SubdistrictList::paginate(10);
+            $data['datas'] = SubdistrictList::where('id_province', null)->paginate(10);
         }
         return view('admin.subdistrictlists.index', $data);
     }
@@ -80,7 +80,7 @@ class SubdistrictListAdminController extends Controller
             $subdistrictList->id_city = Input::get('city');
             $subdistrictList->save();
             Session::flash('message', 'Successfully created nerd!');
-            return Redirect::to(route('subdistrictlists.index'));
+            return Redirect::to(route('subdistrictlists.index', ['province' => Input::get('province'), 'city' => Input::get('city')]));
         }
 
     }

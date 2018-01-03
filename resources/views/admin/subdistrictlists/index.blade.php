@@ -30,7 +30,7 @@
                             </select>
                         </div>
                         <div class="text-right form-group">
-                            <button type="submit" class="btn btn-primary">Submit form <i class="icon-arrow-right14 position-right"></i></button>
+                            <button type="submit" class="btn btn-primary">View <i class="icon-arrow-right14 position-right"></i></button>
                         </div>
                     </div>
             {{ Form::close() }}

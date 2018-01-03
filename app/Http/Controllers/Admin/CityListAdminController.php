@@ -32,7 +32,7 @@ class CityListAdminController extends Controller
             $data['datas'] = CityList::where('id_province', Input::get('province'))->paginate(10);
         } else {
             $data['province'] = null;
-            $data['datas'] = CityList::paginate(10);
+            $data['datas'] = CityList::where('id_province', null)->paginate(10);
         }
         return view('admin.citylists.index', $data);
     }
@@ -78,7 +78,7 @@ class CityListAdminController extends Controller
             $cityList->id_province = Input::get('province');
             $cityList->save();
             Session::flash('message', 'Successfully created nerd!');
-            return Redirect::to(route('citylists.index'));
+            return Redirect::to(route('citylists.index', ['province' => Input::get('province')]));
         }
 
     }
