@@ -15,7 +15,9 @@ class CreateMemberListsTable extends Migration
     {
         Schema::create('member_lists', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
+//            $table->string('name');
+            $table->string('first_name');
+            $table->string('last_name');
             $table->string('email')->nullable();
             $table->string('password')->nullable();
             $table->string('mobile_phone_no')->nullable();

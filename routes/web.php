@@ -25,20 +25,31 @@ Route::prefix('admin/')->group(function ($locale) {
         Route::get('/', function () {
             return view('admin.dashboard');
         });
+
         Route::group(['middleware' => ['permission:citylists.']], function () {
             Route::resource('citylists','Admin\CityListAdminController');
         });
+        Route::group(['middleware' => ['permission:provincelists.']], function () {
+            Route::resource('provincelists','Admin\ProvinceListAdminController');
+        });
+        Route::group(['middleware' => ['permission:subdistrictlists.']], function () {
+            Route::resource('subdistrictlists','Admin\SubdistrictListAdminController');
+        });
+
         Route::group(['middleware' => ['permission:airlineslists.']], function () {
             Route::resource('airlineslists','Admin\AirlinesListAdminController');
         });
 
         Route::group(['middleware' => ['permission:airportlists.']], function () {
             Route::resource('airportlists','Admin\AirportListAdminController');
-            Route::get('airportlists/{airportlist}/create', 'Admin\AirportCityScopeAdminController@create')->name('airportcityscopes.create');
-            Route::post('airportlists/{airportlist}/create', 'Admin\AirportCityScopeAdminController@store')->name('airportcityscopes.store');
-            Route::get('airportlists/{airportlist}/{airportcityscope}/edit', 'Admin\AirportCityScopeAdminController@edit')->name('airportcityscopes.edit');
-            Route::put('airportlists/{airportlist}/{airportcityscope}/edit', 'Admin\AirportCityScopeAdminController@update')->name('airportcityscopes.update');
-            Route::delete('airportlists/{airportlist}/{airportcityscope}', 'Admin\AirportCityScopeAdminController@destroy')->name('airportcityscopes.destroy');
+            // Route::get('airportlists/{airportlist}/create', 'Admin\AirportCityScopeAdminController@create')->name('airportcityscopes.create');
+            // Route::post('airportlists/{airportlist}/create', 'Admin\AirportCityScopeAdminController@store')->name('airportcityscopes.store');
+            // Route::get('airportlists/{airportlist}/{airportcityscope}/edit', 'Admin\AirportCityScopeAdminController@edit')->name('airportcityscopes.edit');
+            // Route::put('airportlists/{airportlist}/{airportcityscope}/edit', 'Admin\AirportCityScopeAdminController@update')->name('airportcityscopes.update');
+            // Route::delete('airportlists/{airportlist}/{airportcityscope}', 'Admin\AirportCityScopeAdminController@destroy')->name('airportcityscopes.destroy');
+        });
+        Route::group(['middleware' => ['permission:airportcitylists.']], function () {
+            Route::resource('airportcitylists','Admin\AirportcityListAdminController');
         });
         Route::group(['middleware' => ['permission:officetypes.']], function () {
             Route::resource('officetypes','Admin\OfficeTypeAdminController');
@@ -69,6 +80,10 @@ Route::prefix('admin/')->group(function ($locale) {
         });
         Route::group(['middleware' => ['permission:paymenttypes.']], function () {
             Route::resource('paymenttypes','Admin\PaymentTypeAdminController');
+        });
+
+        Route::group(['middleware' => ['permission:shipmentmatchingmonitors.']], function () {
+            Route::resource('shipmentmatchingmonitors','Admin\ShipmentMatchingMonitorAdminController');
         });
 
         Route::group(['middleware' => ['permission:pricelists.']], function () {
@@ -111,6 +126,10 @@ Route::prefix('admin/')->group(function ($locale) {
 
         Route::group(['middleware' => ['permission:receiveds.']], function () {
             Route::resource('shipmenttrackings','Admin\ShipmentTrackingAdminController');
+        });
+
+        Route::group(['middleware' => ['permission:receiveds.']], function () {
+            Route::resource('shipmentpickups','Admin\ShipmentPickUpAdminController');
         });
 
         Route::group(['middleware' => ['permission:shipmentstatuses.']], function () {

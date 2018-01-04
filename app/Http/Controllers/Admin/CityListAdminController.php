@@ -22,7 +22,18 @@ class CityListAdminController extends Controller
     public function index()
     {
         //
-        $data['datas'] = CityList::paginate(10);
+        if (Input::get('ajax') == '1') {
+            $cities = CityList::where('id_province', Input::get('province'))->get(['id', 'name']);
+            return response()->json($cities);
+        }
+        $data['provinces'] = ProvinceList::all();
+        if (Input::get('province')){
+            $data['province'] = Input::get('province');
+            $data['datas'] = CityList::where('id_province', Input::get('province'))->paginate(10);
+        } else {
+            $data['province'] = null;
+            $data['datas'] = CityList::where('id_province', null)->paginate(10);
+        }
         return view('admin.citylists.index', $data);
     }
 
@@ -34,7 +45,12 @@ class CityListAdminController extends Controller
     public function create()
     {
         //
-        return view('admin.citylists.create');
+        if (Input::get('province')){
+            $data['province'] = ProvinceList::find(Input::get('province'));
+            return view('admin.citylists.create', $data);
+        } else  {
+            return $this->index();
+        }
     }
 
     /**
@@ -47,20 +63,22 @@ class CityListAdminController extends Controller
         //
         $rules = array(
             'name'       => 'required',
+            'province' => 'required'
         );
         $validator = Validator::make(Input::all(), $rules);
 
         // process the login
         if ($validator->fails()) {
-            return Redirect::to(route('citylists.create'))
+            return Redirect::to(route('citylists.create', ['province' => Input::get('province')]) )
                 ->withErrors($validator)
                 ->withInput();
         } else {
             $cityList = new CityList;
             $cityList->name = Input::get('name');
+            $cityList->id_province = Input::get('province');
             $cityList->save();
             Session::flash('message', 'Successfully created nerd!');
-            return Redirect::to(route('citylists.index'));
+            return Redirect::to(route('citylists.index', ['province' => Input::get('province')]));
         }
 
     }
@@ -87,6 +105,7 @@ class CityListAdminController extends Controller
         //
         $cityList = CityList::find($id);
         $data['datas'] =  $cityList;
+        $data['provinces'] = ProvinceList::all();
         return view('admin.citylists.edit', $data);
     }
 
@@ -101,6 +120,7 @@ class CityListAdminController extends Controller
         //
         $rules = array(
             'name'       => 'required',
+            'province' => 'required'
         );
         $validator = Validator::make(Input::all(), $rules);
 
@@ -112,6 +132,7 @@ class CityListAdminController extends Controller
         } else {
             $cityList = CityList::find($id);
             $cityList->name = Input::get('name');
+            $cityList->id_province = Input::get('province');
             $cityList->save();
             Session::flash('message', 'Successfully created nerd!');
             return Redirect::to(route('citylists.index'));

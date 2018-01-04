@@ -71,6 +71,7 @@ class OfficeListAdminController extends Controller
             'airport_counter' => 'required_if:office_type,3',
             'processing_center' => 'required_if:office_type,4|required_if:office_type,5',
             'contact_person' => 'required',
+            'airport' => 'required_if:office_type,2'
         );
 
         $validator = Validator::make(Input::all(), $rules);
@@ -96,6 +97,8 @@ class OfficeListAdminController extends Controller
                 $officeLists->id_office_counter = Input::get('airport_counter');
             if (Input::get('processing_center'))
                 $officeLists->processing_center = Input::get('processing_center');
+            if (Input::get('airport'))
+                $officeLists->id_airport = Input::get('airport');
             $officeLists->status = 1;
             $officeLists->save();
             Session::flash('message', 'Successfully created nerd!');
@@ -154,9 +157,10 @@ class OfficeListAdminController extends Controller
             'phone_no' => 'required',
             'fax_no' => 'required',
             'email_address' => 'required',
-            'airport' => 'required',
-            'airport_counter' => 'required_if:office_type,'.OfficeType::where('name', 'Processing Center')->first()->id,
+            'airport_counter' => 'required_if:office_type,3',
+            'processing_center' => 'required_if:office_type,4|required_if:office_type,5',
             'contact_person' => 'required',
+            'airport' => 'required_if:office_type,2'
         );
         $validator = Validator::make(Input::all(), $rules);
 
@@ -171,8 +175,6 @@ class OfficeListAdminController extends Controller
             $officeLists->id_office_type = Input::get('office_type');
             $officeLists->address = Input::get('address');
             $officeLists->id_city = Input::get('city');
-            $officeLists->id_airport = Input::get('airport');
-            $officeLists->id_office_counter = Input::get('airport_counter');
             $officeLists->phone_no = Input::get('phone_no');
             $officeLists->fax_no = Input::get('fax_no');
             $officeLists->email_address = Input::get('email_address');
@@ -183,7 +185,9 @@ class OfficeListAdminController extends Controller
                 $officeLists->id_office_counter = Input::get('airport_counter');
             if (Input::get('processing_center'))
                 $officeLists->processing_center = Input::get('processing_center');
-            $officeLists->status = Input::get('status');
+            if (Input::get('airport'))
+                $officeLists->id_airport = Input::get('airport');
+            $officeLists->status = 1;
             $officeLists->save();
             Session::flash('message', 'Successfully created nerd!');
             return Redirect::to(route('officelists.index'));

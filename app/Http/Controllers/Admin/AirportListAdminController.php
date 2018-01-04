@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\AirportList;
-use App\CityList;
+use App\AirportcityList;
 use App\AirportCityScope;
 use Validator;
 use Illuminate\Support\Facades\Input;
@@ -34,7 +34,8 @@ class AirportListAdminController extends Controller
     public function create()
     {
         //
-        return view('admin.airportlists.create');
+        $data['cities'] = AirportcityList::all();
+        return view('admin.airportlists.create', $data);
     }
 
     /**
@@ -48,6 +49,7 @@ class AirportListAdminController extends Controller
         $rules = array(
             'name'       => 'required',
             'initial_code'       => 'required',
+            'city' => 'required'
         );
         $validator = Validator::make(Input::all(), $rules);
 
@@ -60,6 +62,7 @@ class AirportListAdminController extends Controller
             $airportList = new AirportList;
             $airportList->name = Input::get('name');
             $airportList->initial_code = Input::get('initial_code');
+            $airportList->id_city = Input::get('city');
             $airportList->status = 1;
             $airportList->save();
             Session::flash('message', 'Successfully created nerd!');
@@ -77,13 +80,13 @@ class AirportListAdminController extends Controller
     public function show($id)
     {
         //
-        $data['airport'] = AirportList::find($id);
-        $data['datas'] = AirportCityScope::where('id_airport', $id)->paginate(10);
-        foreach ($data['datas'] as $dat) {
-            $dat['name'] = CityList::find($dat->id_city)->name;
-        }
+        // $data['airport'] = AirportList::find($id);
+        // $data['datas'] = AirportCityScope::where('id_airport', $id)->paginate(10);
+        // foreach ($data['datas'] as $dat) {
+        //     $dat['name'] = CityList::find($dat->id_city)->name;
+        // }
         
-        return view('admin.airportcityscopes.index', $data);
+        // return view('admin.airportcityscopes.index', $data);
     }
 
     /**
@@ -96,6 +99,7 @@ class AirportListAdminController extends Controller
     {
         //
         $airportList = AirportList::find($id);
+        $data['cities'] = AirportcityList::all();
         $data['datas'] =  $airportList;
         return view('admin.airportlists.edit', $data);
     }
@@ -112,6 +116,7 @@ class AirportListAdminController extends Controller
         $rules = array(
             'name'       => 'required',
             'initial_code'       => 'required',
+            'city'       => 'required'
         );
         $validator = Validator::make(Input::all(), $rules);
 
@@ -124,6 +129,7 @@ class AirportListAdminController extends Controller
             $airportList = AirportList::find($id);
             $airportList->name = Input::get('name');
             $airportList->initial_code = Input::get('initial_code');
+            $airportList->id_city = Input::get('city');
             $airportList->status = Input::get('status');;
             $airportList->save();
             Session::flash('message', 'Successfully created nerd!');

@@ -101,6 +101,15 @@
                                 </select>
                             </div>
                             <div class="form-group">
+                                <label>Airport Name :</label>
+                                <select name="airport" class="select-search" id="airport" disabled>
+                                    <option disabled></option>
+                                    @foreach ($airports as $airport)
+                                        <option value="{{ $airport->id }}" @if ($datas->id_processing_center == $airport->id) selected @endif>{{ $airport->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group">
                                 <label>Status :</label>
                                 <select class="bootstrap-select" data-width="100%" name="status">
                                     <option value="1" @if ($datas->status == 1) selected @endif>Active</option>

@@ -22,10 +22,19 @@
                             {{ Form::text('initial_code', $datas->initial_code, array('class' => 'form-control', 'placeholder' => 'Airport Initial')) }}
                         </div>
                         <div class="form-group">
+                            <label>City :</label>
+                            <select name="city" class="select-search">
+                                <option disabled selected></option>
+                                @foreach ($cities as $city)
+                                    <option value="{{ $city->id }}" @if($datas->id_city == $city->id) selected @endif>{{ $city->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
                             <label>Status :</label>
                             <select class="bootstrap-select" data-width="100%" name="status" title="Choose one of the following" >
-                                <option value="1">Active</option>
-                                <option value="0">Inactive</option>
+                                <option value="1" @if($datas->status) selected @endif>Active</option>
+                                <option value="0" @if($datas->status) selected @endif>Inactive</option>
                             </select>
                         </div>
                         <div class="text-right form-group">
@@ -35,5 +44,8 @@
                 </div>
             {{ Form::close() }}
         </div>
+        <script>
+            $('.select-search').select2();
+        </script>
     </div>
 @endsection

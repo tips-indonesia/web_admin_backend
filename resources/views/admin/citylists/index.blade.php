@@ -5,11 +5,29 @@
 @endsection
 @section('page_title')
     <span class="text-semibold">City List</span> - Show All
-    <button type="button" class="btn btn-success" onclick="window.location.href='{{ route('citylists.create') }}'">Create</button>
+    @if ($province)
+    <button type="button" class="btn btn-success" onclick="window.location.href='{{ route('citylists.create') }}?province={{$province}}'">Create</button>
+    @endif
 @endsection
 @section('content')
     <div class="panel panel-flat">     
 
+    {{ Form::open(array('url' => route('citylists.index'), 'method' => 'GET')) }}
+            <div class="panel-body">
+                <div class="form-group">
+                    <label>Province :</label>
+                    <select name="province" class="select-search">
+                        <option disabled selected></option>
+                        @foreach ($provinces as $provinc)
+                            <option value="{{ $provinc->id }}" @if($province == $provinc->id) selected @endif>{{ $provinc->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">View <i class="icon-arrow-right14  position-right"></i></button>
+                    </div>
+            </div>
+    {{ Form::close() }}
         <table class="table datatable-pagination">
             <thead>
                 <tr>
@@ -45,4 +63,7 @@
 {{ $datas->links() }}
     </div>
 
+        <script>
+            $('.select-search').select2();
+        </script>
 @endsection

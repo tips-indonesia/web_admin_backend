@@ -14,6 +14,13 @@
                 <div class="panel panel-flat">
                     <div class="panel-body">
                         <div class="form-group">
+                            {{ Form::hidden('province', $province->id, array('class' => 'form-control', 'placeholder' => 'Province Name')) }}
+                        </div>
+                        <div class="form-group">
+                            <label>Province :</label>
+                            {{ Form::text('province_name', $province->name, array('class' => 'form-control', 'placeholder' => 'Province Name', 'readonly' => '','disabled' => '')) }}
+                        </div>
+                        <div class="form-group">
                             <label>Name :</label>
                             {{ Form::text('name', null, array('class' => 'form-control', 'placeholder' => 'City Name')) }}
                         </div>
@@ -24,5 +31,8 @@
                 </div>
             {{ Form::close() }}
         </div>
+        <script>
+            $('.select-search').select2();
+        </script>
     </div>
 @endsection

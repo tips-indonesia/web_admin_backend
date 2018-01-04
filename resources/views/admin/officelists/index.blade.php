@@ -17,6 +17,7 @@
                     <th>Office Type</th>
                     <th>Address</th>
                     <th>Status</th>
+                    <th>Details</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -36,6 +37,14 @@
                             {{ $data->status ? 'Active' : 'Inactive' }}
                         </td>
                         <td>
+                            @if ($data->id_office_type == $processing_center->id)
+                        <button type="button" class="btn btn-default btn-sm" onclick="window.location.href='{{ route('officedroppoints.show', $data->id) }}'">City Lists</button>
+                            @endif
+                            @if ($data->id_office_type == 2)
+                        <button type="button" class="btn btn-default btn-sm" onclick="window.location.href='{{ route('officeairports.show', $data->id) }}'">City Lists</button>
+                            @endif
+                        </td>
+                        <td>
                             <ul class="icons-list">
                             <li>
                             {{ Form::open(array('method' => 'GET', 'url' => route('officelists.edit', $data->id))) }}
@@ -46,16 +55,6 @@
                             {{ Form::open(array('method' => 'DELETE', 'url' => route('officelists.destroy', $data->id))) }}
                             <button type="submit" class="btn btn-danger"><i class="icon-trash"></i> Delete</button>
                             {{ Form::close() }}
-                            </li>
-                            <li>
-                                @if ($data->id_office_type == $processing_center->id)
-                            <button type="button" class="btn btn-primary" onclick="window.location.href='{{ route('officedroppoints.show', $data->id) }}'"><i class="icon-pencil"></i> Drop Point List</button>
-                                @endif
-                            </li>
-                            <li>
-                                @if ($data->id_office_type == 2)
-                            <button type="button" class="btn btn-primary" onclick="window.location.href='{{ route('officeairports.show', $data->id) }}'"><i class="icon-pencil"></i> Airport List</button>
-                                @endif
                             </li>
                             </ul>
                         </td>
