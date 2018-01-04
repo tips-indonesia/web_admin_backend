@@ -128,7 +128,7 @@ class PaymentController extends Controller
                     "code"      => 0,
                     "message"   => "Success",
                     "order_id"  => $transaction_id,
-                    "amount"    => $transaction->amount,
+                    "amount"    => number_format($transaction->amount,2,".",""),
                     "description"   => "Pembayaran oleh member id: " . $transaction->user_id
                 ));
             }
