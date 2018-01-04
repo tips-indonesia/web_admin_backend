@@ -100,6 +100,31 @@ class PaymentController extends Controller
             $datetime = $data['datetime'];
 
         return "$code;$message;$order_id;$amount;$currency;$description;$datetime";
+        return "$code;$message,$RECONCILE_CODE,$order_id,$datetime";
+    }
+
+    private function generateSGOEspayResponseNotification($data, $isOK){
+        $code       = "1";
+        $message    = "error unknown";
+        $order_id   = "TIPS-1";
+        $RECONCILE_CODE = $isOK ? "TIPSREC" . strtoupper("" . uniqid()) : "";
+        date_default_timezone_set("Asia/Jakarta");
+        $date       = date_create(now());
+        $datetime   = date_format($date, 'd/m/Y H:i:s');
+
+        if(array_key_exists("code", $data))
+            $code = $data['code'];
+
+        if(array_key_exists("message", $data))
+            $message = $data['message'];
+
+        if(array_key_exists("order_id", $data))
+            $order_id = $data['order_id'];
+
+        if(array_key_exists("datetime", $data))
+            $datetime = $data['datetime'];
+
+        return "$code,$message,$RECONCILE_CODE,$order_id,$datetime";
     }
 
     // this is rio authority
@@ -141,11 +166,33 @@ class PaymentController extends Controller
     public function receivePaymentNotification(Request $request){
         // dd($request->all());
         Storage::disk('public')->append('payment.txt', json_encode($request->all()));
-        $data = array(
-            'err' => null,
-            'result' => $request->all()
-        );
-        return response()->json($data, 200);
+
+        if(!$request->order_id){
+            $data = $this->generateSGOEspayResponseNotification(array(
+                "code"      => 98,
+                "message"   => "Transaksi tidak ditemukan"
+            ), false);
+        }else{
+
+            $transaction_id = $request->order_id;
+            $transaction = Transaction::where('payment_id', $transaction_id)->first();
+
+            if(sizeof($transaction) == 0){
+                $data = $this->generateSGOEspayResponseNotification(array(
+                    "code"      => 97,
+                    "message"   => "Transaksi " . $transaction_id . " tidak ditemukan",
+                    "order_id"  => $transaction_id
+                ), false);
+            }else{
+                $data = $this->generateSGOEspayResponseNotification(array(
+                    "code"      => 0,
+                    "message"   => "Success",
+                    "order_id"  => $transaction_id
+                ), true);
+            }
+        }
+
+        return response($data, 200);
     }
 
     public function createTransaction(Request $request){
