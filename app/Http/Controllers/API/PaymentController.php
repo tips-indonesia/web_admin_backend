@@ -116,7 +116,7 @@ class PaymentController extends Controller
         }else{
 
             $transaction_id = $request->order_id;
-            $transaction = Transaction::where('payment_id', $request->payment_id)->get();
+            $transaction = Transaction::where('payment_id', $transaction_id)->get();
 
             if(sizeof($transaction) == 0){
                 $data = $this->generateSGOEspayTemplate(array(
@@ -151,6 +151,16 @@ class PaymentController extends Controller
 
     public function createTransaction(Request $request){
         $id = "TIPS" . strtoupper("" . uniqid());
+
+        if(!$request->user_id || !$request->amount){
+            $data = array(
+                'err' => "user id atau jumlah/amount tidak boleh kosong",
+                'result' => null
+            );
+            return response()->json($data, 200);
+        }
+
+
         $transaction = Transaction::create(array(
             "payment_id" => $id,
             "user_id" => $request->user_id,
