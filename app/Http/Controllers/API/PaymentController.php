@@ -134,7 +134,7 @@ class PaymentController extends Controller
             }
         }
 
-        return response()->json($data, 200);
+        return response($data, 200);
     }
 
     // this is rio authority
