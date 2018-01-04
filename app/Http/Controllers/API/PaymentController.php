@@ -67,14 +67,74 @@ class PaymentController extends Controller
         return view('payment.pay', $data);
     }
 
+    private function generateSGOEspayTemplate($data){
+        $code       = "1";
+        $message    = "error unknown";
+        $order_id   = "TIPS-1";
+        $amount     = 0;
+        $currency   = "IDR";
+        $description = "there is an error on TIPS transaction process";
+        date_default_timezone_set("Asia/Jakarta");
+        $date       = date_create(now());
+        $datetime   = date_format($date, 'd/m/Y H:i:s');
+
+        if(array_key_exists("code", $data))
+            $code = $data['code'];
+
+        if(array_key_exists("message", $data))
+            $message = $data['message'];
+
+        if(array_key_exists("order_id", $data))
+            $order_id = $data['order_id'];
+
+        if(array_key_exists("amount", $data))
+            $amount = $data['amount'];
+
+        if(array_key_exists("currency", $data))
+            $currency = $data['currency'];
+
+        if(array_key_exists("description", $data))
+            $description = $data['description'];
+
+        if(array_key_exists("datetime", $data))
+            $datetime = $data['datetime'];
+
+        return "$code;$message;$order_id;$amount;$currency;$description;$datetime";
+    }
+
     // this is rio authority
     public function receiveInquiry(Request $request){
         // dd($request->all());
         Storage::disk('public')->append('inquiry.txt', json_encode($request->all()));
-        $data = array(
-            'err' => null,
-            'result' => $request->all()
-        );
+
+
+        if(!$request->order_id){
+            $data = $this->generateSGOEspayTemplate(array(
+                "code"      => 98,
+                "message"   => "Transaksi tidak ditemukan"
+            ));
+        }else{
+
+            $transaction_id = $request->order_id;
+            $transaction = Transaction::where('payment_id', $request->payment_id)->get();
+
+            if(sizeof($transaction) == 0){
+                $data = $this->generateSGOEspayTemplate(array(
+                    "code"      => 97,
+                    "message"   => "Transaksi " . $transaction_id . " tidak ditemukan",
+                    "order_id"  => $transaction_id
+                ));
+            }else{
+                $data = $this->generateSGOEspayTemplate(array(
+                    "code"      => 0,
+                    "message"   => "Berhasil",
+                    "order_id"  => $transaction_id,
+                    "amount"    => $transaction->amount,
+                    "description"   => "Pembayaran oleh member id: " . $transaction->user_id
+                ));
+            }
+        }
+
         return response()->json($data, 200);
     }
 
