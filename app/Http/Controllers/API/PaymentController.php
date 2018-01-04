@@ -126,7 +126,7 @@ class PaymentController extends Controller
             }else{
                 $data = $this->generateSGOEspayTemplate(array(
                     "code"      => 0,
-                    "message"   => "Berhasil",
+                    "message"   => "Success",
                     "order_id"  => $transaction_id,
                     "amount"    => $transaction->amount,
                     "description"   => "Pembayaran oleh member id: " . $transaction->user_id
