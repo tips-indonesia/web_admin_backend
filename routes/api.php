@@ -61,4 +61,5 @@ Route::post('/worker/arrival/confirm', 'API\\Worker\\ArrivalController@confirm')
 
 Route::post('/payment/inquiry', 'API\\PaymentController@receiveInquiry');
 Route::post('/payment/payment', 'API\\PaymentController@receivePaymentNotification');
+Route::post('/transaction', 'API\\PaymentController@createTransaction');
 

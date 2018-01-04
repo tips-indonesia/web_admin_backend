@@ -15,6 +15,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
+Route::get('/payment/start', 'API\\PaymentController@startPayment');
+
 Route::prefix('admin/')->group(function ($locale) {
     Auth::routes();
     Route::group( ['middleware' => 'auth' ], function()

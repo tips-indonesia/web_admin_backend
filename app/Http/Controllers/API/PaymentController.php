@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\BankCardList;
 use App\BankList;
 use App\PaymentType;
+use App\Transaction;
 use Storage;
 
 class PaymentController extends Controller
@@ -51,6 +52,20 @@ class PaymentController extends Controller
         return response()->json($data, 200);
     }
 
+    public function startPayment(Request $request){
+        if(!$request->payment_id)
+            return 'payment_id parameter can not be null';
+
+        $transaction = Transaction::where('payment_id', $request->payment_id)->get();
+
+        if(sizeof($transaction) == 0)
+            return 'payment_id not found, make sure payment_id is correct';
+
+        $data['payData'] = array();
+        $data['payData']['payment_id'] = $request->payment_id;
+        $data['payData']['callback_url'] = 'http://localhost';
+        return view('payment.pay', $data);
+    }
 
     // this is rio authority
     public function receiveInquiry(Request $request){
@@ -72,5 +87,16 @@ class PaymentController extends Controller
             'result' => $request->all()
         );
         return response()->json($data, 200);
+    }
+
+    public function createTransaction(Request $request){
+        $id = "TIPS" . strtoupper("" . uniqid());
+        $transaction = Transaction::create(array(
+            "payment_id" => $id,
+            "user_id" => $request->user_id,
+            "amount" => $request->amount
+        ));
+
+        return response()->json($transaction, 200);
     }
 }
