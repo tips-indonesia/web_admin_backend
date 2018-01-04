@@ -107,7 +107,6 @@ class PaymentController extends Controller
         // dd($request->all());
         Storage::disk('public')->append('inquiry.txt', json_encode($request->all()));
 
-
         if(!$request->order_id){
             $data = $this->generateSGOEspayTemplate(array(
                 "code"      => 98,
@@ -116,7 +115,7 @@ class PaymentController extends Controller
         }else{
 
             $transaction_id = $request->order_id;
-            $transaction = Transaction::where('payment_id', $transaction_id)->get();
+            $transaction = Transaction::where('payment_id', $transaction_id)->first();
 
             if(sizeof($transaction) == 0){
                 $data = $this->generateSGOEspayTemplate(array(
