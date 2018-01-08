@@ -25,7 +25,13 @@ class DeliveryAdminController extends Controller
     public function index()
     {
         //
-        $data['datas'] = DeliveryShipment::paginate(10);
+        if (Input::get('date')) {
+            $data['datas'] = DeliveryShipment::where('delivery_date', Input::get('date'))->paginate(10);
+            $data['date'] = Input::get('date');
+        } else {
+            $data['date'] = Carbon::now()->toDateString();
+            $data['datas'] = DeliveryShipment::where('delivery_date', $data['date'])->paginate(10);
+        }
         foreach ($data['datas'] as $dat) {
             $dat['total'] = DeliveryShipmentDetail::where('id_delivery', $dat->id)->get()->count();
         }
@@ -45,6 +51,10 @@ class DeliveryAdminController extends Controller
             $data['datas'] = array(); 
         } else {
             $data['datas'] = Shipment::where([['transaction_date', '=', $date], ['is_posted', '=', 1]])->whereIn('id_shipment_status', [1,2])->get();
+            foreach ($data['datas'] as $dat) {
+                $dat['origin_name'] = CityList::find($dat->id_origin_city)->name;
+                $dat['destination_name'] = CityList::find($dat->id_destination_city)->name;
+            }
             $data['date'] = $date;
         }
         return view('admin.deliveries.create', $data);
@@ -100,6 +110,10 @@ class DeliveryAdminController extends Controller
         $delivery_shipment_info = DeliveryShipment::find($id);
         $delivery_shipments = DeliveryShipmentDetail::where([['id_delivery', '=', $id]])->pluck('id_shipment')->toArray();
         $temp_shipments = Shipment::where([['transaction_date', '=', $delivery_shipment_info->delivery_date], ['is_posted', '=', 1]])->whereIn('id_shipment_status', [1,2])->get();
+        foreach ($temp_shipments as $dat) {
+            $dat['origin_name'] = CityList::find($dat->id_origin_city)->name;
+            $dat['destination_name'] = CityList::find($dat->id_destination_city)->name;
+        }
         $data['delivery_shipments'] = $delivery_shipments;
         $data['shipment_lists'] = $temp_shipments;
         $data['data'] = $delivery_shipment_info;

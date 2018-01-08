@@ -28,7 +28,7 @@
                         <div class="text-right form-group">
                             <select multiple="multiple" class="form-control listbox" name="shipments[]">
                                @foreach ($shipment_lists as $datax)
-                                    <option value="{{ $datax->id }}" @if (in_array($datax->id, $delivery_shipments)) selected @endif> {{ $data->delivery_date }} &nbsp; - &nbsp; {{ $datax->shipment_id }} </option>
+                                    <option value="{{ $datax->id }}" @if (in_array($datax->id, $delivery_shipments)) selected @endif> {{ $datax->shipment_id }} &nbsp; - &nbsp; {{ $datax->transaction_date }} &nbsp; - &nbsp; {{ $datax->origin_name }} &nbsp; - &nbsp; {{ $datax->destination_name }} </option>
                                 @endforeach
                             </select>
                         </div>
