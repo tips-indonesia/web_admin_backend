@@ -22,7 +22,9 @@
     <div class="loader"></div>
     <script type="text/javascript"src="https://sandbox-kit.espay.id/public/signature/js"></script>
     <script type="text/javascript"> 
+        console.log("Tips TEST");
         window.onload = function() {
+            console.log("Tips TEST 2");
             var data = {
                 key: "d1df1e4dc0075d52b721a9c2a67598ee",
                 paymentId: "<?php echo $payData['payment_id'] ?>",
@@ -32,6 +34,7 @@
             window.location.href = SGOSignature.getIframeURL(data);
 
             SGOSignature.receiveForm();
+            console.log("Tips TEST 3");
         };
     </script>
 
