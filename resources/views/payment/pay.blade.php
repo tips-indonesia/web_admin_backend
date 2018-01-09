@@ -23,6 +23,7 @@
     <script type="text/javascript"src="https://sandbox-kit.espay.id/public/signature/js"></script>
     <script type="text/javascript"> 
         console.log("Tips TEST");
+
         window.onload = function() {
             console.log("Tips TEST 2");
             var data = {
@@ -31,7 +32,13 @@
                 backUrl: "<?php echo $payData['callback_url'] ?>"
             }
 
-            window.location.href = SGOSignature.getIframeURL(data);
+            function x_redirect(uri) {
+              if(navigator.userAgent.match(/Android/i)) 
+                document.location = uri;      
+              else
+                window.location.replace(uri);
+            }
+            x_redirect(SGOSignature.getIframeURL(data));
 
             SGOSignature.receiveForm();
             console.log("Tips TEST 3");
