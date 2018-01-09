@@ -11,7 +11,7 @@
                 key: "d1df1e4dc0075d52b721a9c2a67598ee",
                 paymentId: "<?php echo $payData['payment_id'] ?>",
                 backUrl: "<?php echo $payData['callback_url'] ?>"
-            },
+            }
 
             window.location.href = SGOSignature.getIframeURL(data);
 
