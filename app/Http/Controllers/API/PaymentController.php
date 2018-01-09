@@ -215,7 +215,12 @@ class PaymentController extends Controller
             "amount" => $request->amount
         ));
 
-        return response()->json($transaction, 200);
+        $data = array(
+            'err' => null,
+            'result' => $transaction
+        );
+
+        return response()->json($data, 200);
     }
 
     public function tesEspayNotif(Request $request){
