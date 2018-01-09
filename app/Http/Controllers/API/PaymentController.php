@@ -9,6 +9,7 @@ use App\BankCardList;
 use App\BankList;
 use App\PaymentType;
 use App\Transaction;
+use App\EspayNotification;
 use Storage;
 
 class PaymentController extends Controller
@@ -166,6 +167,7 @@ class PaymentController extends Controller
     public function receivePaymentNotification(Request $request){
         // dd($request->all());
         Storage::disk('public')->append('payment.txt', json_encode($request->all()));
+        EspayNotification::create($request->all());
 
         if(!$request->order_id){
             $data = $this->generateSGOEspayResponseNotification(array(
@@ -214,5 +216,9 @@ class PaymentController extends Controller
         ));
 
         return response()->json($transaction, 200);
+    }
+
+    public function tesEspayNotif(Request $request){
+        return response()->json(EspayNotification::create($request->all()), 200);
     }
 }

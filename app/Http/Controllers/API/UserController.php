@@ -132,10 +132,20 @@ class UserController extends Controller
             if($member_list == null)
                 $member_list = new MemberList;
 
-            $member_list->name = $request->name;
             $member_list->registered_date = date('Y-m-d');
             $member_list->fb_token = $request->fb_token;
             $member_list->uniq_social_id = $request->uniq_social_id;
+
+            // default name
+            $member_list->first_name = "Twitter user: " . $request->uniq_social_id;
+            
+            if($request->has('first_name')) {
+                $member_list->first_name = $request->first_name;
+            }
+
+            if($request->has('last_name')) {
+                $member_list->last_name = $request->last_name;
+            }
 
             if($request->has('email')) {
                 $member_list->email = $request->email;
@@ -189,10 +199,20 @@ class UserController extends Controller
             if($member_list == null)
                 $member_list = new MemberList;
 
-            $member_list->name = $request->name;
             $member_list->registered_date = date('Y-m-d');
             $member_list->twitter_token = $request->twitter_token;
             $member_list->uniq_social_id = $request->uniq_social_id;
+
+            // default name
+            $member_list->first_name = "Twitter user: " . $request->uniq_social_id;
+
+            if($request->has('first_name')) {
+                $member_list->first_name = $request->first_name;
+            }
+
+            if($request->has('last_name')) {
+                $member_list->last_name = $request->last_name;
+            }
 
             if($request->has('email')) {
                 $member_list->email = $request->email;
