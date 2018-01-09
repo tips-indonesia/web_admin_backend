@@ -78,20 +78,18 @@ class ReceivedAdminController extends Controller
     */
     public function update($id)
     {
-        if (Input::get('checked') != null) {
-            $shipments = DeliveryShipmentDetail::where('id_shipment', $id)->get()->first();
-            $shipments->processing_center_received_by = Auth::user()->id;
-            $shipments->processing_center_received_date = Carbon::now();
-            $shipments->processing_center_received_time = Carbon::now();
-            $shipments->save();
-            $process = Shipment::find($id);
-            $process->id_shipment_status = 3;
-            $process->save();
-            $shipment_history = new ShipmentHistory;
-            $shipment_history->id_shipment_status = 3;
-            $shipment_history->id_shipment = $id;
-            $shipment_history->save();
-        }
+        $shipments = DeliveryShipmentDetail::where('id_shipment', $id)->get()->first();
+        $shipments->processing_center_received_by = Auth::user()->id;
+        $shipments->processing_center_received_date = Carbon::now();
+        $shipments->processing_center_received_time = Carbon::now();
+        $shipments->save();
+        $process = Shipment::find($id);
+        $process->id_shipment_status = 3;
+        $process->save();
+        $shipment_history = new ShipmentHistory;
+        $shipment_history->id_shipment_status = 3;
+        $shipment_history->id_shipment = $id;
+        $shipment_history->save();
         return Redirect::to(route('receiveds.index'));
     }
 

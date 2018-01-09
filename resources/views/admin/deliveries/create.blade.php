@@ -12,23 +12,12 @@
         <div class="col-md-12">
                 <div class="panel panel-flat">
                     <div class="panel-body">
-            {{ Form::open(array('url' => route('deliveries.create'), 'method' => 'GET', 'id' => 'date_form')) }}
-                <div class="form-group">
-                    <label>Transaction Date :</label>
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="icon-calendar5"></i></span>
-                        <input type="text" name="date" id="date" class="form-control pickadate-year" placeholder="Transaction date" value="{{ $date }}">
-                    </div>
-                </div>
-                <div class="text-right form-group">
-                    <button type="submit" class="btn btn-primary">Choose Date <i class="icon-arrow-right14 position-right"></i></button>
-                </div>
-            {{ Form::close() }}
+            
             {{ Form::open(array('url' => route('deliveries.store'), 'method' => 'POST')) }}
                         <div class="text-right form-group">
                             <select multiple="multiple" class="form-control listbox" name="shipments[]">
                                @foreach ($datas as $data)
-                                    <option value="{{ $data->id }}"> {{ $data->transaction_date }} &nbsp; - &nbsp; {{ $data->shipment_id }} </option>
+                                    <option value="{{ $data->id }}"> {{ $data->shipment_id }} &nbsp; - &nbsp; {{ $data->transaction_date }} &nbsp; - &nbsp; {{ $data->origin_name }} &nbsp; - &nbsp; {{ $data->destination_name }} </option>
                                 @endforeach
                             </select>
                         </div>
@@ -47,9 +36,7 @@
         nonSelectedListLabel: 'Non-selected',
         selectedListLabel: 'Selected',
     });
-        $('.pickadate-year').datepicker({
-            format: 'yyyy-mm-dd',
-        });
+        
         </script>
     </div>
 @endsection

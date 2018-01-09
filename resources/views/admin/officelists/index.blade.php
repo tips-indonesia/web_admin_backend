@@ -15,7 +15,7 @@
                 <tr>
                     <th>Office Name</th>
                     <th>Office Type</th>
-                    <th>Address</th>
+                    <th>Airport List</th>
                     <th>Status</th>
                     <th>Details</th>
                     <th>Actions</th>
@@ -31,18 +31,18 @@
                             {{ $data->office_type_name }}
                         </td>
                         <td>
-                            {{ $data->address }}
+                            @if ($data->id_office_type == 2)
+                        <button type="button" class="btn btn-default btn-sm" onclick="window.location.href='{{ route('officeairports.show', $data->id) }}'">Airport Lists</button>
+                            @endif
                         </td>
                         <td>
                             {{ $data->status ? 'Active' : 'Inactive' }}
                         </td>
                         <td>
                             @if ($data->id_office_type == $processing_center->id)
-                        <button type="button" class="btn btn-default btn-sm" onclick="window.location.href='{{ route('officedroppoints.show', $data->id) }}'">City Lists</button>
+                        <button type="button" class="btn btn-default btn-sm" onclick="window.location.href='{{ route('officedroppoints.show', $data->id) }}'">Drop Point Lists</button>
                             @endif
-                            @if ($data->id_office_type == 2)
-                        <button type="button" class="btn btn-default btn-sm" onclick="window.location.href='{{ route('officeairports.show', $data->id) }}'">City Lists</button>
-                            @endif
+                            
                         </td>
                         <td>
                             <ul class="icons-list">

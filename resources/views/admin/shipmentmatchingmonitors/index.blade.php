@@ -12,7 +12,7 @@
             {{ Form::open(array('url' => route('shipmentmatchingmonitors.index'), 'method' => 'GET')) }}
             <div class="panel-body">
             <div class="form-group">
-                <label class="display-block text-semibold">Matching :</label>
+                <label class="display-block text-semibold">Shipment Type :</label>
                 <label class="radio-inline">
                     <input type="radio" name="match" value="all" @if(!$match || $match == 'all') checked @endif>
                     All
