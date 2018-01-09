@@ -33,12 +33,24 @@
                             </div>
                             
                             <div class="form-group">
-                                <label>City :</label>
-                                <select name="city" class="select-search">
+                                <label>Province :</label>
+                                <select name="province" id="province" class="select-search">
                                     <option disabled selected></option>
-                                    @foreach ($cities as $city)
-                                        <option value="{{ $city->id }}">{{ $city->name }}</option>
+                                    @foreach ($provinces as $province)
+                                        <option value="{{ $province->id }}">{{ $province->name }}</option>
                                     @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>City :</label>
+                                <select name="city" id="city" class="select-search">
+                                    <option disabled selected></option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Subdistrict :</label>
+                                <select name="subdistrict" id="subdistrict" class="select-search">
+                                    <option disabled selected></option>
                                 </select>
                             </div>
                             <div class="row">
@@ -134,6 +146,44 @@
             }  else if ($('#office_type').val() == 2) { 
                 $('#airport').removeAttr("disabled");
             }
-        })
+        });
+        $('#province').on('select2:select', function() {
+                var city = $('#city');
+                city.empty();
+                $.ajax({
+                    url: '{{ route("citylists.index") }}',
+                    data: {'ajax': 1, 'province' : $('#province').val()},
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        var option = new Option;
+                        option.disabled = true;
+                        option.selected = true;
+                        city.append(option);
+                        for(var i = 0 ; i < data.length; i++) {
+                            city.append(new Option(data[i].name, data[i].id));
+                        }
+                    }
+                });
+            });
+        $('#city').on('select2:select', function() {
+                var subdistrict = $('#subdistrict');
+                subdistrict.empty();
+                $.ajax({
+                    url: '{{ route("subdistrictlists.index") }}',
+                    data: {'ajax': 1, 'city' : $('#city').val()},
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        var option = new Option;
+                        option.disabled = true;
+                        option.selected = true;
+                        subdistrict.append(option);
+                        for(var i = 0 ; i < data.length; i++) {
+                            subdistrict.append(new Option(data[i].name, data[i].id));
+                        }
+                    }
+                });
+            });
     </script>
 @endsection
