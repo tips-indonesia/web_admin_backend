@@ -25,6 +25,19 @@
                 </div>
             {{ Form::close() }}
             {{ Form::open(array('url' => route('deliveries.update', $data->id), 'method' => 'PUT')) }}
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Delivery ID :</label>
+                        <input type="text" class="form-control" value="{{ $data->delivery_id }}" disabled readonly>
+                    </div>
+                </div>
+                            <div class="form-group">
+                                    <label>Delivery Time :</label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="icon-calendar5"></i></span>
+                                        <input type="text" name="delivery_time" class="form-control pickatime" placeholder="Received date" value="{{$data->delivery_date}}">
+                                    </div>
+                                </div>
                         <div class="text-right form-group">
                             <select multiple="multiple" class="form-control listbox" name="shipments[]">
                                @foreach ($shipment_lists as $datax)
@@ -48,7 +61,11 @@
     });
         $('.pickadate-year').datepicker({
             format: 'yyyy-mm-dd',
-        });
+        });$('.pickatime').timepicker({
+            template : 'dropdown',
+            showInputs: false,
+            showSeconds: false
+          });
         </script>
     </div>
 @endsection

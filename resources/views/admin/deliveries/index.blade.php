@@ -18,11 +18,27 @@
                         <input type="text" name="date" id="date" class="form-control pickadate-year" placeholder="Transaction date" value="{{ $date }}">
                     </div>
                 </div>
-                <div class="text-right form-group">
-                    <button type="submit" class="btn btn-primary">Choose Date <i class="icon-arrow-right14 position-right"></i></button>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Search By :</label>
+                            <select name="param" id="param" class="select-search">
+                                <option value="blank" @if($param =='blank' || $param=='') selected @endif>&#8192;</option>
+                                <option value="delivery_id" @if($param =='delivery_id') selected @endif>Delivery ID</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>&#8192;</label>
+                            <input type="text" name="value" id="value" class="form-control " placeholder="Search" value={{$value }}>                       
+                        </div>
+                    </div>
+                </div>
+                <div class=" form-group">
+                    <button type="submit" class="btn btn-primary">View <i class="icon-arrow-right14 position-right"></i></button>
                 </div>
             </div>
-            {{ Form::close() }}
         <table class="table datatable-pagination">
             <thead>
                 <tr>
@@ -57,6 +73,7 @@
 {{ $datas->links() }}
     </div>
     <script type="text/javascript">
+        $('.select-search').select2();
         $('.pickadate-year').datepicker({
             format: 'yyyy-mm-dd',
         });

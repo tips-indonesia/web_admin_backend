@@ -37,7 +37,7 @@
                     </div>
                 </div>
             </div>
-                <div class="text-right form-group">
+                <div class="form-group">
                     <button type="submit" class="btn btn-primary">View <i class="icon-arrow-right14 position-right"></i></button>
                 </div>
             </div>
@@ -105,6 +105,7 @@
     </div>
         <script>
             $('.select-search').select2();
+            $('.pickadate-year').datepicker({format: 'yyyy-mm-dd',});
             $('#param').on('select2:select', function() {
                 if ($('#param').val() == 'pickup_status') {
                     $('#value').val('pending');

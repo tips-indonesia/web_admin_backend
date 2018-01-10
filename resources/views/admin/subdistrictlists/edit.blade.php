@@ -41,26 +41,6 @@
         </div>
     </div>
         <script>
-            $('.select-search').select2();
-            $('#province').on('select2:select', function() {
-                var city = $('#city');
-                city.empty();
-                $.ajax({
-                    url: '{{ route("citylists.index") }}',
-                    data: {'ajax': 1, 'province' : $('#province').val()},
-                    type: 'GET',
-                    dataType: 'json',
-                    success: function(data) {
-                        var option = new Option;
-                        option.disabled = true;
-                        option.selected = true;
-                        city.append(option);
-                        for(var i = 0 ; i < data.length; i++) {
-                            city.append(new Option(data[i].name, data[i].id));
-                        }
-                    }
-                });
-            });
             $('province').value = {{ $datas->id_province }};
             var city = $('#city');
             city.empty();
@@ -81,6 +61,27 @@
                     }
                 }
             });
+            $('.select-search').select2();
+            $('#province').on('select2:select', function() {
+                var city = $('#city');
+                city.empty();
+                $.ajax({
+                    url: '{{ route("citylists.index") }}',
+                    data: {'ajax': 1, 'province' : $('#province').val()},
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        var option = new Option;
+                        option.disabled = true;
+                        option.selected = true;
+                        city.append(option);
+                        for(var i = 0 ; i < data.length; i++) {
+                            city.append(new Option(data[i].name, data[i].id));
+                        }
+                    }
+                });
+            });
+            
         </script>
         
 @endsection

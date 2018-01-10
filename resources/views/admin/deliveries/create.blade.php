@@ -14,6 +14,19 @@
                     <div class="panel-body">
             
             {{ Form::open(array('url' => route('deliveries.store'), 'method' => 'POST')) }}
+                        <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Delivery ID :</label>
+                                    <input type="text" class="form-control" value="" disabled readonly>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                    <label>Delivery Time :</label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="icon-calendar5"></i></span>
+                                        <input type="text" name="delivery_time" class="form-control pickatime" placeholder="Received date" value="">
+                                    </div>
+                                </div>
                         <div class="text-right form-group">
                             <select multiple="multiple" class="form-control listbox" name="shipments[]">
                                @foreach ($datas as $data)
@@ -35,7 +48,11 @@
     $('.listbox').bootstrapDualListbox({
         nonSelectedListLabel: 'Non-selected',
         selectedListLabel: 'Selected',
-    });
+    });$('.pickatime').timepicker({
+            template : 'dropdown',
+            showInputs: false,
+            showSeconds: false
+          });
         
         </script>
     </div>

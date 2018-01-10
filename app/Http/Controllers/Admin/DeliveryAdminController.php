@@ -26,12 +26,22 @@ class DeliveryAdminController extends Controller
     {
         //
         if (Input::get('date')) {
-            $data['datas'] = DeliveryShipment::where('delivery_date', Input::get('date'))->paginate(10);
+            $data['datas'] = DeliveryShipment::where('delivery_date', Input::get('date'));
             $data['date'] = Input::get('date');
         } else {
             $data['date'] = Carbon::now()->toDateString();
-            $data['datas'] = DeliveryShipment::where('delivery_date', $data['date'])->paginate(10);
+            $data['datas'] = DeliveryShipment::where('delivery_date', $data['date']);
         }
+        if (Input::get('param') == 'blank' || !Input::get('param') ) {
+            $data['datas'] = $data['datas']->where('id', '!=', null);
+            $data['param'] = Input::get('param');
+            $data['value'] = Input::get('value');
+        } else {
+            $data['param'] = Input::get('param');
+            $data['value'] = Input::get('value');
+            $data['datas'] = $data['datas']->where(Input::get('param'),'=', Input::get('value'));
+        }
+        $data['datas'] = $data['datas']->paginate(10);
         foreach ($data['datas'] as $dat) {
             $dat['total'] = DeliveryShipmentDetail::where('id_delivery', $dat->id)->get()->count();
         }
@@ -70,7 +80,7 @@ class DeliveryAdminController extends Controller
         //
         $delivery = new DeliveryShipment;
         $delivery->delivery_date = Input::get('date');
-        $delivery->delivery_time = Carbon::now()->hour.':'.Carbon::now()->minute;
+        $delivery->delivery_time = Input::get('delivery_time');
         $delivery->created_by = Auth::user()->id; 
         $delivery->save();
         $delivery->delivery_id='DEL'.$delivery->id.'2017';
@@ -130,6 +140,9 @@ class DeliveryAdminController extends Controller
     public function update($id)
     {
         $delivery = DeliveryShipment::find($id);
+
+        $delivery->delivery_time = Input::get('delivery_time');
+        $delivery-.save();
         if (Input::get('submit') =='post') {
             $delivery->is_posted = 1;
             $delivery->save();
