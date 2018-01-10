@@ -226,4 +226,50 @@ class PaymentController extends Controller
     public function tesEspayNotif(Request $request){
         return response()->json(EspayNotification::create($request->all()), 200);
     }
+
+    private function generateSignature($datetime, $order_id){
+        $espay_signature = "71p5g0w012lDtiPSss";
+        $uppercase = strtoupper("##$espay_signature##$datetime##$order_id##CHECKSTATUS##");
+        $signature = hash('sha256', $uppercase);
+
+        return $signature;
+    }
+
+    private function getStatusPayment($comm_code, $order_id){
+        $uuid = "TIPS-SR-" . strtoupper("" . uniqid());
+        
+        date_default_timezone_set("Asia/Jakarta");
+        $date       = date_create(now());
+        $datetime   = date_format($date, 'd/m/Y H:i:s');
+
+        $signature = $this->generateSignature($datetime, $order_id);
+        $header = array(
+            "Content-Type: application/x-www-form-urlencoded"
+        );
+        $context = stream_context_create(array(
+            "http" => array(
+                "method" => "POST",
+                "header" => implode("\r\n", $header),
+                "content" => "uuid=$uuid&rq_datetime=$datetime&comm_code=$comm_code&order_id=$order_id&signature=$signature",
+            ),
+        ));
+        $response = file_get_contents('https://sandbox-api.espay.id/rest/merchant/status', false, $context);
+        if (strpos($http_response_header[0], '200') === false) {
+            return http_response_code(500);
+        }else{
+            return $response;
+        }
+    }
+
+    public function checkPaymentStatus(Request $request){
+        if(!$request->payment_id)
+            return 'payment_id parameter can not be null';
+
+        $transaction = Transaction::where('payment_id', $request->payment_id)->get();
+
+        if(sizeof($transaction) == 0)
+            return 'payment_id not found, make sure payment_id is correct';
+
+        return response($this->getStatusPayment("SGWTIPS", $request->payment_id), 200);
+    }
 }
