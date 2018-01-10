@@ -22,6 +22,10 @@ class SubdistrictListAdminController extends Controller
     public function index()
     {
         //
+        if (Input::get('ajax') == '1') {
+            $sub = SubdistrictList::where('id_city', Input::get('city'))->get(['id', 'name']);
+            return response()->json($sub);
+        }
         $data['provinces'] = ProvinceList::all();
         if (Input::get('province') && Input::get('city')){
             $data['province'] = Input::get('province');

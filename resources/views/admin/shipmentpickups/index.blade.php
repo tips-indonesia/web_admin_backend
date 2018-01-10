@@ -9,7 +9,39 @@
 @section('content')
     <div class="panel panel-flat">
         
-
+        {{ Form::open(array('url' => route('shipmentpickups.index'), 'method' => 'GET', 'id' => 'date_form')) }}
+                    <div class="panel-body">
+                <div class="form-group">
+                    <label>Date :</label>
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="icon-calendar5"></i></span>
+                        <input type="text" name="date" id="date" class="form-control pickadate-year" placeholder="Transaction date" value="{{ $date }}">
+                    </div>
+                </div>
+                <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Search By :</label>
+                        <select name="param" id="param" class="select-search">
+                            <option value="blank" selected>&#8192;</option>
+                            <option value="shipment_id" {{ $param == 'shipment_id' ? 'selected' : '' }}>Shipment ID</option>
+                            <option value="shipper_name" {{ $param == 'shipper_name' ? 'selected' : '' }}>Shipper Name</option>
+                            <option value="pickup_status" {{ $param == 'pickup_status' ? 'selected' : '' }}>Pickup Status</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>&#8192;</label>
+                        <input type="text" name="value" id="value" class="form-control " placeholder="Search" value="{{$value}}">                       
+                    </div>
+                </div>
+            </div>
+                <div class="text-right form-group">
+                    <button type="submit" class="btn btn-primary">View <i class="icon-arrow-right14 position-right"></i></button>
+                </div>
+            </div>
+            {{ Form::close() }}
         <table class="table datatable-pagination">
             <thead>
                 <tr>
@@ -71,5 +103,24 @@
 
 {{ $datas->links() }}
     </div>
+        <script>
+            $('.select-search').select2();
+            $('#param').on('select2:select', function() {
+                if ($('#param').val() == 'pickup_status') {
+                    $('#value').val('pending');
+                    $('#value').prop('readonly', 'readonly');
+                } else {
+                    $('#value').val('');
+                    $('#value').removeAttr('readonly');
+                }
+            })
+            if ($('#param').val() == 'pickup_status') {
+                $('#value').val('pending');
+                $('#value').prop('readonly', 'readonly');
+            } else {
+                $('#value').val('');
+                $('#value').removeAttr('readonly');
+            }
+        </script>
 
 @endsection

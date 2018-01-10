@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\OfficeList;
 use App\OfficeType;
-use App\CityList;
+use App\ProvinceList;
 use App\OfficeDropPoint;
 use App\AirportList;
 use Validator;
@@ -45,7 +45,7 @@ class OfficeListAdminController extends Controller
         $data['pcs'] = OfficeList::where('id_office_type', 3)->get();
 
         $data['acs'] = OfficeList::where('id_office_type', 2)->get();
-        $data['cities'] = CityList::all();
+        $data['provinces'] = ProvinceList::all();
         $data['airports'] = AirportList::all();
         return view('admin.officelists.create', $data);
     }
@@ -63,6 +63,8 @@ class OfficeListAdminController extends Controller
             'office_type' => 'required',
             'address' => 'required',
             'city' => 'required',
+            'province' => 'required',
+            'subdistrict' => 'required',
             'latitude' => 'required',
             'longitude' => 'required',
             'phone_no' => 'required',
@@ -87,6 +89,8 @@ class OfficeListAdminController extends Controller
             $officeLists->id_office_type = Input::get('office_type');
             $officeLists->address = Input::get('address');
             $officeLists->id_city = Input::get('city');
+            $officeLists->id_province = Input::get('province');
+            $officeLists->id_subdistrict = Input::get('subdistrict');
             $officeLists->phone_no = Input::get('phone_no');
             $officeLists->fax_no = Input::get('fax_no');
             $officeLists->email_address = Input::get('email_address');
@@ -132,7 +136,7 @@ class OfficeListAdminController extends Controller
         $data['pcs'] = OfficeList::where('id_office_type', 3)->get();
 
         $data['acs'] = OfficeList::where('id_office_type', 2)->get();
-        $data['cities'] = CityList::all();
+        $data['provinces'] = ProvinceList::all();
         $data['processing_center'] = OfficeType::where('name', 'Processing Center')->first();
         $data['airports'] = AirportList::all();
         return view('admin.officelists.edit', $data);
@@ -152,6 +156,9 @@ class OfficeListAdminController extends Controller
             'office_type' => 'required',
             'address' => 'required',
             'city' => 'required',
+            'city' => 'required',
+            'province' => 'required',
+            'subdistrict' => 'required',
             'latitude' => 'required',
             'longitude' => 'required',
             'phone_no' => 'required',

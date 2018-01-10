@@ -29,7 +29,23 @@ class ShipmentPickUpAdminController extends Controller
     public function index()
     {
         //
-        $data['datas'] = Shipment::paginate(10);
+        if (Input::get('date')) {
+            $data['datas'] = Shipment::where('transaction_date', Input::get('date'));
+            $data['date'] = Input::get('date');
+        } else {
+            $data['date'] = Carbon::now()->toDateString();
+            $data['datas'] = Shipment::where('transaction_date', $data['date']);
+        }
+        if (Input::get('param') == 'blank' || !Input::get('param') ) {
+            $data['datas'] = $data['datas']->where('id', '!=', null);
+            $data['param'] = Input::get('param');
+            $data['value'] = Input::get('value');
+        } else {
+            $data['param'] = Input::get('param');
+            $data['value'] = Input::get('value');
+            $data['datas'] = $data['datas']->where(Input::get('param'),'=', Input::get('value'));
+        }
+        $data['datas'] = $data['datas']->paginate(10);
         foreach($data['datas'] as $dat) {
             $dat['name_origin'] = CityList::find($dat->id_origin_city)->name;
             $dat['name_destination'] = CityList::find($dat->id_destination_city)->name;
