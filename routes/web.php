@@ -132,6 +132,18 @@ Route::prefix('admin/')->group(function ($locale) {
             Route::resource('shipmentpickups','Admin\ShipmentPickUpAdminController');
         });
 
+        Route::group(['middleware' => ['permission:pendingarrivalcounters.']], function () {
+            Route::resource('pendingarrivalcounters','Admin\PendingArrivalCounterAdminController');
+        });
+
+        Route::group(['middleware' => ['permission:pendingdeparturecounters.']], function () {
+            Route::resource('pendingdeparturecounters','Admin\PendingDepartureCounterAdminController');
+        });
+
+        Route::group(['middleware' => ['permission:deliverydeparturecounters.']], function () {
+            Route::resource('deliverydeparturecounters','Admin\DeliveryDepartureCounterAdminController');
+        });
+
         Route::group(['middleware' => ['permission:shipmentdropoffs.']], function () {
             Route::resource('shipmentdropoffs','Admin\ShipmentDropOffAdminController');
         });
