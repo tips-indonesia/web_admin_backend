@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 
 use App\CityList;
 use App\PriceList;
+use App\AirportcityList;
 
 class CityController extends Controller
 {
@@ -44,6 +45,16 @@ class CityController extends Controller
                 ]
             );
         }
+
+        return response()->json($data, 200);
+    }
+
+    function get_airport_city_list() {
+        $aiportcity = AirportcityList::all();
+        $data = array(
+            'err' => null,
+            'result' => $aiportcity
+        );
 
         return response()->json($data, 200);
     }

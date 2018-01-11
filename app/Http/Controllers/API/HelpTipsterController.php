@@ -12,6 +12,12 @@ class HelpTipsterController extends Controller
     //
     function index() {
         $help_tipster = HelpTipster::all();
+        $final_help = [];
+
+        foreach ($help_tipster as $help) {
+            $help->description = explode('\n', $help->description);
+            array_push($final_help, $help);
+        }
 
         $data = array(
             'err' => null,

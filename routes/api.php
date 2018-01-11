@@ -59,6 +59,7 @@ Route::get('/help', 'API\\HelpTipsterController@index');
 Route::get('/location/province', 'API\\LocationController@getProvince');
 Route::get('/location/city/{id_province}', 'API\\LocationController@getCity');
 Route::get('/location/district/{id_city}', 'API\\LocationController@getDistrict');
+Route::get('/location/airportcity', 'API\\CityController@get_airport_city_list');
 
 Route::post('/worker/login', 'API\\Worker\\AuthController@login');
 Route::get('/worker/delivery', 'API\\Worker\\DeliveryController@get_detail');
