@@ -20,7 +20,23 @@ class ReceivedAdminController extends Controller
 {
 	public function index()
     {
-        $deliveries = DeliveryShipment::where('is_posted', 1)->pluck('id')->toArray();
+        if (Input::get('date')) {
+            $deliveries = DeliveryShipment::where('delivery_date', Input::get('date'))->where('is_posted', 1);
+            $data['date'] = Input::get('date');
+        } else {
+            $data['date'] = Carbon::now()->toDateString();
+            $deliveries = DeliveryShipment::where('delivery_date', $data['date'])->where('is_posted', 1);
+        }
+        if (Input::get('param') == 'blank' || !Input::get('param') ) {
+            $deliveries = $deliveries->where('id', '!=', null)->where('is_posted', 1);
+            $data['param'] = Input::get('param');
+            $data['value'] = Input::get('value');
+        } else {
+            $data['param'] = Input::get('param');
+            $data['value'] = Input::get('value');
+            $deliveries = $deliveries->where(Input::get('param'),'=', Input::get('value'))->where('is_posted', 1);
+        }
+        $deliveries = $deliveries->pluck('id')->toArray();
         $shipments = DeliveryShipmentDetail::whereIn('id_delivery', $deliveries)->where([['processing_center_received_by','=',null]])->pluck('id_shipment')->toArray();
         $shipment_data = Shipment::whereIn('id', $shipments)->paginate(10);
         foreach($shipment_data as $ship) {

@@ -6,8 +6,10 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\PackagingList;
 use App\CityList;
+use App\SlotList;
 use App\Shipment;
 use Validator;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
@@ -22,8 +24,30 @@ class PackagingRestShipmentAdminController extends Controller
     public function index()
     {
         //
-        $data['datas'] = PackagingList::paginate(10);
+        //
+        if (Input::get('date')) {
+            $data['datas'] = PackagingList::where('created_at', Input::get('date'));
+            $data['date'] = Input::get('date');
+        } else {
+            $data['date'] = Carbon::now()->toDateString();
+            $data['datas'] = PackagingList::where('created_at', $data['date']);
+        }
+        if (Input::get('param') == 'blank' || !Input::get('param') ) {
+            $data['datas'] = $data['datas']->where('id', '!=', null);
+            $data['param'] = Input::get('param');
+            $data['value'] = Input::get('value');
+        } else {
+            $data['param'] = Input::get('param');
+            $data['value'] = Input::get('value');
+            $data['datas'] = $data['datas']->where(Input::get('param'),'=', Input::get('value'));
+        }
+        $data['datas'] = $data['datas']->paginate(10);
         foreach ($data['datas'] as $dat) {
+            $dat['count'] = count(Shipment::where('id_packaging', $dat->id)->get());
+        }
+        $slots = SlotList::where('dispatch_type', 'Pending')->pluck('id')->toArray();
+        $data['datas2'] = PackagingList::whereIn('id_slot', $slots);
+        foreach ($data['datas2'] as $dat) {
             $dat['count'] = count(Shipment::where('id_packaging', $dat->id)->get());
         }
         return view('admin.packagingrestshipments.index', $data);
