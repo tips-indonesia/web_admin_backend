@@ -45,6 +45,11 @@ class DeliveryDepartureCounterAdminController extends Controller
         foreach ($data['datas'] as $dat) {
             $dat['total'] = DeliveryShipmentDetail::where('id_delivery', $dat->id)->get()->count();
         }
+        $pendings = DeliveryShipmentDetail::where('processing_center_received_by', null)->pluck('id_delivery')->toArray();
+        $data['datas2'] = DeliveryShipment::whereIn('id_delivery', $pendings)->get();
+        foreach ($data['datas2'] as $dat) {
+            $dat['total'] = DeliveryShipmentDetail::where('id_delivery', $dat->id)->get()->count();
+        }
         return view('admin.deliveries.index', $data);
     }
 

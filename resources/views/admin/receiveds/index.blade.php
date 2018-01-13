@@ -84,5 +84,8 @@
 
 {{ $datas->links() }}
     </div>
-
+    <script type="text/javascript">
+            $('.select-search').select2();
+        
+    </script>
 @endsection
