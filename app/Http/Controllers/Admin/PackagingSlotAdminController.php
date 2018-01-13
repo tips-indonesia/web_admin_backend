@@ -43,6 +43,11 @@ class PackagingSlotAdminController extends Controller
             if ($dat->id_slot != null)
                 $dat['slot_id'] = SlotList::find($dat->id_slot)->slot_id;
         }
+        $slots = SlotList::where('dispatch_type', 'Pending')->pluck('id')->toArray();
+        $data['datas2'] = PackagingList::whereIn('id_slot', $slots);
+        foreach ($data['datas2'] as $dat) {
+            $dat['count'] = count(Shipment::where('id_packaging', $dat->id)->get());
+        }
         return view('admin.packagingslots.index', $data);
     }
 
