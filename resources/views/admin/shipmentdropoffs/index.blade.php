@@ -5,9 +5,9 @@
 @endsection
 @section('page_title')
 <span class="text-semibold">Shipment List</span> - Show All
-@if ($registration_type == 'offline')
-<button type="button" class="btn btn-success" onclick="window.location.href='{{ route('shipmentdropoffs.create') }}?registration_type={{$registration_type}}'">Create</button>
-@endif
+<button type="button" class="btn btn-success" onclick="window.location.href='{{ route('shipmentdropoffs.create') }}?registration_type={{$registration_type}}'"
+@if ($registration_type == 'offline') disabled @endif>Create</button>
+
 @endsection
 @section('content')
     <div class="panel panel-flat">

@@ -101,11 +101,11 @@ class MenuTableSeeder extends Seeder
             'name' => 'Transaction',
             'class_name' => 'shipments.|slotlists.|deliveries.|receiveds.|shipmenttrackings.|packagingslots.|packagingprocessingcenters.|packagingrestshipments.|shipmentpickups.|shipmentdropoffs.|shipmentmatchingmonitors.|pendingarrivalcounters.|pendingdeparturecounters.|deliverydeparturecounters.'
         ]);
-            MenuList::create([
-                'name' => 'Shipment List',
-                'menu_parent_id' => $transaction->id,
-                'class_name' => 'shipments.'
-            ]);
+            // MenuList::create([
+            //     'name' => 'Shipment List',
+            //     'menu_parent_id' => $transaction->id,
+            //     'class_name' => 'shipments.'
+            // ]);
             MenuList::create([
                 'name' => 'Slot List',
                 'menu_parent_id' => $transaction->id,

@@ -281,11 +281,31 @@
                         <div class="text-right form-group">
                             <button type="submit" name="submit" value="save" class="btn btn-primary">Save<i class="icon-arrow-right14 position-right"></i></button>
                             <button type="submit" name="submit" value="post" class="btn btn-success">Post<i class="icon-arrow-right14 position-right"></i></button>
+                            <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#modal_small">QR Code</i></button>
                         </div>
                     </div>
                 </div>
             {{ Form::close() }}
         </div>
+        <!-- Small modal -->
+        <div id="modal_small" class="modal fade">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h5 class="modal-title">QR Code</h5>
+                    </div>
+
+                    <div class="modal-body">
+                        <div id="qr"></div>
+                    </div>
+
+                    <div class="modal-footer">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /small modal -->
         <script>
         $('.select-search').select2();
         $('.pickadate-year').datepicker({format: 'yyyy-mm-dd',});
@@ -308,6 +328,12 @@
                 }
             });
         });
+        jQuery('#qr').qrcode({
+            text    : "Gatau mau isi apa jadi ini shipment idnya : {{ $data->shipment_id }}",
+            render : "canvas"
+        }); 
+        $('canvas').css("margin", "auto auto");
+        $('canvas').css("display", "block");        
         $('input[name="online_payment"]').on('change', function(){
             if ($('input[name="online_payment"]:checked').val() == 0) {
                 $('input[name="card_number"]').prop('disabled', 'disabled');

@@ -139,11 +139,11 @@
             $('#airport_counter').prop('disabled', 'disabled');
             $('#processing_center').prop('disabled', 'disabled');
             $('#airport').prop('disabled', 'disabled');
-            if ($('#office_type').val() == 4 || $('#office_type').val() == 5){
+            if ($('#office_type').val() == 2 || $('#office_type').val() == 3){
                 $('#processing_center').removeAttr("disabled");
-            } else if ($('#office_type').val() == 3) { 
+            } else if ($('#office_type').val() == 5) { 
                 $('#airport_counter').removeAttr("disabled");
-            }  else if ($('#office_type').val() == 2) { 
+            }  else if ($('#office_type').val() == 4) { 
                 $('#airport').removeAttr("disabled");
             }
         });
