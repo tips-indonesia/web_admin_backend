@@ -45,9 +45,9 @@
             <thead>
                 <tr>
                     <th>Delivery ID</th>
-                    <th>Total Shipment</th>
                     <th>Delivery Time</th>
-                    <th>Submit</th>
+                    <th>Total Packaging</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -59,13 +59,26 @@
                             </a>
                         </td>
                         <td>
-                            {{ $data->total }}
-                        </td>
-                        <td>
                             {{ $data->delivery_time }}
                         </td>
                         <td>
-                            {{ $data->is_posted == 1 ? 'Submited' : 'Not Submited' }}
+                            {{ $data->total }}
+                        </td>
+                        <td>
+                            <td>
+                            <ul class="icons-list">
+                            <li>
+                            {{ Form::open(array('method' => 'GET', 'url' => route('deliverydeparturecounters.edit', $data->id))) }}
+                        <button type="submit" class="btn btn-primary"><i class="icon-pencil"></i> Edit</button>
+                        {{ Form::close() }}
+                            </li>
+                            <li>
+                            {{ Form::open(array('method' => 'DELETE', 'url' => route('deliverydeparturecounters.destroy', $data->id))) }}
+                            <button type="submit" class="btn btn-danger"><i class="icon-trash"></i> Delete</button>
+                            {{ Form::close() }}
+                            </li>
+                            </ul>
+                        </td>
                         </td>
                     </tr>
                 @endforeach

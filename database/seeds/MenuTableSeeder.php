@@ -157,7 +157,7 @@ class MenuTableSeeder extends Seeder
                 'class_name' => 'shipmentmatchingmonitors.'
             ]);
             MenuList::create([
-                'name' => 'Delivery Package at Departure Counter',
+                'name' => 'Delivery Package to Departure Counter',
                 'menu_parent_id' => $transaction->id,
                 'class_name' => 'deliverydeparturecounters.'
             ]);

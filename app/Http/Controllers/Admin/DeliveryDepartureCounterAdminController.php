@@ -185,5 +185,11 @@ class DeliveryDepartureCounterAdminController extends Controller
     public function destroy($id)
     {
         //
+        $cityList = DeliveryShipment::find($id);
+        $cityList->delete();
+
+        // redirect
+        Session::flash('message', 'Successfully deleted the nerd!');
+        return Redirect::to(route('deliverydeparturecounters.index'));
     }
 }
