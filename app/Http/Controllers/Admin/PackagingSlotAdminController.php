@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\PackagingList;
 use App\SlotList;
+use App\AirportList;
 use Validator;
 use Illuminate\Support\Facades\Input;
 use Carbon\Carbon;
@@ -47,6 +48,8 @@ class PackagingSlotAdminController extends Controller
         $data['datas2'] = PackagingList::whereIn('id_slot', $slots);
         foreach ($data['datas2'] as $dat) {
             $dat['count'] = count(Shipment::where('id_packaging', $dat->id)->get());
+            $dat['origin'] = AirportList::find(SlotList::find($dat->id_slot)->id_origin_airport)->name;
+            $dat['destination'] = AirportList::find(SlotList::find($dat->id_slot)->id_destination_airport)->name;
         }
         return view('admin.packagingslots.index', $data);
     }

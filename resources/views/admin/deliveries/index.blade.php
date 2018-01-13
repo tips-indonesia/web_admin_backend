@@ -89,6 +89,8 @@
                                     <thead>
                                         <tr>
                                             <th>Delivery ID</th>
+                                            <th>Origin</th>
+                                            <th>Destination</th>
                                             <th>Total Shipment</th>
                                         </tr>
                                     </thead>
@@ -102,6 +104,12 @@
                                                 </td>
                                                 <td>
                                                     {{ $data->total }}
+                                                </td>
+                                                <td>
+                                                    {{ $data->origin }}
+                                                </td>
+                                                <td>
+                                                    {{ $data->destination }}
                                                 </td>
                                             </tr>
                                         @endforeach

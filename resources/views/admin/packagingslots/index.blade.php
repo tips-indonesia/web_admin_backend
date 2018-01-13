@@ -93,6 +93,8 @@
                                     <thead>
                                         <tr>
                                             <th>Package ID</th>
+                                            <th>City</th>
+                                            <th>Destination</th>
                                             <th>Total Shipment</th>
                                         </tr>
                                     </thead>
@@ -103,6 +105,12 @@
                                                     <a href="{{ route('packagingrestshipments.edit', $data->id) }}">
                                                         {{ $data->packaging_id }}
                                                     </a>
+                                                </td>
+                                                <td>
+                                                    {{ $data->origin }}
+                                                </td>
+                                                <td>
+                                                    {{ $data->destination }}
                                                 </td>
                                                 <td>
                                                     {{ $data->count }}

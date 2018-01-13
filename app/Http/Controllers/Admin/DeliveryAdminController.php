@@ -49,6 +49,8 @@ class DeliveryAdminController extends Controller
         }
         foreach ($data['datas2'] as $dat) {
             $dat['total'] = DeliveryShipmentDetail::where('id_delivery', $dat->id)->get()->count();
+            $dat['origin'] = OfficeList::find($dat->id_origin_office)->name;
+            $dat['destination'] = OfficeList::find($dat->id_destination_office)->name;
         }
         return view('admin.deliveries.index', $data);
     }
