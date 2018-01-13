@@ -50,7 +50,7 @@ class DeliveryDepartureCounterAdminController extends Controller
         foreach ($data['datas2'] as $dat) {
             $dat['total'] = DeliveryShipmentDetail::where('id_delivery', $dat->id)->get()->count();
         }
-        return view('admin.deliveries.index', $data);
+        return view('admin.deliverydeparturecounters.index', $data);
     }
 
     /**
@@ -72,7 +72,7 @@ class DeliveryDepartureCounterAdminController extends Controller
             }
             $data['date'] = $date;
         }
-        return view('admin.deliveries.create', $data);
+        return view('admin.deliverydeparturecounters.create', $data);
     }
 
     /**
@@ -96,7 +96,7 @@ class DeliveryDepartureCounterAdminController extends Controller
             $deliv_details->id_delivery = $delivery->id;
             $deliv_details->save();
         }
-        return Redirect::to(route('deliveries.index'));
+        return Redirect::to(route('deliverydeparturecounters.index'));
 
 
 
@@ -132,7 +132,7 @@ class DeliveryDepartureCounterAdminController extends Controller
         $data['delivery_shipments'] = $delivery_shipments;
         $data['shipment_lists'] = $temp_shipments;
         $data['data'] = $delivery_shipment_info;
-        return view('admin.deliveries.edit', $data);
+        return view('admin.deliverydeparturecounters.edit', $data);
 
     }
 
@@ -170,7 +170,7 @@ class DeliveryDepartureCounterAdminController extends Controller
                 $deliv_details->save();
             }
         }
-        return Redirect::to(route('deliveries.index'));
+        return Redirect::to(route('deliverydeparturecounters.index'));
     }
 
     /**
