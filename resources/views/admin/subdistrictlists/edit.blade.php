@@ -15,7 +15,7 @@
                     <div class="panel-body">
                         <div class="form-group">
                             <label>Province :</label>
-                            <select name="province" id="province" class="select-search">
+                            <select name="province" id="province" class="select-search" disabled>
                                 <option disabled></option>
                                 @foreach ($provinces as $province)
                                     <option value="{{ $province->id }}" >{{ $province->name }}</option>
@@ -24,7 +24,7 @@
                         </div>
                         <div class="form-group">
                             <label>City :</label>
-                            <select name="city" id="city" class="select-search">
+                            <select name="city" id="city" class="select-search" disabled>
                                 <option disabled selected></option>
                             </select>
                         </div>
