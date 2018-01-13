@@ -1,10 +1,10 @@
 @extends('admin.app')
 
 @section('title')
-    Create Shipment Delivery to Processing Center
+    Create Shipment Delivery to Departure Counter
 @endsection
 @section('page_title')
-    <span class="text-semibold">Shipment Delivery to Processing Center</span> - Create
+    <span class="text-semibold">Shipment Delivery to Departure Counter</span> - Create
 @endsection
 @section('content')
     <!-- Vertical form options -->
@@ -13,7 +13,7 @@
                 <div class="panel panel-flat">
                     <div class="panel-body">
             
-            {{ Form::open(array('url' => route('deliveries.store'), 'method' => 'POST')) }}
+            {{ Form::open(array('url' => route('deliverydeparturecounters.store'), 'method' => 'POST')) }}
                         <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Delivery ID :</label>

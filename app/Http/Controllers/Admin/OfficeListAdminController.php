@@ -70,10 +70,10 @@ class OfficeListAdminController extends Controller
             'phone_no' => 'required',
             'fax_no' => 'required',
             'email_address' => 'required',
-            'airport_counter' => 'required_if:office_type,3',
-            'processing_center' => 'required_if:office_type,4|required_if:office_type,5',
+            'airport_counter' => 'required_if:office_type,5',
+            'processing_center' => 'required_if:office_type,2|required_if:office_type,3',
             'contact_person' => 'required',
-            'airport' => 'required_if:office_type,2'
+            'airport' => 'required_if:office_type,4'
         );
 
         $validator = Validator::make(Input::all(), $rules);
@@ -135,7 +135,7 @@ class OfficeListAdminController extends Controller
         $data['officetypes'] = OfficeType::all();
         $data['pcs'] = OfficeList::where('id_office_type', 3)->get();
 
-        $data['acs'] = OfficeList::where('id_office_type', 2)->get();
+        $data['acs'] = OfficeList::where('id_office_type', 4)->get();
         $data['provinces'] = ProvinceList::all();
         $data['processing_center'] = OfficeType::where('name', 'Processing Center')->first();
         $data['airports'] = AirportList::all();

@@ -13,8 +13,9 @@
             {{ Form::open(array('method'=> 'PUT','url' => route('packagingslots.update', $data->id))) }}
                 <div class="panel panel-flat">
                     <div class="panel-body">
+
                         <div class="form-group">
-                            <label>Name :</label>
+                            <label>Packaging Id :</label>
                             <input type="text" value= "{{ $data->packaging_id }}" class="form-control" disable readonly />
                         </div>
                         <div class="form-group">

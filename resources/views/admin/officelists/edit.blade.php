@@ -140,21 +140,18 @@
 
     <script>
         $('.select-search').select2();
-        if ($('#office_type').val() == 4 || $('#office_type').val() == 5){
-            $('#processing_center').removeAttr("disabled");
-        } else if ($('#office_type').val() == 3) { 
-            $('#airport_counter').prop('disabled', 'disabled');                
-        }
         $('#office_type').on('select2:select', function() {
-            if ($('#office_type').val() == 4 || $('#office_type').val() == 5){
+            $('#airport_counter').prop('disabled', 'disabled');
+            $('#processing_center').prop('disabled', 'disabled');
+            $('#airport').prop('disabled', 'disabled');
+            if ($('#office_type').val() == 2 || $('#office_type').val() == 3){
                 $('#processing_center').removeAttr("disabled");
-            } else if ($('#office_type').val() == 3) { 
-                $('#airport_counter').prop('disabled', 'disabled');                
-            } else {
-                $('#airport_counter').prop('disabled', 'disabled');
-                $('#processing_center').prop('disabled', 'disabled');
+            } else if ($('#office_type').val() == 5) { 
+                $('#airport_counter').removeAttr("disabled");
+            }  else if ($('#office_type').val() == 4) { 
+                $('#airport').removeAttr("disabled");
             }
-        })
+        });
         $('#province').on('select2:select', function() {
                 var city = $('#city');
                 city.empty();

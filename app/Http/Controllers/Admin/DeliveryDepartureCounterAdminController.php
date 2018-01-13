@@ -8,6 +8,7 @@ use App\Shipment;
 use App\DeliveryShipment;
 use App\DeliveryShipmentDetail;
 use App\ShipmentHistory;
+use App\OfficeList;
 use Validator;
 use Auth;
 use Carbon\Carbon;
@@ -15,7 +16,7 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 
-class DeliveryAdminController extends Controller
+class DeliveryDepartureCounterAdminController extends Controller
 {
     /**
     * Display a listing of the resource.
@@ -42,17 +43,17 @@ class DeliveryAdminController extends Controller
             $data['datas'] = $data['datas']->where(Input::get('param'),'=', Input::get('value'));
         }
         $data['datas'] = $data['datas']->paginate(10);
-        $pendings = DeliveryShipmentDetail::where('processing_center_received_by', null)->pluck('id_delivery')->toArray();
-        $data['datas2'] = DeliveryShipment::whereIn('id_delivery', $pendings)->get();
         foreach ($data['datas'] as $dat) {
             $dat['total'] = DeliveryShipmentDetail::where('id_delivery', $dat->id)->get()->count();
         }
+        $pendings = DeliveryShipmentDetail::where('processing_center_received_by', null)->pluck('id_delivery')->toArray();
+        $data['datas2'] = DeliveryShipment::whereIn('id_delivery', $pendings)->get();
         foreach ($data['datas2'] as $dat) {
             $dat['total'] = DeliveryShipmentDetail::where('id_delivery', $dat->id)->get()->count();
             $dat['origin'] = OfficeList::find($dat->id_origin_office)->name;
             $dat['destination'] = OfficeList::find($dat->id_destination_office)->name;
         }
-        return view('admin.deliveries.index', $data);
+        return view('admin.deliverydeparturecounters.index', $data);
     }
 
     /**
@@ -74,7 +75,7 @@ class DeliveryAdminController extends Controller
             }
             $data['date'] = $date;
         }
-        return view('admin.deliveries.create', $data);
+        return view('admin.deliverydeparturecounters.create', $data);
     }
 
     /**
@@ -98,7 +99,7 @@ class DeliveryAdminController extends Controller
             $deliv_details->id_delivery = $delivery->id;
             $deliv_details->save();
         }
-        return Redirect::to(route('deliveries.index'));
+        return Redirect::to(route('deliverydeparturecounters.index'));
 
 
 
@@ -134,7 +135,7 @@ class DeliveryAdminController extends Controller
         $data['delivery_shipments'] = $delivery_shipments;
         $data['shipment_lists'] = $temp_shipments;
         $data['data'] = $delivery_shipment_info;
-        return view('admin.deliveries.edit', $data);
+        return view('admin.deliverydeparturecounters.edit', $data);
 
     }
 
@@ -172,7 +173,7 @@ class DeliveryAdminController extends Controller
                 $deliv_details->save();
             }
         }
-        return Redirect::to(route('deliveries.index'));
+        return Redirect::to(route('deliverydeparturecounters.index'));
     }
 
     /**
@@ -184,5 +185,11 @@ class DeliveryAdminController extends Controller
     public function destroy($id)
     {
         //
+        $cityList = DeliveryShipment::find($id);
+        $cityList->delete();
+
+        // redirect
+        Session::flash('message', 'Successfully deleted the nerd!');
+        return Redirect::to(route('deliverydeparturecounters.index'));
     }
 }

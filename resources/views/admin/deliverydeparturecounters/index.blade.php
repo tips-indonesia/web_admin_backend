@@ -1,19 +1,17 @@
 @extends('admin.app')
 
 @section('title')
-    Packaging Rest Shipment
+    Delivery to Departure Counter
 @endsection
 @section('page_title')
-    <span class="text-semibold">Packaging Rest Shipment</span> - Show All
-    <button type="button" class="btn btn-success" onclick="window.location.href='{{ route('packagingrestshipments.create') }}'">Create</button>
+    <span class="text-semibold">Delivery to Departure Counter</span> - Show All
+    <button type="button" class="btn btn-success" onclick="window.location.href='{{ route('deliverydeparturecounters.create') }}@if ($date != null)?date={{$date}}' @endif">Create</button>
     <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#modal_small">Pending Item</i></button>
 @endsection
 @section('content')
-
-    <div class="panel panel-flat">
-        <div class="panel panel-flat">
-        {{ Form::open(array('url' => route('packagingrestshipments.index'), 'method' => 'GET', 'id' => 'date_form')) }}
-                <div class="panel-body">
+    <div class="panel panel-flat">     
+        {{ Form::open(array('url' => route('deliverydeparturecounters.index'), 'method' => 'GET', 'id' => 'date_form')) }}
+                    <div class="panel-body">
                 <div class="form-group">
                     <label>Date :</label>
                     <div class="input-group">
@@ -22,24 +20,23 @@
                     </div>
                 </div>
                 <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label>Search By :</label>
-                        <select name="param" id="param" class="select-search">
-                            <option value="blank" selected>&#8192;</option>
-                            <option value="packaging_id" {{ $param == 'packaging_id' ? 'selected' : '' }}>Package ID</option>
-                            <option value="slot_id" {{ $param == 'slot_id' ? 'selected' : '' }}>Slot ID</option>
-                        </select>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Search By :</label>
+                            <select name="param" id="param" class="select-search">
+                                <option value="blank" @if($param =='blank' || $param=='') selected @endif>&#8192;</option>
+                                <option value="delivery_id" @if($param =='delivery_id') selected @endif>Delivery ID</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>&#8192;</label>
+                            <input type="text" name="value" id="value" class="form-control " placeholder="Search" value={{$value }}>                       
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label>&#8192;</label>
-                        <input type="text" name="value" id="value" class="form-control " placeholder="Search" value="{{$value}}">                       
-                    </div>
-                </div>
-            </div>
-                <div class="form-group">
+                <div class=" form-group">
                     <button type="submit" class="btn btn-primary">View <i class="icon-arrow-right14 position-right"></i></button>
                 </div>
             </div>
@@ -47,20 +44,41 @@
         <table class="table datatable-pagination">
             <thead>
                 <tr>
-                    <th>Package ID</th>
-                    <th>Total Shipment</th>
+                    <th>Delivery ID</th>
+                    <th>Delivery Time</th>
+                    <th>Total Packaging</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($datas as $data)
                     <tr>
                         <td>
-                            <a href="{{ route('packagingrestshipments.edit', $data->id) }}">
-                                {{ $data->packaging_id }}
+                            <a href="{{ route('deliverydeparturecounters.edit', $data->id) }}">
+                            {{ $data->delivery_id }}
                             </a>
                         </td>
                         <td>
-                            {{ $data->count }}
+                            {{ $data->delivery_time }}
+                        </td>
+                        <td>
+                            {{ $data->total }}
+                        </td>
+                        <td>
+                            <td>
+                            <ul class="icons-list">
+                            <li>
+                            {{ Form::open(array('method' => 'GET', 'url' => route('deliverydeparturecounters.edit', $data->id))) }}
+                        <button type="submit" class="btn btn-primary"><i class="icon-pencil"></i> Edit</button>
+                        {{ Form::close() }}
+                            </li>
+                            <li>
+                            {{ Form::open(array('method' => 'DELETE', 'url' => route('deliverydeparturecounters.destroy', $data->id))) }}
+                            <button type="submit" class="btn btn-danger"><i class="icon-trash"></i> Delete</button>
+                            {{ Form::close() }}
+                            </li>
+                            </ul>
+                        </td>
                         </td>
                     </tr>
                 @endforeach
@@ -69,7 +87,7 @@
 
 {{ $datas->links() }}
     </div>
-        <!-- Small modal -->
+    <!-- Small modal -->
         <div id="modal_small" class="modal fade">
             <div class="modal-dialog modal-sm">
                 <div class="modal-content">
@@ -83,7 +101,7 @@
                                 <table class="table datatable-pagination">
                                     <thead>
                                         <tr>
-                                            <th>Package ID</th>
+                                            <th>Delivery ID</th>
                                             <th>Origin</th>
                                             <th>Destination</th>
                                             <th>Total Shipment</th>
@@ -94,17 +112,17 @@
                                             <tr>
                                                 <td>
                                                     <a href="{{ route('packagingrestshipments.edit', $data->id) }}">
-                                                        {{ $data->packaging_id }}
+                                                        {{ $data->delivery_id }}
                                                     </a>
                                                 </td>
                                                 <td>
                                                     {{ $data->origin }}
                                                 </td>
                                                 <td>
-                                                    {{ $data->destination }}
+                                                    {{ $data->Destination }}
                                                 </td>
                                                 <td>
-                                                    {{ $data->count }}
+                                                    {{ $data->total }}
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -118,9 +136,10 @@
             </div>
         </div>
     <script type="text/javascript">
-        
-            $('.select-search').select2();
-        </script>
-        
+        $('.select-search').select2();
+        $('.pickadate-year').datepicker({
+            format: 'yyyy-mm-dd',
+        });
+    </script>
 
 @endsection

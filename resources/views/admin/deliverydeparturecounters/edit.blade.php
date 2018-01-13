@@ -1,10 +1,10 @@
 @extends('admin.app')
 
 @section('title')
-    Edit Shipment Delivery to Processing Center
+    Edit Shipment Delivery to Departure Counter
 @endsection
 @section('page_title')
-    <span class="text-semibold">Shipment Delivery to Processing Center</span> - Edit
+    <span class="text-semibold">Shipment Delivery to Departure Counter</span> - Edit
 @endsection
 @section('content')
     <!-- Vertical form options -->
@@ -12,7 +12,7 @@
         <div class="col-md-12">
                 <div class="panel panel-flat">
                     <div class="panel-body">
-            {{ Form::open(array('url' => route('deliveries.create'), 'method' => 'GET', 'id' => 'date_form')) }}
+            {{ Form::open(array('url' => route('deliverydeparturecounters.create'), 'method' => 'GET', 'id' => 'date_form')) }}
                 <div class="form-group">
                     <label>Transaction Date :</label>
                     <div class="input-group">
@@ -24,7 +24,7 @@
                     <button type="submit" class="btn btn-primary" disabled>Choose Date <i class="icon-arrow-right14 position-right" ></i></button>
                 </div>
             {{ Form::close() }}
-            {{ Form::open(array('url' => route('deliveries.update', $data->id), 'method' => 'PUT')) }}
+            {{ Form::open(array('url' => route('deliverydeparturecounters.update', $data->id), 'method' => 'PUT')) }}
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>Delivery ID :</label>

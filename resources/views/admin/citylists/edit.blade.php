@@ -15,7 +15,7 @@
                     <div class="panel-body">
                         <div class="form-group">
                             <label>Province :</label>
-                            <select name="province" class="select-search">
+                            <select name="province" class="select-search" disabled="">
                                 <option disabled></option>
                                 @foreach ($provinces as $province)
                                     <option value="{{ $province->id }}" @if ($datas->name == $province->id) selected @endif>{{ $province->name }}</option>

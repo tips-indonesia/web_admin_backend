@@ -15,7 +15,7 @@
                     <div class="panel-body">
                         <div class="form-group">
                             <label>Province :</label>
-                            <select name="province" id="province" class="select-search">
+                            <select name="province" id="province" class="select-search" disabled>
                                 <option disabled></option>
                                 @foreach ($provinces as $province)
                                     <option value="{{ $province->id }}" >{{ $province->name }}</option>
@@ -24,7 +24,7 @@
                         </div>
                         <div class="form-group">
                             <label>City :</label>
-                            <select name="city" id="city" class="select-search">
+                            <select name="city" id="city" class="select-search" disabled>
                                 <option disabled selected></option>
                             </select>
                         </div>
@@ -41,26 +41,6 @@
         </div>
     </div>
         <script>
-            $('.select-search').select2();
-            $('#province').on('select2:select', function() {
-                var city = $('#city');
-                city.empty();
-                $.ajax({
-                    url: '{{ route("citylists.index") }}',
-                    data: {'ajax': 1, 'province' : $('#province').val()},
-                    type: 'GET',
-                    dataType: 'json',
-                    success: function(data) {
-                        var option = new Option;
-                        option.disabled = true;
-                        option.selected = true;
-                        city.append(option);
-                        for(var i = 0 ; i < data.length; i++) {
-                            city.append(new Option(data[i].name, data[i].id));
-                        }
-                    }
-                });
-            });
             $('province').value = {{ $datas->id_province }};
             var city = $('#city');
             city.empty();
@@ -81,6 +61,27 @@
                     }
                 }
             });
+            $('.select-search').select2();
+            $('#province').on('select2:select', function() {
+                var city = $('#city');
+                city.empty();
+                $.ajax({
+                    url: '{{ route("citylists.index") }}',
+                    data: {'ajax': 1, 'province' : $('#province').val()},
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        var option = new Option;
+                        option.disabled = true;
+                        option.selected = true;
+                        city.append(option);
+                        for(var i = 0 ; i < data.length; i++) {
+                            city.append(new Option(data[i].name, data[i].id));
+                        }
+                    }
+                });
+            });
+            
         </script>
         
 @endsection
