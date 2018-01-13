@@ -29,6 +29,7 @@ class CreateMemberListsTable extends Migration
             $table->unsignedInteger('id_city')->nullable();
             $table->string('token')->nullable();
             $table->string('fb_token', 512)->nullable();
+            $table->string('sms_code', 512)->nullable();
             $table->string('twitter_token', 512)->nullable();
             $table->string('uniq_social_id', 512)->nullable();
             $table->timestamps();

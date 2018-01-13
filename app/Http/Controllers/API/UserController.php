@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 
 use App\MemberList;
+use App\Http\Controllers\SMSSender;
 
 class UserController extends Controller
 {
@@ -94,9 +95,16 @@ class UserController extends Controller
             if($request->has('token')) {
                 $member_list->token = $request->token;
             }
+            
+            $sms_code = round($this->microtime_float()) % 9999;
+
+            $member_list->sms_code = $sms_code;
 
             $member_list->save();
             unset($member_list['password']);
+
+            $out = SMSSender::kirim($request->mobile_phone_no, rawurlencode("TIPS App: Your code is " . $sms_code));
+
             $data = array(
                 'err' => null,
                 'result' => $member_list
@@ -106,6 +114,94 @@ class UserController extends Controller
 
         return response()->json($data, 200);
 
+    }
+
+    public function verifyPhoneNumber(Request $request){
+        $member_list = MemberList::where('mobile_phone_no', $request->mobile_phone_no)->first();
+        if(!$member_list){
+            // Kasus: member dengan no hp bersangkutan tidak terdaftar pada basis data
+            $data = array(
+                'err' => [
+                    'code' => 0,
+                    'message' => 'Nomor handphone tidak terdaftar'
+                ],
+                'result' => null
+            );
+
+            return response()->json($data, 200);
+        }
+
+        $isSMSCodeValid = $member_list->sms_code == $request->sms_code;
+        if($isSMSCodeValid){
+            // Kasus: kode sms sesuai dengan code pada basis data 
+            $member_list->sms_code = -1;
+            $member_list->save();
+            $data = array(
+                'err' => null,
+                'result' => true
+            );
+        }else if($member_list->sms_code == -1){
+            // Kasus: sms code sudah pernah terverifikasi sebelumnya
+            $data = array(
+                'err' => [
+                    'code' => 1,
+                    'message' => "Your phone number has verified"
+                ],
+                'result' => null
+            );
+        }else{
+            // Kasus: kode sms verifikasi tidak sesuai dengan yang ada pada basis data
+            $data = array(
+                'err' => [
+                    'code' => 0,
+                    'message' => "SMS Code is invalid"
+                ],
+                'result' => null
+            );
+        }
+
+        return response()->json($data, 200);
+    }
+
+    public function resendSMSCode(Request $request){
+        $member_list = MemberList::where('mobile_phone_no', $request->mobile_phone_no)->first();
+        if(!$member_list){
+            // Kasus: member dengan no hp bersangkutan tidak terdaftar pada basis data
+            $data = array(
+                'err' => [
+                    'code' => 0,
+                    'message' => 'Nomor handphone tidak terdaftar'
+                ],
+                'result' => null
+            );
+        }else if($member_list->sms_code == -1){
+            // Kasus: sms code sudah pernah terverifikasi sebelumnya
+            $data = array(
+                'err' => [
+                    'code' => 1,
+                    'message' => "Your phone number has verified"
+                ],
+                'result' => null
+            );
+        }else if($member_list->sms_code == null){
+            // Kasus: sms code masih null di basis data (belum pernah di assign)
+            $sms_code = round($this->microtime_float()) % 9999;
+            $member_list->sms_code = $sms_code;
+            $member_list->save();
+        }else{
+            $data = array(
+                'err' => null,
+                'result' => "SMS Sent to " . $request->mobile_phone_no
+            );
+        }
+
+        $out = SMSSender::kirim($request->mobile_phone_no, rawurlencode("TIPS App: Your code is " . $member_list->sms_code));
+        return response()->json($data, 200);
+    }
+
+    private function microtime_float(){
+        list($usec, $sec) = explode(" ", microtime());
+        return ((float)$usec + (float)$sec);
     }
 
     /*
@@ -138,7 +234,7 @@ class UserController extends Controller
 
             // default name
             $member_list->first_name = "Twitter user: " . $request->uniq_social_id;
-            
+
             if($request->has('first_name')) {
                 $member_list->first_name = $request->first_name;
             }
