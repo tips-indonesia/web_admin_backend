@@ -5,7 +5,6 @@
 @endsection
 @section('page_title')
 <span class="text-semibold">Pending Package at Arrival Counter</span> - Show All
-<button type="button" class="btn btn-success" onclick="window.location.href='{{ route('packagingslots.create') }}'">Create</button>
 @endsection
 @section('content')
     <div class="panel panel-flat">
