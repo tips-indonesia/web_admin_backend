@@ -188,18 +188,30 @@ class UserController extends Controller
             $sms_code = round($this->microtime_float()) % 9999;
             $member_list->sms_code = $sms_code;
             $member_list->save();
+
+            $pn = $request->mobile_phone_no;
+            $sc = $sms_code;
+            $out = SMSSender::kirim($pn, rawurlencode("TIPS App: Your code is " . $sc));
+
+            $data = array(
+                'err' => [
+                    'code' => 1,
+                    'message' => "Your phone number has verified"
+                ],
+                'result' => null
+            );
         }else{
+
+            $pn = $request->mobile_phone_no;
+            $sc = $member_list->sms_code;
+            $out = SMSSender::kirim($pn, rawurlencode("TIPS App: Your code is " . $sc));
+
             $data = array(
                 'err' => null,
                 'result' => "SMS Sent to " . $request->mobile_phone_no
             );
-
-            return response()->json($data, 200);
         }
 
-        $pn = $request->mobile_phone_no;
-        $sc = $member_list->sms_code;
-        $out = SMSSender::kirim($pn, rawurlencode("TIPS App: Your code is " . $sc));
         return response()->json($data, 200);
     }
 
