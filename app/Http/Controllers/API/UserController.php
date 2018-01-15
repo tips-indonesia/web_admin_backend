@@ -195,7 +195,9 @@ class UserController extends Controller
             );
         }
 
-        $out = SMSSender::kirim($request->mobile_phone_no, rawurlencode("TIPS App: Your code is " . $member_list->sms_code));
+        $pn = $request->mobile_phone_no;
+        $sc = $member_list->sms_code;
+        $out = SMSSender::kirim($pn, rawurlencode("TIPS App: Your code is " . $sc));
         return response()->json($data, 200);
     }
 
