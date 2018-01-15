@@ -193,6 +193,8 @@ class UserController extends Controller
                 'err' => null,
                 'result' => "SMS Sent to " . $request->mobile_phone_no
             );
+
+            return response()->json($data, 200);
         }
 
         $pn = $request->mobile_phone_no;
