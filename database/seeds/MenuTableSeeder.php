@@ -15,12 +15,12 @@ class MenuTableSeeder extends Seeder
         //
         MenuList::create([
             'name' => 'Master File',
-            'class_name' => 'officetypes.|officelists.|citylists.|airlineslists.|airportlists.|banklists.|paymenttypes.|pricelists.|insurances.|weightlists.|provincelists.|airportcitylists.|subdistrictlists.'
+            'class_name' => '*'
         ]);
             MenuList::create([
                 'name' => 'Region List',
                 'menu_parent_id' => 1,
-                'class_name' => 'citylists.|provincelists.|subdistrictlists.'
+                'class_name' => '*'
             ]);
                 MenuList::create([
                     'name' => 'Province List',
@@ -55,7 +55,7 @@ class MenuTableSeeder extends Seeder
             MenuList::create([
                 'name' => 'Office List',
                 'menu_parent_id' => 1,
-                'class_name' => 'officetypes.|officelists.'
+                'class_name' => '*'
             ]);
                 MenuList::create([
                     'name' => 'Office Type',
@@ -99,7 +99,7 @@ class MenuTableSeeder extends Seeder
             ]);
         $transaction = MenuList::create([
             'name' => 'Transaction',
-            'class_name' => 'shipments.|slotlists.|deliveries.|receiveds.|shipmenttrackings.|packagingslots.|packagingprocessingcenters.|packagingrestshipments.|shipmentpickups.|shipmentdropoffs.|shipmentmatchingmonitors.|pendingarrivalcounters.|pendingdeparturecounters.|deliverydeparturecounters.'
+            'class_name' => '*'
         ]);
             // MenuList::create([
             //     'name' => 'Shipment List',
@@ -173,7 +173,7 @@ class MenuTableSeeder extends Seeder
             ]);
         $setting = MenuList::create([
             'name' => 'Setting',
-            'class_name' => 'roles.|users.|shipmentstatuses.|terms.|tipstermilestones.'
+            'class_name' => '*'
         ]);
             MenuList::create([
                 'name' => 'Term and Agreement',
@@ -193,7 +193,7 @@ class MenuTableSeeder extends Seeder
             $user = MenuList::create([
                 'name' => 'User Application',
                 'menu_parent_id' => $setting->id,
-                'class_name' => 'roles.|users.'
+                'class_name' => '*'
             ]);
                 MenuList::create([
                     'name' => 'Role List',

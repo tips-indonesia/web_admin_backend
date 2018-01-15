@@ -1,7 +1,7 @@
 @extends('admin.app')
 
 @section('title')
-    Edit Airline List
+    Airline List
 @endsection
 @section('page_title')
 <span class="text-semibold">Airline List</span> - Show All

@@ -239,7 +239,7 @@ class DatabaseSeeder extends Seeder
 //        $this->call(MemberListSeeder::class);
         $this->call(TipsterMilestoneTableSeeder::class);
         $this->call(HelpTipsterSeeder::class);
-        $this->call(LocationTableSeeder::class);
-        $this->call(LocationTableSeeder2::class);
+        // $this->call(LocationTableSeeder::class);
+        // $this->call(LocationTableSeeder2::class);
     }
 }
