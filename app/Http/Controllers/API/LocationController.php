@@ -5,16 +5,17 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-use App\Province;
-use App\City;
-use App\Districts;
+use App\ProvinceList;
+use App\CityList;
+use App\SubdistrictList;
+//use App\Districts;
 
 class LocationController extends Controller
 {
     //
 
     function getProvince() {
-        $provincies = Province::all();
+        $provincies = ProvinceList::all();
 
         $data = array(
             'err' => null,
@@ -25,7 +26,7 @@ class LocationController extends Controller
     }
 
     function getCity($id_province) {
-        $cities = City::where('id_province', $id_province)->get();
+        $cities = CityList::where('id_province', $id_province)->get();
 
         $data = array(
             'err' => null,
@@ -36,7 +37,7 @@ class LocationController extends Controller
     }
 
     function getDistrict($id_city) {
-        $districts = Districts::where('id_city', $id_city)->get();
+        $districts = SubdistrictList::where('id_city', $id_city)->get();
 
         $data = array(
             'err' => null,
