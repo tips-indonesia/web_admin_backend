@@ -8,27 +8,27 @@ use App\Http\Controllers\Controller;
 use App\Shipment;
 use App\PriceList;
 use App\Insurance;
-use App\CityList;
+use App\AirportcityList;
 use App\ShipmentStatus;
 use App\DaftarBarangRegular;
 use App\DaftarBarangGold;
-use App\Province;
-use App\City;
-use App\Districts;
+use App\ProvinceList;
+use App\CityList;
+use App\SubdistrictList;
 
 
 class ShipmentController extends Controller
 {
     //
     function submit(Request $request) {
-        $shipper_districts = Districts::find($request->id_shipper_district);
-        $consignee_districts = Districts::find($request->id_consignee_district);
+        $shipper_districts = SubdistrictList::find($request->id_shipper_district);
+        $consignee_districts = SubdistrictList::find($request->id_consignee_district);
 
-        $shipper_city = City::find($shipper_districts->id_city);
-        $consignee_city = City::find($consignee_districts->id_city);
+        $shipper_city = CityList::find($shipper_districts->id_city);
+        $consignee_city = CityList::find($consignee_districts->id_city);
 
-        $shipper_province = Province::find($shipper_city->id_province);
-        $consignee_province = Province::find($consignee_city->id_province);
+        $shipper_province = ProvinceList::find($shipper_city->id_province);
+        $consignee_province = ProvinceList::find($consignee_city->id_province);
 
         $insurance = Insurance::first();
         do{
@@ -122,8 +122,8 @@ class ShipmentController extends Controller
         $daftar_barang->save();
 
         $shipment_out = Shipment::where('shipment_id', $shipment->shipment_id)->first();
-        $shipment_out->origin_city = CityList::find($shipment->id_origin_city)->name;
-        $shipment_out->destination_city = CityList::find($shipment->id_destination_city)->name;
+        $shipment_out->origin_city = AirportcityList::find($shipment->id_origin_city)->name;
+        $shipment_out->destination_city = AirportcityList::find($shipment->id_destination_city)->name;
 
         $data = array(
             'err' => null,
@@ -149,8 +149,8 @@ class ShipmentController extends Controller
             );
         } else {
             $shipment_status = ShipmentStatus::find($shipment->id_shipment_status);
-            $shipment->origin_city = CityList::find($shipment->id_origin_city)->name;
-            $shipment->destination_city = CityList::find($shipment->id_destination_city)->name;
+            $shipment->origin_city = AirportcityList::find($shipment->id_origin_city)->name;
+            $shipment->destination_city = AirportcityList::find($shipment->id_destination_city)->name;
             $data = array(
                 'err' => null,
                 'result' => array(
@@ -164,6 +164,52 @@ class ShipmentController extends Controller
 
             );
         }
+
+        return response()->json($data, 200);
+    }
+
+    function search_shipment(Request $request) {
+
+        $shipement = Shipment::where('id_shipper', $request->id_member);
+
+        if($request->has('id_destination_city')){
+            if($request->id_destination_city != null && $request->id_destination_city != "") {
+                $shipement = $shipement->where('id_destination_city', $request->id_destination_city);
+            }
+        }
+
+        if($request->has('id_shipment_status')){
+            if($request->id_shipment_status != null && $request->id_shipment_status != "" && $request->id_shipment_status != 0) {
+                $shipement = $shipement->where('id_shipment_status', $request->id_shipment_status);
+            }
+        }
+
+        if($request->has('start_transaction_date') && $request->has('end_transaction_date')){
+            if($request->start_transaction_date != null && $request->start_transaction_date != "" && $request->end_transaction_date != null && $request->end_transaction_date != "") {
+                $shipement = $shipement->where('transaction_date','>=' ,$request->start_transaction_date)->where('transaction_date','<=' ,$request->end_transaction_date);
+            }
+        }
+
+        if($request->has('consignee_name')){
+            if($request->consignee_name != null && $request->consignee_name != "") {
+                $shipement = $shipement->where('consignee_first_name', 'LIKE','%'.$request->consignee_name.'%')->orWhere('consignee_last_name','LIKE', '%'.$request->consignee_name.'%');
+            }
+        }
+
+        $shipment_init = $shipement->get();
+        $shipments = [];
+
+        foreach ($shipment_init as $shipment) {
+            $shipment->origin_city = AirportcityList::find($shipment->id_origin_city)->name;
+            $shipment->destination_city = AirportcityList::find($shipment->id_destination_city)->name;
+
+            array_push($shipments, $shipment);
+        }
+
+        $data = array(
+            'err' => null,
+            'result' => $shipments
+        );
 
         return response()->json($data, 200);
     }

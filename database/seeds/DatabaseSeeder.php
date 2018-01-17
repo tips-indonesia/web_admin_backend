@@ -241,5 +241,6 @@ class DatabaseSeeder extends Seeder
         $this->call(HelpTipsterSeeder::class);
         // $this->call(LocationTableSeeder::class);
         // $this->call(LocationTableSeeder2::class);
+        $this->call(AirportcityListTableSeeder::class);
     }
 }

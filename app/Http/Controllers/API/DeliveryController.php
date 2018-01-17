@@ -13,6 +13,7 @@ use App\AirportList;
 use App\PriceList;
 use App\DeliveryStatus;
 use App\CityList;
+use App\AirportcityList;
 use App\Shipment;
 use App\DaftarBarangGold;
 use App\DaftarBarangRegular;
@@ -72,8 +73,10 @@ class DeliveryController extends Controller
             $slot->flight_code = $booking->flight_code;
             $slot->baggage_space = $request->baggage_space;
             $slot->slot_price_kg = $price->tipster_price;
-            $slot->origin_city = CityList::find($airport_origin->id_city)->name;
-            $slot->destination_city = CityList::find($airport_destination->id_city)->name;
+            $slot->id_origin_city = $airport_origin->id_city;
+            $slot->id_destination_city = $airport_destination->id_city;
+            $slot->origin_city = AirportcityList::find($airport_origin->id_city)->name;
+            $slot->destination_city = AirportcityList::find($airport_destination->id_city)->name;
 
             $slot->save();
 
@@ -296,6 +299,48 @@ class DeliveryController extends Controller
         }
 
         return response()->json($data, 200);
+    }
+
+    function search_delivery(Request $request) {
+        $slot_list = SlotList::where('id_member', $request->id_member);
+
+        if($request->has('id_destination_city')){
+            if($request->id_destination_city != null && $request->id_destination_city != "") {
+                $slot_list = $slot_list->where('id_destination_city', $request->id_destination_city);
+            }
+        }
+
+        if($request->has('id_slot_status')){
+            if($request->id_slot_status != null && $request->id_slot_status != "" && $request->id_slot_status != 0) {
+                $slot_list = $slot_list->where('id_slot_status', $request->id_slot_status);
+            }
+        }
+
+        if($request->has('start_arrival') && $request->has('end_arrival')){
+            if($request->start_arrival != null && $request->start_arrival != "" && $request->end_arrival != null && $request->end_arrival != "") {
+                $slot_list = $slot_list->where('arrival','>=' ,$request->start_arrival)->where('arrival','<=' ,$request->end_arrival);
+            }
+        }
+
+        $slot_list_init = $slot_list->get();
+        $slot_list = [];
+
+        foreach ($slot_list_init as $slot) {
+            $airport_origin = AirportList::find($slot->id_origin_airport);
+            $airport_destination = AirportList::find($slot->id_destination_airport);
+
+            $slot->origin_airport = $airport_origin;
+            $slot->destination_airport = $airport_destination;
+            array_push($slot_list, $slot);
+        }
+
+        $data = array(
+            'err' => null,
+            'result' => $slot_list
+        );
+
+        return response()->json($data, 200);
+
     }
 
     function generateRandomString($length = 7) {

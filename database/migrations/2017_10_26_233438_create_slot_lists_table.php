@@ -22,6 +22,8 @@ class CreateSlotListsTable extends Migration
             $table->unsignedInteger('id_airline');
             $table->unsignedInteger('id_origin_airport');
             $table->unsignedInteger('id_destination_airport');
+            $table->unsignedInteger('id_origin_city');
+            $table->unsignedInteger('id_destination_city');
             $table->string('origin_city');
             $table->string('destination_city');
             $table->dateTime('depature');
