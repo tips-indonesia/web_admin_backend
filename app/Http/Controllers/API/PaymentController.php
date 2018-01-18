@@ -155,7 +155,7 @@ class PaymentController extends Controller
                     "code"      => 0,
                     "message"   => "Success",
                     "order_id"  => $transaction_id,
-                    "amount"    => number_format($transaction->amount,2,".",""),
+                    "amount"    => number_format($transaction->estimate_goods_value + $transaction->flight_cost,2,".",""),
                     "description"   => "Pembayaran oleh : " . $transaction->shipper_first_name
                 ));
             }
