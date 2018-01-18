@@ -143,7 +143,7 @@ class ShipmentController extends Controller
         $shipment_out->destination_city = AirportcityList::find($shipment->id_destination_city)->name;
 
         $shipment_status = ShipmentStatus::find($shipment_out->id_shipment_status);
-        $shipment_out->shipement_status_description = $shipment_status->description;
+        $shipment_out->shipment_status_description = $shipment_status->description;
 
         $data = array(
             'err' => null,
@@ -225,7 +225,7 @@ class ShipmentController extends Controller
             $shipment->destination_city = AirportcityList::find($shipment->id_destination_city)->name;
 
             $shipment_status = ShipmentStatus::find($shipment->id_shipment_status);
-            $shipment->shipement_status_description = $shipment_status->description;
+            $shipment->shipment_status_description = $shipment_status->description;
             array_push($shipments, $shipment);
         }
 
