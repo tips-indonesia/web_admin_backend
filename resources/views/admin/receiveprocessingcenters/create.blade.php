@@ -1,10 +1,10 @@
 @extends('admin.app')
 
 @section('title')
-    Create Packaging Delivery to Processing Center
+    Create Packaging Receive to Processing Center
 @endsection
 @section('page_title')
-    <span class="text-semibold">Packaging Delivery to Processing Center</span> - Create
+    <span class="text-semibold">Packaging Receive to Processing Center</span> - Create
 @endsection
 @section('content')
     <!-- Vertical form options -->
@@ -16,12 +16,12 @@
             {{ Form::open(array('url' => route('deliveryprocessingcenters.store'), 'method' => 'POST')) }}
                         <div class="col-md-6">
                                 <div class="form-group">
-                                    <label>Delivery ID :</label>
+                                    <label>Receive ID :</label>
                                     <input type="text" class="form-control" value="" disabled readonly>
                                 </div>
                             </div>
                             <div class="form-group">
-                                    <label>Delivery Time :</label>
+                                    <label>Receive Time :</label>
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="icon-calendar5"></i></span>
                                         <input type="text" name="delivery_time" class="form-control pickatime" placeholder="Received date" value="">

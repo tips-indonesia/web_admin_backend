@@ -1,10 +1,10 @@
 @extends('admin.app')
 
 @section('title')
-    Show Packaging Delivery to Processing Center
+    Show Packaging Receive to Processing Center
 @endsection
 @section('page_title')
-    <span class="text-semibold">Packaging Delivery to Processing Center</span> - Show
+    <span class="text-semibold">Packaging Receive to Processing Center</span> - Show
 @endsection
 @section('content')
     <!-- Vertical form options -->
