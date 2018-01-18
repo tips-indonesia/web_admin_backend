@@ -82,8 +82,8 @@ class DeliveryController extends Controller
 
             $slot->origin_airport = $airport_origin;
             $slot->destination_airport = $airport_destination;
-
-
+            $delivery_status = DeliveryStatus::find($slot->id_slot_status);
+            $slot->delivery_status_description = $delivery_status->description;
 
             $data = array(
                 'err' => null,
@@ -328,9 +328,11 @@ class DeliveryController extends Controller
         foreach ($slot_list_init as $slot) {
             $airport_origin = AirportList::find($slot->id_origin_airport);
             $airport_destination = AirportList::find($slot->id_destination_airport);
+            $delivery_status = DeliveryStatus::find($slot->id_slot_status);
 
             $slot->origin_airport = $airport_origin;
             $slot->destination_airport = $airport_destination;
+            $slot->delivery_status_description = $delivery_status->description;
             array_push($slot_list, $slot);
         }
 

@@ -22,13 +22,13 @@ class ShipmentController extends Controller
     //
     function submit(Request $request) {
         $shipper_districts = SubdistrictList::find($request->id_shipper_district);
-        $consignee_districts = SubdistrictList::find($request->id_consignee_district);
+//        $consignee_districts = SubdistrictList::find($request->id_consignee_district);
 
         $shipper_city = CityList::find($shipper_districts->id_city);
-        $consignee_city = CityList::find($consignee_districts->id_city);
+//        $consignee_city = CityList::find($consignee_districts->id_city);
 
         $shipper_province = ProvinceList::find($shipper_city->id_province);
-        $consignee_province = ProvinceList::find($consignee_city->id_province);
+//        $consignee_province = ProvinceList::find($consignee_city->id_province);
 
         $insurance = Insurance::first();
         do{
@@ -68,9 +68,13 @@ class ShipmentController extends Controller
 
         $shipment->shipper_address = $request->shipper_address;
         $shipment->shipper_mobile_phone = $request->shipper_mobile_phone;
-        $shipment->shipper_latitude = $request->shipper_latitude;
-        $shipment->shipper_longitude = $request->shipper_longitude;
 
+        if($request->has('shipper_latitude') && $request->has('shipper_longitude')) {
+            if($request->shipper_latitude != null && $request->shipper_latitude != "" && $request->shipper_longitude != null && $request->shipper_longitude != "") {
+                $shipment->shipper_latitude = $request->shipper_latitude;
+                $shipment->shipper_longitude = $request->shipper_longitude;
+            }
+        }
 //        $shipment->consignee_name = $request->consignee_name;
         $shipment->consignee_first_name = $request->consignee_first_name;
 
@@ -80,12 +84,12 @@ class ShipmentController extends Controller
             }
         }
 
-        $shipment->id_consignee_districts = $consignee_districts->id;
-        $shipment->consignee_districts = $consignee_districts->name;
-        $shipment->id_consignee_city = $consignee_city->id;
-        $shipment->consignee_city = $consignee_city->name;
-        $shipment->id_consignee_province = $consignee_province->id;
-        $shipment->consignee_province = $consignee_province->name;
+//        $shipment->id_consignee_districts = $consignee_districts->id;
+//        $shipment->consignee_districts = $consignee_districts->name;
+//        $shipment->id_consignee_city = $consignee_city->id;
+//        $shipment->consignee_city = $consignee_city->name;
+//        $shipment->id_consignee_province = $consignee_province->id;
+//        $shipment->consignee_province = $consignee_province->name;
 
         $shipment->consignee_address = $request->consignee_address;
         $shipment->consignee_mobile_phone = $request->consignee_mobile_phone;
@@ -111,9 +115,15 @@ class ShipmentController extends Controller
         $shipment->is_take = $request->is_take;
         $shipment->payment_id = "TIPS" . strtoupper("" . uniqid());
 
-        if($request->has('notes_address')) {
-            if($request->notes_address != null && $request->notes_address != ""){
-                $shipment->notes_address = $request->notes_address;
+        if($request->has('shipper_address_detail')) {
+            if($request->shipper_address_detail != null && $request->shipper_address_detail != ""){
+                $shipment->shipper_address_detail = $request->shipper_address_detail;
+            }
+        }
+
+        if($request->has('consignee_address_detail')) {
+            if($request->consignee_address_detail != null && $request->consignee_address_detail != ""){
+                $shipment->consignee_address_detail = $request->consignee_address_detail;
             }
         }
 
@@ -131,6 +141,9 @@ class ShipmentController extends Controller
         $shipment_out = Shipment::where('shipment_id', $shipment->shipment_id)->first();
         $shipment_out->origin_city = AirportcityList::find($shipment->id_origin_city)->name;
         $shipment_out->destination_city = AirportcityList::find($shipment->id_destination_city)->name;
+
+        $shipment_status = ShipmentStatus::find($shipment_out->id_shipment_status);
+        $shipment_out->shipement_status_description = $shipment_status->description;
 
         $data = array(
             'err' => null,
@@ -211,6 +224,8 @@ class ShipmentController extends Controller
             $shipment->origin_city = AirportcityList::find($shipment->id_origin_city)->name;
             $shipment->destination_city = AirportcityList::find($shipment->id_destination_city)->name;
 
+            $shipment_status = ShipmentStatus::find($shipment->id_shipment_status);
+            $shipment->shipement_status_description = $shipment_status->description;
             array_push($shipments, $shipment);
         }
 
