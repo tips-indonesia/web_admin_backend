@@ -80,6 +80,8 @@ class DeliveryController extends Controller
 
             $slot->save();
 
+            $slot = SlotList::find($slot->id);
+
             $slot->origin_airport = $airport_origin;
             $slot->destination_airport = $airport_destination;
             $delivery_status = DeliveryStatus::find($slot->id_slot_status);
