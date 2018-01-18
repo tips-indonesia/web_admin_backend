@@ -40,6 +40,7 @@ Route::get('/goods/insurance', 'API\\GoodsController@get_insurance_price');
 
 Route::post('/shipment', 'API\\ShipmentController@submit');
 Route::get('/shipment/status', 'API\\ShipmentController@get_status');
+Route::get('/shipment/all_status', 'API\\ShipmentController@get_all_status_shipments');
 Route::post('/shipment/search', 'API\\ShipmentController@search_shipment');
 
 Route::get('/flight/booking', 'API\\FlightController@get_flight_booking');
@@ -50,6 +51,7 @@ Route::post('/delivery', 'API\\DeliveryController@submit');
 Route::get('/delivery/status', 'API\\DeliveryController@get_status');
 Route::post('/delivery/confirm', 'API\\DeliveryController@confirm');
 Route::post('/delivery/send_tag', 'API\\DeliveryController@send_tag');
+Route::get('/delivery/all_status', 'API\\DeliveryController@get_all_status_delivery');
 Route::post('/delivery/search', 'API\\DeliveryController@search_delivery');
 
 Route::get('/home', 'API\\HomeController@list_of_shipment_and_delivery');

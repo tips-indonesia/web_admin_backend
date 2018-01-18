@@ -343,6 +343,17 @@ class DeliveryController extends Controller
 
     }
 
+    function get_all_status_delivery() {
+        $delivery_status = DeliveryStatus::all();
+
+        $data = array(
+            'err' => null,
+            'result' => $delivery_status
+        );
+
+        return response()->json($data, 200);
+    }
+
     function generateRandomString($length = 7) {
         $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $charactersLength = strlen($characters);

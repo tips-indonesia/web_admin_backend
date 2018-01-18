@@ -214,6 +214,16 @@ class ShipmentController extends Controller
         return response()->json($data, 200);
     }
 
+    function get_all_status_shipments() {
+        $shipment_status = ShipmentStatus::all();
+        $data = array(
+            'err' => null,
+            'result' => $shipment_status
+        );
+
+        return response()->json($data, 200);
+    }
+
     function generateRandomString($length = 7) {
         $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $charactersLength = strlen($characters);
