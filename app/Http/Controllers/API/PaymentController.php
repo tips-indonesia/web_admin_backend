@@ -58,7 +58,7 @@ class PaymentController extends Controller
         if(!$request->payment_id)
             return 'payment_id parameter can not be null';
 
-        $transaction = Transaction::where('payment_id', $request->payment_id)->get();
+        $transaction = Shipment::where('payment_id', $request->payment_id)->get();
 
         if(sizeof($transaction) == 0)
             return 'payment_id not found, make sure payment_id is correct';
@@ -266,7 +266,7 @@ class PaymentController extends Controller
         if(!$request->payment_id)
             return 'payment_id parameter can not be null';
 
-        $transaction = Transaction::where('payment_id', $request->payment_id)->get();
+        $transaction = Shipment::where('payment_id', $request->payment_id)->get();
 
         if(sizeof($transaction) == 0)
             return 'payment_id not found, make sure payment_id is correct';
