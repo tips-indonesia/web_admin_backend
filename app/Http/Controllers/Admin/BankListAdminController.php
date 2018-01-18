@@ -59,7 +59,6 @@ class BankListAdminController extends Controller
             $bankList->name = Input::get('name');
             $bankList->status = 1;
             $bankList->save();
-            Session::flash('message', 'Successfully created nerd!');
             return Redirect::to(route('banklists.index'));
         }
 
@@ -114,7 +113,7 @@ class BankListAdminController extends Controller
 
         // process the login
         if ($validator->fails()) {
-            return Redirect::to(route('banklists.edit'))
+            return Redirect::to(route('banklists.edit', $id))
                 ->withErrors($validator)
                 ->withInput();
         } else {

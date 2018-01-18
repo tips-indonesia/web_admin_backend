@@ -31,7 +31,7 @@
                             {{ $data->office_type_name }}
                         </td>
                         <td>
-                            @if ($data->id_office_type == 2)
+                            @if ($data->id_office_type == $processing_center->id)
                         <button type="button" class="btn btn-default btn-sm" onclick="window.location.href='{{ route('officeairports.show', $data->id) }}'">Airport Lists</button>
                             @endif
                         </td>

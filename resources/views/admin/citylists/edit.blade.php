@@ -26,6 +26,7 @@
                             <label>Name :</label>
                             {{ Form::text('name', $datas->name, array('class' => 'form-control', 'placeholder' => 'City Name')) }}
                         </div>
+                        <input type="hidden" value="{{$province->id}}" name="province">
                         <div class="text-right form-group">
                             <button type="submit" class="btn btn-primary">Submit form <i class="icon-arrow-right14 position-right"></i></button>
                         </div>

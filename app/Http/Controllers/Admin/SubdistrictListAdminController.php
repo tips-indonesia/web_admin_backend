@@ -143,7 +143,7 @@ class SubdistrictListAdminController extends Controller
             $subdistrictList->id_city = Input::get('city');
             $subdistrictList->save();
             Session::flash('message', 'Successfully created nerd!');
-            return Redirect::to(route('subdistrictlists.index'));
+            return Redirect::to(route('subdistrictlists.index', ['province' => Input::get('province'), 'city' => Input::get('city')]));
         }
     }
 
@@ -161,6 +161,6 @@ class SubdistrictListAdminController extends Controller
 
         // redirect
         Session::flash('message', 'Successfully deleted the nerd!');
-        return Redirect::to(route('subdistrictlists.index'));
+        return Redirect::to(route('subdistrictlists.index', ['province' => Input::get('province'), 'city' => Input::get('city')]));
     }
 }

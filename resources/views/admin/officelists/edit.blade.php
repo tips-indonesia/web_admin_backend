@@ -103,6 +103,7 @@
                                     @endforeach
                                 </select>
                             </div>
+                            <input type="hidden" name="airport_counter" value="{{ $datas->id_airport_counter }}">
                             <div class="form-group">
                                 <label>Processing Center Name :</label>
                                 <select name="processing_center" class="select-search" id="processing_center" disabled>
@@ -112,6 +113,7 @@
                                     @endforeach
                                 </select>
                             </div>
+                            <input type="hidden" name="processing_center" value="{{ $datas->id_processing_center }}">
                             <div class="form-group">
                                 <label>Airport Name :</label>
                                 <select name="airport" class="select-search" id="airport" disabled>
@@ -121,6 +123,7 @@
                                     @endforeach
                                 </select>
                             </div>
+                            <input type="hidden" name="airport" value="{{ $datas->id_airport }}">
                             <div class="form-group">
                                 <label>Status :</label>
                                 <select class="bootstrap-select" data-width="100%" name="status">

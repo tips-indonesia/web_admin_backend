@@ -100,7 +100,7 @@ class OfficeListAdminController extends Controller
             if (Input::get('airport_counter'))
                 $officeLists->id_office_counter = Input::get('airport_counter');
             if (Input::get('processing_center'))
-                $officeLists->processing_center = Input::get('processing_center');
+                $officeLists->id_office_pc = Input::get('processing_center');
             if (Input::get('airport'))
                 $officeLists->id_airport = Input::get('airport');
             $officeLists->status = 1;
@@ -156,7 +156,6 @@ class OfficeListAdminController extends Controller
             'office_type' => 'required',
             'address' => 'required',
             'city' => 'required',
-            'city' => 'required',
             'province' => 'required',
             'subdistrict' => 'required',
             'latitude' => 'required',
@@ -164,10 +163,10 @@ class OfficeListAdminController extends Controller
             'phone_no' => 'required',
             'fax_no' => 'required',
             'email_address' => 'required',
-            'airport_counter' => 'required_if:office_type,3',
-            'processing_center' => 'required_if:office_type,4|required_if:office_type,5',
+            'airport_counter' => 'required_if:office_type,5',
+            'processing_center' => 'required_if:office_type,2|required_if:office_type,3',
             'contact_person' => 'required',
-            'airport' => 'required_if:office_type,2'
+            'airport' => 'required_if:office_type,4'
         );
         $validator = Validator::make(Input::all(), $rules);
 
@@ -194,7 +193,7 @@ class OfficeListAdminController extends Controller
                 $officeLists->processing_center = Input::get('processing_center');
             if (Input::get('airport'))
                 $officeLists->id_airport = Input::get('airport');
-            $officeLists->status = 1;
+            $officeLists->status = Input::get('status');
             $officeLists->save();
             Session::flash('message', 'Successfully created nerd!');
             return Redirect::to(route('officelists.index'));

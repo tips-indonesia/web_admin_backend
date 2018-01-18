@@ -78,7 +78,7 @@ class OfficeAirportAdminController extends Controller
     {
         //
         $data['office'] = OfficeList::find($id);
-        if ($data['office']->id_office_type == 2) {
+        if ($data['office']->id_office_type == 5) {
             $data['datas'] = OfficeAirport::where('id_office', $id)->paginate(10);
             foreach ($data['datas'] as $dat) {
                 $dat['name'] = AirportList::find($dat->id_airport)->name;

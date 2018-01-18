@@ -33,8 +33,8 @@
                         <div class="form-group">
                             <label>Status :</label>
                             <select class="bootstrap-select" data-width="100%" name="status" title="Choose one of the following" >
-                                <option value="1" @if($datas->status) selected @endif>Active</option>
-                                <option value="0" @if($datas->status) selected @endif>Inactive</option>
+                                <option value="1" @if($datas->status == 1) selected @endif>Active</option>
+                                <option value="0" @if($datas->status == 0) selected @endif>Inactive</option>
                             </select>
                         </div>
                         <div class="text-right form-group">

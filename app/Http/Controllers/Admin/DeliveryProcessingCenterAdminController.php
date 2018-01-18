@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 
-class DeliveryDepartureCounterAdminController extends Controller
+class DeliveryProcessingCenterAdminController extends Controller
 {
     /**
     * Display a listing of the resource.
@@ -55,7 +55,7 @@ class DeliveryDepartureCounterAdminController extends Controller
             $dat['origin'] = OfficeList::find($dat->id_origin_office)->name;
             $dat['destination'] = OfficeList::find($dat->id_destination_office)->name;
         }
-        return view('admin.deliverydeparturecounters.index', $data);
+        return view('admin.deliveryprocessingcenters.index', $data);
     }
 
     /**
@@ -80,7 +80,7 @@ class DeliveryDepartureCounterAdminController extends Controller
             }
             $data['date'] = $date;
         }
-        return view('admin.deliverydeparturecounters.create', $data);
+        return view('admin.deliveryprocessingcenters.create', $data);
     }
 
     /**
@@ -104,7 +104,7 @@ class DeliveryDepartureCounterAdminController extends Controller
             $deliv_details->id_delivery = $delivery->id;
             $deliv_details->save();
         }
-        return Redirect::to(route('deliverydeparturecounters.index'));
+        return Redirect::to(route('deliveryprocessingcenters.index'));
 
 
 
@@ -140,7 +140,7 @@ class DeliveryDepartureCounterAdminController extends Controller
         $data['delivery_shipments'] = $delivery_shipments;
         $data['shipment_lists'] = $temp_shipments;
         $data['data'] = $delivery_shipment_info;
-        return view('admin.deliverydeparturecounters.edit', $data);
+        return view('admin.deliveryprocessingcenters.edit', $data);
 
     }
 
@@ -178,7 +178,7 @@ class DeliveryDepartureCounterAdminController extends Controller
                 $deliv_details->save();
             }
         }
-        return Redirect::to(route('deliverydeparturecounters.index'));
+        return Redirect::to(route('deliveryprocessingcenters.index'));
     }
 
     /**
@@ -195,6 +195,6 @@ class DeliveryDepartureCounterAdminController extends Controller
 
         // redirect
         Session::flash('message', 'Successfully deleted the nerd!');
-        return Redirect::to(route('deliverydeparturecounters.index'));
+        return Redirect::to(route('deliveryprocessingcenters.index'));
     }
 }

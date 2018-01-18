@@ -144,6 +144,10 @@ Route::prefix('admin/')->group(function ($locale) {
             Route::resource('deliverydeparturecounters','Admin\DeliveryDepartureCounterAdminController');
         });
 
+        Route::group(['middleware' => ['permission:deliveryprocessingcenters.']], function () {
+            Route::resource('deliveryprocessingcenters','Admin\DeliveryProcessingCenterAdminController');
+        });
+
         Route::group(['middleware' => ['permission:shipmentdropoffs.']], function () {
             Route::resource('shipmentdropoffs','Admin\ShipmentDropOffAdminController');
         });
