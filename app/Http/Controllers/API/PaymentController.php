@@ -10,6 +10,7 @@ use App\BankList;
 use App\PaymentType;
 use App\Transaction;
 use App\EspayNotification;
+use App\Shipment;
 use Storage;
 
 class PaymentController extends Controller
@@ -141,7 +142,7 @@ class PaymentController extends Controller
         }else{
 
             $transaction_id = $request->order_id;
-            $transaction = Transaction::where('payment_id', $transaction_id)->first();
+            $transaction = Shipment::where('payment_id', $transaction_id)->first();
 
             if(sizeof($transaction) == 0){
                 $data = $this->generateSGOEspayTemplate(array(
@@ -155,7 +156,7 @@ class PaymentController extends Controller
                     "message"   => "Success",
                     "order_id"  => $transaction_id,
                     "amount"    => number_format($transaction->amount,2,".",""),
-                    "description"   => "Pembayaran oleh member id: " . $transaction->user_id
+                    "description"   => "Pembayaran oleh : " . $transaction->shipper_first_name
                 ));
             }
         }
@@ -177,7 +178,7 @@ class PaymentController extends Controller
         }else{
 
             $transaction_id = $request->order_id;
-            $transaction = Transaction::where('payment_id', $transaction_id)->first();
+            $transaction = Shipment::where('payment_id', $transaction_id)->first();
 
             if(sizeof($transaction) == 0){
                 $data = $this->generateSGOEspayResponseNotification(array(

@@ -109,6 +109,13 @@ class ShipmentController extends Controller
 
         $shipment->is_delivery = $request->is_delivery;
         $shipment->is_take = $request->is_take;
+        $shipment->payment_id = "TIPS" . strtoupper("" . uniqid());
+
+        if($request->has('notes_address')) {
+            if($request->notes_address != null && $request->notes_address != ""){
+                $shipment->notes_address = $request->notes_address;
+            }
+        }
 
         $shipment->save();
 

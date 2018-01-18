@@ -24,5 +24,11 @@ class AirportcityListTableSeeder extends Seeder
         DB::table('airportcity_lists')->insert([
             'name' => 'Medan',
         ]);
+
+        DB::table('subdistrict_lists')->insert([
+            'name' => 'Koja',
+            'id_city' => 1,
+            'id_province' => 1
+        ]);
     }
 }

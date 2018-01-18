@@ -82,6 +82,8 @@ class CreateShipmentsTable extends Migration
             $table->enum('pickup_status', ['Pending', 'Done'])->default('Pending');
             $table->date('pickup_date')->nullable();
             $table->time('pickup_time')->nullable();
+            $table->string('payment_id');
+            $table->string('notes_address')->nullable();
             $table->timestamps();
 
         });
