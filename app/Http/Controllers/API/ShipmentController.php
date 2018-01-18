@@ -136,6 +136,7 @@ class ShipmentController extends Controller
             'err' => null,
             'result' => array(
                 'shipment' => $shipment_out,
+                'payment_url' => "http://174.138.24.62/payment/start?payment_id=$shipment->payment_id"
             )
         );
 
