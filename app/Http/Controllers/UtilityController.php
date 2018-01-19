@@ -183,7 +183,6 @@ class UtilityController extends Controller
         if($this->DEBUG) echo "B-" . $temp->id . ' berat ' . $temp->estimate_weight . ' diassign ke K-' . $IDKeberangkatan . '<br/>';
         if($this->DEBUG) echo "</br>";
         $temp->id_slot = $IDKeberangkatan;
-        $temp->dispatch_type = 'Process';
         $temp->save();
 
         $tempK = SlotList::find($IDKeberangkatan);
