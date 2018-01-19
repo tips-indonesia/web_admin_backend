@@ -8,11 +8,12 @@ use App\Shipment;
 use App\ShipmentStatus;
 use App\User;
 use App\MemberList;
-use App\CityList;
+use App\AirportcityList;
 use App\Insurance;
 use App\PaymentType;
 use App\BankList;
 use App\BankCardList;
+use App\AirportcityList;
 use Validator;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Input;
@@ -47,8 +48,8 @@ class ShipmentPickUpAdminController extends Controller
         }
         $data['datas'] = $data['datas']->paginate(10);
         foreach($data['datas'] as $dat) {
-            $dat['name_origin'] = CityList::find($dat->id_origin_city)->name;
-            $dat['name_destination'] = CityList::find($dat->id_destination_city)->name;
+            $dat['name_origin'] = AirportcityList::find($dat->id_origin_city)->name;
+            $dat['name_destination'] = AirportcityList::find($dat->id_destination_city)->name;
             $dat['status'] = ShipmentStatus::find($dat->id_shipment_status)->description;
         }
         return view('admin.shipmentpickups.index', $data);
@@ -62,7 +63,7 @@ class ShipmentPickUpAdminController extends Controller
     public function create()
     {
         //
-        // $data['cities'] = CityList::all();
+        // $data['cities'] = AirportcityList::all();
         // $data['shipment_status'] = ShipmentStatus::find(1);
         // $data['users'] = MemberList::all();
         // $data['payment_types'] = PaymentType::all();
@@ -183,7 +184,7 @@ class ShipmentPickUpAdminController extends Controller
             if ($data['data']->is_posted == 0) {
                 return Redirect::to(route('shipmentpickups.edit', $id));
             }
-            $data['cities'] = CityList::all();
+            $data['cities'] = AirportcityList::all();
             $data['shipment_statuses'] = ShipmentStatus::all();
             $data['users'] = MemberList::all();
             $data['payment_types'] = PaymentType::all();
@@ -204,7 +205,7 @@ class ShipmentPickUpAdminController extends Controller
         if ($data['data']->is_posted == 1) {
             return Redirect::to(route('shipmentpickups.show', $id));
         }
-        $data['cities'] = CityList::all();
+        $data['cities'] = AirportcityList::all();
         $data['shipment_statuses'] = ShipmentStatus::all();
         $data['users'] = MemberList::all();
         $data['payment_types'] = PaymentType::all();
