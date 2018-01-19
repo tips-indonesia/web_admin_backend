@@ -183,7 +183,6 @@ class UtilityController extends Controller
         if($this->DEBUG) echo "B-" . $temp->id . ' berat ' . $temp->estimate_weight . ' diassign ke K-' . $IDKeberangkatan . '<br/>';
         if($this->DEBUG) echo "</br>";
         $temp->id_slot = $IDKeberangkatan;
-        $temp->dispatch_type = 'Process';
         $temp->save();
 
         $tempK = SlotList::find($IDKeberangkatan);
@@ -192,7 +191,6 @@ class UtilityController extends Controller
             return false;
 
         $tempK->sold_baggage_space = $tempK->sold_baggage_space + $Barang->estimate_weight;
-        $tempK->dispatch_type = 'Process';
         $tempK->id_slot_status = 2;
 
         FCMSender::post(array(

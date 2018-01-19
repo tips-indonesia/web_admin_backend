@@ -36,19 +36,20 @@ class CreateShipmentsTable extends Migration
             $table->string('shipper_province');
             $table->string('shipper_address');
             $table->string('shipper_mobile_phone');
-            $table->decimal('shipper_latitude');
-            $table->decimal('shipper_longitude');
+            $table->decimal('shipper_latitude')->nullable();
+            $table->decimal('shipper_longitude')->nullable();
 //            $table->string('consignee_name');
             $table->string('consignee_first_name');
             $table->string('consignee_last_name')->nullable();
-            $table->unsignedInteger('id_consignee_districts');
-            $table->string('consignee_districts');
-            $table->unsignedInteger('id_consignee_city');
-            $table->string('consignee_city');
-            $table->unsignedInteger('id_consignee_province');
-            $table->string('consignee_province');
+//            $table->unsignedInteger('id_consignee_districts');
+//            $table->string('consignee_districts');
+//            $table->unsignedInteger('id_consignee_city');
+//            $table->string('consignee_city');
+//            $table->unsignedInteger('id_consignee_province');
+//            $table->string('consignee_province');
             $table->string('consignee_address');
             $table->string('consignee_mobile_phone');
+            $table->enum('status_dispatch', ['Pending', 'Process', 'Complete', 'Canceled'])->default('Pending');
             $table->enum('dispatch_type', ['Dispatch to consignee', 'Pickup to consignee'])->default('Dispatch to consignee');
             $table->enum('goods_status', ['Pending', 'Received'])->default('Pending');
             $table->enum('registration_type', ['Offline', 'Online', 'Pickup'])->default('Pickup');
@@ -83,7 +84,8 @@ class CreateShipmentsTable extends Migration
             $table->date('pickup_date')->nullable();
             $table->time('pickup_time')->nullable();
             $table->string('payment_id');
-            $table->string('notes_address')->nullable();
+            $table->string('shipper_address_detail')->nullable();
+            $table->string('consignee_address_detail')->nullable();
             $table->timestamps();
 
         });

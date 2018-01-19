@@ -55,7 +55,7 @@ class ArrivalController extends Controller
                 ],
                 'result' => null
             );
-        } else if($slot->id_slot_status != 5 || $slot->dispatch_type != "Process"){
+        } else if($slot->id_slot_status != 5 || $slot->status_dispatch != "Process"){
             $data = array(
                 'err' => [
                     'code' => 0,

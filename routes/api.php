@@ -72,6 +72,8 @@ Route::get('/worker/delivery', 'API\\Worker\\DeliveryController@get_detail');
 Route::post('/worker/delivery/departure', 'API\\Worker\\DeliveryController@departure');
 Route::get('/worker/arrival', 'API\\Worker\\ArrivalController@get_list');
 Route::post('/worker/arrival/confirm', 'API\\Worker\\ArrivalController@confirm');
+Route::get('/worker/shipment', 'API\\Worker\\ShipmentController@get_detail');
+Route::post('/worker/shipment', 'API\\Worker\\ShipmentController@pickup');
 
 Route::post('/payment/inquiry', 'API\\PaymentController@receiveInquiry');
 Route::post('/payment/payment', 'API\\PaymentController@receivePaymentNotification');

@@ -80,10 +80,12 @@ class DeliveryController extends Controller
 
             $slot->save();
 
+            $slot = SlotList::find($slot->id);
+
             $slot->origin_airport = $airport_origin;
             $slot->destination_airport = $airport_destination;
-
-
+            $delivery_status = DeliveryStatus::find($slot->id_slot_status);
+            $slot->delivery_status_description = $delivery_status->description;
 
             $data = array(
                 'err' => null,
@@ -146,11 +148,11 @@ class DeliveryController extends Controller
             $shipments = Shipment::where('id_slot', $slot->id)->get();
 
             if($confirmation == 0) {
-                $slot->dispatch_type = 'Canceled';
+                $slot->status_dispatch = 'Canceled';
                 $slot->save();
 
                 foreach ($shipments as $shipment) {
-                    $shipment->dispatch_type = 'Pending';
+                    $shipment->status_dispatch = 'Pending';
                     $shipment->id_shipment_status = 1;
                     $shipment->save();
 
@@ -171,13 +173,13 @@ class DeliveryController extends Controller
                 );
 
             } else {
-                $slot->dispatch_type = 'Process';
+                $slot->status_dispatch = 'Process';
                 $slot->id_slot_status = 3;
                 $slot->save();
                 $shipment_status = ShipmentStatus::where('step', 2)->first();
 
                 foreach ($shipments as $shipment) {
-                    $shipment->dispatch_type = 'Process';
+                    $shipment->status_dispatch = 'Process';
                     $shipment->id_shipment_status = 2;
                     $shipment->save();
 
@@ -328,9 +330,11 @@ class DeliveryController extends Controller
         foreach ($slot_list_init as $slot) {
             $airport_origin = AirportList::find($slot->id_origin_airport);
             $airport_destination = AirportList::find($slot->id_destination_airport);
+            $delivery_status = DeliveryStatus::find($slot->id_slot_status);
 
             $slot->origin_airport = $airport_origin;
             $slot->destination_airport = $airport_destination;
+            $slot->delivery_status_description = $delivery_status->description;
             array_push($slot_list, $slot);
         }
 

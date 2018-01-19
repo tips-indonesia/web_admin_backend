@@ -69,7 +69,7 @@ class DeliveryController extends Controller
                 ],
                 'result' => null
             );
-        } else if($slot->id_slot_status != 3 || $slot->dispatch_type != "Process"){
+        } else if($slot->id_slot_status != 3 || $slot->status_dispatch != "Process"){
             $data = array(
                 'err' => [
                     'code' => 0,
