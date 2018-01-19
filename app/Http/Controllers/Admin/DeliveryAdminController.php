@@ -8,6 +8,7 @@ use App\Shipment;
 use App\DeliveryShipment;
 use App\DeliveryShipmentDetail;
 use App\ShipmentHistory;
+use App\CityList;
 use Validator;
 use Auth;
 use Carbon\Carbon;
