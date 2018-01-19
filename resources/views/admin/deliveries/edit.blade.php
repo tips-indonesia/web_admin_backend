@@ -65,7 +65,7 @@
             template : 'dropdown',
             showInputs: false,
             showSeconds: false,
-            use24hours: true
+            showMeridian: false
           });
         </script>
     </div>
