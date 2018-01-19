@@ -63,6 +63,7 @@
             format: 'yyyy-mm-dd',
         });$('.pickatime').timepicker({
             template : 'dropdown',
+            format: 'h:i',
             showInputs: false,
             showSeconds: false
           });
