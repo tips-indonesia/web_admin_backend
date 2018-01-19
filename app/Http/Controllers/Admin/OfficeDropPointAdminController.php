@@ -33,7 +33,7 @@ class OfficeDropPointAdminController extends Controller
     {
         //
         $data['office'] = OfficeList::find($office);
-        $data['drop_point'] = OfficeList::where('id', OfficeType::where('name', 'Drop Point')->first()->id)->get();
+        $data['drop_point'] = OfficeList::where('id_office_type', OfficeType::where('name', 'Drop Point')->first()->id)->get();
         return view('admin.officedroppoints.create', $data);
     }
 
