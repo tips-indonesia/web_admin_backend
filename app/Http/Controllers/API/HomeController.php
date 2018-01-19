@@ -13,8 +13,8 @@ class HomeController extends Controller
     function list_of_shipment_and_delivery(Request $request){
         $member_id = $request->member_id;
 
-        $shipments = Shipment::select('shipment_id','dispatch_type')->where('id_shipper', $member_id)->get();
-        $delivery = SlotList::select('slot_id','dispatch_type')->where('id_member', $member_id)->get();
+        $shipments = Shipment::select('shipment_id','status_dispatch')->where('id_shipper', $member_id)->get();
+        $delivery = SlotList::select('slot_id','status_dispatch')->where('id_member', $member_id)->get();
 
         $data = array(
             'err' => null,

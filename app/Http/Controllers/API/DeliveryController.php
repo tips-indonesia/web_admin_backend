@@ -148,11 +148,11 @@ class DeliveryController extends Controller
             $shipments = Shipment::where('id_slot', $slot->id)->get();
 
             if($confirmation == 0) {
-                $slot->dispatch_type = 'Canceled';
+                $slot->status_dispatch = 'Canceled';
                 $slot->save();
 
                 foreach ($shipments as $shipment) {
-                    $shipment->dispatch_type = 'Pending';
+                    $shipment->status_dispatch = 'Pending';
                     $shipment->id_shipment_status = 1;
                     $shipment->save();
 
@@ -173,13 +173,13 @@ class DeliveryController extends Controller
                 );
 
             } else {
-                $slot->dispatch_type = 'Process';
+                $slot->status_dispatch = 'Process';
                 $slot->id_slot_status = 3;
                 $slot->save();
                 $shipment_status = ShipmentStatus::where('step', 2)->first();
 
                 foreach ($shipments as $shipment) {
-                    $shipment->dispatch_type = 'Process';
+                    $shipment->status_dispatch = 'Process';
                     $shipment->id_shipment_status = 2;
                     $shipment->save();
 

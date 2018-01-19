@@ -49,6 +49,7 @@ class CreateShipmentsTable extends Migration
 //            $table->string('consignee_province');
             $table->string('consignee_address');
             $table->string('consignee_mobile_phone');
+            $table->enum('status_dispatch', ['Pending', 'Process', 'Complete', 'Canceled'])->default('Pending');
             $table->enum('dispatch_type', ['Dispatch to consignee', 'Pickup to consignee'])->default('Dispatch to consignee');
             $table->enum('goods_status', ['Pending', 'Received'])->default('Pending');
             $table->enum('registration_type', ['Offline', 'Online', 'Pickup'])->default('Pickup');
