@@ -43,13 +43,13 @@ class DeliveryAdminController extends Controller
             $data['datas'] = $data['datas']->where(Input::get('param'),'=', Input::get('value'));
         }
         $data['datas'] = $data['datas']->paginate(10);
-        $pendings = DeliveryShipmentDetail::where('processing_center_received_by', null)->pluck('id_delivery')->toArray();
-        $data['datas2'] = DeliveryShipment::whereIn('id_delivery', $pendings)->get();
+        $pendings = DeliveryShipmentDetail::where('processing_center_received_by', null)->pluck('delivery_id')->toArray();
+        $data['datas2'] = DeliveryShipment::whereIn('delivery_id', $pendings)->get();
         foreach ($data['datas'] as $dat) {
-            $dat['total'] = DeliveryShipmentDetail::where('id_delivery', $dat->id)->get()->count();
+            $dat['total'] = DeliveryShipmentDetail::where('delivery_id', $dat->id)->get()->count();
         }
         foreach ($data['datas2'] as $dat) {
-            $dat['total'] = DeliveryShipmentDetail::where('id_delivery', $dat->id)->get()->count();
+            $dat['total'] = DeliveryShipmentDetail::where('delivery_id', $dat->id)->get()->count();
             $dat['origin'] = OfficeList::find($dat->id_origin_office)->name;
             $dat['destination'] = OfficeList::find($dat->id_destination_office)->name;
         }
