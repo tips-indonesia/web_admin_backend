@@ -8,7 +8,7 @@ use App\Shipment;
 use App\DeliveryShipment;
 use App\DeliveryShipmentDetail;
 use App\ShipmentHistory;
-use App\CityList;
+use App\AirportcityList;
 use Validator;
 use Auth;
 use Carbon\Carbon;
@@ -44,14 +44,11 @@ class DeliveryAdminController extends Controller
         }
         $data['datas'] = $data['datas']->paginate(10);
         $pendings = DeliveryShipmentDetail::where('processing_center_received_by', null)->pluck('id_delivery')->toArray();
-        $data['datas2'] = DeliveryShipment::whereIn('delivery_id', $pendings)->get();
-        foreach ($data['datas'] as $dat) {
-            $dat['total'] = DeliveryShipmentDetail::where('id_delivery', $dat->id)->get()->count();
-        }
+        $data['datas2'] = Shipment::where('status_dispatch', 'Pending')->get();
         foreach ($data['datas2'] as $dat) {
             $dat['total'] = DeliveryShipmentDetail::where('id_delivery', $dat->id)->get()->count();
-            $dat['origin'] = OfficeList::find($dat->id_origin_office)->name;
-            $dat['destination'] = OfficeList::find($dat->id_destination_office)->name;
+            $dat['origin'] = AirportcityList::find($dat->id_origin_city)->name;
+            $dat['destination'] = AirportcityList::find($dat->id_destination_city)->name;
         }
         return view('admin.deliveries.index', $data);
     }
@@ -70,8 +67,8 @@ class DeliveryAdminController extends Controller
         } else {
             $data['datas'] = Shipment::where([['transaction_date', '=', $date], ['is_posted', '=', 1]])->whereIn('id_shipment_status', [1,2])->get();
             foreach ($data['datas'] as $dat) {
-                $dat['origin_name'] = CityList::find($dat->id_origin_city)->name;
-                $dat['destination_name'] = CityList::find($dat->id_destination_city)->name;
+                $dat['origin_name'] = AirportcityList::find($dat->id_origin_city)->name;
+                $dat['destination_name'] = AirportcityList::find($dat->id_destination_city)->name;
             }
             $data['date'] = $date;
         }
@@ -129,8 +126,8 @@ class DeliveryAdminController extends Controller
         $delivery_shipments = DeliveryShipmentDetail::where([['id_delivery', '=', $id]])->pluck('id_shipment')->toArray();
         $temp_shipments = Shipment::where([['transaction_date', '=', $delivery_shipment_info->delivery_date], ['is_posted', '=', 1]])->whereIn('id_shipment_status', [1,2])->get();
         foreach ($temp_shipments as $dat) {
-            $dat['origin_name'] = CityList::find($dat->id_origin_city)->name;
-            $dat['destination_name'] = CityList::find($dat->id_destination_city)->name;
+            $dat['origin_name'] = AirportcityList::find($dat->id_origin_city)->name;
+            $dat['destination_name'] = AirportcityList::find($dat->id_destination_city)->name;
         }
         $data['delivery_shipments'] = $delivery_shipments;
         $data['shipment_lists'] = $temp_shipments;

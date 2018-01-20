@@ -121,11 +121,11 @@ class MenuTableSeeder extends Seeder
                 'menu_parent_id' => $transaction->id,
                 'class_name' => 'deliveries.'
             ]);
-            MenuList::create([
-                'name' => 'Processing Center Package List',
-                'menu_parent_id' => $transaction->id,
-                'class_name' => 'packagingprocessingcenters.'
-            ]);
+            // MenuList::create([
+            //     'name' => 'Processing Center Package List',
+            //     'menu_parent_id' => $transaction->id,
+            //     'class_name' => 'packagingprocessingcenters.'
+            // ]);
             MenuList::create([
                 'name' => 'Received by Processing Center',
                 'menu_parent_id' => $transaction->id,
@@ -142,14 +142,14 @@ class MenuTableSeeder extends Seeder
                 'class_name' => 'packagingrestshipments.'
             ]);
             MenuList::create([
-                'name' => 'Shipment Pick Up List',
-                'menu_parent_id' => $transaction->id,
-                'class_name' => 'shipmentpickups.'
-            ]);
-            MenuList::create([
                 'name' => 'Shipment Drop Off List',
                 'menu_parent_id' => $transaction->id,
                 'class_name' => 'shipmentdropoffs.'
+            ]);
+            MenuList::create([
+                'name' => 'Shipment Pick Up List',
+                'menu_parent_id' => $transaction->id,
+                'class_name' => 'shipmentpickups.'
             ]);
             MenuList::create([
                 'name' => 'Shipment Matching Monitor',

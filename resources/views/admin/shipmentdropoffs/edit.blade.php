@@ -11,14 +11,14 @@
     <div class="row">
         <div class="col-md-12">
             @foreach ($errors->all() as $error) {{ $error }} @endforeach
-            {{ Form::open(array('url' => route('shipments.update', $data->id), 'method' => 'PUT')) }}
+            {{ Form::open(array('url' => route('shipmentdropoffs.update', $data->id), 'method' => 'PUT')) }}
                 <div class="panel panel-flat">
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Shipment ID :</label>
-                                    <input type="text" class="form-control" value="{{$datas->shipment_id}}" disabled readonly>
+                                    <input type="text" class="form-control" value="{{$data->shipment_id}}" disabled readonly>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -26,7 +26,7 @@
                                     <label>Date :</label>
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="icon-calendar5"></i></span>
-                                        <input type="text" name="date" id="date" class="form-control pickadate-year" placeholder="Transaction date" value={{$datas->transaction_date}}>
+                                        <input type="text" name="date" id="date" class="form-control pickadate-year" placeholder="Transaction date" value={{$data->transaction_date}}>
                                     </div>
                                 </div>
                             </div>
@@ -36,7 +36,7 @@
                                 <div class="form-group">
                                     <div class="form-group">
                                     <label>Registration Type :</label>
-                                    <input type="text" class="form-control" name="registration_type" value="{{$datas->registration_type}}" readonly>
+                                    <input type="text" class="form-control" name="registration_type" value="{{$data->registration_type}}" readonly>
                                 </div>
                                 </div>
                             </div>
@@ -84,7 +84,7 @@
                                 Dispatch to consignee
                             </label>
                             <label class="radio-inline">
-                                <input type="radio" name="dispatch_type" @if($data->dispatch_type == 'Pickup to consignee"') checked="checked" @endif value="Pickup to consignee"">
+                                <input type="radio" name="dispatch_type" @if($data->dispatch_type == 'Pickup to consignee') checked="checked" @endif value="Pickup to consignee">
                                 Pickup to consignee"
                             </label>
                         </div>
@@ -101,12 +101,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Received By :</label>
-                                    <select name="received_by" class="select-search" disabled readonly>
-                                        <option disabled selected></option>
-                                        @foreach ($users as $user)
-                                            <option value="{{ $user->id }}" @if($data->received_by == $user->id) selected @endif>{{ $user->name }}</option>
-                                        @endforeach
-                                    </select>
+                                    <input type="text" name="receive_by" class="form-control" value="{{ $data->received_by}}">
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -114,7 +109,41 @@
                                     <label>Received Date :</label>
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="icon-calendar5"></i></span>
-                                        <input type="text" name="received_date" class="form-control pickadate-year" placeholder="Received date" value="{{ $data->received_time }}" disabled readonly>
+                                        <input type="text" name="received_date" class="form-control pickadate-year" placeholder="Received date" value="{{ $data->received_time }}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <legend class="text-bold">Pickup</legend>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Pickup By :</label>
+                                    <select name="pickup_by" class="select-search" >
+                                        <option disabled></option>
+                                        @foreach ($users as $user)
+                                            <option value="{{ $user->id }}" @if ($data->pickup_by == $user->id) selected @endif>{{ $user->first_name }} {{ $user->last_name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Pickup Date :</label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="icon-calendar5"></i></span>
+                                        <input type="text" name="pickup_date" class="form-control pickadate-year" placeholder="Received date" value="{{$data->pickup_date}}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Pickup Time :</label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="icon-calendar5"></i></span>
+                                        <input type="text" name="pickup_time" class="form-control pickatime" placeholder="Received date" value="{{$data->pickup_time}}">
                                     </div>
                                 </div>
                             </div>
@@ -133,13 +162,12 @@
                                         <div class="col-md-6">
                                             <legend class="text-bold">Shipper</legend>
                                             <div class="form-group">
-                                                <label>Name :</label>
-                                                <select name="shipper_name" class="select-search">
-                                                    <option disabled selected></option>
-                                                    @foreach ($users as $user)
-                                                        <option value="{{ $user->id }}" @if($data->id_shipper == $user->id) selected @endif>{{ $user->name }}</option>
-                                                    @endforeach
-                                                </select>
+                                                <label>First Name :</label>
+                                                <input type="text" class="form-control" name="shipper_first_name" value="{{$data->shipper_first_name}}">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Last Name :</label>
+                                                <input type="text" class="form-control" name="shipper_last_name" value="{{$data->shipper_last_name}}">
                                             </div>
                                             <div class="form-group">
                                                 <label>Address :</label>
@@ -148,6 +176,33 @@
                                             <div class="form-group">
                                                 <label>Mobile Phone :</label>
                                                 {{ Form::text('shipper_mobile', $data->shipper_mobile_phone, array('class' => 'form-control', 'placeholder' => 'Shipper Mobile Phone')) }}
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Province :</label>
+                                                <select name="shipper_province" id="sprovince" class="select-search">
+                                                    <option disabled></option>
+                                                    @foreach ($provinces as $province)
+                                                        <option value="{{ $province->id }}" {{$province->id==$data->province? 'selected' : ''}}>{{ $province->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>City :</label>
+                                                <select name="shipper_city" id="scity" class="select-search">
+                                                    <option disabled></option>
+                                                    @foreach ($citys as $city)
+                                                        <option value="{{ $city->id }}" {{$city->id==$data->shipper_city ? 'selected' : ''}}>{{ $city->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Subdistrict :</label>
+                                                <select name="shipper_subdistrict" id="ssubdistrict" class="select-search">
+                                                    <option disabled ></option>
+                                                    @foreach ($subdistricts as $city)
+                                                        <option value="{{ $city->id }}" {{$city->id==$data->shipper_districts ? 'selected' : ''}}>{{ $city->name }}</option>
+                                                    @endforeach
+                                                </select>
                                             </div>
                                             <div class="form-group">
                                                 <label>Latitude :</label>
@@ -161,12 +216,16 @@
                                         <div class="col-md-6">
                                             <legend class="text-bold">Consignee</legend>
                                             <div class="form-group">
-                                                <label>Name :</label>
-                                                {{ Form::text('consignee_name', $data->consignee_name, array('class' => 'form-control', 'placeholder' => 'Consignee Name')) }}
+                                                <label>First Name :</label>
+                                                <input type="text" class="form-control" name="consignee_first_name" value="{{$data->consignee_first_name}}">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Last Name :</label>
+                                                <input type="text" class="form-control" name="consignee_last_name" value="{{$data->consignee_last_name}}">
                                             </div>
                                             <div class="form-group">
                                                 <label>Address :</label>
-                                                <textarea rows="5" class="form-control" placeholder="Enter consignee address here" name="consignee_address">{{ $data->consignee_address }}</textarea>
+                                                <textarea rows="5" class="form-control" placeholder="Enter consignee address here" name="consignee_address">{{$data->consignee_address}}</textarea>
                                             </div>
                                             <div class="form-group">
                                                 <label>Mobile Phone :</label>
@@ -265,7 +324,7 @@
                                         <label>Expired Date :</label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="icon-calendar5"></i></span>
-                                            <input type="text" name="expired_date" class="form-control  pickadate-year" id="expired_date" placeholder="Expired date" value="{{ $data->card_expired_date }}" disabled>
+                                            <input type="text" name="expired_date" class="form-control  pickadate-year" id="expired_date" placeholder="Expired date" value="{{ $data->card_expired_date }}" >
                                         </div>
                                     </div>
                                 </div>
@@ -309,6 +368,12 @@
         <script>
         $('.select-search').select2();
         $('.pickadate-year').datepicker({format: 'yyyy-mm-dd',});
+        $('.pickatime').timepicker({
+            template : 'dropdown',
+            showInputs: false,
+            showSeconds: false,
+            showMeridian: false
+          });
         $('#bank').on('select2:select', function(){
             var card = $('#card');
             card.empty();

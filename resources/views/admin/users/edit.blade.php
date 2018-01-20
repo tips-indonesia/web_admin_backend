@@ -14,8 +14,12 @@
                 <div class="panel panel-flat">
                     <div class="panel-body">
                         <div class="form-group">
-                            <label>Name :</label>
-                            {{ Form::text('name', $datas->name, array('class' => 'form-control', 'placeholder' => 'Name')) }}
+                            <label>First Name :</label>
+                            {{ Form::text('fname', $datas->first_name, array('class' => 'form-control', 'placeholder' => 'First Name')) }}
+                        </div>
+                        <div class="form-group">
+                            <label>Last Name :</label>
+                            {{ Form::text('lname', $datas->last_name, array('class' => 'form-control', 'placeholder' => 'Last Name')) }}
                         </div>
                         <div class="form-group">
                             <label>Username :</label>

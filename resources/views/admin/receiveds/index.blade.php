@@ -8,7 +8,7 @@
 @endsection
 @section('content')
     <div class="panel panel-flat">
-        {{ Form::open(array('url' => route('deliveries.index'), 'method' => 'GET', 'id' => 'date_form')) }}
+        {{ Form::open(array('url' => route('receiveds.index'), 'method' => 'GET', 'id' => 'date_form')) }}
                     <div class="panel-body">
                 <div class="form-group">
                     <label>Date :</label>
@@ -85,7 +85,13 @@
 {{ $datas->links() }}
     </div>
     <script type="text/javascript">
-            $('.select-search').select2();
-        
+        $('.select-search').select2();
+        $('#param').on('select2:select', function() {
+            if ($('#param').val() != 'blank') {
+                $('#value').prop('required', true)
+            } else {
+                $('#value').prop('required', false)
+            }
+        });
     </script>
 @endsection

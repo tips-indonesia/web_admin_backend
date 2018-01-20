@@ -34,29 +34,9 @@
                     </div>
                 </div>
             {{ Form::close() }}
-
-            <table id="shipment" class="table datatable-pagination">
-                <thead>
-                    <tr>
-                        <th>Shipment ID</th>
-                        <th>Weight</th>
-                    </tr>
-                </thead>
-            </table>
         </div>
         <script>
         $('.select-search').select2();
-        $('#slot').on('select2:select', function() {
-            $.ajax({
-                url: '{{ route("shipments.index") }}/'+$('#slot').val(),
-                data: {'ajax': 1},
-                type: 'GET',
-                dataType: 'json',
-                success: function(data) {
-
-                }
-            });
-        });
         </script>
     </div>
 @endsection
