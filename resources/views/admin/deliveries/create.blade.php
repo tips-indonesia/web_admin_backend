@@ -51,7 +51,9 @@
     });$('.pickatime').timepicker({
             template : 'dropdown',
             showInputs: false,
-            showSeconds: false
+            showSeconds: false,
+            
+            showMeridian: false
           });
         
         </script>
