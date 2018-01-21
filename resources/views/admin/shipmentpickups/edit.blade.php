@@ -1,10 +1,10 @@
 @extends('admin.app')
 
 @section('title')
-    Edit Shipment List
+    Edit Shipment Pickup List
 @endsection
 @section('page_title')
-<span class="text-semibold">Shipment List</span> - Edit
+<span class="text-semibold">Shipment Pickup List</span> - Edit
 @endsection
 @section('content')
     <!-- Vertical form options -->
