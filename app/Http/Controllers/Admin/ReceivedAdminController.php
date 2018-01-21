@@ -28,7 +28,7 @@ class ReceivedAdminController extends Controller
             $data['date'] = Carbon::now()->toDateString();
             $deliveries = DeliveryShipment::where('delivery_date', $data['date'])->where('is_posted', 1);
         }
-        if (Input::get('param') == 'blank' || !Input::get('param') ) {
+        if (Input::get('param') == 'blank' || !Input::get('param') || Input::get('param') == 'received' || Input::get('param') == 'not_received' ) {
             $deliveries = $deliveries->where('id', '!=', null)->where('is_posted', 1);
             $data['param'] = Input::get('param');
             $data['value'] = Input::get('value');
@@ -37,9 +37,17 @@ class ReceivedAdminController extends Controller
             $data['value'] = Input::get('value');
             $deliveries = $deliveries->where(Input::get('param'),'=', Input::get('value'))->where('is_posted', 1);
         }
+
         $deliveries = $deliveries->pluck('id')->toArray();
         $shipments = DeliveryShipmentDetail::whereIn('id_delivery', $deliveries)->pluck('id_shipment')->toArray();
-        $shipment_data = Shipment::whereIn('id', $shipments)->paginate(10);
+        if (Input::get('param') == 'received') {
+            $shipment_data = Shipment::where('id_shipment_status', 3);
+        } else if (Input::get('param') == 'not_received') {
+            $shipment_data = Shipment::where('id_shipment_status', 2);
+        } else {
+            $shipment_data = Shipment::where('id','!=', 0);
+        }
+        $shipment_data = $shipment_data->whereIn('id', $shipments)->paginate(10);
         foreach($shipment_data as $ship) {
             $ship['origin'] = AirportcityList::find($ship->id_origin_city)->name;
             $ship['destination'] = AirportcityList::find($ship->id_destination_city)->name;

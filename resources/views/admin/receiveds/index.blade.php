@@ -24,6 +24,8 @@
                             <select name="param" id="param" class="select-search">
                                 <option value="blank" @if($param =='blank' || $param=='') selected @endif>&#8192;</option>
                                 <option value="shipment_id" @if($param =='shipment_id') selected @endif>Shipment ID</option>
+                                <option value="received" @if($param =='received') selected @endif>Received</option>
+                                <option value="not_received" @if($param =='not_received') selected @endif>Not Received</option>
                             </select>
                         </div>
                     </div>
@@ -88,7 +90,12 @@
         $('.select-search').select2();
         $('#param').on('select2:select', function() {
             if ($('#param').val() != 'blank') {
-                $('#value').prop('required', true)
+                if (($('#param').val() == 'received') || ($('#param').val() == 'not_received')) {
+                    $('#value').prop('disabled', true);    
+                } else {
+                    $('#value').prop('disabled', false);
+                    $('#value').prop('required', true)
+                }
             } else {
                 $('#value').prop('required', false)
             }
