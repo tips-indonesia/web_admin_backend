@@ -89,6 +89,17 @@
                             </label>
                         </div>
                         <div class="form-group">
+                            <label class="display-block text-semibold">Goods Status :</label>
+                            <label class="radio-inline">
+                                <input type="radio" name="goods_status" value="Pending" @if($data->goods_status == 'Pending') checked @endif disabled>
+                                Pending
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="goods_status"  value="Received" @if($data->goods_status == 'Received') checked @endif disabled>
+                                Received
+                            </label>
+                        </div>
+                        <div class="form-group">
                             <label>Shipment Status :</label>
                             <select name="shipment_status" class="select-search" disabled readonly>
                                 <option disabled selected></option>

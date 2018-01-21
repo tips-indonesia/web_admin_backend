@@ -91,11 +91,11 @@
                         <div class="form-group">
                             <label class="display-block text-semibold">Goods Status :</label>
                             <label class="radio-inline">
-                                <input type="radio" name="goods_status" value="pending" checked>
+                                <input type="radio" name="goods_status" value="Pending" checked>
                                 Pending
                             </label>
                             <label class="radio-inline">
-                                <input type="radio" name="goods_status"  value="received">
+                                <input type="radio" name="goods_status"  value="Received">
                                 Received
                             </label>
                         </div>

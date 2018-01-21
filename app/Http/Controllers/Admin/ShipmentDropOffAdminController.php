@@ -151,6 +151,7 @@ class ShipmentDropOffAdminController extends Controller
             $shipment->id_payment_type = Input::get('payment_type');
             $shipment->received_by = Input::get('receive_by');
             $shipment->received_time = Input::get('received_date');
+            $shipment->goods_status = Input::get('goods_status');
             $shipment->pickup_by = Input::get('pickup_by');
             $shipment->pickup_time = Input::get('pickup_time');
             $shipment->pickup_date = Input::get('pickup_date');
@@ -262,6 +263,7 @@ class ShipmentDropOffAdminController extends Controller
             'consignee_mobile'=>'required',
             'shipment_content'=>'required',
             'estimated_goods_value'=>'required',
+            'goods_status'=>'required',
             'estimated_weight'=>'required',
             'additional_insurance'=>'required',
             'online_payment'=>'required',
@@ -299,6 +301,7 @@ class ShipmentDropOffAdminController extends Controller
             $shipment->consignee_address = Input::get('consignee_address');
             $shipment->consignee_mobile_phone = Input::get('consignee_mobile');
             $shipment->is_online_payment = Input::get('online_payment');
+            $shipment->goods_status = Input::get('goods_status');
             $shipment->shipment_contents = Input::get('shipment_content');
             $shipment->estimate_goods_value = Input::get('estimated_goods_value');
             $shipment->estimate_weight = Input::get('estimated_weight');
