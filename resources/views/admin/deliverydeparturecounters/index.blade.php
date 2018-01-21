@@ -64,7 +64,6 @@
                         <td>
                             {{ $data->total }}
                         </td>
-                        <td>
                             <td>
                             <ul class="icons-list">
                             <li>
@@ -78,7 +77,6 @@
                             {{ Form::close() }}
                             </li>
                             </ul>
-                        </td>
                         </td>
                     </tr>
                 @endforeach

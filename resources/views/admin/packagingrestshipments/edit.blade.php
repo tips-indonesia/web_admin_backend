@@ -20,10 +20,10 @@
                         <div class="text-right form-group">
                             <select multiple="multiple" class="form-control listbox" name="shipment[]">
                                 @foreach ($shipment as $s)
-                                    <option value="{{ $s->id }}" selected>{{ $s->shipment_id }}</option>
+                                    <option value="{{ $s->id }}" selected>{{ $s->shipment_id }} &nbsp; - &nbsp; {{ $s->transaction_date }} &nbsp; - &nbsp; {{ $s->origin_name }} &nbsp; - &nbsp; {{ $s->destination_name }}</option>
                                 @endforeach
                                 @foreach ($shipment_not as $s)
-                                    <option value="{{ $s->id }}">{{ $s->shipment_id }}</option>
+                                    <option value="{{ $s->id }}">{{ $s->shipment_id }} &nbsp; - &nbsp; {{ $s->transaction_date }} &nbsp; - &nbsp; {{ $s->origin_name }} &nbsp; - &nbsp; {{ $s->destination_name }}</option>
                                 @endforeach
                             </select>
                         </div>

@@ -87,17 +87,17 @@
                                             <th>Date</th>
                                             <th>Origin</th>
                                             <th>Destination</th>
-                                            <th>Total Shipment</th>
+                                            <th>Weight</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach ($datas2 as $data)
                                             <tr>
                                                 <td>
-                                                    {{ $data->id_shipment }}2017
+                                                    {{ $data->id }}2017
                                                 </td>
                                                 <td>
-                                                    {{ $data->created_at }}
+                                                    {{ $data->transaction_date }}
                                                 </td>
                                                 <td>
                                                     {{ $data->origin }}
@@ -106,7 +106,7 @@
                                                     {{ $data->destination }}
                                                 </td>
                                                 <td>
-                                                    {{ $data->count }}
+                                                    {{ $data->estimate_weight }}
                                                 </td>
                                             </tr>
                                         @endforeach

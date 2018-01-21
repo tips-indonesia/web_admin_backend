@@ -10,6 +10,7 @@ use App\DeliveryShipmentDetail;
 use App\ShipmentHistory;
 use App\OfficeList;
 use App\PackagingList;
+use App\PackagingDelivery;
 use Validator;
 use App\CityList;
 use Auth;
@@ -46,12 +47,12 @@ class DeliveryDepartureCounterAdminController extends Controller
         }
         $data['datas'] = $data['datas']->paginate(10);
         foreach ($data['datas'] as $dat) {
-            $dat['total'] = PackagingDelivery::where('id_delivery', $dat->id)->get()->count();
+            $dat['total'] = PackagingDelivery::where('deliveries_id', $dat->id)->get()->count();
         }
         $pendings = DeliveryShipmentDetail::where('processing_center_received_by', null)->pluck('id_delivery')->toArray();
-        $data['datas2'] = DeliveryShipment::whereIn('id_delivery', $pendings)->get();
+        $data['datas2'] = DeliveryShipment::whereIn('delivery_id', $pendings)->get();
         foreach ($data['datas2'] as $dat) {
-            $dat['total'] = PackagingDelivery::where('id_delivery', $dat->id)->get()->count();
+            $dat['total'] = PackagingDelivery::where('deliveries_id', $dat->id)->get()->count();
             $dat['origin'] = OfficeList::find($dat->id_origin_office)->name;
             $dat['destination'] = OfficeList::find($dat->id_destination_office)->name;
         }
