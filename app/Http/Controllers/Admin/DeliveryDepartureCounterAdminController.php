@@ -14,6 +14,8 @@ use App\PackagingDelivery;
 use App\Delivery;
 use Validator;
 use App\CityList;
+use App\AirportcityList;
+use App\SlotList;
 use Auth;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Input;
@@ -50,12 +52,13 @@ class DeliveryDepartureCounterAdminController extends Controller
         foreach ($data['datas'] as $dat) {
             $dat['total'] = PackagingDelivery::where('deliveries_id', $dat->id)->get()->count();
         }
-        $pendings = DeliveryShipmentDetail::where('processing_center_received_by', null)->pluck('id_delivery')->toArray();
-        $data['datas2'] = DeliveryShipment::whereIn('delivery_id', $pendings)->get();
+        $pendings = SlotList::where('status_dispatch', 'Pending')->pluck('id')->toArray();
+        $data['datas2'] = PackagingList::whereIn('id_slot', $pendings)->get();
         foreach ($data['datas2'] as $dat) {
-            $dat['total'] = PackagingDelivery::where('deliveries_id', $dat->id)->get()->count();
-            $dat['origin'] = OfficeList::find($dat->id_origin_office)->name;
-            $dat['destination'] = OfficeList::find($dat->id_destination_office)->name;
+            $slot = SlotList::find($dat->id_slot);
+            $dat['total'] = Shipment::where('id_packaging', $dat->id)->get()->count();
+            $dat['origin'] = AirportcityList::find($slot->id_origin_city)->name;
+            $dat['destination'] = AirportcityList::find($slot->id_destination_city)->name;
         }
         return view('admin.deliverydeparturecounters.index', $data);
     }
@@ -76,8 +79,8 @@ class DeliveryDepartureCounterAdminController extends Controller
             foreach ($data['datas'] as $dat) {
                 if ($dat->id_slot != null) {
                     $slot = SlotList::find($dat->id_slot);
-                    $dat['origin_name'] = CityList::find($slot->id_origin_city)->name;
-                    $dat['destination_name'] = CityList::find($slot->id_destination_city)->name;
+                    $dat['origin_name'] = AirportcityList::find($slot->id_origin_city)->name;
+                    $dat['destination_name'] = AirportcityList::find($slot->id_destination_city)->name;
                 }
             }
             $data['date'] = $date;
@@ -102,8 +105,8 @@ class DeliveryDepartureCounterAdminController extends Controller
         $delivery->save();
         foreach(Input::get('packagings') as $shipment) {
             $deliv_details = new PackagingDelivery;
-            $deliv_details->id_packaging = $shipment;
-            $deliv_details->id_delivery = $delivery->id;
+            $deliv_details->packaging_id = $shipment;
+            $deliv_details->deliveries_id = $delivery->id;
             $deliv_details->save();
         }
         return Redirect::to(route('deliverydeparturecounters.index'));
@@ -132,16 +135,16 @@ class DeliveryDepartureCounterAdminController extends Controller
     public function edit($id)
     {
         //
-        $delivery_shipment_info = DeliveryShipment::find($id);
-        $delivery_shipments = DeliveryShipmentDetail::where([['id_delivery', '=', $id]])->pluck('id_shipment')->toArray();
-        $temp_shipments = Shipment::where([['transaction_date', '=', $delivery_shipment_info->delivery_date], ['is_posted', '=', 1]])->whereIn('id_shipment_status', [1,2])->get();
-        foreach ($temp_shipments as $dat) {
-            $dat['origin_name'] = CityList::find($dat->id_origin_city)->name;
-            $dat['destination_name'] = CityList::find($dat->id_destination_city)->name;
+        $data['chosen_packaging'] = PackagingList::whereIn('id',PackagingDelivery::where('deliveries_id', $id)->pluck('packaging_id')->toArray())->pluck('id')->toArray();
+        $data['packaging'] = PackagingList::all();
+        foreach ($data['packaging'] as $dat) {
+            if ($dat->id_slot != null) {
+                    $slot = SlotList::find($dat->id_slot);
+                    $dat['origin_name'] = AirportcityList::find($slot->id_origin_city)->name;
+                    $dat['destination_name'] = AirportcityList::find($slot->id_destination_city)->name;
+                }
         }
-        $data['delivery_shipments'] = $delivery_shipments;
-        $data['shipment_lists'] = $temp_shipments;
-        $data['data'] = $delivery_shipment_info;
+        $data['data'] = DeliveryShipment::find($id);
         return view('admin.deliverydeparturecounters.edit', $data);
 
     }
@@ -161,22 +164,13 @@ class DeliveryDepartureCounterAdminController extends Controller
         if (Input::get('submit') =='post') {
             $delivery->is_posted = 1;
             $delivery->save();
-/*            foreach(Input::get('shipments') as $shipment){
-                $shipment_data = Shipment::find($shipment);
-                $shipment_data->id_shipment_status = 3;
-                $shipment_data->save();
-                $shipment_history = new ShipmentHistory;
-                $shipment_history->id_shipment = $shipment_data->id;
-                $shipment_history->id_shipment_status = 3;
-                $shipment_history->save();
-            }*/
         }
-        $delivdetails = DeliveryShipmentDetail::where('id_delivery', $id)->delete();
-        if (Input::get('shipments') != null){
-            foreach(Input::get('shipments') as $shipment){
-                $deliv_details = new DeliveryShipmentDetail;
-                $deliv_details->id_shipment = $shipment;
-                $deliv_details->id_delivery = $delivery->id;
+        $delivdetails = PackagingDelivery::where('deliveries_id', $id)->delete();
+        if (Input::get('packagings') != null){
+            foreach(Input::get('packagings') as $shipment) {
+                $deliv_details = new PackagingDelivery;
+                $deliv_details->packaging_id = $shipment;
+                $deliv_details->deliveries_id = $delivery->id;
                 $deliv_details->save();
             }
         }

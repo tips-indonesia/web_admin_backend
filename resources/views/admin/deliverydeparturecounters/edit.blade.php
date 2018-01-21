@@ -1,10 +1,10 @@
 @extends('admin.app')
 
 @section('title')
-    Edit Shipment Delivery to Departure Counter
+    Edit Delivery Package to Departure Counter
 @endsection
 @section('page_title')
-    <span class="text-semibold">Shipment Delivery to Departure Counter</span> - Edit
+    <span class="text-semibold">Delivery Package to Departure Counter</span> - Edit
 @endsection
 @section('content')
     <!-- Vertical form options -->
@@ -13,13 +13,13 @@
                 <div class="panel panel-flat">
                     <div class="panel-body">
             {{ Form::open(array('url' => route('deliverydeparturecounters.create'), 'method' => 'GET', 'id' => 'date_form')) }}
+                <div class="col-md-12">
                 <div class="form-group">
-                    <label>Transaction Date :</label>
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="icon-calendar5"></i></span>
-                        <input type="text" name="date" id="date" class="form-control pickadate-year" placeholder="Transaction date" value="{{ $data->delivery_date }}" disabled>
-                    </div>
+                    <label>Delivery ID :</label>
+                    <input type="text" class="form-control" value="{{ $data->delivery_id }}" disabled readonly>
+                    
                 </div>
+                    </div>
                 <div class="text-right form-group">
                     <button type="submit" class="btn btn-primary" disabled>Choose Date <i class="icon-arrow-right14 position-right" ></i></button>
                 </div>
@@ -27,8 +27,11 @@
             {{ Form::open(array('url' => route('deliverydeparturecounters.update', $data->id), 'method' => 'PUT')) }}
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label>Delivery ID :</label>
-                        <input type="text" class="form-control" value="{{ $data->delivery_id }}" disabled readonly>
+                        <label>Transaction Date :</label>
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="icon-calendar5"></i></span>
+                        <input type="text" name="date" id="date" class="form-control pickadate-year" placeholder="Transaction date" value="{{ $data->delivery_date }}" disabled>
+                    </div>
                     </div>
                 </div>
                             <div class="form-group">
@@ -39,9 +42,9 @@
                                     </div>
                                 </div>
                         <div class="text-right form-group">
-                            <select multiple="multiple" class="form-control listbox" name="shipments[]">
-                               @foreach ($shipment_lists as $datax)
-                                    <option value="{{ $datax->id }}" @if (in_array($datax->id, $delivery_shipments)) selected @endif> {{ $datax->shipment_id }} &nbsp; - &nbsp; {{ $datax->transaction_date }} &nbsp; - &nbsp; {{ $datax->origin_name }} &nbsp; - &nbsp; {{ $datax->destination_name }} </option>
+                            <select multiple="multiple" class="form-control listbox" name="packagings[]">
+                               @foreach ($packaging as $datax)
+                                    <option value="{{ $datax->id }}" @if (in_array($datax->id, $chosen_packaging)) selected @endif> {{ $datax->packaging_id }} &nbsp; - &nbsp; {{ $datax->created_at }} &nbsp; - &nbsp; {{ $datax->origin_name }} &nbsp; - &nbsp; {{ $datax->destination_name }} </option>
                                 @endforeach
                             </select>
                         </div>
