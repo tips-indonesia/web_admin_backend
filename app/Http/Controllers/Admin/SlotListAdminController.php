@@ -8,6 +8,8 @@ use App\AirportList;
 use App\MemberList;
 use App\SlotList;
 use App\ShipmentStatus;
+use App\Shipment;
+use App\AirportcityList;
 use Validator;
 use Auth;
 use Illuminate\Support\Facades\Input;
@@ -67,6 +69,19 @@ class SlotListAdminController extends Controller
         $data['data']['destination_airport'] = AirportList::find($slot->id_destination_airport)->name;
         $member = MemberList::find($slot->id_member);
         $data['data']['member'] = $member;
+        if(Input::get('ajax') == 1) {
+            $ret_data = array();
+            $ret_data['origin'] = AirportcityList::find($slot->id_origin_city)->name;
+            $ret_data['destination'] = AirportcityList::find($slot->id_destination_city)->name;
+            $ret_data['shipments'] = Shipment::where('id_slot', $id)->get(['shipment_id', 'transaction_date', 'id_origin_city', 'id_destination_city', 'estimate_weight']);
+            $ret_data['total_weight'] = 0;
+            foreach ($ret_data['shipments'] as $dat) {
+                $dat['origin'] = AirportcityList::find($dat['id_origin_city'])->name;
+                $dat['destination'] = AirportcityList::find($dat['id_destination_city'])->name;
+                $ret_data['total_weight'] = $ret_data['total_weight'] + $dat['estimate_weight'];
+            }
+            return json_encode($ret_data);   
+        }        
         return view('admin.slotlists.show', $data);
     }
 
