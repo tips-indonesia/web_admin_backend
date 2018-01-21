@@ -120,7 +120,7 @@
                                 </div>
                             </div>
                         </div>
-                        <legend class="text-bold">Pickup</legend>
+                        <!--legend class="text-bold">Pickup</legend>
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
@@ -153,7 +153,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div-->
                         <div class="tabbable">
                             <ul class="nav nav-tabs nav-tabs-highlight nav-justified">
                                 <li class="active"><a href="#shipper_consignee" data-toggle="tab">Shipper & Consignee</a></li>
