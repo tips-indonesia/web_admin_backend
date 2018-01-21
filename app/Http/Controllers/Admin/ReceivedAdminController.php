@@ -9,6 +9,7 @@ use App\DeliveryShipmentDetail;
 use App\Shipment;
 use App\ShipmentStatus;
 use App\ShipmentHistory;
+use App\AirportcityList;
 use Auth;
 use Carbon\Carbon;
 use Validator;
@@ -37,10 +38,11 @@ class ReceivedAdminController extends Controller
             $deliveries = $deliveries->where(Input::get('param'),'=', Input::get('value'))->where('is_posted', 1);
         }
         $deliveries = $deliveries->pluck('id')->toArray();
-        $shipments = DeliveryShipmentDetail::whereIn('id_delivery', $deliveries)->where([['processing_center_received_by','=',null]])->pluck('id_shipment')->toArray();
+        $shipments = DeliveryShipmentDetail::whereIn('id_delivery', $deliveries)->pluck('id_shipment')->toArray();
         $shipment_data = Shipment::whereIn('id', $shipments)->paginate(10);
         foreach($shipment_data as $ship) {
-            $ship['status_name'] = ShipmentStatus::find($ship->id_shipment_status)->description;
+            $ship['origin'] = AirportcityList::find($ship->id_origin_city)->name;
+            $ship['destination'] = AirportcityList::find($ship->id_destination_city)->name;
         }
         $data['datas'] = $shipment_data;
         return view('admin.receiveds.index', $data);

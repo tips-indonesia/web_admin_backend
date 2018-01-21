@@ -43,8 +43,10 @@ class DeliveryAdminController extends Controller
             $data['datas'] = $data['datas']->where(Input::get('param'),'=', Input::get('value'));
         }
         $data['datas'] = $data['datas']->paginate(10);
-        $pendings = DeliveryShipmentDetail::where('processing_center_received_by', null)->pluck('id_delivery')->toArray();
-        $data['datas2'] = Shipment::where('status_dispatch', 'Pending')->get();
+        foreach ($data['datas'] as $dat) {
+            $dat['total'] = DeliveryShipmentDetail::where('id_delivery', $dat->id)->get()->count();
+        }
+        $data['datas2'] = Shipment::where('id_shipment_status', 2)->whereIn('is_take', [1,2])->get();
         foreach ($data['datas2'] as $dat) {
             $dat['total'] = DeliveryShipmentDetail::where('id_delivery', $dat->id)->get()->count();
             $dat['origin'] = AirportcityList::find($dat->id_origin_city)->name;

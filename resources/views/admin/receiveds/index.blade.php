@@ -23,7 +23,7 @@
                             <label>Search By :</label>
                             <select name="param" id="param" class="select-search">
                                 <option value="blank" @if($param =='blank' || $param=='') selected @endif>&#8192;</option>
-                                <option value="delivery_id" @if($param =='delivery_id') selected @endif>Delivery ID</option>
+                                <option value="shipment_id" @if($param =='shipment_id') selected @endif>Shipment ID</option>
                             </select>
                         </div>
                     </div>
@@ -56,26 +56,26 @@
                             {{ $data->shipment_id }}
                         </td>
                         <td>
-                            {{ $data->status_name }}
+                            {{ $data->origin }}
                         </td>
                         <td>
-                            {{ $data->status_name }}
+                            {{ $data->destination }}
                         </td>
                         <td>
-                            {{ $data->status_name }}
+                            {{ $data->id_shipment_status == 2 ? 'Belum diterima' : 'Sudah diterima' }}
                         </td>
                         <td>
-                            @if ($data->id_shipment_status == 1 || $data->id_shipment_status == 2)
                             <ul class="icons-list">
                             <li>
                             {{ Form::open(array('method' => 'PUT', 'url' => route('receiveds.update', $data->id))) }}
                             <div class="text-right form-group">
-                                <button type="submit"  class="btn btn-danger" style="vertical-align: middle;"><i class="icon-trash"></i> Received</button>
+                                <button type="submit"  class="btn btn-danger" style="vertical-align: middle;" {{ $data->id_shipment_status == 2 ? '':'disabled' }}><i class="icon-trash"
+                            ></i> Received</button>
                             </div>
                             {{ Form::close() }}
                             </li>
                             </ul>
-                            @endif
+                            
                         </td>
                     </tr>
                 @endforeach
