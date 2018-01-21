@@ -11,6 +11,7 @@ use App\ShipmentHistory;
 use App\OfficeList;
 use App\PackagingList;
 use App\PackagingDelivery;
+use App\Delivery;
 use Validator;
 use App\CityList;
 use Auth;

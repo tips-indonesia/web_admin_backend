@@ -99,8 +99,8 @@
                                 <table class="table datatable-pagination">
                                     <thead>
                                         <tr>
-                                            <th>Delivery ID</th>
-                                            <th>Origin</th>
+                                            <th>Packaging ID</th>
+                                            <th>Slot ID</th>
                                             <th>Destination</th>
                                             <th>Total Shipment</th>
                                         </tr>
@@ -109,9 +109,10 @@
                                         @foreach ($datas2 as $data)
                                             <tr>
                                                 <td>
-                                                    <a href="{{ route('packagingrestshipments.edit', $data->id) }}">
-                                                        {{ $data->delivery_id }}
-                                                    </a>
+                                                    {{ $data->packaging_id }}
+                                                </td>
+                                                <td>
+                                                    {{ $data->slot_id }}
                                                 </td>
                                                 <td>
                                                     {{ $data->origin }}
