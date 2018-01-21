@@ -92,11 +92,13 @@ class DeliveryAdminController extends Controller
         $delivery->save();
         $delivery->delivery_id='DEL'.$delivery->id.'2017';
         $delivery->save();
-        foreach(Input::get('shipments') as $shipment) {
-            $deliv_details = new DeliveryShipmentDetail;
-            $deliv_details->id_shipment = $shipment;
-            $deliv_details->id_delivery = $delivery->id;
-            $deliv_details->save();
+        if (Input::get('shipments') != null){
+            foreach(Input::get('shipments') as $shipment) {
+                $deliv_details = new DeliveryShipmentDetail;
+                $deliv_details->id_shipment = $shipment;
+                $deliv_details->id_delivery = $delivery->id;
+                $deliv_details->save();
+            }
         }
         return Redirect::to(route('deliveries.index'));
 

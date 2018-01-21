@@ -405,7 +405,7 @@
             });
         });
         jQuery('#qr').qrcode({
-            text    : "Gatau mau isi apa jadi ini shipment idnya : {{ $data->shipment_id }}",
+            text    : "{{ $data->shipment_id }}",
             render : "canvas"
         }); 
         $('canvas').css("margin", "auto auto");

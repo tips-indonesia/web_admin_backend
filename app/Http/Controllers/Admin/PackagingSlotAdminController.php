@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\PackagingList;
 use App\SlotList;
+use App\Shipment;
 use App\AirportList;
 use Validator;
 use Illuminate\Support\Facades\Input;
