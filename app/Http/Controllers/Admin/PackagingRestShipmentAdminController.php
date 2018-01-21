@@ -8,6 +8,7 @@ use App\PackagingList;
 use App\CityList;
 use App\SlotList;
 use App\Shipment;
+use App\AirportcityList;
 use App\AirportList;
 use Validator;
 use Carbon\Carbon;
@@ -27,11 +28,11 @@ class PackagingRestShipmentAdminController extends Controller
         //
         //
         if (Input::get('date')) {
-            $data['datas'] = PackagingList::where('created_at', Input::get('date'));
+            $data['datas'] = PackagingList::whereDate('created_at', Input::get('date'));
             $data['date'] = Input::get('date');
         } else {
             $data['date'] = Carbon::now()->toDateString();
-            $data['datas'] = PackagingList::where('created_at', $data['date']);
+            $data['datas'] = PackagingList::whereDate('created_at', $data['date']);
         }
         if (Input::get('param') == 'blank' || !Input::get('param') ) {
             $data['datas'] = $data['datas']->where('id', '!=', null);
@@ -43,10 +44,11 @@ class PackagingRestShipmentAdminController extends Controller
             $data['datas'] = $data['datas']->where(Input::get('param'),'=', Input::get('value'));
         }
         $data['datas'] = $data['datas']->paginate(10);
+        
         foreach ($data['datas'] as $dat) {
             $dat['count'] = count(Shipment::where('id_packaging', $dat->id)->get());
         }
-        $slots = SlotList::where('dispatch_type', 'Pending')->pluck('id')->toArray();
+        $slots = SlotList::where('status_dispatch', 'Pending')->pluck('id')->toArray();
         $data['datas2'] = PackagingList::whereIn('id_slot', $slots);
         foreach ($data['datas2'] as $dat) {
             $dat['count'] = count(Shipment::where('id_packaging', $dat->id)->get());
@@ -65,6 +67,10 @@ class PackagingRestShipmentAdminController extends Controller
     {
         //
         $data['shipment'] = Shipment::where('id_packaging', null)->where('is_posted', 1)->get();
+        foreach ($data['shipment'] as $dat) {
+            $dat['origin_name'] = AirportcityList::find($dat->id_origin_city)->name;
+            $dat['destination_name'] = AirportcityList::find($dat->id_destination_city)->name;
+        }
         return view('admin.packagingrestshipments.create', $data);
     }
 
