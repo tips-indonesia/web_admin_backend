@@ -474,10 +474,11 @@
                     success: function(data) {
                         var option = new Option;
                         option.disabled = true;
-                        option.selected = true;
                         city.append(option);
                         for(var i = 0 ; i < data.length; i++) {
-                            city.append(new Option(data[i].name, data[i].id));
+                            var opt = new Option(data[i].name, data[i].id)
+                            opt.selected = true; 
+                            city.append(opt);
                         }
                         var subdistrict = $('#ssubdistrict');
                         subdistrict.empty();
@@ -492,7 +493,9 @@
                                 option.selected = true;
                                 subdistrict.append(option);
                                 for(var i = 0 ; i < data.length; i++) {
-                                    subdistrict.append(new Option(data[i].name, data[i].id));
+                                    var opt =new Option(data[i].name, data[i].id);
+                                    opt.selected = true;
+                                    subdistrict.append(opt);
                                 }
                             }
                         });
