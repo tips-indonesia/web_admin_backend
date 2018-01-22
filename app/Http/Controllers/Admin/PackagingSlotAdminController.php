@@ -46,9 +46,9 @@ class PackagingSlotAdminController extends Controller
                 $dat['slot_id'] = SlotList::find($dat->id_slot)->slot_id;
         }
 
-        $data['datas2'] = SlotList::whereNotIn('id', PackagingList::where('id_slot', '!=',null)->pluck('id_slot')->toArray())->get();
+        $data['datas2'] = SlotList::whereNotIn('id', PackagingList::where('id_slot', '!=',null)->where('status_dispatch', 'Process')->pluck('id_slot')->toArray())->get();
         foreach ($data['datas2'] as $dat) {
-            $dat['weight'] = 0;
+            $dat['weight'] = Shipment::where('id_slot', $dat->id)->first()->estimate_weight;
             $dat['origin'] = AirportList::find($dat->id_origin_airport)->name;
             $dat['destination'] = AirportList::find($dat->id_destination_airport)->name;
         }
@@ -67,7 +67,7 @@ class PackagingSlotAdminController extends Controller
         $pl->save();
         $pl->packaging_id =  $pl->id.'2017';
         $pl->save();
-        return Redirect::to(route('packagingslots.index'));
+        return Redirect::to(route('packagingslots.edit', $pl->id));
         
     }
 
@@ -132,7 +132,7 @@ class PackagingSlotAdminController extends Controller
     {
         //
         $data['data'] = PackagingList::find($id);
-        $data['slot_ids'] = SlotList::all();
+        $data['slot_ids'] = SlotList::where('status_dispatch', 'Process')->get();
         return view('admin.packagingslots.edit', $data);
 
     }

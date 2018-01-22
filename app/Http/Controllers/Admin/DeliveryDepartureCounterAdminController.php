@@ -52,7 +52,7 @@ class DeliveryDepartureCounterAdminController extends Controller
         foreach ($data['datas'] as $dat) {
             $dat['total'] = PackagingDelivery::where('deliveries_id', $dat->id)->get()->count();
         }
-        $pendings = SlotList::where('status_dispatch', 'Pending')->pluck('id')->toArray();
+        $pendings = SlotList::where('status_dispatch', 'Process')->pluck('id')->toArray();
         $data['datas2'] = PackagingList::whereIn('id_slot', $pendings)->get();
         foreach ($data['datas2'] as $dat) {
             $slot = SlotList::find($dat->id_slot);

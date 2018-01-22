@@ -25,7 +25,7 @@ class SlotListAdminController extends Controller
     */
     public function index()
     {
-        $data['datas'] = SlotList::paginate(10);
+        $data['datas'] = SlotList::where('status_dispatch', 'Process')->paginate(10);
         foreach($data['datas'] as $dat) {
             $dat['member_name'] = MemberList::find($dat->id_member)->name;
             $dat['destination_airport'] = AirportList::find($dat->id_destination_airport)->name;

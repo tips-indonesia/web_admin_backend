@@ -28,6 +28,7 @@ class ReceivedAdminController extends Controller
             $data['date'] = Carbon::now()->toDateString();
             $deliveries = DeliveryShipment::whereDate('delivery_date', $data['date'])->where('is_posted', 1);
         }
+        $flag = false;
         if (Input::get('param') == 'blank' || !Input::get('param') || Input::get('param') == 'received' || Input::get('param') == 'not_received' ) {
             $deliveries = $deliveries->where('id', '!=', null)->where('is_posted', 1);
             $data['param'] = Input::get('param');
@@ -35,7 +36,7 @@ class ReceivedAdminController extends Controller
         } else {
             $data['param'] = Input::get('param');
             $data['value'] = Input::get('value');
-            $deliveries = $deliveries->where(Input::get('param'),'=', Input::get('value'))->where('is_posted', 1);
+            $flag = true;
         }
 
         $deliveries = $deliveries->pluck('id')->toArray();
@@ -47,7 +48,12 @@ class ReceivedAdminController extends Controller
         } else {
             $shipment_data = Shipment::where('id','!=', 0);
         }
-        $shipment_data = $shipment_data->whereIn('id', $shipments)->paginate(10);
+
+        if ($flag == true) {
+            $shipment_data = $shipment_data->where('shipment_id', $data['value'])->paginate(10);
+        } else {
+            $shipment_data = $shipment_data->whereIn('id', $shipments)->paginate(10);
+        }
         foreach($shipment_data as $ship) {
             $ship['origin'] = AirportcityList::find($ship->id_origin_city)->name;
             $ship['destination'] = AirportcityList::find($ship->id_destination_city)->name;
@@ -110,10 +116,10 @@ class ReceivedAdminController extends Controller
         $shipments->processing_center_received_time = Carbon::now();
         $shipments->save();
         $process = Shipment::find($id);
-        $process->id_shipment_status = 3;
+        $process->id_shipment_status = 4;
         $process->save();
         $shipment_history = new ShipmentHistory;
-        $shipment_history->id_shipment_status = 3;
+        $shipment_history->id_shipment_status = 4;
         $shipment_history->id_shipment = $id;
         $shipment_history->save();
         return Redirect::to(route('receiveds.index'));

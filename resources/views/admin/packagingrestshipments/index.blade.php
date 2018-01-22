@@ -85,7 +85,7 @@
                                         <tr>
                                             <th>Shipment ID</th>
                                             <th>Date</th>
-                                            <th>Origin</th>
+                                            <th>Original</th>
                                             <th>Destination</th>
                                             <th>Weight</th>
                                         </tr>

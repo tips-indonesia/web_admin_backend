@@ -64,14 +64,14 @@
                             {{ $data->destination }}
                         </td>
                         <td>
-                            {{ $data->id_shipment_status == 2 ? 'Belum diterima' : 'Sudah diterima' }}
+                            {{ $data->id_shipment_status == 3 ? 'Belum diterima' : 'Sudah diterima' }}
                         </td>
                         <td>
                             <ul class="icons-list">
                             <li>
                             {{ Form::open(array('method' => 'PUT', 'url' => route('receiveds.update', $data->id))) }}
                             <div class="text-right form-group">
-                                <button type="submit"  class="btn btn-danger" style="vertical-align: middle;" {{ $data->id_shipment_status == 2 ? '':'disabled' }}><i class="icon-trash"
+                                <button type="submit"  class="btn btn-danger" style="vertical-align: middle;" {{ $data->id_shipment_status == 3 ? '':'disabled' }}><i class="icon-trash"
                             ></i> Received</button>
                             </div>
                             {{ Form::close() }}
@@ -88,6 +88,9 @@
     </div>
     <script type="text/javascript">
         $('.select-search').select2();
+        $('.pickadate-year').datepicker({
+            format: 'yyyy-mm-dd',
+        });
         $('#param').on('select2:select', function() {
             if ($('#param').val() != 'blank') {
                 if (($('#param').val() == 'received') || ($('#param').val() == 'not_received')) {
