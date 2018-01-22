@@ -320,7 +320,6 @@ class ShipmentDropOffAdminController extends Controller
                 $shipment->card_security_code = null;
             }
             $shipment->id_shipment_status = 1;
-            $shipment->is_take = 2;
             $shipment->add_notes = Input::get('addtional_notes');
             $shipment->insurance_cost = Insurance::all()->first()->default_insurance;
             $shipment->is_add_insurance = Input::get('additional_insurance') == 1;
