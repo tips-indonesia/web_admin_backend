@@ -12,7 +12,7 @@
         <div class="col-md-12">
                 <div class="panel panel-flat">
                     <div class="panel-body">
-            {{ Form::open(array('method'=> 'PUT','url' => route('packagingslots.store'))) }}
+            {{ Form::open(array('method'=> 'POST','url' => route('packagingslots.store'))) }}
 
                         <div class="form-group">
                             <label>Packaging Id :</label>
