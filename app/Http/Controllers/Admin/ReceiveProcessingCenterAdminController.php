@@ -5,13 +5,14 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Shipment;
-use App\DeliveryShipment;
-use App\DeliveryShipmentDetail;
+use App\DeliveryDeparture;
+use App\PackagingDelivery;
 use App\ShipmentHistory;
 use App\OfficeList;
 use App\PackagingList;
 use Validator;
 use App\CityList;
+use App\PackagingDelivery;
 use Auth;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Input;
@@ -29,11 +30,11 @@ class ReceiveProcessingCenterAdminController extends Controller
     {
         //
         if (Input::get('date')) {
-            $data['datas'] = DeliveryShipment::where('delivery_date', Input::get('date'));
+            $data['datas'] = DeliveryDeparture::where('delivery_date', Input::get('date'));
             $data['date'] = Input::get('date');
         } else {
             $data['date'] = Carbon::now()->toDateString();
-            $data['datas'] = DeliveryShipment::where('delivery_date', $data['date']);
+            $data['datas'] = DeliveryDeparture::where('delivery_date', $data['date']);
         }
         if (Input::get('param') == 'blank' || !Input::get('param') ) {
             $data['datas'] = $data['datas']->where('id', '!=', null);
@@ -46,14 +47,20 @@ class ReceiveProcessingCenterAdminController extends Controller
         }
         $data['datas'] = $data['datas']->paginate(10);
         foreach ($data['datas'] as $dat) {
-            $dat['total'] = PackagingDelivery::where('id_delivery', $dat->id)->get()->count();
+            $dat['total'] = PackagingDelivery::where('deliveries_id', $dat->id)->get()->count();
         }
-        $pendings = DeliveryShipmentDetail::where('processing_center_received_by', null)->pluck('id_delivery')->toArray();
-        $data['datas2'] = DeliveryShipment::whereIn('id_delivery', $pendings)->get();
+        $selected =PackagingDelivery::all()->pluck('packaging_id')->toArray();
+        $data['datas2'] = PackagingList::whereNotIn('id', $selected)->get();
         foreach ($data['datas2'] as $dat) {
-            $dat['total'] = PackagingDelivery::where('id_delivery', $dat->id)->get()->count();
-            $dat['origin'] = OfficeList::find($dat->id_origin_office)->name;
-            $dat['destination'] = OfficeList::find($dat->id_destination_office)->name;
+            if ($dat->id_slot != null) {
+                $slot = SlotList::find($dat->id_slot);
+                $dat['total'] = Shipment::where('id_slot', $slot->id)->get()->count();
+                $dat['origin'] = AirportcityList::find($slot->id_origin_city)->name;
+                $dat['destination'] = AirportcityList::find($slot->id_destination_city)->name;
+                $dat['slot_id'] = $slot->slot_id;
+            }else {
+                $dat['total'] = Shipment::where('id_packaging', $dat->id)->get()->count();
+            }
         }
         return view('admin.receiveprocessingcenters.index', $data);
     }
@@ -91,7 +98,7 @@ class ReceiveProcessingCenterAdminController extends Controller
     public function store()
     {
         //
-        $delivery = new DeliveryShipment;
+        $delivery = new DeliveryDeparture;
         $delivery->delivery_date = Input::get('date');
         $delivery->delivery_time = Input::get('delivery_time');
         $delivery->created_by = Auth::user()->id; 
@@ -130,8 +137,8 @@ class ReceiveProcessingCenterAdminController extends Controller
     public function edit($id)
     {
         //
-        $delivery_shipment_info = DeliveryShipment::find($id);
-        $delivery_shipments = DeliveryShipmentDetail::where([['id_delivery', '=', $id]])->pluck('id_shipment')->toArray();
+        $delivery_shipment_info = DeliveryDeparture::find($id);
+        $delivery_shipments = PackagingDelivery::where([['id_delivery', '=', $id]])->pluck('id_shipment')->toArray();
         $temp_shipments = Shipment::where([['transaction_date', '=', $delivery_shipment_info->delivery_date], ['is_posted', '=', 1]])->whereIn('id_shipment_status', [1,2])->get();
         foreach ($temp_shipments as $dat) {
             $dat['origin_name'] = CityList::find($dat->id_origin_city)->name;
@@ -152,7 +159,7 @@ class ReceiveProcessingCenterAdminController extends Controller
     */
     public function update($id)
     {
-        $delivery = DeliveryShipment::find($id);
+        $delivery = DeliveryDeparture::find($id);
 
         $delivery->delivery_time = Input::get('delivery_time');
         $delivery->save();
@@ -169,10 +176,10 @@ class ReceiveProcessingCenterAdminController extends Controller
                 $shipment_history->save();
             }*/
         }
-        $delivdetails = DeliveryShipmentDetail::where('id_delivery', $id)->delete();
+        $delivdetails = PackagingDelivery::where('id_delivery', $id)->delete();
         if (Input::get('shipments') != null){
             foreach(Input::get('shipments') as $shipment){
-                $deliv_details = new DeliveryShipmentDetail;
+                $deliv_details = new PackagingDelivery;
                 $deliv_details->id_shipment = $shipment;
                 $deliv_details->id_delivery = $delivery->id;
                 $deliv_details->save();
@@ -190,7 +197,7 @@ class ReceiveProcessingCenterAdminController extends Controller
     public function destroy($id)
     {
         //
-        $cityList = DeliveryShipment::find($id);
+        $cityList = DeliveryDeparture::find($id);
         $cityList->delete();
 
         // redirect
