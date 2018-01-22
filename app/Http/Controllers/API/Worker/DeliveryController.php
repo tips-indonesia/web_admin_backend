@@ -12,6 +12,7 @@ use App\MemberList;
 use App\AirportList;
 use App\Shipment;
 use App\ShipmentStatus;
+use App\PackagingList;
 
 class DeliveryController extends Controller
 {
@@ -82,6 +83,11 @@ class DeliveryController extends Controller
         } else {
             $slot->id_slot_status = 4;
             $slot->save();
+
+            $packaging_list = PackagingList::where('id_slot', $request->slot_id)->first();
+            $packaging_list->is_receive = 2;
+
+            $packaging_list->save();
 
             $shipments = Shipment::where('id_slot', $slot->id)->get();
             $shipment_status = ShipmentStatus::where('step', 4)->first();

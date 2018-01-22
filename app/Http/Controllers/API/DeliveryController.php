@@ -294,9 +294,9 @@ class DeliveryController extends Controller
     function search_delivery(Request $request) {
         $slot_list = SlotList::where('id_member', $request->id_member);
 
-        if($request->has('id_destination_city')){
-            if($request->id_destination_city != null && $request->id_destination_city != "") {
-                $slot_list = $slot_list->where('id_destination_city', $request->id_destination_city);
+        if($request->has('id_destination_aiport')){
+            if($request->id_destination_aiport != null && $request->id_destination_aiport != "") {
+                $slot_list = $slot_list->where('id_destination_airport', $request->id_destination_aiport);
             }
         }
 

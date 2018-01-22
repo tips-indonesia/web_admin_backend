@@ -44,6 +44,7 @@ Route::get('/shipment/all_status', 'API\\ShipmentController@get_all_status_shipm
 Route::post('/shipment/search', 'API\\ShipmentController@search_shipment');
 
 Route::get('/flight/booking', 'API\\FlightController@get_flight_booking');
+Route::get('/flight/airport', 'API\\FlightController@get_airport_list');
 Route::get('/flight/booking/used', 'API\\FlightController@get_used_booking_code');
 Route::get('/flight/booking/city', 'API\\FlightController@get_booking_code_by_city');
 
