@@ -477,7 +477,7 @@
                         city.append(option);
                         for(var i = 0 ; i < data.length; i++) {
                             var opt = new Option(data[i].name, data[i].id)
-                            if (data[i].id == {{ $data->shipper_city }}){
+                            if (data[i].id == '{{ $data->shipper_city }}' ){
                                     opt.selected = true;    
                                 }
                             city.append(opt);
@@ -496,7 +496,7 @@
                                 subdistrict.append(option);
                                 for(var i = 0 ; i < data.length; i++) {
                                     var opt =new Option(data[i].name, data[i].id);
-                                    if (data[i].id == {{ $data->shipper_districts }}){
+                                    if (data[i].id == '{{ $data->shipper_districts }}' ){
                                         opt.selected = true;    
                                     }
                                     
