@@ -67,7 +67,8 @@ class DeliveryAdminController extends Controller
         if ($date == null) {
             $data['datas'] = array(); 
         } else {
-            $data['datas'] = Shipment::where([['transaction_date', '=', $date], ['is_posted', '=', 1]])->whereIn('id_shipment_status', [1,2])->get();
+            $delship = DeliveryShipmentDetail::all()->pluck('id_shipment')->toArray();
+            $data['datas'] = Shipment::where([['transaction_date', '=', $date], ['is_posted', '=', 1]])->whereIn('id_shipment_status', [1,2])->whereNotIn('id', $delship)->get();
             foreach ($data['datas'] as $dat) {
                 $dat['origin_name'] = AirportcityList::find($dat->id_origin_city)->name;
                 $dat['destination_name'] = AirportcityList::find($dat->id_destination_city)->name;
@@ -126,9 +127,10 @@ class DeliveryAdminController extends Controller
     public function edit($id)
     {
         //
+        $delship = DeliveryShipmentDetail::where('id_delivery', '!=', $id)->pluck('id_shipment')->toArray();
         $delivery_shipment_info = DeliveryShipment::find($id);
         $delivery_shipments = DeliveryShipmentDetail::where([['id_delivery', '=', $id]])->pluck('id_shipment')->toArray();
-        $temp_shipments = Shipment::where([['transaction_date', '=', $delivery_shipment_info->delivery_date], ['is_posted', '=', 1]])->whereIn('id_shipment_status', [1,2])->get();
+        $temp_shipments = Shipment::where([['transaction_date', '=', $delivery_shipment_info->delivery_date], ['is_posted', '=', 1]])->whereIn('id_shipment_status', [1,2])->whereNotIn('id', $delship)->get();
         foreach ($temp_shipments as $dat) {
             $dat['origin_name'] = AirportcityList::find($dat->id_origin_city)->name;
             $dat['destination_name'] = AirportcityList::find($dat->id_destination_city)->name;
