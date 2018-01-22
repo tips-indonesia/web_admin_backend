@@ -39,7 +39,13 @@ class PackagingSlotAdminController extends Controller
             $data['param'] = Input::get('param');
             $data['value'] = Input::get('value');
             if ($data['param'] == 'slot_id') {
-                $data['data'] = $data['datas']->where('id_slot', SlotList::where('slot_id', Input::get('value'))->first()->id);
+                $slot = SlotList::where('slot_id', Input::get('value'))->first();
+                if ($slot == null) {
+                    $data['data'] = $data['datas']->where('id_slot', null);
+                } else {
+                    $data['data'] = $data['datas']->where('id_slot', $slot->id);
+                }
+                
             } else {
                 $data['datas'] = $data['datas']->where(Input::get('param'),'=', Input::get('value'));
 
