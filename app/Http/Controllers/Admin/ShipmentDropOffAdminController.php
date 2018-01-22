@@ -51,10 +51,12 @@ class ShipmentDropOffAdminController extends Controller
         }
         if (Input::get('registration_type')) {
             $data['registration_type'] = Input::get('registration_type');
+            $data['datas'] = $data['datas']->where('is_take', 2);
         } else {
             $data['registration_type'] = 'online';
+            $data['datas'] = $data['datas']->where('is_take', 0);
         }
-        $data['datas'] = $data['datas']->whereIn('is_take', [0,2])->paginate(10);
+        $data['datas'] = $data['datas']->paginate(10);
         
         foreach($data['datas'] as $dat) {
             $dat['name_origin'] = AirportcityList::find($dat->id_origin_city)->name;
