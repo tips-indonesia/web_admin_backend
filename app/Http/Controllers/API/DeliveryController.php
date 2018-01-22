@@ -180,7 +180,6 @@ class DeliveryController extends Controller
 
                 foreach ($shipments as $shipment) {
                     $shipment->status_dispatch = 'Process';
-                    $shipment->id_shipment_status = 2;
                     $shipment->save();
 
                     if($shipment->is_first_class) {
@@ -189,17 +188,6 @@ class DeliveryController extends Controller
                         $daftar_barang = DaftarBarangRegular::where('id_barang', $shipment->id)->delete();
                     }
 
-                    $member = MemberList::find($shipment->id_shipper);
-
-                    if($member->token != null) {
-                        FCMSender::post(array(
-                            'type' => 'Shipment',
-                            'id' => $shipment->shipment_id,
-                            'status' => "2",
-                            'message' => $shipment_status->description,
-                            'detail' => ""
-                        ), $member->token);
-                    }
                 }
 
                 $delivery_status = DeliveryStatus::find($slot->id_slot_status);
@@ -265,7 +253,7 @@ class DeliveryController extends Controller
 
             foreach ($shipments as $shipment) {
 
-                $shipment->id_shipment_status = 5;
+                $shipment->id_shipment_status = $shipment_status->id;
                 $shipment->save();
 
 

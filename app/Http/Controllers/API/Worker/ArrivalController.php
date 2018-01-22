@@ -8,6 +8,8 @@ use App\Http\Controllers\Controller;
 use App\SlotList;
 use App\AirportList;
 use App\DeliveryStatus;
+use App\Shipment;
+use App\ShipmentStatus;
 use App\MemberList;
 use App\Http\Controllers\FCMSender;
 
@@ -66,6 +68,16 @@ class ArrivalController extends Controller
         } else {
             $slot->id_slot_status = 6;
             $slot->save();
+
+            $shipments = Shipment::where('id_slot', $slot->id)->get();
+            $shipment_status = ShipmentStatus::where('step', 6)->save();
+
+            foreach ($shipments as $shipment) {
+                $shipment->id_shipment_status = $shipment_status->id;
+                $shipment->save();
+            }
+
+
 
             $delivery_status = DeliveryStatus::find($slot->id_slot_status);
             $slot->origin_airport = AirportList::find($slot->id_origin_airport);

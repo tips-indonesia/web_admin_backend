@@ -10,6 +10,8 @@ use App\SlotList;
 use App\DeliveryStatus;
 use App\MemberList;
 use App\AirportList;
+use App\Shipment;
+use App\ShipmentStatus;
 
 class DeliveryController extends Controller
 {
@@ -80,6 +82,14 @@ class DeliveryController extends Controller
         } else {
             $slot->id_slot_status = 4;
             $slot->save();
+
+            $shipments = Shipment::where('id_slot', $slot->id)->get();
+            $shipment_status = ShipmentStatus::where('step', 4)->first();
+
+            foreach ($shipments as $shipment) {
+                $shipment->id_shipment_status = $shipment_status->id;
+                $shipment->save();
+            }
 
             $delivery_status = DeliveryStatus::find($slot->id_slot_status);
             $slot->origin_airport = AirportList::find($slot->id_origin_airport);
