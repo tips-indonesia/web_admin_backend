@@ -62,12 +62,8 @@ class PackagingSlotAdminController extends Controller
     */
     public function create()
     {
-        $pl = new PackagingList;
-        $pl->packaging_id = '2017';
-        $pl->save();
-        $pl->packaging_id =  $pl->id.'2017';
-        $pl->save();
-        return Redirect::to(route('packagingslots.edit', $pl->id));
+        $data['slot_ids'] = SlotList::where('status_dispatch', 'Process')->whereNotIn('id', PackagingList::where('id_slot', '!=',null)->pluck('id_slot')->toArray())->get();
+        return view('admin.packagingslots.create', $data);
         
     }
 
@@ -78,6 +74,26 @@ class PackagingSlotAdminController extends Controller
     */
     public function store()
     {
+        $rules = array(
+            'slot' => 'required',
+        );
+        $validator = Validator::make(Input::all(), $rules);
+
+        // process the login
+        $changepass = false;
+        if ($validator->fails()) {
+            return Redirect::to(route('packagingslots.edit', $id))
+                ->withErrors($validator)
+                ->withInput();
+        } else {
+            $packagingslots = new PackagingList;
+            $packagingslots->id_slot = Input::get('slot');
+            $packagingslots->save();
+            $packagingslots->packaging_id = $packagingslots->id.'2017';
+            $packagingslots->save();
+            Session::flash('message', 'Successfully created nerd!');
+            return Redirect::to(route('packagingslots.index'));
+        }
         //
         // $rules = array(
         //     'name' => 'required',
