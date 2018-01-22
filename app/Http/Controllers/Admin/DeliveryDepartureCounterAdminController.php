@@ -56,7 +56,7 @@ class DeliveryDepartureCounterAdminController extends Controller
         $data['datas2'] = PackagingList::whereIn('id_slot', $pendings)->get();
         foreach ($data['datas2'] as $dat) {
             $slot = SlotList::find($dat->id_slot);
-            $dat['total'] = Shipment::where('id_packaging', $dat->id)->get()->count();
+            $dat['total'] = Shipment::where('id_slot', $slot->id)->get()->count();
             $dat['origin'] = AirportcityList::find($slot->id_origin_city)->name;
             $dat['destination'] = AirportcityList::find($slot->id_destination_city)->name;
             $dat['slot_id'] = $slot->slot_id;
