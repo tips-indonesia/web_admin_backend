@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Shipment;
-use App\DeliveryShipment;
-use App\DeliveryShipmentDetail;
+use App\DeliveryDeparture;
+use App\DeliveryDepartureDetail;
 use App\ShipmentHistory;
 use App\OfficeList;
 use App\PackagingList;
@@ -33,11 +33,11 @@ class DeliveryDepartureCounterAdminController extends Controller
     {
         //
         if (Input::get('date')) {
-            $data['datas'] = DeliveryShipment::where('delivery_date', Input::get('date'));
+            $data['datas'] = DeliveryDeparture::where('delivery_date', Input::get('date'));
             $data['date'] = Input::get('date');
         } else {
             $data['date'] = Carbon::now()->toDateString();
-            $data['datas'] = DeliveryShipment::where('delivery_date', $data['date']);
+            $data['datas'] = DeliveryDeparture::where('delivery_date', $data['date']);
         }
         if (Input::get('param') == 'blank' || !Input::get('param') ) {
             $data['datas'] = $data['datas']->where('id', '!=', null);
@@ -96,7 +96,7 @@ class DeliveryDepartureCounterAdminController extends Controller
     public function store()
     {
         //
-        $delivery = new DeliveryShipment;
+        $delivery = new DeliveryDeparture;
         $delivery->delivery_date = Input::get('date');
         $delivery->delivery_time = Input::get('delivery_time');
         $delivery->created_by = Auth::user()->id; 
@@ -144,7 +144,7 @@ class DeliveryDepartureCounterAdminController extends Controller
                     $dat['destination_name'] = AirportcityList::find($slot->id_destination_city)->name;
                 }
         }
-        $data['data'] = DeliveryShipment::find($id);
+        $data['data'] = DeliveryDeparture::find($id);
         return view('admin.deliverydeparturecounters.edit', $data);
 
     }
@@ -157,7 +157,7 @@ class DeliveryDepartureCounterAdminController extends Controller
     */
     public function update($id)
     {
-        $delivery = DeliveryShipment::find($id);
+        $delivery = DeliveryDeparture::find($id);
 
         $delivery->delivery_time = Input::get('delivery_time');
         $delivery->save();
@@ -186,7 +186,7 @@ class DeliveryDepartureCounterAdminController extends Controller
     public function destroy($id)
     {
         //
-        $cityList = DeliveryShipment::find($id);
+        $cityList = DeliveryDeparture::find($id);
         $cityList->delete();
 
         // redirect
