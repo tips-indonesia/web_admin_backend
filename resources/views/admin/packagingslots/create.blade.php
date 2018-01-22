@@ -23,7 +23,7 @@
                             <select id="slot" name="slot" class="select-search" >
                                 <option disabled selected></option>
                                 @foreach ($slot_ids as $slot)
-                                    <option value="{{ $slot->id }}" @if ($data->id_slot == $slot->id) selected @endif >{{ $slot->slot_id }}</option>
+                                    <option value="{{ $slot->id }}"  >{{ $slot->slot_id }}</option>
                                 @endforeach
                             </select>
                         </div>
