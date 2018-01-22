@@ -43,7 +43,7 @@ class PackagingRestShipmentAdminController extends Controller
             $data['value'] = Input::get('value');
             $data['datas'] = $data['datas']->where(Input::get('param'),'=', Input::get('value'));
         }
-        $data['datas'] = $data['datas']->paginate(10);
+        $data['datas'] = $data['datas']->where('id_slot', null)->paginate(10);
         
         foreach ($data['datas'] as $dat) {
             $dat['count'] = count(Shipment::where('id_packaging', $dat->id)->get());

@@ -22,11 +22,11 @@ class ReceivedAdminController extends Controller
 	public function index()
     {
         if (Input::get('date')) {
-            $deliveries = DeliveryShipment::where('delivery_date', Input::get('date'))->where('is_posted', 1);
+            $deliveries = DeliveryShipment::whereDate('delivery_date', Input::get('date'))->where('is_posted', 1);
             $data['date'] = Input::get('date');
         } else {
             $data['date'] = Carbon::now()->toDateString();
-            $deliveries = DeliveryShipment::where('delivery_date', $data['date'])->where('is_posted', 1);
+            $deliveries = DeliveryShipment::whereDate('delivery_date', $data['date'])->where('is_posted', 1);
         }
         if (Input::get('param') == 'blank' || !Input::get('param') || Input::get('param') == 'received' || Input::get('param') == 'not_received' ) {
             $deliveries = $deliveries->where('id', '!=', null)->where('is_posted', 1);
