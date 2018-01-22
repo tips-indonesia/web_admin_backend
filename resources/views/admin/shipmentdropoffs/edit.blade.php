@@ -463,7 +463,41 @@
                         }
                     }
                 });
-            }); 
+            });
+            var city = $('#scity');
+                city.empty();
+                $.ajax({
+                    url: '{{ route("citylists.index") }}',
+                    data: {'ajax': 1, 'province' : $('#sprovince').val()},
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        var option = new Option;
+                        option.disabled = true;
+                        option.selected = true;
+                        city.append(option);
+                        for(var i = 0 ; i < data.length; i++) {
+                            city.append(new Option(data[i].name, data[i].id));
+                        }
+                        var subdistrict = $('#ssubdistrict');
+                        subdistrict.empty();
+                        $.ajax({
+                            url: '{{ route("subdistrictlists.index") }}',
+                            data: {'ajax': 1, 'city' : $('#scity').val()},
+                            type: 'GET',
+                            dataType: 'json',
+                            success: function(data) {
+                                var option = new Option;
+                                option.disabled = true;
+                                option.selected = true;
+                                subdistrict.append(option);
+                                for(var i = 0 ; i < data.length; i++) {
+                                    subdistrict.append(new Option(data[i].name, data[i].id));
+                                }
+                            }
+                        });
+                    }
+                }); 
         </script>
     </div>
 @endsection
