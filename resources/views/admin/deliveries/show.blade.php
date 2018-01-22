@@ -46,7 +46,7 @@
                             </select>
                         </div>
                         <div class="text-right form-group">
-                            <button type="submit" value="save" class="btn btn-primary" name="submit">Save <i class="icon-arrow-right14 position-right" disabled></i></button>
+                            <button type="submit" value="save" class="btn btn-primary" name="submit" disabled>Save <i class="icon-arrow-right14 position-right" ></i></button>
                             <button type="submit" value="post"  class="btn btn-success" name="submit" disabled>Submit <i class="icon-arrow-right14 position-right"></i></button>
                         </div>
             {{ Form::close() }}
