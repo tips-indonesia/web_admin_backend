@@ -115,7 +115,7 @@
                                                     {{ $data->destination }}
                                                 </td>
                                                 <td>
-                                                    {{ $data->count }}
+                                                    {{ $data->weight }}
                                                 </td>
                                             </tr>
                                         @endforeach
