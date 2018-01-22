@@ -193,7 +193,7 @@
                                                 <select name="shipper_province" id="sprovince" class="select-search">
                                                     <option disabled></option>
                                                     @foreach ($provinces as $province)
-                                                        <option value="{{ $province->id }}" {{$province->id==$data->province? 'selected' : ''}}>{{ $province->name }}</option>
+                                                        <option value="{{ $province->id }}" {{$province->id==$data->id_shipper_province? 'selected' : ''}}>{{ $province->name }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -202,7 +202,7 @@
                                                 <select name="shipper_city" id="scity" class="select-search">
                                                     <option disabled></option>
                                                     @foreach ($citys as $city)
-                                                        <option value="{{ $city->id }}" {{$city->id==$data->shipper_city ? 'selected' : ''}}>{{ $city->name }}</option>
+                                                        <option value="{{ $city->id }}" {{$city->id==$data->id_shipper_city ? 'selected' : ''}}>{{ $city->name }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -211,7 +211,7 @@
                                                 <select name="shipper_subdistrict" id="ssubdistrict" class="select-search">
                                                     <option disabled ></option>
                                                     @foreach ($subdistricts as $city)
-                                                        <option value="{{ $city->id }}" {{$city->id==$data->shipper_districts ? 'selected' : ''}}>{{ $city->name }}</option>
+                                                        <option value="{{ $city->id }}" {{$city->id==$data->id_shipper_districts ? 'selected' : ''}}>{{ $city->name }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -477,7 +477,7 @@
                         city.append(option);
                         for(var i = 0 ; i < data.length; i++) {
                             var opt = new Option(data[i].name, data[i].id)
-                            if (data[i].id == '{{ $data->shipper_city }}' ){
+                            if (data[i].id == '{{ $data->id_shipper_city }}' ){
                                     opt.selected = true;    
                                 }
                             city.append(opt);
@@ -495,7 +495,7 @@
                                 subdistrict.append(option);
                                 for(var i = 0 ; i < data.length; i++) {
                                     var opt =new Option(data[i].name, data[i].id);
-                                    if (data[i].id == '{{ $data->shipper_districts }}' ){
+                                    if (data[i].id == '{{ $data->id_shipper_districts }}' ){
                                         opt.selected = true;    
                                     }
                                     
