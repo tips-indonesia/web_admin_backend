@@ -43,9 +43,9 @@ class ReceiveProcessingCenterAdminController extends Controller
         $deliveries = $deliveries->pluck('id')->toArray();
         $shipments = PackagingDelivery::whereIn('deliveries_id', $deliveries)->pluck('packaging_id')->toArray();
         if (Input::get('param') == 'received') {
-            $shipment_data = PackagingList::where('is_receive', true);
+            $shipment_data = PackagingList::where('is_receive', true)->whereIn('id', $shipments);
         } else if (Input::get('param') == 'not_received') {
-            $shipment_data = PackagingList::where('is_receive', false);
+            $shipment_data = PackagingList::where('is_receive', false)whereIn('id', $shipments);
         } else {
             $shipment_data = PackagingList::where('id','!=', 0);
         }
