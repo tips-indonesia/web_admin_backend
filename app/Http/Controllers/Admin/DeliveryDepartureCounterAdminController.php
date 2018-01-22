@@ -59,6 +59,7 @@ class DeliveryDepartureCounterAdminController extends Controller
             $dat['total'] = Shipment::where('id_packaging', $dat->id)->get()->count();
             $dat['origin'] = AirportcityList::find($slot->id_origin_city)->name;
             $dat['destination'] = AirportcityList::find($slot->id_destination_city)->name;
+            $dat['slot_id'] = $slot->slot_id;
         }
         return view('admin.deliverydeparturecounters.index', $data);
     }
