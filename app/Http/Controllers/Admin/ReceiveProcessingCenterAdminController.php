@@ -10,6 +10,7 @@ use App\PackagingList;
 use App\PackagingListStatus;
 use App\PackagingListHistory;
 use App\AirportcityList;
+use App\SlotList;
 use Auth;
 use Carbon\Carbon;
 use Validator;
@@ -55,8 +56,12 @@ class ReceiveProcessingCenterAdminController extends Controller
             $shipment_data = $shipment_data->paginate(10);
         }
         foreach($shipment_data as $ship) {
-            $ship['origin'] = AirportcityList::find($ship->id_origin_city)->name;
-            $ship['destination'] = AirportcityList::find($ship->id_destination_city)->name;
+            if ($ship->id_slot != null) {
+                $slot = SlotList::find($ship->id_slot);
+                $ship['origin'] = AirportcityList::find($slot->id_origin_city)->name;
+                $ship['destination'] = AirportcityList::find($slot->id_destination_city)->name;    
+            }
+            
         }
         $data['datas'] = $shipment_data;
         return view('admin.receiveds.index', $data);
