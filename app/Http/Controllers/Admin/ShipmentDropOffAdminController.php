@@ -145,6 +145,9 @@ class ShipmentDropOffAdminController extends Controller
             $shipment->id_shipper_city = Input::get('shipper_city');
             $shipment->id_shipper_province = Input::get('shipper_province');
             $shipment->id_shipper_districts = Input::get('shipper_subdistrict');
+            $shipment->shipper_city = '';
+            $shipment->shipper_province = '';
+            $shipment->shipper_districts = '';
             $shipment->consignee_first_name = Input::get('consignee_first_name');
             $shipment->consignee_last_name =  Input::get('consignee_last_name');
             $shipment->consignee_address = Input::get('consignee_address');
