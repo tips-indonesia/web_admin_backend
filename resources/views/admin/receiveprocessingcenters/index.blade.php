@@ -1,14 +1,14 @@
 @extends('admin.app')
 
 @section('title')
-    Received by Processing Center
+    Received Packaging by Processing Center
 @endsection
 @section('page_title')
-    <span class="text-semibold">Received by Processing Center</span> - Show All
+    <span class="text-semibold">Received Packaging by Processing Center</span> - Show All
 @endsection
 @section('content')
     <div class="panel panel-flat">
-        {{ Form::open(array('url' => route('receiveds.index'), 'method' => 'GET', 'id' => 'date_form')) }}
+        {{ Form::open(array('url' => route('receiveprocessingcenters.index'), 'method' => 'GET', 'id' => 'date_form')) }}
                     <div class="panel-body">
                 <div class="form-group">
                     <label>Date :</label>
@@ -23,7 +23,7 @@
                             <label>Search By :</label>
                             <select name="param" id="param" class="select-search">
                                 <option value="blank" @if($param =='blank' || $param=='') selected @endif>&#8192;</option>
-                                <option value="shipment_id" @if($param =='shipment_id') selected @endif>Shipment ID</option>
+                                <option value="shipment_id" @if($param =='packaging_id') selected @endif>Packaging ID</option>
                                 <option value="received" @if($param =='received') selected @endif>Received</option>
                                 <option value="not_received" @if($param =='not_received') selected @endif>Not Received</option>
                             </select>
@@ -44,7 +44,7 @@
         <table class="table datatable-pagination">
             <thead>
                 <tr>
-                    <th>Shipment ID</th>
+                    <th>Packaging ID</th>
                     <th>Origin</th>
                     <th>Destination</th>
                     <th>Status</th>
@@ -55,7 +55,7 @@
                 @foreach ($datas as $data)
                     <tr>
                         <td>
-                            {{ $data->shipment_id }}
+                            {{ $data->packaging_id }}
                         </td>
                         <td>
                             {{ $data->origin }}
@@ -64,14 +64,14 @@
                             {{ $data->destination }}
                         </td>
                         <td>
-                            {{ $data->id_shipment_status == 3 ? 'Belum diterima' : 'Sudah diterima' }}
+                            {{ $data->is_receive == false ? 'Belum diterima' : 'Sudah diterima' }}
                         </td>
                         <td>
                             <ul class="icons-list">
                             <li>
-                            {{ Form::open(array('method' => 'PUT', 'url' => route('receiveds.update', $data->id))) }}
+                            {{ Form::open(array('method' => 'PUT', 'url' => route('receiveprocessingcenters.update', $data->id))) }}
                             <div class="text-right form-group">
-                                <button type="submit"  class="btn btn-danger" style="vertical-align: middle;" {{ $data->id_shipment_status == 3 ? '':'disabled' }}><i class="icon-trash"
+                                <button type="submit"  class="btn btn-danger" style="vertical-align: middle;" {{ $data->is_receive == false ? '':'disabled' }}><i class="icon-trash"
                             ></i> Received</button>
                             </div>
                             {{ Form::close() }}
