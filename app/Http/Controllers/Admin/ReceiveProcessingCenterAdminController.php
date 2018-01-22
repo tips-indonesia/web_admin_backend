@@ -66,7 +66,7 @@ class ReceiveProcessingCenterAdminController extends Controller
                 $dat['total'] = Shipment::where('id_packaging', $dat->id)->get()->count();
             }
         }
-        return view('admin.deliverydeparturecounters.index', $data);
+        return view('admin.receiveprocessingcenters.index', $data);
     }
 
     /**
@@ -92,7 +92,7 @@ class ReceiveProcessingCenterAdminController extends Controller
             }
             $data['date'] = $date;
         }
-        return view('admin.deliverydeparturecounters.create', $data);
+        return view('admin.receiveprocessingcenters.create', $data);
     }
 
     /**
@@ -116,7 +116,7 @@ class ReceiveProcessingCenterAdminController extends Controller
             $deliv_details->deliveries_id = $delivery->id;
             $deliv_details->save();
         }
-        return Redirect::to(route('deliverydeparturecounters.index'));
+        return Redirect::to(route('receiveprocessingcenters.index'));
 
 
 
@@ -154,7 +154,7 @@ class ReceiveProcessingCenterAdminController extends Controller
                 }
         }
         $data['data'] = DeliveryDeparture::find($id);
-        return view('admin.deliverydeparturecounters.edit', $data);
+        return view('admin.receiveprocessingcenters.edit', $data);
 
     }
 
@@ -183,7 +183,7 @@ class ReceiveProcessingCenterAdminController extends Controller
                 $deliv_details->save();
             }
         }
-        return Redirect::to(route('deliverydeparturecounters.index'));
+        return Redirect::to(route('receiveprocessingcenters.index'));
     }
 
     /**
@@ -200,6 +200,6 @@ class ReceiveProcessingCenterAdminController extends Controller
 
         // redirect
         Session::flash('message', 'Successfully deleted the nerd!');
-        return Redirect::to(route('deliverydeparturecounters.index'));
+        return Redirect::to(route('receiveprocessingcenters.index'));
     }
 }
