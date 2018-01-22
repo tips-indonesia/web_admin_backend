@@ -34,11 +34,11 @@ class ShipmentDropOffAdminController extends Controller
         //
         
         if (Input::get('date')) {
-            $data['datas'] = Shipment::where('transaction_date', Input::get('date'));
+            $data['datas'] = Shipment::where('transaction_date', Input::get('date'))->whereIn('is_take', [0,2]);
             $data['date'] = Input::get('date');
         } else {
             $data['date'] = Carbon::now()->toDateString();
-            $data['datas'] = Shipment::where('transaction_date', $data['date']);
+            $data['datas'] = Shipment::where('transaction_date', $data['date'])->whereIn('is_take', [0,2];
         }
         if (Input::get('param') == 'blank' || !Input::get('param') ) {
             $data['datas'] = $data['datas']->where('id', '!=', null);
