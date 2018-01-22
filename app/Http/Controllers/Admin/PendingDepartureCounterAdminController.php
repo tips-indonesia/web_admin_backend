@@ -25,11 +25,11 @@ class PendingDepartureCounterAdminController extends Controller
     {
         //
         if (Input::get('date')) {
-            $data['datas'] = PackagingList::where('created_at', Input::get('date'));
+            $data['datas'] = PackagingList::whereDate('created_at', Input::get('date'));
             $data['date'] = Input::get('date');
         } else {
             $data['date'] = Carbon::now()->toDateString();
-            $data['datas'] = PackagingList::where('created_at', $data['date']);
+            $data['datas'] = PackagingList::whereDate('created_at', $data['date']);
         }
         if (Input::get('param') == 'blank' || !Input::get('param') ) {
             $data['datas'] = $data['datas']->where('id', '!=', null);
