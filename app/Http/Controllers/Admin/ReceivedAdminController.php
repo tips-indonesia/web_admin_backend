@@ -42,9 +42,9 @@ class ReceivedAdminController extends Controller
         $deliveries = $deliveries->pluck('id')->toArray();
         $shipments = DeliveryShipmentDetail::whereIn('id_delivery', $deliveries)->pluck('id_shipment')->toArray();
         if (Input::get('param') == 'received') {
-            $shipment_data = Shipment::where('id_shipment_status', 3);
+            $shipment_data = Shipment::where('id_shipment_status', 4);
         } else if (Input::get('param') == 'not_received') {
-            $shipment_data = Shipment::where('id_shipment_status', 2);
+            $shipment_data = Shipment::where('id_shipment_status', 3);
         } else {
             $shipment_data = Shipment::where('id','!=', 0);
         }
@@ -52,7 +52,7 @@ class ReceivedAdminController extends Controller
         if ($flag == true) {
             $shipment_data = $shipment_data->where('shipment_id', $data['value'])->paginate(10);
         } else {
-            $shipment_data = $shipment_data->whereIn('id', $shipments)->paginate(10);
+            $shipment_data = $shipment_data->paginate(10);
         }
         foreach($shipment_data as $ship) {
             $ship['origin'] = AirportcityList::find($ship->id_origin_city)->name;
