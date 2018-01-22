@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\AirportCityScope;
 use App\AirportList;
-use App\CityList;
+use App\AirportcityList;
 use App\PackagingList;
 use App\SlotList;
 use Validator;
@@ -45,8 +45,8 @@ class PendingDepartureCounterAdminController extends Controller
             if ($dat->id_slot != null) {
                 $slot = SlotList::find($dat->id_slot);
                 $dat['slot_id'] = $slot->slot_id;
-                $dat['origin_city'] = CityList::find($slot->origin_city)->name;
-                $dat['destination_city'] = CityList::find($slot->destination_city)->name;
+                $dat['origin_city'] = AirportcityList::find($slot->id_origin_city)->name;
+                $dat['destination_city'] = AirportcityList::find($slot->id_destination_city)->name;
             }
                 
         }
