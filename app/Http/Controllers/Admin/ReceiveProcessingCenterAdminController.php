@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Shipment;
 use App\DeliveryDeparture;
-use App\PackagingDelivery;
 use App\ShipmentHistory;
 use App\OfficeList;
 use App\PackagingList;
