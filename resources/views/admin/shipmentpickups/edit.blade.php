@@ -492,7 +492,6 @@
                             success: function(data) {
                                 var option = new Option;
                                 option.disabled = true;
-                                option.selected = true;
                                 subdistrict.append(option);
                                 for(var i = 0 ; i < data.length; i++) {
                                     var opt =new Option(data[i].name, data[i].id);
