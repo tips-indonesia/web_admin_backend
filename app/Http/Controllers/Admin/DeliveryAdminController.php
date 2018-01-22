@@ -157,15 +157,7 @@ class DeliveryAdminController extends Controller
         if (Input::get('submit') =='post') {
             $delivery->is_posted = 1;
             $delivery->save();
-/*            foreach(Input::get('shipments') as $shipment){
-                $shipment_data = Shipment::find($shipment);
-                $shipment_data->id_shipment_status = 3;
-                $shipment_data->save();
-                $shipment_history = new ShipmentHistory;
-                $shipment_history->id_shipment = $shipment_data->id;
-                $shipment_history->id_shipment_status = 3;
-                $shipment_history->save();
-            }*/
+
         }
         $delivdetails = DeliveryShipmentDetail::where('id_delivery', $id)->delete();
         if (Input::get('shipments') != null){
@@ -173,9 +165,11 @@ class DeliveryAdminController extends Controller
                 $deliv_details = new DeliveryShipmentDetail;
                 $deliv_details->id_shipment = $shipment;
                 $deliv_details->id_delivery = $delivery->id;
-                $ship = Shipment::find($shipment);
-                $ship->id_shipment_status = 3;
-                $ship->save();
+                if (Input::get('submit') =='post') {
+                    $ship = Shipment::find($shipment);
+                    $ship->id_shipment_status = 3;
+                    $ship->save();
+                }
                 $deliv_details->save();
             }
         }
