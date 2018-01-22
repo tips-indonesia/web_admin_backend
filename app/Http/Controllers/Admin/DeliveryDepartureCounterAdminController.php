@@ -145,7 +145,7 @@ class DeliveryDepartureCounterAdminController extends Controller
         $data['chosen_packaging'] = PackagingList::whereIn('id',PackagingDelivery::where('deliveries_id', $id)->pluck('packaging_id')->toArray())->pluck('id')->toArray();
         $selected =PackagingDelivery::where('deliveries_id', '!=',$id)->pluck('packaging_id')->toArray();
 
-        $data['packaging'] = PackagingList::whereDate('created_at', '=', $date)->whereNotIn('id', $selected)->get();
+        $data['packaging'] = PackagingList::whereDate('created_at', '=', DeliveryDeparture::find($id)->delivery_date)->whereNotIn('id', $selected)->get();
         foreach ($data['packaging'] as $dat) {
             if ($dat->id_slot != null) {
                     $slot = SlotList::find($dat->id_slot);
