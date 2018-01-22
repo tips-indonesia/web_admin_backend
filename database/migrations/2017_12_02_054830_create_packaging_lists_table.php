@@ -17,7 +17,7 @@ class CreatePackagingListsTable extends Migration
             $table->increments('id');
             $table->string('packaging_id');
             $table->string('id_slot')->nullable();
-            $table->boolean('is_receive')->default(false);
+            $table->unsignedInteger('is_receive')->default(0);
             $table->timestamps();
         });
     }
