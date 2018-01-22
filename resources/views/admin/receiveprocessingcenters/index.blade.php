@@ -64,14 +64,14 @@
                             {{ $data->destination }}
                         </td>
                         <td>
-                            {{ $data->is_receive == false ? 'Belum diterima' : 'Sudah diterima' }}
+                            {{ $data->is_receive == 0 ? 'Belum diterima' : 'Sudah diterima' }}
                         </td>
                         <td>
                             <ul class="icons-list">
                             <li>
                             {{ Form::open(array('method' => 'PUT', 'url' => route('receiveprocessingcenters.update', $data->id))) }}
                             <div class="text-right form-group">
-                                <button type="submit"  class="btn btn-danger" style="vertical-align: middle;" {{ $data->is_receive == false ? '':'disabled' }}><i class="icon-trash"
+                                <button type="submit"  class="btn btn-danger" style="vertical-align: middle;" {{ $data->is_receive == 0 ? '':'disabled' }}><i class="icon-trash"
                             ></i> Received</button>
                             </div>
                             {{ Form::close() }}
