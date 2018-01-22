@@ -1,16 +1,14 @@
 @extends('admin.app')
 
 @section('title')
-    Receive Packaging from Processing Center
+    Received by Processing Center
 @endsection
 @section('page_title')
-    <span class="text-semibold">Receive Packaging from Processing Center</span> - Show All
-    <button type="button" class="btn btn-success" onclick="window.location.href='{{ route('deliveryprocessingcenters.create') }}@if ($date != null)?date={{$date}}' @endif">Create</button>
-    <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#modal_small">Pending Item</i></button>
+    <span class="text-semibold">Received by Processing Center</span> - Show All
 @endsection
 @section('content')
-    <div class="panel panel-flat">     
-        {{ Form::open(array('url' => route('deliveryprocessingcenters.index'), 'method' => 'GET', 'id' => 'date_form')) }}
+    <div class="panel panel-flat">
+        {{ Form::open(array('url' => route('receiveds.index'), 'method' => 'GET', 'id' => 'date_form')) }}
                     <div class="panel-body">
                 <div class="form-group">
                     <label>Date :</label>
@@ -25,7 +23,9 @@
                             <label>Search By :</label>
                             <select name="param" id="param" class="select-search">
                                 <option value="blank" @if($param =='blank' || $param=='') selected @endif>&#8192;</option>
-                                <option value="delivery_id" @if($param =='delivery_id') selected @endif>Receive ID</option>
+                                <option value="shipment_id" @if($param =='shipment_id') selected @endif>Shipment ID</option>
+                                <option value="received" @if($param =='received') selected @endif>Received</option>
+                                <option value="not_received" @if($param =='not_received') selected @endif>Not Received</option>
                             </select>
                         </div>
                     </div>
@@ -44,28 +44,40 @@
         <table class="table datatable-pagination">
             <thead>
                 <tr>
-                    <th>Receive ID</th>
-                    <th>Receive Time</th>
-                    <th>Total Shipment</th>
-                    <th>Action</th>
+                    <th>Shipment ID</th>
+                    <th>Origin</th>
+                    <th>Destination</th>
+                    <th>Status</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($datas as $data)
                     <tr>
                         <td>
-                            <a href="{{ route('deliveryprocessingcenters.edit', $data->id) }}">
-                            {{ $data->delivery_id }}
-                            </a>
+                            {{ $data->shipment_id }}
                         </td>
                         <td>
-                            {{ $data->delivery_time }}
+                            {{ $data->origin }}
                         </td>
                         <td>
-                            {{ $data->total }}
+                            {{ $data->destination }}
                         </td>
                         <td>
-                            {{ $data->is_posted == 1 ? 'Submited' : 'Not Submited' }}
+                            {{ $data->id_shipment_status == 3 ? 'Belum diterima' : 'Sudah diterima' }}
+                        </td>
+                        <td>
+                            <ul class="icons-list">
+                            <li>
+                            {{ Form::open(array('method' => 'PUT', 'url' => route('receiveds.update', $data->id))) }}
+                            <div class="text-right form-group">
+                                <button type="submit"  class="btn btn-danger" style="vertical-align: middle;" {{ $data->id_shipment_status == 3 ? '':'disabled' }}><i class="icon-trash"
+                            ></i> Received</button>
+                            </div>
+                            {{ Form::close() }}
+                            </li>
+                            </ul>
+                            
                         </td>
                     </tr>
                 @endforeach
@@ -74,54 +86,6 @@
 
 {{ $datas->links() }}
     </div>
-    <!-- Small modal -->
-        <div id="modal_small" class="modal fade">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h5 class="modal-title">Pending Item</h5>
-                    </div>
-
-                    <div class="modal-body">
-                            <div class="panel panel-flat">
-                                <table class="table datatable-pagination">
-                                    <thead>
-                                        <tr>
-                                            <th>Receive ID</th>
-                                            <th>Origin</th>
-                                            <th>Destination</th>
-                                            <th>Total Shipment</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($datas2 as $data)
-                                            <tr>
-                                                <td>
-                                                    <a href="{{ route('packagingrestshipments.edit', $data->id) }}">
-                                                        {{ $data->delivery_id }}
-                                                    </a>
-                                                </td>
-                                                <td>
-                                                    {{ $data->total }}
-                                                </td>
-                                                <td>
-                                                    {{ $data->origin }}
-                                                </td>
-                                                <td>
-                                                    {{ $data->destination }}
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>                            </div>
-                    </div>
-
-                    <div class="modal-footer">
-                    </div>
-                </div>
-            </div>
-        </div>
     <script type="text/javascript">
         $('.select-search').select2();
         $('.pickadate-year').datepicker({
@@ -129,11 +93,15 @@
         });
         $('#param').on('select2:select', function() {
             if ($('#param').val() != 'blank') {
-                $('#value').prop('required', true)
+                if (($('#param').val() == 'received') || ($('#param').val() == 'not_received')) {
+                    $('#value').prop('disabled', true);    
+                } else {
+                    $('#value').prop('disabled', false);
+                    $('#value').prop('required', true)
+                }
             } else {
                 $('#value').prop('required', false)
             }
         });
     </script>
-
 @endsection
