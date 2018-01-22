@@ -51,10 +51,15 @@ class ShipmentDropOffAdminController extends Controller
         }
         if (Input::get('registration_type')) {
             $data['registration_type'] = Input::get('registration_type');
-            $data['datas'] = $data['datas']->where('is_take', 2);
+            if (Input::get('registration_type') == 'online') {
+                $data['datas'] = $data['datas']->where('is_take', 0);
+
+            } else {
+             $data['datas'] = $data['datas']->where('is_take', 2);
+
+            }
         } else {
             $data['registration_type'] = 'online';
-            $data['datas'] = $data['datas']->where('is_take', 0);
         }
         $data['datas'] = $data['datas']->paginate(10);
         
