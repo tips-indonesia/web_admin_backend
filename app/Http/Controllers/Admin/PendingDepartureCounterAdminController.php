@@ -40,7 +40,7 @@ class PendingDepartureCounterAdminController extends Controller
             $data['value'] = Input::get('value');
             $data['datas'] = $data['datas']->where(Input::get('param'),'=', Input::get('value'));
         }
-        $data['datas'] = $data['datas']->whereIn('is_receive', [0,1])->paginate(10);
+        $data['datas'] = $data['datas']->where('is_receive', 1)->paginate(10);
         foreach ($data['datas'] as $dat) {
             if ($dat->id_slot != null) {
                 $slot = SlotList::find($dat->id_slot);
