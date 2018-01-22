@@ -135,9 +135,9 @@ class ShipmentDropOffAdminController extends Controller
             $shipment->shipper_mobile_phone = Input::get('shipper_mobile');
             $shipment->shipper_latitude = Input::get('shipper_latitude');
             $shipment->shipper_longitude = Input::get('shipper_longitude');
-            $shipment->shipper_city = Input::get('shipper_city');
-            $shipment->shipper_province = Input::get('shipper_province');
-            $shipment->shipper_districts = Input::get('shipper_subdistrict');
+            $shipment->id_shipper_city = Input::get('shipper_city');
+            $shipment->id_shipper_province = Input::get('shipper_province');
+            $shipment->id_shipper_districts = Input::get('shipper_subdistrict');
             $shipment->consignee_first_name = Input::get('consignee_first_name');
             $shipment->consignee_last_name =  Input::get('consignee_last_name');
             $shipment->consignee_address = Input::get('consignee_address');
@@ -289,9 +289,9 @@ class ShipmentDropOffAdminController extends Controller
             $shipment->shipper_mobile_phone = Input::get('shipper_mobile');
             $shipment->shipper_latitude = Input::get('shipper_latitude');
             $shipment->shipper_longitude = Input::get('shipper_longitude');
-            $shipment->shipper_city = Input::get('shipper_city');
-            $shipment->shipper_province = Input::get('shipper_province');
-            $shipment->shipper_districts = Input::get('shipper_subdistrict');
+            $shipment->id_shipper_city = Input::get('shipper_city');
+            $shipment->id_shipper_province = Input::get('shipper_province');
+            $shipment->id_shipper_districts = Input::get('shipper_subdistrict');
             $shipment->consignee_first_name = Input::get('consignee_first_name');
             $shipment->consignee_last_name =  Input::get('consignee_last_name');
             $shipment->consignee_address = Input::get('consignee_address');
