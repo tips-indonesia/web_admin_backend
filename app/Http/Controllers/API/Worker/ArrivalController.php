@@ -57,7 +57,7 @@ class ArrivalController extends Controller
                 ],
                 'result' => null
             );
-        } else if($slot->id_slot_status != 6 || $slot->status_dispatch != "Process"){
+        } else if($slot->id_slot_status != 5 || $slot->status_dispatch != "Process"){
             $data = array(
                 'err' => [
                     'code' => 0,
@@ -66,11 +66,11 @@ class ArrivalController extends Controller
                 'result' => null
             );
         } else {
-            $slot->id_slot_status = 7;
+            $slot->id_slot_status = 6;
             $slot->save();
 
             $shipments = Shipment::where('id_slot', $slot->id)->get();
-            $shipment_status = ShipmentStatus::where('step', 6)->save();
+            $shipment_status = ShipmentStatus::where('step', 6)->first();
 
             foreach ($shipments as $shipment) {
                 $shipment->id_shipment_status = $shipment_status->id;
