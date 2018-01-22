@@ -53,7 +53,8 @@ class DeliveryDepartureCounterAdminController extends Controller
             $dat['total'] = PackagingDelivery::where('deliveries_id', $dat->id)->get()->count();
         }
         
-        $data['datas2'] = PackagingList::all();
+        $selected =PackagingDelivery::all()->pluck('packaging_id')->toArray();
+        $data['datas2'] = PackagingList::whereNotIn('id', $selected)->get();
         foreach ($data['datas2'] as $dat) {
             if ($dat->id_slot != null) {
                 $slot = SlotList::find($dat->id_slot);
@@ -80,7 +81,8 @@ class DeliveryDepartureCounterAdminController extends Controller
         if ($date == null) {
             $data['datas'] = array(); 
         } else {
-            $data['datas'] = PackagingList::whereDate('created_at', '=', $date)->get();
+            $selected =PackagingDelivery::all()->pluck('packaging_id')->toArray();
+            $data['datas'] = PackagingList::whereDate('created_at', '=', $date)->whereNotIn('id', $selected)->get();
             foreach ($data['datas'] as $dat) {
                 if ($dat->id_slot != null) {
                     $slot = SlotList::find($dat->id_slot);
@@ -141,7 +143,9 @@ class DeliveryDepartureCounterAdminController extends Controller
     {
         //
         $data['chosen_packaging'] = PackagingList::whereIn('id',PackagingDelivery::where('deliveries_id', $id)->pluck('packaging_id')->toArray())->pluck('id')->toArray();
-        $data['packaging'] = PackagingList::all();
+        $selected =PackagingDelivery::where('deliveries_id', '!=',$id)->pluck('packaging_id')->toArray();
+
+        $data['packaging'] = PackagingList::whereDate('created_at', '=', $date)->whereNotIn('id', $selected)->get();
         foreach ($data['packaging'] as $dat) {
             if ($dat->id_slot != null) {
                     $slot = SlotList::find($dat->id_slot);
