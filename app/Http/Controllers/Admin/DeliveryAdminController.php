@@ -173,6 +173,9 @@ class DeliveryAdminController extends Controller
                 $deliv_details = new DeliveryShipmentDetail;
                 $deliv_details->id_shipment = $shipment;
                 $deliv_details->id_delivery = $delivery->id;
+                $ship = Shipment::find($shipment);
+                $ship->id_shipment_status = 3;
+                $ship->save();
                 $deliv_details->save();
             }
         }
