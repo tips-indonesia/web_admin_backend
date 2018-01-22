@@ -1,10 +1,10 @@
 @extends('admin.app')
 
 @section('title')
-    Create Packaging Receive to Processing Center
+    Create Receive Packaging from Processing Center
 @endsection
 @section('page_title')
-    <span class="text-semibold">Packaging Receive to Processing Center</span> - Create
+    <span class="text-semibold">Receive Packaging from Processing Center</span> - Create
 @endsection
 @section('content')
     <!-- Vertical form options -->

@@ -1,10 +1,10 @@
 @extends('admin.app')
 
 @section('title')
-    Receive Packaging to Arrival Processing Center
+    Receive Packaging from Processing Center
 @endsection
 @section('page_title')
-    <span class="text-semibold">Receive Packaging to Arrival Processing Center</span> - Show All
+    <span class="text-semibold">Receive Packaging from Processing Center</span> - Show All
     <button type="button" class="btn btn-success" onclick="window.location.href='{{ route('deliveryprocessingcenters.create') }}@if ($date != null)?date={{$date}}' @endif">Create</button>
     <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#modal_small">Pending Item</i></button>
 @endsection
