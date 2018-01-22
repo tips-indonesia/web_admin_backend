@@ -46,7 +46,7 @@ class DeliveryAdminController extends Controller
         foreach ($data['datas'] as $dat) {
             $dat['total'] = DeliveryShipmentDetail::where('id_delivery', $dat->id)->get()->count();
         }
-        $data['datas2'] = Shipment::where('id_shipment_status', 2)->whereIn('is_take', [0,2])->get();
+        $data['datas2'] = Shipment::where('id_shipment_status', 2)->get();
         foreach ($data['datas2'] as $dat) {
             $dat['total'] = DeliveryShipmentDetail::where('id_delivery', $dat->id)->get()->count();
             $dat['origin'] = AirportcityList::find($dat->id_origin_city)->name;
