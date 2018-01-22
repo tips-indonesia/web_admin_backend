@@ -87,6 +87,7 @@ class PackagingSlotAdminController extends Controller
                 ->withInput();
         } else {
             $packagingslots = new PackagingList;
+            $packagingslots->packaging_id = '2017';
             $packagingslots->id_slot = Input::get('slot');
             $packagingslots->save();
             $packagingslots->packaging_id = $packagingslots->id.'2017';
