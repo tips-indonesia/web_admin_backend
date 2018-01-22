@@ -119,7 +119,7 @@
                                                     {{ $data->origin }}
                                                 </td>
                                                 <td>
-                                                    {{ $data->Destination }}
+                                                    {{ $data->destination }}
                                                 </td>
                                                 <td>
                                                     {{ $data->total }}
