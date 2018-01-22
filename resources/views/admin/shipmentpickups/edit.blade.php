@@ -7,10 +7,10 @@
 <span class="text-semibold">Shipment Pickup List</span> - Edit
 @endsection
 @section('content')
+            {{ $errors }}
     <!-- Vertical form options -->
     <div class="row">
         <div class="col-md-12">
-            @foreach ($errors->all() as $error) {{ $error }} @endforeach
             {{ Form::open(array('url' => route('shipmentpickups.update', $data->id), 'method' => 'PUT')) }}
                 <div class="panel panel-flat">
                     <div class="panel-body">

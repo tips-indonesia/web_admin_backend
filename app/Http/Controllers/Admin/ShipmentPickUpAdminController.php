@@ -48,7 +48,7 @@ class ShipmentPickUpAdminController extends Controller
             $data['value'] = Input::get('value');
             $data['datas'] = $data['datas']->where(Input::get('param'),'=', Input::get('value'));
         }
-        $data['datas'] = $data['datas']->where('is_take',0)->paginate(10);
+        $data['datas'] = $data['datas']->where('is_take',1)->paginate(10);
         foreach($data['datas'] as $dat) {
             $dat['name_origin'] = AirportcityList::find($dat->id_origin_city)->name;
             $dat['name_destination'] = AirportcityList::find($dat->id_destination_city)->name;
