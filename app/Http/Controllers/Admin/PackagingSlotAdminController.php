@@ -132,7 +132,7 @@ class PackagingSlotAdminController extends Controller
     {
         //
         $data['data'] = PackagingList::find($id);
-        $data['slot_ids'] = SlotList::where('status_dispatch', 'Process')->get();
+        $data['slot_ids'] = SlotList::where('status_dispatch', 'Process')->whereNotIn('id', PackagingList::where('id_slot', '!=',null)->pluck('id_slot')->toArray())->get();
         return view('admin.packagingslots.edit', $data);
 
     }
