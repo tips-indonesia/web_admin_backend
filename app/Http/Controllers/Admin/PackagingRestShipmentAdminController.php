@@ -137,7 +137,7 @@ class PackagingRestShipmentAdminController extends Controller
         //
         $data['data'] = PackagingList::find($id);
         $data['shipment'] = Shipment::where('id_packaging', $id)->where('is_posted', 1)->get();
-        $data['shipment_not'] = Shipment::where('id_packaging', null)->where('is_posted', 1)->get();
+        $data['shipment_not'] = Shipment::where('id_packaging', null)->where('is_posted', 1)->where('id_shipment_status', 4)->get();
         foreach ($data['shipment'] as $dat) {
             $dat['origin_name'] = AirportcityList::find($dat->id_origin_city)->name;
             $dat['destination_name'] = AirportcityList::find($dat->id_destination_city)->name;
