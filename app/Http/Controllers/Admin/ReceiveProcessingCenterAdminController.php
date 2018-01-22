@@ -47,7 +47,7 @@ class ReceiveProcessingCenterAdminController extends Controller
         } else if (Input::get('param') == 'not_received') {
             $shipment_data = PackagingList::where('is_receive', false)->whereIn('id', $shipments);
         } else {
-            $shipment_data = PackagingList::where('id','!=', 0);
+            $shipment_data = PackagingList::where('id','!=', 0)->whereIn('id', $shipments);;
         }
 
         if ($flag == true) {
