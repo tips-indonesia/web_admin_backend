@@ -477,7 +477,9 @@
                         city.append(option);
                         for(var i = 0 ; i < data.length; i++) {
                             var opt = new Option(data[i].name, data[i].id)
-                            opt.selected = true; 
+                            if (data[i].id == {{ $data->shipper_city }}){
+                                    opt.selected = true;    
+                                }
                             city.append(opt);
                         }
                         var subdistrict = $('#ssubdistrict');
@@ -494,7 +496,10 @@
                                 subdistrict.append(option);
                                 for(var i = 0 ; i < data.length; i++) {
                                     var opt =new Option(data[i].name, data[i].id);
-                                    opt.selected = true;
+                                    if (data[i].id == {{ $data->shipper_districts }}){
+                                        opt.selected = true;    
+                                    }
+                                    
                                     subdistrict.append(opt);
                                 }
                             }
