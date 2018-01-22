@@ -71,8 +71,8 @@ class SlotListAdminController extends Controller
         $data['data']['member'] = $member;
         if(Input::get('ajax') == 1) {
             $ret_data = array();
-            $ret_data['origin'] = AirportcityList::find($slot->id_origin_city)->name;
-            $ret_data['destination'] = AirportcityList::find($slot->id_destination_city)->name;
+            $ret_data['origin'] = $data['data']['origin_airport'];
+            $ret_data['destination'] = $data['data']['destination_airport'];
             $ret_data['shipments'] = Shipment::where('id_slot', $id)->get(['shipment_id', 'transaction_date', 'id_origin_city', 'id_destination_city', 'estimate_weight']);
             $ret_data['total_weight'] = 0;
             foreach ($ret_data['shipments'] as $dat) {

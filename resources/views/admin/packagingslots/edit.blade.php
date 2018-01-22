@@ -73,8 +73,8 @@
                 type: 'GET',
                 dataType: 'json',
                 success: function(data) {
-                    $('#destination').html('Destination City : ' + data['destination']);
-                    $('#origin').html('Origin City : ' + data['origin']);
+                    $('#destination').html('Destination Airport : ' + data['destination']);
+                    $('#origin').html('Origin Airport : ' + data['origin']);
                     $('#weight').html('Estimated Weight : ' + data['total_weight']);
                     var table = $('#shipments')
                     var body = table.find('tbody');
