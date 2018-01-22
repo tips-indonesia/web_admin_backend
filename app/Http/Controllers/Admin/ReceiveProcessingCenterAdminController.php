@@ -64,7 +64,7 @@ class ReceiveProcessingCenterAdminController extends Controller
             
         }
         $data['datas'] = $shipment_data;
-        return view('admin.receiveds.index', $data);
+        return view('admin.receiveprocessingcenters.index', $data);
     }
 
     /**
@@ -120,7 +120,7 @@ class ReceiveProcessingCenterAdminController extends Controller
         $process = PackagingList::find($id);
         $process->is_receive = true;
         $process->save();
-        return Redirect::to(route('receiveds.index'));
+        return Redirect::to(route('receiveprocessingcenters.index'));
     }
 
     /**
