@@ -24,8 +24,14 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
+        // $schedule->command('DeleteInActiveUsers:deleteusers')
+        //          ->everyFiveMinute();
+        $url_begin = "http://localhost:8000/api/cron/begin";
+        $url_end   = "http://localhost:8000/api/cron/end";
+        $schedule->exec('echo "\n"')
+                 ->everyMinute()
+                 ->pingBefore($url_begin)
+                 ->thenPing($url_end);
     }
 
     /**

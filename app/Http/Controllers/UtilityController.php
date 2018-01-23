@@ -8,6 +8,8 @@ use App\Shipment;
 use App\DaftarBarangGold;
 use App\DaftarBarangRegular;
 
+use Storage;
+
 class UtilityController extends Controller
 {
 
@@ -183,6 +185,7 @@ class UtilityController extends Controller
         if($this->DEBUG) echo "B-" . $temp->id . ' berat ' . $temp->estimate_weight . ' diassign ke K-' . $IDKeberangkatan . '<br/>';
         if($this->DEBUG) echo "</br>";
         $temp->id_slot = $IDKeberangkatan;
+        $temp->dispatch_type = 'Process';
         $temp->save();
 
         $tempK = SlotList::find($IDKeberangkatan);
@@ -191,6 +194,7 @@ class UtilityController extends Controller
             return false;
 
         $tempK->sold_baggage_space = $tempK->sold_baggage_space + $Barang->estimate_weight;
+        $tempK->dispatch_type = 'Process';
         $tempK->id_slot_status = 2;
 
         FCMSender::post(array(
@@ -267,5 +271,22 @@ class UtilityController extends Controller
         $this->AssignDaftarBarangKeKeberangkatan("GOLD");
         $this->AssignDaftarBarangKeKeberangkatan("REGULAR");
         $this->printKeberangkatanSementara();
+    }
+
+
+    // this is rio authority
+    public function cronjobBegin(Request $request){
+        // dd($request->all());
+        Storage::disk('public')->append('cron.txt', "Cronjob begin: " . \Carbon\Carbon::createFromFormat('Y-m-d', '2017-11-7')->toDateTimeString());
+
+        return "OK: Begin";
+    }
+
+    // this is rio authority
+    public function cronjobEnd(Request $request){
+        // dd($request->all());
+        Storage::disk('public')->append('cron.txt', "Cronjob end: " . \Carbon\Carbon::createFromFormat('Y-m-d', '2017-11-7')->toDateTimeString());
+
+        return "OK: End";
     }
 }
