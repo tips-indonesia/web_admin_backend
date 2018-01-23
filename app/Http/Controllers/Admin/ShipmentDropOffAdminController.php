@@ -164,6 +164,7 @@ class ShipmentDropOffAdminController extends Controller
             $shipment->pickup_time = Input::get('pickup_time');
             $shipment->pickup_date = Input::get('pickup_date');
             $shipment->add_notes = Input::get('additional_notes');
+            $shipment->dispatch_type = Input::get('dispatch_type');
             $shipment->is_delivery = Input::get('dispatch_type') == 'Dispatch to consignee';
             $shipment->id_device = 'admin page';
             if (Input::get('online_payment') == 1){
@@ -312,6 +313,7 @@ class ShipmentDropOffAdminController extends Controller
             $shipment->estimate_goods_value = Input::get('estimated_goods_value');
             $shipment->estimate_weight = Input::get('estimated_weight');
             $shipment->id_payment_type = Input::get('payment_type');
+            $shipment->dispatch_type = Input::get('dispatch_type');
             $shipment->is_delivery = Input::get('dispatch_type') == 'Dispatch to consignee';
             $shipment->id_device = 'admin page';
             if (Input::get('online_payment') == 1){
