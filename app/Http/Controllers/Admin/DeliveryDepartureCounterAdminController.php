@@ -5,13 +5,17 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Shipment;
-use App\DeliveryShipment;
-use App\DeliveryShipmentDetail;
+use App\DeliveryDeparture;
+use App\DeliveryDepartureDetail;
 use App\ShipmentHistory;
 use App\OfficeList;
 use App\PackagingList;
+use App\PackagingDelivery;
+use App\Delivery;
 use Validator;
 use App\CityList;
+use App\AirportcityList;
+use App\SlotList;
 use Auth;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Input;
@@ -29,11 +33,11 @@ class DeliveryDepartureCounterAdminController extends Controller
     {
         //
         if (Input::get('date')) {
-            $data['datas'] = DeliveryShipment::where('delivery_date', Input::get('date'));
+            $data['datas'] = DeliveryDeparture::where('delivery_date', Input::get('date'));
             $data['date'] = Input::get('date');
         } else {
             $data['date'] = Carbon::now()->toDateString();
-            $data['datas'] = DeliveryShipment::where('delivery_date', $data['date']);
+            $data['datas'] = DeliveryDeparture::where('delivery_date', $data['date']);
         }
         if (Input::get('param') == 'blank' || !Input::get('param') ) {
             $data['datas'] = $data['datas']->where('id', '!=', null);
@@ -46,14 +50,21 @@ class DeliveryDepartureCounterAdminController extends Controller
         }
         $data['datas'] = $data['datas']->paginate(10);
         foreach ($data['datas'] as $dat) {
-            $dat['total'] = PackagingDelivery::where('id_delivery', $dat->id)->get()->count();
+            $dat['total'] = PackagingDelivery::where('deliveries_id', $dat->id)->get()->count();
         }
-        $pendings = DeliveryShipmentDetail::where('processing_center_received_by', null)->pluck('id_delivery')->toArray();
-        $data['datas2'] = DeliveryShipment::whereIn('id_delivery', $pendings)->get();
+        
+        $selected =PackagingDelivery::all()->pluck('packaging_id')->toArray();
+        $data['datas2'] = PackagingList::whereNotIn('id', $selected)->get();
         foreach ($data['datas2'] as $dat) {
-            $dat['total'] = PackagingDelivery::where('id_delivery', $dat->id)->get()->count();
-            $dat['origin'] = OfficeList::find($dat->id_origin_office)->name;
-            $dat['destination'] = OfficeList::find($dat->id_destination_office)->name;
+            if ($dat->id_slot != null) {
+                $slot = SlotList::find($dat->id_slot);
+                $dat['total'] = Shipment::where('id_slot', $slot->id)->get()->count();
+                $dat['origin'] = AirportcityList::find($slot->id_origin_city)->name;
+                $dat['destination'] = AirportcityList::find($slot->id_destination_city)->name;
+                $dat['slot_id'] = $slot->slot_id;
+            }else {
+                $dat['total'] = Shipment::where('id_packaging', $dat->id)->get()->count();
+            }
         }
         return view('admin.deliverydeparturecounters.index', $data);
     }
@@ -70,12 +81,13 @@ class DeliveryDepartureCounterAdminController extends Controller
         if ($date == null) {
             $data['datas'] = array(); 
         } else {
-            $data['datas'] = PackagingList::whereDate('created_at', '=', $date)->get();
+            $selected =PackagingDelivery::all()->pluck('packaging_id')->toArray();
+            $data['datas'] = PackagingList::whereDate('created_at', '=', $date)->whereNotIn('id', $selected)->get();
             foreach ($data['datas'] as $dat) {
                 if ($dat->id_slot != null) {
                     $slot = SlotList::find($dat->id_slot);
-                    $dat['origin_name'] = CityList::find($slot->id_origin_city)->name;
-                    $dat['destination_name'] = CityList::find($slot->id_destination_city)->name;
+                    $dat['origin_name'] = AirportcityList::find($slot->id_origin_city)->name;
+                    $dat['destination_name'] = AirportcityList::find($slot->id_destination_city)->name;
                 }
             }
             $data['date'] = $date;
@@ -91,7 +103,7 @@ class DeliveryDepartureCounterAdminController extends Controller
     public function store()
     {
         //
-        $delivery = new DeliveryShipment;
+        $delivery = new DeliveryDeparture;
         $delivery->delivery_date = Input::get('date');
         $delivery->delivery_time = Input::get('delivery_time');
         $delivery->created_by = Auth::user()->id; 
@@ -100,8 +112,18 @@ class DeliveryDepartureCounterAdminController extends Controller
         $delivery->save();
         foreach(Input::get('packagings') as $shipment) {
             $deliv_details = new PackagingDelivery;
-            $deliv_details->id_packaging = $shipment;
-            $deliv_details->id_delivery = $delivery->id;
+            $deliv_details->packaging_id = $shipment;
+            $deliv_details->deliveries_id = $delivery->id;
+            $package = PackagingList::find($shipment);
+            if ($package->id_slot != null) {
+                $shipments = Shipment::where('id_slot', $package->id_slot)->get();
+            } else {
+                $shipments = Shipment::where('id_packaging', $package->id)->get();
+            }
+            foreach ($shipments as $ship) {
+                $ship->id_shipment_status = 6;
+                $ship->save();
+            }
             $deliv_details->save();
         }
         return Redirect::to(route('deliverydeparturecounters.index'));
@@ -130,16 +152,18 @@ class DeliveryDepartureCounterAdminController extends Controller
     public function edit($id)
     {
         //
-        $delivery_shipment_info = DeliveryShipment::find($id);
-        $delivery_shipments = DeliveryShipmentDetail::where([['id_delivery', '=', $id]])->pluck('id_shipment')->toArray();
-        $temp_shipments = Shipment::where([['transaction_date', '=', $delivery_shipment_info->delivery_date], ['is_posted', '=', 1]])->whereIn('id_shipment_status', [1,2])->get();
-        foreach ($temp_shipments as $dat) {
-            $dat['origin_name'] = CityList::find($dat->id_origin_city)->name;
-            $dat['destination_name'] = CityList::find($dat->id_destination_city)->name;
+        $data['chosen_packaging'] = PackagingList::whereIn('id',PackagingDelivery::where('deliveries_id', $id)->pluck('packaging_id')->toArray())->pluck('id')->toArray();
+        $selected =PackagingDelivery::where('deliveries_id', '!=',$id)->pluck('packaging_id')->toArray();
+
+        $data['packaging'] = PackagingList::whereDate('created_at', '=', DeliveryDeparture::find($id)->delivery_date)->whereNotIn('id', $selected)->get();
+        foreach ($data['packaging'] as $dat) {
+            if ($dat->id_slot != null) {
+                    $slot = SlotList::find($dat->id_slot);
+                    $dat['origin_name'] = AirportcityList::find($slot->id_origin_city)->name;
+                    $dat['destination_name'] = AirportcityList::find($slot->id_destination_city)->name;
+                }
         }
-        $data['delivery_shipments'] = $delivery_shipments;
-        $data['shipment_lists'] = $temp_shipments;
-        $data['data'] = $delivery_shipment_info;
+        $data['data'] = DeliveryDeparture::find($id);
         return view('admin.deliverydeparturecounters.edit', $data);
 
     }
@@ -152,30 +176,32 @@ class DeliveryDepartureCounterAdminController extends Controller
     */
     public function update($id)
     {
-        $delivery = DeliveryShipment::find($id);
+        $delivery = DeliveryDeparture::find($id);
 
         $delivery->delivery_time = Input::get('delivery_time');
         $delivery->save();
         if (Input::get('submit') =='post') {
             $delivery->is_posted = 1;
             $delivery->save();
-/*            foreach(Input::get('shipments') as $shipment){
-                $shipment_data = Shipment::find($shipment);
-                $shipment_data->id_shipment_status = 3;
-                $shipment_data->save();
-                $shipment_history = new ShipmentHistory;
-                $shipment_history->id_shipment = $shipment_data->id;
-                $shipment_history->id_shipment_status = 3;
-                $shipment_history->save();
-            }*/
         }
-        $delivdetails = DeliveryShipmentDetail::where('id_delivery', $id)->delete();
-        if (Input::get('shipments') != null){
-            foreach(Input::get('shipments') as $shipment){
-                $deliv_details = new DeliveryShipmentDetail;
-                $deliv_details->id_shipment = $shipment;
-                $deliv_details->id_delivery = $delivery->id;
+        $delivdetails = PackagingDelivery::where('deliveries_id', $id)->delete();
+        if (Input::get('packagings') != null){
+            foreach(Input::get('packagings') as $shipment) {
+                $deliv_details = new PackagingDelivery;
+                $deliv_details->packaging_id = $shipment;
+                $deliv_details->deliveries_id = $delivery->id;
                 $deliv_details->save();
+
+                $package = PackagingList::find($shipment);
+                if ($package->id_slot != null) {
+                    $shipments = Shipment::where('id_slot', $package->id_slot)->get();
+                } else {
+                    $shipments = Shipment::where('id_packaging', $package->id)->get();
+                }
+                foreach ($shipments as $ship) {
+                    $ship->id_shipment_status = 6;
+                    $ship->save();
+                }
             }
         }
         return Redirect::to(route('deliverydeparturecounters.index'));
@@ -190,7 +216,7 @@ class DeliveryDepartureCounterAdminController extends Controller
     public function destroy($id)
     {
         //
-        $cityList = DeliveryShipment::find($id);
+        $cityList = DeliveryDeparture::find($id);
         $cityList->delete();
 
         // redirect

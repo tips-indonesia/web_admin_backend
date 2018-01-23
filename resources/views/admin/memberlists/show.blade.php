@@ -13,8 +13,12 @@
                 <div class="panel panel-flat">
                     <div class="panel-body">
                         <div class="form-group">
-                            <label>Name :</label>
-                            {{ Form::text('name', $member->name, array('class' => 'form-control', 'placeholder' => 'Member Name' ,'disabled' => '' ,'readonly' => '')) }}
+                            <label>First Name :</label>
+                            {{ Form::text('name', $member->first_name, array('class' => 'form-control', 'placeholder' => 'Member Name' ,'disabled' => '' ,'readonly' => '')) }}
+                        </div>
+                        <div class="form-group">
+                            <label>Last Name :</label>
+                            {{ Form::text('name', $member->last_name, array('class' => 'form-control', 'placeholder' => 'Member Name' ,'disabled' => '' ,'readonly' => '')) }}
                         </div>
                         <div class="form-group">
                             <label>Birth Date :</label>

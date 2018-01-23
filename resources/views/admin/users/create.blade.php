@@ -9,13 +9,27 @@
 @section('content')
     <!-- Vertical form options -->
     <div class="row">
+            @if ($errors->any())
+        <div class="alert alert-danger no-border">
+            <button type="button" class="close" data-dismiss="alert"><span>&times;</span><span class="sr-only">Close</span></button>
+            <ul>
+            @foreach($errors->getMessages() as $key => $message)
+            <li>{{$key}} = {{$message[0]}}</li>
+            @endforeach
+            </ul>
+        </div>
+         @endif
         <div class="col-md-12">
             {{ Form::open(array('url' => route('users.store'))) }}
                 <div class="panel panel-flat">
                     <div class="panel-body">
                         <div class="form-group">
-                            <label>Name :</label>
-                            {{ Form::text('name', null, array('class' => 'form-control', 'placeholder' => 'Name')) }}
+                            <label>First Name :</label>
+                            {{ Form::text('fname', null, array('class' => 'form-control', 'placeholder' => 'First Name')) }}
+                        </div>
+                        <div class="form-group">
+                            <label>Last Name :</label>
+                            {{ Form::text('lname', null, array('class' => 'form-control', 'placeholder' => 'Last Name')) }}
                         </div>
                         <div class="form-group">
                             <label>Username :</label>

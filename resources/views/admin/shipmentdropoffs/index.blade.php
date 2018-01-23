@@ -1,10 +1,10 @@
 @extends('admin.app')
 
 @section('title')
-    Shipment List
+    Shipment Drop Off List
 @endsection
 @section('page_title')
-<span class="text-semibold">Shipment List</span> - Show All
+<span class="text-semibold">Shipment Drop Off List</span> - Show All
 <button type="button" class="btn btn-success" onclick="window.location.href='{{ route('shipmentdropoffs.create') }}?registration_type={{$registration_type}}'"
 @if ($registration_type == 'online') disabled @endif>Create</button>
 
@@ -60,7 +60,8 @@
             <thead>
                 <tr>
                     <th>Shipment ID</th>
-                    <th>Shipper Name</th>
+                    <th>Shipper First Name</th>
+                    <th>Shipper Last Name</th>
                     <th>Origin</th>
                     <th>Destination</th>
                     <th>Goods Status</th>
@@ -74,17 +75,20 @@
                     <tr>
                         <td>
                             @if ($data->is_posted == 0)
-                                <a href="{{ route('shipments.edit', $data->id) }}">
+                                <a href="{{ route('shipmentdropoffs.edit', $data->id) }}">
                                 {{ $data->shipment_id }}
                                 </a>
                             @else
-                                <a href="{{ route('shipments.show', $data->id) }}">
+                                <a href="{{ route('shipmentdropoffs.show', $data->id) }}">
                                 {{ $data->shipment_id }}
                                 </a>
                             @endif
                         </td>
                         <td>
-                            {{ $data->shipper_name }}
+                            {{ $data->shipper_first_name }}
+                        </td>
+                        <td>
+                            {{ $data->shipper_last_name }}
                         </td>
                         <td>
                             {{ $data->name_origin }}
@@ -120,6 +124,13 @@
         <script>
         $('.select-search').select2();
         $('.pickadate-year').datepicker({format: 'yyyy-mm-dd',});
+        $('#param').on('select2:select', function() {
+            if ($('#param').val() != 'blank') {
+                $('#value').prop('required', true)
+            } else {
+                $('#value').prop('required', false)
+            }
+        });        
     </script>
 
 @endsection

@@ -71,7 +71,7 @@
     </div>
         <!-- Small modal -->
         <div id="modal_small" class="modal fade">
-            <div class="modal-dialog modal-sm">
+            <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -83,19 +83,21 @@
                                 <table class="table datatable-pagination">
                                     <thead>
                                         <tr>
-                                            <th>Package ID</th>
-                                            <th>Origin</th>
+                                            <th>Shipment ID</th>
+                                            <th>Date</th>
+                                            <th>Original</th>
                                             <th>Destination</th>
-                                            <th>Total Shipment</th>
+                                            <th>Weight</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach ($datas2 as $data)
                                             <tr>
                                                 <td>
-                                                    <a href="{{ route('packagingrestshipments.edit', $data->id) }}">
-                                                        {{ $data->packaging_id }}
-                                                    </a>
+                                                    {{ $data->id }}2017
+                                                </td>
+                                                <td>
+                                                    {{ $data->transaction_date }}
                                                 </td>
                                                 <td>
                                                     {{ $data->origin }}
@@ -104,7 +106,7 @@
                                                     {{ $data->destination }}
                                                 </td>
                                                 <td>
-                                                    {{ $data->count }}
+                                                    {{ $data->estimate_weight }}
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -120,6 +122,13 @@
     <script type="text/javascript">
         
             $('.select-search').select2();
+            $('#param').on('select2:select', function() {
+            if ($('#param').val() != 'blank') {
+                $('#value').prop('required', true)
+            } else {
+                $('#value').prop('required', false)
+            }
+        });
         </script>
         
 

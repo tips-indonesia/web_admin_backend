@@ -8,6 +8,7 @@ use App\Shipment;
 use App\DeliveryShipment;
 use App\DeliveryShipmentDetail;
 use App\ShipmentHistory;
+use App\AirportcityList;
 use Validator;
 use Auth;
 use Carbon\Carbon;
@@ -42,15 +43,14 @@ class DeliveryAdminController extends Controller
             $data['datas'] = $data['datas']->where(Input::get('param'),'=', Input::get('value'));
         }
         $data['datas'] = $data['datas']->paginate(10);
-        $pendings = DeliveryShipmentDetail::where('processing_center_received_by', null)->pluck('id_delivery')->toArray();
-        $data['datas2'] = DeliveryShipment::whereIn('id_delivery', $pendings)->get();
         foreach ($data['datas'] as $dat) {
             $dat['total'] = DeliveryShipmentDetail::where('id_delivery', $dat->id)->get()->count();
         }
+        $data['datas2'] = Shipment::where('id_shipment_status', 2)->whereIn('is_take', [0,2])->get();
         foreach ($data['datas2'] as $dat) {
             $dat['total'] = DeliveryShipmentDetail::where('id_delivery', $dat->id)->get()->count();
-            $dat['origin'] = OfficeList::find($dat->id_origin_office)->name;
-            $dat['destination'] = OfficeList::find($dat->id_destination_office)->name;
+            $dat['origin'] = AirportcityList::find($dat->id_origin_city)->name;
+            $dat['destination'] = AirportcityList::find($dat->id_destination_city)->name;
         }
         return view('admin.deliveries.index', $data);
     }
@@ -67,10 +67,11 @@ class DeliveryAdminController extends Controller
         if ($date == null) {
             $data['datas'] = array(); 
         } else {
-            $data['datas'] = Shipment::where([['transaction_date', '=', $date], ['is_posted', '=', 1]])->whereIn('id_shipment_status', [1,2])->get();
+            $delship = DeliveryShipmentDetail::all()->pluck('id_shipment')->toArray();
+            $data['datas'] = Shipment::where([['transaction_date', '=', $date], ['is_posted', '=', 1]])->whereIn('id_shipment_status', [0,2])->whereNotIn('id', $delship)->get();
             foreach ($data['datas'] as $dat) {
-                $dat['origin_name'] = CityList::find($dat->id_origin_city)->name;
-                $dat['destination_name'] = CityList::find($dat->id_destination_city)->name;
+                $dat['origin_name'] = AirportcityList::find($dat->id_origin_city)->name;
+                $dat['destination_name'] = AirportcityList::find($dat->id_destination_city)->name;
             }
             $data['date'] = $date;
         }
@@ -92,11 +93,13 @@ class DeliveryAdminController extends Controller
         $delivery->save();
         $delivery->delivery_id='DEL'.$delivery->id.'2017';
         $delivery->save();
-        foreach(Input::get('shipments') as $shipment) {
-            $deliv_details = new DeliveryShipmentDetail;
-            $deliv_details->id_shipment = $shipment;
-            $deliv_details->id_delivery = $delivery->id;
-            $deliv_details->save();
+        if (Input::get('shipments') != null){
+            foreach(Input::get('shipments') as $shipment) {
+                $deliv_details = new DeliveryShipmentDetail;
+                $deliv_details->id_shipment = $shipment;
+                $deliv_details->id_delivery = $delivery->id;
+                $deliv_details->save();
+            }
         }
         return Redirect::to(route('deliveries.index'));
 
@@ -124,17 +127,22 @@ class DeliveryAdminController extends Controller
     public function edit($id)
     {
         //
+        $delship = DeliveryShipmentDetail::where('id_delivery', '!=', $id)->pluck('id_shipment')->toArray();
         $delivery_shipment_info = DeliveryShipment::find($id);
         $delivery_shipments = DeliveryShipmentDetail::where([['id_delivery', '=', $id]])->pluck('id_shipment')->toArray();
-        $temp_shipments = Shipment::where([['transaction_date', '=', $delivery_shipment_info->delivery_date], ['is_posted', '=', 1]])->whereIn('id_shipment_status', [1,2])->get();
+        $temp_shipments = Shipment::where([['transaction_date', '=', $delivery_shipment_info->delivery_date], ['is_posted', '=', 1]])->whereNotIn('id', $delship)->whereIn('is_take', [0,2])->get();
         foreach ($temp_shipments as $dat) {
-            $dat['origin_name'] = CityList::find($dat->id_origin_city)->name;
-            $dat['destination_name'] = CityList::find($dat->id_destination_city)->name;
+            $dat['origin_name'] = AirportcityList::find($dat->id_origin_city)->name;
+            $dat['destination_name'] = AirportcityList::find($dat->id_destination_city)->name;
         }
         $data['delivery_shipments'] = $delivery_shipments;
         $data['shipment_lists'] = $temp_shipments;
         $data['data'] = $delivery_shipment_info;
-        return view('admin.deliveries.edit', $data);
+        if ($delivery_shipment_info->is_posted == 0){
+            return view('admin.deliveries.edit', $data);
+        } else {
+            return view('admin.deliveries.show', $data);
+        }
 
     }
 
@@ -153,15 +161,7 @@ class DeliveryAdminController extends Controller
         if (Input::get('submit') =='post') {
             $delivery->is_posted = 1;
             $delivery->save();
-/*            foreach(Input::get('shipments') as $shipment){
-                $shipment_data = Shipment::find($shipment);
-                $shipment_data->id_shipment_status = 3;
-                $shipment_data->save();
-                $shipment_history = new ShipmentHistory;
-                $shipment_history->id_shipment = $shipment_data->id;
-                $shipment_history->id_shipment_status = 3;
-                $shipment_history->save();
-            }*/
+
         }
         $delivdetails = DeliveryShipmentDetail::where('id_delivery', $id)->delete();
         if (Input::get('shipments') != null){
@@ -169,6 +169,11 @@ class DeliveryAdminController extends Controller
                 $deliv_details = new DeliveryShipmentDetail;
                 $deliv_details->id_shipment = $shipment;
                 $deliv_details->id_delivery = $delivery->id;
+                if (Input::get('submit') =='post') {
+                    $ship = Shipment::find($shipment);
+                    $ship->id_shipment_status = 3;
+                    $ship->save();
+                }
                 $deliv_details->save();
             }
         }

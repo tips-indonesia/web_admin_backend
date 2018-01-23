@@ -48,13 +48,18 @@ class UserAdminController extends Controller
     {
         //
         $rules = array(
-            'name' => 'required',
+            'fname' => 'required',
+            'lname' => 'required',
             'username' => 'required|unique:users',
             'password' => 'required|min:6|confirmed',
             'role' => 'required',
             'office' => 'required'
         );
-        $validator = Validator::make(Input::all(), $rules);
+        $messages = array(
+            'required' => 'this field is required', 
+            'confirmed' => 'make sure password and confirm password matched',
+            'min' => 'password length at least 6 chars' );
+        $validator = Validator::make(Input::all(), $rules, $messages);
 
         // process the login
         if ($validator->fails()) {
@@ -62,7 +67,8 @@ class UserAdminController extends Controller
                 ->withErrors($validator)
                 ->withInput();
         } else {
-            $user = User::create(['name' => Input::get('name'), 
+            $user = User::create(['first_name' => Input::get('fname'), 
+            'last_name' => Input::get('lname'), 
             'username' => Input::get('username'), 
             'id_office' => Input::get('office'),
             'password' => bcrypt(Input::get('password'))]);
@@ -111,7 +117,8 @@ class UserAdminController extends Controller
     {
         //
         $rules = array(
-            'name'       => 'required',
+            'fname' => 'required',
+            'lname' => 'required',
             'role'  => 'required',
             'office' => 'required'
         );
@@ -124,7 +131,8 @@ class UserAdminController extends Controller
                 ->withInput();
         } else {
             $user = User::find($id);
-            $user->name = Input::get('name');
+            $user->first_name = Input::get('fname');
+            $user->last_name = Input::get('lname');
             $role = Role::find(Input::get('role'));
             $user->id_office = Input::get('office');
             $user->syncRoles($role);

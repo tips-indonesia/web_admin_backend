@@ -16,7 +16,7 @@
                         <div class="row">
                             <div class="form-group">
                                 <label>Name :</label>
-                                {{ Form::text('name', null, array('class' => 'form-control', 'placeholder' => 'Office Type Name')) }}
+                                {{ Form::text('name', null, array('class' => 'form-control', 'placeholder' => 'Office Name')) }}
                             </div>
                             <div class="form-group">
                                 <label>Office Type :</label>

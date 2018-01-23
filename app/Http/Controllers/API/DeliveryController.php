@@ -148,11 +148,11 @@ class DeliveryController extends Controller
             $shipments = Shipment::where('id_slot', $slot->id)->get();
 
             if($confirmation == 0) {
-                $slot->dispatch_type = 'Canceled';
+                $slot->status_dispatch = 'Canceled';
                 $slot->save();
 
                 foreach ($shipments as $shipment) {
-                    $shipment->dispatch_type = 'Pending';
+                    $shipment->status_dispatch = 'Pending';
                     $shipment->id_shipment_status = 1;
                     $shipment->save();
 
@@ -173,14 +173,13 @@ class DeliveryController extends Controller
                 );
 
             } else {
-                $slot->dispatch_type = 'Process';
+                $slot->status_dispatch = 'Process';
                 $slot->id_slot_status = 3;
                 $slot->save();
                 $shipment_status = ShipmentStatus::where('step', 2)->first();
 
                 foreach ($shipments as $shipment) {
-                    $shipment->dispatch_type = 'Process';
-                    $shipment->id_shipment_status = 2;
+                    $shipment->status_dispatch = 'Process';
                     $shipment->save();
 
                     if($shipment->is_first_class) {
@@ -189,17 +188,6 @@ class DeliveryController extends Controller
                         $daftar_barang = DaftarBarangRegular::where('id_barang', $shipment->id)->delete();
                     }
 
-                    $member = MemberList::find($shipment->id_shipper);
-
-                    if($member->token != null) {
-                        FCMSender::post(array(
-                            'type' => 'Shipment',
-                            'id' => $shipment->shipment_id,
-                            'status' => "2",
-                            'message' => $shipment_status->description,
-                            'detail' => ""
-                        ), $member->token);
-                    }
                 }
 
                 $delivery_status = DeliveryStatus::find($slot->id_slot_status);
@@ -265,21 +253,24 @@ class DeliveryController extends Controller
 
             foreach ($shipments as $shipment) {
 
-                $shipment->id_shipment_status = 5;
+                $shipment->id_shipment_status = $shipment_status->id;
                 $shipment->save();
 
 
                 $member = MemberList::find($shipment->id_shipper);
 
-                if($member->token != null) {
-                    FCMSender::post(array(
-                        'type' => 'Shipment',
-                        'id' => $shipment->shipment_id,
-                        'status' => "5",
-                        'message' => $shipment_status->description,
-                        'detail' => ""
-                    ), $member->token);
+                if($member != null) {
+                    if($member->token != null) {
+                        FCMSender::post(array(
+                            'type' => 'Shipment',
+                            'id' => $shipment->shipment_id,
+                            'status' => "5",
+                            'message' => $shipment_status->description,
+                            'detail' => ""
+                        ), $member->token);
+                    }
                 }
+
             }
 
             $delivery_status = DeliveryStatus::find($slot->id_slot_status);
@@ -306,9 +297,9 @@ class DeliveryController extends Controller
     function search_delivery(Request $request) {
         $slot_list = SlotList::where('id_member', $request->id_member);
 
-        if($request->has('id_destination_city')){
-            if($request->id_destination_city != null && $request->id_destination_city != "") {
-                $slot_list = $slot_list->where('id_destination_city', $request->id_destination_city);
+        if($request->has('id_destination_aiport')){
+            if($request->id_destination_aiport != null && $request->id_destination_aiport != "") {
+                $slot_list = $slot_list->where('id_destination_airport', $request->id_destination_aiport);
             }
         }
 

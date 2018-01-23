@@ -17,7 +17,6 @@
                     <th>Office Type</th>
                     <th>Airport List</th>
                     <th>Status</th>
-                    <th>Details</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -37,12 +36,6 @@
                         </td>
                         <td>
                             {{ $data->status ? 'Active' : 'Inactive' }}
-                        </td>
-                        <td>
-                            @if ($data->id_office_type == $processing_center->id)
-                        <button type="button" class="btn btn-default btn-sm" onclick="window.location.href='{{ route('officedroppoints.show', $data->id) }}'">Drop Point Lists</button>
-                            @endif
-                            
                         </td>
                         <td>
                             <ul class="icons-list">

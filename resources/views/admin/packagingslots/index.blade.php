@@ -80,7 +80,7 @@
     </div>
     <!-- Small modal -->
         <div id="modal_small" class="modal fade">
-            <div class="modal-dialog modal-sm">
+            <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -92,19 +92,21 @@
                                 <table class="table datatable-pagination">
                                     <thead>
                                         <tr>
-                                            <th>Package ID</th>
-                                            <th>City</th>
+                                            <th>Slot ID</th>
+                                            <th>Date</th>
+                                            <th>Origin</th>
                                             <th>Destination</th>
-                                            <th>Total Shipment</th>
+                                            <th>Weight</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach ($datas2 as $data)
                                             <tr>
                                                 <td>
-                                                    <a href="{{ route('packagingrestshipments.edit', $data->id) }}">
-                                                        {{ $data->packaging_id }}
-                                                    </a>
+                                                    {{ $data->id_slot }}2017
+                                                </td>
+                                                <td>
+                                                    {{ $data->created_at }}
                                                 </td>
                                                 <td>
                                                     {{ $data->origin }}
@@ -113,7 +115,7 @@
                                                     {{ $data->destination }}
                                                 </td>
                                                 <td>
-                                                    {{ $data->count }}
+                                                    {{ $data->weight }}
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -130,6 +132,13 @@
         
             $('.select-search').select2();
             $('.pickadate-year').datepicker({format: 'yyyy-mm-dd',});
+            $('#param').on('select2:select', function() {
+                if ($('#param').val() != 'blank') {
+                    $('#value').prop('required', true)
+                } else {
+                    $('#value').prop('required', false)
+                }
+            });
     </script>
 
 @endsection

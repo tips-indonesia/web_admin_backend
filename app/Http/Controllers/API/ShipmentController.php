@@ -169,7 +169,7 @@ class ShipmentController extends Controller
                 'result' => null
             );
         } else {
-            $shipment_status = ShipmentStatus::find($shipment->id_shipment_status);
+            $shipment_status = ShipmentStatus::where('id','<=',$shipment->id_shipment_status)->where('is_hidden',false)->orderBy('id', 'desc')->first();
             $shipment->origin_city = AirportcityList::find($shipment->id_origin_city)->name;
             $shipment->destination_city = AirportcityList::find($shipment->id_destination_city)->name;
             $data = array(

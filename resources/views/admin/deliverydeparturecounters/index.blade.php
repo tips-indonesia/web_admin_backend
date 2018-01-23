@@ -64,7 +64,6 @@
                         <td>
                             {{ $data->total }}
                         </td>
-                        <td>
                             <td>
                             <ul class="icons-list">
                             <li>
@@ -79,7 +78,6 @@
                             </li>
                             </ul>
                         </td>
-                        </td>
                     </tr>
                 @endforeach
             </tbody>
@@ -89,7 +87,7 @@
     </div>
     <!-- Small modal -->
         <div id="modal_small" class="modal fade">
-            <div class="modal-dialog modal-sm">
+            <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -101,7 +99,8 @@
                                 <table class="table datatable-pagination">
                                     <thead>
                                         <tr>
-                                            <th>Delivery ID</th>
+                                            <th>Packaging ID</th>
+                                            <th>Slot ID</th>
                                             <th>Origin</th>
                                             <th>Destination</th>
                                             <th>Total Shipment</th>
@@ -111,15 +110,16 @@
                                         @foreach ($datas2 as $data)
                                             <tr>
                                                 <td>
-                                                    <a href="{{ route('packagingrestshipments.edit', $data->id) }}">
-                                                        {{ $data->delivery_id }}
-                                                    </a>
+                                                    {{ $data->packaging_id }}
+                                                </td>
+                                                <td>
+                                                    {{ $data->slot_id }}
                                                 </td>
                                                 <td>
                                                     {{ $data->origin }}
                                                 </td>
                                                 <td>
-                                                    {{ $data->Destination }}
+                                                    {{ $data->destination }}
                                                 </td>
                                                 <td>
                                                     {{ $data->total }}
@@ -139,6 +139,13 @@
         $('.select-search').select2();
         $('.pickadate-year').datepicker({
             format: 'yyyy-mm-dd',
+        });
+        $('#param').on('select2:select', function() {
+            if ($('#param').val() != 'blank') {
+                $('#value').prop('required', true)
+            } else {
+                $('#value').prop('required', false)
+            }
         });
     </script>
 

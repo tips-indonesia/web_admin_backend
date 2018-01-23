@@ -8,8 +8,10 @@ use App\Shipment;
 use App\ShipmentStatus;
 use App\User;
 use App\MemberList;
-use App\CityList;
+use App\AirportcityList;
 use App\ProvinceList;
+use App\CityList;
+use App\SubdistrictList;
 use App\Insurance;
 use App\PaymentType;
 use App\BankList;
@@ -32,11 +34,11 @@ class ShipmentDropOffAdminController extends Controller
         //
         
         if (Input::get('date')) {
-            $data['datas'] = Shipment::where('transaction_date', Input::get('date'));
+            $data['datas'] = Shipment::where('transaction_date', Input::get('date'))->whereIn('is_take', [0,2]);
             $data['date'] = Input::get('date');
         } else {
             $data['date'] = Carbon::now()->toDateString();
-            $data['datas'] = Shipment::where('transaction_date', $data['date']);
+            $data['datas'] = Shipment::where('transaction_date', $data['date'])->whereIn('is_take', [0,2]);
         }
         if (Input::get('param') == 'blank' || !Input::get('param') ) {
             $data['datas'] = $data['datas']->where('id', '!=', null);
@@ -49,14 +51,21 @@ class ShipmentDropOffAdminController extends Controller
         }
         if (Input::get('registration_type')) {
             $data['registration_type'] = Input::get('registration_type');
+            if (Input::get('registration_type') == 'online') {
+                $data['datas'] = $data['datas']->where('is_take', 0);
+
+            } else {
+             $data['datas'] = $data['datas']->where('is_take', 2);
+
+            }
         } else {
             $data['registration_type'] = 'online';
         }
         $data['datas'] = $data['datas']->paginate(10);
         
         foreach($data['datas'] as $dat) {
-            $dat['name_origin'] = CityList::find($dat->id_origin_city)->name;
-            $dat['name_destination'] = CityList::find($dat->id_destination_city)->name;
+            $dat['name_origin'] = AirportcityList::find($dat->id_origin_city)->name;
+            $dat['name_destination'] = AirportcityList::find($dat->id_destination_city)->name;
             $dat['status'] = ShipmentStatus::find($dat->id_shipment_status)->description;
         }
         return view('admin.shipmentdropoffs.index', $data);
@@ -73,9 +82,9 @@ class ShipmentDropOffAdminController extends Controller
         $data['date'] = Carbon::now()->toDateString();
         $data['registration_type'] = Input::get('registration_type');
         $data['provinces'] = ProvinceList::all();
-        $data['cities'] = CityList::all();
+        $data['cities'] = AirportcityList::all();
         $data['shipment_status'] = ShipmentStatus::find(1);
-        $data['users'] = MemberList::all();
+        $data['users'] = User::all();
         $data['payment_types'] = PaymentType::all();
         $data['banklists'] = BankList::all();
         return view('admin.shipmentdropoffs.create', $data);
@@ -93,22 +102,14 @@ class ShipmentDropOffAdminController extends Controller
             'destination_city'=>'required',
             'class_type'=>'required',
             'dispatch_type'=>'required',
-            // 'shipment_status'=>'required',
-            // 'received_by'=>'required',
-            // 'received_date'=>'required',
-            'shipper_name'=>'required',
+            'shipper_first_name'=>'required',
+            'shipper_last_name'=>'required',
             'shipper_address'=>'required',
             'shipper_mobile'=>'required',
-
-            
-            // 'shipper_email_address'=>'required',
-            'shipper_latitude'=>'required',
-            'shipper_longitude'=>'required',
-            'consignee_name'=>'required',
+            'consignee_first_name'=>'required',
+            'consignee_last_name'=>'required',
             'consignee_address'=>'required',
-            // 'consignee_phone'=>'required',
             'consignee_mobile'=>'required',
-            // 'consignee_email_address'=>'required',
             'shipment_content'=>'required',
             'estimated_goods_value'=>'required',
             'estimated_weight'=>'required',
@@ -122,8 +123,9 @@ class ShipmentDropOffAdminController extends Controller
             'expired_date'=>'required_if:online_payment,1',
         );
         $validator = Validator::make(Input::all(), $rules);
+        \Log::info($validator->errors());
         if ($validator->fails()) {
-            return Redirect::to(route('shipments.create'))
+            return Redirect::to(route('shipmentdropoffs.create'))
                 ->withErrors($validator)
                 ->withInput();
         } else {
@@ -133,32 +135,37 @@ class ShipmentDropOffAdminController extends Controller
             $shipment->id_origin_city = Input::get('origin_city');
             $shipment->id_destination_city = Input::get('destination_city');
             $shipment->is_first_class = Input::get('class_type') == 1;
-            $shipment->id_shipper = Input::get('shipper_name');
-            $shipper = MemberList::find(Input::get('shipper_name'));
-            $shipment->shipper_name = $shipper->name;
+            $shipment->shipper_first_name = Input::get('shipper_first_name');
+            $shipment->shipper_last_name =  Input::get('shipper_last_name');
             $shipment->registration_type = Input::get('registration_type');
             $shipment->shipper_address = Input::get('shipper_address');
             $shipment->shipper_mobile_phone = Input::get('shipper_mobile');
             $shipment->shipper_latitude = Input::get('shipper_latitude');
             $shipment->shipper_longitude = Input::get('shipper_longitude');
-            $shipment->shipper_city = Input::get('shipper_city');
-            $shipment->shipper_province = Input::get('shipper_province');
-            $shipment->shipper_subdistrict = Input::get('shipper_subdistrict');
-            // $shipment->shipper_email_address = Input::get('shipper_email_address');
-            // $shipment->consignee_email_address = Input::get('consignee_email_address');
-            $shipment->consignee_name = Input::get('consignee_name');
-            // $shipment->received_time = Input::get('received_date');
+            $shipment->id_shipper_city = Input::get('shipper_city');
+            $shipment->id_shipper_province = Input::get('shipper_province');
+            $shipment->id_shipper_districts = Input::get('shipper_subdistrict');
+            $shipment->shipper_city = '';
+            $shipment->shipper_province = '';
+            $shipment->shipper_districts = '';
+            $shipment->consignee_first_name = Input::get('consignee_first_name');
+            $shipment->consignee_last_name =  Input::get('consignee_last_name');
             $shipment->consignee_address = Input::get('consignee_address');
-            // $shipment->consignee_phone_no = Input::get('consignee_phone');
             $shipment->consignee_mobile_phone = Input::get('consignee_mobile');
-            $shipment->consignee_city = Input::get('consignee_city');
-            $shipment->consignee_province = Input::get('consignee_province');
-            $shipment->consignee_subdistrict = Input::get('consignee_subdistrict');
             $shipment->is_online_payment = Input::get('online_payment');
             $shipment->shipment_contents = Input::get('shipment_content');
             $shipment->estimate_goods_value = Input::get('estimated_goods_value');
             $shipment->estimate_weight = Input::get('estimated_weight');
             $shipment->id_payment_type = Input::get('payment_type');
+            $shipment->received_by = Input::get('receive_by');
+            $shipment->received_time = Input::get('received_date');
+            $shipment->goods_status = Input::get('goods_status');
+            $shipment->pickup_by = Input::get('pickup_by');
+            $shipment->pickup_time = Input::get('pickup_time');
+            $shipment->pickup_date = Input::get('pickup_date');
+            $shipment->add_notes = Input::get('additional_notes');
+            $shipment->is_delivery = Input::get('dispatch_type') == 'Dispatch to consignee';
+            $shipment->id_device = 'admin page';
             if (Input::get('online_payment') == 1){
                 $shipment->id_bank = Input::get('bank');
                 $shipment->bank_card_type = Input::get('card_type');
@@ -173,8 +180,8 @@ class ShipmentDropOffAdminController extends Controller
                 $shipment->card_security_code = null;
             }
             $shipment->id_shipment_status = 1;
+            $shipment->is_take = 2;
             $shipment->add_notes = Input::get('addtional_notes');
-            // $shipment->received_by = Input::get('received_by');
             $shipment->insurance_cost = Insurance::all()->first()->default_insurance;
             $shipment->is_add_insurance = Input::get('additional_insurance') == 1;
             $shipment->add_insurance_cost = Input::get('additional_insurance') * Insurance::all()->first()->additional_insurance * Input::get('estimated_weight');
@@ -183,7 +190,7 @@ class ShipmentDropOffAdminController extends Controller
             $shipment->dispatch_type = Input::get('dispatch_type');
             $shipment->save();
             Session::flash('message', 'Successfully created nerd!');
-            return Redirect::to(route('shipments.index'));
+            return Redirect::to(route('shipmentdropoffs.index'));
         }
 
     }
@@ -200,15 +207,17 @@ class ShipmentDropOffAdminController extends Controller
             return json_encode(Shipment::where('id_slot', $id)->get(['shipment_id', 'estimate_weight']));
         } else {
             $data['data'] = Shipment::find($id);
-            if ($data['data']->is_posted == 0) {
-                return Redirect::to(route('shipments.edit', $id));
-            }
-            $data['cities'] = CityList::all();
-            $data['shipment_statuses'] = ShipmentStatus::all();
-            $data['users'] = MemberList::all();
-            $data['payment_types'] = PaymentType::all();
-            $data['banklists'] = BankList::all();
-            return view('admin.shipments.show', $data);
+        $data['provinces'] = ProvinceList::all();
+        $data['citys'] = CityList::where('id_province', $data['data']->shipper_province)->get();
+        $data['subdistricts'] = SubdistrictList::where('id_city', $data['data']->shipper_city)->get();
+        $data['cities'] = AirportcityList::all();
+        $data['shipment_statuses'] = ShipmentStatus::all();
+        $data['users'] = User::all();
+        $data['payment_types'] = PaymentType::all();
+        $data['banklists'] = BankList::all();
+        $data['bankcardlists'] = BankCardList::where('id_bank', $data['data']->id_bank)->get();
+
+        return view('admin.shipmentdropoffs.show', $data);
         }
     }
 
@@ -222,16 +231,19 @@ class ShipmentDropOffAdminController extends Controller
     {
         $data['data'] = Shipment::find($id);
         if ($data['data']->is_posted == 1) {
-            return Redirect::to(route('shipments.show', $id));
+            return Redirect::to(route('shipmentdropoffs.show', $id));
         }
-        $data['cities'] = CityList::all();
+        $data['provinces'] = ProvinceList::all();
+        $data['citys'] = CityList::where('id_province', $data['data']->shipper_province)->get();
+        $data['subdistricts'] = SubdistrictList::where('id_city', $data['data']->shipper_city)->get();
+        $data['cities'] = AirportcityList::all();
         $data['shipment_statuses'] = ShipmentStatus::all();
-        $data['users'] = MemberList::all();
+        $data['users'] = User::all();
         $data['payment_types'] = PaymentType::all();
         $data['banklists'] = BankList::all();
         $data['bankcardlists'] = BankCardList::where('id_bank', $data['data']->id_bank)->get();
 
-        return view('admin.shipments.edit', $data);
+        return view('admin.shipmentdropoffs.edit', $data);
     }
 
     /**
@@ -247,22 +259,17 @@ class ShipmentDropOffAdminController extends Controller
             'destination_city'=>'required',
             'class_type'=>'required',
             'dispatch_type'=>'required',
-            // 'shipment_status'=>'required',
-            // 'received_by'=>'required',
-            // 'received_date'=>'required',
-            'shipper_name'=>'required',
+            'shipper_first_name'=>'required',
+            'shipper_last_name'=>'required',
             'shipper_address'=>'required',
             'shipper_mobile'=>'required',
-            // 'shipper_email_address'=>'required',
-            'shipper_latitude'=>'required',
-            'shipper_longitude'=>'required',
-            'consignee_name'=>'required',
+            'consignee_first_name'=>'required',
+            'consignee_last_name'=>'required',
             'consignee_address'=>'required',
-            // 'consignee_phone'=>'required',
             'consignee_mobile'=>'required',
-            // 'consignee_email_address'=>'required',
             'shipment_content'=>'required',
             'estimated_goods_value'=>'required',
+            'goods_status'=>'required',
             'estimated_weight'=>'required',
             'additional_insurance'=>'required',
             'online_payment'=>'required',
@@ -273,37 +280,40 @@ class ShipmentDropOffAdminController extends Controller
             'security_code'=>'required_if:online_payment,1',
             'expired_date'=>'required_if:online_payment,1',
         );
+
         $validator = Validator::make(Input::all(), $rules);
+        \Log::info($validator->errors());
         if ($validator->fails()) {
-            return Redirect::to(route('shipments.edit', $id))
+            return Redirect::to(route('shipmentdropoffs.edit', $id))
                 ->withErrors($validator)
                 ->withInput();
         } else {
             $shipment = Shipment::find($id);
-            $shipment->shipment_id = 'X2017';
-            $shipment->transaction_date = Carbon::now();
             $shipment->id_origin_city = Input::get('origin_city');
             $shipment->id_destination_city = Input::get('destination_city');
             $shipment->is_first_class = Input::get('class_type') == 1;
-            $shipment->id_shipper = Input::get('shipper_name');
-            $shipper = MemberList::find(Input::get('shipper_name'));
-            $shipment->shipper_name = $shipper->name;
+            $shipment->shipper_first_name = Input::get('shipper_first_name');
+            $shipment->shipper_last_name =  Input::get('shipper_last_name');
+            $shipment->registration_type = Input::get('registration_type');
             $shipment->shipper_address = Input::get('shipper_address');
             $shipment->shipper_mobile_phone = Input::get('shipper_mobile');
             $shipment->shipper_latitude = Input::get('shipper_latitude');
             $shipment->shipper_longitude = Input::get('shipper_longitude');
-            // $shipment->received_time = Input::get('received_date');
-            // $shipment->shipper_email_address = Input::get('shipper_email_address');
-            // $shipment->consignee_email_address = Input::get('consignee_email_address');
-            $shipment->consignee_name = Input::get('consignee_name');
+            $shipment->id_shipper_city = Input::get('shipper_city');
+            $shipment->id_shipper_province = Input::get('shipper_province');
+            $shipment->id_shipper_districts = Input::get('shipper_subdistrict');
+            $shipment->consignee_first_name = Input::get('consignee_first_name');
+            $shipment->consignee_last_name =  Input::get('consignee_last_name');
             $shipment->consignee_address = Input::get('consignee_address');
-            // $shipment->consignee_phone_no = Input::get('consignee_phone');
             $shipment->consignee_mobile_phone = Input::get('consignee_mobile');
             $shipment->is_online_payment = Input::get('online_payment');
+            $shipment->goods_status = Input::get('goods_status');
             $shipment->shipment_contents = Input::get('shipment_content');
             $shipment->estimate_goods_value = Input::get('estimated_goods_value');
             $shipment->estimate_weight = Input::get('estimated_weight');
             $shipment->id_payment_type = Input::get('payment_type');
+            $shipment->is_delivery = Input::get('dispatch_type') == 'Dispatch to consignee';
+            $shipment->id_device = 'admin page';
             if (Input::get('online_payment') == 1){
                 $shipment->id_bank = Input::get('bank');
                 $shipment->bank_card_type = Input::get('card_type');
@@ -319,19 +329,18 @@ class ShipmentDropOffAdminController extends Controller
             }
             $shipment->id_shipment_status = 1;
             $shipment->add_notes = Input::get('addtional_notes');
-            // $shipment->received_by = Input::get('received_by');
             $shipment->insurance_cost = Insurance::all()->first()->default_insurance;
             $shipment->is_add_insurance = Input::get('additional_insurance') == 1;
             $shipment->add_insurance_cost = Input::get('additional_insurance') * Insurance::all()->first()->additional_insurance * Input::get('estimated_weight');
             $shipment->save();
-            $shipment->shipment_id = $shipment->id.'2017';
             $shipment->dispatch_type = Input::get('dispatch_type');
             if (Input::get('submit') == 'post') {
                 $shipment->is_posted = true;
+                $shipment->id_shipment_status = 2;
             }
             $shipment->save();
             Session::flash('message', 'Successfully created nerd!');
-            return Redirect::to(route('shipments.index'));
+            return Redirect::to(route('shipmentdropoffs.index'));
         }
     }
 
@@ -344,11 +353,11 @@ class ShipmentDropOffAdminController extends Controller
     public function destroy($id)
     {
         //
-        // $shipment = Shipment::find($id);
-        // $shipment->delete();
+        $shipment = Shipment::find($id);
+        $shipment->delete();
 
         // // redirect
         // Session::flash('message', 'Successfully deleted the nerd!');
-        // return Redirect::to(route('shipments.index'));
+        return Redirect::to(route('shipmentdropoffs.index'));
     }
 }

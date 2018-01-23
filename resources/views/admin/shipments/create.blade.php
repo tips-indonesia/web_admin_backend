@@ -57,7 +57,7 @@
                             </label>
                             <label class="radio-inline">
                                 <input type="radio" name="dispatch_type"  value="Pickup to consignee">
-                                Pickup to consignee
+                                Taken by consignee
                             </label>
                         </div>
                         <div class="form-group">

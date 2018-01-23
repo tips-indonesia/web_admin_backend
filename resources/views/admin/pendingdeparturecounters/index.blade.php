@@ -56,9 +56,7 @@
                 @foreach ($datas as $data)
                     <tr>
                         <td>
-                            <a href="{{ route('packagingslots.edit', $data->id) }}">
-                                {{ $data->packaging_id }}
-                            </a>
+                            {{ $data->packaging_id }}
                         </td>
                         <td>
                             {{ $data->created_at }}
@@ -73,7 +71,7 @@
                             {{ $data->destination_city }}
                         </td>                   
                         <td>
-                            {{ $data->id_slot_status == 4? 'Submitted' : 'Not Submitted' }}
+                            {{ $data->is_receive == 2? 'Taken' : 'Not Taken' }}
                         </td>
                     </tr>
                 @endforeach
@@ -86,6 +84,13 @@
         
             $('.select-search').select2();
             $('.pickadate-year').datepicker({format: 'yyyy-mm-dd',});
+           $('#param').on('select2:select', function() {
+                if ($('#param').val() != 'blank') {
+                    $('#value').prop('required', true)
+                } else {
+                    $('#value').prop('required', false)
+                }
+            });
     </script>
 
 @endsection

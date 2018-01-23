@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\PackagingList;
 use App\SlotList;
+use App\Shipment;
 use App\AirportList;
 use Validator;
 use Illuminate\Support\Facades\Input;
@@ -37,19 +38,31 @@ class PackagingSlotAdminController extends Controller
         } else {
             $data['param'] = Input::get('param');
             $data['value'] = Input::get('value');
-            $data['datas'] = $data['datas']->where(Input::get('param'),'=', Input::get('value'));
+            if ($data['param'] == 'slot_id') {
+                $slot = SlotList::where('slot_id', Input::get('value'))->first();
+                if ($slot == null) {
+                    $data['data'] = $data['datas']->where('id_slot', null);
+                } else {
+                    $data['data'] = $data['datas']->where('id_slot', $slot->id);
+                }
+                
+            } else {
+                $data['datas'] = $data['datas']->where(Input::get('param'),'=', Input::get('value'));
+
+            }
+            
         }
-        $data['datas'] = $data['datas']->paginate(10);
+        $data['datas'] = $data['datas']->where('id_slot', '!=',null)->paginate(10);
         foreach ($data['datas'] as $dat) {
             if ($dat->id_slot != null)
                 $dat['slot_id'] = SlotList::find($dat->id_slot)->slot_id;
         }
-        $slots = SlotList::where('dispatch_type', 'Pending')->pluck('id')->toArray();
-        $data['datas2'] = PackagingList::whereIn('id_slot', $slots);
+
+        $data['datas2'] = SlotList::whereNotIn('id', PackagingList::where('id_slot', '!=',null)->pluck('id_slot')->toArray())->where('status_dispatch', 'Process')->get();
         foreach ($data['datas2'] as $dat) {
-            $dat['count'] = count(Shipment::where('id_packaging', $dat->id)->get());
-            $dat['origin'] = AirportList::find(SlotList::find($dat->id_slot)->id_origin_airport)->name;
-            $dat['destination'] = AirportList::find(SlotList::find($dat->id_slot)->id_destination_airport)->name;
+            $dat['weight'] = Shipment::where('id_slot', $dat->id)->first()->estimate_weight;
+            $dat['origin'] = AirportList::find($dat->id_origin_airport)->name;
+            $dat['destination'] = AirportList::find($dat->id_destination_airport)->name;
         }
         return view('admin.packagingslots.index', $data);
     }
@@ -61,12 +74,8 @@ class PackagingSlotAdminController extends Controller
     */
     public function create()
     {
-        $pl = new PackagingList;
-        $pl->packaging_id = '2017';
-        $pl->save();
-        $pl->packaging_id =  $pl->id.'2017';
-        $pl->save();
-        return Redirect::to(route('packagingslots.index'));
+        $data['slot_ids'] = SlotList::where('status_dispatch', 'Process')->whereNotIn('id', PackagingList::where('id_slot', '!=',null)->pluck('id_slot')->toArray())->get();
+        return view('admin.packagingslots.create', $data);
         
     }
 
@@ -77,6 +86,27 @@ class PackagingSlotAdminController extends Controller
     */
     public function store()
     {
+        $rules = array(
+            'slot' => 'required',
+        );
+        $validator = Validator::make(Input::all(), $rules);
+
+        // process the login
+        $changepass = false;
+        if ($validator->fails()) {
+            return Redirect::to(route('packagingslots.edit', $id))
+                ->withErrors($validator)
+                ->withInput();
+        } else {
+            $packagingslots = new PackagingList;
+            $packagingslots->packaging_id = '2017';
+            $packagingslots->id_slot = Input::get('slot');
+            $packagingslots->save();
+            $packagingslots->packaging_id = $packagingslots->id.'2017';
+            $packagingslots->save();
+            Session::flash('message', 'Successfully created nerd!');
+            return Redirect::to(route('packagingslots.index'));
+        }
         //
         // $rules = array(
         //     'name' => 'required',
@@ -131,7 +161,7 @@ class PackagingSlotAdminController extends Controller
     {
         //
         $data['data'] = PackagingList::find($id);
-        $data['slot_ids'] = SlotList::all();
+        $data['slot_ids'] = SlotList::where('status_dispatch', 'Process')->whereNotIn('id', PackagingList::where('id_slot', '!=',null)->pluck('id_slot')->toArray())->get()->union(SlotList::find($data['data']));
         return view('admin.packagingslots.edit', $data);
 
     }

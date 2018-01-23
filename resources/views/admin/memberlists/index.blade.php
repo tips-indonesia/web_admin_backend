@@ -12,7 +12,8 @@
         <table class="table datatable-pagination">
             <thead>
                 <tr>
-                    <th>Name</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
                     <th>E-mail</th>
                     <th>Actions</th>
                 </tr>
@@ -21,7 +22,10 @@
                 @foreach ($datas as $data)
                     <tr>
                         <td>
-                            {{ $data->name }}
+                            {{ $data->first_name }}
+                        </td>
+                        <td>
+                            {{ $data->last_name }}
                         </td>
                         <td>
                             {{ $data->email }}

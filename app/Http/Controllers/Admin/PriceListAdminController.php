@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\PriceList;
-use App\CityList;
+use App\AirportcityList;
 use Validator;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
@@ -23,8 +23,8 @@ class PriceListAdminController extends Controller
         //
         $data['datas'] = PriceList::paginate(10);
         foreach($data['datas'] as $dat) {
-            $dat['dest_name'] = CityList::find($dat->id_destination_city)->name;
-            $dat['origin_name'] = CityList::find($dat->id_origin_city)->name;
+            $dat['dest_name'] = AirportcityList::find($dat->id_destination_city)->name;
+            $dat['origin_name'] = AirportcityList::find($dat->id_origin_city)->name;
         }
         return view('admin.pricelists.index', $data);
     }
@@ -37,7 +37,7 @@ class PriceListAdminController extends Controller
     public function create()
     {
         //
-        $data['cities'] = CityList::all();
+        $data['cities'] = AirportcityList::all();
         return view('admin.pricelists.create', $data);
     }
 
@@ -99,7 +99,7 @@ class PriceListAdminController extends Controller
         //
         $priceList = PriceList::find($id);
         $data['datas'] =  $priceList;
-        $data['cities'] = CityList::all();
+        $data['cities'] = AirportcityList::all();
         return view('admin.pricelists.edit', $data);
     }
 

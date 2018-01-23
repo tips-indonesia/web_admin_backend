@@ -28,9 +28,9 @@
                                     </div>
                                 </div>
                         <div class="text-right form-group">
-                            <select multiple="multiple" class="form-control listbox" name="shipments[]">
+                            <select multiple="multiple" class="form-control listbox" name="packagings[]">
                                @foreach ($datas as $data)
-                                    <option value="{{ $data->id }}"> {{ $data->shipment_id }} &nbsp; - &nbsp; {{ $data->transaction_date }} &nbsp; - &nbsp; {{ $data->origin_name }} &nbsp; - &nbsp; {{ $data->destination_name }} </option>
+                                    <option value="{{ $data->id }}"> {{ $data->packaging_id }} &nbsp; - &nbsp; {{ $data->created_at }} &nbsp; - &nbsp; {{ $data->origin_name }} &nbsp; - &nbsp; {{ $data->destination_name }} </option>
                                 @endforeach
                             </select>
                         </div>
@@ -51,7 +51,9 @@
     });$('.pickatime').timepicker({
             template : 'dropdown',
             showInputs: false,
-            showSeconds: false
+            showSeconds: false,
+            
+            showMeridian: false
           });
         
         </script>

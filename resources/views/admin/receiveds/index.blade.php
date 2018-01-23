@@ -8,7 +8,7 @@
 @endsection
 @section('content')
     <div class="panel panel-flat">
-        {{ Form::open(array('url' => route('deliveries.index'), 'method' => 'GET', 'id' => 'date_form')) }}
+        {{ Form::open(array('url' => route('receiveds.index'), 'method' => 'GET', 'id' => 'date_form')) }}
                     <div class="panel-body">
                 <div class="form-group">
                     <label>Date :</label>
@@ -23,7 +23,9 @@
                             <label>Search By :</label>
                             <select name="param" id="param" class="select-search">
                                 <option value="blank" @if($param =='blank' || $param=='') selected @endif>&#8192;</option>
-                                <option value="delivery_id" @if($param =='delivery_id') selected @endif>Delivery ID</option>
+                                <option value="shipment_id" @if($param =='shipment_id') selected @endif>Shipment ID</option>
+                                <option value="received" @if($param =='received') selected @endif>Received</option>
+                                <option value="not_received" @if($param =='not_received') selected @endif>Not Received</option>
                             </select>
                         </div>
                     </div>
@@ -56,26 +58,26 @@
                             {{ $data->shipment_id }}
                         </td>
                         <td>
-                            {{ $data->status_name }}
+                            {{ $data->origin }}
                         </td>
                         <td>
-                            {{ $data->status_name }}
+                            {{ $data->destination }}
                         </td>
                         <td>
-                            {{ $data->status_name }}
+                            {{ $data->id_shipment_status == 3 ? 'Belum diterima' : 'Sudah diterima' }}
                         </td>
                         <td>
-                            @if ($data->id_shipment_status == 1 || $data->id_shipment_status == 2)
                             <ul class="icons-list">
                             <li>
                             {{ Form::open(array('method' => 'PUT', 'url' => route('receiveds.update', $data->id))) }}
                             <div class="text-right form-group">
-                                <button type="submit"  class="btn btn-danger" style="vertical-align: middle;"><i class="icon-trash"></i> Received</button>
+                                <button type="submit"  class="btn btn-danger" style="vertical-align: middle;" {{ $data->id_shipment_status == 3 ? '':'disabled' }}><i class="icon-trash"
+                            ></i> Received</button>
                             </div>
                             {{ Form::close() }}
                             </li>
                             </ul>
-                            @endif
+                            
                         </td>
                     </tr>
                 @endforeach
@@ -85,7 +87,21 @@
 {{ $datas->links() }}
     </div>
     <script type="text/javascript">
-            $('.select-search').select2();
-        
+        $('.select-search').select2();
+        $('.pickadate-year').datepicker({
+            format: 'yyyy-mm-dd',
+        });
+        $('#param').on('select2:select', function() {
+            if ($('#param').val() != 'blank') {
+                if (($('#param').val() == 'received') || ($('#param').val() == 'not_received')) {
+                    $('#value').prop('disabled', true);    
+                } else {
+                    $('#value').prop('disabled', false);
+                    $('#value').prop('required', true)
+                }
+            } else {
+                $('#value').prop('required', false)
+            }
+        });
     </script>
 @endsection

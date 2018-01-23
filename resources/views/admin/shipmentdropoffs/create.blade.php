@@ -1,16 +1,16 @@
 @extends('admin.app')
 
 @section('title')
-    Create Shipment List
+    Create Shipment Dropoff List
 @endsection
 @section('page_title')
-<span class="text-semibold">Shipment List</span> - Create
+<span class="text-semibold">Shipment Dropoff List</span> - Create
 @endsection
 @section('content')
     <!-- Vertical form options -->
     <div class="row">
         <div class="col-md-12">
-            {{ Form::open(array('url' => route('shipments.store'))) }}
+            {{ Form::open(array('url' => route('shipmentdropoffs.store'))) }}
                 <div class="panel panel-flat">
                     <div class="panel-body">
                         <div class="row">
@@ -84,18 +84,18 @@
                             </label>
                             <label class="radio-inline">
                                 <input type="radio" name="dispatch_type"  value="Pickup to consignee">
-                                Pickup to consignee
+                                Taken by consignee
                             </label>
                         </div>
 
                         <div class="form-group">
                             <label class="display-block text-semibold">Goods Status :</label>
                             <label class="radio-inline">
-                                <input type="radio" name="goods_status" value="pending" checked>
+                                <input type="radio" name="goods_status" value="Pending" checked>
                                 Pending
                             </label>
                             <label class="radio-inline">
-                                <input type="radio" name="goods_status"  value="received">
+                                <input type="radio" name="goods_status"  value="Received">
                                 Received
                             </label>
                         </div>
@@ -107,12 +107,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Received By :</label>
-                                    <select name="received_by" class="select-search">
-                                        <option disabled selected></option>
-                                        @foreach ($users as $user)
-                                            <option value="{{ $user->id }}">{{ $user->name }}</option>
-                                        @endforeach
-                                    </select>
+                                    <input type="text" class="form-control" name="receive_by">
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -125,6 +120,40 @@
                                 </div>
                             </div>
                         </div>
+                        <!--legend class="text-bold">Pickup</legend>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Pickup By :</label>
+                                    <select name="pickup_by" class="select-search" >
+                                        <option disabled selected></option>
+                                        @foreach ($users as $user)
+                                            <option value="{{ $user->id }}">{{ $user->first_name }} {{ $user->last_name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Pickup Date :</label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="icon-calendar5"></i></span>
+                                        <input type="text" name="pickup_date" class="form-control pickadate-year" placeholder="Received date">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Pickup Time :</label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="icon-calendar5"></i></span>
+                                        <input type="text" name="pickup_time" class="form-control pickatime" placeholder="Received date" value="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div-->
                         <div class="tabbable">
                             <ul class="nav nav-tabs nav-tabs-highlight nav-justified">
                                 <li class="active"><a href="#shipper_consignee" data-toggle="tab">Shipper & Consignee</a></li>
@@ -139,13 +168,12 @@
                                         <div class="col-md-6">
                                             <legend class="text-bold">Shipper</legend>
                                             <div class="form-group">
-                                                <label>Name :</label>
-                                                <select name="shipper_name" class="select-search">
-                                                    <option disabled selected></option>
-                                                    @foreach ($users as $user)
-                                                        <option value="{{ $user->id }}">{{ $user->name }}</option>
-                                                    @endforeach
-                                                </select>
+                                                <label>First Name :</label>
+                                                <input type="text" class="form-control" name="shipper_first_name">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Last Name :</label>
+                                                <input type="text" class="form-control" name="shipper_last_name">
                                             </div>
                                             <div class="form-group">
                                                 <label>Address :</label>
@@ -188,8 +216,12 @@
                                         <div class="col-md-6">
                                             <legend class="text-bold">Consignee</legend>
                                             <div class="form-group">
-                                                <label>Name :</label>
-                                                {{ Form::text('consignee_name', null, array('class' => 'form-control', 'placeholder' => 'Consignee Name')) }}
+                                                <label>First Name :</label>
+                                                <input type="text" class="form-control" name="consignee_first_name">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Last Name :</label>
+                                                <input type="text" class="form-control" name="consignee_last_name">
                                             </div>
                                             <div class="form-group">
                                                 <label>Address :</label>
@@ -198,27 +230,6 @@
                                             <div class="form-group">
                                                 <label>Mobile Phone :</label>
                                                 {{ Form::text('consignee_mobile', null, array('class' => 'form-control', 'placeholder' => 'Consignee Mobile Phone')) }}
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Province :</label>
-                                                <select name="consignee_province" id="cprovince" class="select-search">
-                                                    <option disabled selected></option>
-                                                    @foreach ($provinces as $province)
-                                                        <option value="{{ $province->id }}">{{ $province->name }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="form-group">
-                                                <label>City :</label>
-                                                <select name="consignee_city" id="ccity" class="select-search">
-                                                    <option disabled selected></option>
-                                                </select>
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Subdistrict :</label>
-                                                <select name="consignee_subdistrict" id="csubdistrict" class="select-search">
-                                                    <option disabled selected></option>
-                                                </select>
                                             </div>
                                         </div>
                                     </div>
@@ -331,6 +342,12 @@
         <script>
         $('.select-search').select2();
         $('.pickadate-year').datepicker({format: 'yyyy-mm-dd',});
+        $('.pickatime').timepicker({
+            template : 'dropdown',
+            showInputs: false,
+            showSeconds: false,
+            showMeridian: false
+          });
         $('#bank').on('select2:select', function(){
             var card = $('#card');
             card.empty();
@@ -409,44 +426,7 @@
                     }
                 });
             });
-        $('#cprovince').on('select2:select', function() {
-                var city = $('#ccity');
-                city.empty();
-                $.ajax({
-                    url: '{{ route("citylists.index") }}',
-                    data: {'ajax': 1, 'province' : $('#cprovince').val()},
-                    type: 'GET',
-                    dataType: 'json',
-                    success: function(data) {
-                        var option = new Option;
-                        option.disabled = true;
-                        option.selected = true;
-                        city.append(option);
-                        for(var i = 0 ; i < data.length; i++) {
-                            city.append(new Option(data[i].name, data[i].id));
-                        }
-                    }
-                });
-            });
-        $('#ccity').on('select2:select', function() {
-                var subdistrict = $('#csubdistrict');
-                subdistrict.empty();
-                $.ajax({
-                    url: '{{ route("subdistrictlists.index") }}',
-                    data: {'ajax': 1, 'city' : $('#ccity').val()},
-                    type: 'GET',
-                    dataType: 'json',
-                    success: function(data) {
-                        var option = new Option;
-                        option.disabled = true;
-                        option.selected = true;
-                        subdistrict.append(option);
-                        for(var i = 0 ; i < data.length; i++) {
-                            subdistrict.append(new Option(data[i].name, data[i].id));
-                        }
-                    }
-                });
-            });
+
         </script>
     </div>
 @endsection

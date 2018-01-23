@@ -9,7 +9,9 @@ use App\Shipment;
 use App\AirportList;
 use App\Term;
 use App\MemberList;
+use App\PaymentType;
 use App\CityList;
+use App\SubdistrictList;
 use App\ProvinceList;
 
 class DatabaseSeeder extends Seeder
@@ -21,6 +23,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        PaymentType::create(['name' => 'Cash']);-
         DB::table('daftar_barang_regulars')->delete();
         DB::table('daftar_barang_golds')->delete();
         DB::table('airport_lists')->delete();
@@ -35,7 +38,11 @@ class DatabaseSeeder extends Seeder
             'name' => 'Jakarta Utara',
             'id_province' => 1
         ));
-
+        $sub = SubdistrictList::create(array(
+            'name' => 'kecamatan',
+            'id_province' => 1,
+            'id_city' => $c1->id,
+        ));
         $c2 = CityList::create(array(
             'name' => 'Jakarta Barat',
             'id_province' => 1
@@ -226,7 +233,6 @@ class DatabaseSeeder extends Seeder
         $this->call(PriceListSeeder::class);
         $this->call(UserTableSeeder::class);
         $this->call(MenuTableSeeder::class);
-//        $this->call(RegionListTableSeeder::class);
         $this->call(PermissionTableSeeder::class);
         $this->call(OfficeTypeTableSeeder::class);
         $this->call(InsuranceTableSeeder::class);
@@ -236,11 +242,9 @@ class DatabaseSeeder extends Seeder
         $this->call(DeliveryStatusTableSeeder::class);
         $this->call(AirportSeeder::class);
         $this->call(FlightBookingSeeder::class);
-//        $this->call(MemberListSeeder::class);
+        $this->call(MemberListSeeder::class);
         $this->call(TipsterMilestoneTableSeeder::class);
         $this->call(HelpTipsterSeeder::class);
-        // $this->call(LocationTableSeeder::class);
-        // $this->call(LocationTableSeeder2::class);
         $this->call(AirportcityListTableSeeder::class);
     }
 }

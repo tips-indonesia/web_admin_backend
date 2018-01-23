@@ -9,6 +9,7 @@ use App\DeliveryShipmentDetail;
 use App\Shipment;
 use App\ShipmentStatus;
 use App\ShipmentHistory;
+use App\AirportcityList;
 use Auth;
 use Carbon\Carbon;
 use Validator;
@@ -21,26 +22,41 @@ class ReceivedAdminController extends Controller
 	public function index()
     {
         if (Input::get('date')) {
-            $deliveries = DeliveryShipment::where('delivery_date', Input::get('date'))->where('is_posted', 1);
+            $deliveries = DeliveryShipment::whereDate('delivery_date', Input::get('date'))->where('is_posted', 1);
             $data['date'] = Input::get('date');
         } else {
             $data['date'] = Carbon::now()->toDateString();
-            $deliveries = DeliveryShipment::where('delivery_date', $data['date'])->where('is_posted', 1);
+            $deliveries = DeliveryShipment::whereDate('delivery_date', $data['date'])->where('is_posted', 1);
         }
-        if (Input::get('param') == 'blank' || !Input::get('param') ) {
+        $flag = false;
+        if (Input::get('param') == 'blank' || !Input::get('param') || Input::get('param') == 'received' || Input::get('param') == 'not_received' ) {
             $deliveries = $deliveries->where('id', '!=', null)->where('is_posted', 1);
             $data['param'] = Input::get('param');
             $data['value'] = Input::get('value');
         } else {
             $data['param'] = Input::get('param');
             $data['value'] = Input::get('value');
-            $deliveries = $deliveries->where(Input::get('param'),'=', Input::get('value'))->where('is_posted', 1);
+            $flag = true;
         }
+
         $deliveries = $deliveries->pluck('id')->toArray();
-        $shipments = DeliveryShipmentDetail::whereIn('id_delivery', $deliveries)->where([['processing_center_received_by','=',null]])->pluck('id_shipment')->toArray();
-        $shipment_data = Shipment::whereIn('id', $shipments)->paginate(10);
+        $shipments = DeliveryShipmentDetail::whereIn('id_delivery', $deliveries)->pluck('id_shipment')->toArray();
+        if (Input::get('param') == 'received') {
+            $shipment_data = Shipment::where('id_shipment_status', 4)->whereIn('id', $shipments);
+        } else if (Input::get('param') == 'not_received') {
+            $shipment_data = Shipment::where('id_shipment_status', 3)->whereIn('id', $shipments);
+        } else {
+            $shipment_data = Shipment::where('id','!=', 0)->whereIn('id', $shipments);
+        }
+        $shipment_data = $shipment_data->union(Shipment::where('is_take', 1)->get());
+        if ($flag == true) {
+            $shipment_data = $shipment_data->where('shipment_id', $data['value'])->paginate(10);
+        } else {
+            $shipment_data = $shipment_data->whereIn('id_shipment_status', [3,4])->paginate(10);
+        }
         foreach($shipment_data as $ship) {
-            $ship['status_name'] = ShipmentStatus::find($ship->id_shipment_status)->description;
+            $ship['origin'] = AirportcityList::find($ship->id_origin_city)->name;
+            $ship['destination'] = AirportcityList::find($ship->id_destination_city)->name;
         }
         $data['datas'] = $shipment_data;
         return view('admin.receiveds.index', $data);
@@ -100,10 +116,10 @@ class ReceivedAdminController extends Controller
         $shipments->processing_center_received_time = Carbon::now();
         $shipments->save();
         $process = Shipment::find($id);
-        $process->id_shipment_status = 3;
+        $process->id_shipment_status = 4;
         $process->save();
         $shipment_history = new ShipmentHistory;
-        $shipment_history->id_shipment_status = 3;
+        $shipment_history->id_shipment_status = 4;
         $shipment_history->id_shipment = $id;
         $shipment_history->save();
         return Redirect::to(route('receiveds.index'));

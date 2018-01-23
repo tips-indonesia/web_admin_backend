@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\AirportCityScope;
 use App\AirportList;
-use App\CityList;
+use App\AirportcityList;
 use App\PackagingList;
 use App\SlotList;
 use Validator;
@@ -25,11 +25,11 @@ class PendingDepartureCounterAdminController extends Controller
     {
         //
         if (Input::get('date')) {
-            $data['datas'] = PackagingList::where('created_at', Input::get('date'));
+            $data['datas'] = PackagingList::whereDate('created_at', Input::get('date'));
             $data['date'] = Input::get('date');
         } else {
             $data['date'] = Carbon::now()->toDateString();
-            $data['datas'] = PackagingList::where('created_at', $data['date']);
+            $data['datas'] = PackagingList::whereDate('created_at', $data['date']);
         }
         if (Input::get('param') == 'blank' || !Input::get('param') ) {
             $data['datas'] = $data['datas']->where('id', '!=', null);
@@ -40,13 +40,15 @@ class PendingDepartureCounterAdminController extends Controller
             $data['value'] = Input::get('value');
             $data['datas'] = $data['datas']->where(Input::get('param'),'=', Input::get('value'));
         }
-        $data['datas'] = $data['datas']->paginate(10);
+        $data['datas'] = $data['datas']->where('is_receive', 1)->paginate(10);
         foreach ($data['datas'] as $dat) {
-            if ($dat->id_slot != null)
+            if ($dat->id_slot != null) {
                 $slot = SlotList::find($dat->id_slot);
                 $dat['slot_id'] = $slot->slot_id;
-                $dat['origin_city'] = CityList::find($slot->origin_city)->name;
-                $dat['destination_city'] = CityList::find($slot->destination_city)->name;
+                $dat['origin_city'] = AirportcityList::find($slot->id_origin_city)->name;
+                $dat['destination_city'] = AirportcityList::find($slot->id_destination_city)->name;
+            }
+                
         }
         return view('admin.pendingdeparturecounters.index', $data);
         

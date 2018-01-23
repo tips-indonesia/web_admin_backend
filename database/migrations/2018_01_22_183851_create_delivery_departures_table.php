@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePackagingListsTable extends Migration
+class CreateDeliveryDeparturesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,13 @@ class CreatePackagingListsTable extends Migration
      */
     public function up()
     {
-        Schema::create('packaging_lists', function (Blueprint $table) {
+        Schema::create('delivery_departures', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('packaging_id');
-            $table->string('id_slot')->nullable();
-            $table->unsignedInteger('is_receive')->default(0);
+            $table->string('delivery_id')->nullable();
+            $table->date('delivery_date');
+            $table->time('delivery_time')->default();
+            $table->unsignedInteger('created_by');
+            $table->boolean('is_posted')->default(false);
             $table->timestamps();
         });
     }
@@ -29,6 +31,6 @@ class CreatePackagingListsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('packaging_lists');
+        Schema::dropIfExists('delivery_departures');
     }
 }

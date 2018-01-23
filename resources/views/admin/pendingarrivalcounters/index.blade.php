@@ -86,6 +86,13 @@
         
             $('.select-search').select2();
             $('.pickadate-year').datepicker({format: 'yyyy-mm-dd',});
+            $('#param').on('select2:select', function() {
+                if ($('#param').val() != 'blank') {
+                    $('#value').prop('required', true)
+                } else {
+                    $('#value').prop('required', false)
+                }
+            });
     </script>
 
 @endsection
