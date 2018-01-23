@@ -276,6 +276,7 @@ class UtilityController extends Controller
 
     // this is rio authority
     public function cronjobBegin(Request $request){
+        date_default_timezone_set("Asia/Jakarta");
         Storage::disk('public')->append('cron.txt', "Cronjob begin: " . \Carbon\Carbon::now()->toDateTimeString());
 
         return "OK: Begin";
@@ -283,6 +284,7 @@ class UtilityController extends Controller
 
     // this is rio authority
     public function cronjobEnd(Request $request){
+        date_default_timezone_set("Asia/Jakarta");
         Storage::disk('public')->append('cron.txt', "Cronjob end: " . \Carbon\Carbon::now()->toDateTimeString());
 
         return "OK: End";
