@@ -276,16 +276,14 @@ class UtilityController extends Controller
 
     // this is rio authority
     public function cronjobBegin(Request $request){
-        // dd($request->all());
-        Storage::disk('public')->append('cron.txt', "Cronjob begin: " . \Carbon\Carbon::createFromFormat('Y-m-d', '2017-11-7')->toDateTimeString());
+        Storage::disk('public')->append('cron.txt', "Cronjob begin: " . \Carbon\Carbon::now()->toDateTimeString());
 
         return "OK: Begin";
     }
 
     // this is rio authority
     public function cronjobEnd(Request $request){
-        // dd($request->all());
-        Storage::disk('public')->append('cron.txt', "Cronjob end: " . \Carbon\Carbon::createFromFormat('Y-m-d', '2017-11-7')->toDateTimeString());
+        Storage::disk('public')->append('cron.txt', "Cronjob end: " . \Carbon\Carbon::now()->toDateTimeString());
 
         return "OK: End";
     }
