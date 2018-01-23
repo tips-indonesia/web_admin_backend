@@ -48,7 +48,6 @@ class ReceivedAdminController extends Controller
         } else {
             $shipment_data = Shipment::where('id','!=', 0)->whereIn('id', $shipments);
         }
-        $shipment_data = $shipment_data->union(Shipment::where('is_take', 1)->get());
         if ($flag == true) {
             $shipment_data = $shipment_data->where('shipment_id', $data['value'])->paginate(10);
         } else {

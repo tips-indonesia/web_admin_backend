@@ -191,16 +191,17 @@ class DeliveryDepartureCounterAdminController extends Controller
                 $deliv_details->packaging_id = $shipment;
                 $deliv_details->deliveries_id = $delivery->id;
                 $deliv_details->save();
-
-                $package = PackagingList::find($shipment);
-                if ($package->id_slot != null) {
-                    $shipments = Shipment::where('id_slot', $package->id_slot)->get();
-                } else {
-                    $shipments = Shipment::where('id_packaging', $package->id)->get();
-                }
-                foreach ($shipments as $ship) {
-                    $ship->id_shipment_status = 6;
-                    $ship->save();
+                if (Input::get('submit') =='post') {
+                    $package = PackagingList::find($shipment);
+                    if ($package->id_slot != null) {
+                        $shipments = Shipment::where('id_slot', $package->id_slot)->get();
+                    } else {
+                        $shipments = Shipment::where('id_packaging', $package->id)->get();
+                    }
+                    foreach ($shipments as $ship) {
+                        $ship->id_shipment_status = 6;
+                        $ship->save();
+                    }
                 }
             }
         }
