@@ -83,7 +83,7 @@
                             {{ $data->name_destination }}
                         </td>
                         <td>
-                            {{ $data->pickup_by }}
+                            {{ $data->pickup_by_user->first_name }} {{ $data->pickup_by_user->last_name }}
                         </td>
                         <td>
                             {{ $data->pickup_status }}

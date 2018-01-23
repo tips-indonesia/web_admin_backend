@@ -53,6 +53,7 @@ class ShipmentPickUpAdminController extends Controller
             $dat['name_origin'] = AirportcityList::find($dat->id_origin_city)->name;
             $dat['name_destination'] = AirportcityList::find($dat->id_destination_city)->name;
             $dat['status'] = ShipmentStatus::find($dat->id_shipment_status)->description;
+            $dat['pickup_by_user'] = User::find($dat->pickup_by);
         }
         return view('admin.shipmentpickups.index', $data);
     }
