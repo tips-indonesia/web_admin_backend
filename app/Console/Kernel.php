@@ -30,7 +30,7 @@ class Kernel extends ConsoleKernel
         $url_end   = "http://localhost/api/cron/end";
         $schedule->exec('echo "\n"')
                  ->everyMinute()
-                 ->timezone('Asia/Jakarta');
+                 ->timezone('Asia/Jakarta')
                  ->pingBefore($url_begin)
                  ->thenPing($url_end);
     }
