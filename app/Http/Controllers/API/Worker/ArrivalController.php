@@ -70,7 +70,7 @@ class ArrivalController extends Controller
             $slot->save();
 
             $shipments = Shipment::where('id_slot', $slot->id)->get();
-            $shipment_status = ShipmentStatus::where('step', 6)->save();
+            $shipment_status = ShipmentStatus::where('step', 6)->first();
 
             foreach ($shipments as $shipment) {
                 $shipment->id_shipment_status = $shipment_status->id;

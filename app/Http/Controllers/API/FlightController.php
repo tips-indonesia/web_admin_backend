@@ -75,4 +75,17 @@ class FlightController extends Controller
 
         return response()->json($code_booking, 200);
     }
+
+    function get_airport_list() {
+        $airport_list = AirportList::all();
+        $data = array(
+            'err' => null,
+            'result' => array(
+                'airport_list' => $airport_list,
+            )
+        );
+
+        return response()->json($data, 200);
+
+    }
 }
