@@ -83,7 +83,7 @@
                             {{ $data->name_destination }}
                         </td>
                         <td>
-                            {{ $data->pickup_by_user->first_name }} {{ $data->pickup_by_user->last_name }}
+                            @if($data->pickup_by_user != null) {{ $data->pickup_by_user->first_name }} {{ $data->pickup_by_user->last_name }} @endif
                         </td>
                         <td>
                             {{ $data->pickup_status }}
