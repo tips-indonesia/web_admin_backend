@@ -26,8 +26,8 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('DeleteInActiveUsers:deleteusers')
         //          ->everyFiveMinute();
-        $url_begin = "http://localhost:8000/api/cron/begin";
-        $url_end   = "http://localhost:8000/api/cron/end";
+        $url_begin = "http://localhost/api/cron/begin";
+        $url_end   = "http://localhost/api/cron/end";
         $schedule->exec('echo "\n"')
                  ->everyMinute()
                  ->pingBefore($url_begin)
