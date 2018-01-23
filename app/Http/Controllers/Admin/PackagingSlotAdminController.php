@@ -190,6 +190,16 @@ class PackagingSlotAdminController extends Controller
             $packagingslots = PackagingList::find($id);
             $packagingslots->id_slot = Input::get('slot');
             $packagingslots->save();
+            $package = $packagingslots;
+            if ($package->id_slot != null) {
+                $shipments = Shipment::where('id_slot', $package->id_slot)->get();
+            } else {
+                $shipments = Shipment::where('id_packaging', $package->id)->get();
+            }
+            foreach ($shipments as $ship) {
+                $ship->id_shipment_status = 5;
+                $ship->save();
+            }
             Session::flash('message', 'Successfully created nerd!');
             return Redirect::to(route('packagingslots.index'));
         }

@@ -120,6 +120,16 @@ class ReceiveProcessingCenterAdminController extends Controller
         $process = PackagingList::find($id);
         $process->is_receive = true;
         $process->save();
+        $package = PackagingList::find($id);
+        if ($package->id_slot != null) {
+            $shipments = Shipment::where('id_slot', $package->id_slot)->get();
+        } else {
+            $shipments = Shipment::where('id_packaging', $package->id)->get();
+        }
+        foreach ($shipments as $ship) {
+            $ship->id_shipment_status = 7;
+            $ship->save();
+        }
         return Redirect::to(route('receiveprocessingcenters.index'));
     }
 
