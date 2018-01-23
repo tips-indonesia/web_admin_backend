@@ -185,7 +185,7 @@ class UtilityController extends Controller
         if($this->DEBUG) echo "B-" . $temp->id . ' berat ' . $temp->estimate_weight . ' diassign ke K-' . $IDKeberangkatan . '<br/>';
         if($this->DEBUG) echo "</br>";
         $temp->id_slot = $IDKeberangkatan;
-        $temp->dispatch_type = 'Process';
+        $temp->status_dispatch = 'Process';
         $temp->save();
 
         $tempK = SlotList::find($IDKeberangkatan);
@@ -194,8 +194,8 @@ class UtilityController extends Controller
             return false;
 
         $tempK->sold_baggage_space = $tempK->sold_baggage_space + $Barang->estimate_weight;
-        $tempK->dispatch_type = 'Process';
-        $tempK->id_slot_status = 2;
+        $tempK->status_dispatch = 'Process';
+        // $tempK->id_slot_status = 2; // di delivery controller statusnya sudah otomatis 4
 
         FCMSender::post(array(
           'type' => "Delivery",
@@ -362,6 +362,7 @@ class UtilityController extends Controller
         }
 
         // DO YOUR JOB HERE
+        $this->RoutineMinuteAssignment();
 
         date_default_timezone_set("Asia/Jakarta");
         Storage::disk('public')->append('cron.txt', "Cronjob begin: " . \Carbon\Carbon::now()->toDateTimeString());

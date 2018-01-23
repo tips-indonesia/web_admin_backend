@@ -129,15 +129,6 @@ class ShipmentController extends Controller
 
         $shipment->save();
 
-        if($shipment->is_first_class) {
-            $daftar_barang = new DaftarBarangGold;
-        } else {
-            $daftar_barang = new DaftarBarangRegular;
-        }
-
-        $daftar_barang->id_barang = $shipment->id;
-        $daftar_barang->save();
-
         $shipment_out = Shipment::where('shipment_id', $shipment->shipment_id)->first();
         $shipment_out->origin_city = AirportcityList::find($shipment->id_origin_city)->name;
         $shipment_out->destination_city = AirportcityList::find($shipment->id_destination_city)->name;
