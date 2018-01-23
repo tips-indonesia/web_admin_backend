@@ -177,7 +177,7 @@ class MenuTableSeeder extends Seeder
                 'class_name' => 'deliveryprocessingcenters.'
             ]);
             MenuList::create([
-                'name' => 'Receive Packaging from Arrival Processing Center',
+                'name' => 'Receive Packaging from Processing Center',
                 'menu_parent_id' => $transaction->id,
                 'class_name' => 'receiveprocessingcenters.'
             ]);
