@@ -84,7 +84,7 @@ class DeliveryController extends Controller
             $slot->id_slot_status = 4;
             $slot->save();
 
-            $packaging_list = PackagingList::where('id_slot', $request->slot_id)->first();
+            $packaging_list = PackagingList::where('id_slot', $slot->id)->first();
             $packaging_list->is_receive = 2;
 
             $packaging_list->save();
