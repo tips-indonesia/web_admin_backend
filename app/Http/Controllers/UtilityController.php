@@ -371,10 +371,11 @@ class UtilityController extends Controller
             return "NOT OK: Iterator not initialized yet";
         }
 
+
+        ConfigHunter::set(ConfigHunter::$CRON_ITERATOR_ROUTINE, $cron_iterator->value - 1);
         # case: iterator still running
         if($cron_iterator->value > 1){
             # decrease iterator
-            ConfigHunter::set(ConfigHunter::$CRON_ITERATOR_ROUTINE, $cron_iterator->value - 1);
             Storage::disk('public')->append('cron.txt', "OK: On Progress " . ($cron_minutes_routine->value - $cron_iterator->value + 1) . "/" . $cron_minutes_routine->value);
             return "OK: On Progress";
         }
