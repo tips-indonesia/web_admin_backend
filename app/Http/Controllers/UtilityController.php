@@ -264,7 +264,7 @@ class UtilityController extends Controller
 
     public function CekDataAntrian(){
         foreach(Shipment::all() as $shipment){
-            if(!$shipment->is_matched){
+            if(!$shipment->is_matched && $shipment->id_shipment_status == 4){
                 if($shipment->is_first_class) {
                     $daftar_barang = new DaftarBarangGold;
                 } else {
