@@ -237,7 +237,7 @@ class UtilityController extends Controller
 
         foreach($daftarBarang as $_barang){
             $barang = $_barang->barang;
-            if($barang->is_assigned)
+            if($barang->is_assigned || $barang->is_assigned == 1)
               continue;
 
             $id = $this->CekKetersediaanKeberangkatan($barang);
