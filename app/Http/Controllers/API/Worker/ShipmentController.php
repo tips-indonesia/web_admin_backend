@@ -66,7 +66,7 @@ class ShipmentController extends Controller
         } else {
             $shipment->estimate_weight = $request->estimate_weight;
             $shipment->status_dispatch = "Process";
-            $shipment->id_shipment_status = 2;
+            $shipment->id_shipment_status = 3;
             $shipment->save();
 
             $shipment = Shipment::where('shipment_id', $shipment_id)->first();
