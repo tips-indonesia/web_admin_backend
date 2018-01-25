@@ -18,8 +18,11 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::get('/demo', 'UtilityController@test');
+Route::get('/test/config', 'ConfigHunter@test');
 Route::get('/cron/begin', 'UtilityController@cronjobBegin');
 Route::get('/cron/end', 'UtilityController@cronjobEnd');
+Route::get('/cron/set/on', 'UtilityController@startcronjob');
+Route::get('/cron/set/off', 'UtilityController@stopcronjob');
 Route::get('/fcmtest', 'FCMSender@testTopic');
 Route::get('/smstest', 'SMSSender@testSMS');
 

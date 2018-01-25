@@ -185,7 +185,7 @@ class UtilityController extends Controller
         if($this->DEBUG) echo "B-" . $temp->id . ' berat ' . $temp->estimate_weight . ' diassign ke K-' . $IDKeberangkatan . '<br/>';
         if($this->DEBUG) echo "</br>";
         $temp->id_slot = $IDKeberangkatan;
-        $temp->dispatch_type = 'Process';
+        $temp->status_dispatch = 'Process';
         $temp->save();
 
         $tempK = SlotList::find($IDKeberangkatan);
@@ -194,8 +194,8 @@ class UtilityController extends Controller
             return false;
 
         $tempK->sold_baggage_space = $tempK->sold_baggage_space + $Barang->estimate_weight;
-        $tempK->dispatch_type = 'Process';
-        $tempK->id_slot_status = 2;
+        $tempK->status_dispatch = 'Process';
+        // $tempK->id_slot_status = 2; // di delivery controller statusnya sudah otomatis 4
 
         FCMSender::post(array(
           'type' => "Delivery",
@@ -275,7 +275,95 @@ class UtilityController extends Controller
 
 
     // this is rio authority
+    public function startcronjob(Request $request){
+        if(!$request->cron_time)
+            return 'cron_time parameter can not be null';
+
+        if(!is_numeric($request->cron_time))
+            return 'cron_time parameter must be numeric';
+
+        # check if cronjob is running
+        $cron_minutes_routine = ConfigHunter::isExist(ConfigHunter::$CRON_MINUTES_ROUTINE);
+        if($cron_minutes_routine){
+            if($cron_minutes_routine->value > 0){
+                return "NOT OK: Cron job is running with minutes: " . $cron_minutes_routine->value . ". You can stop cron job using /api/cron/set/off";
+            }
+        }
+
+        # set timezone
+        date_default_timezone_set("Asia/Jakarta");
+
+        # set time routine
+        $min_r = ConfigHunter::set(ConfigHunter::$CRON_MINUTES_ROUTINE, $request->cron_time);
+
+        # initialize iterator
+        ConfigHunter::set(ConfigHunter::$CRON_ITERATOR_ROUTINE, $min_r->value);
+
+        Storage::disk('public')->append('cron.txt', ">> Cronjob is starting: " . \Carbon\Carbon::now()->toDateTimeString());
+        Storage::disk('public')->append('cron.txt', "waiting for the next cron job ...");
+
+        return "OK: Start";
+    }
+
+
+    // this is rio authority
+    public function stopcronjob(Request $request){        
+        $cron_minutes_routine = ConfigHunter::isExist(ConfigHunter::$CRON_MINUTES_ROUTINE);
+        if(!$cron_minutes_routine){
+            return "NOT OK: Cron job is not running. You can start cron job using /api/cron/set/off?cron_time=[time minutes]";
+        }
+
+        if($cron_minutes_routine->value == 0){
+            return "NOT OK: Cron job is not running. You can start cron job using /api/cron/set/off?cron_time=[time minutes]";                
+        }
+
+        date_default_timezone_set("Asia/Jakarta");
+        ConfigHunter::set(ConfigHunter::$CRON_MINUTES_ROUTINE, "0");
+        Storage::disk('public')->append('cron.txt', ">> Cronjob has stopped: " . \Carbon\Carbon::now()->toDateTimeString());
+
+        return "OK: Stop";
+    }
+
+
+    // this is rio authority
     public function cronjobBegin(Request $request){
+        # get cron configuration time routine (in minutes)
+        $cron_minutes_routine = ConfigHunter::isExist(ConfigHunter::$CRON_MINUTES_ROUTINE);
+
+        # case: configuration not found
+        if(!$cron_minutes_routine){
+            # set configuration to zero -> means "do not take any job"
+            ConfigHunter::set(ConfigHunter::$CRON_MINUTES_ROUTINE, "0");
+            return "NOT OK: Begin";
+        }
+
+        # case: time configuration set to zero -> means "do not take any job"
+        if($cron_minutes_routine->value == 0){
+            return "NOT OK: Crone is stopped";
+        }
+
+        # get cron iterator
+        $cron_iterator = ConfigHunter::isExist(ConfigHunter::$CRON_ITERATOR_ROUTINE);
+
+        # case: iterator not found
+        if(!$cron_iterator){
+            # initialized iterator
+            ConfigHunter::set(ConfigHunter::$CRON_ITERATOR_ROUTINE, $cron_minutes_routine->value);
+            Storage::disk('public')->append('cron.txt', "NOT OK: Iterator not initialized yet");
+            return "NOT OK: Iterator not initialized yet";
+        }
+
+        # case: iterator still running
+        if($cron_iterator->value > 0){
+            # decrease iterator
+            ConfigHunter::set(ConfigHunter::$CRON_ITERATOR_ROUTINE, $cron_iterator->value - 1);
+            Storage::disk('public')->append('cron.txt', "OK: On Progress " . ($cron_minutes_routine->value - $cron_iterator->value + 1) . "/" . $cron_minutes_routine->value);
+            return "OK: On Progress";
+        }
+
+        // DO YOUR JOB HERE
+        $this->RoutineMinuteAssignment();
+
         date_default_timezone_set("Asia/Jakarta");
         Storage::disk('public')->append('cron.txt', "Cronjob begin: " . \Carbon\Carbon::now()->toDateTimeString());
 
@@ -284,8 +372,34 @@ class UtilityController extends Controller
 
     // this is rio authority
     public function cronjobEnd(Request $request){
+        # get cron minutes
+        $cron_minutes_routine = ConfigHunter::isExist(ConfigHunter::$CRON_MINUTES_ROUTINE);
+
+        # get cron iterator
+        $cron_iterator = ConfigHunter::isExist(ConfigHunter::$CRON_ITERATOR_ROUTINE);
+
+        # case: some configuration not found
+        if(!$cron_minutes_routine || !$cron_iterator){
+            return "NOT OK: Begin";
+        }
+
+        # case: cron job is stopped
+        if($cron_minutes_routine->value == 0){
+            return "NOT OK: Begin";
+        }
+
+        Storage::disk('public')->append('cron.txt', "OK: Progress confirmed " . ($cron_minutes_routine->value - $cron_iterator->value) . "/" . $cron_minutes_routine->value);
+        # case: iterator still running
+        if($cron_iterator->value > 0){
+            # decrease iterator
+            return "OK: Progress confirmed";
+        }
+
+        ConfigHunter::set(ConfigHunter::$CRON_ITERATOR_ROUTINE, $cron_minutes_routine->value);
+
         date_default_timezone_set("Asia/Jakarta");
         Storage::disk('public')->append('cron.txt', "Cronjob end: " . \Carbon\Carbon::now()->toDateTimeString());
+        Storage::disk('public')->append('cron.txt', "waiting for the next cron job ...");
 
         return "OK: End";
     }
