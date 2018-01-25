@@ -49,9 +49,9 @@ class ReceivedAdminController extends Controller
             $shipment_data = Shipment::where('id','!=', 0)->whereIn('id', $shipments);
         }
         if ($flag == true) {
-            $shipment_data = $shipment_data->where('shipment_id', $data['value'])->union(Shipment::where('is_posted', 1)->where('is_take', 1)->get())->paginate(10);
+            $shipment_data = $shipment_data->union(Shipment::where('is_posted',1)->where('is_take',1)->get())->where('shipment_id', $data['value'])->paginate(10);
         } else {
-            $shipment_data = $shipment_data->whereIn('id_shipment_status', [3,4])->union(Shipment::where('is_posted', 1)->where('is_take', 1)->get())->paginate(10);
+            $shipment_data = $shipment_data->union(Shipment::where('is_posted',1)->where('is_take',1)->get())->whereIn('id_shipment_status', [3,4])->paginate(10);
         }
         
         foreach($shipment_data as $ship) {
