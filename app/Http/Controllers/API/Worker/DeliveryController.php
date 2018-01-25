@@ -13,6 +13,8 @@ use App\AirportList;
 use App\Shipment;
 use App\ShipmentStatus;
 use App\PackagingList;
+use App\DaftarBarangGold;
+use App\DaftarBarangRegular;
 
 class DeliveryController extends Controller
 {
