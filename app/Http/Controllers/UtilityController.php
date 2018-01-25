@@ -262,12 +262,28 @@ class UtilityController extends Controller
         }
     }
 
+    public function CekDataAntrian(){
+        foreach(Shipment::all() as $shipment){
+            if(!$shipment->is_matched){
+                if($shipment->is_first_class) {
+                    $daftar_barang = new DaftarBarangGold;
+                } else {
+                    $daftar_barang = new DaftarBarangRegular;
+                }
+
+                $daftar_barang->id_barang = $shipment->id;
+                $daftar_barang->save();
+            }
+        }
+    }
+
     /**
       * Melakukan assignment antrian di seluruh daftar antrian baik 
       * GOLD atau REGULAR. Method ini rencananya akan di invoke per menit.
       *
       */
     public function RoutineMinuteAssignment(){
+        $this->CekDataAntrian();
         $this->AssignDaftarBarangKeKeberangkatan("GOLD");
         $this->AssignDaftarBarangKeKeberangkatan("REGULAR");
         $this->printKeberangkatanSementara();
@@ -323,7 +339,6 @@ class UtilityController extends Controller
 
         return "OK: Stop";
     }
-
 
     // this is rio authority
     public function cronjobBegin(Request $request){

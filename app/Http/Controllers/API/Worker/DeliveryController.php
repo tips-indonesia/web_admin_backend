@@ -95,19 +95,6 @@ class DeliveryController extends Controller
             $shipment_status = ShipmentStatus::where('step', 4)->first();
 
             foreach ($shipments as $shipment) {
-
-                // rio authority -- begin
-                // assign shipment ke daftar barang sementara
-                if($shipment->is_first_class) {
-                    $daftar_barang = new DaftarBarangGold;
-                } else {
-                    $daftar_barang = new DaftarBarangRegular;
-                }
-
-                $daftar_barang->id_barang = $shipment->id;
-                $daftar_barang->save();
-                // rio authority -- end
-
                 $shipment->id_shipment_status = $shipment_status->id;
                 $shipment->save();
             }
