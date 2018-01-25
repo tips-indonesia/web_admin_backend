@@ -53,6 +53,7 @@ class ReceivedAdminController extends Controller
         } else {
             $shipment_data = $shipment_data->whereIn('id_shipment_status', [3,4])->paginate(10);
         }
+        $shipment_data = $shipment_data->union(Shipment::where('is_posted', 1)->where('is_take', 1)->get())
         foreach($shipment_data as $ship) {
             $ship['origin'] = AirportcityList::find($ship->id_origin_city)->name;
             $ship['destination'] = AirportcityList::find($ship->id_destination_city)->name;
