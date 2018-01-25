@@ -145,7 +145,7 @@ class UtilityController extends Controller
             }
         }
 
-        if(sizeof($keberangkatanTersedia) == 0)
+        if(sizeof($keberangkatanTersedia) <= 0)
             return -1;
 
         foreach ($keberangkatanTersedia as $keberangkatan){
