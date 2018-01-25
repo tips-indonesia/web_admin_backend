@@ -272,7 +272,8 @@ class UtilityController extends Controller
                 }
 
                 $daftar_barang->id_barang = $shipment->id;
-                $daftar_barang->is_matched = true;
+                $shipment->is_matched = true;
+                $shipment->save();
                 $daftar_barang->save();
             }
         }
