@@ -205,6 +205,7 @@ class UtilityController extends Controller
           'detail' => 'wkwkwk'
         ), $tempK->member->token);
 
+        $tempK->id_slot_status = 2;
         $tempK->save();
 
         $this->printKeberangkatan();
@@ -371,7 +372,7 @@ class UtilityController extends Controller
         }
 
         # case: iterator still running
-        if($cron_iterator->value > 0){
+        if($cron_iterator->value > 1){
             # decrease iterator
             ConfigHunter::set(ConfigHunter::$CRON_ITERATOR_ROUTINE, $cron_iterator->value - 1);
             Storage::disk('public')->append('cron.txt', "OK: On Progress " . ($cron_minutes_routine->value - $cron_iterator->value + 1) . "/" . $cron_minutes_routine->value);
@@ -405,9 +406,9 @@ class UtilityController extends Controller
             return "NOT OK: Begin";
         }
 
-        Storage::disk('public')->append('cron.txt', "OK: Progress confirmed " . ($cron_minutes_routine->value - $cron_iterator->value) . "/" . $cron_minutes_routine->value);
         # case: iterator still running
         if($cron_iterator->value > 0){
+            Storage::disk('public')->append('cron.txt', "OK: Progress confirmed " . ($cron_minutes_routine->value - $cron_iterator->value) . "/" . $cron_minutes_routine->value);
             # decrease iterator
             return "OK: Progress confirmed";
         }
