@@ -40,7 +40,9 @@ class ReceivedAdminController extends Controller
         }
 
         $deliveries = $deliveries->pluck('id')->toArray();
-        $shipments = DeliveryShipmentDetail::whereIn('id_delivery', $deliveries)->pluck('id_shipment')->toArray();
+        $shipment_1 = DeliveryShipmentDetail::whereIn('id_delivery', $deliveries)->pluck('id_shipment')->toArray();
+        $shipments_2 = Shipment::where('is_take',1)->where('is_posted', 1)->pluck('id')->toArray();
+        $shipments = array_merge($shipment_1, $shipments_2);
         if (Input::get('param') == 'received') {
             $shipment_data = Shipment::where('id_shipment_status', 4)->whereIn('id', $shipments);
         } else if (Input::get('param') == 'not_received') {
@@ -53,6 +55,7 @@ class ReceivedAdminController extends Controller
         } else {
             $shipment_data = $shipment_data->whereIn('id_shipment_status', [3,4])->paginate(10);
         }
+        
         foreach($shipment_data as $ship) {
             $ship['origin'] = AirportcityList::find($ship->id_origin_city)->name;
             $ship['destination'] = AirportcityList::find($ship->id_destination_city)->name;
