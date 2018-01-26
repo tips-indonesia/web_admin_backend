@@ -112,11 +112,6 @@ class ReceivedAdminController extends Controller
     */
     public function update($id)
     {
-        $shipments = DeliveryShipmentDetail::where('id_shipment', $id)->get()->first();
-        $shipments->processing_center_received_by = Auth::user();
-        $shipments->processing_center_received_date = Carbon::now();
-        $shipments->processing_center_received_time = Carbon::now();
-        $shipments->save();
         $process = Shipment::find($id);
         $process->id_shipment_status = 4;
         $process->save();
