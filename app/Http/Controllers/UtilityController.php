@@ -149,7 +149,7 @@ class UtilityController extends Controller
             return -1;
 
         foreach ($keberangkatanTersedia as $keberangkatan){
-            $isFull = $keberangkatan->baggage_space - $keberangkatan->sold_baggage_space == 0;
+            $isFull = (($keberangkatan->baggage_space - $keberangkatan->sold_baggage_space) <= 0);
 
             if($isFull)
                 continue;
@@ -205,6 +205,7 @@ class UtilityController extends Controller
           'detail' => 'wkwkwk'
         ), $tempK->member->token);
 
+        $tempK->id_slot_status = 2;
         $tempK->save();
 
         $this->printKeberangkatan();
@@ -237,7 +238,7 @@ class UtilityController extends Controller
 
         foreach($daftarBarang as $_barang){
             $barang = $_barang->barang;
-            if($barang->is_assigned)
+            if($_barang->is_assigned)
               continue;
 
             $id = $this->CekKetersediaanKeberangkatan($barang);
@@ -262,12 +263,30 @@ class UtilityController extends Controller
         }
     }
 
+    public function CekDataAntrian(){
+        foreach(Shipment::all() as $shipment){
+            if(!$shipment->is_matched && $shipment->id_shipment_status == 4){
+                if($shipment->is_first_class) {
+                    $daftar_barang = new DaftarBarangGold;
+                } else {
+                    $daftar_barang = new DaftarBarangRegular;
+                }
+
+                $daftar_barang->id_barang = $shipment->id;
+                $shipment->is_matched = true;
+                $shipment->save();
+                $daftar_barang->save();
+            }
+        }
+    }
+
     /**
       * Melakukan assignment antrian di seluruh daftar antrian baik 
       * GOLD atau REGULAR. Method ini rencananya akan di invoke per menit.
       *
       */
     public function RoutineMinuteAssignment(){
+        $this->CekDataAntrian();
         $this->AssignDaftarBarangKeKeberangkatan("GOLD");
         $this->AssignDaftarBarangKeKeberangkatan("REGULAR");
         $this->printKeberangkatanSementara();
@@ -324,7 +343,6 @@ class UtilityController extends Controller
         return "OK: Stop";
     }
 
-
     // this is rio authority
     public function cronjobBegin(Request $request){
         # get cron configuration time routine (in minutes)
@@ -353,10 +371,11 @@ class UtilityController extends Controller
             return "NOT OK: Iterator not initialized yet";
         }
 
+
+        ConfigHunter::set(ConfigHunter::$CRON_ITERATOR_ROUTINE, $cron_iterator->value - 1);
         # case: iterator still running
-        if($cron_iterator->value > 0){
+        if($cron_iterator->value > 1){
             # decrease iterator
-            ConfigHunter::set(ConfigHunter::$CRON_ITERATOR_ROUTINE, $cron_iterator->value - 1);
             Storage::disk('public')->append('cron.txt', "OK: On Progress " . ($cron_minutes_routine->value - $cron_iterator->value + 1) . "/" . $cron_minutes_routine->value);
             return "OK: On Progress";
         }
@@ -388,9 +407,9 @@ class UtilityController extends Controller
             return "NOT OK: Begin";
         }
 
-        Storage::disk('public')->append('cron.txt', "OK: Progress confirmed " . ($cron_minutes_routine->value - $cron_iterator->value) . "/" . $cron_minutes_routine->value);
         # case: iterator still running
         if($cron_iterator->value > 0){
+            Storage::disk('public')->append('cron.txt', "OK: Progress confirmed " . ($cron_minutes_routine->value - $cron_iterator->value) . "/" . $cron_minutes_routine->value);
             # decrease iterator
             return "OK: Progress confirmed";
         }
