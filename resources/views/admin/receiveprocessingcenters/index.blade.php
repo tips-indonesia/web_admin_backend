@@ -41,12 +41,13 @@
                 </div>
             </div>
             {{ Form::close() }}
+            {{$datas }}
         <table class="table datatable-pagination">
             <thead>
                 <tr>
                     <th>Packaging ID</th>
-                    <th>Origin</th>
-                    <th>Destination</th>
+                    <th>Origin Airport</th>
+                    <th>Destination Airport</th>
                     <th>Status</th>
                     <th>Actions</th>
                 </tr>
@@ -58,10 +59,10 @@
                             {{ $data->packaging_id }}
                         </td>
                         <td>
-                            {{ $data->origin }}
+                            {{ $data->origin_airport->name }}
                         </td>
                         <td>
-                            {{ $data->destination }}
+                            {{ $data->destination_airport->name }}
                         </td>
                         <td>
                             {{ $data->is_receive == 0 ? 'Belum diterima' : 'Sudah diterima' }}

@@ -10,6 +10,7 @@ use App\PackagingList;
 use App\PackagingListStatus;
 use App\PackagingListHistory;
 use App\AirportcityList;
+use App\AirportList;
 use App\SlotList;
 use Auth;
 use Carbon\Carbon;
@@ -58,8 +59,8 @@ class ReceiveProcessingCenterAdminController extends Controller
         foreach($shipment_data as $ship) {
             if ($ship->id_slot != null) {
                 $slot = SlotList::find($ship->id_slot);
-                $ship['origin'] = AirportcityList::find($slot->id_origin_city)->name;
-                $ship['destination'] = AirportcityList::find($slot->id_destination_city)->name;    
+                $ship['origin_airport'] = AirportList::find($slot->id_origin_airport); 
+                $ship['destination_airport'] = AirportList::find($slot->id_destination_airport); 
             }
             
         }
