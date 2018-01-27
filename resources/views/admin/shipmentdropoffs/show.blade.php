@@ -36,7 +36,7 @@
                                 <div class="form-group">
                                     <div class="form-group">
                                     <label>Registration Type :</label>
-                                    <input type="text" class="form-control" name="registration_type" value="{{$data->registration_type}}" disabled readonly>
+                                    <input type="text" class="form-control" name="registration_type" value="{{$data->is_take == 0 ? 'Online' : 'Offline'}}" disabled readonly>
                                 </div>
                                 </div>
                             </div>
