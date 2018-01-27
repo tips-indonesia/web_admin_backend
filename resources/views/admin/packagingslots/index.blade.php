@@ -103,7 +103,7 @@
                                         @foreach ($datas2 as $data)
                                             <tr>
                                                 <td>
-                                                    {{ $data->id_slot }}2017
+                                                    {{ $data->slot_id }}
                                                 </td>
                                                 <td>
                                                     {{ $data->created_at }}
