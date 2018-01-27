@@ -38,7 +38,6 @@
                                 <option value="blank" selected>&#8192;</option>
                                 <option value="shipment_id" >Shipment ID</option>
                                 <option value="shipper_name" >Shipper Name</option>
-                                <option value="pickup_status" >Pickup Status</option>
                             </select>
                         </div>
                     </div>
