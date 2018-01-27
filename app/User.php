@@ -27,11 +27,4 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
-
-    // public static function create($data)
-    // {
-    //     // var_dump("CRE");
-    //     parent::create($data);
-    //     // return dd($data);
-    // }
 }
