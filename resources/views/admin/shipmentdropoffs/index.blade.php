@@ -37,7 +37,8 @@
                             <select name="param" id="param" class="select-search">
                                 <option value="blank" selected>&#8192;</option>
                                 <option value="shipment_id" >Shipment ID</option>
-                                <option value="shipper_name" >Shipper Name</option>
+                                <option value="shipper_first_name" >Shipper First Name</option>
+                                <option value="shipper_last_name" >Shipper Last Name</option>
                             </select>
                         </div>
                     </div>
