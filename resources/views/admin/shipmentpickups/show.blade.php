@@ -80,11 +80,11 @@
                         <div class="form-group">
                             <label class="display-block text-semibold">Dispatch Type :</label>
                             <label class="radio-inline">
-                                <input type="radio" name="dispatch_type" @if(!$data->is_take) checked="checked" @endif value="Dispatch to consignee"  disabled readonly>
+                                <input type="radio" name="dispatch_type" @if($data->is_delivery) checked="checked" @endif value="Dispatch to consignee"  disabled readonly>
                                 Dispatch to consignee
                             </label>
                             <label class="radio-inline">
-                                <input type="radio" name="dispatch_type" @if($data->is_take) checked="checked" @endif value="Taken by consignee"  disabled readonly>
+                                <input type="radio" name="dispatch_type" @if(!$data->is_delivery) checked="checked" @endif value="Taken by consignee"  disabled readonly>
                                 Taken by consignee
                             </label>
                         </div>
