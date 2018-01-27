@@ -99,7 +99,7 @@
                             <ul class="icons-list">
                             <li>
                             {{ Form::open(array('method' => 'DELETE', 'url' => route('shipmentpickups.destroy', $data->id))) }}
-                            <button type="submit" class="btn btn-danger"><i class="icon-trash"></i> Cancel</button>
+                            <button type="submit" class="btn btn-danger" @if ($data->is_posted) DISABLED @endif><i class="icon-trash"></i> Cancel</button>
                             {{ Form::close() }}
                             </li>
                             </ul>
