@@ -20,7 +20,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="display-block text-semibold">Shipment Type :</label>
+                    <label class="display-block text-semibold">Registration Type :</label>
                     <label class="radio-inline">
                         <input type="radio" name="registration_type" value="online" {{ $registration_type == 'online' ? 'checked' : '' }}>
                         Online
