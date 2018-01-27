@@ -86,7 +86,11 @@
                             @if($data->pickup_by_user != null) {{ $data->pickup_by_user->first_name }} {{ $data->pickup_by_user->last_name }} @endif
                         </td>
                         <td>
-                            {{ $data->pickup_status }}
+                            @if ($data->id_shipment_status >= 3)
+                                Done
+                            @else
+                                Pending
+                            @endif
                         </td>
                         <td>
                             {{ $data->is_posted ==1 ? 'Submitted' : 'Not Submitted' }}
