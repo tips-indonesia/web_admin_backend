@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'username', 'password'
+        'first_name', 'last_name', 'name', 'username', 'password'
     ];
 
     /**
@@ -27,4 +27,11 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    // public static function create($data)
+    // {
+    //     // var_dump("CRE");
+    //     parent::create($data);
+    //     // return dd($data);
+    // }
 }
