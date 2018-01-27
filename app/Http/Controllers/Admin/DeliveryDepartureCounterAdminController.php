@@ -15,6 +15,7 @@ use App\Delivery;
 use Validator;
 use App\CityList;
 use App\AirportcityList;
+use App\AirportList;
 use App\SlotList;
 use Auth;
 use Carbon\Carbon;
@@ -59,8 +60,8 @@ class DeliveryDepartureCounterAdminController extends Controller
             if ($dat->id_slot != null) {
                 $slot = SlotList::find($dat->id_slot);
                 $dat['total'] = Shipment::where('id_slot', $slot->id)->get()->count();
-                $dat['origin'] = AirportcityList::find($slot->id_origin_city)->name;
-                $dat['destination'] = AirportcityList::find($slot->id_destination_city)->name;
+                $dat['origin'] = AirportList::find($slot->id_origin_city)->name;
+                $dat['destination'] = AirportList::find($slot->id_destination_city)->name;
                 $dat['slot_id'] = $slot->slot_id;
             }else {
                 $dat['total'] = Shipment::where('id_packaging', $dat->id)->get()->count();

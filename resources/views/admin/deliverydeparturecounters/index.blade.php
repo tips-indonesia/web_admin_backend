@@ -101,8 +101,8 @@
                                         <tr>
                                             <th>Packaging ID</th>
                                             <th>Slot ID</th>
-                                            <th>Origin</th>
-                                            <th>Destination</th>
+                                            <th>Origin Airport</th>
+                                            <th>Destination Airport</th>
                                             <th>Total Shipment</th>
                                         </tr>
                                     </thead>
