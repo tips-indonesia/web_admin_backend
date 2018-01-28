@@ -4,7 +4,7 @@
     Create Shipment Delivery to Departure Counter
 @endsection
 @section('page_title')
-    <span class="text-semibold">Shipment Delivery to Departure Counter</span> - Create
+    <span class="text-semibold">Delivery to Departure Counter</span> - Create
 @endsection
 @section('content')
     <!-- Vertical form options -->
