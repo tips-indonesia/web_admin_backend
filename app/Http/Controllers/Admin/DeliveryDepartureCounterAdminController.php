@@ -87,8 +87,8 @@ class DeliveryDepartureCounterAdminController extends Controller
             foreach ($data['datas'] as $dat) {
                 if ($dat->id_slot != null) {
                     $slot = SlotList::find($dat->id_slot);
-                    $dat['origin_name'] = AirportcityList::find($slot->id_origin_city)->name;
-                    $dat['destination_name'] = AirportcityList::find($slot->id_destination_city)->name;
+                    $dat['origin_name'] = AirportList::find($slot->id_origin_city)->name;
+                    $dat['destination_name'] = AirportList::find($slot->id_destination_city)->name;
                 }
             }
             $data['date'] = $date;
