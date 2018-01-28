@@ -11,6 +11,7 @@ use App\ShipmentHistory;
 use App\OfficeList;
 use App\PackagingList;
 use App\PackagingDelivery;
+use App\AirportList;
 use Validator;
 use App\CityList;
 use App\SlotList;
@@ -76,8 +77,8 @@ class DeliveryProcessingCenterAdminController extends Controller
             foreach ($data['datas'] as $dat) {
                 if ($dat->id_slot != null) {
                     $slot = SlotList::find($dat->id_slot);
-                    $dat['origin_name'] = CityList::find($slot->id_origin_city)->name;
-                    $dat['destination_name'] = CityList::find($slot->id_destination_city)->name;
+                    $dat['origin_name'] = AirportList::find($slot->id_origin_airport)->name;
+                    $dat['destination_name'] = AirportList::find($slot->id_destination_airport)->name;
                 }
             }
             $data['date'] = $date;

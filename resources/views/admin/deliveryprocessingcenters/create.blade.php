@@ -12,7 +12,6 @@
         <div class="col-md-12">
                 <div class="panel panel-flat">
                     <div class="panel-body">
-            
             {{ Form::open(array('url' => route('deliveryprocessingcenters.store'), 'method' => 'POST')) }}
                         <div class="col-md-6">
                                 <div class="form-group">
@@ -30,7 +29,7 @@
                         <div class="text-right form-group">
                             <select multiple="multiple" class="form-control listbox" name="shipments[]">
                                @foreach ($datas as $data)
-                                    <option value="{{ $data->id }}"> {{ $data->shipment_id }} &nbsp; - &nbsp; {{ $data->transaction_date }} &nbsp; - &nbsp; {{ $data->origin_name }} &nbsp; - &nbsp; {{ $data->destination_name }} </option>
+                                    <option value="{{ $data->id }}"> {{ $data->packaging_id }} &nbsp; - &nbsp; {{ $data->created_at }} &nbsp; - &nbsp; {{ $data->origin_name }} &nbsp; - &nbsp; {{ $data->destination_name }} </option>
                                 @endforeach
                             </select>
                         </div>
