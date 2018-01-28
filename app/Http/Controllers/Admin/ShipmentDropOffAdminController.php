@@ -334,6 +334,7 @@ class ShipmentDropOffAdminController extends Controller
             $shipment->insurance_cost = Insurance::all()->first()->default_insurance;
             $shipment->is_add_insurance = Input::get('additional_insurance') == 1;
             $shipment->add_insurance_cost = Input::get('additional_insurance') * Insurance::all()->first()->additional_insurance * Input::get('estimated_weight');
+            // dd($shipment->dispatch_type);
             $shipment->save();
             $shipment->dispatch_type = Input::get('dispatch_type');
             if (Input::get('submit') == 'post') {

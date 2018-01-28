@@ -84,7 +84,7 @@
                                 Dispatch to consignee
                             </label>
                             <label class="radio-inline">
-                                <input type="radio" name="dispatch_type" @if($data->dispatch_type == 'Pickup to consignee') checked="checked" @endif value="Pickup to consignee">
+                                <input type="radio" name="dispatch_type" @if($data->dispatch_type == 'Pickup to consignee') checked="checked" @endif value="Taken by consignee">
                                 Taken by consignee
                             </label>
                         </div>
