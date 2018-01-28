@@ -90,8 +90,8 @@ class ShipmentPickUpAdminController extends Controller
             return Redirect::to(route('shipmentpickups.show', $id));
         }
         $data['provinces'] = ProvinceList::all();
-        $data['citys'] = CityList::where('id_province', $data['data']->shipper_province)->get();
-        $data['subdistricts'] = SubdistrictList::where('id_city', $data['data']->shipper_city)->get();
+        $data['citys'] = CityList::where('id_province', $data['data']->id_shipper_province)->get();
+        $data['subdistricts'] = SubdistrictList::where('id_city', $data['data']->id_shipper_city)->get();
         $data['cities'] = AirportcityList::all();
         $data['shipment_statuses'] = ShipmentStatus::all();
         $data['users'] = User::all();
