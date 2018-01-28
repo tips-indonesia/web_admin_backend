@@ -12,6 +12,7 @@ use App\OfficeList;
 use App\PackagingList;
 use Validator;
 use App\CityList;
+use App\SlotList;
 use Auth;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Input;
