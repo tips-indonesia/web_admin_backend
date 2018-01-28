@@ -12,6 +12,7 @@ use App\PackagingListHistory;
 use App\AirportcityList;
 use App\AirportList;
 use App\SlotList;
+use App\Shipment;
 use Auth;
 use Carbon\Carbon;
 use Validator;
