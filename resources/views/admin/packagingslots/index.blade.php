@@ -86,7 +86,6 @@
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                         <h5 class="modal-title">Pending Item</h5>
                     </div>
-
                     <div class="modal-body">
                             <div class="panel panel-flat">
                                 <table class="table datatable-pagination">
@@ -115,7 +114,7 @@
                                                     {{ $data->destination }}
                                                 </td>
                                                 <td>
-                                                    {{ $data->weight }}
+                                                    {{ $data->sold_baggage_space }}
                                                 </td>
                                             </tr>
                                         @endforeach
