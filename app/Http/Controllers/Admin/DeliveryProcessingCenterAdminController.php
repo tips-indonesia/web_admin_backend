@@ -107,7 +107,7 @@ class DeliveryProcessingCenterAdminController extends Controller
             $deliv_details->deliveries_id = $delivery->id;
             $deliv_details->save();
         }
-        return Redirect::to(route('deliveryprocessingcenters.index'));
+        return Redirect::to(route('deliveryprocessingcenters.edit', ['id' => $delivery->id]));
 
 
 
