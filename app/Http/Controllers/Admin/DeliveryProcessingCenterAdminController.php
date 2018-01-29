@@ -68,6 +68,7 @@ class DeliveryProcessingCenterAdminController extends Controller
     */
     public function create()
     {
+        //
         $date = Input::get('date');
         $data['date'] = null;
         if ($date == null) {
@@ -93,7 +94,6 @@ class DeliveryProcessingCenterAdminController extends Controller
     */
     public function store()
     {
-        //
         $delivery = new DeliveryShipment;
         $delivery->delivery_date = Input::get('date');
         $delivery->delivery_time = Input::get('delivery_time');
@@ -101,10 +101,10 @@ class DeliveryProcessingCenterAdminController extends Controller
         $delivery->save();
         $delivery->delivery_id='DEL'.$delivery->id.'2017';
         $delivery->save();
-        foreach(Input::get('packagings') as $shipment) {
+        foreach(Input::get('shipments') as $shipment) {
             $deliv_details = new PackagingDelivery;
-            $deliv_details->id_packaging = $shipment;
-            $deliv_details->id_delivery = $delivery->id;
+            $deliv_details->packaging_id = $shipment;
+            $deliv_details->deliveries_id = $delivery->id;
             $deliv_details->save();
         }
         return Redirect::to(route('deliveryprocessingcenters.index'));
