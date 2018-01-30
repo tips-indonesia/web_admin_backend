@@ -71,13 +71,13 @@
                             <td>
                             <ul class="icons-list">
                             <li>
-                            {{ Form::open(array('method' => 'GET', 'url' => route('deliverydeparturecounters.edit', $data->id))) }}
-                        <button type="submit" class="btn btn-primary"><i class="icon-pencil"></i> Edit</button>
-                        {{ Form::close() }}
+                                {{ Form::open(array('method' => 'GET', 'url' => route('deliverydeparturecounters.edit', $data->id))) }}
+                                <button type="submit" class="btn btn-primary"><i class="icon-pencil"></i> Edit</button>
+                                {{ Form::close() }}
                             </li>
                             <li>
                             {{ Form::open(array('method' => 'DELETE', 'url' => route('deliverydeparturecounters.destroy', $data->id))) }}
-                            <button type="submit" class="btn btn-danger"><i class="icon-trash"></i> Delete</button>
+                            <button type="submit" class="btn btn-danger" {{$data->is_posted ? "DISABLED" : "" }}><i class="icon-trash"></i> Delete</button>
                             {{ Form::close() }}
                             </li>
                             </ul>
