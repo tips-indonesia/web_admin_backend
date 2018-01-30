@@ -51,8 +51,9 @@ class DeliveryProcessingCenterAdminController extends Controller
         foreach ($data['datas'] as $dat) {
             $dat['total'] = PackagingDelivery::where('deliveries_id', $dat->id)->get()->count();
         }
-        $pendings = DeliveryShipmentDetail::where('processing_center_received_by', null)->pluck('id_delivery')->toArray();
-        $data['datas2'] = DeliveryShipment::whereIn('delivery_id', $pendings)->get();
+        $data['pending'] = SlotList::where('id_slot_status', 6)->with('airportOrigin')->with('airportDestination')->get();
+
+        $data['datas2'] = DeliveryShipment::whereIn('delivery_id', $data['pending'])->get();
         foreach ($data['datas2'] as $dat) {
             $dat['total'] = PackagingDelivery::where('deliveries_id', $dat->id)->get()->count();
             $dat['origin'] = OfficeList::find($dat->id_origin_office)->name;

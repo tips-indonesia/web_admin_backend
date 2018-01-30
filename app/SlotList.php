@@ -19,7 +19,11 @@ class SlotList extends Model
         return $this->hasOne('App\MemberList', 'id', 'id_member');
     }
 
+    // public function packagingList(){
+    //     return $this->hasOne('App\PackagingList', 'slot_id', 'id_slot    ');
+    // }
+
     public function airportDestination(){
-    	return $this->hasOne('App\AirportList', 'id', 'id_destination_airport');
+        return $this->hasOne('App\AirportList', 'id', 'id_destination_airport');
     }
 }

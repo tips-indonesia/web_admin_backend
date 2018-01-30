@@ -95,21 +95,19 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($datas2 as $data)
+                                        @foreach ($pending as $data)
                                             <tr>
                                                 <td>
-                                                    <a href="{{ route('packagingrestshipments.edit', $data->id) }}">
-                                                        {{ $data->delivery_id }}
-                                                    </a>
+                                                    {{ $data->slot_id }}
                                                 </td>
                                                 <td>
-                                                    {{ $data->total }}
+                                                    {{ $data->airportOrigin->name }}
                                                 </td>
                                                 <td>
-                                                    {{ $data->origin }}
+                                                    {{ $data->airportDestination->name }}
                                                 </td>
                                                 <td>
-                                                    {{ $data->destination }}
+                                                    {{ $data->sold_baggage_space}}
                                                 </td>
                                             </tr>
                                         @endforeach
