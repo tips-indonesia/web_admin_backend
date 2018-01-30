@@ -46,7 +46,14 @@ class ShipmentPickUpAdminController extends Controller
         } else {
             $data['param'] = Input::get('param');
             $data['value'] = Input::get('value');
-            $data['datas'] = $data['datas']->where(Input::get('param'),'=', Input::get('value'));
+            
+            $query_param = $data['param'];
+            $query_param = $data['value'];
+            if($query_param == 'pending'){
+                $query_param = 'is_posted';
+                $query_value = 0;
+            }
+            $data['datas'] = $data['datas']->where($query_param,'=', $query_value);
         }
         $data['datas'] = $data['datas']->where('is_take',1)->paginate(10);
         foreach($data['datas'] as $dat) {
