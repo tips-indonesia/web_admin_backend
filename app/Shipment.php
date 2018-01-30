@@ -14,4 +14,8 @@ class Shipment extends Model
     public function cityDestination(){
     	return $this->hasOne('App\CityList', 'id', 'id_destination_city');
     }
+
+    public function slotList(){
+    	return $this->hasOne('App\SlotList', 'id', 'id_slot');
+    }
 }

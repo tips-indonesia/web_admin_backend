@@ -12,4 +12,4 @@ yarn-error.log
 .env
 index.php
 deploy.sh
-
+*.DS_Store

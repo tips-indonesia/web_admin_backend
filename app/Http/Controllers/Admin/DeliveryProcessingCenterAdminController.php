@@ -74,7 +74,7 @@ class DeliveryProcessingCenterAdminController extends Controller
         if ($date == null) {
             $data['datas'] = array(); 
         } else {
-            $data['datas'] = PackagingList::whereDate('created_at', '=', $date)->get();
+            $data['datas'] = PackagingList::all();
             foreach ($data['datas'] as $dat) {
                 if ($dat->id_slot != null) {
                     $slot = SlotList::find($dat->id_slot);

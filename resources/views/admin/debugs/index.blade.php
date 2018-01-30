@@ -24,7 +24,8 @@
                             <table border="1">
                                 @foreach ($data as $d)
                                 <tr>
-                                    <td>{{$d}}</td>
+                                    <td>{{$d->shipment_id}}</td>
+                                    <td>{{$d->slotList ? $d->slotList->id_slot_status." ".$d->slotList : "-"}}</td>
                                 </tr>
                                 @endforeach
                             </table>

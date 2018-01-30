@@ -21,8 +21,9 @@ class DebugAdminController extends Controller
     */
     public function index()
     {
+
         for ($i=1; $i <= 14 ; $i++) { 
-            $data['datas'][$i] = Shipment::where('id_shipment_status',$i)->get();
+            $data['datas'][$i] = Shipment::where('id_shipment_status',$i)->with('slotList')->get();
 
         }
 
