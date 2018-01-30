@@ -47,6 +47,7 @@
                     <th>Delivery ID</th>
                     <th>Delivery Time</th>
                     <th>Total Packaging</th>
+                    <th>Status</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -63,6 +64,9 @@
                         </td>
                         <td>
                             {{ $data->total }}
+                        </td>
+                        <td>
+                            {{ $data->is_posted ? "Submitted" : "Pending" }}
                         </td>
                             <td>
                             <ul class="icons-list">
@@ -107,6 +111,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        {{$datas2}}
                                         @foreach ($datas2 as $data)
                                             <tr>
                                                 <td>
