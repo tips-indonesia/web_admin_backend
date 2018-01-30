@@ -162,6 +162,10 @@ Route::prefix('admin/')->group(function ($locale) {
             Route::resource('users','Admin\UserAdminController');
         });
 
+        Route::group(['middleware' => ['permission:users.']], function () {
+            Route::resource('debugs','Admin\DebugAdminController');
+        });
+
         Route::group(['middleware' => ['permission:roles.']], function () {
             Route::resource('roles','Admin\RoleAdminController');
         });
