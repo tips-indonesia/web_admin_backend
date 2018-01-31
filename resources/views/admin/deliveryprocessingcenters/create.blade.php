@@ -29,7 +29,7 @@
                         <div class="text-right form-group">
                             <select multiple="multiple" class="form-control listbox" name="shipments[]">
                                @foreach ($datas as $data)
-                                    <option value="{{ $data->id }}"> {{ $data->packagingList->packaging_id }} &nbsp; - &nbsp; {{date("d-m-Y",strtotime($data->created_at))}} &nbsp; - &nbsp; {{ $data->airportOrigin->name }} &nbsp; - &nbsp; {{ $data->airportDestination->name }} </option>
+                                    <option value="{{ $data->packagingList->id }}"> {{ $data->packagingList->packaging_id }} &nbsp; - &nbsp; {{date("d-m-Y",strtotime($data->created_at))}} &nbsp; - &nbsp; {{ $data->airportOrigin->name }} &nbsp; - &nbsp; {{ $data->airportDestination->name }} </option>
                                 @endforeach
                             </select>
                         </div>

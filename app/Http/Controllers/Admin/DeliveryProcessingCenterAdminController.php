@@ -76,6 +76,7 @@ class DeliveryProcessingCenterAdminController extends Controller
         if ($date == null) {
             $data['datas'] = array(); 
         } else {
+            // todo slotlist 6 that not package / deliver yet
             $data['datas'] = SlotList::where('id_slot_status', 6)->get();
             $data['date'] = $date;
         }
@@ -89,7 +90,8 @@ class DeliveryProcessingCenterAdminController extends Controller
     */
     public function store()
     {
-        $delivery = new DeliveryArrival;
+        // dd($_POST);
+        $delivery = new ArrivalShipment;
         $delivery->delivery_date = Input::get('date');
         $delivery->delivery_time = Input::get('delivery_time');
         $delivery->created_by = Auth::user()->id; 
@@ -97,9 +99,9 @@ class DeliveryProcessingCenterAdminController extends Controller
         $delivery->delivery_id='DEL'.$delivery->id.date('Y');
         $delivery->save();
         foreach(Input::get('shipments') as $shipment) {
-            $deliv_details = new PackagingArrival;
-            $deliv_details->packaging_id = $shipment;
-            $deliv_details->deliveries_id = $delivery->id;
+            $deliv_details = new ArrivalShipmentDetail;
+            $deliv_details->packaging_lists_id = $shipment;
+            $deliv_details->arrival_shipment_id = $delivery->id;
             $deliv_details->save();
         }
 
@@ -126,34 +128,18 @@ class DeliveryProcessingCenterAdminController extends Controller
     public function edit($id)
     {
         //
-        $data['data'] = DeliveryArrival::find($id);
+        $data['data'] = ArrivalShipment::find($id);
         if(!$data['data'])
             return Redirect::to(route('deliveryprocessingcenters.index'));
                 
-        $data['delivery_shipments'] = SlotList::where('id_slot_status','=','6')
-            ->with('packagingList', 'airportDestination', 'airportOrigin')
-            ->get();
-        echo"<pre>";print_r($data['delivery_shipments']);
-        dd($data['delivery_shipments']);
+        $data['delivery_shipments'] = ArrivalShipmentDetail::where('arrival_shipment_id','=',$data['data']->id)
+            ->pluck('packaging_lists_id')
+            ->toArray();
 
         $data['shipment_lists'] = SlotList::where('id_slot_status','=','6')
             ->with('packagingList', 'airportDestination', 'airportOrigin')
-            ->get()->toArray();
-        // echo "<pre>";
-        // print_r($data['shipment_lists']);
-        // dd($data['shipment_lists']);
+            ->get();
 
-        // dd($data['shipment_lists']);
-        // $delivery_shipments = DeliveryShipmentDetail::where([['id_delivery', '=', $id]])->pluck('id_shipment')->toArray();
-        // $temp_shipments = Shipment::where([['transaction_date', '=', $delivery_shipment_info->delivery_date], ['is_posted', '=', 1]])->whereIn('id_shipment_status', [1,2])->get();
-        // // dd("--");
-        // foreach ($temp_shipments as $dat) {
-        //     $dat['origin_name'] = CityList::find($dat->id_origin_city)->name;
-        //     $dat['destination_name'] = CityList::find($dat->id_destination_city)->name;
-        // }
-        // $data['delivery_shipments'] = $delivery_shipments;
-        // $data['shipment_lists'] = $temp_shipments;
-        // $data['data'] = $delivery_shipment_info;
         return view('admin.deliveryprocessingcenters.edit', $data);
 
     }
@@ -166,29 +152,45 @@ class DeliveryProcessingCenterAdminController extends Controller
     */
     public function update($id)
     {
-        $delivery = DeliveryShipment::find($id);
+        $delivery = ArrivalShipment::find($id);
+        if(!$delivery)
+            return Redirect::to(route('deliveryprocessingcenters.index'));
 
+
+        // dd('');
         $delivery->delivery_time = Input::get('delivery_time');
         $delivery->save();
         if (Input::get('submit') =='post') {
             $delivery->is_posted = 1;
             $delivery->save();
-/*            foreach(Input::get('shipments') as $shipment){
-                $shipment_data = Shipment::find($shipment);
-                $shipment_data->id_shipment_status = 3;
-                $shipment_data->save();
-                $shipment_history = new ShipmentHistory;
-                $shipment_history->id_shipment = $shipment_data->id;
-                $shipment_history->id_shipment_status = 3;
-                $shipment_history->save();
-            }*/
+            // SLOT
+            foreach ($delivery->arrivalShipmentDetail as $slot) {
+                $slot->packagingList->slotList->id_slot_status = 7;
+                $slot->packagingList->slotList->save();
+                // SHIPMENT
+                foreach ($slot->packagingList->slotList->shipments as $shipment) {
+                    $shipment->id_shipment_status = 14;
+                    $shipment->save();
+                }
+            }
+        // SHIPMENT
+
+            // foreach(Input::get('shipments') as $shipment){
+            //     $shipment_data = Shipment::find($shipment);
+            //     $shipment_data->id_shipment_status = 14;
+            //     $shipment_data->save();
+            //     $shipment_history = new ShipmentHistory;
+            //     $shipment_history->id_shipment = $shipment_data->id;
+            //     $shipment_history->id_shipment_status = 14;
+            //     $shipment_history->save();
+            // }
         }
-        $delivdetails = DeliveryShipmentDetail::where('id_delivery', $id)->delete();
+        $delivdetails = ArrivalShipmentDetail::where('arrival_shipment_id', $id)->delete();
         if (Input::get('shipments') != null){
             foreach(Input::get('shipments') as $shipment){
-                $deliv_details = new DeliveryShipmentDetail;
-                $deliv_details->id_shipment = $shipment;
-                $deliv_details->id_delivery = $delivery->id;
+                $deliv_details = new ArrivalShipmentDetail;
+                $deliv_details->packaging_lists_id = $shipment;
+                $deliv_details->arrival_shipment_id = $id;
                 $deliv_details->save();
             }
         }

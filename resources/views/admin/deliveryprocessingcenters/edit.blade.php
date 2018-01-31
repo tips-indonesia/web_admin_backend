@@ -17,7 +17,7 @@
                     <label>Transaction Date :</label>
                     <div class="input-group">
                         <span class="input-group-addon"><i class="icon-calendar5"></i></span>
-                        <input type="text" name="date" id="date" class="form-control pickadate-year" placeholder="Transaction date" value="{{print_r($data->delivery_date) }}" disabled>
+                        <input type="text" name="date" id="date" class="form-control pickadate-year" placeholder="Transaction date" value="{{$data->delivery_date }}" disabled>
                     </div>
                 </div>
                 <div class="text-right form-group">
@@ -38,10 +38,12 @@
                                         <input type="text" name="delivery_time" class="form-control pickatime" placeholder="Received date" value="{{$data->delivery_date    }}">
                                     </div>
                                 </div>
+                                {{print_r($delivery_shipments)}}
                         <div class="text-right form-group">
                             <select multiple="multiple" class="form-control listbox" name="shipments[]">
+
                                @foreach ($shipment_lists as $datax)
-                                    <option value="{{ $datax['id'] }}" > {{ $datax['packaging_list']['packaging_id'] }} &nbsp; - &nbsp; {{ $datax['created_at'] }} &nbsp; - &nbsp; {{ $datax['airport_origin']['name'] }} &nbsp; - &nbsp; {{ $datax['airport_destination']['name'] }} </option>
+                                    <option value="{{$datax->packagingList->id}}" {{ in_array($datax->packagingList->id, $delivery_shipments)? "SELECTED" : "" }}> {{ $datax->packagingList->packaging_id }} &nbsp; - &nbsp; {{ date("Y-m-d", strtotime($datax->created_at)) }} &nbsp; - &nbsp; {{ $datax->airportOrigin->name }} &nbsp; - &nbsp; {{ $datax->airportDestination->name }} </option>
                                 @endforeach
                             </select>
                         </div>

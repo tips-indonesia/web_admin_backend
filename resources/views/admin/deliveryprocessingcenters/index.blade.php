@@ -62,7 +62,7 @@
                             {{ $data->delivery_time }}
                         </td>
                         <td>
-                            {{ $data->total }}
+                            {{ $data->arrivalShipmentDetail->count() }}
                         </td>
                         <td>
                             {{ $data->is_posted == 1 ? 'Submited' : 'Not Submited' }}
