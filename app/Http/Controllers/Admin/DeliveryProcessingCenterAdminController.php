@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Shipment;
 use App\DeliveryShipment;
+use App\ArrivalShipment;
+use App\ArrivalShipmentDetail;
 use App\DeliveryShipmentDetail;
 use App\ShipmentHistory;
 use App\OfficeList;
@@ -32,11 +34,11 @@ class DeliveryProcessingCenterAdminController extends Controller
     {
         //
         if (Input::get('date')) {
-            $data['datas'] = DeliveryShipment::where('delivery_date', Input::get('date'));
+            $data['datas'] = ArrivalShipment::where('delivery_date', Input::get('date'));
             $data['date'] = Input::get('date');
         } else {
             $data['date'] = Carbon::now()->toDateString();
-            $data['datas'] = DeliveryShipment::where('delivery_date', $data['date']);
+            $data['datas'] = ArrivalShipment::where('delivery_date', $data['date']);
         }
         if (Input::get('param') == 'blank' || !Input::get('param') ) {
             $data['datas'] = $data['datas']->where('id', '!=', null);
@@ -51,9 +53,8 @@ class DeliveryProcessingCenterAdminController extends Controller
         foreach ($data['datas'] as $dat) {
             $dat['total'] = PackagingDelivery::where('deliveries_id', $dat->id)->get()->count();
         }
-        $data['pending'] = SlotList::where('id_slot_status', 6)->with('airportOrigin')->with('airportDestination')->get();
-
-        $data['datas2'] = DeliveryShipment::whereIn('delivery_id', $data['pending'])->get();
+        $data['pending'] = SlotList::where('id_slot_status', 6)->with('airportOrigin', 'airportDestination')->get();
+        $data['datas2'] = ArrivalShipment::whereIn('delivery_id', $data['pending'])->get();
         foreach ($data['datas2'] as $dat) {
             $dat['total'] = PackagingDelivery::where('deliveries_id', $dat->id)->get()->count();
             $dat['origin'] = OfficeList::find($dat->id_origin_office)->name;
@@ -75,14 +76,14 @@ class DeliveryProcessingCenterAdminController extends Controller
         if ($date == null) {
             $data['datas'] = array(); 
         } else {
-            $data['datas'] = PackagingList::all();
-            foreach ($data['datas'] as $dat) {
-                if ($dat->id_slot != null) {
-                    $slot = SlotList::find($dat->id_slot);
-                    $dat['origin_name'] = AirportList::find($slot->id_origin_airport)->name;
-                    $dat['destination_name'] = AirportList::find($slot->id_destination_airport)->name;
-                }
-            }
+            $data['datas'] = SlotList::where('id_slot_status', 6)->with('airportOrigin', 'airportDestination')->get();
+            // foreach ($data['datas'] as $dat) {
+            //     if ($dat->id_slot != null) {
+            //         $slot = SlotList::find($dat->id_slot);
+            //         $dat['origin_name'] = AirportList::find($slot->id_origin_airport)->name;
+            //         $dat['destination_name'] = AirportList::find($slot->id_destination_airport)->name;
+            //     }
+            // }
             $data['date'] = $date;
         }
         return view('admin.deliveryprocessingcenters.create', $data);
@@ -95,23 +96,21 @@ class DeliveryProcessingCenterAdminController extends Controller
     */
     public function store()
     {
-        $delivery = new DeliveryShipment;
+        $delivery = new DeliveryArrival;
         $delivery->delivery_date = Input::get('date');
         $delivery->delivery_time = Input::get('delivery_time');
         $delivery->created_by = Auth::user()->id; 
         $delivery->save();
-        $delivery->delivery_id='DEL'.$delivery->id.'2017';
+        $delivery->delivery_id='DEL'.$delivery->id.date('Y');
         $delivery->save();
         foreach(Input::get('shipments') as $shipment) {
-            $deliv_details = new PackagingDelivery;
+            $deliv_details = new PackagingArrival;
             $deliv_details->packaging_id = $shipment;
             $deliv_details->deliveries_id = $delivery->id;
             $deliv_details->save();
         }
+
         return Redirect::to(route('deliveryprocessingcenters.edit', ['id' => $delivery->id]));
-
-
-
     }
 
     /**
@@ -134,16 +133,34 @@ class DeliveryProcessingCenterAdminController extends Controller
     public function edit($id)
     {
         //
-        $delivery_shipment_info = DeliveryShipment::find($id);
-        $delivery_shipments = DeliveryShipmentDetail::where([['id_delivery', '=', $id]])->pluck('id_shipment')->toArray();
-        $temp_shipments = Shipment::where([['transaction_date', '=', $delivery_shipment_info->delivery_date], ['is_posted', '=', 1]])->whereIn('id_shipment_status', [1,2])->get();
-        foreach ($temp_shipments as $dat) {
-            $dat['origin_name'] = CityList::find($dat->id_origin_city)->name;
-            $dat['destination_name'] = CityList::find($dat->id_destination_city)->name;
-        }
-        $data['delivery_shipments'] = $delivery_shipments;
-        $data['shipment_lists'] = $temp_shipments;
-        $data['data'] = $delivery_shipment_info;
+        $data['data'] = DeliveryArrival::find($id);
+        if(!$data['data'])
+            return Redirect::to(route('deliveryprocessingcenters.index'));
+                
+        $data['delivery_shipments'] = SlotList::where('id_slot_status','=','6')
+            ->with('packagingList', 'airportDestination', 'airportOrigin')
+            ->get();
+        echo"<pre>";print_r($data['delivery_shipments']);
+        dd($data['delivery_shipments']);
+
+        $data['shipment_lists'] = SlotList::where('id_slot_status','=','6')
+            ->with('packagingList', 'airportDestination', 'airportOrigin')
+            ->get()->toArray();
+        // echo "<pre>";
+        // print_r($data['shipment_lists']);
+        // dd($data['shipment_lists']);
+
+        // dd($data['shipment_lists']);
+        // $delivery_shipments = DeliveryShipmentDetail::where([['id_delivery', '=', $id]])->pluck('id_shipment')->toArray();
+        // $temp_shipments = Shipment::where([['transaction_date', '=', $delivery_shipment_info->delivery_date], ['is_posted', '=', 1]])->whereIn('id_shipment_status', [1,2])->get();
+        // // dd("--");
+        // foreach ($temp_shipments as $dat) {
+        //     $dat['origin_name'] = CityList::find($dat->id_origin_city)->name;
+        //     $dat['destination_name'] = CityList::find($dat->id_destination_city)->name;
+        // }
+        // $data['delivery_shipments'] = $delivery_shipments;
+        // $data['shipment_lists'] = $temp_shipments;
+        // $data['data'] = $delivery_shipment_info;
         return view('admin.deliveryprocessingcenters.edit', $data);
 
     }
