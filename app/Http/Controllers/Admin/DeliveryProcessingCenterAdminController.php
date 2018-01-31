@@ -76,14 +76,7 @@ class DeliveryProcessingCenterAdminController extends Controller
         if ($date == null) {
             $data['datas'] = array(); 
         } else {
-            $data['datas'] = SlotList::where('id_slot_status', 6)->with('airportOrigin', 'airportDestination')->get();
-            // foreach ($data['datas'] as $dat) {
-            //     if ($dat->id_slot != null) {
-            //         $slot = SlotList::find($dat->id_slot);
-            //         $dat['origin_name'] = AirportList::find($slot->id_origin_airport)->name;
-            //         $dat['destination_name'] = AirportList::find($slot->id_destination_airport)->name;
-            //     }
-            // }
+            $data['datas'] = SlotList::where('id_slot_status', 6)->get();
             $data['date'] = $date;
         }
         return view('admin.deliveryprocessingcenters.create', $data);

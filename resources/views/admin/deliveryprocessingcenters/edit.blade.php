@@ -17,7 +17,7 @@
                     <label>Transaction Date :</label>
                     <div class="input-group">
                         <span class="input-group-addon"><i class="icon-calendar5"></i></span>
-                        <input type="text" name="date" id="date" class="form-control pickadate-year" placeholder="Transaction date" value="{{ $data->delivery_date }}" disabled>
+                        <input type="text" name="date" id="date" class="form-control pickadate-year" placeholder="Transaction date" value="{{print_r($data->delivery_date) }}" disabled>
                     </div>
                 </div>
                 <div class="text-right form-group">
@@ -35,13 +35,13 @@
                                     <label>Delivery Time :</label>
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="icon-calendar5"></i></span>
-                                        <input type="text" name="delivery_time" class="form-control pickatime" placeholder="Received date" value="{{$data->delivery_date}}">
+                                        <input type="text" name="delivery_time" class="form-control pickatime" placeholder="Received date" value="{{$data->delivery_date    }}">
                                     </div>
                                 </div>
                         <div class="text-right form-group">
                             <select multiple="multiple" class="form-control listbox" name="shipments[]">
                                @foreach ($shipment_lists as $datax)
-                                    <option value="{{ $datax->id }}" @if (in_array($datax->id, $delivery_shipments)) selected @endif> {{ $datax->shipment_id }} &nbsp; - &nbsp; {{ $datax->transaction_date }} &nbsp; - &nbsp; {{ $datax->origin_name }} &nbsp; - &nbsp; {{ $datax->destination_name }} </option>
+                                    <option value="{{ $datax['id'] }}" > {{ $datax['packaging_list']['packaging_id'] }} &nbsp; - &nbsp; {{ $datax['created_at'] }} &nbsp; - &nbsp; {{ $datax['airport_origin']['name'] }} &nbsp; - &nbsp; {{ $datax['airport_destination']['name'] }} </option>
                                 @endforeach
                             </select>
                         </div>
