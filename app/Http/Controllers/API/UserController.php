@@ -54,6 +54,10 @@ class UserController extends Controller
         return response()->json($data, 200);
     }
 
+    private function generateCode($n){
+        return rand(10**($n - 1), 10**$n - 1);
+    }
+
     function register(Request $request) {
         $member_list = MemberList::where('mobile_phone_no', $request->mobile_phone_no)->first();
         if($member_list != null) {
@@ -96,7 +100,7 @@ class UserController extends Controller
                 $member_list->token = $request->token;
             }
             
-            $sms_code = round($this->microtime_float()) % 9999;
+            $sms_code = $this->generateCode(6); // 6 Random code generated
 
             $member_list->sms_code = $sms_code;
 

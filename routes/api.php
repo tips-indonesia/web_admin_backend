@@ -25,6 +25,7 @@ Route::get('/cron/set/on', 'UtilityController@startcronjob');
 Route::get('/cron/set/off', 'UtilityController@stopcronjob');
 Route::get('/fcmtest', 'FCMSender@testTopic');
 Route::get('/smstest', 'SMSSender@testSMS');
+Route::get('/tes', 'UtilityController@generateCode');
 
 Route::post('/register', 'API\\UserController@register');
 Route::post('/verify/phone', 'API\\UserController@verifyPhoneNumber');

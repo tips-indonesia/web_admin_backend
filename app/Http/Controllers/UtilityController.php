@@ -422,4 +422,14 @@ class UtilityController extends Controller
 
         return "OK: End";
     }
+
+    private function microtime_float(){
+        list($usec, $sec) = explode(" ", microtime());
+        return ((float)$usec + (float)$sec);
+    }
+
+    public function generateCode(Request $request){
+        $n = $request->n;
+        return (10**($n - 1)) . " - " . (10**$n - 1);
+    }
 }
