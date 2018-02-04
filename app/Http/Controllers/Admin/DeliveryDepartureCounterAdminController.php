@@ -109,7 +109,7 @@ class DeliveryDepartureCounterAdminController extends Controller
         $delivery->delivery_time = Input::get('delivery_time');
         $delivery->created_by = Auth::user()->id; 
         $delivery->save();
-        $delivery->delivery_id='DEL'.$delivery->id.'2017';
+        $delivery->delivery_id='PD'.date('ymd').str_pad($delivery->id, 4, '0', STR_PAD_LEFT);
         $delivery->save();
         foreach(Input::get('packagings') as $shipment) {
             $deliv_details = new PackagingDelivery;
