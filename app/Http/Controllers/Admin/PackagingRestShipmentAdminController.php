@@ -94,7 +94,7 @@ class PackagingRestShipmentAdminController extends Controller
             $airportList = new PackagingList;
             $airportList->packaging_id = 'x';
             $airportList->save();
-            $airportList->packaging_id = $airportList->id.'2017'; 
+            $airportList->packaging_id = 'PR'.date('ymd').str_pad($airportList->id, 4, '0', STR_PAD_LEFT); 
             $airportList->save();
             $shipments = Input::get('shipment');
             foreach ($shipments as $shipment) {
