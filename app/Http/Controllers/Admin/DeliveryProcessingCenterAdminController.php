@@ -96,7 +96,7 @@ class DeliveryProcessingCenterAdminController extends Controller
         $delivery->delivery_time = Input::get('delivery_time');
         $delivery->created_by = Auth::user()->id; 
         $delivery->save();
-        $delivery->delivery_id='DEL'.$delivery->id.date('Y');
+        $delivery->delivery_id='CD'.date('ymd').str_pad($delivery->id, 4, '0', STR_PAD_LEFT);
         $delivery->save();
         foreach(Input::get('shipments') as $shipment) {
             $deliv_details = new ArrivalShipmentDetail;

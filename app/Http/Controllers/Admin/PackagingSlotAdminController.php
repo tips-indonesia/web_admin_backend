@@ -102,7 +102,7 @@ class PackagingSlotAdminController extends Controller
             $packagingslots->packaging_id = '2017';
             $packagingslots->id_slot = Input::get('slot');
             $packagingslots->save();
-            $packagingslots->packaging_id = $packagingslots->id.'2017';
+            $packagingslots->packaging_id = 'PS'.date('ymd').str_pad($packagingslots->id, 4, '0', STR_PAD_LEFT);
             $packagingslots->save();
             Session::flash('message', 'Successfully created nerd!');
             return Redirect::to(route('packagingslots.index'));
