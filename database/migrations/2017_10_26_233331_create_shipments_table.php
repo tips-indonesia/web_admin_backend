@@ -80,6 +80,8 @@ class CreateShipmentsTable extends Migration
             $table->string('payment_id')->nullable();
             $table->string('shipper_address_detail')->nullable();
             $table->string('consignee_address_detail')->nullable();
+            $table->string('photo_ktp')->nullable();
+            $table->string('photo_signature')->nullable();
             $table->timestamps();
 
         });
