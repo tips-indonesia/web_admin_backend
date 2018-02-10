@@ -239,7 +239,7 @@ class ShipmentController extends Controller
     }
 
     function cancel_shipment(Request $request) {
-        $shipment = Shipment::where('id_shipper', $request->id_shipper)->where('id_shipment_status', 1)->first();
+        $shipment = Shipment::where('id_shipper', $request->id_shipper)->where('id_shipment_status', 1)->where('shipment_id', $request->shipment_id)->first();
         if($shipment == null) {
             $data = array(
                 'err' => [
