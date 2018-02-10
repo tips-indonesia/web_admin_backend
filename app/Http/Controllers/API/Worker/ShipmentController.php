@@ -92,5 +92,59 @@ class ShipmentController extends Controller
         return response()->json($data, 200);
     }
 
+    function upload_signature(Request $request) {
+        $shipment_id = $request->shipment_id;
+        $shipment = Shipment::where('shipment_id', $shipment_id)->first();
+
+
+        if($shipment == null) {
+            $data = array(
+                'err' => [
+                    'code' => 0,
+                    'message' => 'Shipment id tidak ditemukan'
+                ],
+                'result' => null
+            );
+        } else {
+            $file_ktp = $request->file('photo_ktp');
+            $file_signature = $request->file('photo_signature');
+
+
+            $t = microtime(true);
+            $micro = sprintf("%06d", ($t - floor($t)) * 1000000);
+            $timestamp = date('YmdHis' . $micro, $t) . "_" . rand(0, 1000);
+
+            $data_img_ktp = $file_ktp;
+            $ext_file_ktp = $data_img_ktp->getClientOriginalExtension();
+            $name_file_ktp = $timestamp . '_img_item.' . $ext_file_ktp;
+            $path_file_ktp = public_path() . '/image/shipment/ktp';
+
+            $data_img_signature = $file_signature;
+            $ext_file_signature = $data_img_signature->getClientOriginalExtension();
+            $name_file_signature = $timestamp . '_img_item.' . $ext_file_signature;
+            $path_file_signature = public_path() . '/image/shipment/signature';
+
+            if($data_img_ktp->move($path_file_ktp,$name_file_ktp)) {
+                $shipment->photo_ktp = $name_file_ktp;
+            }
+
+            if($data_img_signature->move($path_file_signature,$name_file_signature)) {
+                $shipment->photo_signature = $name_file_signature;
+            }
+
+            $shipment->save();
+
+            $data = array(
+                'err' => null,
+                'result' => [
+                    'code' => 1,
+                    'message' => 'Berasil mengupload signature'
+                ]
+            );
+        }
+
+        return response()->json($data, 200);
+    }
+
 
 }
