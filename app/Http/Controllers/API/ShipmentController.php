@@ -238,6 +238,32 @@ class ShipmentController extends Controller
         return response()->json($data, 200);
     }
 
+    function cancel_shipment(Request $request) {
+        $shipment = Shipment::where('id_shipper', $request->id_shipper)->where('id_shipment_status', 1)->first();
+        if($shipment == null) {
+            $data = array(
+                'err' => [
+                    'code' => 0,
+                    'message' => 'Shipment tidak ditemukan, shipment sudah melalui process atau id member tidak cocok'
+                ],
+                'result' => null
+            );
+        } else {
+            $shipment->status_dispatch = 'Canceled';
+            $shipment->save();
+
+            $data = array(
+                'err' => null,
+                'result' => [
+                    'code' => 1,
+                    'message' => 'Shipment berasil di cancel'
+                ]
+            );
+        }
+
+        return response()->json($data, 200);
+    }
+
     function generateRandomString($length = 7) {
         $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $charactersLength = strlen($characters);
