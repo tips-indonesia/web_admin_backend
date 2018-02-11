@@ -25,8 +25,6 @@ class DeliveryController extends Controller
 
     function submit(Request $request) {
         $member = MemberList::find($request->id_member);
-        $booking = FlightBookingList::where('booking_code', $request->booking_code)->first();
-        $slot = SlotList::where('booking_code', $request->booking_code)->first();
 
         if($member == null) {
             $data = array(
@@ -36,41 +34,27 @@ class DeliveryController extends Controller
                 ],
                 'result' => null
             );
-        } else if($booking == null) {
-            $data = array(
-                'err' => [
-                    'code' => 0,
-                    'message' => 'Booking tidak ditemukan'
-                ],
-                'result' => null
-            );
-        } else if($slot != null){
-            $data = array(
-                'err' => [
-                    'code' => 0,
-                    'message' => 'Booking telah didaftarkan'
-                ],
-                'result' => null
-            );
         } else {
             do{
                 $random_string = $this->generateRandomString();
             }while(SlotList::where('slot_id', $random_string)->first() != null);
 
-            $airport_origin = AirportList::find($booking->id_origin_airport);
-            $airport_destination = AirportList::find($booking->id_destination_airport);
+            $airport_origin = AirportList::find($request->id_origin_airport);
+            $airport_destination = AirportList::find($request->id_destination_airport);
             $price = PriceList::where('id_origin_city', $airport_origin->id_city)->where('id_destination_city', $airport_destination->id_city)->first();
 
             $slot = new SlotList;
             $slot->slot_id = $random_string;
             $slot->id_member = $member->id;
-            $slot->booking_code = $booking->booking_code;
-            $slot->id_airline = $booking->id_airline;
-            $slot->id_origin_airport = $booking->id_origin_airport;
-            $slot->id_destination_airport = $booking->id_destination_airport;
-            $slot->depature = $booking->depature;
-            $slot->arrival = $booking->arrival;
-            $slot->flight_code = $booking->flight_code;
+            $slot->booking_code = $request->booking_code;
+            $slot->id_airline = 1; //$request->id_airline;
+            $slot->id_origin_airport = $request->id_origin_airport;
+            $slot->id_destination_airport = $request->id_destination_airport;
+            $slot->depature = date('Y-m-d H:i:s', strtotime($request->depature));
+            $slot->arrival = date('Y-m-d H:i:s', strtotime($request->arrival));
+            $slot->first_name = $request->first_name;
+            $slot->last_name = $request->last_name;
+            $slot->flight_code = $request->flight_code;
             $slot->baggage_space = $request->baggage_space;
             $slot->slot_price_kg = $price->tipster_price;
             $slot->id_origin_city = $airport_origin->id_city;
