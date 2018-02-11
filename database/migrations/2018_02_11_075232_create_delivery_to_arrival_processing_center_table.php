@@ -17,11 +17,11 @@ class CreateDeliveryToArrivalProcessingCenterTable extends Migration
             $table->increments('id');
             $table->string('delivery_id', 50)->nullable($value = true);
             $table->date('delivery_date');
-            $table->unsignedInteger('created_by')->nullable($value = true);;
+            $table->unsignedInteger('created_by')->nullable($value = true);
             $table->time('delivery_time');
-            $table->unsignedInteger('id_kantor_asal')->nullable($value = true);;
-            $table->unsignedInteger('id_kantor_tujuan')->nullable($value = true);;
-            $table->unsignedInteger('is_submit')->nullable($value = true);;
+            $table->unsignedInteger('id_kantor_asal')->nullable($value = true);
+            $table->unsignedInteger('id_kantor_tujuan')->nullable($value = true);
+            $table->unsignedInteger('is_submit')->nullable($value = true);
             $table->timestamps();
         });
     }
