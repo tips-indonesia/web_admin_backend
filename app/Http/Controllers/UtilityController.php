@@ -432,4 +432,9 @@ class UtilityController extends Controller
         $n = $request->n;
         return (10**($n - 1)) . " - " . (10**$n - 1);
     }
+
+    public function verify_flight(Request $request){
+        $data = $request->all();
+        return response()->json($data, 200);
+    }
 }
