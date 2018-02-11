@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\AirportcityList;
 use App\SlotList;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -77,7 +78,14 @@ class FlightController extends Controller
     }
 
     function get_airport_list() {
-        $airport_list = AirportList::all();
+        $airport_list_init = AirportList::all();
+        $airport_list = [];
+
+        foreach ($airport_list_init as $airport) {
+            $airport->city_name = AirportcityList::find($airport->id_city)->name;
+            array_push($airport_list, $airport);
+        }
+
         $data = array(
             'err' => null,
             'result' => array(
