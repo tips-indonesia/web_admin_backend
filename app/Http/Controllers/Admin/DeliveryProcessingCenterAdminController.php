@@ -34,11 +34,11 @@ class DeliveryProcessingCenterAdminController extends Controller
     {
         //
         if (Input::get('date')) {
-            $data['datas'] = ArrivalShipment::where('tanggal', Input::get('date'));
+            $data['datas'] = ArrivalShipment::where('delivery_date', Input::get('date'));
             $data['date'] = Input::get('date');
         } else {
             $data['date'] = Carbon::now()->toDateString();
-            $data['datas'] = ArrivalShipment::where('tanggal', $data['date']);
+            $data['datas'] = ArrivalShipment::where('delivery_date', $data['date']);
         }
         if (Input::get('param') == 'blank' || !Input::get('param') ) {
             $data['datas'] = $data['datas']->where('id', '!=', null);

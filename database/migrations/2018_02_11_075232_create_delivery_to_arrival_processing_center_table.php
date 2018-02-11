@@ -16,7 +16,7 @@ class CreateDeliveryToArrivalProcessingCenterTable extends Migration
         Schema::create('delivery_to_arrival_processing_center', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('delivery_id');
-            $table->date('tanggal');
+            $table->date('delivery_date');
             $table->unsignedInteger('id_kantor_asal');
             $table->unsignedInteger('id_kantor_tujuan');
             $table->unsignedInteger('is_submit');
