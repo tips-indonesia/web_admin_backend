@@ -133,7 +133,7 @@ class ShipmentController extends Controller
             }
 
             $shipment->received_by = $request->received_by;
-            $shipment->received_time = date('Y-m-d H:i:s', strtotime($request->received_time));
+            $shipment->received_time = date('Y-m-d H:i:s');
 
             $shipment->save();
 
