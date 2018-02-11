@@ -66,7 +66,7 @@ class CreateShipmentsTable extends Migration
             $table->date('packaging_date')->nullable();
             $table->time('packaging_time')->nullable();
             $table->string('received_by')->nullable();
-            $table->timestamp('received_time')->nullable();
+            $table->dateTime('received_time')->nullable();
             $table->string('received_image')->nullable();
             $table->boolean('is_posted')->default(false);
             $table->boolean('is_matched')->default(false);
