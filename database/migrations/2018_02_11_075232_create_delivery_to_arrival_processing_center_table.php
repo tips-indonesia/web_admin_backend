@@ -15,7 +15,7 @@ class CreateDeliveryToArrivalProcessingCenterTable extends Migration
     {
         Schema::create('delivery_to_arrival_processing_center', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('delivery_id', 50);
+            $table->string('delivery_id', 50)->nullable($value = true);
             $table->date('delivery_date');
             $table->unsignedInteger('created_by');
             $table->time('delivery_time');
