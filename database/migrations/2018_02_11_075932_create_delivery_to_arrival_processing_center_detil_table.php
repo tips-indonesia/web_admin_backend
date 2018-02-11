@@ -15,8 +15,8 @@ class CreateDeliveryToArrivalProcessingCenterDetilTable extends Migration
     {
         Schema::create('delivery_to_arrival_processing_center_detil', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('id_delivery');
-            $table->unsignedInteger('id_package');
+            $table->unsignedInteger('arrival_shipment_id');
+            $table->unsignedInteger('packaging_lists_id');
             $table->timestamps();
         });
     }
