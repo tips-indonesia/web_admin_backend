@@ -52,7 +52,7 @@ class FlightController extends Controller
             $data = array(
                 'err' => [
                     'code' => 0,
-                    'message' => 'Booking code ' . $booking_code . ' has used';
+                    'message' => 'Booking code ' . $booking_code . ' has used'
                 ],
                 'result' => null
             );
