@@ -7,6 +7,7 @@ use App\SlotList;
 use App\Shipment;
 use App\DaftarBarangGold;
 use App\DaftarBarangRegular;
+use App\FlightBookingList;
 
 use Storage;
 
@@ -434,6 +435,22 @@ class UtilityController extends Controller
     }
 
     public function check_flight_b_n_d(Request $request){
+
+        $booking_code = $request->booking_code;
+        $booking = FlightBookingList::where('booking_code', $booking_code)->first();
+
+        if($booking){
+            $data = array(
+                'err' => [
+                    'code' => 0,
+                    'message' => 'Booking code ' . $booking_code . ' has used'
+                ],
+                'result' => null
+            );
+
+            return response()->json($data, 200);
+        }
+
         $data = array(
             'err' => null,
             'result' => array(
