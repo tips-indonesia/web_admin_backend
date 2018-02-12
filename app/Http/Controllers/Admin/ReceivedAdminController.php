@@ -53,7 +53,7 @@ class ReceivedAdminController extends Controller
         if ($flag == true) {
             $shipment_data = $shipment_data->where('shipment_id', $data['value'])->paginate(10);
         } else {
-            $shipment_data = $shipment_data->whereIn('id_shipment_status', [3,4])->paginate(10);
+            $shipment_data = $shipment_data->where('id_shipment_status', '>=', 3)->paginate(10);
         }
         
         foreach($shipment_data as $ship) {
@@ -61,6 +61,8 @@ class ReceivedAdminController extends Controller
             $ship['destination'] = AirportcityList::find($ship->id_destination_city)->name;
         }
         $data['datas'] = $shipment_data;
+
+        // print_r($data);
         return view('admin.receiveds.index', $data);
     }
 
