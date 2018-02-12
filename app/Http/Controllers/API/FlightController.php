@@ -45,6 +45,21 @@ class FlightController extends Controller
 
     function post_flight_booking_code(Request $request){
 
+        $booking_code = $request->booking_code;
+        $booking = FlightBookingList::where('booking_code', $booking_code)->first();
+
+        if($booking){
+            $data = array(
+                'err' => [
+                    'code' => 0,
+                    'message' => 'Booking code ' . $booking_code . ' has used';
+                ],
+                'result' => null
+            );
+
+            return response()->json($data, 200);
+        }
+
         $airport_origin = $this->get_airport_by_code($request->code_origin);
         $airport_destination = $this->get_airport_by_code($request->code_destination);
 
@@ -73,7 +88,7 @@ class FlightController extends Controller
             'arrival' => $date_destination,
             'flight_code' => $flight_code,
         ));
-        
+
         $booking->origin_airport = AirportList::find($booking->id_origin_airport);
         $booking->destination_airport = AirportList::find($booking->id_destination_airport);
         $booking->origin_city = CityList::find($booking->origin_airport->id_city)->name;
