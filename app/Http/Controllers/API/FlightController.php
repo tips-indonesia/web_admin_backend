@@ -43,6 +43,55 @@ class FlightController extends Controller
         return response()->json($data, 200);
     }
 
+    function post_flight_booking_code(Request $request){
+
+        $airport_origin = $this->get_airport_by_code($request->code_origin);
+        $airport_destination = $this->get_airport_by_code($request->code_destination);
+
+        if(!$airport_origin || !$airport_destination){
+            $data = array(
+                'err' => [
+                    'code' => 0,
+                    'message' => 'Airport asal atau tujuan tidak ditemukan'
+                ],
+                'result' => null
+            );
+
+            return response()->json($data, 200);
+        }
+
+        $booking_code = $request->booking_code;
+        $flight_code = $request->flight_code;
+        $date_origin = $request->date_origin;
+        $date_destination = $request->date_destination;
+        $booking = FlightBookingList::create(array(
+            'booking_code' => $booking_code,
+            'id_airline' => 1,
+            'id_origin_airport' => $airport_origin->id,
+            'id_destination_airport' => $airport_destination->id,
+            'depature' => $date_origin,
+            'arrival' => $date_destination,
+            'flight_code' => $flight_code,
+        ));
+
+        $data = array(
+            'err' => null,
+            'result' => array(
+                'booking' => $booking,
+            )
+        );
+
+        return response()->json($data, 200);
+    }
+
+    function get_airport_by_code($code){
+        return AirportList::where("initial_code", substr($code, 0, 3))->first();
+    }
+
+    public function test(Request $request){
+        
+    }
+
     function get_booking_code_by_city(Request $request) {
         $airport_origin_init = AirportList::select('id')->where('id_city',$request->id_city_origin)->get();
         $airport_destination_init = AirportList::select('id')->where('id_city',$request->id_city_destination)->get();

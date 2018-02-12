@@ -52,6 +52,8 @@ Route::post('/shipment/cancel', 'API\\ShipmentController@cancel_shipment');
 
 Route::get('/flight/booking', 'API\\FlightController@get_flight_booking');
 Route::get('/flight/airport', 'API\\FlightController@get_airport_list');
+Route::post('/flight/test', 'API\\FlightController@post_flight_booking_code');
+Route::post('/flight/create_flight', 'API\\FlightController@post_flight_booking_code');
 Route::get('/flight/booking/used', 'API\\FlightController@get_used_booking_code');
 Route::get('/flight/booking/city', 'API\\FlightController@get_booking_code_by_city');
 Route::post('/flight/check_flight_b_n_d', 'UtilityController@check_flight_b_n_d');
