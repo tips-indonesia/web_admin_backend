@@ -113,7 +113,6 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {{$datas2}}
                                         @foreach ($datas2 as $data)
                                             <tr>
                                                 <td>
