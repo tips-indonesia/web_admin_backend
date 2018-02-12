@@ -136,6 +136,10 @@ class DeliveryProcessingCenterAdminController extends Controller
             ->pluck('packaging_lists_id')
             ->toArray();
 
+        $data['inputed_shipment_lists'] = SlotList::where('id_slot_status','=','7')
+            ->with('packagingList', 'airportDestination', 'airportOrigin')
+            ->get();
+
         $data['shipment_lists'] = SlotList::where('id_slot_status','=','6')
             ->with('packagingList', 'airportDestination', 'airportOrigin')
             ->get();

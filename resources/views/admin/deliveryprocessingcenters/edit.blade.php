@@ -42,9 +42,14 @@
                         <div class="text-right form-group">
                             <select multiple="multiple" class="form-control listbox" name="shipments[]">
 
+                                @foreach ($inputed_shipment_lists as $datax)
+                                    <option value="{{$datax->packagingList->id}}" SELECTED> {{ $datax->packagingList->packaging_id }} &nbsp; - &nbsp; {{ date("Y-m-d", strtotime($datax->created_at)) }} &nbsp; - &nbsp; {{ $datax->airportOrigin->name }} &nbsp; - &nbsp; {{ $datax->airportDestination->name }} </option>
+                                @endforeach
+
                                @foreach ($shipment_lists as $datax)
                                     <option value="{{$datax->packagingList->id}}" {{ in_array($datax->packagingList->id, $delivery_shipments)? "SELECTED" : "" }}> {{ $datax->packagingList->packaging_id }} &nbsp; - &nbsp; {{ date("Y-m-d", strtotime($datax->created_at)) }} &nbsp; - &nbsp; {{ $datax->airportOrigin->name }} &nbsp; - &nbsp; {{ $datax->airportDestination->name }} </option>
                                 @endforeach
+
                             </select>
                         </div>
                         <div class="text-right form-group">
