@@ -15,10 +15,21 @@
                     <div class="panel panel-flat">
 
                         <div class="panel-body">
-
+                            <h4>Syarat dan Ketentuan Antar</h4>
             {{ Form::open(array('url' => route('terms.update', $datas->id), 'method' => 'PUT')) }}
                                 <div class="form-group">
-                                    <textarea cols="18" rows="18" class="wysihtml5 wysihtml5-min form-control" placeholder="Term and Agreement" name="terms">{{ $datas->content }}</textarea>
+                                    <textarea id="editor" cols="18" rows="18" class="wysihtml5 wysihtml5-min form-control" placeholder="Term and Agreement" name="terms">{{ $datas->content }}</textarea>
+                                </div>
+
+                                <div class="text-right form-group">
+                                    <button type="submit" class="btn btn-primary">Submit form <i class="icon-arrow-right14 position-right"></i></button>
+                                </div>
+            {{ Form::close() }} 
+                            <br>
+                            <h4>Syarat dan Ketentuan Kirim</h4>
+            {{ Form::open(array('url' => '#', 'method' => 'PUT')) }}
+                                <div class="form-group">
+                                    <textarea id="editor" cols="18" rows="18" class="wysihtml5 wysihtml5-min form-control" placeholder="Term and Agreement" name="terms">{{ $datas->content }}</textarea>
                                 </div>
 
                                 <div class="text-right form-group">
