@@ -44,7 +44,7 @@ class ReceivedAdminController extends Controller
         $shipments_2 = Shipment::where('is_take',1)->where('is_posted', 1)->pluck('id')->toArray();
         $shipments = array_merge($shipment_1, $shipments_2);
         if (Input::get('param') == 'received') {
-            $shipment_data = Shipment::where('id_shipment_status', 4)->whereIn('id', $shipments);
+            $shipment_data = Shipment::where('id_shipment_status', '>=', 3)->whereIn('id', $shipments);
         } else if (Input::get('param') == 'not_received') {
             $shipment_data = Shipment::where('id_shipment_status', 3)->whereIn('id', $shipments);
         } else {

@@ -52,7 +52,8 @@
                         <select name="param" class="select-search">
                             <option value="blank" selected>&#8192;</option>
                             <option value="shipment_id" {{ $param == 'shipment_id' ? 'selected' : '' }}>Shipment ID</option>
-                            <option value="shipper_name" {{ $param == 'shipper_name' ? 'selected' : '' }}>Shipper Name</option>
+                            <option value="shipper_first_name" {{ $param == 'shipper_first_name' ? 'selected' : '' }}>Shipper First Name</option>
+                            <option value="shipper_last_name" {{ $param == 'shipper_last_name' ? 'selected' : '' }}>Shipper Last Name</option>
                         </select>
                     </div>
                 </div>
@@ -99,7 +100,7 @@
                             @endif
                         </td>
                         <td>
-                            {{ $data->shipper_name }}
+                            {{ $data->shipper_first_name.' '.$data->shipper_last_name }}
                         </td>
                         <td>
                             {{ $data->name_origin }}
