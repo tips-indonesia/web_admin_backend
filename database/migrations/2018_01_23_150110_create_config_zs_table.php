@@ -16,7 +16,7 @@ class CreateConfigZsTable extends Migration
         Schema::create('config_zs', function (Blueprint $table) {
             $table->increments('id');
             $table->string('key');
-            $table->string('value');
+            $table->text('value');
             $table->string('comment')->nullable();
             $table->timestamps();
         });

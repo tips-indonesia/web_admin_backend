@@ -5,13 +5,24 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-use App\Term;
+use App\ConfigZ;
 
 class TermConditionsController extends Controller
 {
     //
     function index(){
-        $terms = Term::all();
+    	$terms = null;
+    	if (isset($_GET['type'])) {
+    		$res = ConfigZ::where('key', $_GET['type'])->value('value');
+    		$terms = explode("<br>", $res);
+
+    	} else {
+        	$terms = ConfigZ::all();
+        	foreach ($terms as $term) {
+	        	$string = explode("<br>", $term->value);
+	        	$term->value = $string;
+	        }
+        }
         $data = array(
             'err' => null,
             'result' => $terms
