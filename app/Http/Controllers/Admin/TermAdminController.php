@@ -5,10 +5,12 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Term;
+use App\ConfigZ;
 use Validator;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
+use App\Http\Controllers\ConfigHunter;
 
 class TermAdminController extends Controller
 {
@@ -20,7 +22,8 @@ class TermAdminController extends Controller
     public function index()
     {
         //
-        $data['datas'] = Term::all()->first();
+        $data['antar'] = ConfigZ::where('key', 'antar')->first();
+        $data['kirim'] = ConfigZ::where('key', 'kirim')->first();
         return view('admin.terms.create', $data);
     }
 
@@ -89,9 +92,12 @@ class TermAdminController extends Controller
                 ->withErrors($validator)
                 ->withInput();
         } else {
-            $airlinesList = Term::find($id);
-            $airlinesList->content = Input::get('terms');
-            $airlinesList->save();
+            // $airlinesList = Term::find($id);
+            // $airlinesList->content = Input::get('terms');
+            // $airlinesList->save();
+            $terms = Input::get('terms');
+            $jenis = Input::get('jenis');
+            ConfigHunter::set($jenis, $terms);
             Session::flash('message', 'Successfully created nerd!');
             return Redirect::to(route('terms.index'));
         }

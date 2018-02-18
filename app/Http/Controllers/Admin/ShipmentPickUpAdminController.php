@@ -48,7 +48,7 @@ class ShipmentPickUpAdminController extends Controller
             $data['value'] = Input::get('value');
             
             $query_param = $data['param'];
-            $query_param = $data['value'];
+            $query_value = $data['value'];
             if($query_param == 'pending'){
                 $query_param = 'is_posted';
                 $query_value = 0;

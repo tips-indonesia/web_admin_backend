@@ -28,7 +28,7 @@
                         <select name="param" id="param" class="select-search">
                             <option value="blank" selected>&#8192;</option>
                             <option value="packaging_id" {{ $param == 'packaging_id' ? 'selected' : '' }}>Package ID</option>
-                            <option value="slot_id" {{ $param == 'slot_id' ? 'selected' : '' }}>Slot ID</option>
+                            <option value="id_slot" {{ $param == 'slot_id' ? 'selected' : '' }}>Slot ID</option>
                         </select>
                     </div>
                 </div>
