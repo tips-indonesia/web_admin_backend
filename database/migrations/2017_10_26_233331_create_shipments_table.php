@@ -60,7 +60,7 @@ class CreateShipmentsTable extends Migration
             $table->unsignedInteger('card_no')->nullable();
             $table->date('card_expired_date')->nullable();
             $table->unsignedInteger('card_security_code')->nullable();
-            $table->unsignedInteger('id_shipment_status')->default(1);
+            $table->integer('id_shipment_status')->default(1);
             $table->timestamp('shipment_status_update_timestamp')->default(\DB::raw('CURRENT_TIMESTAMP'));
             $table->unsignedInteger('id_packaging')->nullable();
             $table->date('packaging_date')->nullable();
@@ -82,6 +82,7 @@ class CreateShipmentsTable extends Migration
             $table->string('consignee_address_detail')->nullable();
             $table->string('photo_ktp')->nullable();
             $table->string('photo_signature')->nullable();
+            $table->softDeletes();
             $table->timestamps();
 
         });

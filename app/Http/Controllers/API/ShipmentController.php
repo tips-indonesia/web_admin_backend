@@ -250,7 +250,10 @@ class ShipmentController extends Controller
             );
         } else {
             $shipment->status_dispatch = 'Canceled';
+            $shipment->id_shipment_status = 0;
             $shipment->save();
+
+            $shipment = Shipment::where('id_shipper', $request->id_shipper)->delete();
 
             $data = array(
                 'err' => null,
