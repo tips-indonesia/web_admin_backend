@@ -14,7 +14,9 @@ class TermConditionsController extends Controller
     	$terms = null;
     	if (isset($_GET['type'])) {
     		$res = ConfigZ::where('key', $_GET['type'])->value('value');
-    		$terms = explode("<br>", $res);
+    		$terms = array(
+    			"value" => explode("<br>", $res),
+    		);
 
     	} else {
         	$terms = ConfigZ::all();
