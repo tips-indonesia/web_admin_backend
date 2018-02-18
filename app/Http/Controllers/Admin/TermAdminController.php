@@ -23,7 +23,15 @@ class TermAdminController extends Controller
     {
         //
         $data['antar'] = ConfigZ::where('key', 'antar')->first();
+        if ($data['antar'] == null) {
+            ConfigHunter::set("antar", "Terms and Agreement Here");
+            $data['antar'] = ConfigZ::where('key', 'antar')->first();
+        }
         $data['kirim'] = ConfigZ::where('key', 'kirim')->first();
+        if ($data['kirim'] == null) {
+            ConfigHunter::set("kirim", "Terms and Agreement Here");
+            $data['kirim'] = ConfigZ::where('key', 'kirim')->first();
+        }
         return view('admin.terms.create', $data);
     }
 

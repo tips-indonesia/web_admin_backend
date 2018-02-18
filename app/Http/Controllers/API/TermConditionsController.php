@@ -11,15 +11,23 @@ class TermConditionsController extends Controller
 {
     //
     function index(){
-        $terms = ConfigZ::all();
+    	$terms = null;
+    	if (isset($_GET['type'])) {
+    		$res = ConfigZ::where('key', $_GET['type'])->value('value');
+    		$terms = explode("<br>", $res);
+
+    	} else {
+        	$terms = ConfigZ::all();
+        	foreach ($terms as $term) {
+	        	$string = explode("<br>", $term->value);
+	        	$term->value = $string;
+	        }
+        }
         $data = array(
             'err' => null,
             'result' => $terms
         );
-        foreach ($terms as $term) {
-        	$string = explode("<br>", $term->value);
-        	$term->value = $string;
-        }
+
         return response()->json($data, 200);
     }
 }
