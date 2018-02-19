@@ -14,7 +14,8 @@
         "laravelcollective/html": "^5.5",
         "lavary/laravel-menu": "^1.7",
         "spatie/laravel-permission": "^2.7",
-        "waavi/translation": "^2.3"
+        "waavi/translation": "^2.3",
+        "simplesoftwareio/simple-qrcode": "~2"
     },
     "require-dev": {
         "filp/whoops": "~2.0",

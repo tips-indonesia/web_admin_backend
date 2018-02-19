@@ -367,10 +367,22 @@
                     </div>
 
                     <div class="modal-body">
-                        <div id="qr"></div>
+                        <img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(300)->margin(0)->merge('\public\images\logo.png',.4)->encoding('UTF-8')->errorCorrection('H')->generate('{{ $data->shipment_id }}')) !!} "> 
                     </div>
 
                     <div class="modal-footer">
+                        @foreach ($cities as $origin_city)
+                                            @if ($data->id_origin_city == $origin_city->id)
+                                                <p style="float: left; font-size: 20px;">{{ $origin_city->name }} - </p>
+                                            @endif
+                        @endforeach
+                        @foreach ($cities as $destination_city)
+                                            @if ($data->id_destination_city == $destination_city->id)
+                                                <p style="float: left; font-size: 20px;">-    {{ $destination_city->name }}</p>
+                                            @endif
+                        @endforeach
+                        <button><a style="font-size: 20px;" href="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(300)->merge('\public\images\logo.png',.4)->encoding('UTF-8')->errorCorrection('H')->generate('‌{{ $data->shipment_id }}')); !!}"
+                                           download=<?=$data->shipment_id."_QRCode";?>>Print</a></button>
                     </div>
                 </div>
             </div>
@@ -404,10 +416,19 @@
                 }
             });
         });
-        jQuery('#qr').qrcode({
-            text    : "{{ $data->shipment_id }}",
-            render : "canvas"
-        }); 
+
+        var optionsqr = {
+          render: 'canvas',
+          left: 0,
+          top: 0,
+          size: 400,
+          fill: '#000',
+          background: null,
+          text: '{{ $data->shipment_id }}',
+          radius: 0,
+          image: 'https://image.freepik.com/free-icon/facebok-circular-logo_318-40188.jpg'
+        }
+        $('#qrcode').qrcode(optionsqr); 
         $('canvas').css("margin", "auto auto");
         $('canvas').css("display", "block");        
         $('input[name="online_payment"]').on('change', function(){
