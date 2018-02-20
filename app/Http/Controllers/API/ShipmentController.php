@@ -253,7 +253,7 @@ class ShipmentController extends Controller
             $shipment->id_shipment_status = 0;
             $shipment->save();
 
-            $shipment = Shipment::where('id_shipper', $request->id_shipper)->delete();
+            $shipment = Shipment::where('shipment_id', $request->shipment_id)->delete();
 
             $data = array(
                 'err' => null,
