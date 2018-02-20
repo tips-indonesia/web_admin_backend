@@ -40,8 +40,8 @@ class CityController extends Controller
             $data = array(
                 'err' => null,
                 'result' => [
-                    'reguler' => (int) $price->tipster_price,
-                    'gold' => $price->tipster_price + $price->add_first_class
+                    'reguler' => (int) $price->freight_cost,
+                    'gold' => $price->freight_cost + $price->add_first_class
                 ]
             );
         }
