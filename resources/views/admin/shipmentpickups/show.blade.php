@@ -364,14 +364,15 @@
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                         <h5 class="modal-title">QR Code</h5>
-                        
+                        <center><h5 style="margin: 0px;" >{{ $data->shipment_id }}<h5></center>
                     </div>
 
                     <div class="modal-body">
-                                <img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(300)->margin(0)->merge('\public\images\logo.png',.4)->encoding('UTF-8')->errorCorrection('H')->generate('{{ $data->shipment_id }}')) !!} "> 
+                                <img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(300)->margin(0)->merge('\public\images\logo.png',.4)->encoding('UTF-8')->errorCorrection('H')->generate($data->shipment_id)) !!} "> 
                     </div>
 
                     <div class="modal-footer">
+                        
                         @foreach ($cities as $origin_city)
                                             @if ($data->id_origin_city == $origin_city->id)
                                                 <p style="float: left; font-size: 20px;">{{ $origin_city->name }} - </p>
@@ -382,7 +383,7 @@
                                                 <p style="float: left; font-size: 20px;">-    {{ $destination_city->name }}</p>
                                             @endif
                         @endforeach
-                        <button><a style="font-size: 20px;" href="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(300)->merge('\public\images\logo.png',.4)->encoding('UTF-8')->errorCorrection('H')->generate('‌{{ $data->shipment_id }}')); !!}"
+                        <button><a style="font-size: 20px;" href="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(300)->merge('\public\images\logo.png',.4)->encoding('UTF-8')->errorCorrection('H')->generate($data->shipment_id)); !!}"
                                            download=<?=$data->shipment_id."_QRCode";?>>Print</a></button>
                     </div>
                 </div>

@@ -21,6 +21,9 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
+use SimpleSoftwareIO\QrCode\QrCodeServiceProvider;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Illuminate\Support\Facades\Storage;
 
 class ShipmentDropOffAdminController extends Controller
 {
@@ -218,6 +221,10 @@ class ShipmentDropOffAdminController extends Controller
         $data['banklists'] = BankList::all();
         $data['bankcardlists'] = BankCardList::where('id_bank', $data['data']->id_bank)->get();
 
+        $dataqr = base64_encode(QrCode::format('png')->size(300)->margin(0)->merge('\public\images\logo.png',.4)->encoding('UTF-8')->errorCorrection('H')->generate($data['data']->shipment_id));
+        $qrcode = base64_decode($dataqr);
+        // file_put_contents('tmp/image.png, $qrcode);
+        Storage::disk('local')->put('images/qrcode/dropoff/'.$data['data']->shipment_id.'.png',$qrcode, 'public');
         return view('admin.shipmentdropoffs.show', $data);
         }
     }
@@ -243,6 +250,10 @@ class ShipmentDropOffAdminController extends Controller
         $data['payment_types'] = PaymentType::all();
         $data['banklists'] = BankList::all();
         $data['bankcardlists'] = BankCardList::where('id_bank', $data['data']->id_bank)->get();
+        $dataqr = base64_encode(QrCode::format('png')->size(300)->margin(0)->merge('\public\images\logo.png',.4)->encoding('UTF-8')->errorCorrection('H')->generate($data['data']->shipment_id));
+        $qrcode = base64_decode($dataqr);
+        Storage::disk('local')->put('images/qrcode/dropoff/'.$data['data']->shipment_id.'.png',$qrcode, 'public');
+
 
         return view('admin.shipmentdropoffs.edit', $data);
     }
@@ -361,5 +372,15 @@ class ShipmentDropOffAdminController extends Controller
         // // redirect
         // Session::flash('message', 'Successfully deleted the nerd!');
         return Redirect::to(route('shipmentdropoffs.index'));
+    }
+
+    public function qrcode($id)
+    {
+        $shipment = Shipment::find($id);
+        $data = array(
+            'err' => null,
+            'result' => 'storage/app/images/qrcode/dropoff/'.$shipment->shipment_id.'.png'
+        );
+        return json_encode($data,JSON_UNESCAPED_SLASHES);
     }
 }
