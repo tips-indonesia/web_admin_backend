@@ -368,7 +368,7 @@
                     </div>
 
                     <div class="modal-body">
-                                <img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(300)->margin(0)->merge('public/images/logoqr.png',.25)->encoding('UTF-8')->errorCorrection('H')->generate($data->shipment_id)) !!} "> 
+                                <img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(300)->margin(0)->merge('/public/images/logoqr.png',.25)->encoding('UTF-8')->errorCorrection('H')->generate($data->shipment_id)) !!} "> 
                     </div>
 
                     <div class="modal-footer">
@@ -383,7 +383,7 @@
                                                 <p style="float: left; font-size: 20px;">-    {{ $destination_city->name }}</p>
                                             @endif
                         @endforeach
-                        <button><a style="font-size: 20px;" href="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(300)->merge('public/images/logoqr.png',.25)->encoding('UTF-8')->errorCorrection('H')->generate($data->shipment_id)); !!}"
+                        <button><a style="font-size: 20px;" href="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(300)->merge('/public/images/logoqr.png',.25)->encoding('UTF-8')->errorCorrection('H')->generate($data->shipment_id)); !!}"
                                            download=<?=$data->shipment_id."_QRCode";?>>Print</a></button>
                     </div>
                 </div>
