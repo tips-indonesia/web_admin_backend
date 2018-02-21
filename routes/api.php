@@ -71,6 +71,7 @@ Route::get('/term', 'API\\TermConditionsController@index');
 
 Route::get('/qrcode/{id}', 'Admin\\ShipmentPickUpAdminController@qrcode');
 Route::get('/qrcodeDO/{id}', 'Admin\\ShipmentDropOffAdminController@qrcode');
+Route::get('/qrcodeX', 'Admin\\ShipmentPickUpAdminController@createQR');
 
 Route::post('/profile/update', 'API\\UserController@update_profile');
 

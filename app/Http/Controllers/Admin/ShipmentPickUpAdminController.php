@@ -25,6 +25,8 @@ use SimpleSoftwareIO\QrCode\QrCodeServiceProvider;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Illuminate\Support\Facades\Storage;
 
+use URL;
+
 class ShipmentPickUpAdminController extends Controller
 {
     /**
@@ -178,5 +180,21 @@ class ShipmentPickUpAdminController extends Controller
             'result' => 'storage/app/images/qrcode/pickup/'.$shipment->shipment_id.'.png'
         );
         return json_encode($data,JSON_UNESCAPED_SLASHES);
+    }
+
+    public function createQR(Request $req){
+        $dataqr = base64_encode(
+                QrCode::format('png')->size(300)
+                                     ->margin(0)
+                                     //->merge('\public\images\logoqr.png',.4)
+                                     ->encoding('UTF-8')
+                                     ->errorCorrection('H')
+                                     ->generate($req->data));
+        $qrcode = base64_decode($dataqr);
+        // file_put_contents('tmp/image.png, $qrcode);
+        $url = 'images/qrcode/pickup/QR-' . uniqid() . '-GX.png';
+        Storage::disk('public')->put($url, $qrcode, 'public');
+
+        return URL::to('storage/' . $url);
     }
 }
