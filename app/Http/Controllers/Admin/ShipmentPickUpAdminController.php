@@ -103,7 +103,7 @@ class ShipmentPickUpAdminController extends Controller
         $dataqr = base64_encode(QrCode::format('png')->size(300)->margin(0)->merge('public/images/logoqr.png',.25)->encoding('UTF-8')->errorCorrection('H')->generate($data['data']->shipment_id));
         $qrcode = base64_decode($dataqr);
         Storage::disk('local')->put('images/qrcode/pickup/'.$data['data']->shipment_id.'.png',$qrcode, 'public');
-        
+
         return view('admin.shipmentpickups.show', $data);
         }
     }
@@ -133,7 +133,7 @@ class ShipmentPickUpAdminController extends Controller
         $dataqr = base64_encode(QrCode::format('png')
                             ->size(300)
                             ->margin(0)
-                            ->merge('public/images/logoqr.png',.4)
+                            ->merge('/public/images/logoqr.png',.4)
                             ->encoding('UTF-8')
                             ->errorCorrection('H')
                             ->generate($data['data']->shipment_id));
