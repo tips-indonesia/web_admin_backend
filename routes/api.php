@@ -69,8 +69,8 @@ Route::get('/home', 'API\\HomeController@list_of_shipment_and_delivery');
 
 Route::get('/term', 'API\\TermConditionsController@index');
 
-Route::get('/qrcode/{id}', 'admin\\ShipmentPickUpAdminController@qrcode');
-Route::get('/qrcodeDO/{id}', 'admin\\ShipmentDropOffAdminController@qrcode');
+Route::get('/qrcode/{id}', 'Admin\\ShipmentPickUpAdminController@qrcode');
+Route::get('/qrcodeDO/{id}', 'Admin\\ShipmentDropOffAdminController@qrcode');
 
 Route::post('/profile/update', 'API\\UserController@update_profile');
 
