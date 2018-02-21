@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\CityList;
 use App\PriceList;
 use App\AirportcityList;
+use App\Insurance;
 
 class CityController extends Controller
 {
@@ -27,6 +28,7 @@ class CityController extends Controller
         $id_origin_city = $request->id_origin_city;
         $id_destination_city = $request->id_destination_city;
         $price = PriceList::where('id_origin_city', $id_origin_city)->where('id_destination_city', $id_destination_city)->first();
+        $insurance = Insurance::first();
 
         if($price == null) {
             $data = array(
@@ -37,11 +39,18 @@ class CityController extends Controller
                 'result' => null
             );
         } else {
+            $reguler = $price->freight_cost + (($price->freight_cost * $insurance->default_insurance) /100);
+            $gold = $price->freight_cost + $price->add_first_class;
+            $gold = $gold + (($gold * $insurance->default_insurance) /100);
+
+            $reguler = $this->round_nearest_hundreds($reguler);
+            $gold = $this->round_nearest_hundreds($gold);
+
             $data = array(
                 'err' => null,
                 'result' => [
-                    'reguler' => (int) $price->freight_cost,
-                    'gold' => $price->freight_cost + $price->add_first_class
+                    'reguler' => (int) $reguler,
+                    'gold' => (int) $gold
                 ]
             );
         }
@@ -57,5 +66,15 @@ class CityController extends Controller
         );
 
         return response()->json($data, 200);
+    }
+
+    function round_nearest_hundreds($number) {
+        $number = round($number);
+        if($number % 100 == 0) {
+            return $number;
+        } else {
+            $number = (round($number / 100) + 1) * 100;
+            return $number;
+        }
     }
 }
