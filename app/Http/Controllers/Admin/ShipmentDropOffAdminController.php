@@ -221,7 +221,7 @@ class ShipmentDropOffAdminController extends Controller
         $data['banklists'] = BankList::all();
         $data['bankcardlists'] = BankCardList::where('id_bank', $data['data']->id_bank)->get();
 
-        $dataqr = base64_encode(QrCode::format('png')->size(300)->margin(0)->merge('\public\images\logoqr.png',.25)->encoding('UTF-8')->errorCorrection('H')->generate($data['data']->shipment_id));
+        $dataqr = base64_encode(QrCode::format('png')->size(300)->margin(0)->merge('/public/images/logoqr.png',.25)->encoding('UTF-8')->errorCorrection('H')->generate($data['data']->shipment_id));
         $qrcode = base64_decode($dataqr);
         // file_put_contents('tmp/image.png, $qrcode);
         Storage::disk('local')->put('images/qrcode/dropoff/'.$data['data']->shipment_id.'.png',$qrcode, 'public');
@@ -250,7 +250,7 @@ class ShipmentDropOffAdminController extends Controller
         $data['payment_types'] = PaymentType::all();
         $data['banklists'] = BankList::all();
         $data['bankcardlists'] = BankCardList::where('id_bank', $data['data']->id_bank)->get();
-        $dataqr = base64_encode(QrCode::format('png')->size(300)->margin(0)->merge('\public\images\logoqr.png',.25)->encoding('UTF-8')->errorCorrection('H')->generate($data['data']->shipment_id));
+        $dataqr = base64_encode(QrCode::format('png')->size(300)->margin(0)->merge('/public/images/logoqr.png',.25)->encoding('UTF-8')->errorCorrection('H')->generate($data['data']->shipment_id));
         $qrcode = base64_decode($dataqr);
         Storage::disk('local')->put('images/qrcode/dropoff/'.$data['data']->shipment_id.'.png',$qrcode, 'public');
 
