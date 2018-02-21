@@ -106,9 +106,16 @@ class ShipmentController extends Controller
         }
 
         if($request->is_first_class == 1) {
-            $shipment->flight_cost = ($price->freight_cost + $price->add_first_class)*$request->estimate_weight;
+            $gold = $price->freight_cost + $price->add_first_class;
+            $gold = $gold + (($gold * $insurance) /100);
+            $gold = $this->round_nearest_hundreds($gold);
+
+            $shipment->flight_cost = ($gold*$request->estimate_weight) + $shipment->add_insurance_cost;
         } else {
-            $shipment->flight_cost = $price->freight_cost*$request->estimate_weight;
+            $reguler = $price->freight_cost + (($price->freight_cost * $insurance->default_insurance) /100);
+            $reguler = $this->round_nearest_hundreds($reguler);
+
+            $shipment->flight_cost = ($reguler*$request->estimate_weight) + $shipment->add_insurance_cost;
         }
 
         $shipment->is_delivery = $request->is_delivery;
@@ -250,7 +257,10 @@ class ShipmentController extends Controller
             );
         } else {
             $shipment->status_dispatch = 'Canceled';
+            $shipment->id_shipment_status = 0;
             $shipment->save();
+
+            $shipment = Shipment::where('shipment_id', $request->shipment_id)->delete();
 
             $data = array(
                 'err' => null,
@@ -272,5 +282,15 @@ class ShipmentController extends Controller
             $randomString .= $characters[rand(0, $charactersLength - 1)];
         }
         return $randomString;
+    }
+
+    function round_nearest_hundreds($number) {
+        $number = round($number);
+        if($number % 100 == 0) {
+            return $number;
+        } else {
+            $number = (round($number / 100) + 1) * 100;
+            return $number;
+        }
     }
 }

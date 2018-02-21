@@ -133,7 +133,10 @@ class DeliveryController extends Controller
 
             if($confirmation == 0) {
                 $slot->status_dispatch = 'Canceled';
+                $slot->id_slot_status = 0;
                 $slot->save();
+
+                $slot = SlotList::where('slot_id', $request->slot_id)->delete();
 
                 foreach ($shipments as $shipment) {
                     $shipment->status_dispatch = 'Pending';

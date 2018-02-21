@@ -15,7 +15,7 @@ class ShipmentController extends Controller
     function get_detail(Request $request) {
 
         $shipment_id = $request->shipment_id;
-        $shipment = Shipment::where('shipment_id', $shipment_id)->first();
+        $shipment = Shipment::where('shipment_id', $shipment_id)->where('status_dispatch','<>','Canceled')->first();
 
 
         if($shipment == null) {
@@ -52,7 +52,7 @@ class ShipmentController extends Controller
     function pickup(Request $request) {
 
         $shipment_id = $request->shipment_id;
-        $shipment = Shipment::where('shipment_id', $shipment_id)->first();
+        $shipment = Shipment::where('shipment_id', $shipment_id)->where('status_dispatch','<>','Canceled')->first();
 
 
         if($shipment == null) {
