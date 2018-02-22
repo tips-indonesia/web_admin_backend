@@ -282,7 +282,7 @@ class DeliveryController extends Controller
     }
 
     function search_delivery(Request $request) {
-        $slot_list = SlotList::where('id_member', $request->id_member);
+        $slot_list = SlotList::withTrashed()->where('id_member', $request->id_member);
 
         if($request->has('id_destination_aiport')){
             if($request->id_destination_aiport != null && $request->id_destination_aiport != "") {
@@ -308,11 +308,18 @@ class DeliveryController extends Controller
         foreach ($slot_list_init as $slot) {
             $airport_origin = AirportList::find($slot->id_origin_airport);
             $airport_destination = AirportList::find($slot->id_destination_airport);
-            $delivery_status = DeliveryStatus::find($slot->id_slot_status);
+
 
             $slot->origin_airport = $airport_origin;
             $slot->destination_airport = $airport_destination;
-            $slot->delivery_status_description = $delivery_status->description;
+
+            if($slot->id_slot_status != 0) {
+                $delivery_status = DeliveryStatus::find($slot->id_slot_status);
+                $slot->delivery_status_description = $delivery_status->description;
+            } else {
+                $slot->delivery_status_description = 'Cancelled';
+            }
+
             array_push($slot_list, $slot);
         }
 

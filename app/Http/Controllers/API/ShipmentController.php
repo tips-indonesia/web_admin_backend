@@ -189,7 +189,7 @@ class ShipmentController extends Controller
 
     function search_shipment(Request $request) {
 
-        $shipement = Shipment::where('id_shipper', $request->id_member);
+        $shipement = Shipment::withTrashed()->where('id_shipper', $request->id_member);
 
         if($request->has('id_destination_city')){
             if($request->id_destination_city != null && $request->id_destination_city != "") {
@@ -222,8 +222,13 @@ class ShipmentController extends Controller
             $shipment->origin_city = AirportcityList::find($shipment->id_origin_city)->name;
             $shipment->destination_city = AirportcityList::find($shipment->id_destination_city)->name;
 
-            $shipment_status = ShipmentStatus::find($shipment->id_shipment_status);
-            $shipment->shipment_status_description = $shipment_status->description;
+            if($shipment->id_shipment_status != 0) {
+                $shipment_status = ShipmentStatus::find($shipment->id_shipment_status);
+                $shipment->shipment_status_description = $shipment_status->description;
+            } else {
+                $shipment->shipment_status_description = 'Cancelled';
+            }
+
             array_push($shipments, $shipment);
         }
 
