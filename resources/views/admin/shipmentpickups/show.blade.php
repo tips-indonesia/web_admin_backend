@@ -441,22 +441,27 @@
             }
         }); 
         $('#clickprint').click(()=>{
-            PrintPartOfPage(qrcodex);
+            PrintPartOfPage("modal_small");
         });
+
         function PrintPartOfPage(dvprintid){
             var prtContent = document.getElementById(dvprintid);
             var WinPrint = window.open('', '', 'letf=100,top=100,width=600,height=600');
-
-            WinPrint.document.write('<link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">');
-            WinPrint.document.write('<link href="/css/icons/icomoon/styles.css"" rel="stylesheet" type="text/css">');
-            WinPrint.document.write('<link href="/css/bootstrap.css" rel="stylesheet" type="text/css">');
-            WinPrint.document.write('<link href="/css/core.css rel=" stylesheet" type="text/css">');
-            WinPrint.document.write('<link href="/css/components.css rel="stylesheet" type="text/css">');
-            WinPrint.document.write('<link href="/css/colors.css" rel="stylesheet" type="text/css">');
-            WinPrint.document.write('<link href="/css/extras/animate.min.css" rel="stylesheet" type="text/css">');
-            WinPrint.document.write('<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css"  rel="stylesheet" type="text/css">');
-            WinPrint.document.write('<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-timepicker/0.5.2/css/bootstrap-timepicker.min.css"  rel="stylesheet" type="text/css">');
+            WinPrint.document.write('<html><head><title>Print it!</title>');
+            WinPrint.document.write('<link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css" media="print">');
+            WinPrint.document.write('<link href="/css/icons/icomoon/styles.css"" rel="stylesheet" type="text/css" media="print">');
+            WinPrint.document.write('<link href="/css/bootstrap.css" rel="stylesheet" type="text/css" media="print">');
+            WinPrint.document.write('<link href="/css/core.css rel=" stylesheet" type="text/css" media="print">');
+            WinPrint.document.write('<link href="/css/components.css rel="stylesheet" type="text/css" media="print">');
+            WinPrint.document.write('<link href="/css/colors.css" rel="stylesheet" type="text/css" media="print">');
+            WinPrint.document.write('<link href="/css/extras/animate.min.css" rel="stylesheet" type="text/css" media="print">');
+            WinPrint.document.write('<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css"  rel="stylesheet" type="text/css" media="print">');
+            WinPrint.document.write('<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-timepicker/0.5.2/css/bootstrap-timepicker.min.css"  rel="stylesheet" type="text/css" media="print">');
+            WinPrint.document.write('</head>');
+            WinPrint.document.write('<body>');
             WinPrint.document.write(prtContent.innerHTML);
+            WinPrint.document.write('</body>');
+            WinPrint.document.write('</html>');
             WinPrint.document.close();
             WinPrint.focus();
             WinPrint.print();
