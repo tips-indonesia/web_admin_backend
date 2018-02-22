@@ -317,7 +317,7 @@ class DeliveryController extends Controller
                 $delivery_status = DeliveryStatus::find($slot->id_slot_status);
                 $slot->delivery_status_description = $delivery_status->description;
             } else {
-                $slot->delivery_status_description = 'Cancelled';
+                $slot->delivery_status_description = 'Batal';
             }
 
             array_push($slot_list, $slot);

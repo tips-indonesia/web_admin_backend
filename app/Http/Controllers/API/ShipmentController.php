@@ -226,7 +226,7 @@ class ShipmentController extends Controller
                 $shipment_status = ShipmentStatus::find($shipment->id_shipment_status);
                 $shipment->shipment_status_description = $shipment_status->description;
             } else {
-                $shipment->shipment_status_description = 'Cancelled';
+                $shipment->shipment_status_description = 'Batal';
             }
 
             array_push($shipments, $shipment);
