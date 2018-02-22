@@ -1,1 +1,1 @@
-Hi, {{ $name }} your verification code is {{ $verification_code }}
+Hi, {{ $name }} mail received by your email {{ $email }}
