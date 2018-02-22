@@ -18,6 +18,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::get('/demo', 'UtilityController@test');
+Route::get('/zzz', 'UtilityController@testMail');
 Route::get('/test/config', 'ConfigHunter@test');
 Route::get('/cron/begin', 'UtilityController@cronjobBegin');
 Route::get('/cron/end', 'UtilityController@cronjobEnd');

@@ -1,0 +1,1 @@
+Hi, {{ $name }} your verification code is {{ $verification_code }}
