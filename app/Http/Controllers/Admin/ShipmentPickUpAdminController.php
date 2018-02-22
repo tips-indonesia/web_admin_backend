@@ -195,11 +195,11 @@ class ShipmentPickUpAdminController extends Controller
                                      ->encoding('UTF-8')
                                      ->errorCorrection('H')
                                      ->generate($req->data));
-        $qrcode = base64_decode($dataqr);
-        // file_put_contents('tmp/image.png, $qrcode);
-        $url = 'images/qrcode/pickup/QR-' . uniqid() . '-GX.png';
-        Storage::disk('public')->put($url, $qrcode, 'public');
+        // $qrcode = base64_decode($dataqr);
+        // // file_put_contents('tmp/image.png, $qrcode);
+        // $url = 'images/qrcode/pickup/QR-' . uniqid() . '-GX.png';
+        // Storage::disk('public')->put($url, $qrcode, 'public');
 
-        return URL::to('storage/' . $url);
+        return base64_decode($dataqr);
     }
 }

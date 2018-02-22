@@ -31,9 +31,6 @@ class UserController extends Controller
                     ],
                     'result' => null
                 );
-
-
-
             } else {
                 if($request->has('token')) {
                     $member_list->token = $request->token;
