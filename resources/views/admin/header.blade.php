@@ -4,15 +4,15 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@yield('title')</title>
     
-	<link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
-	<link href="{{ asset("css/icons/icomoon/styles.css") }}" rel="stylesheet" type="text/css">
-	<link href="{{ asset("css/bootstrap.css") }}" rel="stylesheet" type="text/css">
-	<link href="{{ asset("css/core.css") }}" rel=" stylesheet" type="text/css">
-	<link href="{{ asset("css/components.css") }}" rel="stylesheet" type="text/css">
-    <link href="{{ asset("css/colors.css") }}" rel="stylesheet" type="text/css">
-	<link href="{{ asset("css/extras/animate.min.css") }}" rel="stylesheet" type="text/css">
-	<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css"  rel="stylesheet" type="text/css">
-	<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-timepicker/0.5.2/css/bootstrap-timepicker.min.css"  rel="stylesheet" type="text/css">
+	<link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css" media="all">
+	<link href="{{ asset("css/icons/icomoon/styles.css") }}" rel="stylesheet" type="text/css" media="all">
+	<link href="{{ asset("css/bootstrap.css") }}" rel="stylesheet" type="text/css" media="all">
+	<link href="{{ asset("css/core.css") }}" rel=" stylesheet" type="text/css" media="all">
+	<link href="{{ asset("css/components.css") }}" rel="stylesheet" type="text/css" media="all">
+    <link href="{{ asset("css/colors.css") }}" rel="stylesheet" type="text/css" media="all">
+	<link href="{{ asset("css/extras/animate.min.css") }}" rel="stylesheet" type="text/css" media="all">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css"  rel="stylesheet" type="text/css" media="all">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-timepicker/0.5.2/css/bootstrap-timepicker.min.css"  rel="stylesheet" type="text/css" media="all">
 	
 
 	<script type="text/javascript" src="{{ asset("js/plugins/loaders/pace.min.js") }}"></script>
