@@ -463,17 +463,6 @@ class UtilityController extends Controller
         $booking_code = $request->booking_code;
         $booking = FlightBookingList::where('booking_code', $booking_code)->first();
 
-        if($booking){
-            $data = array(
-                'err' => [
-                    'code' => 0,
-                    'message' => 'Booking code ' . $booking_code . ' has used'
-                ],
-                'result' => null
-            );
-
-            return response()->json($data, 200);
-        }
 
         $data = array(
             'err' => null,
