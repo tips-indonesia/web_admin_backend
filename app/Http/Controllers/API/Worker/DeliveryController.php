@@ -83,6 +83,28 @@ class DeliveryController extends Controller
                 'result' => null
             );
         } else {
+            $not_yet_in_counter = false;
+
+            $shipments = Shipment::where('id_slot', $slot->id)->get();
+
+            foreach ($shipments as $shipment) {
+                if($shipment->id_shipment_status != 7) {
+                    $not_yet_in_counter = true;
+                }
+            }
+
+            if($not_yet_in_counter) {
+                $data = array(
+                    'err' => [
+                        'code' => 0,
+                        'message' => 'Barang belum di counter silahkan hubungi Admin'
+                    ],
+                    'result' => null
+                );
+
+                return response()->json($data, 200);
+            }
+
             $slot->id_slot_status = 4;
             $slot->save();
 
