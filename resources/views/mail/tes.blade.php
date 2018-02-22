@@ -1,1 +1,1 @@
-Hi, {{ $name }} mail received by your email {{ $email }}
+Hello world
