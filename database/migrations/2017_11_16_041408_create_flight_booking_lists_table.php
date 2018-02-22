@@ -15,7 +15,7 @@ class CreateFlightBookingListsTable extends Migration
     {
         Schema::create('flight_booking_lists', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('booking_code')->unique();
+            $table->string('booking_code');
             $table->unsignedInteger('id_airline');
             $table->unsignedInteger('id_origin_airport');
             $table->unsignedInteger('id_destination_airport');
