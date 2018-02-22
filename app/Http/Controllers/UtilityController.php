@@ -8,6 +8,10 @@ use App\Shipment;
 use App\DaftarBarangGold;
 use App\DaftarBarangRegular;
 use App\FlightBookingList;
+use App\Mail\TestMail;
+use Illuminate\Support\Facades\Mail;
+
+use App\MemberList;
 
 use Storage;
 
@@ -40,6 +44,26 @@ class UtilityController extends Controller
         foreach (SlotList::all() as $keberangkatan){
             echo 'K-' . $keberangkatan->id . ' ' . $keberangkatan->airportOrigin->name . ' - ' . $keberangkatan->airportDestination->name . ', tersedia ' . ($keberangkatan->baggage_space - $keberangkatan->sold_baggage_space) . '<br/>';
         }
+    }
+
+    public function testMail(Request $req){
+        $member = MemberList::where('email', $req->email)->first();
+        if(!$member){
+            $data = array(
+                'err' => "email not found",
+                'result' => null
+            );
+            return response()->json($data, 200);
+        }
+
+        Mail::to($req->email)->send(new TestMail($req->email, $member->first_name . " " . $member->last_name));
+
+        $data = array(
+            'err' => null,
+            'result' => "email berhasil dikirim"
+        );
+
+        return response()->json($data, 200);
     }
 
     /**
