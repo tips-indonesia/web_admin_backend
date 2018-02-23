@@ -55,7 +55,7 @@ kota Anda. Di Drop Point TIPS akan dilakukan pemeriksaan apakah barang yang akan
 
         DB::table('help_tipsters')->insert([
             'title' => 'Hubungi Kami',
-            'description' => 'Apabila Anda menemui kendala atau permasalahan dalam menggunakan jasa TIPS, segera informasikan kepada petugas TIPS di bandara atau di kantor TIPS. Atau bisa  juga menghubungi email: bantuan@di.tips'
+            'description' => 'Apabila Anda menemui kendala atau permasalahan dalam menggunakan jasa TIPS, segera informasikan kepada petugas TIPS di bandara atau di kantor TIPS.'
         ]);
     }
 }
