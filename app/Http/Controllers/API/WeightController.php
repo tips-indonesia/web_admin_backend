@@ -11,12 +11,13 @@ class WeightController extends Controller
 {
     //
     function get_list(Request $request) {
-//        if($request->role == "Shipment") {
-//            $weight_list = WeightList::where('for_shipment', true)->get();
-//        } else {
-//        }
+        if($request->role == "Shipment") {
+            $weight_list = WeightList::where('for_shipment', true)->get();
+        } else {
+            $weight_list = WeightList::where('for_delivery', true)->get();
+        }
 
-        $weight_list = WeightList::all();
+
         $weight_list_final = [];
 
         foreach ($weight_list as $weight) {
