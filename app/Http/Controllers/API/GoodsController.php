@@ -18,7 +18,9 @@ class GoodsController extends Controller
 
         $data = array(
             'err' => null,
-            'result' => $price_list
+            'result' => array(
+                'price_list' => $price_list
+            )
         );
 
         return response()->json($data, 200);
