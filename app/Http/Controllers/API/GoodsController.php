@@ -17,7 +17,7 @@ class GoodsController extends Controller
         $price_list_final = [];
 
         foreach ($price_list as $price) {
-            array_push($price_list_final,(int) $price->price_estimate);
+            array_push($price_list_final, $price->price_estimate);
         }
 
         $data = array(
