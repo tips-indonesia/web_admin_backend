@@ -20,7 +20,7 @@ class CreateFlightBookingListsTable extends Migration
             $table->unsignedInteger('id_origin_airport');
             $table->unsignedInteger('id_destination_airport');
             $table->dateTime('depature');
-            $table->dateTime('arrival');
+//            $table->dateTime('arrival');
             $table->string('flight_code');
             $table->timestamps();
         });

@@ -15,7 +15,7 @@ class CreatePriceGoodsEstimatesTable extends Migration
     {
         Schema::create('price_goods_estimates', function (Blueprint $table) {
             $table->increments('id');
-            $table->decimal('price_estimate', 18, 2);
+            $table->string('price_estimate');
             $table->timestamps();
         });
     }
