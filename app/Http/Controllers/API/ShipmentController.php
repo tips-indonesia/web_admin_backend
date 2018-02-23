@@ -109,7 +109,7 @@ class ShipmentController extends Controller
 
         if($request->is_first_class == 1) {
             $gold = $price->freight_cost + $price->add_first_class;
-            $gold = $gold + (($gold * $insurance) /100);
+            $gold = $gold + (($gold * $insurance->default_insurance) /100);
             $gold = $this->round_nearest_hundreds($gold);
 
             $shipment->flight_cost = ($gold*$request->estimate_weight) + $shipment->add_insurance_cost;
