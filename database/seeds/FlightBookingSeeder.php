@@ -27,8 +27,8 @@ class FlightBookingSeeder extends Seeder
                 'id_airline' => 1,
                 'id_origin_airport' => $id_origin_airport,
                 'id_destination_airport' => $id_destination_airport,
-                'depature' => '2017-12-29 12:20',
-                'arrival' => '2017-12-29 13:20',
+                'depature' => '2017-03-29 12:20',
+//                'arrival' => '2017-12-29 13:20',
                 'flight_code' => $flight_code,
             ]);
         }
