@@ -13,16 +13,12 @@ class GoodsController extends Controller
 {
     //
     function get_list_price_estimate() {
-        $price_list = PriceGoodsEstimate::all();
-        $price_list_final = [];
+        $price_list = PriceGoodsEstimate::select('id', 'price_estimate')->get();
 
-        foreach ($price_list as $price) {
-            array_push($price_list_final, $price->price_estimate);
-        }
 
         $data = array(
             'err' => null,
-            'result' => $price_list_final
+            'result' => $price_list
         );
 
         return response()->json($data, 200);
