@@ -46,37 +46,9 @@ class UtilityController extends Controller
         }
     }
 
-    public function testMail(Request $req){
-        // $member = MemberList::where('email', $req->email)->first();
-        // if(!$member){
-        //     $data = array(
-        //         'err' => "email not found",
-        //         'result' => null
-        //     );
-        //     return response()->json($data, 200);
-        // }
-
-        // Mail::to($req->email)->send(new TestMail($req->email, "RIo"));
 
 
-        // Mail::send('mail.tes', "wkwkwk", function ($message) {
-        //     $message->from('no-reply@tips.co.id','Tipsy');
-        //     $message->to($req->email);
-        //     $message->subject('Tipsssss');
-        // });
-
-        Mail::send('mail.tes', ["welcome"], function ($message) {
-            $message->from('no-reply@tips.co.id', 'Tipssii');
-            $message->to("riochr17@gmail.com");
-        });
-
-        $data = array(
-            'err' => null,
-            'result' => "email berhasil dikirim"
-        );
-
-        return response()->json($data, 200);
-    }
+    // public function tes
 
     /**
         Contoh input barang:
