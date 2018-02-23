@@ -50,6 +50,7 @@ class CreateShipmentsTable extends Migration
             $table->string('shipment_contents');
             $table->string('estimate_goods_value');
             $table->unsignedInteger('estimate_weight');
+            $table->decimal('real_weight')->nullable();
             $table->unsignedInteger('flight_cost')->nullable();
             $table->unsignedInteger('insurance_cost');
             $table->boolean('is_add_insurance');

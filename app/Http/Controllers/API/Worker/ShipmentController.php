@@ -64,7 +64,7 @@ class ShipmentController extends Controller
                 'result' => null
             );
         } else {
-            $shipment->estimate_weight = $request->estimate_weight;
+            $shipment->real_weight = $request->estimate_weight;
             $shipment->status_dispatch = "Process";
             $shipment->id_shipment_status = 3;
             $shipment->save();
