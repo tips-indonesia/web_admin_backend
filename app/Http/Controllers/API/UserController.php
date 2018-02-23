@@ -187,7 +187,7 @@ class UserController extends Controller
             );
         }else if($member_list->sms_code == null){
             // Kasus: sms code masih null di basis data (belum pernah di assign)
-            $sms_code = round($this->microtime_float()) % 9999;
+            $sms_code = $this->generateCode(6);
             $member_list->sms_code = $sms_code;
             $member_list->save();
 
@@ -204,8 +204,12 @@ class UserController extends Controller
             );
         }else{
 
+            $sms_code = $this->generateCode(6);
+            $member_list->sms_code = $sms_code;
+            $member_list->save();
+
             $pn = $request->mobile_phone_no;
-            $sc = $member_list->sms_code;
+            $sc = $sms_code;
             $out = SMSSender::kirim($pn, rawurlencode("TIPS App: Your code is " . $sc));
 
             $data = array(
