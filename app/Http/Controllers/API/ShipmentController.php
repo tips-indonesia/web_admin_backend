@@ -15,12 +15,14 @@ use App\DaftarBarangGold;
 use App\ProvinceList;
 use App\CityList;
 use App\SubdistrictList;
+use App\PriceGoodsEstimate;
 
 
 class ShipmentController extends Controller
 {
     //
     function submit(Request $request) {
+        $price_goods_estimate = PriceGoodsEstimate::find($request->id_estimate_goods_value);
         $shipper_districts = SubdistrictList::find($request->id_shipper_district);
 //        $consignee_districts = SubdistrictList::find($request->id_consignee_district);
 
@@ -95,7 +97,7 @@ class ShipmentController extends Controller
         $shipment->consignee_mobile_phone = $request->consignee_mobile_phone;
         $shipment->id_payment_type = $request->id_payment_type;
         $shipment->shipment_contents = $request->shipment_contents;
-        $shipment->estimate_goods_value = $request->estimate_goods_value;
+        $shipment->estimate_goods_value = $price_goods_estimate->price_goods_estimates;
         $shipment->estimate_weight = $request->estimate_weight;
         $shipment->insurance_cost = $insurance->default_insurance;
         $shipment->is_add_insurance = $request->is_add_insurance;
