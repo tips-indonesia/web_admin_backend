@@ -58,7 +58,7 @@ class UserController extends Controller
     function register(Request $request) {
         $member_list = MemberList::where('mobile_phone_no', $request->mobile_phone_no)->first();
 
-        if($member_list != null && $member_list->sms_code != -1) {
+        if($member_list != null && $member_list->sms_code == -1) {
             $data = array(
                 'err' => [
                     'code' => 0,
