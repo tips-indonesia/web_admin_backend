@@ -48,7 +48,7 @@ class CreateShipmentsTable extends Migration
             $table->boolean('is_online_payment')->nullable();
             $table->unsignedInteger('id_payment_type');
             $table->string('shipment_contents');
-            $table->unsignedInteger('estimate_goods_value');
+            $table->string('estimate_goods_value');
             $table->unsignedInteger('estimate_weight');
             $table->unsignedInteger('flight_cost')->nullable();
             $table->unsignedInteger('insurance_cost');
