@@ -78,6 +78,8 @@ Route::post('/profile/update', 'API\\UserController@update_profile');
 
 Route::get('/help', 'API\\HelpTipsterController@index');
 
+Route::post('/report', 'API\\FeedbackController@submit');
+
 Route::get('/location/province', 'API\\LocationController@getProvince');
 Route::get('/location/city/{id_province}', 'API\\LocationController@getCity');
 Route::get('/location/district/{id_city}', 'API\\LocationController@getDistrict');
