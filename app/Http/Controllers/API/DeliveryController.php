@@ -51,7 +51,7 @@ class DeliveryController extends Controller
             $slot->id_origin_airport = $request->id_origin_airport;
             $slot->id_destination_airport = $request->id_destination_airport;
             $slot->depature = date('Y-m-d H:i:s', strtotime($request->depature));
-            $slot->arrival = date('Y-m-d H:i:s', strtotime($request->arrival));
+//            $slot->arrival = date('Y-m-d H:i:s', strtotime($request->arrival));
             $slot->first_name = $request->first_name;
             $slot->last_name = $request->last_name;
             $slot->flight_code = $request->flight_code;
@@ -163,7 +163,7 @@ class DeliveryController extends Controller
                 $slot->status_dispatch = 'Process';
                 $slot->id_slot_status = 3;
                 $slot->save();
-                $shipment_status = ShipmentStatus::where('step', 2)->first();
+
 
                 foreach ($shipments as $shipment) {
                     $shipment->status_dispatch = 'Process';
@@ -296,9 +296,9 @@ class DeliveryController extends Controller
             }
         }
 
-        if($request->has('start_arrival') && $request->has('end_arrival')){
-            if($request->start_arrival != null && $request->start_arrival != "" && $request->end_arrival != null && $request->end_arrival != "") {
-                $slot_list = $slot_list->where('arrival','>=' ,$request->start_arrival)->where('arrival','<=' ,$request->end_arrival);
+        if($request->has('start_depature') && $request->has('end_depature')){
+            if($request->start_depature != null && $request->start_depature != "" && $request->end_depature != null && $request->end_depature != "") {
+                $slot_list = $slot_list->where('depature','>=' ,$request->start_depature)->where('depature','<=' ,$request->end_depature);
             }
         }
 

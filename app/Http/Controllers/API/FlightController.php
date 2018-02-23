@@ -68,14 +68,14 @@ class FlightController extends Controller
         $booking_code = $request->booking_code;
         $flight_code = $request->flight_code;
         $date_origin = $request->date_origin;
-        $date_destination = $request->date_destination;
+//        $date_destination = $request->date_destination;
         $booking = FlightBookingList::create(array(
             'booking_code' => $booking_code,
             'id_airline' => 1,
             'id_origin_airport' => $airport_origin->id,
             'id_destination_airport' => $airport_destination->id,
             'depature' => $date_origin,
-            'arrival' => $date_destination,
+//            'arrival' => $date_destination,
             'flight_code' => $flight_code,
         ));
 

@@ -29,7 +29,7 @@ class CreateSlotListsTable extends Migration
             $table->string('origin_city');
             $table->string('destination_city');
             $table->dateTime('depature');
-            $table->dateTime('arrival');
+//            $table->dateTime('arrival');
             $table->string('flight_code');
             $table->unsignedInteger('baggage_space');
             $table->unsignedInteger('sold_baggage_space')->default(0);
