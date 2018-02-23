@@ -12,17 +12,18 @@ class WeigthListSeeder extends Seeder
     public function run()
     {
         //
-//        for($i = 1 ; $i < 20 ; $i++) {
-//            DB::table('weight_lists')->insert([
-//                'weight_kg' => $i,
-//            ]);
-//        }
+        for($i = 1 ; $i <= 20 ; $i++) {
 
-        DB::table('weight_lists')->insert([
-            'weight_kg' => 15,
-        ]);
-        DB::table('weight_lists')->insert([
-            'weight_kg' => 20,
-        ]);
+            if($i == 15 || $i == 20) {
+                DB::table('weight_lists')->insert([
+                    'weight_kg' => $i,
+                ]);
+            } else {
+                DB::table('weight_lists')->insert([
+                    'weight_kg' => $i,
+                    'for_delivery' => false
+                ]);
+            }
+        }
     }
 }

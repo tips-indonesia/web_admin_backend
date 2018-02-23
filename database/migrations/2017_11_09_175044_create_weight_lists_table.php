@@ -16,6 +16,8 @@ class CreateWeightListsTable extends Migration
         Schema::create('weight_lists', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('weight_kg');
+            $table->boolean('for_shipment')->default(true);
+            $table->boolean('for_delivery')->default(true);
             $table->boolean('status')->default(true);
             $table->timestamps();
         });

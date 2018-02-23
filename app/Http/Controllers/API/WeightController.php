@@ -10,7 +10,12 @@ use App\WeightList;
 class WeightController extends Controller
 {
     //
-    function get_list() {
+    function get_list(Request $request) {
+//        if($request->role == "Shipment") {
+//            $weight_list = WeightList::where('for_shipment', true)->get();
+//        } else {
+//        }
+
         $weight_list = WeightList::all();
         $weight_list_final = [];
 
