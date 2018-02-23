@@ -26,8 +26,12 @@ class GoodsController extends Controller
         return response()->json($data, 200);
     }
 
-    function get_list_weight() {
-        $weight_list = WeightList::all();
+    function get_list_weight(Request $request) {
+        if($request->role == "Shipment") {
+            $weight_list = WeightList::where('for_shipment', true)->get();
+        } else {
+            $weight_list = WeightList::where('for_delivery', true)->get();
+        }
         $weight_list_final = [];
 
         foreach ($weight_list as $weight) {
