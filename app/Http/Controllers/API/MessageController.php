@@ -7,8 +7,36 @@ use App\Http\Controllers\Controller;
 
 class MessageController extends Controller
 {
-    public function getPesan(Request $req){
-    	if(!$req->id){
+
+	public function getPesanSpesifik($id_user, $id_pesan){
+		if(!$id_user){
+            $data = array(
+                "err" => [
+                	"code" => 404,
+                	"message" => "user tidak ditemukan"
+                ],
+                "result" => null
+            );
+
+            return response()->json($data, 200);
+    	}
+
+    	$data = array(
+    		"err" => null,
+    		"result" => [
+    			"id" => 1,
+    			"nama_pengirim" => "TIPS",
+    			"tanggal" => date('Y-m-d h:i:s'),
+    			"subjek" => "welcome onboard",
+    			"isi" => "lorem ipsum dolor sit amet consectetur adipiscing elit, yaaaaa"
+    		]
+    	);
+
+    	return response()->json($data, 200);
+	}
+
+    public function getPesan($id_user){
+    	if(!$id_user){
             $data = array(
                 "err" => [
                 	"code" => 404,
