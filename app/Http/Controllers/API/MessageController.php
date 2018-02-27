@@ -28,7 +28,7 @@ class MessageController extends Controller
     			"nama_pengirim" => "TIPS",
     			"tanggal" => date('Y-m-d h:i:s'),
     			"subjek" => "welcome onboard",
-    			"isi" => "lorem ipsum dolor sit amet consectetur adipiscing elit, yaaaaa"
+    			"isi" => "The progress bar is coming in white colour on emulator, but when I run same code on htc, progress bar is coming in green color, and on G1 it is with yellow color. I want all in Yellow colour. How can I give Colour?? or is there any method by which I can use my own image for progress bar? I have tried android:progressDrawable='@drawable/progress_bar' in xml but its not working. Please help "
     		]
     	);
 
