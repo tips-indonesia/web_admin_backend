@@ -79,6 +79,62 @@ class MessageController extends Controller
 						"tanggal" => date('Y-m-d h:i:s'),
 						"subjek" => "Welcome onboard 4",
 						"isi" => "4 lorem ipsum dolor sit amet consectetur adipiscing elit, yaaaaa 4"
+					],
+					[
+						"id" => 5,
+						"nama_pengirim" => "TIPS",
+						"tanggal" => date('Y-m-d h:i:s'),
+						"subjek" => "Welcome onboard",
+						"isi" => "lorem ipsum dolor sit amet consectetur adipiscing elit, yaaaaa"
+					],
+					[
+						"id" => 6,
+						"nama_pengirim" => "TIPS",
+						"tanggal" => date('Y-m-d h:i:s'),
+						"subjek" => "Welcome onboard 2",
+						"isi" => "2 lorem ipsum dolor sit amet consectetur adipiscing elit, yaaaaa 2 "
+					],
+					[
+						"id" => 7,
+						"nama_pengirim" => "TIPS",
+						"tanggal" => date('Y-m-d h:i:s'),
+						"subjek" => "Welcome onboard 3",
+						"isi" => "3 lorem ipsum dolor sit amet consectetur adipiscing elit, yaaaaa"
+					],
+					[
+						"id" => 8,
+						"nama_pengirim" => "TIPS",
+						"tanggal" => date('Y-m-d h:i:s'),
+						"subjek" => "Welcome onboard 4",
+						"isi" => "4 lorem ipsum dolor sit amet consectetur adipiscing elit, yaaaaa 4"
+					],
+					[
+						"id" => 9,
+						"nama_pengirim" => "TIPS",
+						"tanggal" => date('Y-m-d h:i:s'),
+						"subjek" => "Welcome onboard",
+						"isi" => "lorem ipsum dolor sit amet consectetur adipiscing elit, yaaaaa"
+					],
+					[
+						"id" => 10,
+						"nama_pengirim" => "TIPS",
+						"tanggal" => date('Y-m-d h:i:s'),
+						"subjek" => "Welcome onboard 2",
+						"isi" => "2 lorem ipsum dolor sit amet consectetur adipiscing elit, yaaaaa 2 "
+					],
+					[
+						"id" => 11,
+						"nama_pengirim" => "TIPS",
+						"tanggal" => date('Y-m-d h:i:s'),
+						"subjek" => "Welcome onboard 3",
+						"isi" => "3 lorem ipsum dolor sit amet consectetur adipiscing elit, yaaaaa"
+					],
+					[
+						"id" => 12,
+						"nama_pengirim" => "TIPS",
+						"tanggal" => date('Y-m-d h:i:s'),
+						"subjek" => "Welcome onboard 4",
+						"isi" => "4 lorem ipsum dolor sit amet consectetur adipiscing elit, yaaaaa 4"
 					]
 				]
             ]
