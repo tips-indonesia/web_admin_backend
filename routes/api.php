@@ -30,7 +30,7 @@ Route::get('/smstest', 'SMSSender@testSMS');
 Route::get('/tes', 'UtilityController@generateCode');
 
 
-Route::post('/pesan', 'API\\MessageController@getPesan');
+Route::get('/pesan', 'API\\MessageController@getPesan');
 
 Route::post('/register', 'API\\UserController@register');
 Route::post('/verify/phone', 'API\\UserController@verifyPhoneNumber');
