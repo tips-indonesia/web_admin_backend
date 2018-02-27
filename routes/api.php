@@ -29,6 +29,9 @@ Route::get('/fcmtest', 'FCMSender@testTopic');
 Route::get('/smstest', 'SMSSender@testSMS');
 Route::get('/tes', 'UtilityController@generateCode');
 
+
+Route::post('/pesan', 'API\\MessageController@getPesan');
+
 Route::post('/register', 'API\\UserController@register');
 Route::post('/verify/phone', 'API\\UserController@verifyPhoneNumber');
 Route::post('/verify/resend', 'API\\UserController@resendSMSCode');
