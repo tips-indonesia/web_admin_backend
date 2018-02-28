@@ -54,7 +54,7 @@ class BirdSenderController extends Controller
             $data = array(
                 "err" => "user tidak ditemukan",
                 "result" => null
-            )
+            );
 
             return response()->json($data, 404);
         }
@@ -62,6 +62,47 @@ class BirdSenderController extends Controller
         $destination    = $user->email;
         $subject        = "Mail Registration Tips";
         $template       = "mail.registration";
+        $timezone       = "Asia/Jakarta";
+        $datetime       = date("d-m-Y h:i:sa");
+        $data           = [
+            "user"     => $user,
+            "datetime" => $datetime,
+            "timezone" => $timezone
+        ];
+
+        return BirdSenderController::sendEmail($destination, $subject, $template, $data);
+    }
+
+    public function sendResetPasswordMail(Request $req){
+        if(!$req->email){
+            $data = array(
+                "err" => [
+                    "code" => 500,
+                    "message" => "parameter email wajib diisi"
+                ],
+                "result" => null
+            );
+
+            return response()->json($data, 200);
+        }
+
+        $user = MemberList::where('email', $req->email)->first();
+
+        if(!$user){
+            $data = array(
+                "err" => [
+                    "code" => 404,
+                    "message" => "user tidak ditemukan"
+                ],
+                "result" => null
+            );
+
+            return response()->json($data, 200);
+        }
+
+        $destination    = $user->email;
+        $subject        = "Mail Registration Tips";
+        $template       = "mail.forgot_password";
         $timezone       = "Asia/Jakarta";
         $datetime       = date("d-m-Y h:i:sa");
         $data           = [
