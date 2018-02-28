@@ -81,8 +81,8 @@ class FlightController extends Controller
 
         $booking->origin_airport = AirportList::find($booking->id_origin_airport);
         $booking->destination_airport = AirportList::find($booking->id_destination_airport);
-        $booking->origin_city = CityList::find($booking->origin_airport->id_city)->name;
-        $booking->destination_city = CityList::find($booking->destination_airport->id_city)->name;
+        $booking->origin_city = AirportcityList::find($booking->origin_airport->id_city)->name;
+        $booking->destination_city = AirportcityList::find($booking->destination_airport->id_city)->name;
 
         $data = array(
             'err' => null,
