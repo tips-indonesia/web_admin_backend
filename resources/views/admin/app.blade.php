@@ -26,7 +26,7 @@
                 </div>
             </div>
         </div>
-        <div id="loading_modal">LOADING... Please Wait...</div>
+        <div id="loading_modal" hidden>LOADING... Please Wait...</div>
     </body>
     @include('admin.footer')
 </html>
