@@ -300,4 +300,34 @@ class ShipmentController extends Controller
             return $number;
         }
     }
+
+    private function CekDataAntrian(){
+        foreach(Shipment::all() as $shipment){
+            if(!$shipment->is_matched && $shipment->id_shipment_status == 4){
+                if($shipment->is_first_class) {
+                    $daftar_barang = new DaftarBarangGold;
+                } else {
+                    $daftar_barang = new DaftarBarangRegular;
+                }
+
+                $daftar_barang->id_barang = $shipment->id;
+                $shipment->is_matched = true;
+                $shipment->save();
+                $daftar_barang->save();
+            }
+        }
+    }
+
+    function get_all_shipment(){
+        $this->CekDataAntrian();
+        $result = array();
+        foreach(DaftarBarangGold::where('is_assigned', 0)->get() as $barang){
+            array_push($result, $barang->barang);
+        }
+        return response()->json(
+            array(
+                'err' => null,
+                'result' => $result
+            ), 200);
+    }
 }

@@ -173,6 +173,42 @@ class UtilityController extends Controller
         return -1;
     }
 
+    public function APICekKetersediaanKeberangkatan(Shipment $Barang){
+        $daftarAirportAsal = $Barang->cityOrigin->airports;
+        $daftarAirportTujuan = $Barang->cityDestination->airports;
+
+        $keberangkatanTersedia = array();
+        foreach ($daftarAirportAsal as $airportAsal) {
+            foreach ($daftarAirportTujuan as $airportTujuan) {
+                $result = SlotList::where('id_origin_airport', $airportAsal->id)
+                    -> where('id_destination_airport', $airportTujuan->id)->get();
+
+                if(sizeof($result) > 0)
+                    foreach ($result as $value)
+                        array_push($keberangkatanTersedia, $value);
+            }
+        }
+
+        if(sizeof($keberangkatanTersedia) == 0)
+            return array();
+
+        $slot_slot_tersedia = array();
+        foreach ($keberangkatanTersedia as $keberangkatan){
+            $isFull = (($keberangkatan->baggage_space - $keberangkatan->sold_baggage_space) <= 0);
+
+            if($isFull)
+                continue;
+
+            $hoursDifferent = $this->hDiffTime($keberangkatan->depature, $Barang->received_time);
+            if($hoursDifferent >= $this->FINAL_HOURS && $Barang->estimate_weight <= $keberangkatan->baggage_space)
+                array_push($slot_slot_tersedia, $keberangkatan);
+            else
+                continue;
+        }
+
+        return $slot_slot_tersedia;
+    }
+
 
     /**
       * Melakukan assign satu barang ke sebuah keberangkatan yang diketahui
@@ -223,6 +259,45 @@ class UtilityController extends Controller
         return true;
     }
 
+    public function APIAssignBarangKeKeberangkatan($IDBarang, $IDKeberangkatan){
+
+        $temp = Shipment::find($IDBarang);
+
+        if($temp == null)
+            return false;
+
+        // if($this->DEBUG) echo "B-" . $temp->id . ' berat ' . $temp->estimate_weight . ' diassign ke K-' . $IDKeberangkatan . '<br/>';
+        // if($this->DEBUG) echo "</br>";
+        $temp->id_slot = $IDKeberangkatan;
+        $temp->status_dispatch = 'Process';
+        $temp->save();
+
+        $tempK = SlotList::find($IDKeberangkatan);
+
+        if($tempK == null)
+            return false;
+
+        $tempK->sold_baggage_space = $tempK->sold_baggage_space + $temp->estimate_weight;
+        $tempK->status_dispatch = 'Process';
+        // $tempK->id_slot_status = 2; // di delivery controller statusnya sudah otomatis 4
+
+        FCMSender::post(array(
+          'type' => "Delivery",
+          'id' => $tempK->slot_id,
+          'status' => "2",
+          'message' => "Tes tes",
+          'detail' => 'wkwkwk'
+        ), $tempK->member->token);
+
+        $tempK->id_slot_status = 2;
+        $tempK->save();
+
+        // $this->printKeberangkatan();
+        // echo "</br>";
+
+        return true;
+    }
+
     /**
       * Melakukan assignment antrian daftar barang pada basis data ke
       * keberangkatan yang ada. Sementara hanya REGULAR atau GOLD saja.
@@ -269,6 +344,77 @@ class UtilityController extends Controller
         
         if($Jenis == 'REGULAR'){
             if($this->DEBUG) echo '-REGULAR------------------<br/><br/><br/>';
+        }
+    }
+
+    public function cariSlot(Request $req){
+        $this->CekDataAntrian();
+
+        $barang = DaftarBarangGold::where('id_barang', $req->id)->first();
+        if(!$barang)
+            $barang = DaftarBarangRegular::where('id_barang', $req->id)->first();
+
+        if(sizeof($barang) == 0)
+            return response()->json([
+                "err" => [
+                    "code" => 404,
+                    "message" => "Shipment tidak ditemukan"
+                ],
+                "result" => null
+            ], 200);
+
+        $slot_slot = $this->APICekKetersediaanKeberangkatan($barang->barang);
+
+        return response()->json([
+            "err" => null,
+            "result" => $slot_slot
+        ], 200);
+    }
+
+    public function submitMatching(Request $req){
+        if(!$req->id_shipment || !$req->id_slot){
+            return response()->json([
+                "err" => [
+                    "code" => 403,
+                    "message" => "Parameter wajib harus diisi"
+                ],
+                "result" => null
+            ], 200);
+        }
+
+        $_barang = DaftarBarangGold::where('id_barang', $req->id_shipment)->where('is_assigned', 0)->first();
+        if(!$_barang)
+            $_barang = DaftarBarangRegular::where('id_barang', $req->id_shipment)->where('is_assigned', 0)->first();
+
+        if(!$_barang){
+            return response()->json([
+                "err" => [
+                    "code" => 404,
+                    "message" => "Barang tidak ditemukan atau sudah di assign"
+                ],
+                "result" => null
+            ], 200);
+        }
+
+        $idShipment = $req->id_shipment;
+        $idSlot     = $req->id_slot;
+        $result     = $this->APIAssignBarangKeKeberangkatan($idShipment, $idSlot);
+
+        if($result){
+            $_barang->is_assigned = true;
+            $_barang->save();
+            return response()->json([
+                "err" => null,
+                "result" => "berhasil"
+            ], 200);
+        }else{
+            return response()->json([
+                "err" => [
+                    "code" => 404,
+                    "message" => "Terdapat kesalahan ketika melakukan matching"
+                ],
+                "result" => null
+            ], 200);
         }
     }
 

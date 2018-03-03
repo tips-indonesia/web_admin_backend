@@ -48,13 +48,16 @@ class FCMSender extends Controller
             array(
                 'method'  => 	'POST',
 				'header'  =>  	"Content-Type:application/json'\r\n" .
-								"Authorization: key=AAAA0PgLn_g:APA91bFtVGnDodw6phZsVQ03x11sDZCFdlC5eg0LoZHYM2d1h3rRw38J4OGNwinOUEMGJyl5VAiSNuEcp7giZQ9X2MZ8vSDnSgwKkP1M2WrPUTovRj7Leo4H7sTeBsVxCp8kiD6__0Jl\r\n",
+								"Authorization: key=AAAAoFTtcDo:APA91bHmbaxP6xagcmKIe1Kvu5R4AsiSAVlTIMs48Hrd_soCY59rhELnJgjr6VGM46O1BsjYEGOKqMD4iiVwivwJ1h1sCH1nUba1lhg4Z83ha-k7Bi85CLTy4SbN8BB3HOzCZ8XoTJyJ\r\n",
 				'content'  => 	json_encode($data)	
             )
         );
 		
         $context  = stream_context_create($opts);
         $result = @file_get_contents($url, false, $context);
+        if(!isset($http_response_header))
+        	return false;
+
         if (strpos($http_response_header[0], '200') === false)
             return false;
 		else

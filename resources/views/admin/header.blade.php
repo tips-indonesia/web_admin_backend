@@ -16,7 +16,7 @@
 	
 
 	<script type="text/javascript" src="{{ asset("js/plugins/loaders/pace.min.js") }}"></script>
-	<script type="text/javascript" src="{{ asset("js/core/libraries/jquery.min.js") }}"></script>
+	<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 	<script type="text/javascript" src="{{ asset("js/core/libraries/bootstrap.min.js") }}"></script>
     <script type="text/javascript" src="{{ asset("js/plugins/loaders/blockui.min.js") }}"></script>
     

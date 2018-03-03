@@ -157,6 +157,9 @@ Route::prefix('admin/')->group(function ($locale) {
         Route::group(['middleware' => ['permission:terms.']], function () {
             Route::resource('terms','Admin\TermAdminController');
         });
+        Route::group(['middleware' => ['permission:match.']], function () {
+            Route::resource('match','Admin\MatchTest');
+        });
 
         Route::group(['middleware' => ['permission:users.']], function () {
             Route::resource('users','Admin\UserAdminController');

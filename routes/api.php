@@ -54,6 +54,7 @@ Route::get('/goods/insurance', 'API\\GoodsController@get_insurance_price');
 Route::post('/shipment', 'API\\ShipmentController@submit');
 Route::get('/shipment/status', 'API\\ShipmentController@get_status');
 Route::get('/shipment/all_status', 'API\\ShipmentController@get_all_status_shipments');
+Route::get('/shipment/all', 'API\\ShipmentController@get_all_shipment');
 Route::post('/shipment/search', 'API\\ShipmentController@search_shipment');
 Route::post('/shipment/cancel', 'API\\ShipmentController@cancel_shipment');
 
@@ -106,3 +107,6 @@ Route::post('/transaction', 'API\\PaymentController@createTransaction');
 Route::post('/payment/checkstatus', 'API\\PaymentController@checkPaymentStatus');
 Route::post('/tespay', 'API\\PaymentController@tesEspayNotif');
 
+
+Route::get('match/find_slot', 'UtilityController@cariSlot');
+Route::get('match/submit_matching', 'UtilityController@submitMatching');
