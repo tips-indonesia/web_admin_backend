@@ -20,6 +20,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::get('/demo', 'UtilityController@test');
 Route::get('/zzz', 'BirdSenderController@testMail');
 Route::get('/reset_password', 'BirdSenderController@sendResetPasswordMail');
+Route::post('/reset_password', 'API\\MailWebViewerController@doResetPassword');
 Route::post('/send_report', 'BirdSenderController@sendReportMail');
 Route::get('/test/config', 'ConfigHunter@test');
 Route::get('/cron/begin', 'UtilityController@cronjobBegin');

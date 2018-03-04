@@ -100,6 +100,8 @@ class BirdSenderController extends Controller
             return response()->json($data, 200);
         }
 
+        $user->reset_password_token = hash('sha512', $user->password . uniqid());
+        $user->save();
         $destination    = $user->email;
         $subject        = "Mail Registration Tips";
         $template       = "mail.forgot_password";

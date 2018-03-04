@@ -447,21 +447,111 @@
         function PrintPartOfPage(dvprintid){
             var prtContent = document.getElementById(dvprintid);
             var WinPrint = window.open('', '', 'letf=100,top=100,width=600,height=600');
-            WinPrint.document.write('<html><head><title>Print it!</title>');
-            WinPrint.document.write('<link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css" media="print">');
-            WinPrint.document.write('<link href="/css/icons/icomoon/styles.css"" rel="stylesheet" type="text/css" media="print">');
-            WinPrint.document.write('<link href="/css/bootstrap.css" rel="stylesheet" type="text/css" media="print">');
-            WinPrint.document.write('<link href="/css/core.css rel=" stylesheet" type="text/css" media="print">');
-            WinPrint.document.write('<link href="/css/components.css rel="stylesheet" type="text/css" media="print">');
-            WinPrint.document.write('<link href="/css/colors.css" rel="stylesheet" type="text/css" media="print">');
-            WinPrint.document.write('<link href="/css/extras/animate.min.css" rel="stylesheet" type="text/css" media="print">');
-            WinPrint.document.write('<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css"  rel="stylesheet" type="text/css" media="print">');
-            WinPrint.document.write('<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-timepicker/0.5.2/css/bootstrap-timepicker.min.css"  rel="stylesheet" type="text/css" media="print">');
-            WinPrint.document.write('</head>');
-            WinPrint.document.write('<body>');
-            WinPrint.document.write(prtContent.innerHTML);
-            WinPrint.document.write('</body>');
-            WinPrint.document.write('</html>');
+            WinPrint.document.write('<!DOCTYPE html>\
+<html>\
+<head>\
+    <title>PRINT QR TIPS</title>\
+</head>\
+<body style="font-family: Arial">\
+    <style type="text/css">\
+        * {\
+                -webkit-print-color-adjust: exact !important;   /* Chrome, Safari */\
+                color-adjust: exact !important;                 /*Firefox*/\
+        }\
+    </style>\
+    <table style="width: 501px; border: solid 1px #777; background: rgba(0, 0, 0, .0);">\
+        <tr style=" color: #777;">\
+            <td style="width: 150px;">\
+                <img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(300)->margin(0)->merge('/public/images/logoqr.png',.25)->encoding('UTF-8')->errorCorrection('H')->generate($data->shipment_id)) !!} " style="width: 150px; height: 150px;">\
+                <div style="width: 140px; text-align: center; background: #000; color: #FFF; padding: 5px; font-weight: bold;">\
+                    1255\
+                </div>\
+            </td>\
+            <td style="width: 1px">\
+                <div style="height: calc(150px + 1em + 15px); position: relative; width: 1px; background: #555; margin-top: 1px;"></div>\
+            </td>\
+            <td align="left" valign="top" style="align: left; width: 350px;">\
+                <img src="logo_header.png" style="height: 20px;">\
+                <table style="width: 350px; font-size: .7em;">\
+                    <tr>\
+                        <td style="width: 50%; margin-right: 2px; font-weight: bold;">\
+                            PENGIRIM <img src="plane_icon_gray.png" style="height: 10px">\
+                        </td>\
+                        <td style="width: 50%; margin-right: 2px; font-weight: bold;">\
+                            PENERIMA <img src="shipment_icon_gray.png" style="height: 10px">\
+                        </td>\
+                    </tr>\
+                    <tr>\
+                        <td style="width: 50%; font-size: .9em;">\
+                            Nama : <br/>\
+                            <span style="color: #000">Lorem ipsum</span>\
+                        </td>\
+                        <td style="width: 50%; font-size: .9em;">\
+                            Nama : <br/>\
+                            <span style="color: #000">Lorem ipsum</span>\
+                        </td>\
+                    </tr>\
+                    <tr>\
+                        <td style="width: 50%; font-size: .9em;">\
+                            Alamat :<br/>\
+                            <span style="color: #000">Dolor sit amet</span>\
+                        </td>\
+                        <td style="width: 50%; font-size: .9em;">\
+                            Alamat :<br/>\
+                            <span style="color: #000">Dolor sit amet</span>\
+                        </td>\
+                    </tr>\
+                    <tr>\
+                        <td style="width: 50%; font-size: .9em;">\
+                            No telp :<br/>\
+                            <span style="color: #000">Consectetur</span>\
+                        </td>\
+                        <td style="width: 50%; font-size: .9em;">\
+                            No telp :<br/>\
+                            <span style="color: #000">Consectetur</span>\
+                        </td>\
+                    </tr>\
+                </table>\
+                <table style="font-size: .65em; margin-top: 5px;">\
+                    <tr>\
+                        <td valign="top">\
+                            <span style="font-weight: bold;">PT TIPS Inovasi Indonesia</span><br/>\
+                            DBS Bank Tower Lantai 12<br/>\
+                            Jl. Prof. Dr. Satrio Kav 3-5<br/>\
+                            Karet Kuningan, Jakarta Selatan\
+                        </td>\
+                        <td valign="top" style="padding-left: 24px">\
+                            <span style="font-weight: bold;">Download our free apps</span><br/>\
+                            <div style=" padding-top: 2px;">\
+                                <img src="gs.jpg" height="30px;">\
+                            </div>\
+                        </td>\
+                    </tr>\
+                </table>\
+            </td>\
+        </tr>\
+        <tr>\
+            <td colspan="3">\
+                <div style="width: 100%; height: 1px; background: #555"></div>\
+            </td>\
+        </tr>\
+        <tr>\
+            <td colspan="3" valign="top">\
+                <div style="width: 100%; height: 17px; text-align: center;">\
+                    <img src="brands/dribbble.png" style="height: 15px; borde\r-radius: 50%;">\
+                    <span style="margin-right: 25px; font-size: .7em; position: relative; top: -5px;">tips.co.id</span>\
+                    <img src="brands/facebook.png" style="height: 15px; border-radius: 50%;">\
+                    <span style="margin-right: 25px; font-size: .7em; position: relative; top: -5px;">@tips.inovasi.id</span>\
+                    <img src="brands/twitter.png" style="height: 15px; border-radius: 50%;">\
+                    <span style="margin-right: 25px; font-size: .7em; position: relative; top: -5px;">@TipsInovasi</span>\
+                    <img src="brands/amazon.png" style="height: 15px; border-radius: 50%;">\
+                    <span style="margin-right: 25px; font-size: .7em; position: relative; top: -5px;">@tips.inovasi</span>\
+                </div>\
+            </td>\
+        </tr>\
+    </div>\
+</body>\
+</html>');
             WinPrint.document.close();
             WinPrint.focus();
             WinPrint.print();

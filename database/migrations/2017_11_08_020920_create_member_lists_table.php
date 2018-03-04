@@ -31,6 +31,7 @@ class CreateMemberListsTable extends Migration
             $table->string('sms_code', 512)->nullable();
             $table->string('twitter_token', 512)->nullable();
             $table->string('uniq_social_id', 512)->nullable();
+            $table->string('reset_password_token', 512)->nullable();
             $table->timestamps();
         });
     }

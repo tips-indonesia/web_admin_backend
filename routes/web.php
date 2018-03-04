@@ -17,6 +17,7 @@ Route::get('/', function () {
 
 
 Route::get('/payment/start', 'API\\PaymentController@startPayment');
+Route::get('/reset_password/{token}', 'API\\MailWebViewerController@showResetPassword');
 
 Route::prefix('admin/')->group(function ($locale) {
     Auth::routes();
