@@ -406,7 +406,7 @@ class UtilityController extends Controller
                 'message' => $shipment_status->description,
                 'detail' => ""
             ), $user->token);
-            MessageController::sendMessageToUser($user, "2", $shipment_status->description);
+            MessageController::sendMessageToUser("TIPS", $user, "Status Antar", "2", $shipment_status->description);
 
             $_barang->is_assigned = true;
             $_barang->save();
