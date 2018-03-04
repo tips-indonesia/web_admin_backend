@@ -542,7 +542,7 @@
             <td style="width: 150px;">\
                 <img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(300)->margin(0)->merge('/public/images/logoqr.png',.25)->encoding('UTF-8')->errorCorrection('H')->generate($data->shipment_id)) !!} " style="width: 150px; height: 150px;">\
                 <div style="width: 140px; text-align: center; background: #000; color: #FFF; padding: 5px; font-weight: bold;">\
-                    1255\
+                    {!! $data->shipment_id !!}\
                 </div>\
             </td>\
             <td style="width: 1px">\
@@ -553,40 +553,40 @@
                 <table style="width: 350px; font-size: .7em;">\
                     <tr>\
                         <td style="width: 50%; margin-right: 2px; font-weight: bold;">\
-                            PENGIRIM <img src="plane_icon_gray.png" style="height: 10px">\
+                            PENGIRIM <img src="{!! URL::to('/') . '/images/plane_icon_gray.png' !!}" style="height: 10px">\
                         </td>\
                         <td style="width: 50%; margin-right: 2px; font-weight: bold;">\
-                            PENERIMA <img src="shipment_icon_gray.png" style="height: 10px">\
+                            PENERIMA <img src="{!! URL::to('/') . '/images/shipment_icon_gray.png' !!}" style="height: 10px">\
                         </td>\
                     </tr>\
                     <tr>\
                         <td style="width: 50%; font-size: .9em;">\
                             Nama : <br/>\
-                            <span style="color: #000">Lorem ipsum</span>\
+                            <span style="color: #000">{!!$data->shipper_first_name!!} {!!$data->shipper_last_name!!}</span>\
                         </td>\
                         <td style="width: 50%; font-size: .9em;">\
                             Nama : <br/>\
-                            <span style="color: #000">Lorem ipsum</span>\
+                            <span style="color: #000">{!!$data->consignee_first_name!!} {!!$data->consignee_last_name!!}</span>\
                         </td>\
                     </tr>\
                     <tr>\
                         <td style="width: 50%; font-size: .9em;">\
                             Alamat :<br/>\
-                            <span style="color: #000">Dolor sit amet</span>\
+                            <span style="color: #000">{!! $data->shipper_address !!}</span>\
                         </td>\
                         <td style="width: 50%; font-size: .9em;">\
                             Alamat :<br/>\
-                            <span style="color: #000">Dolor sit amet</span>\
+                            <span style="color: #000">{!! $data->consignee_address !!}</span>\
                         </td>\
                     </tr>\
                     <tr>\
                         <td style="width: 50%; font-size: .9em;">\
                             No telp :<br/>\
-                            <span style="color: #000">Consectetur</span>\
+                            <span style="color: #000">{!! $data->shipper_mobile_phone !!}</span>\
                         </td>\
                         <td style="width: 50%; font-size: .9em;">\
                             No telp :<br/>\
-                            <span style="color: #000">Consectetur</span>\
+                            <span style="color: #000">{!! $data->consignee_mobile_phone !!}</span>\
                         </td>\
                     </tr>\
                 </table>\
@@ -601,7 +601,7 @@
                         <td valign="top" style="padding-left: 24px">\
                             <span style="font-weight: bold;">Download our free apps</span><br/>\
                             <div style=" padding-top: 2px;">\
-                                <img src="gs.jpg" height="30px;">\
+                                <img src="{!! URL::to('/') . '/images/gs.jpg' !!}" height="30px;">\
                             </div>\
                         </td>\
                     </tr>\
