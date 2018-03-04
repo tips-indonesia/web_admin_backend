@@ -545,8 +545,10 @@
                             startListener();
 
                             // init first data
-                            if(slot_saved_data.length > 0)
+                            if(slot_saved_data.length > 0){
                                 populateShipmentAndView(slot_saved_data[0].id);
+                                current_active_slot = slot_saved_data[0];
+                            }
                         });
                     });
                 });
