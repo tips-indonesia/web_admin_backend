@@ -266,12 +266,9 @@ class UtilityController extends Controller
     public function APIAssignBarangKeKeberangkatan($IDBarang, $IDKeberangkatan){
 
         $temp = Shipment::find($IDBarang);
-
         if($temp == null)
             return false;
 
-        // if($this->DEBUG) echo "B-" . $temp->id . ' berat ' . $temp->estimate_weight . ' diassign ke K-' . $IDKeberangkatan . '<br/>';
-        // if($this->DEBUG) echo "</br>";
         $temp->id_slot = $IDKeberangkatan;
         $temp->status_dispatch = 'Process';
         $temp->save();
@@ -282,13 +279,7 @@ class UtilityController extends Controller
             return false;
 
         $tempK->sold_baggage_space = $tempK->sold_baggage_space + $temp->estimate_weight;
-        $tempK->status_dispatch = 'Process';
-
-        $tempK->id_slot_status = 2;
         $tempK->save();
-
-        // $this->printKeberangkatan();
-        // echo "</br>";
 
         return true;
     }
@@ -363,6 +354,156 @@ class UtilityController extends Controller
         return response()->json([
             "err" => null,
             "result" => $slot_slot
+        ], 200);
+    }
+
+    public function allAvailableSlot(Request $req){
+        return response()->json([
+            "err" => null,
+            "result" => SlotList::where('id_slot_status', '1')->get()
+        ], 200);
+    }
+
+    public function cariShipmentSlotMatched(Request $req){
+        $id_slot = $req->slot_id;
+        if(!$id_slot){
+            return response()->json([
+                "err" => [
+                    "code" => 404,
+                    "message" => "Parameter slot_id tidak boleh kosong"
+                ],
+                "result" => null
+            ], 200);
+        }
+
+        $slot = SlotList::find($id_slot);
+        if(!$slot){
+            return response()->json([
+                "err" => [
+                    "code" => 404,
+                    "message" => "Slot tidak ditemukan"
+                ],
+                "result" => null
+            ], 200);
+        }
+
+        return response()->json([
+            "err" => null,
+            "result" => Shipment::where('id_slot', $id_slot)->get()
+        ], 200);
+    }
+
+    public function cariShipment(Request $req){
+        $id_slot = $req->slot_id;
+        if(!$id_slot){
+            return response()->json([
+                "err" => [
+                    "code" => 404,
+                    "message" => "Parameter slot_id tidak boleh kosong"
+                ],
+                "result" => null
+            ], 200);
+        }
+
+        $slot = SlotList::find($id_slot);
+        if(!$slot){
+            return response()->json([
+                "err" => [
+                    "code" => 404,
+                    "message" => "Slot tidak ditemukan"
+                ],
+                "result" => null
+            ], 200);
+        }
+
+        $all_shipment = Shipment::where('id_origin_city', $slot->id_origin_city)
+                        ->where('id_destination_city', $slot->id_destination_city)
+                        ->where('id_slot', null)
+                        ->get();
+
+        $result_data = array();
+        foreach ($all_shipment as $shipment){
+            // echo "1:", $shipment->estimate_weight, "-", $slot->baggage_space, "-", $slot->sold_baggage_space, "\n";
+            $unwrapped = ($shipment->estimate_weight > ($slot->baggage_space - $slot->sold_baggage_space));
+            if($unwrapped)
+                continue;
+
+            // echo "2:", $slot->depature, "-", $shipment->received_time, "\n";
+            $hoursDifferent = $this->hDiffTime($slot->depature, $shipment->received_time);
+            // echo "3:", $hoursDifferent, "\n";
+            if($hoursDifferent < $this->FINAL_HOURS)
+                continue;
+
+            array_push($result_data, $shipment);
+        }
+
+        return response()->json([
+            "err" => null,
+            "result" => $result_data
+        ], 200);
+    }
+
+    public function unSubmitMatching(Request $req){
+        $id_shipment = $req->id_shipment;
+        $id_slot     = $req->id_slot;
+
+
+        $slot = SlotList::find($id_slot);
+
+        if(!$slot)
+            return response()->json([
+                "err" => [
+                    "code" => 404,
+                    "message" => "Slot tidak ditemukan"
+                ],
+                "result" => null
+            ], 200);
+
+        $barang = DaftarBarangGold::where('id_barang', $id_shipment)->first();
+        if(!$barang)
+            $barang = DaftarBarangRegular::where('id_barang', $id_shipment)->first();
+
+        if(!$barang)
+            return response()->json([
+                "err" => [
+                    "code" => 404,
+                    "message" => "1Shipment tidak ditemukan"
+                ],
+                "result" => null
+            ], 200);
+
+        $shipment = $barang->barang;
+
+        if(!$shipment)
+            return response()->json([
+                "err" => [
+                    "code" => 404,
+                    "message" => "2Shipment tidak ditemukan"
+                ],
+                "result" => null
+            ], 200);
+
+        if($shipment->id_slot != $id_slot)
+            return response()->json([
+                "err" => [
+                    "code" => 404,
+                    "message" => "3Shipment tidak ditemukan"
+                ],
+                "result" => null
+            ], 200);
+
+        $barang->is_assigned = 0;
+        $barang->save();
+
+        $shipment->id_slot = null;
+        $shipment->save();
+
+        $slot->sold_baggage_space = $slot->sold_baggage_space - $shipment->estimate_weight;
+        $slot->save();
+
+        return response()->json([
+            "err" => null,
+            "result" => "berhasil"
         ], 200);
     }
 

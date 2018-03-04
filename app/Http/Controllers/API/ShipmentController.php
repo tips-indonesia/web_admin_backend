@@ -303,6 +303,7 @@ class ShipmentController extends Controller
 
     private function CekDataAntrian(){
         foreach(Shipment::all() as $shipment){
+            // dd($shipment->is_matched ==, $shipment->id_shipment_status == 4);
             if(!$shipment->is_matched && $shipment->id_shipment_status == 4){
                 if($shipment->is_first_class) {
                     $daftar_barang = new DaftarBarangGold;
@@ -325,7 +326,6 @@ class ShipmentController extends Controller
             array_push($result, $barang->barang);
         }
 
-        $result = array();
         foreach(DaftarBarangRegular::where('is_assigned', 0)->get() as $barang){
             array_push($result, $barang->barang);
         }

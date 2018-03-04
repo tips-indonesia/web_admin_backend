@@ -112,4 +112,8 @@ Route::post('/tespay', 'API\\PaymentController@tesEspayNotif');
 
 
 Route::get('match/find_slot', 'UtilityController@cariSlot');
+Route::get('match/find_shipment', 'UtilityController@cariShipment');
+Route::get('match/find_shipment_slot_matched', 'UtilityController@cariShipmentSlotMatched');
+Route::get('match/all_slot', 'UtilityController@allAvailableSlot');
 Route::get('match/submit_matching', 'UtilityController@submitMatching');
+Route::get('match/un_submit_matching', 'UtilityController@unSubmitMatching');
