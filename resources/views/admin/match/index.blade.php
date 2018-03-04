@@ -309,6 +309,9 @@
                     .append('<option value="' + data.id + '">' + data.shipment_id + ' (' + data.city_origin_name + '->' + data.city_destination_name + ')' + '</option>');
                     i++;
                 });
+
+                $('#shipmentpicker').selectpicker('refresh');
+                $('#shipmentpicker').selectpicker('render');
             }
 
             var populateSlotData = (datas) => {
