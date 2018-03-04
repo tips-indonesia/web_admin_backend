@@ -128,6 +128,11 @@ class MenuTableSeeder extends Seeder
                 'class_name' => 'receiveds.'
             ]);
             MenuList::create([
+                'name' => 'Manual Match',
+                'menu_parent_id' => $transaction->id,
+                'class_name' => 'match.'
+            ]);
+            MenuList::create([
                 'name' => 'Packaging Slot',
                 'menu_parent_id' => $transaction->id,
                 'class_name' => 'packagingslots.'
@@ -201,11 +206,6 @@ class MenuTableSeeder extends Seeder
                 'name' => 'Term and Agreement',
                 'menu_parent_id' => $setting->id,
                 'class_name' => 'terms.'
-            ]);
-            MenuList::create([
-                'name' => 'Match',
-                'menu_parent_id' => $setting->id,
-                'class_name' => 'match.'
             ]);
             MenuList::create([
                 'name' => 'Shipment Status',

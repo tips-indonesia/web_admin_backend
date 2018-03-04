@@ -40,6 +40,7 @@ class PermissionTableSeeder extends Seeder
         // Transaction
         Permission::create(['name' => 'shipments.', 'show_name' => 'Shipment List']);
         Permission::create(['name' => 'slotlists.', 'show_name' => 'Slot List']);
+        Permission::create(['name' => 'match.', 'show_name' => 'Manual Matching']); 
         Permission::create(['name' => 'packagingslots.', 'show_name' => 'Packaging Slot']);
         Permission::create(['name' => 'deliveries.', 'show_name' => 'Shipment Delivery to Processing Center']);
         Permission::create(['name' => 'receiveds.', 'show_name' => 'Shipment Received by Processing Center']);
@@ -60,7 +61,6 @@ class PermissionTableSeeder extends Seeder
         // Setting
         Permission::create(['name' => 'shipmentstatuses.', 'show_name' => 'Shipment Status']);
         Permission::create(['name' => 'terms.', 'show_name' => 'Term and Agreement']); 
-        Permission::create(['name' => 'match.', 'show_name' => 'Match']); 
         Permission::create(['name' => 'tipstermilestones.', 'show_name' => 'Tipster Milestone']);
 
             // User 
