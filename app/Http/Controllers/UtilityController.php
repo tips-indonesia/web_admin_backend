@@ -10,6 +10,9 @@ use App\DaftarBarangRegular;
 use App\FlightBookingList;
 use App\Mail\TestMail;
 use Illuminate\Support\Facades\Mail;
+use App\Http\Controllers\FCMSender;
+use App\Http\Controllers\API\MessageController;
+use App\ShipmentStatus;
 
 use App\MemberList;
 
@@ -279,15 +282,6 @@ class UtilityController extends Controller
 
         $tempK->sold_baggage_space = $tempK->sold_baggage_space + $temp->estimate_weight;
         $tempK->status_dispatch = 'Process';
-        // $tempK->id_slot_status = 2; // di delivery controller statusnya sudah otomatis 4
-
-        FCMSender::post(array(
-          'type' => "Delivery",
-          'id' => $tempK->slot_id,
-          'status' => "2",
-          'message' => "Tes tes",
-          'detail' => 'wkwkwk'
-        ), $tempK->member->token);
 
         $tempK->id_slot_status = 2;
         $tempK->save();
@@ -401,6 +395,19 @@ class UtilityController extends Controller
         $result     = $this->APIAssignBarangKeKeberangkatan($idShipment, $idSlot);
 
         if($result){
+
+            $slot = SlotList::find($IDKeberangkatan);
+            $user = $slot->member;
+            $shipment_status = ShipmentStatus::where('step', 5)->first();
+            FCMSender::post(array(
+                'type' => 'TIPS: Antar',
+                'id' => $idShipment,
+                'status' => "2",
+                'message' => $shipment_status->description,
+                'detail' => ""
+            ), $user->token);
+            MessageController::sendMessageToUser($user, "2", $shipment_status->description);
+
             $_barang->is_assigned = true;
             $_barang->save();
             return response()->json([

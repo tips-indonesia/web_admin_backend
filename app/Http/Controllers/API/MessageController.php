@@ -4,6 +4,8 @@ namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Message;
+use App\MemberList;
 
 class MessageController extends Controller
 {
@@ -21,18 +23,71 @@ class MessageController extends Controller
             return response()->json($data, 200);
     	}
 
+    	$user = MemberList::find($id_user);
+
+		if(!$user){
+            $data = array(
+                "err" => [
+                	"code" => 404,
+                	"message" => "user tidak ditemukan"
+                ],
+                "result" => null
+            );
+
+            return response()->json($data, 200);
+    	}
+
+    	$message = Message::find($id_pesan);
+
+    	if(!$message){
+    		$data = array(
+                "err" => [
+                	"code" => 404,
+                	"message" => "pesan tidak ditemukan"
+                ],
+                "result" => null
+            );
+
+            return response()->json($data, 200);
+    	}
+
+    	if($message->member_id != $id_user){
+    		$data = array(
+                "err" => [
+                	"code" => 400,
+                	"message" => "pesan tidak dapat dibuka"
+                ],
+                "result" => null
+            );
+
+            return response()->json($data, 200);
+    	}
+
     	$data = array(
     		"err" => null,
-    		"result" => [
-    			"id" => 1,
-    			"nama_pengirim" => "TIPS",
-    			"tanggal" => date('Y-m-d h:i:s'),
-    			"subjek" => "welcome onboard",
-    			"isi" => "The progress bar is coming in white colour on emulator, but when I run same code on htc, progress bar is coming in green color, and on G1 it is with yellow color. I want all in Yellow colour. How can I give Colour?? or is there any method by which I can use my own image for progress bar? I have tried android:progressDrawable='@drawable/progress_bar' in xml but its not working. Please help "
-    		]
+    		"result" => $message
     	);
 
     	return response()->json($data, 200);
+	}
+
+	public static function sendMessageToUser($sender, $user, $subjek, $status, $message){
+		if(!$user)
+			return false;
+
+		$message = Message::create([
+			"member_id"	=> $user->id,
+			"nama_pengirim" 	=> $sender,
+			"subjek" 	=> $subjek,
+			"status" 	=> $status,
+			"message" 	=> $message
+		]);
+
+		return $message;
+	}
+
+	public function testMessage(Request $req){
+		return MessageController::sendMessageToUser("TIPS", MemberList::find($req->user_id), "1", "Test Message", "lorem ipsum dolor sit amet");
 	}
 
     public function getPesan($id_user){
@@ -48,95 +103,24 @@ class MessageController extends Controller
             return response()->json($data, 200);
     	}
 
+    	$user = MemberList::find($id_user);
+    	
+		if(!$user){
+            $data = array(
+                "err" => [
+                	"code" => 404,
+                	"message" => "user tidak ditemukan"
+                ],
+                "result" => null
+            );
+
+            return response()->json($data, 200);
+    	}
+
         $data = array(
             "err" => null,
             "result" => [
-				"messages" => [
-					[
-						"id" => 1,
-						"nama_pengirim" => "TIPS",
-						"tanggal" => date('Y-m-d h:i:s'),
-						"subjek" => "Welcome onboard",
-						"isi" => "lorem ipsum dolor sit amet consectetur adipiscing elit, yaaaaa"
-					],
-					[
-						"id" => 2,
-						"nama_pengirim" => "TIPS",
-						"tanggal" => date('Y-m-d h:i:s'),
-						"subjek" => "Welcome onboard 2",
-						"isi" => "2 lorem ipsum dolor sit amet consectetur adipiscing elit, yaaaaa 2 "
-					],
-					[
-						"id" => 3,
-						"nama_pengirim" => "TIPS",
-						"tanggal" => date('Y-m-d h:i:s'),
-						"subjek" => "Welcome onboard 3",
-						"isi" => "3 lorem ipsum dolor sit amet consectetur adipiscing elit, yaaaaa"
-					],
-					[
-						"id" => 4,
-						"nama_pengirim" => "TIPS",
-						"tanggal" => date('Y-m-d h:i:s'),
-						"subjek" => "Welcome onboard 4",
-						"isi" => "4 lorem ipsum dolor sit amet consectetur adipiscing elit, yaaaaa 4"
-					],
-					[
-						"id" => 5,
-						"nama_pengirim" => "TIPS",
-						"tanggal" => date('Y-m-d h:i:s'),
-						"subjek" => "Welcome onboard",
-						"isi" => "lorem ipsum dolor sit amet consectetur adipiscing elit, yaaaaa"
-					],
-					[
-						"id" => 6,
-						"nama_pengirim" => "TIPS",
-						"tanggal" => date('Y-m-d h:i:s'),
-						"subjek" => "Welcome onboard 2",
-						"isi" => "2 lorem ipsum dolor sit amet consectetur adipiscing elit, yaaaaa 2 "
-					],
-					[
-						"id" => 7,
-						"nama_pengirim" => "TIPS",
-						"tanggal" => date('Y-m-d h:i:s'),
-						"subjek" => "Welcome onboard 3",
-						"isi" => "3 lorem ipsum dolor sit amet consectetur adipiscing elit, yaaaaa"
-					],
-					[
-						"id" => 8,
-						"nama_pengirim" => "TIPS",
-						"tanggal" => date('Y-m-d h:i:s'),
-						"subjek" => "Welcome onboard 4",
-						"isi" => "4 lorem ipsum dolor sit amet consectetur adipiscing elit, yaaaaa 4"
-					],
-					[
-						"id" => 9,
-						"nama_pengirim" => "TIPS",
-						"tanggal" => date('Y-m-d h:i:s'),
-						"subjek" => "Welcome onboard",
-						"isi" => "lorem ipsum dolor sit amet consectetur adipiscing elit, yaaaaa"
-					],
-					[
-						"id" => 10,
-						"nama_pengirim" => "TIPS",
-						"tanggal" => date('Y-m-d h:i:s'),
-						"subjek" => "Welcome onboard 2",
-						"isi" => "2 lorem ipsum dolor sit amet consectetur adipiscing elit, yaaaaa 2 "
-					],
-					[
-						"id" => 11,
-						"nama_pengirim" => "TIPS",
-						"tanggal" => date('Y-m-d h:i:s'),
-						"subjek" => "Welcome onboard 3",
-						"isi" => "3 lorem ipsum dolor sit amet consectetur adipiscing elit, yaaaaa"
-					],
-					[
-						"id" => 12,
-						"nama_pengirim" => "TIPS",
-						"tanggal" => date('Y-m-d h:i:s'),
-						"subjek" => "Welcome onboard 4",
-						"isi" => "4 lorem ipsum dolor sit amet consectetur adipiscing elit, yaaaaa 4"
-					]
-				]
+				"messages" => Message::where('member_id', $id_user)->get()
             ]
         );
 
