@@ -279,7 +279,7 @@ class UtilityController extends Controller
             return false;
 
         // ganti estimate weight ke real weight
-        $tempK->sold_baggage_space = $tempK->sold_baggage_space + $temp->real_weight;
+        $tempK->sold_baggage_space = ((float) $tempK->sold_baggage_space) + ((float) $temp->real_weight);
         $tempK->save();
 
         return true;
@@ -429,7 +429,7 @@ class UtilityController extends Controller
             // echo "1:", $shipment->estimate_weight, "-", $slot->baggage_space, "-", $slot->sold_baggage_space, "\n";
 
             // ganti ke estimate weight ke real weight
-            $unwrapped = ($shipment->real_weight > ($slot->baggage_space - $slot->sold_baggage_space));
+            $unwrapped = (((float) $shipment->real_weight) > ((float) ($slot->baggage_space - $slot->sold_baggage_space)));
             if($unwrapped)
                 continue;
 
@@ -504,7 +504,7 @@ class UtilityController extends Controller
         $shipment->save();
 
         // ganti estimate weight ke real weight
-        $slot->sold_baggage_space = $slot->sold_baggage_space - $shipment->estimate_weight;
+        $slot->sold_baggage_space = ((float) $slot->sold_baggage_space) - ((float) $shipment->real_weight);
         $slot->save();
 
         return response()->json([
