@@ -396,7 +396,7 @@ class UtilityController extends Controller
 
         if($result){
 
-            $slot = SlotList::find($IDKeberangkatan);
+            $slot = SlotList::find($idSlot);
             $user = $slot->member;
             $shipment_status = ShipmentStatus::where('step', 5)->first();
             FCMSender::post(array(
