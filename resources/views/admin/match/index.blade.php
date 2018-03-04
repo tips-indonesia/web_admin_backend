@@ -113,7 +113,7 @@
     <script>
         $(document).ready(() => {
             console.log("ready-me");
-            let endpoint_url = "{!! URL::to('/api/') !!}";
+            let endpoint_url = "{!! URL::to('/api/') !!}" + "/";
             var airport_city_list = [];
             var shipment_saved_data = [];
             var slot_saved_data = [];
