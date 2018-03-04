@@ -496,10 +496,10 @@
             }
 
             var addShipmentToScroller = (data) => {
-                $('#scroller').append(createScrollerChild(data.shipment_id + ' (' + data.city_origin_name + '->' + data.city_destination_name + ') Weight: ' + data.estimate_weight + ' Kg', data.id));
+                $('#scroller').append(createScrollerChild(data.shipment_id + ' (' + data.city_origin_name + '->' + data.city_destination_name + ') Real Weight: ' + data.real_weight + ' Kg', data.id));
             }
             var addShipmentToScrollerMatched = (data) => {
-                $('#matched_scroller').append(createScrollerMatchedChild(data.shipment_id + ' (' + data.city_origin_name + '->' + data.city_destination_name + ') Weight: ' + data.estimate_weight + ' Kg', data.id));
+                $('#matched_scroller').append(createScrollerMatchedChild(data.shipment_id + ' (' + data.city_origin_name + '->' + data.city_destination_name + ') Real Weight: ' + data.real_weight + ' Kg', data.id));
             }
 
             var startListener = () => {
