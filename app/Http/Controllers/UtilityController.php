@@ -278,7 +278,8 @@ class UtilityController extends Controller
         if($tempK == null)
             return false;
 
-        $tempK->sold_baggage_space = $tempK->sold_baggage_space + $temp->estimate_weight;
+        // ganti estimate weight ke real weight
+        $tempK->sold_baggage_space = $tempK->sold_baggage_space + $temp->real_weight;
         $tempK->save();
 
         return true;
@@ -426,7 +427,9 @@ class UtilityController extends Controller
         $result_data = array();
         foreach ($all_shipment as $shipment){
             // echo "1:", $shipment->estimate_weight, "-", $slot->baggage_space, "-", $slot->sold_baggage_space, "\n";
-            $unwrapped = ($shipment->estimate_weight > ($slot->baggage_space - $slot->sold_baggage_space));
+
+            // ganti ke estimate weight ke real weight
+            $unwrapped = ($shipment->real_weight > ($slot->baggage_space - $slot->sold_baggage_space));
             if($unwrapped)
                 continue;
 
@@ -500,6 +503,7 @@ class UtilityController extends Controller
         $shipment->id_slot = null;
         $shipment->save();
 
+        // ganti estimate weight ke real weight
         $slot->sold_baggage_space = $slot->sold_baggage_space - $shipment->estimate_weight;
         $slot->save();
 
@@ -539,19 +543,6 @@ class UtilityController extends Controller
         $result     = $this->APIAssignBarangKeKeberangkatan($idShipment, $idSlot);
 
         if($result){
-
-            $slot = SlotList::find($idSlot);
-            $user = $slot->member;
-            $delivery_status = DeliveryStatus::where('step', 2)->first();
-            FCMSender::post(array(
-                'type' => 'TIPS: Antar',
-                'id' => $idShipment,
-                'status' => "2",
-                'message' => $delivery_status->description,
-                'detail' => ""
-            ), $user->token);
-            MessageController::sendMessageToUser("TIPS", $user, "Status Antar", "2", $delivery_status->description);
-
             $_barang->is_assigned = true;
             $_barang->save();
             return response()->json([
