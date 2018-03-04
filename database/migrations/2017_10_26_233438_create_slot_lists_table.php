@@ -31,8 +31,8 @@ class CreateSlotListsTable extends Migration
             $table->dateTime('depature');
 //            $table->dateTime('arrival');
             $table->string('flight_code');
-            $table->unsignedInteger('baggage_space');
-            $table->unsignedInteger('sold_baggage_space')->default(0);
+            $table->decimal('baggage_space');
+            $table->decimal('sold_baggage_space')->default(0);
             $table->unsignedInteger('slot_price_kg');
             $table->integer('id_slot_status')->default(1);
             $table->string('photo_tag')->nullable();
