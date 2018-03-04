@@ -324,6 +324,12 @@ class ShipmentController extends Controller
         foreach(DaftarBarangGold::where('is_assigned', 0)->get() as $barang){
             array_push($result, $barang->barang);
         }
+
+        $result = array();
+        foreach(DaftarBarangRegular::where('is_assigned', 0)->get() as $barang){
+            array_push($result, $barang->barang);
+        }
+
         return response()->json(
             array(
                 'err' => null,

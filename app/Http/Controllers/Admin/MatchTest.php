@@ -15,8 +15,6 @@ class MatchTest extends Controller
 {
     public function index()
     {
-    	$u = new UtilityController;
-    	$u->CekDataAntrian();
         return view('admin.match.index');
     }
 }
