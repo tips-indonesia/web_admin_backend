@@ -542,7 +542,7 @@
             <td style="width: 150px;">\
                 <img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(300)->margin(0)->merge('/public/images/logoqr.png',.25)->encoding('UTF-8')->errorCorrection('H')->generate($data->shipment_id)) !!} " style="width: 150px; height: 150px;">\
                 <div style="width: 140px; text-align: center; background: #000; color: #FFF; padding: 5px; font-weight: bold;">\
-                    {!! $data->shipment_id !!}\
+                    {!! $data->shipment_id !!} \
                 </div>\
             </td>\
             <td style="width: 1px">\
