@@ -35,6 +35,7 @@ Route::get('/tes', 'UtilityController@generateCode');
 
 Route::get('/pesan/{id_user}', 'API\\MessageController@getPesan');
 Route::get('/pesan/{id_user}/{id_pesan}', 'API\\MessageController@getPesanSpesifik');
+Route::delete('/pesan/{id_user}/{id_pesan}', 'API\\MessageController@hapusPesan');
 
 Route::post('/register', 'API\\UserController@register');
 Route::post('/verify/phone', 'API\\UserController@verifyPhoneNumber');

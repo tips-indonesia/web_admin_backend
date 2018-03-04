@@ -11,6 +11,8 @@ class MessageController extends Controller
 {
 
 	public function getPesanSpesifik($id_user, $id_pesan){
+
+		// Parameter invalid
 		if(!$id_user){
             $data = array(
                 "err" => [
@@ -23,8 +25,10 @@ class MessageController extends Controller
             return response()->json($data, 200);
     	}
 
+		// Looking for user
     	$user = MemberList::find($id_user);
 
+    	// User not found
 		if(!$user){
             $data = array(
                 "err" => [
@@ -37,8 +41,10 @@ class MessageController extends Controller
             return response()->json($data, 200);
     	}
 
+    	// Looking for message
     	$message = Message::find($id_pesan);
 
+    	// Message not found
     	if(!$message){
     		$data = array(
                 "err" => [
@@ -51,6 +57,7 @@ class MessageController extends Controller
             return response()->json($data, 200);
     	}
 
+    	// Message not belongs to user
     	if($message->member_id != $id_user){
     		$data = array(
                 "err" => [
@@ -63,6 +70,7 @@ class MessageController extends Controller
             return response()->json($data, 200);
     	}
 
+    	// success
     	$data = array(
     		"err" => null,
     		"result" => $message
@@ -125,5 +133,76 @@ class MessageController extends Controller
         );
 
         return response()->json($data, 200);
+    }
+
+    public function hapusPesan($id_user, $id_pesan){
+
+		// Parameter invalid
+		if(!$id_user){
+            $data = array(
+                "err" => [
+                	"code" => 404,
+                	"message" => "user tidak ditemukan"
+                ],
+                "result" => null
+            );
+
+            return response()->json($data, 200);
+    	}
+
+		// Looking for user
+    	$user = MemberList::find($id_user);
+
+    	// User not found
+		if(!$user){
+            $data = array(
+                "err" => [
+                	"code" => 404,
+                	"message" => "user tidak ditemukan"
+                ],
+                "result" => null
+            );
+
+            return response()->json($data, 200);
+    	}
+
+    	// Looking for message
+    	$message = Message::find($id_pesan);
+
+    	// Message not found
+    	if(!$message){
+    		$data = array(
+                "err" => [
+                	"code" => 404,
+                	"message" => "pesan tidak ditemukan"
+                ],
+                "result" => null
+            );
+
+            return response()->json($data, 200);
+    	}
+
+    	// Message not belongs to user
+    	if($message->member_id != $id_user){
+    		$data = array(
+                "err" => [
+                	"code" => 400,
+                	"message" => "pesan tidak dapat dibuka"
+                ],
+                "result" => null
+            );
+
+            return response()->json($data, 200);
+    	}
+
+    	$message->delete();
+    	
+    	// success
+    	$data = array(
+    		"err" => null,
+    		"result" => $message
+    	);
+
+    	return response()->json($data, 200);
     }
 }

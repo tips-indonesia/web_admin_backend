@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\FCMSender;
 use App\Http\Controllers\API\MessageController;
 use App\ShipmentStatus;
+use App\DeliveryStatus;
 
 use App\MemberList;
 
@@ -398,15 +399,15 @@ class UtilityController extends Controller
 
             $slot = SlotList::find($idSlot);
             $user = $slot->member;
-            $shipment_status = ShipmentStatus::where('step', 5)->first();
+            $delivery_status = DeliveryStatus::where('step', 2)->first();
             FCMSender::post(array(
                 'type' => 'TIPS: Antar',
                 'id' => $idShipment,
                 'status' => "2",
-                'message' => $shipment_status->description,
+                'message' => $delivery_status->description,
                 'detail' => ""
             ), $user->token);
-            MessageController::sendMessageToUser("TIPS", $user, "Status Antar", "2", $shipment_status->description);
+            MessageController::sendMessageToUser("TIPS", $user, "Status Antar", "2", $delivery_status->description);
 
             $_barang->is_assigned = true;
             $_barang->save();
