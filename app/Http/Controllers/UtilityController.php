@@ -394,7 +394,7 @@ class UtilityController extends Controller
     }
 
     public function cariShipment(Request $req){
-        $this->CekDataAntrian()
+        $this->CekDataAntrian();
         $id_slot = $req->slot_id;
         if(!$id_slot){
             return response()->json([
