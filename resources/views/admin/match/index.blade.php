@@ -457,7 +457,7 @@
                     if(shipment_saved_data[i].id == id){
                         let processed_data = shipment_saved_data.splice(i, 1)[0];
                         shipment_matched_saved_data.push(processed_data);
-                        current_active_slot.sold_baggage_space += parseFloat(processed_data.real_weight);
+                        current_active_slot.sold_baggage_space = parseFloat(current_active_slot.sold_baggage_space) + parseFloat(processed_data.real_weight);
                         break;
                     }
             }
@@ -468,7 +468,7 @@
                     if(shipment_matched_saved_data[i].id == id){
                         let processed_data = shipment_matched_saved_data.splice(i, 1)[0];
                         shipment_saved_data.push(processed_data);
-                        current_active_slot.sold_baggage_space -= parseFloat(processed_data.real_weight);
+                        current_active_slot.sold_baggage_space = parseFloat(current_active_slot.sold_baggage_space) - parseFloat(processed_data.real_weight);
                         break;
                     }
             }
