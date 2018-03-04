@@ -419,6 +419,7 @@ class UtilityController extends Controller
         $all_shipment = Shipment::where('id_origin_city', $slot->id_origin_city)
                         ->where('id_destination_city', $slot->id_destination_city)
                         ->where('id_slot', null)
+                        ->where('id_shipment_status', '4')
                         ->get();
 
         $result_data = array();
