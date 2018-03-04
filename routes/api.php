@@ -117,3 +117,8 @@ Route::get('match/find_shipment_slot_matched', 'UtilityController@cariShipmentSl
 Route::get('match/all_slot', 'UtilityController@allAvailableSlot');
 Route::get('match/submit_matching', 'UtilityController@submitMatching');
 Route::get('match/un_submit_matching', 'UtilityController@unSubmitMatching');
+Route::get('match/posting_matching', 'UtilityController@postingMatching');
+
+
+
+

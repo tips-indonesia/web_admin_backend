@@ -567,6 +567,51 @@ class UtilityController extends Controller
         }
     }
 
+    public function postingMatching(Request $req){
+        $id_slot = $req->slot_id;
+        if(!$id_slot){
+            return response()->json([
+                "err" => [
+                    "code" => 404,
+                    "message" => "Parameter slot_id tidak boleh kosong"
+                ],
+                "result" => null
+            ], 200);
+        }
+
+        $slot = SlotList::find($id_slot);
+        if(!$slot){
+            return response()->json([
+                "err" => [
+                    "code" => 404,
+                    "message" => "Slot tidak ditemukan"
+                ],
+                "result" => null
+            ], 200);
+        }
+
+        $slot->status_dispatch = 'Process';
+        // $tempK->id_slot_status = 2; // di delivery controller statusnya sudah otomatis 4
+
+        $status = DeliveryStatus::where('step', 2)->first();
+        FCMSender::post(array(
+          'type' => "Delivery",
+          'id' => $slot->slot_id,
+          'status' => "2",
+          'message' => "Delivery Status 2",
+          'detail' => $status->description
+        ), $slot->member->token);
+        MessageController::sendMessageToUser("TIPS", $slot->member, "Delivery Status", "2", $status->description);
+
+        $slot->id_slot_status = 2;
+        $slot->save();
+
+        return response()->json([
+            "err" => null,
+            "result" => "berhasil"
+        ], 200);
+    }
+
     public function CekDataAntrian(){
         foreach(Shipment::all() as $shipment){
             if(!$shipment->is_matched && $shipment->id_shipment_status == 4){

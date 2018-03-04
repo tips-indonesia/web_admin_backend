@@ -114,9 +114,6 @@
                         <div id="save" class="btn btn-warning" style="float: right;">
                             Posting
                         </div>
-                        <div id="posting" class="btn btn-primary" style="float: right; margin-right: 16px">
-                            Save
-                        </div>
                     </div>
                 </div>
                 <br/>
@@ -149,21 +146,10 @@
                 }
             });
 
-            $('#add_to_matching').click((e) => {
+            $('#save').click((e) => {
                 e.preventDefault();
-
-                // will be implement
-                createMatchedData({
-                    'json_data': JSON.stringify({
-                        1: "a",
-                        "a": 1
-                    }),
-                    "left": $("#shipmentpicker option:selected").text(),
-                    "right": $("#slotxpicker option:selected").text()
-                });
-                var body = $("html, body");
-                body.stop().animate({scrollTop:0}, 500, 'swing', function() { 
-                   
+                postingMatching(() => {
+                    location.reload();
                 });
             });
 
@@ -207,6 +193,29 @@
                     return city_name;
 
                 return "error: city undefined";
+            }
+
+            var postingMatching = (callback) => {
+                let url = endpoint_url + "match/posting_matching";
+
+                $.ajax({
+                    "url": url,
+                    "type": "GET",
+                    "data": {
+                        "slot_id": current_active_slot.id
+                    },
+                    "beforeSend": function(xhr){
+                        xhr.setRequestHeader('Content-Type', 'application/json');
+                    },
+                    "success": (data) => {
+                        if(!data.err){
+                            if(isFunction(callback))
+                                callback();
+                        }else{
+                            alert(data.err.message);
+                        }
+                    }
+                });
             }
 
             var submitMatching = (id_shipment, callback) => {
