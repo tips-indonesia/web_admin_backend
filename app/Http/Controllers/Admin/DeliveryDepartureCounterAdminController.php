@@ -60,8 +60,8 @@ class DeliveryDepartureCounterAdminController extends Controller
             if ($dat->id_slot != null) {
                 $slot = SlotList::find($dat->id_slot);
                 $dat['total'] = Shipment::where('id_slot', $slot->id)->get()->count();
-                $dat['origin'] = AirportList::find($slot->id_origin_city)->name;
-                $dat['destination'] = AirportList::find($slot->id_destination_city)->name;
+                $dat['origin'] = AirportList::find($slot->id_origin_airport)->name;
+                $dat['destination'] = AirportList::find($slot->id_destination_airport)->name;
                 $dat['slot_id'] = $slot->slot_id;
             }else {
                 $dat['total'] = Shipment::where('id_packaging', $dat->id)->get()->count();
@@ -87,8 +87,8 @@ class DeliveryDepartureCounterAdminController extends Controller
             foreach ($data['datas'] as $dat) {
                 if ($dat->id_slot != null) {
                     $slot = SlotList::find($dat->id_slot);
-                    $dat['origin_name'] = AirportList::find($slot->id_origin_city)->name;
-                    $dat['destination_name'] = AirportList::find($slot->id_destination_city)->name;
+                    $dat['origin_name'] = AirportList::find($slot->id_origin_airport)->name;
+                    $dat['destination_name'] = AirportList::find($slot->id_destination_airport)->name;
                 }
             }
             $data['date'] = $date;
@@ -160,8 +160,8 @@ class DeliveryDepartureCounterAdminController extends Controller
         foreach ($data['packaging'] as $dat) {
             if ($dat->id_slot != null) {
                     $slot = SlotList::find($dat->id_slot);
-                    $dat['origin_name'] = AirportList::find($slot->id_origin_city)->name;
-                    $dat['destination_name'] = AirportList::find($slot->id_destination_city)->name;
+                    $dat['origin_name'] = AirportList::find($slot->id_origin_airport)->name;
+                    $dat['destination_name'] = AirportList::find($slot->id_destination_airport)->name;
                 }
         }
         $data['data'] = DeliveryDeparture::find($id);
