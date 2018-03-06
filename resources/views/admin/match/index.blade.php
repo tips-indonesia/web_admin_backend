@@ -200,11 +200,11 @@
             }
 
             var postingMatching = (callback) => {
-                if(shipmentIsEmpty){
+                if(shipmentIsEmpty()){
                     alert("Shipment tidak boleh kosong")
                     return;
                 }
-                
+
                 let url = endpoint_url + "match/posting_matching";
 
                 $.ajax({

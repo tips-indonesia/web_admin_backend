@@ -59,10 +59,15 @@ class PackagingSlotAdminController extends Controller
         }
 
         $data['datas2'] = SlotList::whereNotIn('id', PackagingList::where('id_slot', '!=',null)->pluck('id_slot')->toArray())->where('status_dispatch', 'Process')->get();
+
+        $o = 0;
         foreach ($data['datas2'] as $dat) {
+            // if($o == 1)
+            //     dd(json_encode($dat), Shipment::where('id_slot', $dat->id));
             $dat['weight'] = Shipment::where('id_slot', $dat->id)->first()->estimate_weight;
             $dat['origin'] = AirportList::find($dat->id_origin_airport)->name;
             $dat['destination'] = AirportList::find($dat->id_destination_airport)->name;
+            $o++;
         }
         return view('admin.packagingslots.index', $data);
     }
