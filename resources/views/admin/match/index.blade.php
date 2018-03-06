@@ -195,7 +195,16 @@
                 return "error: city undefined";
             }
 
+            var shipmentIsEmpty = () => {
+                return shipment_matched_saved_data.length == 0;
+            }
+
             var postingMatching = (callback) => {
+                if(shipmentIsEmpty){
+                    alert("Shipment tidak boleh kosong")
+                    return;
+                }
+                
                 let url = endpoint_url + "match/posting_matching";
 
                 $.ajax({

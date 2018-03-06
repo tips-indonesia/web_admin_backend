@@ -110,7 +110,6 @@ class DeliveryController extends Controller
                     ),
                     'delivery' => $slot
                 )
-
             );
         }
 
