@@ -48,7 +48,7 @@ class GoodsController extends Controller
 
     function get_insurance_price(Request $request) {
         $id_price_good_estimate = $request->id_price_estimate;
-        if(!$id_price_estimate){
+        if(!$id_price_good_estimate){
             $data = array(
                 'err' => null,
                 'result' => array(
