@@ -16,6 +16,7 @@ class CreatePriceGoodsEstimatesTable extends Migration
         Schema::create('price_goods_estimates', function (Blueprint $table) {
             $table->increments('id');
             $table->string('price_estimate');
+            $table->bigInteger('nominal');
             $table->timestamps();
         });
     }

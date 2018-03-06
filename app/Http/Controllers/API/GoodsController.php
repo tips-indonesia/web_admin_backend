@@ -47,11 +47,35 @@ class GoodsController extends Controller
     }
 
     function get_insurance_price(Request $request) {
+        $id_price_good_estimate = $request->id_price_estimate;
+        if(!$id_price_estimate){
+            $data = array(
+                'err' => null,
+                'result' => array(
+                    'price' => 0,
+                )
+            );
+
+            return response()->json($data, 200);
+        }
+
+        $price_data = PriceGoodsEstimate::find($id_price_good_estimate);
+        if(!$price_data){
+            $data = array(
+                'err' => null,
+                'result' => array(
+                    'price' => 0,
+                )
+            );
+
+            return response()->json($data, 200);
+        }
+
         $insurance = Insurance::first();
         $data = array(
             'err' => null,
             'result' => array(
-                'price' => $insurance->additional_insurance,
+                'price' => ($insurance->default_insurance / 100) * $price_data->nominal,
             )
         );
 

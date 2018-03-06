@@ -39,7 +39,9 @@ class CityController extends Controller
                 'result' => null
             );
         } else {
-            $reguler = $price->freight_cost + (($price->freight_cost * $insurance->default_insurance) /100);
+            // $reguler = $price->freight_cost + (($price->freight_cost * $insurance->default_insurance) /100);
+            // revised below
+            $reguler = $price->freight_cost;
             $gold = $price->freight_cost + $price->add_first_class;
             $gold = $gold + (($gold * $insurance->default_insurance) /100);
 
