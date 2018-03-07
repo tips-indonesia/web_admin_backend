@@ -269,6 +269,10 @@ class UserController extends Controller
                 $member_list->email = $request->email;
             }
 
+            if($request->has('sex')) {
+                $member_list->sex = $request->sex;
+            }
+
             if($request->has('birth_date')) {
                 $member_list->birth_date = date('Y-m-d', strtotime($request->birth_date));
             }
@@ -336,6 +340,10 @@ class UserController extends Controller
                 $member_list->email = $request->email;
             }
 
+            if($request->has('sex')) {
+                $member_list->sex = $request->sex;
+            }
+
             if($request->has('birth_date')) {
                 $member_list->birth_date = date('Y-m-d', strtotime($request->birth_date));
             }
@@ -387,6 +395,12 @@ class UserController extends Controller
             if($request->has('email')) {
                 if($request->email != null && $request->email != '') {
                     $member->email = $request->email;
+                }
+            }
+
+            if($request->has('sex')) {
+                if($request->sex != null && $request->sex != '') {
+                    $member->sex = $request->sex;
                 }
             }
 

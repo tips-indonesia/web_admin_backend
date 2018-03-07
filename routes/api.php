@@ -69,6 +69,8 @@ Route::get('/flight/booking/used', 'API\\FlightController@get_used_booking_code'
 Route::get('/flight/booking/city', 'API\\FlightController@get_booking_code_by_city');
 Route::post('/flight/check_flight_b_n_d', 'UtilityController@check_flight_b_n_d');
 
+Route::get('/money/{id}', 'UtilityController@getMyMoney');
+
 Route::post('/delivery', 'API\\DeliveryController@submit');
 Route::get('/delivery/status', 'API\\DeliveryController@get_status');
 Route::post('/delivery/confirm', 'API\\DeliveryController@confirm');

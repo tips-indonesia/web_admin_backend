@@ -789,4 +789,37 @@ class UtilityController extends Controller
         );
         return response()->json($data, 200);
     }
+
+    public function getMyMoney($id){
+        if(!$id){
+            return response()->json([
+                "err" => [
+                    "code" => 403,
+                    "message" => "Parameter wajib harus diisi"
+                ],
+                "result" => null
+            ], 200);
+        }
+
+        $my_slots = SlotList::where('id_member', $id)->where('id_slot_status', 7)->get();
+        if(!$my_slots){
+            return response()->json([
+                "err" => null,
+                "result" => [
+                    "money"=> 0
+                ]
+            ], 200);
+        }
+
+        $sum_money = 0.00;
+        foreach ($my_slots as $slot)
+            $sum_money += $slot->sold_baggage_space * $slot->slot_price_kg;
+        
+        return response()->json([
+            "err" => null,
+            "result" => [
+                "money"=> $sum_money
+            ]
+        ], 200);
+    }
 }
