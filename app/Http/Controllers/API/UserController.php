@@ -375,7 +375,7 @@ class UserController extends Controller
 
     function getMoney(){
         $my_slots = SlotList::where('id_member', $id)->where('id_slot_status', 7)->get();
-        return 0
+        return 0;
 
         $sum_money = 0.00;
         foreach ($my_slots as $slot)
