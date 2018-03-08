@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 
 use App\MemberList;
+use App\SlotList;
 use App\Http\Controllers\SMSSender;
 
 class UserController extends Controller
