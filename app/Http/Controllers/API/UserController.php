@@ -374,7 +374,7 @@ class UserController extends Controller
         return response()->json($data, 200);
     }
 
-    function getMoney(){
+    function getMoney($id){
         $my_slots = SlotList::where('id_member', $id)->where('id_slot_status', 7)->get();
         return 0;
 
