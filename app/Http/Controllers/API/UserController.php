@@ -42,7 +42,7 @@ class UserController extends Controller
                     $member_list->profil_picture = url('/image/profil_picture').'/'.$member_list->profil_picture;
 
                 }
-                $member_list->money = $this->getMoney();
+                $member_list->money = $this->getMoney($member_list->id);
                 $data = array(
                     'err' => null,
                     'result' => $member_list
@@ -109,7 +109,7 @@ class UserController extends Controller
 
             $out = SMSSender::kirim($request->mobile_phone_no, rawurlencode("TIPS App: Your code is " . $sms_code));
 
-            $member_list->money = $this->getMoney();
+            $member_list->money = $this->getMoney($member_list->id);
 
             $data = array(
                 'err' => null,
@@ -291,7 +291,7 @@ class UserController extends Controller
 
             $member_list->save();
             $member_list = MemberList::where('fb_token', $request->fb_token)->first();
-            $member_list->money = $this->getMoney();
+            $member_list->money = $this->getMoney($member_list->id);
 
             $data = array(
                 'err' => null,
@@ -363,7 +363,7 @@ class UserController extends Controller
 
             $member_list->save();
             $member_list = MemberList::where('twitter_token', $request->twitter_token)->first();
-            $member_list->money = $this->getMoney();
+            $member_list->money = $this->getMoney($member_list->id);
 
             $data = array(
                 'err' => null,
