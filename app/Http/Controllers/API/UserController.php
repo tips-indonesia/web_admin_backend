@@ -41,6 +41,7 @@ class UserController extends Controller
                     $member_list->profil_picture = url('/image/profil_picture').'/'.$member_list->profil_picture;
 
                 }
+                $member_list->money = $this->getMoney();
                 $data = array(
                     'err' => null,
                     'result' => $member_list
@@ -106,6 +107,8 @@ class UserController extends Controller
             unset($member_list['password']);
 
             $out = SMSSender::kirim($request->mobile_phone_no, rawurlencode("TIPS App: Your code is " . $sms_code));
+
+            $member_list->money = $this->getMoney();
 
             $data = array(
                 'err' => null,
@@ -287,6 +290,7 @@ class UserController extends Controller
 
             $member_list->save();
             $member_list = MemberList::where('fb_token', $request->fb_token)->first();
+            $member_list->money = $this->getMoney();
 
             $data = array(
                 'err' => null,
@@ -358,6 +362,7 @@ class UserController extends Controller
 
             $member_list->save();
             $member_list = MemberList::where('twitter_token', $request->twitter_token)->first();
+            $member_list->money = $this->getMoney();
 
             $data = array(
                 'err' => null,
@@ -366,6 +371,17 @@ class UserController extends Controller
         }
 
         return response()->json($data, 200);
+    }
+
+    function getMoney(){
+        $my_slots = SlotList::where('id_member', $id)->where('id_slot_status', 7)->get();
+        return 0
+
+        $sum_money = 0.00;
+        foreach ($my_slots as $slot)
+            $sum_money += $slot->sold_baggage_space * $slot->slot_price_kg;
+
+        return $sum_money;
     }
 
     function update_profile(Request $request) {
