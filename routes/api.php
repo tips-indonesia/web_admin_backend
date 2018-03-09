@@ -53,6 +53,7 @@ Route::get('/city/price', 'API\\CityController@get_price');
 Route::get('/goods/weight', 'API\\GoodsController@get_list_weight');
 Route::get('/goods/price_estimate', 'API\\GoodsController@get_list_price_estimate');
 Route::get('/goods/insurance', 'API\\GoodsController@get_insurance_price');
+Route::get('/goods/price/{id_origin_city}/{id_destination_city}', 'API\\GoodsController@get_city_price_list');
 
 Route::post('/shipment', 'API\\ShipmentController@submit');
 Route::get('/shipment/status', 'API\\ShipmentController@get_status');

@@ -20,7 +20,8 @@ class HomeController extends Controller
             'err' => null,
             'result' => array (
                 'shipments' => $shipments,
-                'delivery' => $delivery
+                'delivery' => $delivery,
+                'money' => $this->getMoney($member_list->id)
             )
         );
 
