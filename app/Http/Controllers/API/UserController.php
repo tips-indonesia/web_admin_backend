@@ -60,7 +60,7 @@ class UserController extends Controller
     function register(Request $request) {
         $member_list = MemberList::where('mobile_phone_no', $request->mobile_phone_no)->first();
 
-        if(9 >= sizeof($request->mobile_phone_no) && sizeof($request->mobile_phone_no) >= 13) {
+        if(9 >= sizeof($request->mobile_phone_no) || sizeof($request->mobile_phone_no) >= 13) {
             $data = array(
                 'err' => [
                     'code' => 0,
@@ -71,7 +71,7 @@ class UserController extends Controller
 
             return response()->json($data, 200);
         }
-        
+
         if($member_list != null && $member_list->sms_code == -1) {
             $data = array(
                 'err' => [
