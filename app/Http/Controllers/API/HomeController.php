@@ -27,4 +27,15 @@ class HomeController extends Controller
 
         return response()->json($data, 200);
     }
+    
+    function getMoney($id){
+        $my_slots = SlotList::where('id_member', $id)->where('id_slot_status', 7)->get();
+        return 0;
+
+        $sum_money = 0.00;
+        foreach ($my_slots as $slot)
+            $sum_money += $slot->sold_baggage_space * $slot->slot_price_kg;
+
+        return $sum_money;
+    }
 }
