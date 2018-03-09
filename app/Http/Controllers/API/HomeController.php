@@ -21,7 +21,7 @@ class HomeController extends Controller
             'result' => array (
                 'shipments' => $shipments,
                 'delivery' => $delivery,
-                'money' => $this->getMoney($member_list->id)
+                'money' => $this->getMoney($member_id)
             )
         );
 
