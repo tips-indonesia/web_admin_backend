@@ -24,7 +24,7 @@ class GoodsController extends Controller
                     "code" => 404,
                     "message" => "Price list tidak ditemukan"
                 ],
-                'result' => $weight_list_final
+                'result' => null
             );
 
             return response()->json($data, 200);
