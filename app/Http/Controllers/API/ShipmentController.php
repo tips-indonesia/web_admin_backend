@@ -191,7 +191,12 @@ class ShipmentController extends Controller
 
     function search_shipment(Request $request) {
 
-        $shipement = Shipment::withTrashed()->where('id_shipper', $request->id_member);
+        $shipement;
+
+        if($request->has('device_id'))
+            $shipement = Shipment::withTrashed()->where('id_shipper', $request->id_member)->orWhere('id_device', $request->device_id);
+        else
+            $shipement = Shipment::withTrashed()->where('id_shipper', $request->id_member);
 
         if($request->has('id_destination_city')){
             if($request->id_destination_city != null && $request->id_destination_city != "") {
