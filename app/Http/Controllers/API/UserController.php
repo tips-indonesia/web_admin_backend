@@ -53,59 +53,97 @@ class UserController extends Controller
         return response()->json($data, 200);
     }
 
-    function deviceLogin(Request $request){
-        $member_list = MemberList::where('mobile_phone_no', $request->mobile_phone_no)->first();
-        if($member_list == null) {
-            $data = array(
-                'err' => [
-                    'code' => 0,
-                    'message' => 'Nomor handphone tidak ditemukan'
-                ],
-                'result' => null
-            );
-        } else {
-            if(!Hash::check($request->password, $member_list->password)) {
-                $data = array(
-                    'err' => [
-                        'code' => 0,
-                        'message' => 'Password salah'
-                    ],
-                    'result' => null
-                );
-            } else {
-                if($request->has('token')) {
-                    $member_list->token = $request->token;
-                }
-                $member_list->save();
-                unset($member_list['password']);
-                if($member_list->profil_picture){
-                    $member_list->profil_picture = url('/image/profil_picture').'/'.$member_list->profil_picture;
-                }
-                $member_list->money = $this->getMoney($member_list->id);
-                $data = array(
-                    'err' => null,
-                    'result' => $member_list
-                );
-            }
-        }
-
-        return response()->json($data, 200);
-    }
-
     private function generateCode($n){
         return rand(10**($n - 1), 10**$n - 1);
     }
 
-    public function deviceRegisterOrLogin(Request $request) {
-        $dev_identifier = 'dev-' . $request->mobile_phone_no;
-        $member_list = MemberList::where('mobile_phone_no', $dev_identifier)->first();
+    function register(Request $request) {
+        $member_list = MemberList::where('mobile_phone_no', $request->mobile_phone_no)->first();
 
-        if($member_list != null){
+        if(9 >= sizeof($member_list->mobile_phone_no) && sizeof($member_list->mobile_phone_no) >= 13) {
+            $data = array(
+                'err' => [
+                    'code' => 0,
+                    'message' => 'Nomor handphone tidak valid'
+                ],
+                'result' => null
+            );
+
+            return response()->json($data, 200);
+        }
+        
+        if($member_list != null && $member_list->sms_code == -1) {
+            $data = array(
+                'err' => [
+                    'code' => 0,
+                    'message' => 'Nomor handphone telah terdaftar'
+                ],
+                'result' => null
+            );
+        } else {
+            $member_list = new MemberList;
+            $member_list->mobile_phone_no = $request->mobile_phone_no;
+//            $member_list->name = $request->name;
+            $member_list->first_name = $request->first_name;
+
+            if($request->has('last_name')) {
+                if($request->last_name != "" && $request->last_name != null){
+                    $member_list->last_name = $request->last_name;
+                }
+            }
+
+            $member_list->email = $request->email;
+            $member_list->password = bcrypt($request->password);
+            $member_list->registered_date = date('Y-m-d');
+
+            if($request->has('birth_date')) {
+                $member_list->birth_date = date('Y-m-d', strtotime($request->birth_date));
+            }
+
+            if($request->has('id_city')) {
+                $member_list->id_city = $request->id_city;
+            }
+
+            if($request->has('address')) {
+                $member_list->address = $request->address;
+            }
+
+            if($request->has('token')) {
+                $member_list->token = $request->token;
+            }
+            
+            $sms_code = $this->generateCode(6); // 6 Random code generated
+
+            $member_list->sms_code = $sms_code;
+
+            $member_list->save();
+            unset($member_list['password']);
+
+            $out = SMSSender::kirim($request->mobile_phone_no, rawurlencode("TIPS App: Your code is " . $sms_code));
+
+            $member_list->money = $this->getMoney($member_list->id);
+
             $data = array(
                 'err' => null,
                 'result' => $member_list
             );
-        }else{
+
+        }
+
+        return response()->json($data, 200);
+
+    }
+
+    function deviceRegisterOrLogin(Request $request) {
+        $dev_identifier = 'dev-' . $request->mobile_phone_no;
+        $member_list = MemberList::where('mobile_phone_no', $dev_identifier)->first();
+
+        if($member_list != null)
+            $data = array(
+                'err' => null,
+                'result' => $member_list
+            );
+        else {
             $member_list = new MemberList;
             $member_list->mobile_phone_no = $dev_identifier;
             $member_list->first_name = $dev_identifier;
