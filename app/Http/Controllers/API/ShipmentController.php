@@ -191,7 +191,7 @@ class ShipmentController extends Controller
 
     function search_shipment(Request $request) {
 
-        $shipement;
+        $shipement = [];
 
         if($request->has('device_id'))
             $shipement = Shipment::withTrashed()->where('id_shipper', $request->id_member)->where('id_device', $request->device_id);
