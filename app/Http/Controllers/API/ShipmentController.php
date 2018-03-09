@@ -194,7 +194,7 @@ class ShipmentController extends Controller
         $shipement;
 
         if($request->has('device_id'))
-            $shipement = Shipment::withTrashed()->where('id_shipper', $request->id_member)->orWhere('id_device', $request->device_id);
+            $shipement = Shipment::withTrashed()->where('id_shipper', $request->id_member)->where('id_device', $request->device_id);
         else
             $shipement = Shipment::withTrashed()->where('id_shipper', $request->id_member);
 
