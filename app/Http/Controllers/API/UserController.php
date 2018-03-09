@@ -60,7 +60,7 @@ class UserController extends Controller
     function register(Request $request) {
         $member_list = MemberList::where('mobile_phone_no', $request->mobile_phone_no)->first();
 
-        if(9 >= sizeof($member_list->mobile_phone_no) && sizeof($member_list->mobile_phone_no) >= 13) {
+        if(9 >= sizeof($request->mobile_phone_no) && sizeof($request->mobile_phone_no) >= 13) {
             $data = array(
                 'err' => [
                     'code' => 0,
