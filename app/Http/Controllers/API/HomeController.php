@@ -14,7 +14,7 @@ class HomeController extends Controller
         $member_id = $request->member_id;
 
         $shipments = Shipment::select('shipment_id','status_dispatch')->where('id_shipper', $member_id)->get();
-        $delivery = SlotList::select('slot_id','status_dispatch')->where('id_member', $member_id)->get();
+        $delivery = SlotList::select('slot_id','status_dispatch', 'sold_baggage_space', 'slot_price_kg', 'id_slot_status')->where('id_member', $member_id)->get();
 
         $data = array(
             'err' => null,
@@ -27,7 +27,7 @@ class HomeController extends Controller
 
         return response()->json($data, 200);
     }
-    
+
     function getMoney($id){
         $my_slots = SlotList::where('id_member', $id)->where('id_slot_status', 7)->get();
         return 0;
