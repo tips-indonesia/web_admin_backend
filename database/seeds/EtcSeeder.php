@@ -17,13 +17,10 @@ class EtcSeeder extends Seeder
         //
         app()['cache']->forget('spatie.permission.cache');
 
-        Permission::create(['name' => 'deliveryshipment.', 'show_name' => 'Delivery Shipment']);
-        Permission::create(['name' => 'receivedarrivalprocessingcenter.', 'show_name' => 'Received by Arrival Processing Center']);
+        $p1 = Permission::create(['name' => 'deliveryshipment.', 'show_name' => 'Delivery Shipment']);
+        $p2 = Permission::create(['name' => 'receivedarrivalprocessingcenter.', 'show_name' => 'Received by Arrival Processing Center']);
         
-        $role = Role::all()->first();
-        $permissions = Permission::all();
-        foreach ($permissions as $permission) {
-        	$role->givePermissionTo($permission);
-        }
+    	$role->givePermissionTo($p1);
+    	$role->givePermissionTo($p2);
     }
 }
