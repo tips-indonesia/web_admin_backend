@@ -220,7 +220,7 @@ class ShipmentController extends Controller
 
         if($request->has('consignee_name')){
             if($request->consignee_name != null && $request->consignee_name != "") {
-                $shipement = $shipement->where('consignee_first_name', 'LIKE','%'.$request->consignee_name.'%')->orWhere('consignee_last_name','LIKE', '%'.$request->consignee_name.'%');
+                $shipement = $shipement->where('consignee_first_name', 'LIKE','%'.$request->consignee_name.'%')->where('consignee_last_name','LIKE', '%'.$request->consignee_name.'%');
             }
         }
 
