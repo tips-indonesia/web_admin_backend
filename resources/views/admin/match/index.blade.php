@@ -460,6 +460,15 @@
                 populateShipmentMatchedAndBindToView(id_slot);
             }
 
+            var slotSpaceStillOK = (id) => {
+                let len = shipment_saved_data.length;
+                for(var i = 0; i < len; i++)
+                    if(shipment_saved_data[i].id == id){
+                        let processed_data = shipment_saved_data[i];
+                        return parseFloat(current_active_slot.baggage_space - current_active_slot.sold_baggage_space) >= parseFloat(processed_data.real_weight);
+                    }
+            }
+
             var move_a_to_b = (id) => {
                 let len = shipment_saved_data.length;
                 for(var i = 0; i < len; i++)
@@ -514,16 +523,19 @@
             var startListener = () => {
                 $(document).on('click', '.btn-add', function(){
                     let shipment_id = $(this).data("shipmentid");
-                    submitMatching(shipment_id, () => {
-                        move_a_to_b(shipment_id);
-                        refreshShipmentView();
-                        refreshShipmentMatchedView();
-                        populateSlotData(slot_saved_data, () => {
-                            $('#slotxpicker').prop('selectedIndex', LAST_SLOT_INDEX);
-                            $('#slotxpicker').selectpicker('refresh');
-                            $('#slotxpicker').selectpicker('render');
+                    if(slotSpaceStillOK(shipment_id))
+                        submitMatching(shipment_id, () => {
+                            move_a_to_b(shipment_id);
+                            refreshShipmentView();
+                            refreshShipmentMatchedView();
+                            populateSlotData(slot_saved_data, () => {
+                                $('#slotxpicker').prop('selectedIndex', LAST_SLOT_INDEX);
+                                $('#slotxpicker').selectpicker('refresh');
+                                $('#slotxpicker').selectpicker('render');
+                            });
                         });
-                    });
+                    else
+                        alert("Kesalahan: sisa bagasi Kg pada slot tidak mencukupi!");
                 });
                 $(document).on('click', '.btn-del', function(){ 
                     let shipment_id = $(this).data("shipmentid");

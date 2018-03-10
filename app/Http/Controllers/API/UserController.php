@@ -60,6 +60,19 @@ class UserController extends Controller
     function register(Request $request) {
         $member_list = MemberList::where('mobile_phone_no', $request->mobile_phone_no)->first();
 
+        $pnlen = strlen($request->mobile_phone_no);
+        if((9 + 2) > $pnlen || $pnlen > (13 + 2)) {
+            $data = array(
+                'err' => [
+                    'code' => 0,
+                    'message' => 'Nomor handphone tidak valid'
+                ],
+                'result' => null
+            );
+
+            return response()->json($data, 200);
+        }
+
         if($member_list != null && $member_list->sms_code == -1) {
             $data = array(
                 'err' => [
@@ -109,6 +122,54 @@ class UserController extends Controller
 
             $out = SMSSender::kirim($request->mobile_phone_no, rawurlencode("TIPS App: Your code is " . $sms_code));
 
+            $member_list->money = $this->getMoney($member_list->id);
+
+            $data = array(
+                'err' => null,
+                'result' => $member_list
+            );
+
+        }
+
+        return response()->json($data, 200);
+
+    }
+
+    function deviceRegisterOrLogin(Request $request) {
+        $dev_identifier = 'dev-' . $request->mobile_phone_no;
+        $member_list = MemberList::where('mobile_phone_no', $dev_identifier)->first();
+
+        if($member_list != null)
+            $data = array(
+                'err' => null,
+                'result' => $member_list
+            );
+        else {
+            $member_list = new MemberList;
+            $member_list->mobile_phone_no = $dev_identifier;
+            $member_list->first_name = $dev_identifier;
+            $member_list->last_name = "";
+            $member_list->password = bcrypt($dev_identifier);
+            $member_list->registered_date = date('Y-m-d');
+
+            if($request->has('birth_date')) {
+                $member_list->birth_date = date('Y-m-d', strtotime($request->birth_date));
+            }
+
+            if($request->has('id_city')) {
+                $member_list->id_city = $request->id_city;
+            }
+
+            if($request->has('address')) {
+                $member_list->address = $request->address;
+            }
+
+            if($request->has('token')) {
+                $member_list->token = $request->token;
+            }
+
+            $member_list->save();
+            unset($member_list['password']);
             $member_list->money = $this->getMoney($member_list->id);
 
             $data = array(

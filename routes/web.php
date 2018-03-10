@@ -117,6 +117,10 @@ Route::prefix('admin/')->group(function ($locale) {
             Route::resource('deliveries','Admin\DeliveryAdminController');
         });
 
+        Route::group(['middleware' => ['permission:deliveryshipment.']], function () {
+            Route::resource('deliveryshipment','Admin\DeliveryShipmentAdminController');
+        });
+
         Route::group(['middleware' => ['permission:receiveds.']], function () {
             Route::resource('receiveds','Admin\ReceivedAdminController');
         });
@@ -155,6 +159,10 @@ Route::prefix('admin/')->group(function ($locale) {
 
         Route::group(['middleware' => ['permission:shipmentdropoffs.']], function () {
             Route::resource('shipmentdropoffs','Admin\ShipmentDropOffAdminController');
+        });
+
+        Route::group(['middleware' => ['permission:receivedarrivalprocessingcenter.']], function () {
+            Route::resource('receivedarrivalprocessingcenter','Admin\ReceivedArrivalProcessingCenterAdminController');
         });
 
         Route::group(['middleware' => ['permission:shipmentstatuses.']], function () {
@@ -200,3 +208,5 @@ Route::prefix('admin/')->group(function ($locale) {
     
     
 });
+
+Route::get('/admin/test', 'Admin\ReceivedArrivalProcessingCenterAdminController@index');

@@ -169,11 +169,12 @@ class DeliveryProcessingCenterAdminController extends Controller
             $delivery->save();
             // SLOT
             foreach ($delivery->arrivalShipmentDetail as $slot) {
-                $slot->packagingList->slotList->id_slot_status = 7;
-                $slot->packagingList->slotList->save();
+                // TODO : Ubah menjadi mengubah status packaging list is_arrival_received
+                // $slot->packagingList->id_arrival_receive = 1;
+                // $slot->packagingList->save();
                 // SHIPMENT
                 foreach ($slot->packagingList->slotList->shipments as $shipment) {
-                    $shipment->id_shipment_status = 14;
+                    $shipment->id_shipment_status = 11;
                     $shipment->save();
                 }
             }

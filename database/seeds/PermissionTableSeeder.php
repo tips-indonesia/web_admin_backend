@@ -43,10 +43,12 @@ class PermissionTableSeeder extends Seeder
         Permission::create(['name' => 'match.', 'show_name' => 'Manual Matching']); 
         Permission::create(['name' => 'packagingslots.', 'show_name' => 'Packaging Slot']);
         Permission::create(['name' => 'deliveries.', 'show_name' => 'Shipment Delivery to Processing Center']);
+        Permission::create(['name' => 'deliveryshipment.', 'show_name' => 'Delivery Shipment']);
         Permission::create(['name' => 'receiveds.', 'show_name' => 'Shipment Received by Processing Center']);
         Permission::create(['name' => 'shipmenttrackings.', 'show_name' => 'Shipment Tracking']);
         Permission::create(['name' => 'packagingprocessingcenters.', 'show_name' => 'Processing Center Package List']);
         Permission::create(['name' => 'packagingrestshipments.', 'show_name' => 'Packaging Rest Shipment']);
+        Permission::create(['name' => 'receivedarrivalprocessingcenter.', 'show_name' => 'Received by Arrival Processing Center']);
         Permission::create(['name' => 'shipmentpickups.', 'show_name' => 'Shipment Pick Up']);
         // Permission::create(['name' => 'tipsterpayments.', 'show_name' => 'Tipster Payment']);
         Permission::create(['name' => 'shipmentdropoffs.', 'show_name' => 'Shipment Drop Off']);
