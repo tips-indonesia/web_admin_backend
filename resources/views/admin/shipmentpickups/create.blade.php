@@ -221,7 +221,7 @@
                                         <select name="card_type" class="select-search" id="card" disabled>
                                         </select>
                                     </div>
-                                    <div class="form-group">
+                                 <div class="form-group">
                                         <label>Card Number :</label>
                                         {{ Form::number('card_number', null, array('class' => 'form-control', 'placeholder' => 'Card Number', 'disabled'=> 'disabled')) }}
                                     </div>

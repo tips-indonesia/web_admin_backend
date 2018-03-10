@@ -37,29 +37,6 @@ class TipsterPaymentController extends Controller
     public function index()
     {
         //
-        if (Input::get('date')) {
-            $data['datas'] = Shipment::where('transaction_date', Input::get('date'));
-            $data['date'] = Input::get('date');
-        } else {
-            $data['date'] = Carbon::now()->toDateString();
-            $data['datas'] = Shipment::where('transaction_date', $data['date']);
-        }
-        if (Input::get('param') == 'blank' || !Input::get('param') ) {
-            $data['datas'] = $data['datas']->where('id', '!=', null);
-            $data['param'] = Input::get('param');
-            $data['value'] = Input::get('value');
-        } else {
-            $data['param'] = Input::get('param');
-            $data['value'] = Input::get('value');
-            
-            $query_param = $data['param'];
-            $query_value = $data['value'];
-            if($query_param == 'pending'){
-                $query_param = 'is_posted';
-                $query_value = 0;
-            }
-            $data['datas'] = $data['datas']->where($query_param,'=', $query_value);
-        }
         $data['datas'] = $data['datas']->where('is_take',1)->paginate(10);
         foreach($data['datas'] as $dat) {
             $dat['name_origin'] = AirportcityList::find($dat->id_origin_city)->name;
