@@ -41,6 +41,7 @@ Route::post('/register', 'API\\UserController@register');
 Route::post('/verify/phone', 'API\\UserController@verifyPhoneNumber');
 Route::post('/verify/resend', 'API\\UserController@resendSMSCode');
 Route::post('/login', 'API\\UserController@login');
+Route::post('/login/device', 'API\\UserController@deviceRegisterOrLogin');
 Route::post('/login/fb', 'API\\UserController@actionFB');
 Route::post('/login/twitter', 'API\\UserController@actionTwitter');
 
@@ -53,6 +54,7 @@ Route::get('/city/price', 'API\\CityController@get_price');
 Route::get('/goods/weight', 'API\\GoodsController@get_list_weight');
 Route::get('/goods/price_estimate', 'API\\GoodsController@get_list_price_estimate');
 Route::get('/goods/insurance', 'API\\GoodsController@get_insurance_price');
+Route::get('/goods/price/{id_origin_city}/{id_destination_city}', 'API\\GoodsController@get_city_price_list');
 
 Route::post('/shipment', 'API\\ShipmentController@submit');
 Route::get('/shipment/status', 'API\\ShipmentController@get_status');

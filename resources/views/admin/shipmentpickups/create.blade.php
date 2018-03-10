@@ -225,10 +225,10 @@
                                         <label>Card Number :</label>
                                         {{ Form::number('card_number', null, array('class' => 'form-control', 'placeholder' => 'Card Number', 'disabled'=> 'disabled')) }}
                                     </div>
-                                    <div class="form-group">
+                                    <!-- <div class="form-group">
                                         <label>Security Code :</label>
                                         {{ Form::number('security_code', null, array('class' => 'form-control', 'placeholder' => 'Card Security Number', 'disabled'=> 'disabled')) }}
-                                    </div>
+                                    </div> -->
                                     <div class="form-group">
                                         <label>Expired Date :</label>
                                         <div class="input-group">

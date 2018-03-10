@@ -128,6 +128,10 @@ Route::prefix('admin/')->group(function ($locale) {
             Route::resource('shipmenttrackings','Admin\ShipmentTrackingAdminController');
         });
 
+        // Route::group(['middleware' => ['permission:tipsterpayments.']], function () {
+        //     Route::resource('tipsterpayments','Admin\TipsterPaymentController');
+        // });
+
         Route::group(['middleware' => ['permission:shipmentpickups.']], function () {
             Route::resource('shipmentpickups','Admin\ShipmentPickUpAdminController');
         });

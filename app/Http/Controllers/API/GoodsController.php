@@ -7,10 +7,41 @@ use App\Http\Controllers\Controller;
 
 use App\PriceGoodsEstimate;
 use App\WeightList;
+use App\PriceList;
 use App\Insurance;
 
 class GoodsController extends Controller
 {
+
+    function get_city_price_list($id_origin_city, $id_destination_city){
+        $price = PriceList::where('id_origin_city', $id_origin_city)
+                            ->where('id_destination_city', $id_destination_city)
+                            ->first();
+
+        if(!$price){
+            $data = array(
+                'err' => [
+                    "code" => 404,
+                    "message" => "Price list tidak ditemukan"
+                ],
+                'result' => null
+            );
+
+            return response()->json($data, 200);
+        }
+
+        $price->originCity;
+        $price->destinationCity;
+
+        $data = array(
+            'err' => null,
+            'result' => array(
+                'data' => $price
+            )
+        );
+
+        return response()->json($data, 200);
+    }
     //
     function get_list_price_estimate() {
         $price_list = PriceGoodsEstimate::select('id', 'price_estimate')->get();
