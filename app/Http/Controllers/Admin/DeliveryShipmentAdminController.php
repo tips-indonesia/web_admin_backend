@@ -86,10 +86,18 @@ class DeliveryShipmentAdminController extends Controller
     public function update($id) {
     	$package = PackagingList::find($id);
 
-    	$package->is_open = 1;
+    	if ($package != null) {
+    		$package->is_open = 1;
 
-    	$package->save();
+    		$package->save();
 
+    		$shipments = Shipment::where('id_slot', $package->id_slot)->get();
+
+    		foreach ($shipments as $shipment) {
+	    		$shipment->id_shipment_status = 14;
+	    		$shipment->save();
+	    	}
+	    }
     	return back();
     }
 }

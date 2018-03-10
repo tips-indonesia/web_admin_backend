@@ -37,6 +37,7 @@ class CreateSlotListsTable extends Migration
             $table->integer('id_slot_status')->default(1);
             $table->string('photo_tag')->nullable();
             $table->string('detail_status')->nullable();
+            $table->integer('status_bayar')->default(0);
             $table->softDeletes();
             $table->timestamps();
         });
