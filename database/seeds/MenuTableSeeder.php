@@ -163,9 +163,19 @@ class MenuTableSeeder extends Seeder
                 'class_name' => 'deliveryprocessingcenters.'
             ]);
             MenuList::create([
-                'name' => 'Pending Package at Arrival Counter',
+                'name' => 'Received by Arrival Processing Center',
+                'menu_parent_id' => $transaction->id,
+                'class_name' => 'receivedarrivalprocessingcenter.'
+            ]);
+            MenuList::create([
+                'name' => '(?) Pending Package at Arrival Counter',
                 'menu_parent_id' => $transaction->id,
                 'class_name' => 'pendingarrivalcounters.'
+            ]);
+            MenuList::create([
+                'name' => 'Delivery Shipment',
+                'menu_parent_id' => $transaction->id,
+                'class_name' => 'deliveryshipment.'
             ]);
             MenuList::create([
                 'name' => 'Slot List',
