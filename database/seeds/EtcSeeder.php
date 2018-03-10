@@ -4,6 +4,8 @@ use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
+use App\MenuList;
+
 
 class EtcSeeder extends Seeder
 {
@@ -29,7 +31,7 @@ class EtcSeeder extends Seeder
             'menu_parent_id' => $transaction->id,
             'class_name' => 'receivedarrivalprocessingcenter.'
         ]);
-        
+
             MenuList::create([
                 'name' => 'Delivery Shipment',
                 'menu_parent_id' => $transaction->id,
