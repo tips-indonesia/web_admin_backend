@@ -15,8 +15,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+// Route::get('/admin/tipsterpayments', 'Admin\TipsterPaymentController@index');
 
-Route::get('admin/tipsterpayments.', 'Admin\TipsterPaymentController@index');
 Route::get('/payment/start', 'API\\PaymentController@startPayment');
 Route::get('/reset_password/{token}', 'API\\MailWebViewerController@showResetPassword');
 
