@@ -19,6 +19,8 @@
                                 <option value="blank" @if($param =='blank' || $param=='') selected @endif>&#8192;</option>
                                 <option value="packaging_id" @if($param =='packaging_id') selected @endif>Packaging ID</option>
                                 <option value="slot_id" @if($param =='slot_id') selected @endif>Slot ID</option>
+                                <option value="origin_city" @if($param =='slot_id') selected @endif>Origin City</option>
+                                <option value="destination_city" @if($param =='slot_id') selected @endif>Destination City</option>
                                 <option value="received" @if($param =='received') selected @endif>Received</option>
                                 <option value="not_received" @if($param =='not_received') selected @endif>Not Received</option>
                             </select>
@@ -41,6 +43,8 @@
                 <tr>
                     <th>Packaging ID</th>
                     <th>Slot ID</th>
+                    <th>Origin City</th>
+                    <th>Destination City</th>
                     <th>Status</th>
                     <th>Actions</th>
                 </tr>
@@ -50,6 +54,8 @@
                 <tr>
                 	<td>{{$package->packaging_id}}</td>
                 	<td>{{$package->slot_id}}</td>
+                    <td>{{$package->origin_city}}</td>
+                    <td>{{$package->destination_city}}</td>
 					<td>
 						{{$package->id_shipment_status < 12 ? 'Belum diterima' : 'Sudah diterima' }}
 					</td>

@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\PackagingList;
 use App\SlotList;
 use App\Shipment;
+use App\CityList;
 use Illuminate\Support\Facades\Input;
 
 class ReceivedArrivalProcessingCenterAdminController extends Controller
@@ -27,7 +28,12 @@ class ReceivedArrivalProcessingCenterAdminController extends Controller
         	if (Input::get('param') == 'received') {
 				$package = PackagingList::join('slot_lists', 'packaging_lists.id_slot', '=', 'slot_lists.id')
 	    							->join('shipments', 'shipments.id_slot', '=', 'slot_lists.id')
-	    						    ->select('packaging_lists.*', 'slot_lists.id_slot_status', 'slot_lists.slot_id', 'shipments.id_shipment_status')
+	    						    ->select('packaging_lists.*', 
+                                             'slot_lists.id_slot_status', 
+                                             'slot_lists.slot_id', 
+                                             'shipments.id_shipment_status', 
+                                             'slot_lists.origin_city',
+                                             'slot_lists.destination_city')
 	    						    ->where('slot_lists.id_slot_status', '>=', '6')
 	    						    ->where('shipments.id_shipment_status', '>=', '12')
 	    						    ->distinct()
@@ -35,7 +41,12 @@ class ReceivedArrivalProcessingCenterAdminController extends Controller
 	        } else if (Input::get('param') == 'not_received') {
 				$package = PackagingList::join('slot_lists', 'packaging_lists.id_slot', '=', 'slot_lists.id')
 	    							->join('shipments', 'shipments.id_slot', '=', 'slot_lists.id')
-	    						    ->select('packaging_lists.*', 'slot_lists.id_slot_status', 'slot_lists.slot_id', 'shipments.id_shipment_status')
+	    						    ->select('packaging_lists.*', 
+                                             'slot_lists.id_slot_status', 
+                                             'slot_lists.slot_id', 
+                                             'shipments.id_shipment_status', 
+                                             'slot_lists.origin_city',
+                                             'slot_lists.destination_city')
 	    						    ->where('slot_lists.id_slot_status', '>=', '6')
 	    						    ->where('shipments.id_shipment_status', '<', '11')
 	    						    ->distinct()
@@ -43,7 +54,12 @@ class ReceivedArrivalProcessingCenterAdminController extends Controller
 	        } else {
 	        	$package = PackagingList::join('slot_lists', 'packaging_lists.id_slot', '=', 'slot_lists.id')
 	    							->join('shipments', 'shipments.id_slot', '=', 'slot_lists.id')
-	    						    ->select('packaging_lists.*', 'slot_lists.id_slot_status', 'slot_lists.slot_id', 'shipments.id_shipment_status')
+	    						    ->select('packaging_lists.*', 
+                                             'slot_lists.id_slot_status', 
+                                             'slot_lists.slot_id', 
+                                             'shipments.id_shipment_status', 
+                                             'slot_lists.origin_city',
+                                             'slot_lists.destination_city')
 	    						    ->where('slot_lists.id_slot_status', '>=', '6')
 	    						    ->where(Input::get('param'), Input::get('value'))
 	    						    ->distinct()
@@ -52,7 +68,12 @@ class ReceivedArrivalProcessingCenterAdminController extends Controller
         } else {
         	$package = PackagingList::join('slot_lists', 'packaging_lists.id_slot', '=', 'slot_lists.id')
     							->join('shipments', 'shipments.id_slot', '=', 'slot_lists.id')
-    						    ->select('packaging_lists.*', 'slot_lists.id_slot_status', 'slot_lists.slot_id', 'shipments.id_shipment_status')
+    						    ->select('packaging_lists.*', 
+                                             'slot_lists.id_slot_status', 
+                                             'slot_lists.slot_id', 
+                                             'shipments.id_shipment_status', 
+                                             'slot_lists.origin_city',
+                                             'slot_lists.destination_city')
     						    ->where('slot_lists.id_slot_status', '>=', '6')
     						    ->distinct()
     						    ->paginate(10);
