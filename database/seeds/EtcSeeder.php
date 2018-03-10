@@ -21,21 +21,23 @@ class EtcSeeder extends Seeder
 
         // $p1 = Permission::create(['name' => 'deliveryshipment.', 'show_name' => 'Delivery Shipment']);
         // $p2 = Permission::create(['name' => 'receivedarrivalprocessingcenter.', 'show_name' => 'Received by Arrival Processing Center']);
+        $p3 = Permission::create(['name' => 'tipsterpayments.', 'show_name' => 'Tipster Payment']);
         
     	// $role->givePermissionTo($p1);
-    	// $role->givePermissionTo($p2);
+    	$role = Role::all()->first();
+    	$role->givePermissionTo($p3);
 
 
-        MenuList::create([
-            'name' => 'Received by Arrival Processing Center',
-            'menu_parent_id' => 18,
-            'class_name' => 'receivedarrivalprocessingcenter.'
-        ]);
+        // MenuList::create([
+        //     'name' => 'Received by Arrival Processing Center',
+        //     'menu_parent_id' => 18,
+        //     'class_name' => 'receivedarrivalprocessingcenter.'
+        // ]);
 
-            MenuList::create([
-                'name' => 'Delivery Shipment',
-                'menu_parent_id' => 18,
-                'class_name' => 'deliveryshipment.'
-            ]);
+        //     MenuList::create([
+        //         'name' => 'Delivery Shipment',
+        //         'menu_parent_id' => 18,
+        //         'class_name' => 'deliveryshipment.'
+        //     ]);
     }
 }
