@@ -15,12 +15,12 @@ class EtcSeeder extends Seeder
     public function run()
     {
         //
-        app()['cache']->forget('spatie.permission.cache');
+        // app()['cache']->forget('spatie.permission.cache');
 
-        $p1 = Permission::create(['name' => 'deliveryshipment.', 'show_name' => 'Delivery Shipment']);
+        // $p1 = Permission::create(['name' => 'deliveryshipment.', 'show_name' => 'Delivery Shipment']);
         $p2 = Permission::create(['name' => 'receivedarrivalprocessingcenter.', 'show_name' => 'Received by Arrival Processing Center']);
         
-    	$role->givePermissionTo($p1);
+    	// $role->givePermissionTo($p1);
     	$role->givePermissionTo($p2);
     }
 }
