@@ -28,13 +28,13 @@ class EtcSeeder extends Seeder
 
         MenuList::create([
             'name' => 'Received by Arrival Processing Center',
-            'menu_parent_id' => $transaction->id,
+            'menu_parent_id' => 18,
             'class_name' => 'receivedarrivalprocessingcenter.'
         ]);
 
             MenuList::create([
                 'name' => 'Delivery Shipment',
-                'menu_parent_id' => $transaction->id,
+                'menu_parent_id' => 18,
                 'class_name' => 'deliveryshipment.'
             ]);
     }
