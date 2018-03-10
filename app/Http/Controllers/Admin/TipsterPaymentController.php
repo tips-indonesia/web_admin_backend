@@ -5,27 +5,23 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Shipment;
-use App\ShipmentStatus;
-use App\User;
-use App\MemberList;
-use App\Insurance;
-use App\PaymentType;
-use App\BankList;
-use App\BankCardList;
-use App\CityList;
-use App\ProvinceList;
-use App\SubdistrictList;
-use App\AirportcityList;
+use App\DeliveryDeparture;
+use App\DeliveryDepartureDetail;
+use App\ShipmentHistory;
+use App\OfficeList;
+use App\PackagingList;
+use App\PackagingDelivery;
+use App\Delivery;
 use Validator;
+use App\CityList;
+use App\AirportcityList;
+use App\AirportList;
+use App\SlotList;
+use Auth;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
-use SimpleSoftwareIO\QrCode\QrCodeServiceProvider;
-use SimpleSoftwareIO\QrCode\Facades\QrCode;
-use Illuminate\Support\Facades\Storage;
-
-use URL;
 
 class TipsterPaymentController extends Controller
 {
@@ -37,52 +33,117 @@ class TipsterPaymentController extends Controller
     public function index()
     {
         //
-        $data['datas'] = $data['datas']->where('is_take',1)->paginate(10);
-        foreach($data['datas'] as $dat) {
-            $dat['name_origin'] = AirportcityList::find($dat->id_origin_city)->name;
-            $dat['name_destination'] = AirportcityList::find($dat->id_destination_city)->name;
-            $dat['status'] = ShipmentStatus::find($dat->id_shipment_status)->description;
-            $dat['pickup_by_user'] = User::find($dat->pickup_by);
+        // if (Input::get('date')) {
+        //     $data['datas'] = SlotList::where('depature', Input::get('date'));
+        //     $data['date'] = Input::get('date');
+        // } else {
+        //     $data['date'] = Carbon::now()->toDateString();
+        //     $data['datas'] = SlotList::where('depature', $data['date']);
+        // }
+
+        $data['datas'] = SlotList::get();
+        if (Input::get('param') == 'blank' || !Input::get('param') ) {
+            $data['param'] = Input::get('param');
+            $data['value'] = Input::get('value');
+        } else {
+            $data['param'] = Input::get('param');
+            $data['value'] = Input::get('value');
         }
-        return view('admin.shipmentpickups.index', $data);
+
+        $data['datas'] = $data['datas']->where(Input::get('param'),'=', Input::get('value'));
+        
+        foreach ($data['datas'] as $dat) {
+            $dat['total'] = SlotList::where('slot_id', $dat->id)->get()->count();
+        }
+        
+        $selected =SlotList::all()->pluck('slot_id')->toArray();
+        // $data['datas2'] = SlotList::whereNotIn('id', $selected)->get();
+        // foreach ($data['datas2'] as $dat) {
+        //     if ($dat->id_slot != null) {
+        //         $slot = SlotList::find($dat->id_slot);
+        //         $dat['total'] = Shipment::where('id_slot', $slot->id)->get()->count();
+        //         $dat['origin'] = AirportList::find($slot->id_origin_airport)->name;
+        //         $dat['destination'] = AirportList::find($slot->id_destination_airport)->name;
+        //         $dat['slot_id'] = $slot->slot_id;
+        //     }else {
+        //         $dat['total'] = Shipment::where('id_packaging', $dat->id)->get()->count();
+        //     }
+        // }
+        return view('admin.tipsterpayments.index', $selected);
     }
 
-    // public function base64_to_png($base64_string, $output_file) {
-    //     $ifp = fopen( $output_file, 'wb' ); 
-    //     $data = explode( ',', $base64_string );
+    /**
+    * Show the form for creating a new resource.
+    *
+    * @return Response
+    */
+    public function create()
+    {
+        $date = Input::get('date');
+        $data['date'] = null;
+        if ($date == null) {
+            $data['datas'] = array(); 
+        } else {
+            $selected =PackagingDelivery::all()->pluck('packaging_id')->toArray();
+            $data['datas'] = PackagingList::whereDate('created_at', '=', $date)->whereNotIn('id', $selected)->get();
+            foreach ($data['datas'] as $dat) {
+                if ($dat->id_slot != null) {
+                    $slot = SlotList::find($dat->id_slot);
+                    $dat['origin_name'] = AirportList::find($slot->id_origin_airport)->name;
+                    $dat['destination_name'] = AirportList::find($slot->id_destination_airport)->name;
+                }
+            }
+            $data['date'] = $date;
+        }
+        return view('admin.deliverydeparturecounters.create', $data);
+    }
 
-    //     // we could add validation here with ensuring count( $data ) > 1
-    //     fwrite( $ifp, base64_decode( $base64_string) );
+    /**
+    * Store a newly created resource in storage.
+    *
+-    * @return Response
+    */
+    public function store()
+    {
+        //
+        $delivery = new DeliveryDeparture;
+        $delivery->delivery_date = Input::get('date');
+        $delivery->delivery_time = Input::get('delivery_time');
+        $delivery->created_by = Auth::user()->id; 
+        $delivery->save();
+        $delivery->delivery_id='PD'.date('ymd').str_pad($delivery->id, 4, '0', STR_PAD_LEFT);
+        $delivery->save();
+        foreach(Input::get('packagings') as $shipment) {
+            $deliv_details = new PackagingDelivery;
+            $deliv_details->packaging_id = $shipment;
+            $deliv_details->deliveries_id = $delivery->id;
+            $package = PackagingList::find($shipment);
+            if ($package->id_slot != null) {
+                $shipments = Shipment::where('id_slot', $package->id_slot)->get();
+            } else {
+                $shipments = Shipment::where('id_packaging', $package->id)->get();
+            }
+            foreach ($shipments as $ship) {
+                $ship->id_shipment_status = 6;
+                $ship->save();
+            }
+            $deliv_details->save();
+        }
+        return Redirect::to(route('deliverydeparturecounters.index'));
 
-    //     // clean up the file resource
-    //     fclose( $ifp ); 
 
-    //     return $output_file; 
-    // }
 
+    }
+
+    /**
+    * Display the specified resource.
+    *
+    * @param  int  $id
+    * @return Response
+    */
     public function show($id)
     {
-        if (Input::get('ajax') == 1) {
-            return json_encode(Shipment::where('id_slot', $id)->get(['shipment_id', 'estimate_weight']));
-        } else {
-                    $data['data'] = Shipment::find($id);
-                    $shipment = Shipment::find($id);
-        $data['provinces'] = ProvinceList::all();
-        $data['citys'] = CityList::where('id_province', $data['data']->id_shipper_province)->get();
-        $data['subdistricts'] = SubdistrictList::where('id_city', $data['data']->id_shipper_city)->get();
-        $data['cities'] = AirportcityList::all();
-        $data['shipment_statuses'] = ShipmentStatus::all();
-        $data['users'] = User::all();
-        $data['payment_types'] = PaymentType::all();
-        $data['banklists'] = BankList::all();
-        $data['bankcardlists'] = BankCardList::where('id_bank', $data['data']->id_bank)->get();
-
-        $dataqr = base64_encode(QrCode::format('png')->size(300)->margin(0)->merge('/public/images/logoqr.png',.25)->encoding('UTF-8')->errorCorrection('H')->generate($data['data']->shipment_id));
-        $qrcode = base64_decode($dataqr);
-        Storage::disk('local')->put('images/qrcode/pickup/'.$data['data']->shipment_id.'.png',$qrcode, 'public');
-
-        return view('admin.shipmentpickups.show', $data);
-        }
+        //
     }
 
     /**
@@ -93,31 +154,21 @@ class TipsterPaymentController extends Controller
     */
     public function edit($id)
     {
-        $data['data'] = Shipment::find($id);
-        if ($data['data']->is_posted == 1) {
-            return Redirect::to(route('shipmentpickups.show', $id));
-        }
-        $data['provinces'] = ProvinceList::all();
-        $data['citys'] = CityList::where('id_province', $data['data']->id_shipper_province)->get();
-        $data['subdistricts'] = SubdistrictList::where('id_city', $data['data']->id_shipper_city)->get();
-        $data['cities'] = AirportcityList::all();
-        $data['shipment_statuses'] = ShipmentStatus::all();
-        $data['users'] = User::all();
-        $data['payment_types'] = PaymentType::all();
-        $data['banklists'] = BankList::all();
-        $data['bankcardlists'] = BankCardList::where('id_bank', $data['data']->id_bank)->get();
+        //
+        $data['chosen_packaging'] = PackagingList::whereIn('id',PackagingDelivery::where('deliveries_id', $id)->pluck('packaging_id')->toArray())->pluck('id')->toArray();
+        $selected =PackagingDelivery::where('deliveries_id', '!=',$id)->pluck('packaging_id')->toArray();
 
-        $dataqr = base64_encode(QrCode::format('png')
-                            ->size(300)
-                            ->margin(0)
-                            ->merge('/public/images/logoqr.png',.4)
-                            ->encoding('UTF-8')
-                            ->errorCorrection('H')
-                            ->generate($data['data']->shipment_id));
-        $qrcode = base64_decode($dataqr);
-        Storage::disk('local')->put('images/qrcode/pickup/'.$data['data']->shipment_id.'.png',$qrcode, 'public');
-        
-        return view('admin.shipmentpickups.edit', $data);
+        $data['packaging'] = PackagingList::whereDate('created_at', '=', DeliveryDeparture::find($id)->delivery_date)->whereNotIn('id', $selected)->get();
+        foreach ($data['packaging'] as $dat) {
+            if ($dat->id_slot != null) {
+                    $slot = SlotList::find($dat->id_slot);
+                    $dat['origin_name'] = AirportList::find($slot->id_origin_airport)->name;
+                    $dat['destination_name'] = AirportList::find($slot->id_destination_airport)->name;
+                }
+        }
+        $data['data'] = DeliveryDeparture::find($id);
+        return view('admin.deliverydeparturecounters.edit', $data);
+
     }
 
     /**
@@ -128,55 +179,52 @@ class TipsterPaymentController extends Controller
     */
     public function update($id)
     {
-        $rules = array (
-            'pickup_by' => 'required',
-            'pickup_date' => 'required',
-            'pickup_time' => 'required'
-        );
-        $validator = Validator::make(Input::all(), $rules);
-        if ($validator->fails()) {
-            return Redirect::to(route('shipmentpickups.edit', $id))
-                ->withErrors($validator)
-                ->withInput();
-        } else {
-            $shipment = Shipment::find($id);
-            $shipment->pickup_date = Input::get('pickup_date');
-            $shipment->pickup_time = Input::get('pickup_time');
-            $shipment->pickup_by = Input::get('pickup_by');
-            $shipment->save();
+        $delivery = DeliveryDeparture::find($id);
 
-            if (Input::get('submit') == 'post') {
-                $shipment->is_posted = true;
-                $shipment->save();
-            }
-            Session::flash('message', 'Successfully created nerd!');
-            return Redirect::to(route('shipmentpickups.index'));
+        $delivery->delivery_time = Input::get('delivery_time');
+        $delivery->save();
+        if (Input::get('submit') =='post') {
+            $delivery->is_posted = 1;
+            $delivery->save();
         }
+        $delivdetails = PackagingDelivery::where('deliveries_id', $id)->delete();
+        if (Input::get('packagings') != null){
+            foreach(Input::get('packagings') as $shipment) {
+                $deliv_details = new PackagingDelivery;
+                $deliv_details->packaging_id = $shipment;
+                $deliv_details->deliveries_id = $delivery->id;
+                $deliv_details->save();
+                if (Input::get('submit') =='post') {
+                    $package = PackagingList::find($shipment);
+                    if ($package->id_slot != null) {
+                        $shipments = Shipment::where('id_slot', $package->id_slot)->get();
+                    } else {
+                        $shipments = Shipment::where('id_packaging', $package->id)->get();
+                    }
+                    foreach ($shipments as $ship) {
+                        $ship->id_shipment_status = 6;
+                        $ship->save();
+                    }
+                }
+            }
+        }
+        return Redirect::to(route('deliverydeparturecounters.index'));
     }
 
-    public function qrcode($id)
+    /**
+    * Remove the specified resource from storage.
+    *
+    * @param  int  $id
+    * @return Response
+    */
+    public function destroy($id)
     {
-        $shipment = Shipment::find($id);
-        $data = array(
-            'err' => null,
-            'result' => 'storage/app/images/qrcode/pickup/'.$shipment->shipment_id.'.png'
-        );
-        return json_encode($data,JSON_UNESCAPED_SLASHES);
-    }
+        //
+        $cityList = DeliveryDeparture::find($id);
+        $cityList->delete();
 
-    public function createQR(Request $req){
-        $dataqr = base64_encode(
-                QrCode::format('png')->size(300)
-                                     ->margin(0)
-                                     ->merge('/public/images/logoqr.png',.4)
-                                     ->encoding('UTF-8')
-                                     ->errorCorrection('H')
-                                     ->generate($req->data));
-        // $qrcode = base64_decode($dataqr);
-        // // file_put_contents('tmp/image.png, $qrcode);
-        // $url = 'images/qrcode/pickup/QR-' . uniqid() . '-GX.png';
-        // Storage::disk('public')->put($url, $qrcode, 'public');
-
-        return base64_decode($dataqr);
+        // redirect
+        Session::flash('message', 'Successfully deleted the nerd!');
+        return Redirect::to(route('deliverydeparturecounters.index'));
     }
 }

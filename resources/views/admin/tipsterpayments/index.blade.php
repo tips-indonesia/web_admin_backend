@@ -8,15 +8,8 @@
 @endsection
 @section('content')
     <div class="panel panel-flat">     
-        {{ Form::open(array('url' => route('tipsterpayments'), 'method' => 'GET', 'id' => 'date_form')) }}
+        {{ Form::open(array('url' => route('tipsterpayments.index'), 'method' => 'GET', 'id' => 'date_form')) }}
                     <div class="panel-body">
-                <div class="form-group">
-                    <label>Date :</label>
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="icon-calendar5"></i></span>
-                        <input type="text" name="date" id="date" class="form-control pickadate-year" placeholder="Transaction date" value="{{ $date }}">
-                    </div>
-                </div>
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">

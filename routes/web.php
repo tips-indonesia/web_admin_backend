@@ -16,7 +16,7 @@ Route::get('/', function () {
 });
 
 
-Route::get('tipsterpayments', 'Admin\TipsterPaymentController@index');
+Route::get('admin/tipsterpayments.', 'Admin\TipsterPaymentController@index');
 Route::get('/payment/start', 'API\\PaymentController@startPayment');
 Route::get('/reset_password/{token}', 'API\\MailWebViewerController@showResetPassword');
 
@@ -65,7 +65,7 @@ Route::prefix('admin/')->group(function ($locale) {
             Route::post('officelists/{officelist}/airports/create', 'Admin\OfficeAirportAdminController@store')->name('officeairports.store');
             Route::get('officelists/{officelist}/airports/{officedroppoint}/edit', 'Admin\OfficeAirportAdminController@edit')->name('officeairports.edit');
             Route::put('officelists/{officelist}/airports/{officedroppoint}/edit', 'Admin\OfficeAirportAdminController@update')->name('officeairports.update');
-            Route::delete('officelists/{officelist}/airports/{officedroppoint}', 'Admin\OfficeAirportAdminController@destroy')->name('officeairports.destroy');
+            Route::delete('officelists/{officelist}/airports/{officedroppoint}', 'Admin\OfficeAirportAdminControlfler@destroy')->name('officeairports.destroy');
         });
         Route::group(['middleware' => ['permission:banklists.']], function () {
             Route::resource('banklists','Admin\BankListAdminController');        
@@ -129,9 +129,9 @@ Route::prefix('admin/')->group(function ($locale) {
             Route::resource('shipmenttrackings','Admin\ShipmentTrackingAdminController');
         });
 
-        // Route::group(['middleware' => ['permission:tipsterpayments.']], function () {
-        //     Route::resource('tipsterpayments','Admin\TipsterPaymentController');
-        // });
+        Route::group(['middleware' => ['permission:tipsterpayments.']], function () {
+            Route::resource('tipsterpayments','Admin\TipsterPaymentController');
+        });
 
         Route::group(['middleware' => ['permission:shipmentpickups.']], function () {
             Route::resource('shipmentpickups','Admin\ShipmentPickUpAdminController');
