@@ -327,10 +327,10 @@
                                         <label>Card Number :</label>
                                         <input type="number" name="card_number" id="card_number" value="{{$data->card_no }}" class="form-control" placeholder="Card Number" @if($data->is_online_payment == 0) disabled @endif disabled readonly>
                                     </div>
-                                    <div class="form-group">
+                                    <!-- <div class="form-group">
                                         <label>Security Code :</label>
                                         <input type="number" name="security_code" id="security_code" value="{{$data->card_security_code }}" class="form-control" placeholder="Card Number" @if($data->is_online_payment == 0) disabled @endif disabled readonly>
-                                    </div>
+                                    </div> -->
                                     <div class="form-group">
                                         <label>Expired Date :</label>
                                         <div class="input-group">
