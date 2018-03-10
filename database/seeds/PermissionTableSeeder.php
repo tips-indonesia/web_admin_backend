@@ -50,6 +50,7 @@ class PermissionTableSeeder extends Seeder
         Permission::create(['name' => 'packagingrestshipments.', 'show_name' => 'Packaging Rest Shipment']);
         Permission::create(['name' => 'receivedarrivalprocessingcenter.', 'show_name' => 'Received by Arrival Processing Center']);
         Permission::create(['name' => 'shipmentpickups.', 'show_name' => 'Shipment Pick Up']);
+        // Permission::create(['name' => 'tipsterpayments.', 'show_name' => 'Tipster Payment']);
         Permission::create(['name' => 'shipmentdropoffs.', 'show_name' => 'Shipment Drop Off']);
         Permission::create(['name' => 'shipmentmatchingmonitors.', 'show_name' => 'Shipment Matching Monitor']);
         Permission::create(['name' => 'pendingarrivalcounters.', 'show_name' => 'Pending Package at Arrival Counter']);
