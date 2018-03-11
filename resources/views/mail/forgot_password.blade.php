@@ -12,4 +12,4 @@ visit the <a href="{{ 'http://ec2-52-220-52-208.ap-southeast-1.compute.amazonaws
 <small>if you cannot see the link, click {{ URL::to('/reset_password/' . $user->reset_password_token) }}</small>
 </pre><br/>
 <br/>
-<small>Email ini dikirim pada {{ $datetime }}, zona waktu {{ $timezone }}</small><br/>
+<small>Email ini dikirim pada {{ $datetime }}, zona waktu {{ $timezone }}</small><br/> 
