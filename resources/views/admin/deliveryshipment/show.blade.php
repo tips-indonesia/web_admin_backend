@@ -102,7 +102,7 @@
                                     <label>Delivered Time :</label>
                                     <div class="input-group">
                                     <span class="input-group-addon"><i class="icon-calendar5"></i></span>
-                                    <input type="text" name="delivered_time" class="form-control pickadate-year" @if($shipment->delivered_time != null) value={{$shipment->delivered_time}} @else placeholder='hh:mm:ss' @endif>
+                                    <input type="text" name="delivered_time" class="form-control pickatime" @if($shipment->delivered_time != null) value={{$shipment->delivered_time}} @else placeholder='hh:mm:ss' @endif>
                                 </div>
                                 </div>
                             </div>
@@ -120,7 +120,7 @@
                                 <label>Received Time :</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="icon-calendar5"></i></span>
-                                    <input type="text" name="received_date" class="form-control pickadate-year" value="{{$shipment->received_time}}" disabled>
+                                    <input type="text" name="received_date" class="form-control pickatime" value="{{$shipment->received_time}}" disabled>
                                 </div>
                             </div>
                         </div>
@@ -315,6 +315,13 @@
             $('.pickadate-year').datepicker({
                 format: 'yyyy-mm-dd',
             });
+
+            $('.pickatime').timepicker({
+                template : 'dropdown',
+                showInputs: false,
+                showSeconds: false,
+                showMeridian: false
+              });
         </script>
         
 @endsection
