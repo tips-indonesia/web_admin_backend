@@ -25,6 +25,9 @@ class CreateShipmentsTable extends Migration
             $table->boolean('is_first_class');
             $table->unsignedInteger('id_shipper')->nullable();
             $table->string('id_device')->nullable();
+            $table->integer('delivered_by')->nullable();
+            $table->date('delivered_date')->nullable();
+            $table->time('delivered_time')->nullable();
             $table->string('shipper_first_name');
             $table->string('shipper_last_name')->nullable();
             $table->unsignedInteger('id_shipper_districts')->nullable();

@@ -8,11 +8,11 @@
 @endsection
 	
 @section('content')
-	@foreach($shipments as $shipment)
 		<div class="row">
         <div class="col-md-12">
             <div class="panel panel-flat">
                 <div class="panel-body">
+                    {{ Form::open(array('method' => 'PUT', 'url' => route('deliveryshipment.update', $shipment->id))) }}
                 	<h5>Shipment ID : {{$shipment->shipment_id}}</h5>
                     <div class="row">
                         <div class="col-md-6">
@@ -51,8 +51,36 @@
                             </label>
                     </div>
                     <div class="form-group">
-                        <label>Shipment Status :</label>
-                        <input class="form-control" type="text" name="shipment-status" value="{{$shipment->shipment_status}}" disabled>
+                        <h5><strong>DELIVERY SHIPMENT</strong></h5>
+                        <label>Delivered By :</label>
+                        <select name="delivered_by" class="form-control">
+                            <option selected></option>
+                            @foreach ($users as $user)
+                                <option value="{{ $user->id }}" @if ($user->id == $shipment->delivered_by) selected @endif>{{ $user->first_name.' '.$user->last_name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Delivered Date :</label>
+                                    <div class="input-group">
+                                    <span class="input-group-addon"><i class="icon-calendar5"></i></span>
+                                    <input type="text" name="delivered_date" class="form-control pickadate-year" @if($shipment->delivered_date != null) value={{$shipment->delivered_date}} @else placeholder='yyyy-mm-dd' @endif>
+                                </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Delivered Time :</label>
+                                    <div class="input-group">
+                                    <span class="input-group-addon"><i class="icon-calendar5"></i></span>
+                                    <input type="text" name="delivered_time" class="form-control pickadate-year" @if($shipment->delivered_time != null) value={{$shipment->delivered_time}} @else placeholder='hh:mm:ss' @endif>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6">
@@ -66,7 +94,7 @@
                                 <label>Received Time :</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="icon-calendar5"></i></span>
-                                    <input type="text" name="received_date" class="form-control pickadate-year" value="{{$shipment->received_time}}">
+                                    <input type="text" name="received_date" class="form-control pickadate-year" value="{{$shipment->received_time}}" disabled>
                                 </div>
                             </div>
                         </div>
@@ -227,8 +255,23 @@
                             </div>
                         </div>
                     </div>
+                    <ul class="icons-list" style="float: right;">
+                        <li>
+                            <div class="text-right form-group">
+                                <button type="submit" value='save' name='submit' class="btn btn-primary" style="vertical-align: middle;" {{ $shipment->id_shipment_status == 14 ? 'disabled':'' }}><i class="icon-floppy-disk"
+                            ></i> Save</button>
+                            </div>
+                            {{ Form::close() }}
+                        </li>
+                        <li>
+                            <div class="text-right form-group">
+                                <button type="submit" value='submit' name='submit' class="btn btn-danger" style="vertical-align: middle;" {{ $shipment->id_shipment_status == 14 ? 'disabled':'' }}>Submit</button>
+                            </div>
+                        </li>
+                    </ul>
+                    {{ Form::close() }}
                 </div>
             </div> 
         </div>
-	@endforeach
+        
 @endsection

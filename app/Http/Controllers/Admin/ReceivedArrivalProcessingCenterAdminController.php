@@ -108,7 +108,7 @@ class ReceivedArrivalProcessingCenterAdminController extends Controller
       			$shipment->save();
       		}
 
-        return redirect('admin/receivedarrivalprocessingcenter');
+        return redirect(route('receivedarrivalprocessingcenter.index'));
     }
 
     public function show($id) {
