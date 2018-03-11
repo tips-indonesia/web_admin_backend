@@ -35,13 +35,11 @@ class MailWebViewerController extends Controller
         $user->reset_password_token = null;
         $user->save();
 
-        return view('mail_web_viewer.reset_password_success', [
-            $data = array(
-                'err' => null,
-                'result' => "Reset password berhasil!"
-            );
+        $data = array(
+            'err' => null,
+            'result' => "Reset password berhasil!"
+        );
 
-            return response()->json($data, 200);
-        ]);
+        return response()->json($data, 200);
     }
 }
