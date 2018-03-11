@@ -22,8 +22,8 @@ class MailWebViewerController extends Controller
         if(!$user){
             $data = array(
                 'err' => [
-                    "code": 404,
-                    "message": "user tidak ditemukan"
+                    "code"=> 404,
+                    "message"=> "user tidak ditemukan"
                 ],
                 'result' => null
             );
