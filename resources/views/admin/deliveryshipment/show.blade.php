@@ -33,9 +33,9 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <div class="form-group">
-                                <label>Registration Type :</label>
-                                <input type="text" class="form-control" name="registration_type" value="{{$shipment->registration_type}}" disabled readonly>
-                            </div>
+                                    <label>Registration Type :</label>
+                                    <input type="text" class="form-control" name="registration_type" value="{{$shipment->registration_type}}" disabled readonly>
+                                </div>
                             </div>
                         </div>
                     </div>

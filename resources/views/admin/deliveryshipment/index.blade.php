@@ -14,6 +14,10 @@
                 <div class="form-group">
                     <label class="display-block text-semibold">Status :</label>
                     <label class="radio-inline">
+                        <input type="radio" name="radio" @if($checked != 0 && $checked != 1) checked="checked" @endif value="-1">
+                        Semua
+                    </label>
+                    <label class="radio-inline">
                         <input type="radio" name="radio" @if($checked == 0) checked="checked" @endif value="0">
                         Belum Dikirim
                     </label>
