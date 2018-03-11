@@ -174,7 +174,7 @@
                 color-adjust: exact !important;                 /*Firefox*/\
         }\
         </style>\
-        <div style="width:500px; border:2px solid black; margin-left:20px; margin-right:20px;" >\
+        <div style="width:500px; border:2px solid black; margin-left:20px; margin-right:20px; padding-left:30px;" >\
         <table>\
                         <tr>\
                         <img src="{{ asset('images/logoqr.png') }}" style="width: 150px; height: 150px; margin: 0;">\
@@ -183,7 +183,7 @@
                         <h1 style="font-weight: 900;">{{ $data->packaging_id }}</h1>\
                         </tr>\
                         <tr>\
-                        <h3>Slot {{ $slot->slot_id }}</h3>\
+                        <h2 style="font-weight: 900;">SLOT {{ $slot->slot_id }}</h3>\
                         </tr>\
                         <tr>\
                         <td>\

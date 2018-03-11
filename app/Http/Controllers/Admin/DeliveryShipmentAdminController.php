@@ -11,6 +11,7 @@ use App\ShipmentStatus;
 use App\CityList;
 use App\PaymentType;
 use App\BankList;
+use App\User;
 use Illuminate\Support\Facades\Input;
 
 class DeliveryShipmentAdminController extends Controller
@@ -21,83 +22,84 @@ class DeliveryShipmentAdminController extends Controller
         if (Input::get('param') == 'blank' || !Input::get('param')) {
             $data['param'] = Input::get('param');
             $data['value'] = Input::get('value');
+
         } else {
             $data['param'] = Input::get('param');
             $data['value'] = Input::get('value');
             $flag = true;
         }
+        if (!isset($_GET['radio']))
+            $checked = -1;
+        else 
+            $checked = Input::get('radio');
 
         if ($flag == true) {
-        	$package = PackagingList::join('slot_lists', 'packaging_lists.id_slot', '=', 'slot_lists.id')
-    							->join('shipments', 'shipments.id_slot', '=', 'slot_lists.id')
-    						    ->select('packaging_lists.*', 
-                                         'slot_lists.id_slot_status', 
-                                         'slot_lists.slot_id', 
-                                         'shipments.id_shipment_status', 
-                                         'slot_lists.origin_city',
-                                         'slot_lists.destination_city')
-    						    ->where('slot_lists.id_slot_status', '7')
-    						    ->where(Input::get('param'), Input::get('value'))
-    						    ->distinct()
-    						    ->get();        			
+        	$shipments = Shipment::whereIn('id_shipment_status', [12,14,15])
+                                 ->where(Input::get('param'), Input::get('value'))
+                                 ->get();       			
         } else {
-        	$package = PackagingList::join('slot_lists', 'packaging_lists.id_slot', '=', 'slot_lists.id')
-    							->join('shipments', 'shipments.id_slot', '=', 'slot_lists.id')
-    						    ->select('packaging_lists.*', 
-                                             'slot_lists.id_slot_status', 
-                                             'slot_lists.slot_id', 
-                                             'shipments.id_shipment_status', 
-                                             'slot_lists.origin_city',
-                                             'slot_lists.destination_city')
-    						    ->where('slot_lists.id_slot_status', '7')
-    						    ->distinct()
-    						    ->paginate(10);
+        	$shipments = Shipment::whereIn('id_shipment_status', [12,14,15])
+                                 ->get();
         }
 
-    	$data['packages'] = $package;
+        foreach($shipments as $shipment) {
+            if ($shipment->delivered_by != null) {
+                $user = User::find($shipment->delivered_by);
+                $shipment['nama_pengirim'] = $user->first_name.' '.$user->last_name;
+            } else {
+                $shipment['nama_pengirim'] = null;
+            }
+        }
+
+        $data['checked'] = $checked;
+    	$data['shipments'] = $shipments;
 
     	return view('admin.deliveryshipment.index', $data);
     }
 
     public function show($id) {
-    	$package = PackagingList::find($id);
-    	$shipments = Shipment::where('id_slot', $package->id_slot)->get();
+    	$shipment = Shipment::find($id);
 
-    	foreach ($shipments as $shipment) {
-    		if ($shipment->id_origin_city == null) $shipment['origin_city'] = null;
-    		else $shipment['origin_city'] = CityList::find($shipment->id_origin_city)->name;
+		if ($shipment->id_origin_city == null) $shipment['origin_city'] = null;
+		else $shipment['origin_city'] = CityList::find($shipment->id_origin_city)->name;
 
-    		if ($shipment->id_destination_city == null) $shipment['destination_city'] = null;
-    		else $shipment['destination_city'] = CityList::find($shipment->id_destination_city)->name;
+		if ($shipment->id_destination_city == null) $shipment['destination_city'] = null;
+		else $shipment['destination_city'] = CityList::find($shipment->id_destination_city)->name;
 
-    		if ($shipment->id_shipment_status == null) $shipment['shipment_status'] = null;
-    		else $shipment['shipment_status'] = ShipmentStatus::find($shipment->id_shipment_status)->description;
+		if ($shipment->id_shipment_status == null) $shipment['shipment_status'] = null;
+		else $shipment['shipment_status'] = ShipmentStatus::find($shipment->id_shipment_status)->description;
 
-    		if ($shipment->id_payment_type == null) $shipment['payment_type'] = null;
-    		else $shipment['payment_type'] = PaymentType::find($shipment->id_payment_type)->name;
-    		
-    		if ($shipment->id_bank == null) $shipment['bank_name'] = null;
-    		else $shipment['bank_name'] = BankList::find($shipment->id_bank)->name;
-    	}
-    	$data['shipments'] = $shipments;
+		if ($shipment->id_payment_type == null) $shipment['payment_type'] = null;
+		else $shipment['payment_type'] = PaymentType::find($shipment->id_payment_type)->name;
+		
+		if ($shipment->id_bank == null) $shipment['bank_name'] = null;
+		else $shipment['bank_name'] = BankList::find($shipment->id_bank)->name;
+
+        $data['users'] = User::all();
+
+    	$data['shipment'] = $shipment;
     	return view('admin.deliveryshipment.show', $data);
     }
 
     public function update($id) {
-    	$package = PackagingList::find($id);
+    	if (Input::get('submit') == 'save') {
+             $shipment = Shipment::find($id);
 
-    	if ($package != null) {
-    		$package->is_open = 1;
+            $shipment->delivered_by = Input::get('delivered_by');
+            $shipment->delivered_date = Input::get('delivered_date');
+            $shipment->delivered_time = Input::get('delivered_time');
 
-    		$package->save();
+            $shipment->save();
+        } else if (Input::get('submit') == 'submit') {
+            $shipment = Shipment::find($id);
 
-    		$shipments = Shipment::where('id_slot', $package->id_slot)->get();
+            $shipment->id_shipment_status = 14;
 
-    		foreach ($shipments as $shipment) {
-	    		$shipment->id_shipment_status = 14;
-	    		$shipment->save();
-	    	}
-	    }
+            $shipment->save();
+
+            return redirect(route('deliveryshipment.index'));
+        }   
+
     	return back();
     }
 }

@@ -23,6 +23,8 @@ class CreateDeliveryToArrivalProcessingCenterTable extends Migration
             $table->unsignedInteger('id_kantor_tujuan')->nullable($value = true);
             $table->unsignedInteger('is_submit')->nullable($value = true);
             $table->unsignedInteger('is_posted')->nullable($value = true);
+            $table->unsignedInteger('is_received_by_pc')->default(0);
+            $table->date('received_by_pc_date')->nullable();
             $table->timestamps();
         });
     }

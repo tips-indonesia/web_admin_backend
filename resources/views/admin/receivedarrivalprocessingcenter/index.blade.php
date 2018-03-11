@@ -11,18 +11,24 @@
     <div class="panel panel-flat">
     	{{ Form::open(array('url' => route('receivedarrivalprocessingcenter.index'), 'method' => 'GET', 'id' => 'date_form')) }}
             <div class="panel-body">
+                <div class="form-group">
+                    <label class="display-block text-semibold">Status Terima :</label>
+                    <label class="radio-inline">
+                        <input type="radio" name="radio" @if($checked == 0) checked="checked" @endif value="0">
+                        Belum Diterima
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="radio" @if($checked == 1) checked="checked" @endif value="1">
+                        Diterima
+                    </label>
+                </div>
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>Search By :</label>
                             <select name="param" id="param" class="select-search">
                                 <option value="blank" @if($param =='blank' || $param=='') selected @endif>&#8192;</option>
-                                <option value="packaging_id" @if($param =='packaging_id') selected @endif>Packaging ID</option>
-                                <option value="slot_id" @if($param =='slot_id') selected @endif>Slot ID</option>
-                                <option value="origin_city" @if($param =='slot_id') selected @endif>Origin City</option>
-                                <option value="destination_city" @if($param =='slot_id') selected @endif>Destination City</option>
-                                <option value="received" @if($param =='received') selected @endif>Received</option>
-                                <option value="not_received" @if($param =='not_received') selected @endif>Not Received</option>
+                                <option value="delivery_id" @if($param =='delivery_id') selected @endif>Delivery ID</option>
                             </select>
                         </div>
                     </div>
@@ -41,37 +47,28 @@
         <table class="table datatable-pagination">
             <thead>
                 <tr>
-                    <th>Packaging ID</th>
-                    <th>Slot ID</th>
-                    <th>Origin City</th>
-                    <th>Destination City</th>
+                    <th>Delivery ID</th>
+                    <th>Delivery Date</th>
+                    <th>Total Shipment</th>
                     <th>Status</th>
-                    <th>Actions</th>
+                    <th>Receive Date</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach($packages as $package)
+                @foreach($deliveries as $delivery)
+                @if($delivery->is_received_by_pc == $checked || $checked == -1)
                 <tr>
-                	<td>{{$package->packaging_id}}</td>
-                	<td>{{$package->slot_id}}</td>
-                    <td>{{$package->origin_city}}</td>
-                    <td>{{$package->destination_city}}</td>
-					<td>
-						{{$package->id_shipment_status < 12 ? 'Belum diterima' : 'Sudah diterima' }}
-					</td>
-					<td>
-						<ul class="icons-list">
-                            <li>
-                            {{ Form::open(array('method' => 'PUT', 'url' => route('receivedarrivalprocessingcenter.update', $package->id))) }}
-                            <div class="text-right form-group">
-                                <button type="submit"  class="btn btn-danger" style="vertical-align: middle;" {{ $package->id_shipment_status < 12 ? '':'disabled' }}><i class="icon-trash"
-                            ></i> Received</button>
-                            </div>
-                            {{ Form::close() }}
-                            </li>
-                        </ul>
-					</td>
+                	<td>
+                        <a href="{{ route('receivedarrivalprocessingcenter.show', $delivery->arrival_shipment_id) }}">
+                            {{$delivery->delivery_id}}
+                        </a>
+                    </td>
+                	<td>{{$delivery->delivery_date}}</td>
+                    <td>{{$delivery->total_shipment}}
+                    <td>{{$delivery->is_received_by_pc == 0 ? 'Belum Diterima':'Sudah Diterima'}}</td>
+                    <td>{{$delivery->received_by_pc_date}}</td>
                 </tr>
+                @endif
                 @endforeach
             </tbody>
         </table>

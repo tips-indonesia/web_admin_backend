@@ -8,19 +8,27 @@
 @endsection
 
 @section('content')
-        <div class="panel panel-flat">
-    	{{ Form::open(array('url' => route('deliveryshipment.index'), 'method' => 'GET', 'id' => 'date_form')) }}
+    <div class="panel panel-flat">
+        {{ Form::open(array('url' => route('deliveryshipment.index'), 'method' => 'GET', 'id' => 'date_form')) }}
             <div class="panel-body">
+                <div class="form-group">
+                    <label class="display-block text-semibold">Status :</label>
+                    <label class="radio-inline">
+                        <input type="radio" name="radio" @if($checked == 0) checked="checked" @endif value="0">
+                        Belum Dikirim
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="radio" @if($checked == 1) checked="checked" @endif value="1">
+                        Sudah Dikirim
+                    </label>
+                </div>
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>Search By :</label>
                             <select name="param" id="param" class="select-search">
                                 <option value="blank" @if($param =='blank' || $param=='') selected @endif>&#8192;</option>
-                                <option value="packaging_id" @if($param =='packaging_id') selected @endif>Packaging ID</option>
-                                <option value="slot_id" @if($param =='slot_id') selected @endif>Slot ID</option>
-                                <option value="origin_city" @if($param =='origin_city') selected @endif>Origin City</option>
-                                <option value="destination_city" @if($param =='destination_city') selected @endif>Destination City</option>
+                                <option value="shipment_id" @if($param =='shipment_id') selected @endif>Shipment ID</option>
                             </select>
                         </div>
                     </div>
@@ -39,36 +47,40 @@
         <table class="table datatable-pagination">
             <thead>
                 <tr>
-                    <th>Packaging ID</th>
-                    <th>Slot ID</th>
-                    <th>Origin City</th>
-                    <th>Destination City</th>
-                    <th>Action</th>
+                    <th>Shipment ID</th>
+                    <th>Status Dikirim</th>
+                    <th>Dikirim Oleh</th>
+                    <th>Status Diterima</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach($packages as $package)
+                @foreach($shipments as $shipment)
+                @if(($shipment->delivered_by == null and $checked == 0) or
+                    ($shipment->delivered_by !=null and $checked == 1) or
+                     $checked == -1)
                 <tr>
-                	<td>
-                		<a href="{{ route('deliveryshipment.show', $package->id) }}">
-                			{{$package->packaging_id}}
-                		</td>
-                	<td>{{$package->slot_id}}</td>
-                    <td>{{$package->origin_city}}</td>
-                    <td>{{$package->destination_city}}</td>
                     <td>
-                        <ul class="icons-list">
-                            <li>
-                            {{ Form::open(array('method' => 'PUT', 'url' => route('deliveryshipment.update', $package->id))) }}
-                            <div class="text-right form-group">
-                                <button type="submit"  class="btn btn-primary" style="vertical-align: middle;" {{ $package->is_open == 0 ? '':'disabled' }}><i class="icon-folder-open"
-                            ></i> Open</button>
-                            </div>
-                            {{ Form::close() }}
-                            </li>
-                        </ul>
+                        <a href="{{ route('deliveryshipment.show', $shipment->id) }}">
+                            {{$shipment->shipment_id}}
+                        </a>
+                    </td>
+                    <td>
+                        @if($shipment->id_shipment_status == 12)
+                        Belum Dikirim
+                        @else
+                        Sudah Dikirim
+                        @endif
+                    </td>
+                    <td>{{$shipment->nama_pengirim}}</td>
+                    <td>
+                        @if($shipment->id_shipment_status == 15)
+                        Sudah Diterima
+                        @else
+                        Belum Diterima
+                        @endif
                     </td>
                 </tr>
+                @endif
                 @endforeach
             </tbody>
         </table>
