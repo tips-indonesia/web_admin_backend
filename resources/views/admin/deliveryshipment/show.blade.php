@@ -12,8 +12,34 @@
         <div class="col-md-12">
             <div class="panel panel-flat">
                 <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Shipment ID :</label>
+                                <input type="text" class="form-control" value="{{$shipment->shipment_id}}" disabled readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Date :</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="icon-calendar5"></i></span>
+                                    <input type="text" name="date" id="date" class="form-control pickadate-year" placeholder="Transaction date" value={{$shipment->transaction_date}} disabled readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="form-group">
+                                <label>Registration Type :</label>
+                                <input type="text" class="form-control" name="registration_type" value="{{$shipment->registration_type}}" disabled readonly>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
                     {{ Form::open(array('method' => 'PUT', 'url' => route('deliveryshipment.update', $shipment->id))) }}
-                	<h5>Shipment ID : {{$shipment->shipment_id}}</h5>
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
@@ -105,7 +131,7 @@
                     	<img src="{{asset($shipment->received_image)}}" width="250">
                     </div>
                     @endif
-            <div class="tabbable">
+                    <!-- <div class="tabbable">
                         <ul class="nav nav-tabs nav-tabs-highlight nav-justified">
                             <li class="active"><a href="#shipper_consignee" data-toggle="tab">Shipper & Consignee</a></li>
                             <li><a href="#goods_cost" data-toggle="tab">Goods Detail & Cost</a></li>
@@ -254,7 +280,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <ul class="icons-list" style="float: right;">
                         <li>
                             <div class="text-right form-group">
@@ -273,5 +299,10 @@
                 </div>
             </div> 
         </div>
+        <script type="text/javascript">
+            $('.pickadate-year').datepicker({
+                format: 'yyyy-mm-dd',
+            });
+        </script>
         
 @endsection
