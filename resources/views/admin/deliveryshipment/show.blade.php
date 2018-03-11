@@ -125,12 +125,24 @@
                             </div>
                         </div>
                     </div>
-                    @if ($shipment->received_image != null)
-                    <div class="form-group">
-                    	<label>Received Image:</label><br>
-                    	<img src="{{asset($shipment->received_image)}}" width="250">
+                    <div class="row">
+                        <div class="col-md-6">
+                            @if ($shipment->id_shipment_status == 14)
+                            <div class="form-group">
+                                <label>Received Image:</label><br>
+                                <img src="{{asset($shipment->received_image)}}" width="250" style="border: solid 1px #AAA">
+                            </div>
+                            @endif
+                        </div>
+                        <div class="col-md-6">
+                            @if ($shipment->id_shipment_status == 14)
+                            <div class="form-group">
+                                <label>Signature Image:</label><br>
+                                <img src="{{asset($shipment->photo_signature)}}" width="250" style="border: solid 1px #AAA">
+                            </div>
+                            @endif 
+                        </div>
                     </div>
-                    @endif
                     <!-- <div class="tabbable">
                         <ul class="nav nav-tabs nav-tabs-highlight nav-justified">
                             <li class="active"><a href="#shipper_consignee" data-toggle="tab">Shipper & Consignee</a></li>
