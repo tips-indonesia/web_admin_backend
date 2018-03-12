@@ -134,6 +134,7 @@ class ShipmentController extends Controller
 
             $shipment->received_by = $request->received_by;
             $shipment->received_time = date('Y-m-d H:i:s');
+            $shipment->id_shipment_status = 15;
 
             $shipment->save();
 
