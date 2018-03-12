@@ -98,8 +98,10 @@ class ReceivedArrivalProcessingCenterAdminController extends Controller
                                                 ->first()
                                                 ->packaging_lists_id;
 
-    		$packages = PackagingList::find($packages_id);
-			$slots = SlotList::find($packages->id_slot);
+    		  $packages = PackagingList::find($packages_id);
+			    $slots = SlotList::find($packages->id_slot);
+          $slots->id_slot_status = 7; 
+          $slots->save();
             // SHIPMENT
       		$shipments = Shipment::where('id_slot', $slots->id)->get();
       		

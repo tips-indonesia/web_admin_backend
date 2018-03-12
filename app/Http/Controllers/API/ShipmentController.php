@@ -103,7 +103,7 @@ class ShipmentController extends Controller
         $shipment->insurance_cost = $insurance->default_insurance;
         $shipment->is_add_insurance = $request->is_add_insurance;
         if($request->is_add_insurance == 1) {
-            $shipment->add_insurance_cost = $insurance->additional_insurance;
+            $shipment->add_insurance_cost = ($price_goods_estimate->nominal * $insurance->default_insurance) / 100;
         } else {
             $shipment->add_insurance_cost = 0;
         }
@@ -121,7 +121,7 @@ class ShipmentController extends Controller
             // $shipment->flight_cost = ($reguler*$request->estimate_weight) + $shipment->add_insurance_cost;
 
             $slot_price = SlotList::where('id_origin_city', $id_origin_city)->where('id_destination_city', $id_destination_city)->first()->slot_price_kg;
-            $shipment->flight_cost = $request->estimate_weight * $slot_price + $this->round_nearest_hundreds(($price->$price_goods_estimate * $insurance->default_insurance) / 100);
+            $shipment->flight_cost = $request->estimate_weight * $slot_price + $shipment->add_insurance_cost;
         }
 
         $shipment->is_delivery = $request->is_delivery;
