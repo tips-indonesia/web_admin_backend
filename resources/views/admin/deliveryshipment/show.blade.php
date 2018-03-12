@@ -130,7 +130,7 @@
                             @if ($shipment->id_shipment_status == 14)
                             <div class="form-group">
                                 <label>Received Image:</label><br>
-                                <img src="{{asset($shipment->received_image)}}" width="250" style="border: solid 1px #AAA">
+                                <img src="{{asset($shipment->photo_ktp)}}" width="250" style="border: solid 1px #AAA">
                             </div>
                             @endif
                         </div>

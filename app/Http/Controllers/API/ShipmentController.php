@@ -16,6 +16,7 @@ use App\ProvinceList;
 use App\CityList;
 use App\SubdistrictList;
 use App\PriceGoodsEstimate;
+use App\SlotList;
 
 
 class ShipmentController extends Controller
@@ -114,10 +115,13 @@ class ShipmentController extends Controller
 
             $shipment->flight_cost = ($gold*$request->estimate_weight) + $shipment->add_insurance_cost;
         } else {
-            $reguler = $price->freight_cost + (($price->freight_cost * $insurance->default_insurance) /100);
-            $reguler = $this->round_nearest_hundreds($reguler);
+            // $reguler = $price->freight_cost + (($price->freight_cost * $insurance->default_insurance) /100);
+            // $reguler = $this->round_nearest_hundreds($reguler);
 
-            $shipment->flight_cost = ($reguler*$request->estimate_weight) + $shipment->add_insurance_cost;
+            // $shipment->flight_cost = ($reguler*$request->estimate_weight) + $shipment->add_insurance_cost;
+
+            $slot_price = SlotList::where('id_origin_city', $id_origin_city)->where('id_destination_city', $id_destination_city)->first()->slot_price_kg;
+            $shipment->flight_cost = $request->estimate_weight * $slot_price + $this->round_nearest_hundreds(($price->$price_goods_estimate * $insurance->default_insurance) / 100)
         }
 
         $shipment->is_delivery = $request->is_delivery;
