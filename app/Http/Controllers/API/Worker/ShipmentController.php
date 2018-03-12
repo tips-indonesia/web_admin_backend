@@ -125,11 +125,11 @@ class ShipmentController extends Controller
             $path_file_signature = public_path() . '/image/shipment/signature';
 
             if($data_img_ktp->move($path_file_ktp,$name_file_ktp)) {
-                $shipment->photo_ktp = $name_file_ktp;
+                $shipment->photo_ktp = $path_file_signature . '/' . $name_file_ktp;
             }
 
             if($data_img_signature->move($path_file_signature,$name_file_signature)) {
-                $shipment->photo_signature = $name_file_signature;
+                $shipment->photo_signature = $path_file_signature . '/' . $name_file_signature;
             }
 
             $shipment->received_by = $request->received_by;
