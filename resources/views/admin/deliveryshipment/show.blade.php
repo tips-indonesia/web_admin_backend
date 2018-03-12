@@ -127,7 +127,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-6">
-                            @if ($shipment->id_shipment_status == 14)
+                            @if ($shipment->id_shipment_status == 15)
                             <div class="form-group">
                                 <label>Received Image:</label><br>
                                 <img src="{{asset($shipment->photo_ktp)}}" width="250" style="border: solid 1px #AAA">
@@ -135,7 +135,7 @@
                             @endif
                         </div>
                         <div class="col-md-6">
-                            @if ($shipment->id_shipment_status == 14)
+                            @if ($shipment->id_shipment_status == 15)
                             <div class="form-group">
                                 <label>Signature Image:</label><br>
                                 <img src="{{asset($shipment->photo_signature)}}" width="250" style="border: solid 1px #AAA">
