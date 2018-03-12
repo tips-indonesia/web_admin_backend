@@ -200,7 +200,7 @@ class ShipmentController extends Controller
         // dd($request->device_id, $request->id_shipper);
 
         if($request->has('device_id'))
-            $shipement = Shipment::withTrashed()->where('id_shipper', $request->id_member)->where('id_device', $request->device_id);
+            $shipement = Shipment::withTrashed()->where('id_shipper', $request->id_member)->orWhere('id_device', $request->device_id);
         else
             $shipement = Shipment::withTrashed()->where('id_shipper', $request->id_member);
 
@@ -224,7 +224,7 @@ class ShipmentController extends Controller
 
         if($request->has('consignee_name')){
             if($request->consignee_name != null && $request->consignee_name != "") {
-                $shipement = $shipement->where('consignee_first_name', 'LIKE','%'.$request->consignee_name.'%')->where('consignee_last_name','LIKE', '%'.$request->consignee_name.'%');
+                $shipement = $shipement->where('consignee_first_name', 'LIKE','%'.$request->consignee_name.'%')->orWhere('consignee_last_name','LIKE', '%'.$request->consignee_name.'%');
             }
         }
 
@@ -264,7 +264,7 @@ class ShipmentController extends Controller
     }
 
     function cancel_shipment(Request $request) {
-        $shipment = Shipment::where('id_shipper', $request->id_shipper)->where('id_shipment_status', 1)->where('shipment_id', $request->shipment_id)->first();
+        $shipment = Shipment::where('id_shipper', $request->id_shipper)->where('id_shipment_status', 1)->orWhere('shipment_id', $request->shipment_id)->first();
         if($shipment == null) {
             $data = array(
                 'err' => [
