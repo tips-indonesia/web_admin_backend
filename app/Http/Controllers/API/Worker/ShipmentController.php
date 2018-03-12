@@ -116,12 +116,12 @@ class ShipmentController extends Controller
 
             $data_img_ktp = $file_ktp;
             $ext_file_ktp = $data_img_ktp->getClientOriginalExtension();
-            $name_file_ktp = $timestamp . '_img_item.' . $ext_file_ktp;
+            $name_file_ktp = "" . uniqid() . '_img_item.' . $ext_file_ktp;
             $path_file_ktp = public_path() . '/image/shipment/ktp';
 
             $data_img_signature = $file_signature;
             $ext_file_signature = $data_img_signature->getClientOriginalExtension();
-            $name_file_signature = $timestamp . '_img_item.' . $ext_file_signature;
+            $name_file_signature = "" . uniqid() . '_img_item.' . $ext_file_signature;
             $path_file_signature = public_path() . '/image/shipment/signature';
 
             if($data_img_ktp->move($path_file_ktp,$name_file_ktp)) {
