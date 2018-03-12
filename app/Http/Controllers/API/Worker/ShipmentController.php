@@ -125,7 +125,7 @@ class ShipmentController extends Controller
             $path_file_signature = public_path() . '/image/shipment/signature';
 
             if($data_img_ktp->move($path_file_ktp,$name_file_ktp)) {
-                $shipment->photo_ktp = URL::to('/image/shipment/signature/' . $name_file_ktp);
+                $shipment->photo_ktp = URL::to('/image/shipment/ktp/' . $name_file_ktp);
             }
 
             if($data_img_signature->move($path_file_signature,$name_file_signature)) {
