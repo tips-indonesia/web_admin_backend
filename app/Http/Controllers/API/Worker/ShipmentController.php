@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Shipment;
 use App\ShipmentStatus;
 use App\AirportcityList;
+use Illuminate\Support\Facades\URL;
 
 class ShipmentController extends Controller
 {
@@ -95,7 +96,6 @@ class ShipmentController extends Controller
     function upload_signature(Request $request) {
         $shipment_id = $request->shipment_id;
         $shipment = Shipment::where('shipment_id', $shipment_id)->first();
-
 
         if($shipment == null) {
             $data = array(
