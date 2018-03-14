@@ -61,7 +61,7 @@ class TipsterPaymentController extends Controller
    public static function update($id) {
         $slot = SlotList::find($id);
         $slot->status_bayar = 1;
-
+        $slots->id_slot_status = 7;
         $slot->save();
 
         return back();
