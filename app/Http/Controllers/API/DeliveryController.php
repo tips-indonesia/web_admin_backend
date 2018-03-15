@@ -80,6 +80,18 @@ class DeliveryController extends Controller
         return response()->json($data, 200);
     }
 
+    private function getDetailStatus($delivery){
+        switch ($delivery->id_slot_status) {
+            case '3':
+                # code...
+                break;
+            
+            default:
+                # code...
+                break;
+        }
+    }
+
     function get_status(Request $request) {
         $slot_id = $request->slot_id;
         $slot = SlotList::where('slot_id', $slot_id)->first();

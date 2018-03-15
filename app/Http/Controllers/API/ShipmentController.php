@@ -176,6 +176,9 @@ class ShipmentController extends Controller
             $shipment_status = ShipmentStatus::where('id','<=',$shipment->id_shipment_status)->where('is_hidden',false)->orderBy('id', 'desc')->first();
             $shipment->origin_city = AirportcityList::find($shipment->id_origin_city)->name;
             $shipment->destination_city = AirportcityList::find($shipment->id_destination_city)->name;
+            $slot = false;
+            if($shipment->id_slot)
+                $slot = SlotList::find($shipment->id_slot);
             $data = array(
                 'err' => null,
                 'result' => array(
@@ -184,9 +187,12 @@ class ShipmentController extends Controller
                         'description' => $shipment_status->description,
                         'detail' => $shipment->detail_status
                     ),
-                    'shipment' => $shipment
+                    'shipment' => $shipment,
+                    'addt_info' => array(
+                        'kode_bandara_asal' => $slot ? $slot->airportOrigin->initial_code : "",
+                        'kode_bandara_tujuan' => $slot ? $slot->airportDestination->initial_code : ""
+                    )
                 )
-
             );
         }
 
