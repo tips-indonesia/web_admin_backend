@@ -12,6 +12,7 @@ use App\Mail\TestMail;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\FCMSender;
 use App\Http\Controllers\API\MessageController;
+use App\Http\Controllers\API\FlightController;
 use App\ShipmentStatus;
 use App\DeliveryStatus;
 
@@ -777,10 +778,52 @@ class UtilityController extends Controller
 
     public function check_flight_b_n_d(Request $request){
 
-        $booking_code = $request->booking_code;
-        $booking = FlightBookingList::where('booking_code', $booking_code)->first();
+        if(!$request->booking_code || !$request->kode_airport || 
+           !$request->booking_date || !$request->nama_depan || !$request->nama_belakang)
+            return "data tidak boleh kosong";
+        
+        $res = WebScrapper::get_data($request->booking_code, $request->kode_airport, $request->booking_date, 
+                                     $request->nama_depan, $request->nama_belakang);
 
 
+        if($res){
+            if($res->status == 200){
+                $booking_code = $request->booking_code;
+                $code_origin = $res->Origin_Airport;
+                $code_destination = $res->Destination_Airport;
+                $date_origin = date('Y-m-d H:i:s', strtotime($res->Date . ' ' . $res->Time));
+                $flight_code = "SCP777";
+
+                // create new booking record
+                $new_booking = FlightController::create_new_booking($booking_code, $code_origin, 
+                    $code_destination, $date_origin, $flight_code);
+
+                // Terdapat masalah pada kode airport asal atau tujuan
+                if(!$new_booking){
+                    $data = array(
+                        'err' => [
+                            'code' => 404,
+                            'message' => 'Airport asal atau tujuan tidak ditemukan'
+                        ],
+                        'result' => null
+                    );
+
+                    return response()->json($data, 200);
+                }
+
+                // Data OK
+                $data = array(
+                    'err' => null,
+                    'result' => array(
+                        "data_is_available" => true,
+                        "booking_id" => $new_booking->id
+                    )
+                );
+                return response()->json($data, 200);
+            }
+        }
+
+        // Scrapper tidak mengembalikan apapun (timeout)
         $data = array(
             'err' => null,
             'result' => array(
