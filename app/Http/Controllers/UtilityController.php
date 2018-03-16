@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\FCMSender;
 use App\Http\Controllers\API\MessageController;
 use App\Http\Controllers\API\FlightController;
+use App\Http\Controllers\WebScrapper;
 use App\ShipmentStatus;
 use App\DeliveryStatus;
 
