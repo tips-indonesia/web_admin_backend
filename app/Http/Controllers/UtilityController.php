@@ -816,7 +816,7 @@ class UtilityController extends Controller
                     'err' => null,
                     'result' => array(
                         "data_is_available" => true,
-                        "booking_id" => $new_booking->id
+                        "booking" => $new_booking
                     )
                 );
                 return response()->json($data, 200);
