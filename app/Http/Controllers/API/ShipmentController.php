@@ -190,7 +190,8 @@ class ShipmentController extends Controller
                     'shipment' => $shipment,
                     'addt_info' => array(
                         'kode_bandara_asal' => $slot ? $slot->airportOrigin->initial_code : "",
-                        'kode_bandara_tujuan' => $slot ? $slot->airportDestination->initial_code : ""
+                        'kode_bandara_tujuan' => $slot ? $slot->airportDestination->initial_code : "",
+                        'flight_code' => $slot ? $slot->flight_code : ""
                     )
                 )
             );
