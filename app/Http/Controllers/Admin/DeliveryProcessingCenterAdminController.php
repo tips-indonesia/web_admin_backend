@@ -131,7 +131,7 @@ class DeliveryProcessingCenterAdminController extends Controller
         $data['data'] = ArrivalShipment::find($id);
         if(!$data['data'])
             return Redirect::to(route('deliveryprocessingcenters.index'));
-                
+
         $data['delivery_shipments'] = ArrivalShipmentDetail::where('arrival_shipment_id','=',$data['data']->id)
             ->pluck('packaging_lists_id')
             ->toArray();
