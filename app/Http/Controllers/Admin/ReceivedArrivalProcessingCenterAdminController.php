@@ -98,9 +98,10 @@ class ReceivedArrivalProcessingCenterAdminController extends Controller
             $packages_id = ArrivalShipmentDetail::where('arrival_shipment_id', $delivery->id)
                                                 ->first()
                                                 ->packaging_lists_id;
-
+            $package = PackagingList::find($packages_id);
+            
             // SHIPMENT
-      		$shipments = Shipment::where('id_slot', $delivery->id)->get();
+      		$shipments = Shipment::where('id_slot', $package->id_slot)->get();
       		
       		foreach ($shipments as $shipment) {
       			$shipment->id_shipment_status = 12;
