@@ -782,7 +782,7 @@ class UtilityController extends Controller
            !$request->booking_date || !$request->nama_depan || !$request->nama_belakang)
             return "data tidak boleh kosong";
         
-        $res = WebScrapper::get_data($request->booking_code, $request->kode_airport, $request->booking_date, 
+        $res = WebScrapper::get_data($request->booking_code, substr($request->kode_airport, 0, 3), $request->booking_date, 
                                      $request->nama_depan, $request->nama_belakang);
 
 

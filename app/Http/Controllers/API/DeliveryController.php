@@ -13,6 +13,7 @@ use App\AirportList;
 use App\PriceList;
 use App\DeliveryStatus;
 use App\CityList;
+use App\AirlinesList;
 use App\AirportcityList;
 use App\Shipment;
 use App\DaftarBarangGold;
