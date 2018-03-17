@@ -53,7 +53,7 @@ class ShipmentPickUpAdminController extends Controller
             
             $query_param = $data['param'];
             $query_value = $data['value'];
-            if($query_param == 'pending'){
+            if($query_value == 'pending'){
                 $query_param = 'is_posted';
                 $query_value = 0;
             }
