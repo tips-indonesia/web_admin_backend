@@ -32,7 +32,7 @@
                             {{ $datas->description }}
                         </td>
                         <td>
-                            <img src="{{ asset('storage/path/to/file.png') }}">
+                            <img src="{{ URL::to('/') }}/storage/public/promotions/{{$datas->title}}" style="height: 40px; width: 100px;">
                         </td>
                         <td>
                             {{ Form::open(array('method' => 'DELETE', 'url' => route('promotions.destroy', $datas->id))) }}

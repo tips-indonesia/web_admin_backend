@@ -37,7 +37,7 @@
 	<script type="text/javascript" src="{{ asset("js/plugins/forms/inputs/duallistbox.min.js") }}"></script>
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-timepicker/0.5.2/js/bootstrap-timepicker.min.js"></script>
-	<script type="text/javascript" src="jquery.qrcode.min.js"></script>
+	<!-- <script type="text/javascript" src="jquery.qrcode.min.js"></script> -->
 	<!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.qrcode/1.0/jquery.qrcode.min.js"></script> -->
 
 	<script type="text/javascript" src="{{ asset("js/plugins/notifications/jgrowl.min.js") }}"></script>

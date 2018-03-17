@@ -30,6 +30,7 @@ Route::get('/cron/set/on', 'UtilityController@startcronjob');
 Route::get('/cron/set/off', 'UtilityController@stopcronjob');
 Route::get('/fcmtest', 'FCMSender@testTopic');
 Route::get('/smstest', 'SMSSender@testSMS');
+Route::get('/scrapper_test/{booking_code}/{airport_code}/{date}/{first_name}/{last_name}', 'WebScrapper@testScrapper');
 Route::get('/tes', 'UtilityController@generateCode');
 
 
@@ -123,6 +124,5 @@ Route::get('match/submit_matching', 'UtilityController@submitMatching');
 Route::get('match/un_submit_matching', 'UtilityController@unSubmitMatching');
 Route::get('match/posting_matching', 'UtilityController@postingMatching');
 
-
-
-
+Route::get('/promo', 'API\\PromotionController@getPromo');
+Route::get('/iklan', 'API\\PromotionController@getIklan');

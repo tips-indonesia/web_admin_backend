@@ -16,6 +16,7 @@ use App\ProvinceList;
 use App\CityList;
 use App\SubdistrictList;
 use App\PriceGoodsEstimate;
+use App\SlotList;
 
 
 class ShipmentController extends Controller
@@ -102,7 +103,7 @@ class ShipmentController extends Controller
         $shipment->insurance_cost = $insurance->default_insurance;
         $shipment->is_add_insurance = $request->is_add_insurance;
         if($request->is_add_insurance == 1) {
-            $shipment->add_insurance_cost = $insurance->additional_insurance;
+            $shipment->add_insurance_cost = ($price_goods_estimate->nominal * $insurance->default_insurance) / 100;
         } else {
             $shipment->add_insurance_cost = 0;
         }
@@ -114,10 +115,13 @@ class ShipmentController extends Controller
 
             $shipment->flight_cost = ($gold*$request->estimate_weight) + $shipment->add_insurance_cost;
         } else {
-            $reguler = $price->freight_cost + (($price->freight_cost * $insurance->default_insurance) /100);
-            $reguler = $this->round_nearest_hundreds($reguler);
+            // $reguler = $price->freight_cost + (($price->freight_cost * $insurance->default_insurance) /100);
+            // $reguler = $this->round_nearest_hundreds($reguler);
 
-            $shipment->flight_cost = ($reguler*$request->estimate_weight) + $shipment->add_insurance_cost;
+            // $shipment->flight_cost = ($reguler*$request->estimate_weight) + $shipment->add_insurance_cost;
+
+            $slot_price = SlotList::where('id_origin_city', $id_origin_city)->where('id_destination_city', $id_destination_city)->first()->slot_price_kg;
+            $shipment->flight_cost = $request->estimate_weight * $slot_price + $shipment->add_insurance_cost;
         }
 
         $shipment->is_delivery = $request->is_delivery;
@@ -172,6 +176,9 @@ class ShipmentController extends Controller
             $shipment_status = ShipmentStatus::where('id','<=',$shipment->id_shipment_status)->where('is_hidden',false)->orderBy('id', 'desc')->first();
             $shipment->origin_city = AirportcityList::find($shipment->id_origin_city)->name;
             $shipment->destination_city = AirportcityList::find($shipment->id_destination_city)->name;
+            $slot = false;
+            if($shipment->id_slot)
+                $slot = SlotList::find($shipment->id_slot);
             $data = array(
                 'err' => null,
                 'result' => array(
@@ -180,9 +187,13 @@ class ShipmentController extends Controller
                         'description' => $shipment_status->description,
                         'detail' => $shipment->detail_status
                     ),
-                    'shipment' => $shipment
+                    'shipment' => $shipment,
+                    'addt_info' => array(
+                        'kode_bandara_asal' => $slot ? $slot->airportOrigin->initial_code : "",
+                        'kode_bandara_tujuan' => $slot ? $slot->airportDestination->initial_code : "",
+                        'flight_code' => $slot ? $slot->flight_code : ""
+                    )
                 )
-
             );
         }
 
@@ -196,7 +207,7 @@ class ShipmentController extends Controller
         // dd($request->device_id, $request->id_shipper);
 
         if($request->has('device_id'))
-            $shipement = Shipment::withTrashed()->where('id_shipper', $request->id_member)->where('id_device', $request->device_id);
+            $shipement = Shipment::withTrashed()->where('id_shipper', $request->id_member)->orWhere('id_device', $request->device_id);
         else
             $shipement = Shipment::withTrashed()->where('id_shipper', $request->id_member);
 
@@ -260,7 +271,7 @@ class ShipmentController extends Controller
     }
 
     function cancel_shipment(Request $request) {
-        $shipment = Shipment::where('id_shipper', $request->id_shipper)->where('id_shipment_status', 1)->where('shipment_id', $request->shipment_id)->first();
+        $shipment = Shipment::where('id_shipper', $request->id_shipper)->where('id_shipment_status', 1)->orWhere('shipment_id', $request->shipment_id)->first();
         if($shipment == null) {
             $data = array(
                 'err' => [

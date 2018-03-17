@@ -11,6 +11,7 @@ use App\ShipmentStatus;
 use App\CityList;
 use App\PaymentType;
 use App\BankList;
+use App\AirportcityList;
 use App\User;
 use Validator;
 use Illuminate\Support\Facades\Input;
@@ -62,10 +63,10 @@ class DeliveryShipmentAdminController extends Controller
     	$shipment = Shipment::find($id);
 
 		if ($shipment->id_origin_city == null) $shipment['origin_city'] = null;
-		else $shipment['origin_city'] = CityList::find($shipment->id_origin_city)->name;
+		else $shipment['origin_city'] = AirportcityList::find($shipment->id_origin_city)->name;
 
 		if ($shipment->id_destination_city == null) $shipment['destination_city'] = null;
-		else $shipment['destination_city'] = CityList::find($shipment->id_destination_city)->name;
+		else $shipment['destination_city'] = AirportcityList::find($shipment->id_destination_city)->name;
 
 		if ($shipment->id_shipment_status == null) $shipment['shipment_status'] = null;
 		else $shipment['shipment_status'] = ShipmentStatus::find($shipment->id_shipment_status)->description;

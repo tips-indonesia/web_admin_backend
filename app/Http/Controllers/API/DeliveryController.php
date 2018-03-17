@@ -13,6 +13,7 @@ use App\AirportList;
 use App\PriceList;
 use App\DeliveryStatus;
 use App\CityList;
+use App\AirlinesList;
 use App\AirportcityList;
 use App\Shipment;
 use App\DaftarBarangGold;
@@ -80,6 +81,18 @@ class DeliveryController extends Controller
         return response()->json($data, 200);
     }
 
+    private function getDetailStatus($delivery){
+        switch ($delivery->id_slot_status) {
+            case '3':
+                # code...
+                break;
+            
+            default:
+                # code...
+                break;
+        }
+    }
+
     function get_status(Request $request) {
         $slot_id = $request->slot_id;
         $slot = SlotList::where('slot_id', $slot_id)->first();
@@ -108,7 +121,12 @@ class DeliveryController extends Controller
                         'description' => $delivery_status->description,
                         'detail' => $slot->detail_status
                     ),
-                    'delivery' => $slot
+                    'delivery' => $slot,
+                    'addt_info' => array(
+                        'kode_bandara_asal' => $slot->airportOrigin->initial_code,
+                        'kode_bandara_tujuan' => $slot->airportDestination->initial_code,
+                        'airline_name' => $slot->airline_data->name
+                    )
                 )
             );
         }
@@ -283,9 +301,9 @@ class DeliveryController extends Controller
     function search_delivery(Request $request) {
         $slot_list = SlotList::withTrashed()->where('id_member', $request->id_member);
 
-        if($request->has('id_destination_aiport')){
-            if($request->id_destination_aiport != null && $request->id_destination_aiport != "") {
-                $slot_list = $slot_list->where('id_destination_airport', $request->id_destination_aiport);
+        if($request->has('id_destination_airport')){
+            if($request->id_destination_airport != null && $request->id_destination_airport != "") {
+                $slot_list = $slot_list->where('id_destination_airport', $request->id_destination_airport);
             }
         }
 
