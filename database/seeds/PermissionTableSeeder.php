@@ -65,6 +65,8 @@ class PermissionTableSeeder extends Seeder
         Permission::create(['name' => 'shipmentstatuses.', 'show_name' => 'Shipment Status']);
         Permission::create(['name' => 'terms.', 'show_name' => 'Term and Agreement']); 
         Permission::create(['name' => 'tipstermilestones.', 'show_name' => 'Tipster Milestone']);
+        Permission::create(['name' => 'promotions.', 'show_name' => 'Promotions']);
+        Permission::create(['name' => 'banners.', 'show_name' => 'Banners']);
 
             // User 
             Permission::create(['name' => 'roles.', 'show_name' => 'Role List']);
