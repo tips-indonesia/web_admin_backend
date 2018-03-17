@@ -8,6 +8,7 @@ use App\PackagingList;
 use App\SlotList;
 use App\Shipment;
 use App\CityList;
+use App\AirportcityList;
 use App\ArrivalShipment;
 use App\ArrivalShipmentDetail;
 use Illuminate\Support\Facades\Input;
@@ -97,11 +98,10 @@ class ReceivedArrivalProcessingCenterAdminController extends Controller
             $packages_id = ArrivalShipmentDetail::where('arrival_shipment_id', $delivery->id)
                                                 ->first()
                                                 ->packaging_lists_id;
-
-    		$packages = PackagingList::find($packages_id);
-			$slots = SlotList::find($packages->id_slot);
+            $package = PackagingList::find($packages_id);
+            
             // SHIPMENT
-      		$shipments = Shipment::where('id_slot', $slots->id)->get();
+      		$shipments = Shipment::where('id_slot', $package->id_slot)->get();
       		
       		foreach ($shipments as $shipment) {
       			$shipment->id_shipment_status = 12;
@@ -119,8 +119,8 @@ class ReceivedArrivalProcessingCenterAdminController extends Controller
         $package = PackagingList::find($package_id);
         $shipments = Shipment::where('id_slot', $package->id_slot)->get();
         foreach ($shipments as $shipment) {
-            $shipment['origin_city'] = CityList::find($shipment->id_origin_city)->name;
-            $shipment['destination_city'] = CityList::find($shipment->id_destination_city)->name;
+            $shipment['origin_city'] = AirportcityList::find($shipment->id_origin_city)->name;
+            $shipment['destination_city'] = AirportcityList::find($shipment->id_destination_city)->name;
         }
         $data['delivery'] = $delivery;
         $data['shipments'] = $shipments;

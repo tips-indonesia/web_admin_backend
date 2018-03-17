@@ -43,39 +43,24 @@ class FlightController extends Controller
         return response()->json($data, 200);
     }
 
-    function post_flight_booking_code(Request $request){
 
-        $booking_code = $request->booking_code;
-        $booking = FlightBookingList::where('booking_code', $booking_code)->first();
+    public static function get_airport_by_code($code){
+        return AirportList::where("initial_code", substr($code, 0, 3))->first();
+    }
 
+    public static function create_new_booking($booking_code, $code_origin, $code_destination, $date_origin, $flight_code){
+        $airport_origin = FlightController::get_airport_by_code($code_origin);
+        $airport_destination = FlightController::get_airport_by_code($code_destination);
 
+        if(!$airport_origin || !$airport_destination)
+            return false; // Airport asal atau tujuan tidak ditemukan
 
-        $airport_origin = $this->get_airport_by_code($request->code_origin);
-        $airport_destination = $this->get_airport_by_code($request->code_destination);
-
-        if(!$airport_origin || !$airport_destination){
-            $data = array(
-                'err' => [
-                    'code' => 0,
-                    'message' => 'Airport asal atau tujuan tidak ditemukan'
-                ],
-                'result' => null
-            );
-
-            return response()->json($data, 200);
-        }
-
-        $booking_code = $request->booking_code;
-        $flight_code = $request->flight_code;
-        $date_origin = $request->date_origin;
-//        $date_destination = $request->date_destination;
         $booking = FlightBookingList::create(array(
             'booking_code' => $booking_code,
             'id_airline' => 1,
             'id_origin_airport' => $airport_origin->id,
             'id_destination_airport' => $airport_destination->id,
             'depature' => $date_origin,
-//            'arrival' => $date_destination,
             'flight_code' => $flight_code,
         ));
 
@@ -84,18 +69,54 @@ class FlightController extends Controller
         $booking->origin_city = AirportcityList::find($booking->origin_airport->id_city)->name;
         $booking->destination_city = AirportcityList::find($booking->destination_airport->id_city)->name;
 
+        return $booking;
+    }
+
+    function post_flight_booking_code(Request $request){
+
+        if($request->booking_id){
+            $booking = FlightBookingList::find($request->booking_id);
+            $booking->origin_airport = AirportList::find($booking->id_origin_airport);
+            $booking->destination_airport = AirportList::find($booking->id_destination_airport);
+            $booking->origin_city = AirportcityList::find($booking->origin_airport->id_city)->name;
+            $booking->destination_city = AirportcityList::find($booking->destination_airport->id_city)->name;
+
+            if($booking){
+                $data = array(
+                    'err' => null,
+                    'result' => array(
+                        'booking' => $booking,
+                    )
+                );
+
+                return response()->json($data, 200);
+            }
+        }
+
+        // create new booking record
+        $new_booking = FlightController::create_new_booking($request->booking_code, $request->code_origin, 
+            $request->code_destination, $request->date_origin, $request->flight_code);
+
+        if(!$new_booking){
+            $data = array(
+                'err' => [
+                    'code' => 404,
+                    'message' => 'Airport asal atau tujuan tidak ditemukan'
+                ],
+                'result' => null
+            );
+
+            return response()->json($data, 200);
+        }
+
         $data = array(
             'err' => null,
             'result' => array(
-                'booking' => $booking,
+                'booking' => $new_booking,
             )
         );
 
         return response()->json($data, 200);
-    }
-
-    function get_airport_by_code($code){
-        return AirportList::where("initial_code", substr($code, 0, 3))->first();
     }
 
     public function test(Request $request){

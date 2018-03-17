@@ -20,17 +20,26 @@ class MailWebViewerController extends Controller
 
         $user = MemberList::where('reset_password_token', $reset_password_token)->first();
         if(!$user){
-            return view('mail_web_viewer.reset_password_success', [
-            	"message" => "Gagal, user tidak ditemukan atau token reset password tidak berlaku lagi."
-            ]);
+            $data = array(
+                'err' => [
+                    "code"=> 404,
+                    "message"=> "user tidak ditemukan"
+                ],
+                'result' => null
+            );
+
+            return response()->json($data, 200); 
         }
 
         $user->password = bcrypt($new_password);
         $user->reset_password_token = null;
         $user->save();
 
-        return view('mail_web_viewer.reset_password_success', [
-        	"message" => "Reset Password Success!"
-        ]);
+        $data = array(
+            'err' => null,
+            'result' => "Reset password berhasil!"
+        );
+
+        return response()->json($data, 200);
     }
 }

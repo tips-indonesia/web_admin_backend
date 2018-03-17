@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Shipment;
 use App\ShipmentStatus;
 use App\AirportcityList;
+use Illuminate\Support\Facades\URL;
 
 class ShipmentController extends Controller
 {
@@ -96,7 +97,6 @@ class ShipmentController extends Controller
         $shipment_id = $request->shipment_id;
         $shipment = Shipment::where('shipment_id', $shipment_id)->first();
 
-
         if($shipment == null) {
             $data = array(
                 'err' => [
@@ -116,24 +116,25 @@ class ShipmentController extends Controller
 
             $data_img_ktp = $file_ktp;
             $ext_file_ktp = $data_img_ktp->getClientOriginalExtension();
-            $name_file_ktp = $timestamp . '_img_item.' . $ext_file_ktp;
+            $name_file_ktp = "" . uniqid() . '_img_item.' . $ext_file_ktp;
             $path_file_ktp = public_path() . '/image/shipment/ktp';
 
             $data_img_signature = $file_signature;
             $ext_file_signature = $data_img_signature->getClientOriginalExtension();
-            $name_file_signature = $timestamp . '_img_item.' . $ext_file_signature;
+            $name_file_signature = "" . uniqid() . '_img_item.' . $ext_file_signature;
             $path_file_signature = public_path() . '/image/shipment/signature';
 
             if($data_img_ktp->move($path_file_ktp,$name_file_ktp)) {
-                $shipment->photo_ktp = $name_file_ktp;
+                $shipment->photo_ktp = URL::to('/image/shipment/ktp/' . $name_file_ktp);
             }
 
             if($data_img_signature->move($path_file_signature,$name_file_signature)) {
-                $shipment->photo_signature = $name_file_signature;
+                $shipment->photo_signature = URL::to('/image/shipment/signature/' . $name_file_signature);
             }
 
             $shipment->received_by = $request->received_by;
             $shipment->received_time = date('Y-m-d H:i:s');
+            $shipment->id_shipment_status = 15;
 
             $shipment->save();
 

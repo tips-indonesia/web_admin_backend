@@ -12,8 +12,34 @@
         <div class="col-md-12">
             <div class="panel panel-flat">
                 <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Shipment ID :</label>
+                                <input type="text" class="form-control" value="{{$shipment->shipment_id}}" disabled readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Date :</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="icon-calendar5"></i></span>
+                                    <input type="text" name="date" id="date" class="form-control pickadate-year" placeholder="Transaction date" value={{$shipment->transaction_date}} disabled readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="form-group">
+                                    <label>Registration Type :</label>
+                                    <input type="text" class="form-control" name="registration_type" value="{{$shipment->registration_type}}" disabled readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     {{ Form::open(array('method' => 'PUT', 'url' => route('deliveryshipment.update', $shipment->id))) }}
-                	<h5>Shipment ID : {{$shipment->shipment_id}}</h5>
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
@@ -79,7 +105,7 @@
                                     <span class="alert-validation" style="color: red"><br>{{ $errors->first('delivered_time') }}</span>
                                     <div class="input-group">
                                     <span class="input-group-addon"><i class="icon-calendar5"></i></span>
-                                    <input type="text" name="delivered_time" class="form-control pickadate-year" @if($shipment->delivered_time != null) value={{$shipment->delivered_time}} @else placeholder='hh:mm:ss' @endif>
+                                    <input type="text" name="delivered_time" class="form-control pickatime" @if($shipment->delivered_time != null) value={{$shipment->delivered_time}} @else placeholder='hh:mm:ss' @endif>
                                 </div>
                                 </div>
                             </div>
@@ -97,18 +123,30 @@
                                 <label>Received Time :</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="icon-calendar5"></i></span>
-                                    <input type="text" name="received_date" class="form-control pickadate-year" value="{{$shipment->received_time}}" disabled>
+                                    <input type="text" name="received_date" class="form-control pickatime" value="{{$shipment->received_time}}" disabled>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    @if ($shipment->received_image != null)
-                    <div class="form-group">
-                    	<label>Received Image:</label><br>
-                    	<img src="{{asset($shipment->received_image)}}" width="250">
+                    <div class="row">
+                        <div class="col-md-6">
+                            @if ($shipment->id_shipment_status == 15)
+                            <div class="form-group">
+                                <label>Received Image:</label><br>
+                                <img src="{{asset($shipment->photo_ktp)}}" width="250" style="border: solid 1px #AAA">
+                            </div>
+                            @endif
+                        </div>
+                        <div class="col-md-6">
+                            @if ($shipment->id_shipment_status == 15)
+                            <div class="form-group">
+                                <label>Signature Image:</label><br>
+                                <img src="{{asset($shipment->photo_signature)}}" width="250" style="border: solid 1px #AAA">
+                            </div>
+                            @endif 
+                        </div>
                     </div>
-                    @endif
-            <div class="tabbable">
+                    <!-- <div class="tabbable">
                         <ul class="nav nav-tabs nav-tabs-highlight nav-justified">
                             <li class="active"><a href="#shipper_consignee" data-toggle="tab">Shipper & Consignee</a></li>
                             <li><a href="#goods_cost" data-toggle="tab">Goods Detail & Cost</a></li>
@@ -257,18 +295,18 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <ul class="icons-list" style="float: right;">
                         <li>
                             <div class="text-right form-group">
-                                <button type="submit" value='save' name='submit' class="btn btn-primary" style="vertical-align: middle;" {{ $shipment->id_shipment_status == 14 ? 'disabled':'' }}><i class="icon-floppy-disk"
+                                <button type="submit" value='save' name='submit' class="btn btn-primary" style="vertical-align: middle;" {{ $shipment->id_shipment_status == 15 ? 'disabled':'' }}><i class="icon-floppy-disk"
                             ></i> Save</button>
                             </div>
                             {{ Form::close() }}
                         </li>
                         <li>
                             <div class="text-right form-group">
-                                <button type="submit" value='submit' name='submit' class="btn btn-danger" style="vertical-align: middle;" {{ $shipment->id_shipment_status == 14 ? 'disabled':'' }}>Submit</button>
+                                <button type="submit" value='submit' name='submit' class="btn btn-danger" style="vertical-align: middle;" {{ $shipment->id_shipment_status == 15 ? 'disabled':'' }}>Submit</button>
                             </div>
                         </li>
                     </ul>
@@ -276,5 +314,17 @@
                 </div>
             </div> 
         </div>
+        <script type="text/javascript">
+            $('.pickadate-year').datepicker({
+                format: 'yyyy-mm-dd',
+            });
+
+            $('.pickatime').timepicker({
+                template : 'dropdown',
+                showInputs: false,
+                showSeconds: false,
+                showMeridian: false
+              });
+        </script>
         
 @endsection
