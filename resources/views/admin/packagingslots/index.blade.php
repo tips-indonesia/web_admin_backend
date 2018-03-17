@@ -48,7 +48,7 @@
                 <tr>
                     <th>Packaging ID</th>
                     <th>Slot Id</th>
-                    <th>Action</th>
+                    <th style="display: none;">Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -62,7 +62,7 @@
                         <td>
                             {{ $data->slot_id }}
                         </td>                        
-                        <td>
+                        <td style="display: none;">
                             <ul class="icons-list">
                             <li>
                             {{ Form::open(array('method' => 'DELETE', 'url' => route('packagingslots.destroy', $data->id))) }}

@@ -36,7 +36,6 @@ class ShipmentPickUpAdminController extends Controller
     */
     public function index()
     {
-        //
         if (Input::get('date')) {
             $data['datas'] = Shipment::where('transaction_date', Input::get('date'));
             $data['date'] = Input::get('date');

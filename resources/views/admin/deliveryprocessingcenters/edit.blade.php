@@ -38,13 +38,14 @@
                                         <input type="text" name="delivery_time" class="form-control pickatime" placeholder="Received date" value="{{$data->delivery_date    }}">
                                     </div>
                                 </div>
-                                {{print_r($delivery_shipments)}}
                         <div class="text-right form-group">
                             <select multiple="multiple" class="form-control listbox" name="shipments[]">
 
                                 @foreach ($inputed_shipment_lists as $datax)
+                                @if(in_array($datax->packagingList->id, $delivery_shipments))
                                     <option value="{{$datax->packagingList->id}}" SELECTED> {{ $datax->packagingList->packaging_id }} &nbsp; - &nbsp; {{ date("Y-m-d", strtotime($datax->created_at)) }} &nbsp; - &nbsp; {{ $datax->airportOrigin->name }} &nbsp; - &nbsp; {{ $datax->airportDestination->name }} </option>
                                     }
+                                @endif
                                 @endforeach
 
 

@@ -13,6 +13,7 @@ use App\PaymentType;
 use App\BankList;
 use App\AirportcityList;
 use App\User;
+use Validator;
 use Illuminate\Support\Facades\Input;
 
 class DeliveryShipmentAdminController extends Controller
@@ -83,24 +84,40 @@ class DeliveryShipmentAdminController extends Controller
     }
 
     public function update($id) {
-    	if (Input::get('submit') == 'save') {
-             $shipment = Shipment::find($id);
+        $rule = [
+            'delivered_by' => "required",
+            'delivered_date' => "required",
+            'delivered_time' => "required"
+        ];
 
-            $shipment->delivered_by = Input::get('delivered_by');
-            $shipment->delivered_date = Input::get('delivered_date');
-            $shipment->delivered_time = Input::get('delivered_time');
+        $messages = [
+            'required' => 'This field is required.',
+        ];
 
-            $shipment->save();
-        } else if (Input::get('submit') == 'submit') {
-            $shipment = Shipment::find($id);
+        $validator = Validator::make(Input::all(), $rule, $messages);
 
-            $shipment->id_shipment_status = 14;
+        if ($validator->fails()) {
+            return $this->show($id)->withErrors($validator);
+        } else {
+        	if (Input::get('submit') == 'save') {
+                $shipment = Shipment::find($id);
 
-            $shipment->save();
+                $shipment->delivered_by = Input::get('delivered_by');
+                $shipment->delivered_date = Input::get('delivered_date');
+                $shipment->delivered_time = Input::get('delivered_time');
 
-            return redirect(route('deliveryshipment.index'));
-        }   
+                $shipment->save();
+            } else if (Input::get('submit') == 'submit') {
+                $shipment = Shipment::find($id);
 
-    	return back();
+                $shipment->id_shipment_status = 14;
+
+                $shipment->save();
+
+                return redirect(route('deliveryshipment.index'));
+            }   
+
+        	return back();
+        }
     }
 }
