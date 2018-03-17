@@ -22,6 +22,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
+use DB;
 
 class BannerController extends Controller
 {
@@ -30,8 +31,35 @@ class BannerController extends Controller
     *
     * @return Response
     */
-
     public function index() {
-        
+        $data = DB::table('banners')->get();
+    	return view('admin.banners.index')->with('data',$data);
+    }
+
+    public function create() {
+    	return view('admin.banners.create');
+    }
+
+    public function store(Request $request) {
+        $filename;
+        if($request->hasFile('image')) {
+                $avatar = $request->file('image');
+                $filename = Input::post('title'). '.'. $avatar->getClientOriginalExtension();
+                $avatar->storeAs('public/banners',$filename);
+        }
+        DB::table('banners')->insert(
+            ['title' => Input::post('title'), 'description' => Input::post('description'), 'filename' => $filename]
+        );
+        return redirect('admin/banners');
+    }
+
+    public function destroy($id)
+    {
+        //
+        DB::table('banners')->where('id',$id)->delete();
+
+        // redirect
+        Session::flash('message', 'Successfully deleted the nerd!');
+        return Redirect::to(route('banners.index'));
     }
 }

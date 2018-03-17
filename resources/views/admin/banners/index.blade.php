@@ -1,11 +1,11 @@
 @extends('admin.app')
 
 @section('title')
-    Promotion
+    Banners List
 @endsection
 @section('page_title')
-<span class="text-semibold">Promotion</span> - Show All
-<button type="button" class="btn btn-success" onclick="window.location.href='{{ route('promotions.create') }}'">Create</button>
+<span class="text-semibold">Banners</span> - Show All
+<button type="button" class="btn btn-success" onclick="window.location.href='{{ route('banners.create') }}'">Create</button>
 @endsection
 @section('content')
         <table class="table datatable-pagination">
@@ -32,10 +32,10 @@
                             {{ $datas->description }}
                         </td>
                         <td>
-                            <img src="{{ asset('storage/path/to/file.png') }}">
+                            asd
                         </td>
                         <td>
-                            {{ Form::open(array('method' => 'DELETE', 'url' => route('promotions.destroy', $datas->id))) }}
+                            {{ Form::open(array('method' => 'DELETE', 'url' => route('banners.destroy', $datas->id))) }}
                                 <button type="submit" class="btn btn-danger"><i class="icon-trash"></i> Delete</button>
                                 {{ Form::close() }}
                         </td>
