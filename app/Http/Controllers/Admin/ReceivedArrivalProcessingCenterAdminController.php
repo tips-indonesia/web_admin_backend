@@ -100,7 +100,7 @@ class ReceivedArrivalProcessingCenterAdminController extends Controller
                                                 ->packaging_lists_id;
 
             // SHIPMENT
-      		$shipments = Shipment::where('id_slot', $slots->id)->get();
+      		$shipments = Shipment::where('id_slot', $delivery->id)->get();
       		
       		foreach ($shipments as $shipment) {
       			$shipment->id_shipment_status = 12;
