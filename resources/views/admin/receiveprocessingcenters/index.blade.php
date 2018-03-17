@@ -24,8 +24,8 @@
                             <select name="param" id="param" class="select-search">
                                 <option value="blank" @if($param =='blank' || $param=='') selected @endif>&#8192;</option>
                                 <option value="packaging_id" @if($param =='packaging_id') selected @endif>Packaging ID</option>
-                                <option value="received" @if($param =='received') selected @endif>Received</option>
-                                <option value="not_received" @if($param =='not_received') selected @endif>Not Received</option>
+                                <option value="received" @if($param =='received') selected @endif>Sudah Diterima</option>
+                                <option value="not_received" @if($param =='not_received') selected @endif>Belum Diterima</option>
                             </select>
                         </div>
                     </div>
