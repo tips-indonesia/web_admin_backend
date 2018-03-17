@@ -53,6 +53,7 @@
                     <div class="form-group">
                         <h5><strong>DELIVERY SHIPMENT</strong></h5>
                         <label>Delivered By :</label>
+                        <span class="alert-validation" style="color: red"><br>{{ $errors->first('delivered_by') }}</span>
                         <select name="delivered_by" class="form-control">
                             <option selected></option>
                             @foreach ($users as $user)
@@ -65,6 +66,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Delivered Date :</label>
+                                    <span class="alert-validation" style="color: red"><br>{{ $errors->first('delivered_date') }}</span>
                                     <div class="input-group">
                                     <span class="input-group-addon"><i class="icon-calendar5"></i></span>
                                     <input type="text" name="delivered_date" class="form-control pickadate-year" @if($shipment->delivered_date != null) value={{$shipment->delivered_date}} @else placeholder='yyyy-mm-dd' @endif>
@@ -74,6 +76,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Delivered Time :</label>
+                                    <span class="alert-validation" style="color: red"><br>{{ $errors->first('delivered_time') }}</span>
                                     <div class="input-group">
                                     <span class="input-group-addon"><i class="icon-calendar5"></i></span>
                                     <input type="text" name="delivered_time" class="form-control pickadate-year" @if($shipment->delivered_time != null) value={{$shipment->delivered_time}} @else placeholder='hh:mm:ss' @endif>
