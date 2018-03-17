@@ -124,6 +124,8 @@ Route::get('match/submit_matching', 'UtilityController@submitMatching');
 Route::get('match/un_submit_matching', 'UtilityController@unSubmitMatching');
 Route::get('match/posting_matching', 'UtilityController@postingMatching');
 
+Route::get('promo', 'UtilityController@tesPromo');
+Route::get('iklan', 'UtilityController@tesIklan');
 
 
 
