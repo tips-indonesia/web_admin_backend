@@ -32,7 +32,9 @@ class PromotionController extends Controller
 
     	$data = array(
     		'err' => null,
-    		'result' => $res
+    		'result' => [
+    			'promo' => $res,
+    		]
     	);
 
     	return response()->json($data, 200);
@@ -60,7 +62,9 @@ class PromotionController extends Controller
 
     	$data = array(
     		'err' => null,
-    		'result' => $res
+    		'result' => [
+    			'iklan' => $res
+    		]
     	);
 
     	return response()->json($data, 200);	
