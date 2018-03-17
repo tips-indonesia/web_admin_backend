@@ -379,11 +379,11 @@
                 <div style="height: calc(150px + 1em + 15px); position: relative; width: 1px; background: #555; margin-top: 1px;"></div>
             </td>
             <td align="left" valign="top" style="padding-left: 8px; align: left; width: 350px;">
-                <img src="logo_header.png" style="height: 20px;">
+                <img src="{!! URL::to('/') . '/images/logo_header.png' !!}" style="height: 20px;">
                 <table style="width: 350px; font-size: .7em;">
                     <tr>
                         <td style="width: 50%; margin-right: 2px; font-weight: bold;">
-                            PENGIRIM <img src="{!! URL::to('/') . '/images/plane_icon_gray.png' !!}" style="height: 10px">
+                            PENGIRIM <img src="{!! URL::to('/') . '/images/plane_icon_gray.png' !!}" style="height: 10px"> 
                         </td>
                         <td style="width: 50%; margin-right: 2px; font-weight: bold;">
                             PENERIMA <img src="{!! URL::to('/') . '/images/shipment_icon_gray.png' !!}" style="height: 10px">
@@ -561,7 +561,7 @@
                 <div style="height: calc(150px + 1em + 15px); position: relative; width: 1px; background: #555; margin-top: 1px;"></div>\
             </td>\
             <td align="left" valign="top" style="align: left; width: 350px;">\
-                <img src="logo_header.png" style="height: 20px;">\
+                <img src="{!! URL::to('/') . '/images/logo_header.png' !!}" style="height: 20px;">\
                 <table style="width: 350px; font-size: .7em;">\
                     <tr>\
                         <td style="width: 50%; margin-right: 2px; font-weight: bold;">\
