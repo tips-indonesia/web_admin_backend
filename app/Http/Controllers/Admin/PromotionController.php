@@ -85,7 +85,7 @@ class PromotionController extends Controller
         $filename;
         if($request->hasFile('image')) {
                 $avatar = $request->file('image');
-                $filename = Input::post('header_text'). '.'. $avatar->getClientOriginalExtension();
+                $filename = uniqid(). '.'. $avatar->getClientOriginalExtension();
                 $avatar->storeAs('public/promotions',$filename);
         }
         \Log::info($filename);
