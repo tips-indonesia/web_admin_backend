@@ -246,5 +246,7 @@ class DatabaseSeeder extends Seeder
         $this->call(TipsterMilestoneTableSeeder::class);
         $this->call(HelpTipsterSeeder::class);
         $this->call(AirportcityListTableSeeder::class);
+        $this->call(YearPeriodSeeder::class);
+        $this->call(MonthPeriodSeeder::class);
     }
 }

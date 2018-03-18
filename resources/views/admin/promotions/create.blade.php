@@ -16,16 +16,41 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label>Title</label>
-                                    <input type="text" class="form-control" name="title" required="">
+                                    <label>Tanggal Awal</label>
+                                    <input type="date" class="form-control" name="tanggal_awal" required="">
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label>Description</label>
-                                    <input type="text" class="form-control" name="description" id="description" required="">
+                                    <label>Tanggal Akhir</label>
+                                    <input type="date" class="form-control" name="tanggal_akhir" required="">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Header Text</label>
+                                    <textarea id="editor" cols="18" rows="18" class="wysihtml5 wysihtml5-min form-control" placeholder="Header Text" name="header_text"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Template</label>
+                                    <input type="radio" name="template" value="A" required="" style="margin-left: 20px; size: 200%;"> A
+                                    <input type="radio" name="template" value="B" required="" style="margin-left: 20px; size: 200%;"> B
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Nilai Discount</label>
+                                    <input type="number" class="form-control" name="discount" required="">
                                 </div>
                             </div>
                         </div>

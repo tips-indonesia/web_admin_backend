@@ -31,10 +31,50 @@ class PromotionController extends Controller
     *
     * @return Response
     */
+
     public function index() {
-        $data = DB::table('promotions')->get();
+
+
+        $tahun = DB::table('year_period')->get();
+        $bulan = DB::table('month_period')->get();
+
+        return view('admin.promotions.index')->with('tahun',$tahun)
+                                             ->with('bulan',$bulan);
+    }
+
+    public function show($year) {
+        \Log::info('asdasd');
+        if(Input::get('bulan') === 'Januari') {
+            $month = '01';
+        }elseif(Input::get('bulan') === 'Februari') {
+            $month = '02';
+        }elseif(Input::get('bulan') === 'Maret') {
+            $month = '03';
+        }elseif(Input::get('bulan') === 'April') {
+            $month = '04';
+        }elseif(Input::get('bulan') === 'Mei') {
+            $month = '05';
+        }elseif(Input::get('bulan') === 'Juni') {
+            $month = '06';
+        }elseif(Input::get('bulan') === 'Juli') {
+            $month = '07';
+        }elseif(Input::get('bulan') === 'Agustus') {
+            $month = '08';
+        }elseif(Input::get('bulan') === 'September') {
+            $month = '09';
+        }elseif(Input::get('bulan') === 'Oktober') {
+            $month = '10';
+        }elseif(Input::get('bulan') === 'November') {
+            $month = '11';
+        }else {
+            $month = '12';
+        }
+        $date = Input::get('tanggal');
+        $date = $year.'/'.$month.'/'.$date;
+
+        $data = DB::table('promotions')->where('start_date','<=',$date)->where('end_date','>=',$date)->get();
         \Log::info($data);
-    	return view('admin.promotions.index')->with('data',$data);
+    	return view('admin.promotions.show')->with('data',$data);
     }
 
     public function create() {
@@ -45,12 +85,12 @@ class PromotionController extends Controller
         $filename;
         if($request->hasFile('image')) {
                 $avatar = $request->file('image');
-                $filename = Input::post('title'). '.'. $avatar->getClientOriginalExtension();
+                $filename = Input::post('header_text'). '.'. $avatar->getClientOriginalExtension();
                 $avatar->storeAs('public/promotions',$filename);
         }
-        // \Log::info($filename);
+        \Log::info($filename);
         DB::table('promotions')->insert(
-            ['title' => Input::post('title'), 'description' => Input::post('description'), 'filename' => $filename]
+            ['start_date' => Input::post('tanggal_awal'), 'end_date' => Input::post('tanggal_akhir'), 'header' => Input::post('header_text'),'template_type' => Input::post('template'), 'discount_value' => Input::post('discount'), 'file_name' => $filename]
         );
         return redirect('admin/promotions');
     }

@@ -1,20 +1,20 @@
 @extends('admin.app')
 
 @section('title')
-    Banners List
+    Promotion
 @endsection
 @section('page_title')
-<span class="text-semibold">Banners</span> - Show All
-<button type="button" class="btn btn-success" onclick="window.location.href='{{ route('banners.create') }}'">Create</button>
+<span class="text-semibold">Promotions</span> - Show All
 @endsection
 @section('content')
         <table class="table datatable-pagination">
             <thead>
-                <tr>
+                <tr>    
                     <th>No</th>
-                    <th>Title</th>
-                    <th>Description</th>
-                    <th>Image</th>
+                    <th>Tanggal Awal</th>
+                    <th>Tanggal Akhir</th>
+                    <th>Header Text</th>
+                    <th>Template</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -26,16 +26,19 @@
                             {{++$nomor}}
                         </td>
                         <td>
-                            {{ $datas->title }}
+                            {{ $datas->start_date }}
                         </td>                        
                         <td>
-                            {{ $datas->description }}
+                            {{ $datas->end_date }}
                         </td>
                         <td>
-                            <img src="{{ URL::to('/') }}/storage/banners/{{$datas->filename}}" style="height: 40px; width: 100px;">
+                            {{ $datas->header }}
                         </td>
                         <td>
-                            {{ Form::open(array('method' => 'DELETE', 'url' => route('banners.destroy', $datas->id))) }}
+                            {{ $datas->template_type }}
+                        </td>
+                        <td>
+                            {{ Form::open(array('method' => 'DELETE', 'url' => route('promotions.destroy', $datas->id))) }}
                                 <button type="submit" class="btn btn-danger"><i class="icon-trash"></i> Delete</button>
                                 {{ Form::close() }}
                         </td>

@@ -14,8 +14,6 @@
 Route::get('/', function () {
     return view('welcome');
 });
-
-
 // Route::get('/admin/tipsterpayments', 'Admin\TipsterPaymentController@index');
 
 Route::get('/payment/start', 'API\\PaymentController@startPayment');
@@ -206,10 +204,6 @@ Route::prefix('admin/')->group(function ($locale) {
 
         Route::group(['middleware' => ['permission:promotions.']], function () {
             Route::resource('promotions','Admin\PromotionController');
-        });
-
-        Route::group(['middleware' => ['permission:banners.']], function () {
-            Route::resource('banners','Admin\BannerController');
         });
         Route::resource('statuschangers','Admin\StatusChangerAdminController');
         

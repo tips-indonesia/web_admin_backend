@@ -240,12 +240,6 @@ class MenuTableSeeder extends Seeder
                 'class_name' => 'promotions.'
             ]);
 
-            MenuList::create([
-                'name' => 'Banners',
-                'menu_parent_id' => $setting->id,
-                'class_name' => 'banners.'
-            ]);
-
                 MenuList::create([
                     'name' => 'Role List',
                     'menu_parent_id' => $user->id,
