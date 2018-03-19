@@ -47,6 +47,14 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
+                                    <label>Content Text</label>
+                                    <textarea id="content" cols="18" rows="18" class="form-control" placeholder="Content Text" name="content_text"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
                                     <label>Template</label>
                                     <input type="radio" name="template" value="A" required="" style="margin-left: 20px; size: 200%;"> A
                                     <input type="radio" name="template" value="B" required="" style="margin-left: 20px; size: 200%;"> B

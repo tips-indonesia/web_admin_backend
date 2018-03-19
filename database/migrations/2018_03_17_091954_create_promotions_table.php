@@ -18,6 +18,7 @@ class CreatePromotionsTable extends Migration
             $table->date('start_date');
             $table->date('end_date');
             $table->text('header');
+            $table->text('content');
             $table->string('template_type');
             $table->integer('discount_value');
             $table->string('file_name');
