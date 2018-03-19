@@ -95,7 +95,7 @@ class PromotionController extends Controller
             return response()->json($data, 200);
         }
 
-        $promo = $this->findPromoOrFalse($id_promo)
+        $promo = $this->findPromoOrFalse($id_promo);
         if(!$promo){
             $data = array(
                 'err' => [
