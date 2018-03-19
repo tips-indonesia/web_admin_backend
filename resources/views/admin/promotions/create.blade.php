@@ -16,16 +16,23 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label>Tanggal Awal</label>
-                                    <input type="date" class="form-control" name="tanggal_awal" required="">
+                                    <label>Tanggal Awal :</label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="icon-calendar5"></i></span>
+                                        <input type="text" class="pickadate-year form-control" name="tanggal_awal" required="">
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-12">
+
                                 <div class="form-group">
-                                    <label>Tanggal Akhir</label>
-                                    <input type="date" class="form-control" name="tanggal_akhir" required="">
+                                    <label>Tanggal Akhir :</label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="icon-calendar5"></i></span>
+                                        <input type="text" class="pickadate-year form-control" name="tanggal_akhir" required="">
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -70,4 +77,7 @@
             {{ Form::close() }}
         </div>
     </div>
+    <script type="text/javascript">
+        $('.pickadate-year').datepicker({format: 'yyyy-mm-dd',});
+    </script>
 @endsection
