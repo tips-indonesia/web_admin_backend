@@ -32,6 +32,15 @@
                                 <textarea rows="5" class="form-control" placeholder="Enter your address here" name="address">{{ $datas->address }}</textarea>
                             </div>
                             <div class="form-group">
+                                <label>Area :</label>
+                                <select name="area" id="area" class="select-search">
+                                    <option value=""></option>
+                                    @foreach($airportcitylists as $airportcitylist)
+                                    <option value="{{ $airportcitylist->id }}" @if($airportcitylist->id == $datas->id_area) selected @endif>{{ $airportcitylist->name }} </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group">
                                 <label>Province :</label>
                                 <select name="province" id="province" class="select-search">
                                     <option disabled selected></option>

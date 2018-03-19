@@ -10,10 +10,14 @@ use App\CityList;
 use App\PackagingList;
 use App\SlotList;
 use Validator;
+use App\OfficeList;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use Carbon\Carbon;
+use Auth;
+use App\User;
+
 class PendingArrivalCounterAdminController extends Controller
 {
     /**
@@ -39,6 +43,13 @@ class PendingArrivalCounterAdminController extends Controller
             $data['param'] = Input::get('param');
             $data['value'] = Input::get('value');
             $data['datas'] = $data['datas']->where(Input::get('param'),'=', Input::get('value'));
+        }
+        $user = User::find(Auth::id());
+
+        if ($user->id_office != null) {
+            $office = OfficeList::find($user->id_office);
+            $slot = SlotList::where('id_origin_city', $office->id_area)->pluck('id');
+            $data['datas'] = $data['datas']->whereIn('id_slot', $slot);
         }
         $data['datas'] = $data['datas']->paginate(10);
         foreach ($data['datas'] as $dat) {

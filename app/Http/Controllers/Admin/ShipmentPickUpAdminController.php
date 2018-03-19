@@ -17,6 +17,7 @@ use App\ProvinceList;
 use App\SubdistrictList;
 use App\AirportcityList;
 use Validator;
+use App\OfficeList;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
@@ -24,7 +25,7 @@ use Illuminate\Support\Facades\Session;
 use SimpleSoftwareIO\QrCode\QrCodeServiceProvider;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Illuminate\Support\Facades\Storage;
-
+use Illuminate\Support\Facades\Auth;
 use URL;
 
 class ShipmentPickUpAdminController extends Controller
@@ -59,6 +60,12 @@ class ShipmentPickUpAdminController extends Controller
             }
             $data['datas'] = $data['datas']->where($query_param,'=', $query_value);
         }
+        $user = User::find(Auth::id());
+        if ($user->id_office != null) {
+            $office = OfficeList::find($user->id_office);
+            $data['datas'] = $data['datas']->where('id_origin_city', $office->id_area);
+        }
+
         $data['datas'] = $data['datas']->where('is_take',1)->paginate(10);
         foreach($data['datas'] as $dat) {
             $dat['name_origin'] = AirportcityList::find($dat->id_origin_city)->name;

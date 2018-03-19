@@ -22,6 +22,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
+use App\User;
 
 class TipsterPaymentController extends Controller
 {
@@ -43,14 +44,20 @@ class TipsterPaymentController extends Controller
             $data['value'] = Input::get('value');
             $flag = true;
         }
+        $package = SlotList::where('id_slot_status', '6');
+
+        $user = User::find(Auth::id());
+        if ($user->id_office != null) {
+            $office = OfficeList::find($user->id_office);
+            $package = $package->where('id_origin_city', $office->id_area);
+        }
 
         if ($flag == true) {
-            $package = SlotList::where('id_slot_status', '6')
-                                ->where(Input::get('param'), Input::get('value'))
-                                ->get();                    
+            $package = $package->where(Input::get('param'), Input::get('value'))
+                                ->get();
         } else {
-            $package = SlotList::where('id_slot_status', '6')
-                                ->paginate(10);
+            
+            $package = $package->paginate(10);
         }
 
         $data['packages'] = $package;

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Shipment;
@@ -18,6 +19,7 @@ use App\BankList;
 use App\BankCardList;
 use Validator;
 use Carbon\Carbon;
+use App\OfficeList;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
@@ -64,6 +66,13 @@ class ShipmentDropOffAdminController extends Controller
         } else {
             $data['registration_type'] = 'online';
         }
+
+        $user = User::find(Auth::id());
+        if ($user->id_office != null) {
+            $office = OfficeList::find($user->id_office);
+            $data['datas'] = $data['datas']->where('id_origin_city', $office->id_area);
+        }
+
         $data['datas'] = $data['datas']->paginate(10);
         
         foreach($data['datas'] as $dat) {

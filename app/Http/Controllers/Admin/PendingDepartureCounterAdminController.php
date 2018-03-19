@@ -9,11 +9,15 @@ use App\AirportList;
 use App\AirportcityList;
 use App\PackagingList;
 use App\SlotList;
+use App\OfficeList;
 use Validator;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use Carbon\Carbon;
+use Auth;
+use App\User;
+
 class PendingDepartureCounterAdminController extends Controller
 {
     /**
@@ -40,6 +44,15 @@ class PendingDepartureCounterAdminController extends Controller
             $data['value'] = Input::get('value');
             $data['datas'] = $data['datas']->where(Input::get('param'),'=', Input::get('value'));
         }
+
+        $user = User::find(Auth::id());
+
+        if ($user->id_office != null) {
+            $office = OfficeList::find($user->id_office);
+            $slot = SlotList::where('id_origin_city', $office->id_area)->pluck('id');
+            $data['datas'] = $data['datas']->whereIn('id_slot', $slot);
+        }
+
         $data['datas'] = $data['datas']->where('is_receive', 1)->paginate(10);
         foreach ($data['datas'] as $dat) {
             if ($dat->id_slot != null) {

@@ -15,6 +15,8 @@ use Auth;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
+use App\User;
+use App\OfficeList;
 
 class SlotListAdminController extends Controller
 {
@@ -25,7 +27,14 @@ class SlotListAdminController extends Controller
     */
     public function index()
     {
-        $data['datas'] = SlotList::where('status_dispatch', 'Process')->paginate(10);
+        $data['datas'] = SlotList::where('status_dispatch', 'Process');
+        $user = User::find(Auth::id());
+        if ($user->id_office != null) {
+            $office = OfficeList::find($user->id_office);
+            $data['datas'] = $data['datas']->where('id_origin_city', $office->id_area);
+        }
+
+        $data['datas'] = $data['datas']->paginate(10);
         foreach($data['datas'] as $dat) {
             $dat['member_name'] = MemberList::find($dat->id_member)->name;
             $dat['destination_airport'] = AirportList::find($dat->id_destination_airport)->name;

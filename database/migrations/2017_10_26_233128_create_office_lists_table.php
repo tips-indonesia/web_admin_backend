@@ -19,6 +19,7 @@ class CreateOfficeListsTable extends Migration
             $table->unsignedInteger('id_office_type');
             $table->text('address');
             $table->unsignedInteger('id_city');
+            $table->unsignedInteger('id_area')->nullable();
             $table->unsignedInteger('id_province');
             $table->unsignedInteger('id_subdistrict');
             $table->unsignedInteger('id_office_counter')->nullable();

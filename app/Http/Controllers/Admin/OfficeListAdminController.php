@@ -9,6 +9,7 @@ use App\OfficeType;
 use App\ProvinceList;
 use App\OfficeDropPoint;
 use App\AirportList;
+use App\AirportcityList;
 use Validator;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
@@ -89,6 +90,7 @@ class OfficeListAdminController extends Controller
             $officeLists->id_office_type = Input::get('office_type');
             $officeLists->address = Input::get('address');
             $officeLists->id_city = Input::get('city');
+            $officelists->id_area = Input::get('area');
             $officeLists->id_province = Input::get('province');
             $officeLists->id_subdistrict = Input::get('subdistrict');
             $officeLists->phone_no = Input::get('phone_no');
@@ -139,6 +141,7 @@ class OfficeListAdminController extends Controller
         $data['provinces'] = ProvinceList::all();
         $data['processing_center'] = OfficeType::where('name', 'Processing Center')->first();
         $data['airports'] = AirportList::all();
+        $data['airportcitylists'] = AirportcityList::all();
         return view('admin.officelists.edit', $data);
     }
 

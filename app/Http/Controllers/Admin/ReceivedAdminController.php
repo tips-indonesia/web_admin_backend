@@ -7,10 +7,12 @@ use App\Http\Controllers\Controller;
 use App\DeliveryShipment;
 use App\DeliveryShipmentDetail;
 use App\Shipment;
+use App\OfficeList;
 use App\ShipmentStatus;
 use App\ShipmentHistory;
 use App\AirportcityList;
 use Auth;
+use App\User;
 use Carbon\Carbon;
 use Validator;
 use Illuminate\Support\Facades\Input;
@@ -50,6 +52,13 @@ class ReceivedAdminController extends Controller
         } else {
             $shipment_data = Shipment::where('id','!=', 0)->whereIn('id', $shipments);
         }
+
+        $user = User::find(Auth::id());
+        if ($user->id_office != null) {
+            $office = OfficeList::find($user->id_office);
+            $shipment_data = $shipment_data->where('id_origin_city', $office->id_area);
+        }
+
         if ($flag == true) {
             $shipment_data = $shipment_data->where('shipment_id', $data['value'])->paginate(10);
         } else {
