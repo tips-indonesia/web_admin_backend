@@ -20,6 +20,9 @@ class PromotionController extends Controller
     	}
 
     	$promos = Promotion::all();
+        foreach ($promos as $promo) {
+            $promo->img_src = URL::to('storage/promotions/' . $promo->file_name);
+        }
     	$data = array(
     		'err' => null,
     		'result' => [
