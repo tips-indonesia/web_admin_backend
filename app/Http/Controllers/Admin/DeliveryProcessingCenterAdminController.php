@@ -77,7 +77,7 @@ class DeliveryProcessingCenterAdminController extends Controller
             $data['datas'] = array(); 
         } else {
             // todo slotlist 6 that not package / deliver yet
-            $data['datas'] = SlotList::where('id_slot_status', 6)->get();
+            $data['datas'] = SlotList::where('id_slot_status', 7)->get();
             $data['date'] = $date;
         }
         return view('admin.deliveryprocessingcenters.create', $data);

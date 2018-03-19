@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Promotion;
 use App\Banner;
 use Illuminate\Support\Facades\URL;
+use DB;
 
 class PromotionController extends Controller
 {
@@ -17,15 +18,17 @@ class PromotionController extends Controller
     		// Dunno what to do
     	}
 
-    	$promos = Promotion::all();
+    	$promos = DB::table('promotions')->get();
     	$res = array();
-
     	foreach($promos as $promo) {
     		$dum = [
     			'id' => $promo->id,
-    			'img_src' => URL::to('storage/promotions/'.$promo->filename),
-    			'title' => $promo->title,
-    			'description' => $promo->description
+                'start_date' => $promo->start_date,
+                'end_date' => $promo->end_date,
+                'header' => $promo->header,
+                'template_type' => $promo->template_type,
+                'discount' => $promo->discount_value,
+    			'img_src' => URL::to('storage/promotions/'.$promo->file_name),
     		];
     		array_push($res, $dum);
     	}
@@ -40,33 +43,36 @@ class PromotionController extends Controller
     	return response()->json($data, 200);
     }
 
-    public function getIklan() {
-    	if (isset($_GET['id_user'])) {
-    		// Dunno what to do
-    	} else {
-    		// Dunno what to do
-    	}
+    // public function getIklan() {
+    // 	if (isset($_GET['id_user'])) {
+    // 		// Dunno what to do
+    // 	} else {
+    // 		// Dunno what to do
+    // 	}
 
-    	$iklans = Banner::all();
-    	$res = array();
+    // 	$iklans = Banner::all();
+    // 	$res = array();
 
-    	foreach($iklans as $iklan) {
-    		$dum = [
-    			'id' => $iklan->id,
-    			'img_src' => URL::to('storage/banners/'.$iklan->filename),
-    			'title' => $iklan->title,
-    			'description' => $iklan->description
-    		];
-    		array_push($res, $dum);
-    	}
+    //     foreach($iklans as $promo) {
+    //         $dum = [
+    //             'id' => $promo->id,
+    //             'start_date' => $promo->start_date,
+    //             'end_date' => $promo->end_date,
+    //             'header' => $promo->header,
+    //             'template_type' => $promo->template_type,
+    //             'discount' => $promo->discount,
+    //             'img_src' => URL::to('storage/promotions/'.$promo->filename),
+    //         ];
+    //         array_push($res, $dum);
+    //     }
 
-    	$data = array(
-    		'err' => null,
-    		'result' => [
-    			'iklan' => $res
-    		]
-    	);
+    // 	$data = array(
+    // 		'err' => null,
+    // 		'result' => [
+    // 			'iklan' => $res
+    // 		]
+    // 	);
 
-    	return response()->json($data, 200);	
-    }
+    // 	return response()->json($data, 200);	
+    // }
 }

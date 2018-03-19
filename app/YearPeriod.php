@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class Promotion extends Model
 {
-    protected $table = 'year_period';
+    // protected $table = 'year_period';
 }

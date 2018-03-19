@@ -211,5 +211,3 @@ Route::prefix('admin/')->group(function ($locale) {
     
     
 });
-
-Route::get('/admin/test', 'Admin\ReceivedArrivalProcessingCenterAdminController@index');
