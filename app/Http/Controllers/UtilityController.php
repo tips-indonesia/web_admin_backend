@@ -888,11 +888,11 @@ class UtilityController extends Controller
             'err' => null,
             'result' => [
                 "iklan" => [
-                    [
-                        "img_src" => "http://ec2-13-250-165-158.ap-southeast-1.compute.amazonaws.com/image/shipment/ktp/5aa73ed835974_img_item.jpg",
-                        "title" => "Tes image",
-                        "description" => "Lalala"
-                    ]
+                    // [
+                    //     "img_src" => "http://ec2-13-250-165-158.ap-southeast-1.compute.amazonaws.com/image/shipment/ktp/5aa73ed835974_img_item.jpg",
+                    //     "title" => "Tes image",
+                    //     "description" => "Lalala"
+                    // ]
                 ]
             ]
         );
