@@ -13,7 +13,7 @@ use DB;
 class PromotionController extends Controller
 {
     public function getPromo(Request $req) {
-    	if ($req->id_user) {
+    	if (!$req->id_user) {
             $data = array(
                 'err' => [
                     "code" => 400,
