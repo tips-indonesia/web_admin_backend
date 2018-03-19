@@ -14,10 +14,43 @@ class PromotionController extends Controller
 {
     public function getPromo(Request $req) {
     	if ($req->id_user) {
-    		// Dunno what to do
-    	} else {
-    		// Dunno what to do
+            $data = array(
+                'err' => [
+                    "code" => 400,
+                    "message" => "All parameter are required!"
+                ],
+                'result' => null
+            );
+
+            return response()->json($data, 200);
     	}
+
+		$user = MemberList::find($req->id_user);
+        if(!$user){
+            $data = array(
+                'err' => [
+                    "code" => 404,
+                    "message" => "User not found"
+                ],
+                'result' => null
+            );
+
+            return response()->json($data, 200);
+        }
+
+        if($user->promotion_id_used){
+            $promo = $this->findPromoOrFalse($user->promotion_id_used);
+            if($promo){
+                $data = array(
+                    'err' => null,
+                    'result' => [
+                        'promo' => [],
+                    ]
+                );
+
+                return response()->json($data, 200);
+            }
+        }
 
     	$promos = Promotion::all();
         foreach ($promos as $promo) {
@@ -62,7 +95,7 @@ class PromotionController extends Controller
             return response()->json($data, 200);
         }
 
-        $promo = Promotion::find($id_promo);
+        $promo = $this->findPromoOrFalse($id_promo)
         if(!$promo){
             $data = array(
                 'err' => [
@@ -86,6 +119,14 @@ class PromotionController extends Controller
         );
 
         return response()->json($data, 200);
+    }
+
+    private function findPromoOrFalse($id_promo){
+        $promo = Promotion::find($id_promo);
+        if(!$promo)
+            return false;
+        
+        return $promo;
     }
 
     // public function getIklan() {
