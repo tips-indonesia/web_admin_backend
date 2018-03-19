@@ -23,23 +23,23 @@ class EtcSeeder extends Seeder
         // $p2 = Permission::create(['name' => 'receivedarrivalprocessingcenter.', 'show_name' => 'Received by Arrival Processing Center']);
 
 
-        MenuList::create([
-            'name' => 'Promotions',
-            'menu_parent_id' => 37,
-            'class_name' => 'promotions.'
-        ]);
-        MenuList::create([
-            'name' => 'Banners',
-            'menu_parent_id' => 37,
-            'class_name' => 'banners.'
-        ]);
-        $p3 = Permission::create(['name' => 'promotions.', 'show_name' => 'Promotions']);
-        $p4 = Permission::create(['name' => 'banners.', 'show_name' => 'Banners']);
+     //    MenuList::create([
+     //        'name' => 'Promotions',
+     //        'menu_parent_id' => 37,
+     //        'class_name' => 'promotions.'
+     //    ]);
+     //    MenuList::create([
+     //        'name' => 'Banners',
+     //        'menu_parent_id' => 37,
+     //        'class_name' => 'banners.'
+     //    ]);
+     //    $p3 = Permission::create(['name' => 'promotions.', 'show_name' => 'Promotions']);
+     //    $p4 = Permission::create(['name' => 'banners.', 'show_name' => 'Banners']);
         
-    	// $role->givePermissionTo($p1);
-    	$role = Role::all()->first();
-        $role->givePermissionTo($p3);
-        $role->givePermissionTo($p4);
+    	// // $role->givePermissionTo($p1);
+    	// $role = Role::all()->first();
+     //    $role->givePermissionTo($p3);
+     //    $role->givePermissionTo($p4);
 
 
         // MenuList::create([
@@ -53,5 +53,52 @@ class EtcSeeder extends Seeder
         //         'menu_parent_id' => 18,
         //         'class_name' => 'deliveryshipment.'
         //     ]);
+
+        //
+        // DB::table('month_period')->insert([
+        //     'nama' => 'Januari'
+        // ]);
+        // DB::table('month_period')->insert([
+        //     'nama' => 'Februari'
+        // ]);
+        // DB::table('month_period')->insert([
+        //     'nama' => 'Maret'
+        // ]);
+        // DB::table('month_period')->insert([
+        //     'nama' => 'April'
+        // ]);
+        // DB::table('month_period')->insert([
+        //     'nama' => 'Mei'
+        // ]);
+        // DB::table('month_period')->insert([
+        //     'nama' => 'Juni'
+        // ]);
+        // DB::table('month_period')->insert([
+        //     'nama' => 'Juli'
+        // ]);
+        // DB::table('month_period')->insert([
+        //     'nama' => 'Agustus'
+        // ]);
+        // DB::table('month_period')->insert([
+        //     'nama' => 'September'
+        // ]);
+        // DB::table('month_period')->insert([
+        //     'nama' => 'Oktober'
+        // ]);
+        // DB::table('month_period')->insert([
+        //     'nama' => 'November'
+        // ]);
+        // DB::table('month_period')->insert([
+        //     'nama' => 'Desember'
+        // ]);
+        // DB::table('year_period')->insert([
+        //     'year_period' => '2018'
+        // ]);
+        // DB::table('year_period')->insert([
+        //     'year_period' => '2019'
+        // ]);
+        // DB::table('year_period')->insert([
+        //     'year_period' => '2020'
+        // ]);
     }
 }

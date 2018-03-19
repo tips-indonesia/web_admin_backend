@@ -125,4 +125,6 @@ Route::get('match/un_submit_matching', 'UtilityController@unSubmitMatching');
 Route::get('match/posting_matching', 'UtilityController@postingMatching');
 
 Route::get('/promo', 'API\\PromotionController@getPromo');
-// Route::get('/iklan', 'API\\PromotionController@getIklan');
+Route::get('iklan', 'UtilityController@tesIklan');
+
+Route::post('promo', 'API\\PromotionController@postSelectPromo');

@@ -90,7 +90,7 @@ class PromotionController extends Controller
         }
         \Log::info($filename);
         DB::table('promotions')->insert(
-            ['start_date' => Input::post('tanggal_awal'), 'end_date' => Input::post('tanggal_akhir'), 'header' => Input::post('header_text'),'template_type' => Input::post('template'), 'discount_value' => Input::post('discount'), 'file_name' => $filename]
+            ['start_date' => Input::post('tanggal_awal'), 'end_date' => Input::post('tanggal_akhir'), 'header' => Input::post('header_text'), 'content' => Input::post('content_text'),'template_type' => Input::post('template'), 'discount_value' => Input::post('discount'), 'file_name' => $filename]
         );
         return redirect('admin/promotions');
     }
