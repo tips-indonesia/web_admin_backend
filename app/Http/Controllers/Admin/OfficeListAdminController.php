@@ -90,7 +90,6 @@ class OfficeListAdminController extends Controller
             $officeLists->id_office_type = Input::get('office_type');
             $officeLists->address = Input::get('address');
             $officeLists->id_city = Input::get('city');
-            $officelists->id_area = Input::get('area');
             $officeLists->id_province = Input::get('province');
             $officeLists->id_subdistrict = Input::get('subdistrict');
             $officeLists->phone_no = Input::get('phone_no');
@@ -166,10 +165,7 @@ class OfficeListAdminController extends Controller
             'phone_no' => 'required',
             'fax_no' => 'required',
             'email_address' => 'required',
-            'airport_counter' => 'required_if:office_type,5',
-            'processing_center' => 'required_if:office_type,2|required_if:office_type,3',
             'contact_person' => 'required',
-            'airport' => 'required_if:office_type,4'
         );
         $validator = Validator::make(Input::all(), $rules);
 
@@ -184,6 +180,7 @@ class OfficeListAdminController extends Controller
             $officeLists->id_office_type = Input::get('office_type');
             $officeLists->address = Input::get('address');
             $officeLists->id_city = Input::get('city');
+            $officeLists->id_area = Input::get('area');
             $officeLists->phone_no = Input::get('phone_no');
             $officeLists->fax_no = Input::get('fax_no');
             $officeLists->email_address = Input::get('email_address');

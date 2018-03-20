@@ -14,6 +14,9 @@
                 <div class="panel panel-flat">
                     <div class="panel-body">
                         <div class="row">
+                            @foreach($errors->all() as $error)
+                            {{$error}}>br>
+                            @endforeach
                             <div class="form-group">
                                 <label>Name :</label>
                                 {{ Form::text('name', $datas->name, array('class' => 'form-control', 'placeholder' => 'Office Type Name')) }}
@@ -33,10 +36,10 @@
                             </div>
                             <div class="form-group">
                                 <label>Area :</label>
-                                <select name="area" id="area" class="select-search">
-                                    <option value=""></option>
+                                <select name="area" class="select-search">
+                                    <option disabled selected></option>
                                     @foreach($airportcitylists as $airportcitylist)
-                                    <option value="{{ $airportcitylist->id }}" @if($airportcitylist->id == $datas->id_area) selected @endif>{{ $airportcitylist->name }} </option>
+                                    <option value="{{ $airportcitylist->id }}"> {{ $airportcitylist->name }} </option>
                                     @endforeach
                                 </select>
                             </div>
