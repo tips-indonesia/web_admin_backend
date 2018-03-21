@@ -120,7 +120,7 @@ class ShipmentController extends Controller
 
             // $shipment->flight_cost = ($reguler*$request->estimate_weight) + $shipment->add_insurance_cost;
 
-            $slot_price = SlotList::where('id_origin_city', $id_origin_city)->where('id_destination_city', $id_destination_city)->first()->slot_price_kg;
+            $slot_price = PriceList::where('id_origin_city', $id_origin_city)->where('id_destination_city', $id_destination_city)->first()->slot_price_kg;
             $shipment->flight_cost = $request->estimate_weight * $slot_price + $shipment->add_insurance_cost;
         }
 

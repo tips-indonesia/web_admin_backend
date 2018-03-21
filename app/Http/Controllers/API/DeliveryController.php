@@ -56,7 +56,7 @@ class DeliveryController extends Controller
             $slot->first_name = $request->first_name;
             $slot->last_name = $request->last_name;
             $slot->flight_code = $request->flight_code;
-            $slot->baggage_space = $request->baggage_space;
+            $slot->baggage_space = $request->baggage_space; // bagian ini jangan di hardcode
             $slot->slot_price_kg = $price->tipster_price;
             $slot->id_origin_city = $airport_origin->id_city;
             $slot->id_destination_city = $airport_destination->id_city;
