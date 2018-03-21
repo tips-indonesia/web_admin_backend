@@ -289,7 +289,12 @@ class DeliveryController extends Controller
                         'description' => $delivery_status->description,
                         'detail' => $slot->detail_status
                     ),
-                    'delivery' => $slot
+                    'delivery' => $slot,
+                    'addt_info' => array(
+                        'kode_bandara_asal' => $slot->airportOrigin->initial_code,
+                        'kode_bandara_tujuan' => $slot->airportDestination->initial_code,
+                        'airline_name' => $slot->airline_data->name
+                    )
                 )
             );
 
