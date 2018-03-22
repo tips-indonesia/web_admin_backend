@@ -20,6 +20,6 @@ class Cors
             ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
             ->header('Access-Control-Allow-Credentials', 'true')
             ->header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
-            ->header('Access-Control-Expose-Headers', 'Access-Control-Allow-Methods, Access-Control-Allow-Credentials, Access-Control-Allow-Headers');
+            ->header('Access-Control-Expose-Headers', 'Access-Control-Allow-Origin, Access-Control-Allow-Methods, Access-Control-Allow-Credentials, Access-Control-Allow-Headers');
     }
 }
