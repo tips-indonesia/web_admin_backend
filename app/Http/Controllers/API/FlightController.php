@@ -53,8 +53,16 @@ class FlightController extends Controller
         $airport_origin = FlightController::get_airport_by_code($code_origin);
         $airport_destination = FlightController::get_airport_by_code($code_destination);
 
-        if(!$airport_origin || !$airport_destination)
-            return false; // Airport asal atau tujuan tidak ditemukan
+        if(!$airport_origin || !$airport_destination){
+            // return false; // Airport asal atau tujuan tidak ditemukan // deprecated
+
+            $booking = FlightBookingList::create(array(
+                'booking_code' => $booking_code,
+                'id_airline' => 1,
+                'depature' => $date_origin,
+                'flight_code' => $flight_code,
+            ));
+        }
 
         $booking = FlightBookingList::create(array(
             'booking_code' => $booking_code,
