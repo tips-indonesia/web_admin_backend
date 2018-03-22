@@ -18,6 +18,10 @@
                             {{ Form::text('name', $datas->name, array('class' => 'form-control', 'placeholder' => 'Airline Name')) }}
                         </div>
                         <div class="form-group">
+                            <label>Prefix Flight Code :</label>
+                            {{ Form::text('prefix_flight_code', $datas->prefix_flight_code, array('class' => 'form-control', 'placeholder' => 'Prefix Flight Code, e.g. GA')) }}
+                        </div>
+                        <div class="form-group">
                             <label>Status :</label>
                             <select class="bootstrap-select" data-width="100%" name="status">
                                 <option value="1" @if ($datas->status == 1) selected @endif>Active</option>

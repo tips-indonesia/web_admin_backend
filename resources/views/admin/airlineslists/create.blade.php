@@ -17,6 +17,10 @@
                             <label>Name :</label>
                             {{ Form::text('name', null, array('class' => 'form-control', 'placeholder' => 'Airline Name')) }}
                         </div>
+                        <div class="form-group">
+                            <label>Prefix Flight Code :</label>
+                            {{ Form::text('prefix_flight_code', null, array('class' => 'form-control', 'placeholder' => 'Prefix Flight Code, e.g. GA')) }}
+                        </div>
                         <div class="text-right form-group">
                             <button type="submit" class="btn btn-primary">Submit form <i class="icon-arrow-right14 position-right"></i></button>
                         </div>
