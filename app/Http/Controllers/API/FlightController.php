@@ -52,6 +52,7 @@ class FlightController extends Controller
     public static function create_new_empty_booking(){
         return FlightBookingList::create([]);
     }
+
     public static function create_new_booking($booking_code, $code_origin, $code_destination, $date_origin, $flight_code){
         $airport_origin = FlightController::get_airport_by_code($code_origin);
         $airport_destination = FlightController::get_airport_by_code($code_destination);
@@ -65,16 +66,16 @@ class FlightController extends Controller
                 'depature' => $date_origin,
                 'flight_code' => $flight_code,
             ));
+        }else{
+            $booking = FlightBookingList::create(array(
+                'booking_code' => $booking_code,
+                'id_airline' => 1,
+                'id_origin_airport' => $airport_origin->id,
+                'id_destination_airport' => $airport_destination->id,
+                'depature' => $date_origin,
+                'flight_code' => $flight_code,
+            ));
         }
-
-        $booking = FlightBookingList::create(array(
-            'booking_code' => $booking_code,
-            'id_airline' => 1,
-            'id_origin_airport' => $airport_origin->id,
-            'id_destination_airport' => $airport_destination->id,
-            'depature' => $date_origin,
-            'flight_code' => $flight_code,
-        ));
 
         $booking->origin_airport = AirportList::find($booking->id_origin_airport);
         $booking->destination_airport = AirportList::find($booking->id_destination_airport);
@@ -203,6 +204,15 @@ class FlightController extends Controller
 
         return response()->json($data, 200);
 
+    }
+
+    public static function getAirlineNameOfFlightCode($flight_code){
+        $prefix_fc = substr($flight_code, 0, 2);
+        $airline = AirlinesList::where('prefix_flight_code', $prefix_fc)->where('status', 1)->first();
+        if($airline)
+            return $airline->name;
+        
+        return ""
     }
 
     function flight_booking_code_check(Request $request){
