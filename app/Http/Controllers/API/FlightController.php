@@ -193,7 +193,7 @@ class FlightController extends Controller
         }
 
         $prefix_fc = substr($flight_code, 0, 2);
-        $airline = AirlinesList::where('prefix_flight_code', $prefix_fc)->first();
+        $airline = AirlinesList::where('prefix_flight_code', $prefix_fc)->where('status', 1)->first();
 
         if($airline){
             $data = array(
