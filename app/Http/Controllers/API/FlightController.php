@@ -49,6 +49,9 @@ class FlightController extends Controller
         return AirportList::where("initial_code", substr($code, 0, 3))->first();
     }
 
+    public static function create_new_empty_booking(){
+        return FlightBookingList::create([]);
+    }
     public static function create_new_booking($booking_code, $code_origin, $code_destination, $date_origin, $flight_code){
         $airport_origin = FlightController::get_airport_by_code($code_origin);
         $airport_destination = FlightController::get_airport_by_code($code_destination);

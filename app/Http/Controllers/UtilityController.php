@@ -827,7 +827,8 @@ class UtilityController extends Controller
         $data = array(
             'err' => null,
             'result' => array(
-                "data_is_available" => false
+                "data_is_available" => false,
+                "booking" => FlightController::create_new_empty_booking()
             )
         );
         return response()->json($data, 200);
