@@ -36,6 +36,11 @@ Route::get('/tes', 'UtilityController@generateCode');
 
 Route::get('/pesan/{id_user}', 'API\\MessageController@getPesan');
 Route::get('/pesan/{id_user}/{id_pesan}', 'API\\MessageController@getPesanSpesifik');
+
+// + Acknowledgement +
+// dua method dibawah ini merepresentasikan proses yang sama,
+// terdapat issue CORS pada web app jika menggunakan method DELETE
+// sehingga dilakukan duplikasi path API untuk menghapus pesan
 Route::delete('/pesan/{id_user}/{id_pesan}', 'API\\MessageController@hapusPesan');
 Route::post('/pesan/{id_user}/{id_pesan}', 'API\\MessageController@hapusPesan');
 
