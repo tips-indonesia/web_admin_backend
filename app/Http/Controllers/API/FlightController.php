@@ -212,7 +212,7 @@ class FlightController extends Controller
         if($airline)
             return $airline->name;
         
-        return ""
+        return "";
     }
 
     function flight_booking_code_check(Request $request){
