@@ -114,7 +114,7 @@ class FlightController extends Controller
             $data = array(
                 'err' => [
                     'code' => 404,
-                    'message' => 'Kode booking bla bla bla'
+                    'message' => 'Maskapai yang Anda pilih belum kami support sementara ini'
                 ],
                 'result' => null
             );
