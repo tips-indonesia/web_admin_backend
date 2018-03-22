@@ -815,7 +815,7 @@ class UtilityController extends Controller
                 $data = array(
                     'err' => null,
                     'result' => array(
-                        "data_is_available" => true,
+                        "data_is_available" => false,
                         "booking" => $new_booking
                     )
                 );
