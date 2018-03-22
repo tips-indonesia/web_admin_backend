@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\AirportcityList;
+use App\AirlinesList;
 use App\SlotList;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -172,6 +173,44 @@ class FlightController extends Controller
                 'airport_list' => $airport_list,
             )
         );
+
+        return response()->json($data, 200);
+
+    }
+
+    function flight_booking_code_check(Request $request){
+        $flight_code = $request->code;
+        if(!$flight_code){
+            $data = array(
+                'err' => [
+                    'code' => 400,
+                    'message' => 'Parameter code wajib diisi'
+                ],
+                'result' => null
+            );
+
+            return response()->json($data, 200);
+        }
+
+        $prefix_fc = substr($flight_code, 0, 2);
+        $airline = AirlinesList::where('prefix_flight_code', $prefix_fc)->get();
+
+        if($airline){
+            $data = array(
+                'err' => null,
+                'result' => array(
+                    'status' => true,
+                )
+            );
+        }else{
+            $data = array(
+                'err' => [
+                    'code' => 404,
+                    'message' => 'Kode booking bla bla bla'
+                ],
+                'result' => null
+            );
+        }
 
         return response()->json($data, 200);
 

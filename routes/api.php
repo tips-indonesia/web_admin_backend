@@ -71,6 +71,7 @@ Route::post('/flight/create_flight', 'API\\FlightController@post_flight_booking_
 Route::get('/flight/booking/used', 'API\\FlightController@get_used_booking_code');
 Route::get('/flight/booking/city', 'API\\FlightController@get_booking_code_by_city');
 Route::post('/flight/check_flight_b_n_d', 'UtilityController@check_flight_b_n_d');
+Route::get('/flight/code_check', 'API\\FlightController@flight_booking_code_check');
 
 Route::get('/money/{id}', 'UtilityController@getMyMoney');
 
