@@ -45,6 +45,7 @@ class AirlinesListAdminController extends Controller
         //
         $rules = array(
             'name'       => 'required',
+            'prefix_flight_code'       => 'required',
         );
         $validator = Validator::make(Input::all(), $rules);
 
@@ -56,6 +57,7 @@ class AirlinesListAdminController extends Controller
         } else {
             $airlinesList = new AirlinesList;
             $airlinesList->name = Input::get('name');
+            $airlinesList->prefix_flight_code = Input::get('prefix_flight_code');
             $airlinesList->status = 1;
             $airlinesList->save();
             Session::flash('message', 'Successfully created nerd!');
@@ -100,6 +102,7 @@ class AirlinesListAdminController extends Controller
         //
         $rules = array(
             'name'       => 'required',
+            'prefix_flight_code'       => 'required',
             'status'       => 'required',
         );
         $validator = Validator::make(Input::all(), $rules);
@@ -112,6 +115,7 @@ class AirlinesListAdminController extends Controller
         } else {
             $airlinesList = AirlinesList::find($id);
             $airlinesList->name = Input::get('name');
+            $airlinesList->prefix_flight_code = Input::get('prefix_flight_code');
             $airlinesList->status = Input::get('status');
             $airlinesList->save();
             Session::flash('message', 'Successfully created nerd!');
