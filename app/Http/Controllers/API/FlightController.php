@@ -105,6 +105,22 @@ class FlightController extends Controller
             }
         }
 
+
+        $prefix_fc = substr($request->flight_code, 0, 2);
+        $airline = AirlinesList::where('prefix_flight_code', $prefix_fc)->where('status', 1)->first();
+
+        if(!$airline){
+            $data = array(
+                'err' => [
+                    'code' => 404,
+                    'message' => 'Kode booking bla bla bla'
+                ],
+                'result' => null
+            );
+            
+            return response()->json($data, 200);
+        }
+
         // create new booking record
         $new_booking = FlightController::create_new_booking($request->booking_code, $request->code_origin, 
             $request->code_destination, $request->date_origin, $request->flight_code);
