@@ -144,8 +144,6 @@ class DeliveryProcessingCenterAdminController extends Controller
             ->with('packagingList', 'airportDestination', 'airportOrigin')
             ->get();
 
-        dd($data);
-
         return view('admin.deliveryprocessingcenters.edit', $data);
 
     }
