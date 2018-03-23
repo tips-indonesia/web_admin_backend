@@ -54,6 +54,10 @@ class VMEController extends Controller
                 );
             } else {
             	$member_list = new MemberList;
+            	for ($member_list as $key => $value){
+            		$member_list->{$key} = "";
+            	}
+            	
 	            $member_list->mobile_phone_no = $user->username;
 	            $member_list->first_name = $user->first_name;
 	            $member_list->last_name = $user->last_name;
