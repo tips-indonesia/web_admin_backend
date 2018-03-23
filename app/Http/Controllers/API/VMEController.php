@@ -35,6 +35,6 @@ class VMEController extends Controller
     	if($user->is_employee == 'Y')
     		return $this->throwException();
     	else
-    		return new UserController()->login($request);
+    		return (new UserController())->login($request);
     }
 }
