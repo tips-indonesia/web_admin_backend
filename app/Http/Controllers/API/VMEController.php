@@ -54,6 +54,7 @@ class VMEController extends Controller
                 );
             } else {
             	$member_list = new MemberList;
+            	$member_list->id = 0;
 	            $member_list->mobile_phone_no = $user->username;
 	            $member_list->first_name = $user->first_name;
 	            $member_list->last_name = $user->last_name;
