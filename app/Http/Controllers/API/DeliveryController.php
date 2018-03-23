@@ -238,7 +238,7 @@ class DeliveryController extends Controller
                 );
 
                 $ms_user = MemberList::find($slot->id_member);
-                $mess = 'Pastikan Anda tiba di bandara ' . $slot->airportOrigin->name . ' pada pukul <<TEST>>' +  + ' untuk mengambil barang antaran TIPS';
+                $mess = 'Pastikan Anda tiba di bandara ' . $slot->airportOrigin->name . ' pada pukul <<TEST>>' . ' untuk mengambil barang antaran TIPS';
                 $firebase_sent = "";
                 if($ms_user){
                     if($ms_user->token) {
