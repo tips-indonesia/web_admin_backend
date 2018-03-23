@@ -127,18 +127,19 @@ class DeliveryController extends Controller
             $slot->destination_airport = AirportList::find($slot->id_destination_airport);
             $user = MemberList::find($slot->id_member);
 
-            $mess = 'Barang kiriman Anda dengan kode pengiriman ' . $shipment->shipment_id . ' sudah diserahkan kepada TIPSTER.';
 
-            if($user->token != 0) {
-                FCMSender::post(array(
-                    'type' => 'Delivery',
-                    'id' => $slot->slot_id,
-                    'status' => "4",
-                    'message' => $mess,
-                    'detail' => ""
-                ), $user->token);
-
-            }
+            $ms_user = MemberList::find($shipment->id_shipper);
+            $mess = 'Barang kiriman Anda dengan kode pengiriman ' . $shipment->shipment_id . ' sudah diserahkan kepada TIPSTER.'
+            if($ms_user)
+                if($ms_user->token != 0) {
+                    FCMSender::post(array(
+                        'type' => 'Shipment',
+                        'id' => $shipment->shipment_id,
+                        'status' => "4",
+                        'message' => $mess,
+                        'detail' => ""
+                    ), $ms_user->token);
+                }
 
             unset($user['password']);
             unset($user['token']);

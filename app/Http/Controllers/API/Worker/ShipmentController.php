@@ -138,8 +138,19 @@ class ShipmentController extends Controller
 
             $shipment->save();
 
+            $ms_user = MemberList::find($shipment->id_shipper);
             $mess = 'Barang kiriman Anda dengan kode pengiriman ' + $shipment->shipment_id + ' sudah diambil oleh: '
                     + $shipment->consignee_first_name + " " + $shipment->consignee_last_name;
+            if($ms_user)
+                if($ms_user->token != 0) {
+                    FCMSender::post(array(
+                        'type' => 'Shipment',
+                        'id' => $shipment->shipment_id,
+                        'status' => "8",
+                        'message' => $mess,
+                        'detail' => ""
+                    ), $ms_user->token);
+                }
 
             $data = array(
                 'err' => null,

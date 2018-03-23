@@ -151,17 +151,17 @@ class ShipmentController extends Controller
         $shipment_out->shipment_status_description = $shipment_status->description;
 
         
-        $user = MemberList::find($shipment->id_shipper);
-        $mess = 'Pengiriman Anda dengan kode ' . $shipment->shipment_id . ' telah terdaftar. Tim TIPS akan segera menghubungi Anda.';
-        if($user)
-            if($user->token != 0) {
+        $ms_user = MemberList::find($shipment_out->id_shipper);
+        $mess = 'Pengiriman Anda dengan kode ' . $shipment_out->shipment_id . ' telah terdaftar. Tim TIPS akan segera menghubungi Anda.';
+        if($ms_user)
+            if($ms_user->token != 0) {
                 FCMSender::post(array(
-                    'type' => 'Delivery',
-                    'id' => $shipment->shipment_id,
+                    'type' => 'Shipment',
+                    'id' => $shipment_out->shipment_id,
                     'status' => "1",
                     'message' => $mess,
                     'detail' => ""
-                ), $user->token);
+                ), $ms_user->token);
             }
 
         $data = array(
