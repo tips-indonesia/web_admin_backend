@@ -151,7 +151,7 @@ class ShipmentController extends Controller
         $shipment_out->shipment_status_description = $shipment_status->description;
 
         
-        $user = MemberList::find($slot->id_shipper);
+        $user = MemberList::find($shipment->id_shipper);
         $mess = 'Pengiriman Anda dengan kode ' + $shipment->shipment_id + ' telah terdaftar. Tim TIPS akan segera menghubungi Anda.';
         if($user)
             if($user->token != 0) {
