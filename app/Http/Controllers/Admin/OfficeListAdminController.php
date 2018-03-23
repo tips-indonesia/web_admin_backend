@@ -46,6 +46,7 @@ class OfficeListAdminController extends Controller
         $data['pcs'] = OfficeList::where('id_office_type', 5)->get();
 
         $data['acs'] = OfficeList::where('id_office_type', 4)->get();
+        $data['airportcitylists'] = AirportcityList::all();
         $data['provinces'] = ProvinceList::all();
         $data['airports'] = AirportList::all();
         return view('admin.officelists.create', $data);
@@ -63,6 +64,7 @@ class OfficeListAdminController extends Controller
             'name'       => 'required',
             'office_type' => 'required',
             'address' => 'required',
+            'area' => 'required',
             'city' => 'required',
             'province' => 'required',
             'subdistrict' => 'required',
@@ -89,6 +91,7 @@ class OfficeListAdminController extends Controller
             $officeLists->name = Input::get('name');
             $officeLists->id_office_type = Input::get('office_type');
             $officeLists->address = Input::get('address');
+            $officeLists->id_area = Input::get('area');
             $officeLists->id_city = Input::get('city');
             $officeLists->id_province = Input::get('province');
             $officeLists->id_subdistrict = Input::get('subdistrict');

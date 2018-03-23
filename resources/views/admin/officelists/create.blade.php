@@ -33,6 +33,16 @@
                             </div>
                             
                             <div class="form-group">
+                                <label>Area :</label>
+                                <select name="area" class="select-search">
+                                    <option disabled selected></option>
+                                    @foreach($airportcitylists as $airportcitylist)
+                                    <option value="{{ $airportcitylist->id }}"> {{ $airportcitylist->name }} </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
                                 <label>Province :</label>
                                 <select name="province" id="province" class="select-search">
                                     <option disabled selected></option>
