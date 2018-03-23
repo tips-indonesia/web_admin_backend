@@ -88,14 +88,14 @@ class DeliveryController extends Controller
                 $data = array(
                     'err' => [
                         'code' => 0,
-                        'message' => 'Tidak ada package yang reference ke slot ' . $slot->slot_id
+                        'message' => 'Barang belum diterima di counter, silahkan hubungi Admin.'
                     ],
                     'result' => null
                 );
 
                 return response()->json($data, 200);
             }
-            
+
             $not_yet_in_counter = false;
 
             $shipments = Shipment::where('id_slot', $slot->id)->get();
