@@ -153,6 +153,7 @@ class ShipmentController extends Controller
         
         $ms_user = MemberList::find($shipment_out->id_shipper);
         $mess = 'Pengiriman Anda dengan kode ' . $shipment_out->shipment_id . ' telah terdaftar. Tim TIPS akan segera menghubungi Anda.';
+        $firebase_sent = "";
         if($ms_user)
             if($ms_user->token != 0) {
                 FCMSender::post(array(
@@ -162,11 +163,13 @@ class ShipmentController extends Controller
                     'message' => $mess,
                     'detail' => ""
                 ), $ms_user->token);
+                $firebase_sent = \Carbon\Carbon::now()->toDateTimeString();
             }
 
         $data = array(
             'err' => null,
             'result' => array(
+                'firebase_sent_time' => $firebase_sent,
                 'shipment' => $shipment_out,
                 'payment_url' => "http://174.138.24.62/payment/start?payment_id=$shipment->payment_id"
             )
