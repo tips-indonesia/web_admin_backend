@@ -119,9 +119,9 @@ class DeliveryController extends Controller
             foreach ($shipments as $shipment) {
                 $shipment->id_shipment_status = $shipment_status->id;
                 $shipment->save();
-                
+
                 $ms_user = MemberList::find($shipment->id_shipper);
-                $mess = 'Barang kiriman Anda dengan kode pengiriman ' . $shipment->shipment_id . ' sudah diserahkan kepada TIPSTER.'
+                $mess = 'Barang kiriman Anda dengan kode pengiriman ' . $shipment->shipment_id . ' sudah diserahkan kepada TIPSTER.';
                 if($ms_user)
                     if($ms_user->token) {
                         FCMSender::post(array(
