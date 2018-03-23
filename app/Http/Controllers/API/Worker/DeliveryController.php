@@ -109,6 +109,17 @@ class DeliveryController extends Controller
             $slot->save();
 
             $packaging_list = PackagingList::where('id_slot', $slot->id)->first();
+            if(!$packaging_list){
+                $data = array(
+                    'err' => [
+                        'code' => 0,
+                        'message' => 'Tidak ada package yang reference ke slot ' . $slot->slot_id
+                    ],
+                    'result' => null
+                );
+
+                return response()->json($data, 200);
+            }
             $packaging_list->is_receive = 2;
 
             $packaging_list->save();
