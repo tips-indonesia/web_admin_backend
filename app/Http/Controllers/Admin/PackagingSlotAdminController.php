@@ -8,6 +8,9 @@ use App\PackagingList;
 use App\SlotList;
 use App\Shipment;
 use App\AirportList;
+use App\User;
+use App\OfficeList;
+use Auth;
 use Validator;
 use Illuminate\Support\Facades\Input;
 use Carbon\Carbon;
@@ -52,13 +55,29 @@ class PackagingSlotAdminController extends Controller
             }
             
         }
+        $user = User::find(Auth::id());
+        if ($user->id_office != null) {
+            $office = OfficeList::find($user->id_office);
+            $slot = SlotList::where('id_origin_city', $office->id_area)->pluck('id');
+            $data['datas'] = $data['datas']->whereIn('id_slot', $slot);
+        }
+
         $data['datas'] = $data['datas']->where('id_slot', '!=',null)->paginate(10);
+
         foreach ($data['datas'] as $dat) {
             if ($dat->id_slot != null)
                 $dat['slot_id'] = SlotList::find($dat->id_slot)->slot_id;
         }
 
-        $data['datas2'] = SlotList::whereNotIn('id', PackagingList::where('id_slot', '!=',null)->pluck('id_slot')->toArray())->where('status_dispatch', 'Process')->get();
+        $data['datas2'] = SlotList::whereNotIn('id', PackagingList::where('id_slot', '!=',null)->pluck('id_slot')->toArray())->where('status_dispatch', 'Process')->where('id_slot_status', 3);
+
+        
+        if ($user->id_office != null) {
+            $office = OfficeList::find($user->id_office);
+            $data['datas2'] = $data['datas2']->where('id_origin_city', $office->id_area)->get();
+        } else {
+            $data['datas2'] = $data['datas2']->get();
+        }
 
         $o = 0;
         foreach ($data['datas2'] as $dat) {
@@ -79,7 +98,16 @@ class PackagingSlotAdminController extends Controller
     */
     public function create()
     {
-        $data['slot_ids'] = SlotList::where('status_dispatch', 'Process')->whereNotIn('id', PackagingList::where('id_slot', '!=',null)->pluck('id_slot')->toArray())->get();
+        $user = User::find(Auth::id());
+        $data['slot_ids'] = SlotList::where('status_dispatch', 'Process')->whereNotIn('id', PackagingList::where('id_slot', '!=',null)->pluck('id_slot')->toArray())
+                ->where('id_slot_status', 3);
+
+        if ($user->id_office != null) {
+            $office = OfficeList::find($user->id_office);
+            $data['slot_ids'] = $data['slot_ids']->where('id_origin_city', $office->id_area);
+        } 
+
+        $data['slot_ids'] = $data['slot_ids']->get();
         return view('admin.packagingslots.create', $data);
         
     }

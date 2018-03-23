@@ -12,6 +12,7 @@ use App\OfficeList;
 use App\PackagingList;
 use App\PackagingDelivery;
 use App\Delivery;
+use App\User;
 use Validator;
 use App\CityList;
 use App\AirportcityList;
@@ -55,7 +56,17 @@ class DeliveryDepartureCounterAdminController extends Controller
         }
         
         $selected =PackagingDelivery::all()->pluck('packaging_id')->toArray();
-        $data['datas2'] = PackagingList::whereNotIn('id', $selected)->get();
+        $data['datas2'] = PackagingList::whereNotIn('id', $selected);
+
+        $user = User::find(Auth::id());
+        if ($user->id_office != null) {
+            $office = OfficeList::find($user->id_office);
+            $slot = SlotList::where('id_origin_city', $office->id_area)->pluck('id');
+            $data['datas2'] = $data['datas2']->whereIn('id_slot', $slot);
+        }
+
+        $data['datas2'] = $data['datas2']->get();
+        
         foreach ($data['datas2'] as $dat) {
             if ($dat->id_slot != null) {
                 $slot = SlotList::find($dat->id_slot);
