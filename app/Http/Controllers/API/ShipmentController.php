@@ -176,6 +176,21 @@ class ShipmentController extends Controller
             $shipment_status = ShipmentStatus::where('id','<=',$shipment->id_shipment_status)->where('is_hidden',false)->orderBy('id', 'desc')->first();
             $shipment->origin_city = AirportcityList::find($shipment->id_origin_city)->name;
             $shipment->destination_city = AirportcityList::find($shipment->id_destination_city)->name;
+
+
+            // #######################
+            // Exception Status 1 - 15
+            // #######################
+            // Begin 
+            // 
+            switch ($shipment_status->step) {
+                case '6':
+                    $shipment_status->description += "(" + $shipment->destination_city + ")";
+                    break;
+            }
+            //
+            // END 
+            // #######################
             $slot = false;
             if($shipment->id_slot)
                 $slot = SlotList::find($shipment->id_slot);
@@ -292,7 +307,7 @@ class ShipmentController extends Controller
                 'err' => null,
                 'result' => [
                     'code' => 1,
-                    'message' => 'Shipment berasil di cancel'
+                    'message' => 'Shipment berasil dibatalkan'
                 ]
             );
         }

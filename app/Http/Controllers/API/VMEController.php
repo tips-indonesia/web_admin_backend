@@ -63,8 +63,8 @@ class VMEController extends Controller
             	$member_list->profil_picture = "";
             	$member_list->birth_date = "";
             	$member_list->address = "";
-            	$member_list->status = "";
-            	$member_list->id_city = "";
+            	$member_list->status = 1;
+            	$member_list->id_city = 1;
             	$member_list->token = "";
             	$member_list->sex = "";
             	$member_list->money = "";
