@@ -65,8 +65,6 @@ class VMEController extends Controller
             	$member_list->status = "";
             	$member_list->id_city = "";
             	$member_list->token = "";
-            	$member_list->created_at = "";
-            	$member_list->updated_at = "";
             	$member_list->sex = "";
             	$member_list->money = "";
                 $data = array(
