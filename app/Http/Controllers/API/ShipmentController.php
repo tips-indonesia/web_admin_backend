@@ -154,7 +154,7 @@ class ShipmentController extends Controller
         $ms_user = MemberList::find($shipment_out->id_shipper);
         $mess = 'Pengiriman Anda dengan kode ' . $shipment_out->shipment_id . ' telah terdaftar. Tim TIPS akan segera menghubungi Anda.';
         $firebase_sent = "";
-        if($ms_user)
+        if($ms_user){
             if($ms_user->token != 0) {
                 FCMSender::post(array(
                     'type' => 'Shipment',
@@ -164,7 +164,12 @@ class ShipmentController extends Controller
                     'detail' => ""
                 ), $ms_user->token);
                 $firebase_sent = \Carbon\Carbon::now()->toDateTimeString();
+            }else{
+                $firebase_sent = "only user, no token";
             }
+        }else{
+            $firebase_sent = "no user: " . $shipment_out->id_shipper;
+        }
 
         $data = array(
             'err' => null,
