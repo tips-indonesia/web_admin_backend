@@ -52,10 +52,10 @@ class VMEController extends Controller
                     'result' => null
                 );
             } else {
-                unset($member_list['password']);
+                unset($user['password']);
                 $data = array(
                     'err' => null,
-                    'result' => $member_list
+                    'result' => $user
                 );
             }
         }
