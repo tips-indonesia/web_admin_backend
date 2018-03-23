@@ -152,7 +152,7 @@ class ShipmentController extends Controller
 
         
         $user = MemberList::find($shipment->id_shipper);
-        $mess = 'Pengiriman Anda dengan kode ' + $shipment->shipment_id + ' telah terdaftar. Tim TIPS akan segera menghubungi Anda.';
+        $mess = 'Pengiriman Anda dengan kode ' . $shipment->shipment_id . ' telah terdaftar. Tim TIPS akan segera menghubungi Anda.';
         if($user)
             if($user->token != 0) {
                 FCMSender::post(array(
@@ -200,7 +200,7 @@ class ShipmentController extends Controller
             // 
             switch ($shipment_status->step) {
                 case '6':
-                    $shipment_status->description += "(" + $shipment->destination_city + ")";
+                    $shipment_status->description .= "(" . $shipment->destination_city . ")";
                     break;
             }
             //

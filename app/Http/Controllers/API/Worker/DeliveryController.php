@@ -127,7 +127,7 @@ class DeliveryController extends Controller
             $slot->destination_airport = AirportList::find($slot->id_destination_airport);
             $user = MemberList::find($slot->id_member);
 
-            $mess = 'Barang kiriman Anda dengan kode pengiriman ' + $shipment->shipment_id + ' sudah diserahkan kepada TIPSTER.';
+            $mess = 'Barang kiriman Anda dengan kode pengiriman ' . $shipment->shipment_id . ' sudah diserahkan kepada TIPSTER.';
 
             if($user->token != 0) {
                 FCMSender::post(array(
