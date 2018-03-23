@@ -9,11 +9,11 @@ class VMemberEmployee extends Model
     protected $table = 'v_member_employee';
 
     public function isMember(){
-    	return $this->is_employee == 'N'
+    	return $this->is_employee == 'N';
     }
 
     public function isEmployee(){
-    	return $this->is_employee == 'Y'
+    	return $this->is_employee == 'Y';
     }
 
     public function user_data(){
