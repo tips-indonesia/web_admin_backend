@@ -32,7 +32,7 @@ class VMEController extends Controller
 
     public function login(Request $request){
     	$user = VMemberEmployee::where('mobile_phone_no', $request->mobile_phone_no)->first();
-    	if($user->isEmployee)
+    	if($user->is_employee == 'Y')
     		return $this->throwException();
     	else
     		return UserController()->login($request);
