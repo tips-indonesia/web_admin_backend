@@ -98,15 +98,24 @@ class ArrivalController extends Controller
                 }
 
 
-            if($user->token) {
-                FCMSender::post(array(
-                    'type' => 'Delivery',
-                    'id' => $slot->slot_id,
-                    'status' => "6",
-                    'message' => $delivery_status->description,
-                    'detail' => ""
-                ), $user->token);
-
+            $ms_user = MemberList::find($slot->id_member);
+            $mess = 'Barang antaran telah diterima dan dalam proses verifikasi.';
+            $firebase_sent = "";
+            if($ms_user){
+                if($ms_user->token) {
+                    FCMSender::post(array(
+                        'type' => 'Delivery',
+                        'id' => $slot->slot_id,
+                        'status' => "6",
+                        'message' => $mess,
+                        'detail' => ""
+                    ), $ms_user->token);
+                    $firebase_sent = \Carbon\Carbon::now()->toDateTimeString();
+                }else{
+                    $firebase_sent = "only user, no token";
+                }
+            }else{
+                $firebase_sent = "no user: " . $slot->slot_id;
             }
 
             unset($user['password']);

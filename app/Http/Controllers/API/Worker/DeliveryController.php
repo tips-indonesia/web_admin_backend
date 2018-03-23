@@ -119,6 +119,19 @@ class DeliveryController extends Controller
             foreach ($shipments as $shipment) {
                 $shipment->id_shipment_status = $shipment_status->id;
                 $shipment->save();
+                
+                $ms_user = MemberList::find($shipment->id_shipper);
+                $mess = 'Barang kiriman Anda dengan kode pengiriman ' . $shipment->shipment_id . ' sudah diserahkan kepada TIPSTER.'
+                if($ms_user)
+                    if($ms_user->token) {
+                        FCMSender::post(array(
+                            'type' => 'Shipment',
+                            'id' => $shipment->shipment_id,
+                            'status' => "4",
+                            'message' => $mess,
+                            'detail' => ""
+                        ), $ms_user->token);
+                    }
             }
 
 
@@ -127,19 +140,25 @@ class DeliveryController extends Controller
             $slot->destination_airport = AirportList::find($slot->id_destination_airport);
             $user = MemberList::find($slot->id_member);
 
-
-            $ms_user = MemberList::find($shipment->id_shipper);
-            $mess = 'Barang kiriman Anda dengan kode pengiriman ' . $shipment->shipment_id . ' sudah diserahkan kepada TIPSTER.'
-            if($ms_user)
+            $ms_user = MemberList::find($slot->id_member);
+            $mess = 'Jangan lupa untuk foto label bagasi Anda melalui aplikasi TIPS. Selamat menikmati penerbangan Anda.';
+            $firebase_sent = "";
+            if($ms_user){
                 if($ms_user->token) {
                     FCMSender::post(array(
-                        'type' => 'Shipment',
-                        'id' => $shipment->shipment_id,
+                        'type' => 'Delivery',
+                        'id' => $slot->slot_id,
                         'status' => "4",
                         'message' => $mess,
                         'detail' => ""
                     ), $ms_user->token);
+                    $firebase_sent = \Carbon\Carbon::now()->toDateTimeString();
+                }else{
+                    $firebase_sent = "only user, no token";
                 }
+            }else{
+                $firebase_sent = "no user: " . $slot->slot_id;
+            }
 
             unset($user['password']);
             unset($user['token']);

@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use App\User;
+use App\MemberList;
 
 class TipsterPaymentController extends Controller
 {
@@ -70,6 +71,28 @@ class TipsterPaymentController extends Controller
         $slot->status_bayar = 1;
         $slot->id_slot_status = 7;
         $slot->save();
+
+        
+        $ms_user = MemberList::find($slot->id_member);
+        $mess = 'Barang antaran telah diterima dan dalam proses verifikasi.';
+        $firebase_sent = "";
+        if($ms_user){
+            if($ms_user->token) {
+                FCMSender::post(array(
+                    'type' => 'Delivery',
+                    'id' => $slot->slot_id,
+                    'status' => "6",
+                    'message' => $mess,
+                    'detail' => ""
+                ), $ms_user->token);
+                $firebase_sent = \Carbon\Carbon::now()->toDateTimeString();
+            }else{
+                $firebase_sent = "only user, no token";
+            }
+        }else{
+            $firebase_sent = "no user: " . $slot->slot_id;
+        }
+
 
         return back();
    }

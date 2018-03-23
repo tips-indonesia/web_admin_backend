@@ -72,6 +72,26 @@ class DeliveryController extends Controller
             $delivery_status = DeliveryStatus::find($slot->id_slot_status);
             $slot->delivery_status_description = $delivery_status->description;
 
+            $ms_user = MemberList::find($slot->id_member);
+            $mess = 'Terima kasih atas kepercayaan Anda untuk menggunakan TIPS. Penerbangan Anda sudah terdaftar dalam sistem kami dengan kode ' . $slot->slot_id;
+            $firebase_sent = "";
+            if($ms_user){
+                if($ms_user->token) {
+                    FCMSender::post(array(
+                        'type' => 'Delivery',
+                        'id' => $slot->slot_id,
+                        'status' => "1",
+                        'message' => $mess,
+                        'detail' => ""
+                    ), $ms_user->token);
+                    $firebase_sent = \Carbon\Carbon::now()->toDateTimeString();
+                }else{
+                    $firebase_sent = "only user, no token";
+                }
+            }else{
+                $firebase_sent = "no user: " . $slot->slot_id;
+            }
+
             $data = array(
                 'err' => null,
                 'slot' => $slot
@@ -215,6 +235,26 @@ class DeliveryController extends Controller
                         )
                     )
                 );
+
+                $ms_user = MemberList::find($slot->id_member);
+                $mess = 'Pastikan Anda tiba di bandara ' . $slot->airportOrigin->name . ' pada pukul <<TEST>>' +  + ' untuk mengambil barang antaran TIPS';
+                $firebase_sent = "";
+                if($ms_user){
+                    if($ms_user->token) {
+                        FCMSender::post(array(
+                            'type' => 'Delivery',
+                            'id' => $slot->slot_id,
+                            'status' => "3",
+                            'message' => $mess,
+                            'detail' => ""
+                        ), $ms_user->token);
+                        $firebase_sent = \Carbon\Carbon::now()->toDateTimeString();
+                    }else{
+                        $firebase_sent = "only user, no token";
+                    }
+                }else{
+                    $firebase_sent = "no user: " . $slot->slot_id;
+                }
             }
         }
 
@@ -280,7 +320,26 @@ class DeliveryController extends Controller
                         ), $member->token);
                     }
                 }
+            }
 
+            $ms_user = MemberList::find($slot->id_member);
+            $mess = 'Selamat menikmati perjalanan Anda. Setibanya di bandara tujuan, serahkan barang antaran TIPS kepada petugas TIPS di bandara tujuan.';
+            $firebase_sent = "";
+            if($ms_user){
+                if($ms_user->token) {
+                    FCMSender::post(array(
+                        'type' => 'Delivery',
+                        'id' => $slot->slot_id,
+                        'status' => "5",
+                        'message' => $mess,
+                        'detail' => ""
+                    ), $ms_user->token);
+                    $firebase_sent = \Carbon\Carbon::now()->toDateTimeString();
+                }else{
+                    $firebase_sent = "only user, no token";
+                }
+            }else{
+                $firebase_sent = "no user: " . $slot->slot_id;
             }
 
             $delivery_status = DeliveryStatus::find($slot->id_slot_status);

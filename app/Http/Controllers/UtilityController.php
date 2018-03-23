@@ -588,14 +588,27 @@ class UtilityController extends Controller
         // $tempK->id_slot_status = 2; // di delivery controller statusnya sudah otomatis 4
 
         $status = DeliveryStatus::where('step', 2)->first();
-        FCMSender::post(array(
-          'type' => "Delivery",
-          'id' => $slot->slot_id,
-          'status' => "2",
-          'message' => "Delivery Status 2",
-          'detail' => $status->description
-        ), $slot->member->token);
         MessageController::sendMessageToUser("TIPS", $slot->member, "Delivery Status", "2", $status->description);
+
+        $ms_user = MemberList::find($slot->id_member);
+        $mess = 'Barang antaran TIPS sudah tersedia untuk kode pendaftaran penerbangan ' . $slot->slot_id . ' milik Anda.';
+        $firebase_sent = "";
+        if($ms_user){
+            if($ms_user->token) {
+                FCMSender::post(array(
+                    'type' => 'Delivery',
+                    'id' => $slot->slot_id,
+                    'status' => "2",
+                    'message' => $mess,
+                    'detail' => ""
+                ), $ms_user->token);
+                $firebase_sent = \Carbon\Carbon::now()->toDateTimeString();
+            }else{
+                $firebase_sent = "only user, no token";
+            }
+        }else{
+            $firebase_sent = "no user: " . $slot->slot_id;
+        }
 
         $slot->id_slot_status = 2;
         $slot->save();
