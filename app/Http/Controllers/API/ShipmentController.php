@@ -157,8 +157,8 @@ class ShipmentController extends Controller
             if($user->token != 0) {
                 FCMSender::post(array(
                     'type' => 'Delivery',
-                    'id' => $slot->slot_id,
-                    'status' => "6",
+                    'id' => $shipment->shipment_id,
+                    'status' => "1",
                     'message' => $mess,
                     'detail' => ""
                 ), $user->token);
