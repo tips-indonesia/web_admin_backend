@@ -40,8 +40,8 @@ class UserController extends Controller
                 unset($member_list['password']);
                 if($member_list->profil_picture){
                     $member_list->profil_picture = url('/image/profil_picture').'/'.$member_list->profil_picture;
-
                 }
+                $member_list->is_member = true;
                 $member_list->money = $this->getMoney($member_list->id);
                 $data = array(
                     'err' => null,
