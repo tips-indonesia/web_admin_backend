@@ -83,6 +83,19 @@ class DeliveryController extends Controller
                 'result' => null
             );
         } else {
+            $packaging_list = PackagingList::where('id_slot', $slot->id)->first();
+            if(!$packaging_list){
+                $data = array(
+                    'err' => [
+                        'code' => 0,
+                        'message' => 'Tidak ada package yang reference ke slot ' . $slot->slot_id
+                    ],
+                    'result' => null
+                );
+
+                return response()->json($data, 200);
+            }
+            
             $not_yet_in_counter = false;
 
             $shipments = Shipment::where('id_slot', $slot->id)->get();
@@ -108,18 +121,6 @@ class DeliveryController extends Controller
             $slot->id_slot_status = 4;
             $slot->save();
 
-            $packaging_list = PackagingList::where('id_slot', $slot->id)->first();
-            if(!$packaging_list){
-                $data = array(
-                    'err' => [
-                        'code' => 0,
-                        'message' => 'Tidak ada package yang reference ke slot ' . $slot->slot_id
-                    ],
-                    'result' => null
-                );
-
-                return response()->json($data, 200);
-            }
             $packaging_list->is_receive = 2;
 
             $packaging_list->save();
