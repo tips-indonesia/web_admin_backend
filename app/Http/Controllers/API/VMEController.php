@@ -54,13 +54,21 @@ class VMEController extends Controller
                 );
             } else {
             	$member_list = new MemberList;
-            	for ($member_list as $key => $value){
-            		$member_list->{$key} = "";
-            	}
-            	
 	            $member_list->mobile_phone_no = $user->username;
 	            $member_list->first_name = $user->first_name;
 	            $member_list->last_name = $user->last_name;
+            	$member_list->email = "";
+            	$member_list->registered_date = "";
+            	$member_list->profil_picture = "";
+            	$member_list->birth_date = "";
+            	$member_list->address = "";
+            	$member_list->status = "";
+            	$member_list->id_city = "";
+            	$member_list->token = "";
+            	$member_list->created_at = "";
+            	$member_list->updated_at = "";
+            	$member_list->sex = "";
+            	$member_list->money = "";
                 $data = array(
                     'err' => null,
                     'result' => $member_list
