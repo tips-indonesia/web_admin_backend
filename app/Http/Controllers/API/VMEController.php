@@ -52,10 +52,13 @@ class VMEController extends Controller
                     'result' => null
                 );
             } else {
-                unset($user['password']);
+            	$member_list = new MemberList;
+	            $member_list->mobile_phone_no = $user->username;
+	            $member_list->first_name = $user->first_name;
+	            $member_list->last_name = $user->last_name;
                 $data = array(
                     'err' => null,
-                    'result' => $user
+                    'result' => $member_list
                 );
             }
         }
