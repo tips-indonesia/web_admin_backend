@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 
 use App\VMemberEmployee;
 use App\User;
+use App\MemberList;
 
 class VMEController extends Controller
 {
