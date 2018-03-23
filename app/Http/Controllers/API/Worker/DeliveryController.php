@@ -131,7 +131,7 @@ class DeliveryController extends Controller
             $ms_user = MemberList::find($shipment->id_shipper);
             $mess = 'Barang kiriman Anda dengan kode pengiriman ' . $shipment->shipment_id . ' sudah diserahkan kepada TIPSTER.'
             if($ms_user)
-                if($ms_user->token != 0) {
+                if($ms_user->token) {
                     FCMSender::post(array(
                         'type' => 'Shipment',
                         'id' => $shipment->shipment_id,

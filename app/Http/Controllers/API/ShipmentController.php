@@ -155,7 +155,7 @@ class ShipmentController extends Controller
         $mess = 'Pengiriman Anda dengan kode ' . $shipment_out->shipment_id . ' telah terdaftar. Tim TIPS akan segera menghubungi Anda.';
         $firebase_sent = "";
         if($ms_user){
-            if($ms_user->token != 0) {
+            if($ms_user->token) {
                 FCMSender::post(array(
                     'type' => 'Shipment',
                     'id' => $shipment_out->shipment_id,
