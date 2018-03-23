@@ -31,20 +31,26 @@ Route::get('/cron/set/off', 'UtilityController@stopcronjob');
 Route::get('/fcmtest', 'FCMSender@testTopic');
 Route::get('/smstest', 'SMSSender@testSMS');
 Route::get('/scrapper_test/{booking_code}/{airport_code}/{date}/{first_name}/{last_name}', 'WebScrapper@testScrapper');
-Route::get('/tes', 'UtilityController@generateCode');
+Route::get('/tes', 'API\\VMEController@getAll');
 
 
 Route::get('/pesan/{id_user}', 'API\\MessageController@getPesan');
 Route::get('/pesan/{id_user}/{id_pesan}', 'API\\MessageController@getPesanSpesifik');
+
+// + Acknowledgement +
+// dua method dibawah ini merepresentasikan proses yang sama,
+// terdapat issue CORS pada web app jika menggunakan method DELETE
+// sehingga dilakukan duplikasi path API untuk menghapus pesan
 Route::delete('/pesan/{id_user}/{id_pesan}', 'API\\MessageController@hapusPesan');
+Route::post('/pesan/{id_user}/{id_pesan}', 'API\\MessageController@hapusPesan');
 
 Route::post('/register', 'API\\UserController@register');
 Route::post('/verify/phone', 'API\\UserController@verifyPhoneNumber');
 Route::post('/verify/resend', 'API\\UserController@resendSMSCode');
-Route::post('/login', 'API\\UserController@login');
-Route::post('/login/device', 'API\\UserController@deviceRegisterOrLogin');
-Route::post('/login/fb', 'API\\UserController@actionFB');
-Route::post('/login/twitter', 'API\\UserController@actionTwitter');
+Route::post('/login', 'API\\VMEController@login');
+Route::post('/login/device', 'API\\VMEController@deviceRegisterOrLogin');
+Route::post('/login/fb', 'API\\VMEController@actionFB');
+Route::post('/login/twitter', 'API\\VMEController@actionTwitter');
 
 Route::get('/payment/bank', 'API\\PaymentController@bank_list');
 Route::get('/payment', 'API\\PaymentController@list_type_payment');
@@ -71,6 +77,7 @@ Route::post('/flight/create_flight', 'API\\FlightController@post_flight_booking_
 Route::get('/flight/booking/used', 'API\\FlightController@get_used_booking_code');
 Route::get('/flight/booking/city', 'API\\FlightController@get_booking_code_by_city');
 Route::post('/flight/check_flight_b_n_d', 'UtilityController@check_flight_b_n_d');
+Route::get('/flight/code_check', 'API\\FlightController@flight_booking_code_check');
 
 Route::get('/money/{id}', 'UtilityController@getMyMoney');
 

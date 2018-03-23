@@ -39,7 +39,7 @@
                                 <select name="area" class="select-search">
                                     <option disabled selected></option>
                                     @foreach($airportcitylists as $airportcitylist)
-                                    <option value="{{ $airportcitylist->id }}"> {{ $airportcitylist->name }} </option>
+                                        <option value="{{ $airportcitylist->id }}" @if($airportcitylist->id == $datas->id_area) selected @endif> {{ $airportcitylist->name }} </option>
                                     @endforeach
                                 </select>
                             </div>

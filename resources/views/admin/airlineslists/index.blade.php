@@ -15,6 +15,7 @@
             <thead>
                 <tr>
                     <th>Name</th>
+                    <th>Prefix Flight Code</th>
                     <th>Status</th>
                     <th>Actions</th>
                 </tr>
@@ -24,6 +25,9 @@
                     <tr>
                         <td>
                             {{ $data->name }}
+                        </td>
+                        <td>
+                            {{ $data->prefix_flight_code }}
                         </td>
                         <td>
                             {{ $data->status == 1 ? 'Active' : 'Inactive' }}

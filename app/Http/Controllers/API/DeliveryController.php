@@ -56,7 +56,7 @@ class DeliveryController extends Controller
             $slot->first_name = $request->first_name;
             $slot->last_name = $request->last_name;
             $slot->flight_code = $request->flight_code;
-            $slot->baggage_space = $request->baggage_space;
+            $slot->baggage_space = $request->baggage_space; // bagian ini jangan di hardcode
             $slot->slot_price_kg = $price->tipster_price;
             $slot->id_origin_city = $airport_origin->id_city;
             $slot->id_destination_city = $airport_destination->id_city;
@@ -125,7 +125,7 @@ class DeliveryController extends Controller
                     'addt_info' => array(
                         'kode_bandara_asal' => $slot->airportOrigin->initial_code,
                         'kode_bandara_tujuan' => $slot->airportDestination->initial_code,
-                        'airline_name' => $slot->airline_data->name
+                        'airline_name' => $slot ? FlightController::getAirlineNameOfFlightCode($slot->flight_code) : ""
                     )
                 )
             );
@@ -157,7 +157,8 @@ class DeliveryController extends Controller
 
                 foreach ($shipments as $shipment) {
                     $shipment->status_dispatch = 'Pending';
-                    $shipment->id_shipment_status = 1;
+                    $shipment->id_shipment_status = 4;
+                    $shipment->id_slot = null;
                     $shipment->save();
 
                     if($shipment->is_first_class) {
@@ -206,7 +207,12 @@ class DeliveryController extends Controller
                             'description' => $delivery_status->description,
                             'detail' => $slot->detail_status
                         ),
-                        'delivery' => $slot
+                        'delivery' => $slot,
+                        'addt_info' => array(
+                            'kode_bandara_asal' => $slot->airportOrigin->initial_code,
+                            'kode_bandara_tujuan' => $slot->airportDestination->initial_code,
+                            'airline_name' => $slot ? FlightController::getAirlineNameOfFlightCode($slot->flight_code) : ""
+                        )
                     )
                 );
             }
@@ -289,7 +295,12 @@ class DeliveryController extends Controller
                         'description' => $delivery_status->description,
                         'detail' => $slot->detail_status
                     ),
-                    'delivery' => $slot
+                    'delivery' => $slot,
+                    'addt_info' => array(
+                        'kode_bandara_asal' => $slot->airportOrigin->initial_code,
+                        'kode_bandara_tujuan' => $slot->airportDestination->initial_code,
+                        'airline_name' => $slot ? FlightController::getAirlineNameOfFlightCode($slot->flight_code) : ""
+                    )
                 )
             );
 

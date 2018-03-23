@@ -788,11 +788,11 @@ class UtilityController extends Controller
 
         if($res){
             if($res->status == 200){
-                $booking_code = $request->booking_code;
-                $code_origin = $res->Origin_Airport;
-                $code_destination = $res->Destination_Airport;
-                $date_origin = date('Y-m-d H:i:s', strtotime($res->Date . ' ' . $res->Time));
-                $flight_code = "SCP777";
+                $booking_code = property_exists($request, 'booking_code') ? $request->booking_code : null;
+                $code_origin = property_exists($res, 'Origin_Airport') ? $res->Origin_Airport : null;
+                $code_destination = property_exists($res, 'Destination_Airport') ? $res->Destination_Airport : null;
+                $date_origin = property_exists($res, 'Date') && property_exists($res, 'Time') ? date('Y-m-d H:i:s', strtotime($res->Date . ' ' . $res->Time)) : null;
+                $flight_code = property_exists($res, 'Flight_Code') ? $res->Flight_Code : null;
 
                 // create new booking record
                 $new_booking = FlightController::create_new_booking($booking_code, $code_origin, 
@@ -815,7 +815,7 @@ class UtilityController extends Controller
                 $data = array(
                     'err' => null,
                     'result' => array(
-                        "data_is_available" => true,
+                        "data_is_available" => false,
                         "booking" => $new_booking
                     )
                 );
@@ -827,7 +827,8 @@ class UtilityController extends Controller
         $data = array(
             'err' => null,
             'result' => array(
-                "data_is_available" => false
+                "data_is_available" => false,
+                "booking" => FlightController::create_new_empty_booking()
             )
         );
         return response()->json($data, 200);

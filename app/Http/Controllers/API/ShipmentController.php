@@ -120,7 +120,7 @@ class ShipmentController extends Controller
 
             // $shipment->flight_cost = ($reguler*$request->estimate_weight) + $shipment->add_insurance_cost;
 
-            $slot_price = SlotList::where('id_origin_city', $id_origin_city)->where('id_destination_city', $id_destination_city)->first()->slot_price_kg;
+            $slot_price = PriceList::where('id_origin_city', $id_origin_city)->where('id_destination_city', $id_destination_city)->first()->slot_price_kg;
             $shipment->flight_cost = $request->estimate_weight * $slot_price + $shipment->add_insurance_cost;
         }
 
@@ -176,6 +176,21 @@ class ShipmentController extends Controller
             $shipment_status = ShipmentStatus::where('id','<=',$shipment->id_shipment_status)->where('is_hidden',false)->orderBy('id', 'desc')->first();
             $shipment->origin_city = AirportcityList::find($shipment->id_origin_city)->name;
             $shipment->destination_city = AirportcityList::find($shipment->id_destination_city)->name;
+
+
+            // #######################
+            // Exception Status 1 - 15
+            // #######################
+            // Begin 
+            // 
+            switch ($shipment_status->step) {
+                case '6':
+                    $shipment_status->description += "(" + $shipment->destination_city + ")";
+                    break;
+            }
+            //
+            // END 
+            // #######################
             $slot = false;
             if($shipment->id_slot)
                 $slot = SlotList::find($shipment->id_slot);
@@ -191,7 +206,8 @@ class ShipmentController extends Controller
                     'addt_info' => array(
                         'kode_bandara_asal' => $slot ? $slot->airportOrigin->initial_code : "",
                         'kode_bandara_tujuan' => $slot ? $slot->airportDestination->initial_code : "",
-                        'flight_code' => $slot ? $slot->flight_code : ""
+                        'flight_code' => $slot ? $slot->flight_code : "",
+                        'airline_name' => $slot ? FlightController::getAirlineNameOfFlightCode($slot->flight_code) : ""
                     )
                 )
             );
@@ -291,7 +307,7 @@ class ShipmentController extends Controller
                 'err' => null,
                 'result' => [
                     'code' => 1,
-                    'message' => 'Shipment berasil di cancel'
+                    'message' => 'Shipment berasil dibatalkan'
                 ]
             );
         }
