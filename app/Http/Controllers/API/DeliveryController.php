@@ -94,6 +94,7 @@ class DeliveryController extends Controller
 
             $data = array(
                 'err' => null,
+                'firebase_sent_time' => $firebase_sent,
                 'slot' => $slot
             );
         }
