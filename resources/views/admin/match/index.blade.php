@@ -314,7 +314,7 @@
 
             // Get all slot data, callback with result as parameter
             var getInitSlotData = (callback) => {
-                let url = endpoint_url + "match/all_slot";
+                let url = endpoint_url + "match/all_slot?id={{$id}}";
 
                 $.ajax({
                     "url": url,

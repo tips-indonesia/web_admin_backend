@@ -19,8 +19,10 @@ class SetOfficeName
     public function handle($request, Closure $next)
     {
         $user = User::find(Auth::id());
-        $office = OfficeList::find($user->id_office);
-        session(['officename' => $office->name]);
+        if ($user->id_office != null) {
+            $office = OfficeList::find($user->id_office);
+            session(['officename' => $office->name]);
+        }
         return $next($request);
     }
 }

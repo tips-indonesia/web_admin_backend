@@ -45,7 +45,9 @@ class LoginController extends Controller
 
 
     public function logout(Request $request) {
+        $request->session()->forget('officename');
         Auth::logout();
+
         return redirect('/admin');
     }
 }

@@ -43,7 +43,7 @@
                             <select name="office" class="select-search" id="office">
                                 <option disabled selected></option>
                                 @foreach ($offices as $office)
-                                    <option value="{{ $office->id }}">{{ $office->name }}</option>
+                                    <option value="{{ $office->id }}"@if($datas->id_office == $office->id) selected @endif>{{ $office->name }}</option>
                                 @endforeach
                             </select>
                         </div>

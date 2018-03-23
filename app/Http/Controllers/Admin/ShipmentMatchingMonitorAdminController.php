@@ -33,7 +33,7 @@ class ShipmentMatchingMonitorAdminController extends Controller
         $search = [];
         $data  = [];
         $data['match'] = null;
-        $data['class'] = null;
+        $data['class'] = null;s
         if (Input::get('param') == 'blank' || !Input::get('param') ) {
             $data['datas'] = Shipment::where('id', '!=', null);
             $data['param'] = Input::get('param');
@@ -58,6 +58,7 @@ class ShipmentMatchingMonitorAdminController extends Controller
                 $data['datas'] = $data['datas']->where('is_first_class', Input::get('class') == 'first_class');
             }
         }
+
         $data['datas'] = $data['datas']->paginate(10);
         foreach($data['datas'] as $dat) {
             $dat['name_origin'] = CityList::find($dat->id_origin_city)->name;
