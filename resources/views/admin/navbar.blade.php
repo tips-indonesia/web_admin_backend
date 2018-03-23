@@ -9,8 +9,11 @@
     </div>
 
     <div class="navbar-collapse collapse" id="navbar-mobile">
-        
-
+        <ul class="nav navbar-nav navbar-left">
+            <li style="margin-top: 5px; font-size: 24px;">
+                {{session('officename')}}
+            </li>
+        </ul>
         <ul class="nav navbar-nav navbar-right">
             <li class="dropdown language-switch">
                 <a class="dropdown-toggle" data-toggle="dropdown">
