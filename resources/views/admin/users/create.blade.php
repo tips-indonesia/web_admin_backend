@@ -32,9 +32,30 @@
                             {{ Form::text('lname', null, array('class' => 'form-control', 'placeholder' => 'Last Name')) }}
                         </div>
                         <div class="form-group">
-                            <label>Username :</label>
-                            {{ Form::text('username', null, array('class' => 'form-control', 'placeholder' => 'Username')) }}
+                            <label>Phone Number :</label>
+                            <div class="row">
+                                <div class="col-md-1">
+                                    <input type="text" value="+62" disabled readonly class="form-control">
+                                </div>
+                                <div class="col-md-11">
+                                    {{ Form::text('mobile_phone_no', null, array('class' => 'form-control', 'placeholder' => 'Phone Number')) }}
+                                </div>
+                            </div>
                         </div>
+
+                        <div class="form-group">
+                            <label>Email :</label>
+                            <input type="email" name="email" class="form-control">
+                        </div>
+                        <input type="hidden" name="worker" value="1">
+                        <div class="form-group">
+                            <label>Birth Date :</label>
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="icon-calendar5"></i></span>
+                                <input type="text" name="birth_date" id="date" class="form-control pickadate-year">
+                            </div>
+                        </div>
+
                         <div class="form-group">
                             <label>Role :</label>
                             <select name="role" class="select-search">
@@ -72,5 +93,9 @@
     </div>
         <script>
             $('.select-search').select2();
+
+            $('.pickadate-year').datepicker({
+                format: 'yyyy-mm-dd',
+            });
         </script>
 @endsection

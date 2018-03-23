@@ -53,7 +53,7 @@
 								</div>
 							@endif
 							<div class="form-group has-feedback has-feedback-left">
-                                <input type="text" name="username" id="username" value="{{ old('username') }}" placeholder="Username" class="form-control" required>
+                                <input type="text" name="mobile_phone_no" id="username" value="{{ old('username') }}" placeholder="Phone Number" class="form-control" required>
                                 <div class="form-control-feedback">
 									<i class="icon-user text-muted"></i>
 								</div>

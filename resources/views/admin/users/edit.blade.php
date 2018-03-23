@@ -22,9 +22,27 @@
                             {{ Form::text('lname', $datas->last_name, array('class' => 'form-control', 'placeholder' => 'Last Name')) }}
                         </div>
                         <div class="form-group">
-                            <label>Username :</label>
-                            {{ Form::text('username', $datas->username, array('class' => 'form-control', 'placeholder' => 'Username', 'disabled' => 'disabled')) }}
+                            <label>Phone Number :</label>
+                            <div class="row">
+                                
+                                    <input type="text" name="mobile_phone_no" class="form-control" value="{{$datas->mobile_phone_no}}" disabled>
+                                
+                            </div>
                         </div>
+
+                        <div class="form-group">
+                            <label>Email :</label>
+                            <input type="email" name="email" class="form-control" value="{{$datas->email}}">
+                        </div>
+                        <input type="hidden" name="worker" value="1">
+                        <div class="form-group">
+                            <label>Birth Date :</label>
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="icon-calendar5"></i></span>
+                                <input value="{{$datas->birth_date}}" type="text" name="birth_date" id="date" class="form-control pickadate-year">
+                            </div>
+                        </div>
+                        
                         <div class="form-group">
                             <label>Role :</label>
                             <select name="role" class="select-search">
