@@ -47,10 +47,10 @@ Route::post('/pesan/{id_user}/{id_pesan}', 'API\\MessageController@hapusPesan');
 Route::post('/register', 'API\\UserController@register');
 Route::post('/verify/phone', 'API\\UserController@verifyPhoneNumber');
 Route::post('/verify/resend', 'API\\UserController@resendSMSCode');
-Route::post('/login', 'API\\UserController@login');
-Route::post('/login/device', 'API\\UserController@deviceRegisterOrLogin');
-Route::post('/login/fb', 'API\\UserController@actionFB');
-Route::post('/login/twitter', 'API\\UserController@actionTwitter');
+Route::post('/login', 'API\\VMEController@login');
+Route::post('/login/device', 'API\\VMEController@deviceRegisterOrLogin');
+Route::post('/login/fb', 'API\\VMEController@actionFB');
+Route::post('/login/twitter', 'API\\VMEController@actionTwitter');
 
 Route::get('/payment/bank', 'API\\PaymentController@bank_list');
 Route::get('/payment', 'API\\PaymentController@list_type_payment');

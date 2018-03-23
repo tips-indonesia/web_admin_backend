@@ -17,4 +17,24 @@ class VMEController extends Controller
 
     	return response()->json($data, 200);
     }
+
+    public function throwException(){
+        $data = array(
+	        'err' => [
+	            'code' => 0,
+	            'message' => 'under maintenance'
+	        ],
+	        'result' => null
+	    );
+
+	    return response()->json($data, 200);
+    }
+
+    public function login(Request $request){
+    	$user = VMemberEmployee::where('mobile_phone_no', $request->mobile_phone_no)->first();
+    	if($user->isEmployee)
+    		return $this->throwException();
+    	else
+    		return UserController()->login($request);
+    }
 }
