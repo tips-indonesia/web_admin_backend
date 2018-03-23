@@ -43,8 +43,8 @@
                                 </div>
                         <div class="text-right form-group">
                             <select multiple="multiple" class="form-control listbox" name="packagings[]">
-                               @foreach ($packaging as $datax)
-                                    <option value="{{ $datax->id }}" @if (in_array($datax->id, $chosen_packaging)) selected @endif> {{ $datax->packaging_id }} &nbsp; - &nbsp; {{ $datax->created_at }} &nbsp; - &nbsp; {{ $datax->origin_name }} &nbsp; - &nbsp; {{ $datax->destination_name }} </option>
+                               @foreach ($packaging as $data)
+                                    <option value="{{ $data->id }}" @if (in_array($data->id, $chosen_packaging)) selected @endif> {{ $data->packaging_id }} &nbsp; - &nbsp; {{ $data->created_at }} &nbsp; - &nbsp; {{ $data->origin_name }} &nbsp; - &nbsp; {{ $data->destination_name }} </option>
                                 @endforeach
                             </select>
                         </div>

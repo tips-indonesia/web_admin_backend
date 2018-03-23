@@ -13,6 +13,7 @@ use App\ShipmentStatus;
 use App\DaftarBarangRegular;
 use App\DaftarBarangGold;
 use App\ProvinceList;
+use App\MemberList;
 use App\CityList;
 use App\SubdistrictList;
 use App\PriceGoodsEstimate;
@@ -148,6 +149,20 @@ class ShipmentController extends Controller
 
         $shipment_status = ShipmentStatus::find($shipment_out->id_shipment_status);
         $shipment_out->shipment_status_description = $shipment_status->description;
+
+        
+        $user = MemberList::find($slot->id_shipper);
+        $mess = 'Pengiriman Anda dengan kode ' + $shipment->shipment_id + ' telah terdaftar. Tim TIPS akan segera menghubungi Anda.';
+        if($user)
+            if($user->token != 0) {
+                FCMSender::post(array(
+                    'type' => 'Delivery',
+                    'id' => $slot->slot_id,
+                    'status' => "6",
+                    'message' => $mess,
+                    'detail' => ""
+                ), $user->token);
+            }
 
         $data = array(
             'err' => null,

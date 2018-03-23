@@ -138,11 +138,14 @@ class ShipmentController extends Controller
 
             $shipment->save();
 
+            $mess = 'Barang kiriman Anda dengan kode pengiriman ' + $shipment->shipment_id + ' sudah diambil oleh: '
+                    + $shipment->consignee_first_name + " " + $shipment->consignee_last_name;
+
             $data = array(
                 'err' => null,
                 'result' => [
                     'code' => 1,
-                    'message' => 'Berasil mengupload signature'
+                    'message' => $mess
                 ]
             );
         }

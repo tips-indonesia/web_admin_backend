@@ -41,16 +41,16 @@
                         <div class="text-right form-group">
                             <select multiple="multiple" class="form-control listbox" name="shipments[]">
 
-                                @foreach ($inputed_shipment_lists as $datax)
-                                @if(in_array($datax->packagingList->id, $delivery_shipments))
-                                    <option value="{{$datax->packagingList->id}}" SELECTED> {{ $datax->packagingList->packaging_id }} &nbsp; - &nbsp; {{ date("Y-m-d", strtotime($datax->created_at)) }} &nbsp; - &nbsp; {{ $datax->airportOrigin->name }} &nbsp; - &nbsp; {{ $datax->airportDestination->name }} </option>
+                                @foreach ($inputed_shipment_lists as $data)
+                                @if(in_array($data->packagingList->id, $delivery_shipments))
+                                    <option value="{{$data->packagingList->id}}" SELECTED> {{ $data->packagingList->packaging_id }} &nbsp; - &nbsp; {{ date("Y-m-d", strtotime($data->created_at)) }} &nbsp; - &nbsp; {{ $data->airportOrigin->name }} &nbsp; - &nbsp; {{ $data->airportDestination->name }} </option>
                                     }
                                 @endif
                                 @endforeach
 
 
-                               @foreach ($shipment_lists as $datax)
-                                    <option value="{{$datax->packagingList->id}}" {{ in_array($datax->packagingList->id, $delivery_shipments)? "SELECTED" : "" }}> {{ $datax->packagingList->packaging_id }} &nbsp; - &nbsp; {{ date("Y-m-d", strtotime($datax->created_at)) }} &nbsp; - &nbsp; {{ $datax->airportOrigin->name }} &nbsp; - &nbsp; {{ $datax->airportDestination->name }} </option>
+                               @foreach ($shipment_lists as $data)
+                                    <option value="{{$data->packagingList->id}}" {{ in_array($data->packagingList->id, $delivery_shipments)? "SELECTED" : "" }}> {{ $data->packagingList->packaging_id }} &nbsp; - &nbsp; {{ date("Y-m-d", strtotime($data->created_at)) }} &nbsp; - &nbsp; {{ $data->airportOrigin->name }} &nbsp; - &nbsp; {{ $data->airportDestination->name }} </option>
                                 @endforeach
 
                             </select>
