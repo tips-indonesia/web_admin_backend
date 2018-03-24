@@ -16,29 +16,36 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Shipper Name :</label>
-                                <input type="text" value="{{ $data->shipper_name }}" class="form-control" disabled readonly />
+                                <input type="text" value="{{ $data->shipper_first_name.' '.$data->shipper_last_name }}" class="form-control" disabled readonly />
                             </div>
+                            
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
                             <div class="form-group">
                                 <label>Origin City :</label>
                                 <input type="text" value="{{ $data->origin_city }}" class="form-control" disabled readonly />
                             </div>
+                        </div>
+                        <div class="col-md-6">
                             <div class="form-group">
                                 <label>Destination City :</label>
                                 <input type="text" value="{{ $data->destination_city }}" class="form-control" disabled readonly />
                             </div>
                         </div>
+                    </div>
+                    <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Departure Date :</label>
-                                <input type="text" value="" class="form-control" disabled readonly />
+                                <label>Consignee Name :</label>
+                                <input type="text" value="{{ $data->consignee_first_name.' '.$data->consignee_last_name }}" class="form-control" disabled readonly />
                             </div>
+                        </div>
+                        <div class="col-md-6">
                             <div class="form-group">
-                                <label>Departure Hour :</label>
-                                <input type="text" value="" class="form-control" disabled readonly />
-                            </div>
-                            <div class="form-group">
-                                <label>Arrival Hour :</label>
-                                <input type="text" value="" class="form-control" disabled readonly />
+                                <label>Consignee Address :</label>
+                                <input type="text" value="{{ $data->consignee_address }}" class="form-control" disabled readonly />
                             </div>
                         </div>
                     </div>

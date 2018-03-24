@@ -75,5 +75,8 @@
     </div>
         <script>
             $('.select-search').select2();
+            $('.pickadate-year').datepicker({
+            format: 'yyyy-mm-dd',
+        });
         </script>
 @endsection
