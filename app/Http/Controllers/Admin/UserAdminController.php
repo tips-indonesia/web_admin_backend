@@ -146,7 +146,7 @@ class UserAdminController extends Controller
 
         // process the login
         if ($validator->fails()) {
-            return Redirect::to(route('users.edit'))
+            return Redirect::to(route('users.edit', ['users' => $id]))
                 ->withErrors($validator)
                 ->withInput();
         } else {
