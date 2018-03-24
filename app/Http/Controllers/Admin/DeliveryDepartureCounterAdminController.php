@@ -112,7 +112,6 @@ class DeliveryDepartureCounterAdminController extends Controller
                 $slot = SlotList::where('id_origin_city', $office->id_area)->pluck('id');
                 $data['datas'] = $data['datas']->whereIn('id_slot', $slot);
             }
-            echo $slot;
             $data['datas'] = $data['datas']->get();
             foreach ($data['datas'] as $dat) {
                 if ($dat->id_slot != null) {
@@ -186,7 +185,17 @@ class DeliveryDepartureCounterAdminController extends Controller
         $data['chosen_packaging'] = PackagingList::whereIn('id',PackagingDelivery::where('deliveries_id', $id)->pluck('packaging_id')->toArray())->pluck('id')->toArray();
         $selected =PackagingDelivery::where('deliveries_id', '!=',$id)->pluck('packaging_id')->toArray();
 
-        $data['packaging'] = PackagingList::whereDate('created_at', '=', DeliveryDeparture::find($id)->delivery_date)->whereNotIn('id', $selected)->get();
+        $data['packaging'] = PackagingList::whereDate('created_at', '=', DeliveryDeparture::find($id)->delivery_date)->whereNotIn('id', $selected);
+
+        $user = User::find(Auth::id());
+        if ($user->id_office != null) {
+            $office = OfficeList::find($user->id_office);
+            $slot = SlotList::where('id_origin_city', $office->id_area)->pluck('id');
+            $data['packaging'] = $data['packaging']->whereIn('id_slot', $slot);
+        }
+
+        $data['packaging'] = $data['packaging']->get();
+
         foreach ($data['packaging'] as $dat) {
             if ($dat->id_slot != null) {
                     $slot = SlotList::find($dat->id_slot);
