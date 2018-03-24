@@ -10,21 +10,37 @@ class User extends Authenticatable
 {
     use Notifiable;
     use HasRoles;
+
+    protected $table = 'member_lists';
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'first_name', 'last_name', 'name', 'username', 'password'
+        'first_name', 
+        'last_name', 
+        'email', 
+        'password', 
+        'mobile_phone_no',
+        'registered_date',
+        'profil_picture',
+        'birth_date',
+        'address',
+        'status',
+        'is_worker',
+        'id_office',
+        'sex'
     ];
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
+    // *
+    //  * The attributes that should be hidden for arrays.
+    //  *
+    //  * @var array
+     
     protected $hidden = [
         'password', 'remember_token',
     ];
+
 }

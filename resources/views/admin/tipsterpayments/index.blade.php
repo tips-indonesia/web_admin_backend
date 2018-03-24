@@ -11,6 +11,28 @@
         {{ Form::open(array('url' => route('tipsterpayments.index'), 'method' => 'GET', 'id' => 'date_form')) }}
                     <div class="panel-body">
                 <div class="row">
+                    <div class="form-group">
+                        <label>Date :</label>
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="icon-calendar5"></i></span>
+                            <input type="text" name="date" id="date" class="form-control pickadate-year" placeholder="Transaction date" value="{{ $date }}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="display-block text-semibold">Status Terima :</label>
+                        <label class="radio-inline">
+                            <input type="radio" name="radio" @if($checked != 0 && $checked != 1) checked="checked" @endif value="-1">
+                            Keseluruhan
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="radio" @if($checked == 0) checked="checked" @endif value="0">
+                            Belum Bayar
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="radio" @if($checked == 1) checked="checked" @endif value="1">
+                            Sudah Bayar
+                        </label>
+                    </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>Search By :</label>
@@ -19,13 +41,14 @@
                                 <option value="slot_id" @if($param =='slot_id') selected @endif>Slot ID</option>
                                 <option value="origin_city" @if($param =='origin_city') selected @endif>Origin City</option>
                                 <option value="destination_city" @if($param =='destination_city') selected @endif>Destination City</option>
+                                <option value="name" @if($param =='name') selected @endif>Tipster Name</option>
                             </select>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>&#8192;</label>
-                            <input type="text" name="value" id="value" class="form-control " placeholder="Search" value={{$value }}>                       
+                            <input type="text" name="value" id="value" class="form-control " placeholder="Search" value={{$value}}>                       
                         </div>
                     </div>
                 </div>
@@ -47,6 +70,8 @@
             </thead>
             <tbody>
                 @foreach ($packages as $package)
+                @if($package->is_included)
+                @if($package->status_bayar == $checked || $checked == -1)
                     <tr>
                         <td>
                             {{ $package->slot_id }}
@@ -76,6 +101,8 @@
                         </ul>
                         </td>
                     </tr>
+                @endif
+                @endif
                 @endforeach
             </tbody>
         </table>

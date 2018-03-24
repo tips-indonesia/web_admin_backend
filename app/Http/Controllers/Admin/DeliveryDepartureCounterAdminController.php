@@ -12,6 +12,7 @@ use App\OfficeList;
 use App\PackagingList;
 use App\PackagingDelivery;
 use App\Delivery;
+use App\User;
 use Validator;
 use App\CityList;
 use App\AirportcityList;
@@ -49,13 +50,33 @@ class DeliveryDepartureCounterAdminController extends Controller
             $data['value'] = Input::get('value');
             $data['datas'] = $data['datas']->where(Input::get('param'),'=', Input::get('value'));
         }
+        $user = User::find(Auth::id());
+
+        if ($user->id_office != null) {
+            $office = OfficeList::find($user->id_office);
+            $slot = SlotList::where('id_origin_city', $office->id_area)->pluck('id');
+            $packaginglist = PackagingList::whereIn('id_slot', $slot)->pluck('id');
+            $packagingdelivery = PackagingDelivery::whereIn('packaging_id', $packaginglist)
+                        ->pluck('deliveries_id');
+            $data['datas'] = $data['datas']->whereIn('id', $packagingdelivery);
+        }
+
         $data['datas'] = $data['datas']->paginate(10);
         foreach ($data['datas'] as $dat) {
             $dat['total'] = PackagingDelivery::where('deliveries_id', $dat->id)->get()->count();
         }
         
         $selected =PackagingDelivery::all()->pluck('packaging_id')->toArray();
-        $data['datas2'] = PackagingList::whereNotIn('id', $selected)->get();
+        $data['datas2'] = PackagingList::whereNotIn('id', $selected);
+
+        if ($user->id_office != null) {
+            $office = OfficeList::find($user->id_office);
+            $slot = SlotList::where('id_origin_city', $office->id_area)->pluck('id');
+            $data['datas2'] = $data['datas2']->whereIn('id_slot', $slot);
+        }
+
+        $data['datas2'] = $data['datas2']->get();
+
         foreach ($data['datas2'] as $dat) {
             if ($dat->id_slot != null) {
                 $slot = SlotList::find($dat->id_slot);
@@ -83,7 +104,15 @@ class DeliveryDepartureCounterAdminController extends Controller
             $data['datas'] = array(); 
         } else {
             $selected =PackagingDelivery::all()->pluck('packaging_id')->toArray();
-            $data['datas'] = PackagingList::whereDate('created_at', '=', $date)->whereNotIn('id', $selected)->get();
+            $data['datas'] = PackagingList::whereDate('created_at', '=', $date)->whereNotIn('id', $selected);
+
+            $user = User::find(Auth::id());
+            if ($user->id_office != null) {
+                $office = OfficeList::find($user->id_office);
+                $slot = SlotList::where('id_origin_city', $office->id_area)->pluck('id');
+                $data['datas'] = $data['datas']->whereIn('id_slot', $slot);
+            }
+            $data['datas'] = $data['datas']->get();
             foreach ($data['datas'] as $dat) {
                 if ($dat->id_slot != null) {
                     $slot = SlotList::find($dat->id_slot);
@@ -156,7 +185,17 @@ class DeliveryDepartureCounterAdminController extends Controller
         $data['chosen_packaging'] = PackagingList::whereIn('id',PackagingDelivery::where('deliveries_id', $id)->pluck('packaging_id')->toArray())->pluck('id')->toArray();
         $selected =PackagingDelivery::where('deliveries_id', '!=',$id)->pluck('packaging_id')->toArray();
 
-        $data['packaging'] = PackagingList::whereDate('created_at', '=', DeliveryDeparture::find($id)->delivery_date)->whereNotIn('id', $selected)->get();
+        $data['packaging'] = PackagingList::whereDate('created_at', '=', DeliveryDeparture::find($id)->delivery_date)->whereNotIn('id', $selected);
+
+        $user = User::find(Auth::id());
+        if ($user->id_office != null) {
+            $office = OfficeList::find($user->id_office);
+            $slot = SlotList::where('id_origin_city', $office->id_area)->pluck('id');
+            $data['packaging'] = $data['packaging']->whereIn('id_slot', $slot);
+        }
+
+        $data['packaging'] = $data['packaging']->get();
+
         foreach ($data['packaging'] as $dat) {
             if ($dat->id_slot != null) {
                     $slot = SlotList::find($dat->id_slot);

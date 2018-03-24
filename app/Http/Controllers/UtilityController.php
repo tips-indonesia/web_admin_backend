@@ -15,7 +15,9 @@ use App\Http\Controllers\API\MessageController;
 use App\Http\Controllers\API\FlightController;
 use App\ShipmentStatus;
 use App\DeliveryStatus;
-
+use App\User;
+use Illuminate\Support\Facades\Auth;
+use App\OfficeList;
 use App\MemberList;
 
 use Storage;
@@ -360,9 +362,18 @@ class UtilityController extends Controller
     }
 
     public function allAvailableSlot(Request $req){
+        $user = User::find($_GET['id']);
+
+        if ($user->id_office != null) {
+            $office = OfficeList::find($user->id_office);
+            $slot = SlotList::where('id_origin_city', $office->id_area)->pluck('id');
+        } else {
+            $slot = SlotList::all()->pluck('id');
+        }
+
         return response()->json([
             "err" => null,
-            "result" => SlotList::where('id_slot_status', '1')->get()
+            "result" => SlotList::where('id_slot_status', '1')->whereIn('id', $slot)->get()
         ], 200);
     }
 

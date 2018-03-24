@@ -152,11 +152,7 @@ class MenuTableSeeder extends Seeder
                 'menu_parent_id' => $transaction->id,
                 'class_name' => 'receiveprocessingcenters.'
             ]);
-            MenuList::create([
-                'name' => 'Pending Package at Departure Counter',
-                'menu_parent_id' => $transaction->id,
-                'class_name' => 'pendingdeparturecounters.'
-            ]);
+            
             MenuList::create([
                 'name' => 'Delivery Packaging to Arrival Processing Center',
                 'menu_parent_id' => $transaction->id,
@@ -167,11 +163,7 @@ class MenuTableSeeder extends Seeder
                 'menu_parent_id' => $transaction->id,
                 'class_name' => 'receivedarrivalprocessingcenter.'
             ]);
-            MenuList::create([
-                'name' => '(?) Pending Package at Arrival Counter',
-                'menu_parent_id' => $transaction->id,
-                'class_name' => 'pendingarrivalcounters.'
-            ]);
+            
             MenuList::create([
                 'name' => 'Delivery Shipment',
                 'menu_parent_id' => $transaction->id,
@@ -188,14 +180,6 @@ class MenuTableSeeder extends Seeder
                 'class_name' => 'shipmenttrackings.'
             ]);
             
-            
-            
-            MenuList::create([
-                'name' => 'Shipment Matching Monitor',
-                'menu_parent_id' => $transaction->id,
-                'class_name' => 'shipmentmatchingmonitors.'
-            ]);
-
             MenuList::create([
                 'name' => 'Tipster Payment',
                 'menu_parent_id' => $transaction->id,

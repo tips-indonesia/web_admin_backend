@@ -12,10 +12,17 @@
     	{{ Form::open(array('url' => route('receivedarrivalprocessingcenter.index'), 'method' => 'GET', 'id' => 'date_form')) }}
             <div class="panel-body">
                 <div class="form-group">
+                    <label>Date :</label>
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="icon-calendar5"></i></span>
+                        <input type="text" name="date" id="date" class="form-control pickadate-year" placeholder="Transaction date" value="{{ $date }}">
+                    </div>
+                </div>
+                <div class="form-group">
                     <label class="display-block text-semibold">Status Terima :</label>
                     <label class="radio-inline">
                         <input type="radio" name="radio" @if($checked != 0 && $checked != 1) checked="checked" @endif value="-1">
-                        Semua
+                        Keseluruhan
                     </label>
                     <label class="radio-inline">
                         <input type="radio" name="radio" @if($checked == 0) checked="checked" @endif value="0">
@@ -32,7 +39,7 @@
                             <label>Search By :</label>
                             <select name="param" id="param" class="select-search">
                                 <option value="blank" @if($param =='blank' || $param=='') selected @endif>&#8192;</option>
-                                <option value="delivery_id" @if($param =='delivery_id') selected @endif>Delivery ID</option>
+                                <option value="packaging_id" @if($param =='packaging_id') selected @endif>Packaging ID</option>
                             </select>
                         </div>
                     </div>
@@ -51,8 +58,8 @@
         <table class="table datatable-pagination">
             <thead>
                 <tr>
+                    <th>Packaging ID</th>
                     <th>Delivery ID</th>
-                    <th>Delivery Date</th>
                     <th>Total Shipment</th>
                     <th>Status</th>
                     <th>Receive Date</th>
@@ -60,18 +67,20 @@
             </thead>
             <tbody>
                 @foreach($deliveries as $delivery)
+                @if($delivery->is_included)
                 @if($delivery->is_received_by_pc == $checked || $checked == -1)
                 <tr>
                 	<td>
-                        <a href="{{ route('receivedarrivalprocessingcenter.show', $delivery->arrival_shipment_id) }}">
-                            {{$delivery->delivery_id}}
+                        <a href="{{ route('receivedarrivalprocessingcenter.show', $delivery->id) }}">
+                            {{$delivery->packaging_id}}
                         </a>
                     </td>
-                	<td>{{$delivery->delivery_date}}</td>
+                    <td>{{$delivery->delivery_id}}</td>
                     <td>{{$delivery->total_shipment}}
                     <td>{{$delivery->is_received_by_pc == 0 ? 'Belum Diterima':'Sudah Diterima'}}</td>
                     <td>{{$delivery->received_by_pc_date}}</td>
                 </tr>
+                @endif
                 @endif
                 @endforeach
             </tbody>

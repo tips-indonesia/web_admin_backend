@@ -1,10 +1,10 @@
 @extends('admin.app')
 
 @section('title')
-    Edit Packaging Delivery to Processing Center
+    Delivery Packaging to Arrival Processing Center
 @endsection
 @section('page_title')
-    <span class="text-semibold">Packaging Delivery to Processing Center</span> - Edit
+    <span class="text-semibold">Delivery Packaging to Arrival Processing Center</span> - Edit
 @endsection
 @section('content')
     <!-- Vertical form options -->

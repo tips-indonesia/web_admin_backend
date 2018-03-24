@@ -22,7 +22,7 @@ class UserAdminController extends Controller
     public function index()
     {
         //
-        $data['datas'] = User::paginate(10);
+        $data['datas'] = User::where('is_worker', 1)->paginate(10);
         return view('admin.users.index', $data);
     }
 
@@ -39,6 +39,14 @@ class UserAdminController extends Controller
         return view('admin.users.create', $data);
     }
 
+    public function changePhoneNumber($phone) {
+        if ($phone[0] == '0') {
+            for ($i = 0; $i < strlen($phone)-1; $i++) {
+                $phone[$i] = $phone[$i+1];
+            }
+        }
+       return '+62'.$phone;
+    }
     /**
     * Store a newly created resource in storage.
     *
@@ -50,11 +58,14 @@ class UserAdminController extends Controller
         $rules = array(
             'fname' => 'required',
             'lname' => 'required',
-            'username' => 'required|unique:users',
+            'mobile_phone_no' => 'required',
+            'email' => 'email',
+            'birth_date' => 'required',
             'password' => 'required|min:6|confirmed',
             'role' => 'required',
             'office' => 'required'
         );
+
         $messages = array(
             'required' => 'this field is required', 
             'confirmed' => 'make sure password and confirm password matched',
@@ -67,9 +78,16 @@ class UserAdminController extends Controller
                 ->withErrors($validator)
                 ->withInput();
         } else {
-            $user = User::create(['first_name' => Input::get('fname'), 
+            $phone = $this->changePhoneNumber(Input::get('mobile_phone_no'));
+            
+            $user = User::create([
+            'first_name' => Input::get('fname'), 
             'last_name' => Input::get('lname'), 
-            'username' => Input::get('username'), 
+            'mobile_phone_no' => $phone,
+            'email' => Input::get('email'),
+            'registered_date' => date('Y-m-d'),
+            'birth_date' => Input::get('birth_date'),
+            'is_worker' => Input::get('worker'),
             'id_office' => Input::get('office'),
             'password' => bcrypt(Input::get('password'))]);
             $role = Role::find(Input::get('role'));
@@ -119,6 +137,8 @@ class UserAdminController extends Controller
         $rules = array(
             'fname' => 'required',
             'lname' => 'required',
+            'email' => 'required',
+            'birth_date' => 'required',
             'role'  => 'required',
             'office' => 'required'
         );
@@ -133,6 +153,8 @@ class UserAdminController extends Controller
             $user = User::find($id);
             $user->first_name = Input::get('fname');
             $user->last_name = Input::get('lname');
+            $user->email = Input::get('email');
+            $user->birth_date = Input::get('birth_date');
             $role = Role::find(Input::get('role'));
             $user->id_office = Input::get('office');
             $user->syncRoles($role);

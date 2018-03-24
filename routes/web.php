@@ -21,6 +21,8 @@ Route::get('/reset_password/{token}', 'API\\MailWebViewerController@showResetPas
 
 Route::prefix('admin/')->group(function ($locale) {
     Auth::routes();
+Route::group(['middleware' => 'officename'], function() {
+Route::group(['middleware' => 'isWorker'], function() {    
     Route::group( ['middleware' => 'auth' ], function()
     {
         Route::get('/', function () {
@@ -208,6 +210,6 @@ Route::prefix('admin/')->group(function ($locale) {
         Route::resource('statuschangers','Admin\StatusChangerAdminController');
         
     });
-    
-    
+   }); 
+    });
 });

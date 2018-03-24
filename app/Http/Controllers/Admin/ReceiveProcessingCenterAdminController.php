@@ -54,6 +54,13 @@ class ReceiveProcessingCenterAdminController extends Controller
             $shipment_data = PackagingList::where('id','!=', 0)->whereIn('id', $shipments);;
         }
 
+        $user = User::find(Auth::id());
+        if ($user->id_office != null) {
+            $office = OfficeList::find($user->id_office);
+            $slot = SlotList::where('id_origin_city', $office->id_area)->pluck('id');
+            $shipment_data = $shipment_data->whereIn('id_slot', $slot);
+        }
+
         if ($flag == true) {
             $shipment_data = $shipment_data->where('packaging_id', $data['value'])->paginate(10);
         } else {

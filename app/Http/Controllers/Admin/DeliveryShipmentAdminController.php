@@ -14,6 +14,8 @@ use App\BankList;
 use App\AirportcityList;
 use App\User;
 use Validator;
+use Auth;
+use App\OfficeList;
 use Illuminate\Support\Facades\Input;
 
 class DeliveryShipmentAdminController extends Controller
@@ -31,20 +33,33 @@ class DeliveryShipmentAdminController extends Controller
             $flag = true;
         }
         if (!isset($_GET['radio']))
-            $checked = -1;
+            $checked = 0;
         else 
             $checked = Input::get('radio');
 
+
         if ($flag == true) {
         	$shipments = Shipment::whereIn('id_shipment_status', [12,14,15])
-                                 ->where(Input::get('param'), Input::get('value'))
-                                 ->get();       			
+                                 ->where(Input::get('param'), Input::get('value'));       			
         } else {
-        	$shipments = Shipment::whereIn('id_shipment_status', [12,14,15])
-                                 ->get();
+        	$shipments = Shipment::whereIn('id_shipment_status', [12,14,15]);
         }
 
+        $user = User::find(Auth::id());
+        if ($user->id_office != null) {
+            $office = OfficeList::find($user->id_office);
+            $shipments = $shipments->where('id_origin_city', $office->id_area);
+        }
+
+        $shipments = $shipments->get();
+
         foreach($shipments as $shipment) {
+            $shipment['is_included'] = true;
+            if ($shipment->delivered_by == null) {
+                if ($checked != 0) $shipment['is_included'] = false;
+            } else if ($shipment->delivered_by !=null) {
+                if ($checked != 1) $shipment['is_included'] = false;
+            }
             if ($shipment->delivered_by != null) {
                 $user = User::find($shipment->delivered_by);
                 $shipment['nama_pengirim'] = $user->first_name.' '.$user->last_name;

@@ -17,6 +17,7 @@ use App\AirportList;
 use Validator;
 use App\CityList;
 use App\SlotList;
+use App\User;
 use Auth;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Input;
@@ -49,11 +50,30 @@ class DeliveryProcessingCenterAdminController extends Controller
             $data['value'] = Input::get('value');
             $data['datas'] = $data['datas']->where(Input::get('param'),'=', Input::get('value'));
         }
+        $user = User::find(Auth::id());
+
+        if ($user->id_office != null) {
+            $office = OfficeList::find($user->id_office);
+            $slot = SlotList::where('id_origin_city', $office->id_area)->pluck('id');
+            $packaginglist = PackagingList::whereIn('id_slot', $slot)->pluck('id');
+            $arrshipment = ArrivalShipmentDetail::whereIn('packaging_lists_id', $packaginglist)
+                        ->pluck('arrival_shipment_id');
+            $data['datas'] = $data['datas']->whereIn('id', $arrshipment);
+        }
+
         $data['datas'] = $data['datas']->paginate(10);
         foreach ($data['datas'] as $dat) {
             $dat['total'] = PackagingDelivery::where('deliveries_id', $dat->id)->get()->count();
         }
-        $data['pending'] = SlotList::where('id_slot_status', 6)->with('airportOrigin', 'airportDestination')->get();
+        $data['pending'] = SlotList::where('id_slot_status', 6)
+                ->with('airportOrigin', 'airportDestination');
+
+        if ($user->id_office != null) {
+            $office = OfficeList::find($user->id_office);
+            $data['pending'] = $data['pending']->where('id_origin_city', $office->id_area);
+        }
+
+        $data['pending'] = $data['pending']->get();
         $data['datas2'] = ArrivalShipment::whereIn('delivery_id', $data['pending'])->get();
         foreach ($data['datas2'] as $dat) {
             $dat['total'] = PackagingDelivery::where('deliveries_id', $dat->id)->get()->count();
@@ -77,7 +97,15 @@ class DeliveryProcessingCenterAdminController extends Controller
             $data['datas'] = array(); 
         } else {
             // todo slotlist 6 that not package / deliver yet
-            $data['datas'] = SlotList::where('id_slot_status', 7)->get();
+            $data['datas'] = SlotList::where('id_slot_status', 7);
+            $user = User::find(Auth::id());
+
+            if ($user->id_office != null) {
+                $office = OfficeList::find($user->id_office);
+                $data['datas'] = $data['datas']->where('id_origin_city', $office->id_area);
+            }
+
+            $data['datas'] = $data['datas']->get();
             $data['date'] = $date;
         }
         return view('admin.deliveryprocessingcenters.create', $data);
@@ -141,8 +169,15 @@ class DeliveryProcessingCenterAdminController extends Controller
             ->get();
 
         $data['shipment_lists'] = SlotList::where('id_slot_status','=','6')
-            ->with('packagingList', 'airportDestination', 'airportOrigin')
-            ->get();
+            ->with('packagingList', 'airportDestination', 'airportOrigin');
+
+        $user = User::find(Auth::id());
+
+        if ($user->id_office != null) {
+            $office = OfficeList::find($user->id_office);
+            $data['shipment_lists'] = $data['shipment_lists']->where('id_origin_city', $office->id_area);
+        }
+        $data['shipment_lists'] = $data['shipment_lists']->get();
 
         return view('admin.deliveryprocessingcenters.edit', $data);
 

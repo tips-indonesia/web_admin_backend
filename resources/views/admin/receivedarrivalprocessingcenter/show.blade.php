@@ -10,18 +10,13 @@
 <div class="panel panel-flat">
     <div class="panel-body">
         <div class="row">
-            <div class="col-sm-6">
+            <div class="col-sm-12">
                 <div class="form-group">
-                    <label>Delivery ID :</label>
-                    <input type="text" class="form-control" value="{{$delivery->delivery_id}}" readonly disabled>
+                    <label>Packaging ID :</label>
+                    <input type="text" class="form-control" value="{{$package->packaging_id}}" readonly disabled>
                 </div>
             </div>
-            <div class="col-sm-6">
-                <div class="form-group">
-                    <label>Delivery Time :</label>
-                    <input type="text" class="form-control" value="{{$delivery->delivery_date}}" readonly disabled>
-                </div>
-            </div>
+
             <div class="col-md-6">
                 <label>Total Shipment : {{count($shipments)}}</label><br><br>
                 <label>Shipment List</label>

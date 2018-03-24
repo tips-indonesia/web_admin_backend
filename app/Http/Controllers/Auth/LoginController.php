@@ -36,8 +36,9 @@ class LoginController extends Controller
      */
     public function username()
     {
-        return 'username';
+        return 'mobile_phone_no';
     }
+
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
@@ -45,7 +46,9 @@ class LoginController extends Controller
 
 
     public function logout(Request $request) {
+        $request->session()->forget('officename');
         Auth::logout();
+
         return redirect('/admin');
     }
 }

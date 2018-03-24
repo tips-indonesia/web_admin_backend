@@ -41,7 +41,6 @@
                 </div>
             </div>
             {{ Form::close() }}
-            {{$datas }}
         <table class="table datatable-pagination">
             <thead>
                 <tr>

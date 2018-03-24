@@ -11,7 +11,9 @@ use App\ShipmentStatus;
 use App\Shipment;
 use App\AirportcityList;
 use Validator;
+use App\DeliveryStatus;
 use Auth;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
@@ -27,6 +29,8 @@ class SlotListAdminController extends Controller
     */
     public function index()
     {
+        $flag = false;
+        $flagdate = false;
         $data['datas'] = SlotList::where('status_dispatch', 'Process');
         $user = User::find(Auth::id());
         if ($user->id_office != null) {
@@ -34,11 +38,41 @@ class SlotListAdminController extends Controller
             $data['datas'] = $data['datas']->where('id_origin_city', $office->id_area);
         }
 
-        $data['datas'] = $data['datas']->paginate(10);
+        if (Input::get('date')) {
+            $flagdate = true;
+            $data['date'] = Input::get('date');
+        } else {
+            $data['date'] = Carbon::now()->toDateString();
+        }
+
+        if (Input::get('param') == 'blank' || !Input::get('param') ) {
+            $data['param'] = Input::get('param');
+            $data['value'] = Input::get('value');
+        } else {
+            $data['param'] = Input::get('param');
+            $data['value'] = Input::get('value');
+            $flag = true;
+        }
+
+        if ($flag == true) {
+            if (Input::get('param') == 'name') {
+                $name = Input::get('value').'%';
+                $data['datas'] = $data['datas']->where('first_name', 'like', $name)->paginate(10);
+            }    
+        } else {
+            $data['datas'] = $data['datas']->paginate(10);
+        }
+
         foreach($data['datas'] as $dat) {
-            $dat['member_name'] = MemberList::find($dat->id_member)->name;
+            $dat['status'] = DeliveryStatus::find($dat->id_slot_status)->description;
             $dat['destination_airport'] = AirportList::find($dat->id_destination_airport)->name;
             $dat['origin_airport'] = AirportList::find($dat->id_origin_airport)->name;
+            $dat['is_included'] = true;
+            if ($flagdate) {
+                if (explode(' ', $dat->depature)[0] != $data['date']) {
+                    $dat['is_included'] = false;
+                }
+            }
         }
         return view('admin.slotlists.index', $data);
     }
@@ -76,8 +110,9 @@ class SlotListAdminController extends Controller
         $data['data'] = $slot;
         $data['data']['origin_airport'] = AirportList::find($slot->id_origin_airport)->name;
         $data['data']['destination_airport'] = AirportList::find($slot->id_destination_airport)->name;
+        $data['data']['status'] = DeliveryStatus::find($data['data']->id_slot_status)->description;
         $member = MemberList::find($slot->id_member);
-        $data['data']['member'] = $member;
+        $data['member'] = $member;
         if(Input::get('ajax') == 1) {
             $ret_data = array();
             $ret_data['origin'] = $data['data']['origin_airport'];
