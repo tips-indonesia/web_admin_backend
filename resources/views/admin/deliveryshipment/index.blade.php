@@ -14,16 +14,16 @@
                 <div class="form-group">
                     <label class="display-block text-semibold">Status :</label>
                     <label class="radio-inline">
-                        <input type="radio" name="radio" @if($checked != 0 && $checked != 1) checked="checked" @endif value="-1">
-                        Semua
-                    </label>
-                    <label class="radio-inline">
                         <input type="radio" name="radio" @if($checked == 0) checked="checked" @endif value="0">
                         Belum Dikirim
                     </label>
                     <label class="radio-inline">
                         <input type="radio" name="radio" @if($checked == 1) checked="checked" @endif value="1">
                         Sudah Dikirim
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="radio" @if($checked != 0 && $checked != 1) checked="checked" @endif value="-1">
+                        Keseluruhan
                     </label>
                 </div>
                 <div class="row">
@@ -59,9 +59,7 @@
             </thead>
             <tbody>
                 @foreach($shipments as $shipment)
-                @if(($shipment->delivered_by == null and $checked == 0) or
-                    ($shipment->delivered_by !=null and $checked == 1) or
-                     $checked == -1)
+                @if($shipment->is_included || $checked == -1)
                 <tr>
                     <td>
                         <a href="{{ route('deliveryshipment.show', $shipment->id) }}">

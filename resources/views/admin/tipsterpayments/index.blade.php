@@ -22,7 +22,7 @@
                         <label class="display-block text-semibold">Status Terima :</label>
                         <label class="radio-inline">
                             <input type="radio" name="radio" @if($checked != 0 && $checked != 1) checked="checked" @endif value="-1">
-                            Semua
+                            Keseluruhan
                         </label>
                         <label class="radio-inline">
                             <input type="radio" name="radio" @if($checked == 0) checked="checked" @endif value="0">
