@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\DeliveryShipment;
 use App\DeliveryShipmentDetail;
+use App\MemberList;
 use App\Shipment;
 use App\ShipmentStatus;
 use App\ShipmentHistory;
@@ -67,6 +68,7 @@ class ShipmentTrackingAdminController extends Controller
         $data['delivery'] = DeliveryShipmentDetail::where('id_shipment', $id);
         $data['shipment_trackings'] = ShipmentHistory::where('id_shipment', $shipment->id)->orderBy('created_at')->get();
         $data['shipment_status'] = ShipmentStatus::all()->keyBy('id');
+        $data['shipper'] = MemberList::find($shipment->id_shipper);
         return view('admin.shipmenttrackings.show', $data);
     }
 
