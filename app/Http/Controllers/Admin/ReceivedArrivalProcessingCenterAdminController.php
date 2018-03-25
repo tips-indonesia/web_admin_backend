@@ -34,7 +34,7 @@ class ReceivedArrivalProcessingCenterAdminController extends Controller
 
         if ($user->id_office != null) {
             $office = OfficeList::find($user->id_office);
-            $slot = SlotList::where('id_origin_city', $office->id_area)->pluck('id');
+            $slot = SlotList::where('id_destination_city', $office->id_area)->pluck('id');
             $packages = $packages->whereIn('packaging_lists.id_slot', $slot);
         }
 
