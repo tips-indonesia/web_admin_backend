@@ -50,9 +50,15 @@
                     	<div class="col-md-6">
                             <div class="form-group">
 	                            <label>Departure Date :</label>
-	                            {{ Form::text('departure_date', explode(' ', $data->depature)[0] , array('class' => 'form-control', 'placeholder' => 'Slot ID', 'readonly' => 'readonly', 'disabled' => 'disabled' )) }}
+	                            {{ Form::text('departure_date', explode(' ', $data->depature)[0] , array('class' => 'form-control', 'placeholder' => 'Departure Date', 'readonly' => 'readonly', 'disabled' => 'disabled' )) }}
 	                        </div>   
                     	</div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Departure Time :</label>
+                                {{ Form::text('departure_date', explode(' ', $data->depature)[1] , array('class' => 'form-control', 'placeholder' => 'Departure Time', 'readonly' => 'readonly', 'disabled' => 'disabled' )) }}
+                            </div>   
+                        </div>
                     </div>
                     
                     <div class="row">

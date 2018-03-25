@@ -17,6 +17,21 @@
                         <input type="text" name="date" id="date" class="form-control pickadate-year" placeholder="Transaction date" value="{{ $date }}">
                     </div>
                 </div>
+                <div class="form-group">
+                    <label class="display-block text-semibold">Status Terima :</label>
+                    <label class="radio-inline">
+                        <input type="radio" name="radio" @if($checked != 0 && $checked != 1) checked="checked" @endif value="-1">
+                        Keseluruhan
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="radio" @if($checked == 1) checked="checked" @endif value="1">
+                        Sudah Match
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="radio" @if($checked == 0) checked="checked" @endif value="0">
+                        Belum Match
+                    </label>
+                </div>
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
