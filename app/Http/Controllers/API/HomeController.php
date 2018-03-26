@@ -20,6 +20,8 @@ class HomeController extends Controller
             $shipments = Shipment::select('shipment_id','status_dispatch')->where('id_shipper', $member_id)->get();
         $delivery = SlotList::select('slot_id','status_dispatch', 'sold_baggage_space', 'slot_price_kg', 'id_slot_status')->where('id_member', $member_id)->get();
 
+        dd($member_id, SlotList::all());
+
         $data = array(
             'err' => null,
             'result' => array (

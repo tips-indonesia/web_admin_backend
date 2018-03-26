@@ -85,7 +85,7 @@ class ArrivalController extends Controller
             $user = MemberList::find($slot->id_member);
 
             $ms_user = MemberList::find($shipment->id_shipper);
-            $mess = 'Barang kiriman Anda dengan kode pengiriman ' . $shipment->shipment_id . ' sudah tiba di bandara tujuan.'
+            $mess = 'Barang kiriman Anda dengan kode pengiriman ' . $shipment->shipment_id . ' sudah tiba di bandara tujuan.';
             if($ms_user)
                 if($ms_user->token) {
                     FCMSender::post(array(
