@@ -48,7 +48,7 @@ class DeliveryShipmentAdminController extends Controller
         $user = User::find(Auth::id());
         if ($user->id_office != null) {
             $office = OfficeList::find($user->id_office);
-            $shipments = $shipments->where('id_origin_city', $office->id_area);
+            $shipments = $shipments->where('id_destination_city', $office->id_area);
         }
 
         $shipments = $shipments->get();

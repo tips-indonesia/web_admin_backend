@@ -102,7 +102,7 @@ class DeliveryProcessingCenterAdminController extends Controller
 
             if ($user->id_office != null) {
                 $office = OfficeList::find($user->id_office);
-                $data['datas'] = $data['datas']->where('id_origin_city', $office->id_area);
+                $data['datas'] = $data['datas']->where('id_destination_city', $office->id_area);
             }
 
             $data['datas'] = $data['datas']->get();

@@ -38,6 +38,18 @@ class SlotListAdminController extends Controller
             $data['datas'] = $data['datas']->where('id_origin_city', $office->id_area);
         }
 
+        if (!isset($_GET['radio']))
+            $checked = -1;
+        else {
+            $checked = Input::get('radio');
+
+            if ($checked == 0) {
+                $data['datas'] = $data['datas']->where('sold_baggage_space', 0);
+            } else if ($checked == 1) {
+                $data['datas'] = $data['datas']->where('sold_baggage_space', '>', 0);
+            }
+        }
+
         if (Input::get('date')) {
             $flagdate = true;
             $data['date'] = Input::get('date');
@@ -74,6 +86,8 @@ class SlotListAdminController extends Controller
                 }
             }
         }
+
+        $data['checked'] = $checked;
         return view('admin.slotlists.index', $data);
     }
 
@@ -147,7 +161,22 @@ class SlotListAdminController extends Controller
     */
     public function update($id)
     {
-        
+        $slot = SlotList::find($id);
+
+        $slot->id_slot_status = 0;
+        // $slot->deleted_at = date('Y-m-d H:m:s');
+        $slot->deleted_at = Carbon::now()->todatetimeString();
+
+        $slot->save();
+
+        $shipments = Shipment::where('id_slot', $id)->get();
+
+        foreach ($shipments as $shipment) {
+            $shipment->id_slot = null;
+            $shipment->save();
+        }
+
+        return Redirect::to(route('slotlists.index'));
     }
 
     /**

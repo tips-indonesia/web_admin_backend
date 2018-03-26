@@ -53,6 +53,15 @@ class ReceivedAdminController extends Controller
             $shipment_data = Shipment::where('id','!=', 0)->whereIn('id', $shipments);
         }
 
+        if (Input::get('param') == 'received') {
+            $shipment_data = $shipment_data->where('id_shipment_status', '<>', 3);
+        } else if (Input::get('param') == 'not_received') {
+            $shipment_data = $shipment_data->where('id_shipment_status', 3);
+        }
+
+        if (Input::get('date')) {
+            $shipment_data = $shipment_data->where('transaction_date', Input::get('date'));
+        }
         $user = User::find(Auth::id());
         if ($user->id_office != null) {
             $office = OfficeList::find($user->id_office);
