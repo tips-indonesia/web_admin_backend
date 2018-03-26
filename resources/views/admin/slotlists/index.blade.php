@@ -63,8 +63,8 @@
                     <th>TIPSTER Name</th>
                     <th>Origin</th>
                     <th>Destination</th>
-                    <th>Depart Date</th>
-                    <th>Depart Time</th>
+                    <th>Quantity</th>
+                    <th>Quantity Sold</th>
                     <th>Status</th>
                 </tr>
             </thead>
@@ -87,10 +87,10 @@
                             {{ $data->destination_airport }}
                         </td>
                         <td>
-                            {{ explode(' ', $data->depature)[0] }}
+                            {{ $data->baggage_space }}
                         </td>
                         <td>
-                            {{ explode(' ', $data->depature)[1] }}
+                            {{ $data->sold_baggage_space }}
                         </td>
                         <td>
                             {{ $data->status }}
