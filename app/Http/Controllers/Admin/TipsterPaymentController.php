@@ -24,6 +24,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use App\User;
 use App\MemberList;
+use App\Http\Controllers\FCMSender;
 
 class TipsterPaymentController extends Controller
 {
