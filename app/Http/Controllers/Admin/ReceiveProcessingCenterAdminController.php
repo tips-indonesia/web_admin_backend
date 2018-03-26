@@ -138,7 +138,7 @@ class ReceiveProcessingCenterAdminController extends Controller
             $shipments = Shipment::where('id_packaging', $package->id)->get();
         }
         foreach ($shipments as $ship) {
-            $ship->id_shipment_status = 7;
+            $ship->id_shipment_status = 6;
             $ship->save();
         }
         return Redirect::to(route('receiveprocessingcenters.index'));
