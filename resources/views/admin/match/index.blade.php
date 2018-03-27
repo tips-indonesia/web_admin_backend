@@ -413,8 +413,12 @@
                     for(var j = 0; j < len; j++){
                         var data = datas[j];
                         console.log("slotx::: ", data);
-                        $('#slotxpicker')
-                        .append('<option value="' + data.id + '">ID: ' + data.slot_id + ', BK:' + data.booking_code + ', DEP:' + data.depature + ' (' + data.origin_city + '->' + data.destination_city + ') Baggage Space: ' + data.baggage_space + ' Kg, Sold: ' + data.sold_baggage_space + ' Kg, Left: ' + (data.baggage_space - data.sold_baggage_space) + ' Kg' + '</option>');
+                        if(data.id_slot_status == 2)
+                            $('#slotxpicker')
+                            .append('<option value="' + data.id + '"><span style="color: green"><b>**MATCHED**</b> - ID: ' + data.slot_id + ', BK:' + data.booking_code + ', DEP:' + data.depature + ' (' + data.origin_city + '->' + data.destination_city + ') Baggage Space: ' + data.baggage_space + ' Kg, Sold: ' + data.sold_baggage_space + ' Kg, Left: ' + (data.baggage_space - data.sold_baggage_space) + ' Kg' + '</span></option>');
+                        else
+                            $('#slotxpicker')
+                            .append('<option value="' + data.id + '">ID: ' + data.slot_id + ', BK:' + data.booking_code + ', DEP:' + data.depature + ' (' + data.origin_city + '->' + data.destination_city + ') Baggage Space: ' + data.baggage_space + ' Kg, Sold: ' + data.sold_baggage_space + ' Kg, Left: ' + (data.baggage_space - data.sold_baggage_space) + ' Kg' + '</option>');
                     }
                 }
                 $('#slotxpicker').selectpicker('refresh');

@@ -153,7 +153,7 @@ class UtilityController extends Controller
         foreach ($daftarAirportAsal as $airportAsal) {
             foreach ($daftarAirportTujuan as $airportTujuan) {
                 $result = SlotList::where('id_origin_airport', $airportAsal->id)
-                    -> where('id_destination_airport', $airportTujuan->id)->get();
+                    -> where('id_destination_airport', $airportTujuan->id)->where('id_slot_status', '1')->get();
 
                 if(sizeof($result) > 0)
                     foreach ($result as $value)
@@ -245,19 +245,7 @@ class UtilityController extends Controller
         if($tempK == null)
             return false;
 
-        $tempK->sold_baggage_space = $tempK->sold_baggage_space + $Barang->estimate_weight;
-        $tempK->status_dispatch = 'Process';
-        // $tempK->id_slot_status = 2; // di delivery controller statusnya sudah otomatis 4
-
-        FCMSender::post(array(
-          'type' => "Delivery",
-          'id' => $tempK->slot_id,
-          'status' => "2",
-          'message' => "Tes tes",
-          'detail' => 'wkwkwk'
-        ), $tempK->member->token);
-
-        $tempK->id_slot_status = 2;
+        $tempK->sold_baggage_space = ((float) $tempK->sold_baggage_space) + ((float) $temp->real_weight);
         $tempK->save();
 
         $this->printKeberangkatan();
@@ -370,10 +358,11 @@ class UtilityController extends Controller
         } else {
             $slot = SlotList::all()->pluck('id');
         }
+        // dd($slot);
 
         return response()->json([
             "err" => null,
-            "result" => SlotList::where('id_slot_status', '1')->whereIn('id', $slot)->get()
+            "result" => SlotList::where('id_slot_status', '<=', '2')->whereIn('id', $slot)->get()
         ], 200);
     }
 
