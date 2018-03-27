@@ -30,7 +30,6 @@ class SlotListAdminController extends Controller
     public function index()
     {
         $flag = false;
-        $flagdate = false;
         $data['datas'] = SlotList::where('status_dispatch', 'Process');
         $user = User::find(Auth::id());
         if ($user->id_office != null) {
@@ -51,7 +50,6 @@ class SlotListAdminController extends Controller
         }
 
         if (Input::get('date')) {
-            $flagdate = true;
             $data['date'] = Input::get('date');
         } else {
             $data['date'] = Carbon::now()->toDateString();
@@ -80,11 +78,9 @@ class SlotListAdminController extends Controller
             $dat['destination_airport'] = AirportList::find($dat->id_destination_airport)->name;
             $dat['origin_airport'] = AirportList::find($dat->id_origin_airport)->name;
             $dat['is_included'] = true;
-            if ($flagdate) {
                 if (explode(' ', $dat->depature)[0] != $data['date']) {
                     $dat['is_included'] = false;
                 }
-            }
         }
 
         $data['checked'] = $checked;
