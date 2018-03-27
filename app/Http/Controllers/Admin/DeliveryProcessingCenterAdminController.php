@@ -54,7 +54,7 @@ class DeliveryProcessingCenterAdminController extends Controller
 
         if ($user->id_office != null) {
             $office = OfficeList::find($user->id_office);
-            $slot = SlotList::where('id_origin_city', $office->id_area)->pluck('id');
+            $slot = SlotList::where('id_destination_city', $office->id_area)->pluck('id');
             $packaginglist = PackagingList::whereIn('id_slot', $slot)->pluck('id');
             $arrshipment = ArrivalShipmentDetail::whereIn('packaging_lists_id', $packaginglist)
                         ->pluck('arrival_shipment_id');
