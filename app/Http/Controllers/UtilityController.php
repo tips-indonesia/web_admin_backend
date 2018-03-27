@@ -150,16 +150,18 @@ class UtilityController extends Controller
         $daftarAirportTujuan = $Barang->cityDestination->airports;
 
         $keberangkatanTersedia = array();
-        foreach ($daftarAirportAsal as $airportAsal) {
-            foreach ($daftarAirportTujuan as $airportTujuan) {
-                $result = SlotList::where('id_origin_airport', $airportAsal->id)
-                    -> where('id_destination_airport', $airportTujuan->id)->where('id_slot_status', '1')->get();
+        if($daftarAirportAsal)
+            foreach ($daftarAirportAsal as $airportAsal) {
+                if($daftarAirportTujuan)
+                    foreach ($daftarAirportTujuan as $airportTujuan) {
+                        $result = SlotList::where('id_origin_airport', $airportAsal->id)
+                            -> where('id_destination_airport', $airportTujuan->id)->where('id_slot_status', '1')->get();
 
-                if(sizeof($result) > 0)
-                    foreach ($result as $value)
-                        array_push($keberangkatanTersedia, $value);
+                        if(sizeof($result) > 0)
+                            foreach ($result as $value)
+                                array_push($keberangkatanTersedia, $value);
+                    }
             }
-        }
 
         if(sizeof($keberangkatanTersedia) == 0)
             return -1;
@@ -185,16 +187,18 @@ class UtilityController extends Controller
         $daftarAirportTujuan = $Barang->cityDestination->airports;
 
         $keberangkatanTersedia = array();
-        foreach ($daftarAirportAsal as $airportAsal) {
-            foreach ($daftarAirportTujuan as $airportTujuan) {
-                $result = SlotList::where('id_origin_airport', $airportAsal->id)
-                    -> where('id_destination_airport', $airportTujuan->id)->get();
+        if($daftarAirportAsal)
+            foreach ($daftarAirportAsal as $airportAsal) {
+                if($daftarAirportTujuan)
+                    foreach ($daftarAirportTujuan as $airportTujuan) {
+                        $result = SlotList::where('id_origin_airport', $airportAsal->id)
+                            -> where('id_destination_airport', $airportTujuan->id)->get();
 
-                if(sizeof($result) > 0)
-                    foreach ($result as $value)
-                        array_push($keberangkatanTersedia, $value);
+                        if(sizeof($result) > 0)
+                            foreach ($result as $value)
+                                array_push($keberangkatanTersedia, $value);
+                    }
             }
-        }
 
         if(sizeof($keberangkatanTersedia) == 0)
             return array();
