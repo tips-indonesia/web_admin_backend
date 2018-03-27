@@ -31,7 +31,7 @@ class DeliveryShipmentAdminController extends Controller
             $data['date'] = Carbon::now()->toDateString();
         }
 
-        $shipments = Shipment::where('delivered_date', $data['date']);
+        $shipments = Shipment::where('transaction_date', $data['date']);
 
         if (Input::get('param') == 'blank' || !Input::get('param')) {
             $data['param'] = Input::get('param');
