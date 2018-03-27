@@ -12,6 +12,13 @@
         {{ Form::open(array('url' => route('deliveryshipment.index'), 'method' => 'GET', 'id' => 'date_form')) }}
             <div class="panel-body">
                 <div class="form-group">
+                    <label>Date :</label>
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="icon-calendar5"></i></span>
+                        <input type="text" name="date" id="date" class="form-control pickadate-year" placeholder="Transaction date" value="{{ $date }}">
+                    </div>
+                </div>
+                <div class="form-group">
                     <label class="display-block text-semibold">Status :</label>
                     <label class="radio-inline">
                         <input type="radio" name="radio" @if($checked == 0) checked="checked" @endif value="0">

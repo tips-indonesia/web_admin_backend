@@ -33,7 +33,7 @@ class ShipmentMatchingMonitorAdminController extends Controller
         $search = [];
         $data  = [];
         $data['match'] = null;
-        $data['class'] = null;s
+        $data['class'] = null;
         if (Input::get('param') == 'blank' || !Input::get('param') ) {
             $data['datas'] = Shipment::where('id', '!=', null);
             $data['param'] = Input::get('param');
