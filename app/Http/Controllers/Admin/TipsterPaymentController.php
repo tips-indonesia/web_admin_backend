@@ -36,10 +36,8 @@ class TipsterPaymentController extends Controller
     public static function index()
     {
         $flag = false;
-        $flagdate = false;
         $package = SlotList::where('id_slot_status', '>=', '6');
         if (Input::get('date')) {
-            $flagdate = true;
             $data['date'] = Input::get('date');
         } else {
             $data['date'] = Carbon::now()->toDateString();
@@ -82,11 +80,9 @@ class TipsterPaymentController extends Controller
         
         foreach ($package as $pack) {
             $pack['is_included'] = true;
-            if ($flagdate) {
                 if (explode(' ', $pack->depature)[0] != $data['date']) {
                     $pack['is_included'] = false;
                 }
-            }
         }
         
         $data['packages'] = $package;

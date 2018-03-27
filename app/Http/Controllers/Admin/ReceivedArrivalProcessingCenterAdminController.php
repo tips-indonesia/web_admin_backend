@@ -22,7 +22,6 @@ class ReceivedArrivalProcessingCenterAdminController extends Controller
     public function index() {
     	$package = null;
     	$flag = false;
-      $flagdate = false;
 
         $packages = PackagingList::join('shipments', 'shipments.id_slot', '=', 'packaging_lists.id_slot')
               ->select(
@@ -40,7 +39,6 @@ class ReceivedArrivalProcessingCenterAdminController extends Controller
 
         if (Input::get('date')) {
             $data['date'] = Input::get('date');
-            $flagdate = true;
         } else {
             $data['date'] = Carbon::now()->toDateString();
         }
@@ -79,11 +77,9 @@ class ReceivedArrivalProcessingCenterAdminController extends Controller
             $delivery['delivery_id'] = $dumm->delivery_id;
             $delivery['delivery_date'] = $dumm->delivery_date;
             $delivery['is_included'] = true;
-            if ($flagdate) {
               if ($delivery['delivery_date'] != $data['date']) {
                 $delivery['is_included'] = false;
               }
-            }
             $delivery['total_shipment'] = Shipment::where('id_slot', $delivery->id_slot)->count();
             $delivery['is_received_by_pc'] = $dumm->is_received_by_pc;
             $delivery['received_by_pc_date'] = $dumm->received_by_pc_date;
