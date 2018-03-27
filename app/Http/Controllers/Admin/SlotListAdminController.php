@@ -30,7 +30,7 @@ class SlotListAdminController extends Controller
     public function index()
     {
         $flag = false;
-        $data['datas'] = SlotList::where('status_dispatch', 'Process');
+        $data['datas'] = SlotList::where('id', '>=', 0);
         $user = User::find(Auth::id());
         if ($user->id_office != null) {
             $office = OfficeList::find($user->id_office);
