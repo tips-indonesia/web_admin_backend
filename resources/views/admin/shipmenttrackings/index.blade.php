@@ -18,7 +18,7 @@
                             {{ Form::text('shipment_id', null, array('class' => 'form-control', 'placeholder' => 'Shipment ID')) }}
                         </div>
                         <div class="text-right form-group">
-                            <button type="submit" class="btn btn-primary">Save <i class="icon-arrow-right14 position-right"></i></button>
+                            <button type="submit" class="btn btn-primary">Search <i class="icon-arrow-right14 position-right"></i></button>
                         </div>
                     </div>
                 </div>
