@@ -17,12 +17,22 @@ use Validator;
 use Auth;
 use App\OfficeList;
 use Illuminate\Support\Facades\Input;
+use Carbon\Carbon;
 
 class DeliveryShipmentAdminController extends Controller
 {
     public function index() {
     	$package = null;
     	$flag = false;
+
+        if (Input::get('date')) {
+            $data['date'] = Input::get('date');
+        } else {
+            $data['date'] = Carbon::now()->toDateString();
+        }
+
+        $shipments = Shipment::where('delivered_date', $data['date']);
+
         if (Input::get('param') == 'blank' || !Input::get('param')) {
             $data['param'] = Input::get('param');
             $data['value'] = Input::get('value');
@@ -39,10 +49,10 @@ class DeliveryShipmentAdminController extends Controller
 
 
         if ($flag == true) {
-        	$shipments = Shipment::whereIn('id_shipment_status', [12,14,15])
+        	$shipments = $shipments->whereIn('id_shipment_status', [12,14,15])
                                  ->where(Input::get('param'), Input::get('value'));       			
         } else {
-        	$shipments = Shipment::whereIn('id_shipment_status', [12,14,15]);
+        	$shipments = $shipments->whereIn('id_shipment_status', [12,14,15]);
         }
 
         $user = User::find(Auth::id());
