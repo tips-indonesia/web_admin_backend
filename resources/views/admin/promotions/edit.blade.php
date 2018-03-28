@@ -4,13 +4,13 @@
     Promotions List
 @endsection
 @section('page_title')
-<span class="text-semibold">Promotions</span> - Create
+<span class="text-semibold">Promotions</span> - Edit
 @endsection
 @section('content')
     <!-- Vertical form options -->
     <div class="row">
         <div class="col-md-12">
-            {{ Form::open(array('method'=> 'POST','enctype'=>'multipart/form-data','url' => route('promotions.store'))) }}
+            {{ Form::open(array('method'=> 'PUT','enctype'=>'multipart/form-data','url' => route('promotions.update', $data->id))) }}
                 <div class="panel panel-flat">
                     <div class="panel-body">
                         <div class="row">
@@ -19,7 +19,7 @@
                                     <label>Tanggal Awal :</label>
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="icon-calendar5"></i></span>
-                                        <input type="text" class="pickadate-year form-control" name="tanggal_awal" required="">
+                                        <input type="text" class="pickadate-year form-control" name="tanggal_awal" placeholder="{{ $data->start_date}}" value="{{ $data->start_date }}">
                                     </div>
                                 </div>
                             </div>
@@ -31,7 +31,7 @@
                                     <label>Tanggal Akhir :</label>
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="icon-calendar5"></i></span>
-                                        <input type="text" class="pickadate-year form-control" name="tanggal_akhir" required="">
+                                        <input type="text" class="pickadate-year form-control" name="tanggal_akhir" placeholder="{{ $data->end_date }}" value="{{ $data->end_date }}">
                                     </div>
                                 </div>
                             </div>
@@ -48,7 +48,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label>Content Text</label>
-                                    <textarea id="content" cols="18" rows="18" class="form-control" placeholder="Content Text" name="content_text"></textarea>
+                                    <textarea id="content" cols="18" rows="18" class="form-control" placeholder="{{ $data->content }}" name="{{ $data->content }}"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -65,7 +65,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label>Nilai Discount</label>
-                                    <input type="number" class="form-control" name="discount" required="">
+                                    <input type="number" class="form-control" name="discount" placeholder="{{ $data->discount_value }}" value="{{ $data->discount_value }}">
                                 </div>
                             </div>
                         </div>
@@ -73,12 +73,12 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label>File Image</label>
-                                    <input type="file" class="form-control" name="image" id="input_file" required="">
+                                    <input type="file" class="form-control" name="image" id="input_file">
                                 </div>
                             </div>
                         </div>
                         <div class="text-right form-group">
-                            <button type="submit" name="submit" value="save" class="btn btn-primary">Save<i class="icon-arrow-right14 position-right"></i></button>
+                            <button type="submit" name="submit" value="save" class="btn btn-primary">Update<i class="icon-arrow-right14 position-right"></i></button>
                         </div>
                     </div>
                 </div>

@@ -11,7 +11,7 @@
     <!-- Vertical form options -->
     <div class="row">
         <div class="col-md-12">
-            {{ Form::open(array('method'=> 'get','url' => route('promotions.show', $tahun[0]->year_period))) }}
+            {{ Form::open(array('method'=> 'get','url' => route('promotions.index'))) }}
                 <div class="panel panel-flat">
                     <div class="panel-body">
                         <div class="row">
@@ -53,6 +53,54 @@
                     </div>
                 </div>
             {{ Form::close() }}
+
+
+
         </div>
+        <table class="table datatable-pagination" style="margin-left: 10px;">
+            <thead>
+                <tr>    
+                    <th>No</th>
+                    <th>Tanggal Awal</th>
+                    <th>Tanggal Akhir</th>
+                    <th>Template</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @php($nomor=0)
+                @foreach($data as $datas)
+                    <tr>
+                        <td>       
+                            {{++$nomor}}
+                        </td>
+                        <td>
+                            {{ $datas->start_date }}
+                        </td>                        
+                        <td>
+                            {{ $datas->end_date }}
+                        </td>
+                        <td>
+                            {{ $datas->template_type }}
+                        </td>
+                        <td>
+                            <ul class="icons-list">
+                            <li>
+                            {{ Form::open(array('method' => 'GET', 'url' => route('promotions.edit', $datas->id))) }}
+                                    <button type="submit" class="btn btn-primary"><i class="icon-pencil"></i> Edit</button>
+                                    {{ Form::close() }}
+                                </li>
+                                <li>
+                            {{ Form::open(array('method' => 'DELETE', 'url' => route('promotions.destroy', $datas->id))) }}
+                                <button type="submit" class="btn btn-danger"><i class="icon-trash"></i> Delete</button>
+                                {{ Form::close() }}
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                @endforeach
+
+            </tbody>
+        </table>
     </div>
 @endsection

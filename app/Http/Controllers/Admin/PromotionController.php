@@ -38,12 +38,7 @@ class PromotionController extends Controller
         $tahun = DB::table('year_period')->get();
         $bulan = DB::table('month_period')->get();
 
-        return view('admin.promotions.index')->with('tahun',$tahun)
-                                             ->with('bulan',$bulan);
-    }
 
-    public function show($year) {
-        \Log::info('asdasd');
         if(Input::get('bulan') === 'Januari') {
             $month = '01';
         }elseif(Input::get('bulan') === 'Februari') {
@@ -69,13 +64,18 @@ class PromotionController extends Controller
         }else {
             $month = '12';
         }
+        $year = Input::get('tahun');
         $date = Input::get('tanggal');
         $date = $year.'/'.$month.'/'.$date;
 
         $data = DB::table('promotions')->where('start_date','<=',$date)->where('end_date','>=',$date)->get();
         \Log::info($data);
-    	return view('admin.promotions.show')->with('data',$data);
+       
+        return view('admin.promotions.index')->with('tahun',$tahun)
+                                             ->with('bulan',$bulan)
+                                             ->with('data', $data);
     }
+
 
     public function create() {
     	return view('admin.promotions.create');
@@ -102,6 +102,25 @@ class PromotionController extends Controller
 
         // redirect
         Session::flash('message', 'Successfully deleted the nerd!');
+        return Redirect::to(route('promotions.index'));
+    }
+
+    public function edit($id) {
+        $data = DB::table('promotions')->where('id', $id)->first();
+        return view('admin.promotions.edit')->with('data', $data);
+    }
+
+    public function update(Request $request, $id) {
+        $filename;
+        if($request->hasFile('image')) {
+                $avatar = $request->file('image');
+                $filename = uniqid(). '.'. $avatar->getClientOriginalExtension();
+                $avatar->storeAs('public/promotions',$filename);
+
+                DB::table('promotions')->where('id', $id)->update(['start_date' => Input::get('tanggal_awal'), 'end_date' => Input::get('tanggal_akhir'), 'content' => Input::get('content_text'),'template_type' => Input::get('template'), 'discount_value' => Input::get('discount'), 'file_name' => $filename]);
+        } else {
+                DB::table('promotions')->where('id', $id)->update(['start_date' => Input::get('tanggal_awal'), 'end_date' => Input::get('tanggal_akhir'), 'content' => Input::get('content_text'),'template_type' => Input::get('template'), 'discount_value' => Input::get('discount')]);
+        }
         return Redirect::to(route('promotions.index'));
     }
 }
