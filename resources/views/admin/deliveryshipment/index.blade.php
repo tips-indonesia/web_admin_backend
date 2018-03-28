@@ -93,6 +93,7 @@
                 @endforeach
             </tbody>
         </table>
+        {{$shipments->links()}}
     </div>  
 
     </div>
