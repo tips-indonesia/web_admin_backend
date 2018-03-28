@@ -61,13 +61,13 @@ class DeliveryShipmentAdminController extends Controller
             $shipments = $shipments->where('id_destination_city', $office->id_area);
         }
 
-        $shipments = $shipments->get();
+        $shipments = $shipments->paginate(10);
 
         foreach($shipments as $shipment) {
             $shipment['is_included'] = true;
-            if ($shipment->delivered_by == null) {
+            if ($shipment->delivered_by != null) {
                 if ($checked != 0) $shipment['is_included'] = false;
-            } else if ($shipment->delivered_by !=null) {
+            } else if ($shipment->delivered_by ==null) {
                 if ($checked != 1) $shipment['is_included'] = false;
             }
             if ($shipment->delivered_by != null) {
