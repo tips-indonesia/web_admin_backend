@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
-use App\MemberList;
+use App\User;
 
 class UserTableSeeder extends Seeder
 {
