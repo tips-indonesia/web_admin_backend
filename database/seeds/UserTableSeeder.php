@@ -15,8 +15,7 @@ class UserTableSeeder extends Seeder
     {
         //
         $role = Role::create(['name'=>'admin']);
-        $user = User::create(['first_name'=>'admin','last_name'=>'admin', 'username'=>'admin', 'password' => bcrypt('123123')]);
+        $user = User::create(['first_name'=>'admin','last_name'=>'admin', 'mobile_phone_no'=>'+621', 'password' => bcrypt('123123')]);
         $user->assignRole('admin');
-        
     }
 }
