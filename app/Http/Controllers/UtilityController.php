@@ -146,8 +146,8 @@ class UtilityController extends Controller
       * @return Integer         ID keberangkatan yang tersedia, -1 jika tidak tersedia
       */
     public function CekKetersediaanKeberangkatan(Shipment $Barang){
-        $daftarAirportAsal = $Barang->cityOrigin->airports;
-        $daftarAirportTujuan = $Barang->cityDestination->airports;
+        $daftarAirportAsal = $Barang->cityOrigin->airportcity->airports;
+        $daftarAirportTujuan = $Barang->cityDestination->airportcity->airports;
 
         $keberangkatanTersedia = array();
         dd($daftarAirportAsal, $daftarAirportTujuan);
@@ -185,8 +185,8 @@ class UtilityController extends Controller
     }
 
     public function APICekKetersediaanKeberangkatan(Shipment $Barang){
-        $daftarAirportAsal = $Barang->cityOrigin->airports;
-        $daftarAirportTujuan = $Barang->cityDestination->airports;
+        $daftarAirportAsal = $Barang->cityOrigin->airportcity->airports;
+        $daftarAirportTujuan = $Barang->cityDestination->airportcity->airports;
 
         $keberangkatanTersedia = array();
         if($daftarAirportAsal)

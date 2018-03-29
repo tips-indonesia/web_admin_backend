@@ -18,11 +18,11 @@ class Shipment extends Model
     protected $dates = ['deleted_at'];
 
     public function cityOrigin(){
-    	return $this->hasOne('App\AirportcityList', 'id', 'id_origin_city');
+    	return $this->hasOne('App\CityList', 'id', 'id_origin_city');
     }
 
     public function cityDestination(){
-    	return $this->hasOne('App\AirportcityList', 'id', 'id_destination_city');
+    	return $this->hasOne('App\CityList', 'id', 'id_destination_city');
     }
 
     public function slotList(){
