@@ -703,8 +703,6 @@ class DatabaseSeeder extends Seeder
         PaymentType::create(['name' => 'Cash']);
         DB::table('daftar_barang_regulars')->delete();
         DB::table('daftar_barang_golds')->delete();
-        DB::table('airport_lists')->delete();
-        DB::table('city_lists')->delete();
         DB::table('shipments')->delete();
         DB::table('slot_lists')->delete();
 
