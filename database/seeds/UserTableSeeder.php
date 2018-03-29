@@ -24,7 +24,8 @@ class UserTableSeeder extends Seeder
             'address' => 'Test Address',
             'mobile_phone_no' => '+62123456789',
             'email' => 'test@test.com',
-            'id_city' => 1
+            'id_city' => 1,
+            'is_worker' => 1,
         ]);
         $user->assignRole('admin');
     }
