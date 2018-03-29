@@ -15,6 +15,7 @@ use App\PaymentType;
 use App\CityList;
 use App\PriceList;
 use App\SubdistrictList;
+use App\AirportcityCityPivot;
 use App\ProvinceList;
 
 class DatabaseSeeder extends Seeder
@@ -147,6 +148,62 @@ class DatabaseSeeder extends Seeder
             'name' => 'Kabupaten Badung',
             'id_province' => $province_Bali->id
         ));
+
+        // Airportcity -> City
+        AirportcityCityPivot::create([
+            'id_airportcity' => $airportcityList_Jakarta->id,
+            'id_city' => $city_jakarta_Jakut->id,
+        ]);
+
+        AirportcityCityPivot::create([
+            'id_airportcity' => $airportcityList_Jakarta->id,
+            'id_city' => $city_jakarta_Jakbar->id,
+        ]);
+
+        AirportcityCityPivot::create([
+            'id_airportcity' => $airportcityList_Jakarta->id,
+            'id_city' => $city_jakarta_Jaksel->id,
+        ]);
+
+        AirportcityCityPivot::create([
+            'id_airportcity' => $airportcityList_Jakarta->id,
+            'id_city' => $city_jakarta_Jaktim->id,
+        ]);
+
+        AirportcityCityPivot::create([
+            'id_airportcity' => $airportcityList_Jakarta->id,
+            'id_city' => $city_jakarta_Jakbar->id,
+        ]);
+
+        AirportcityCityPivot::create([
+            'id_airportcity' => $airportcityList_Jakarta->id,
+            'id_city' => $city_banten_Tangerang->id,
+        ]);
+
+        AirportcityCityPivot::create([
+            'id_airportcity' => $airportcityList_Jakarta->id,
+            'id_city' => $city_jabar_Depok->id,
+        ]);
+
+        AirportcityCityPivot::create([
+            'id_airportcity' => $airportcityList_Jakarta->id,
+            'id_city' => $city_jabar_Bekasi->id,
+        ]);
+
+        AirportcityCityPivot::create([
+            'id_airportcity' => $airportcityList_Jakarta->id,
+            'id_city' => $city_banten_Tangsel->id,
+        ]);
+
+        AirportcityCityPivot::create([
+            'id_airportcity' => $airportcityList_Bali->id,
+            'id_city' => $city_bali_Badung->id,
+        ]);
+
+        AirportcityCityPivot::create([
+            'id_airportcity' => $airportcityList_Bali->id,
+            'id_city' => $city_bali_Denpasar->id,
+        ]);
 
         // Jakut
         $sub = SubdistrictList::create(array(

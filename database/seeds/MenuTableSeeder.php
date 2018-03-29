@@ -227,7 +227,7 @@ class MenuTableSeeder extends Seeder
             $user = MenuList::create([
                 'name' => 'User Application',
                 'menu_parent_id' => $setting->id,
-                'class_name' => 'tipstermilestones.'
+                'class_name' => '*'
             ]);
 
                 MenuList::create([
