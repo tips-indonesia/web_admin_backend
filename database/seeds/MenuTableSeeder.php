@@ -212,7 +212,7 @@ class MenuTableSeeder extends Seeder
                 'menu_parent_id' => $setting->id,
                 'class_name' => 'shipmentstatuses.'
             ]);
-            $user = MenuList::create([
+            MenuList::create([
                 'name' => 'Tipster Milestone',
                 'menu_parent_id' => $setting->id,
                 'class_name' => 'tipstermilestones.'
@@ -222,6 +222,12 @@ class MenuTableSeeder extends Seeder
                 'name' => 'Promotions',
                 'menu_parent_id' => $setting->id,
                 'class_name' => 'promotions.'
+            ]);
+
+            $user = MenuList::create([
+                'name' => 'User Application',
+                'menu_parent_id' => $setting->id,
+                'class_name' => 'tipstermilestones.'
             ]);
 
                 MenuList::create([
