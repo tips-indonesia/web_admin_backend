@@ -151,15 +151,15 @@ class DatabaseSeeder extends Seeder
         $city_bali_Denpasar = CityList::create(array(
             'name' => 'Kota Denpasar',
             'id_province' => $province_Bali->id,
-            'id_airportcity' => $airportcityList_Jakarta->id,
+            'id_airportcity' => $airportcityList_Bali->id,
         ));
 
         $city_bali_Badung = CityList::create(array(
             'name' => 'Kabupaten Badung',
             'id_province' => $province_Bali->id,
-            'id_airportcity' => $airportcityList_Jakarta->id,
+            'id_airportcity' => $airportcityList_Bali->id,
         ));
-        
+
         // Jakut
         $sub = SubdistrictList::create(array(
             'name' => 'Cilincing',
