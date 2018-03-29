@@ -150,7 +150,8 @@ class UtilityController extends Controller
         $daftarAirportTujuan = $Barang->cityDestination->airports;
 
         $keberangkatanTersedia = array();
-        if($daftarAirportAsal)
+        dd($daftarAirportAsal, $daftarAirportTujuan);
+        if($daftarAirportAsal){
             foreach ($daftarAirportAsal as $airportAsal) {
                 if($daftarAirportTujuan)
                     foreach ($daftarAirportTujuan as $airportTujuan) {
@@ -162,6 +163,7 @@ class UtilityController extends Controller
                                 array_push($keberangkatanTersedia, $value);
                     }
             }
+        }
 
         if(sizeof($keberangkatanTersedia) == 0)
             return -1;

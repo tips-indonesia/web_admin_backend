@@ -11,24 +11,6 @@ class AirportcityListTableSeeder extends Seeder
      */
     public function run()
     {
-        //
-        DB::table('airportcity_lists')->insert([
-            'name' => 'Bandung',
-        ]);
-        DB::table('airportcity_lists')->insert([
-            'name' => 'Jakarta',
-        ]);
-        DB::table('airportcity_lists')->insert([
-            'name' => 'Surabaya',
-        ]);
-        DB::table('airportcity_lists')->insert([
-            'name' => 'Medan',
-        ]);
-
-        DB::table('subdistrict_lists')->insert([
-            'name' => 'Koja',
-            'id_city' => 1,
-            'id_province' => 1
-        ]);
+        
     }
 }

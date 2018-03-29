@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\WeightList;
 
 class WeigthListSeeder extends Seeder
 {
@@ -15,14 +16,14 @@ class WeigthListSeeder extends Seeder
         for($i = 1 ; $i <= 20 ; $i++) {
 
             if($i == 15 || $i == 20) {
-                DB::table('weight_lists')->insert([
+                WeightList::create([
                     'weight_kg' => $i,
-                ]);
+                ])
             } else {
-                DB::table('weight_lists')->insert([
+                WeightList::create([
                     'weight_kg' => $i,
-                    'for_delivery' => false
-                ]);
+                    'for_delivery' => false,
+                ])
             }
         }
     }

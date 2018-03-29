@@ -7,6 +7,7 @@ use App\DaftarBarangRegular;
 use App\SlotList;
 use App\Shipment;
 use App\AirportList;
+use App\AirportcityList;
 use App\Term;
 use App\MemberList;
 use App\PaymentType;
@@ -23,7 +24,683 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        PaymentType::create(['name' => 'Cash']);-
+        $airportcityList_Jakarta = AirportcityList::create([
+            'name' => 'Jakarta'
+        ]);
+        $airportcityList_Bali = AirportcityList::create([
+            'name' => 'Bali'
+        ]);
+
+        $airportList_CGK = AirportList::create(array(
+            'name' => 'Soekarno–Hatta International Airport',
+            'initial_code' => 'CGK',
+            'status' => 1,
+            'id_city' => $airportcityList_Jakarta->id
+        ));
+
+        $airportList_DPS = AirportList::create(array(
+            'name' => 'Ngurah Rai International Airport',
+            'initial_code' => 'DPS',
+            'status' => 1,
+            'id_city' => $airportcityList_Bali->id
+        ));
+
+        $province_Jakarta = ProvinceList::create(array(
+            'name' => 'DKI Jakarta'
+        ));
+
+        $province_Banten = ProvinceList::create(array(
+            'name' => 'Banten'
+        ));
+
+        $province_JawaBarat = ProvinceList::create(array(
+            'name' => 'Jawa Barat'
+        ));
+
+        $province_Bali = ProvinceList::create(array(
+            'name' => 'Bali'
+        ));
+
+        $city_jakarta_Jakut = CityList::create(array(
+            'name' => 'Jakarta Utara',
+            'id_province' => $province_Jakarta->id
+        ));
+
+        $city_jakarta_Jakbar = CityList::create(array(
+            'name' => 'Jakarta Barat',
+            'id_province' => $province_Jakarta->id
+        ));
+
+        $city_jakarta_Jaksel = CityList::create(array(
+            'name' => 'Jakarta Selatan',
+            'id_province' => $province_Jakarta->id
+        ));
+
+        $city_jakarta_Jakpus = CityList::create(array(
+            'name' => 'Jakarta Pusat',
+            'id_province' => $province_Jakarta->id
+        ));
+
+        $city_jakarta_Jaktim = CityList::create(array(
+            'name' => 'Jakarta Timur',
+            'id_province' => $province_Jakarta->id
+        ));
+
+        $city_banten_Tangerang = CityList::create(array(
+            'name' => 'Kota Tangerang',
+            'id_province' => $province_Banten->id
+        ));
+
+        $city_banten_Tangsel = CityList::create(array(
+            'name' => 'Kota Tangerang Selatan',
+            'id_province' => $province_Banten->id
+        ));
+
+        $city_jabar_Depok = CityList::create(array(
+            'name' => 'Kota Depok',
+            'id_province' => $province_JawaBarat->id
+        ));
+
+        $city_jabar_Bekasi = CityList::create(array(
+            'name' => 'Kota Bekasi',
+            'id_province' => $province_JawaBarat->id
+        ));
+
+        $city_bali_Denpasar = CityList::create(array(
+            'name' => 'Kota Denpasar',
+            'id_province' => $province_Bali->id
+        ));
+
+        $city_bali_Badung = CityList::create(array(
+            'name' => 'Kabupaten Badung',
+            'id_province' => $province_Bali->id
+        ));
+
+        // Jakut
+        $sub = SubdistrictList::create(array(
+            'name' => 'Cilincing',
+            'id_province' => $city_jakarta_Jakut->id_province,
+            'id_city' => $city_jakarta_Jakut->id,
+        ));
+
+        $sub = SubdistrictList::create(array(
+            'name' => 'Koja',
+            'id_province' => $city_jakarta_Jakut->id_province,
+            'id_city' => $city_jakarta_Jakut->id,
+        ));
+
+        $sub = SubdistrictList::create(array(
+            'name' => 'Kelapa Gading',
+            'id_province' => $city_jakarta_Jakut->id_province,
+            'id_city' => $city_jakarta_Jakut->id,
+        ));
+
+        $sub = SubdistrictList::create(array(
+            'name' => 'Tanjung Priok',
+            'id_province' => $city_jakarta_Jakut->id_province,
+            'id_city' => $city_jakarta_Jakut->id,
+        ));
+
+        $sub = SubdistrictList::create(array(
+            'name' => 'Pademangan',
+            'id_province' => $city_jakarta_Jakut->id_province,
+            'id_city' => $city_jakarta_Jakut->id,
+        ));
+
+        $sub = SubdistrictList::create(array(
+            'name' => 'Penjaringan',
+            'id_province' => $city_jakarta_Jakut->id_province,
+            'id_city' => $city_jakarta_Jakut->id,
+        ));
+
+        // Jakabr
+        $sub = SubdistrictList::create(array(
+            'name' => 'Cengkareng',
+            'id_province' => $city_jakarta_Jakbar->id_province,
+            'id_city' => $city_jakarta_Jakbar->id,
+        ));
+
+        $sub = SubdistrictList::create(array(
+            'name' => 'Grogol Petamburan',
+            'id_province' => $city_jakarta_Jakbar->id_province,
+            'id_city' => $city_jakarta_Jakbar->id,
+        ));
+
+        $sub = SubdistrictList::create(array(
+            'name' => 'Kalideres',
+            'id_province' => $city_jakarta_Jakbar->id_province,
+            'id_city' => $city_jakarta_Jakbar->id,
+        ));
+
+        $sub = SubdistrictList::create(array(
+            'name' => 'Kebon Jeruk',
+            'id_province' => $city_jakarta_Jakbar->id_province,
+            'id_city' => $city_jakarta_Jakbar->id,
+        ));
+
+        $sub = SubdistrictList::create(array(
+            'name' => 'Kembangan',
+            'id_province' => $city_jakarta_Jakbar->id_province,
+            'id_city' => $city_jakarta_Jakbar->id,
+        ));
+
+        $sub = SubdistrictList::create(array(
+            'name' => 'Palmerah',
+            'id_province' => $city_jakarta_Jakbar->id_province,
+            'id_city' => $city_jakarta_Jakbar->id,
+        ));
+
+        $sub = SubdistrictList::create(array(
+            'name' => 'Taman Sari',
+            'id_province' => $city_jakarta_Jakbar->id_province,
+            'id_city' => $city_jakarta_Jakbar->id,
+        ));
+
+        $sub = SubdistrictList::create(array(
+            'name' => 'Tambora',
+            'id_province' => $city_jakarta_Jakbar->id_province,
+            'id_city' => $city_jakarta_Jakbar->id,
+        ));
+
+
+        // Jakpus
+        $sub = SubdistrictList::create(array(
+            'name' => 'Gambir',
+            'id_province' => $city_jakarta_Jakpus->id_province,
+            'id_city' => $city_jakarta_Jakpus->id,
+        ));
+
+        $sub = SubdistrictList::create(array(
+            'name' => 'Tanah Abang',
+            'id_province' => $city_jakarta_Jakpus->id_province,
+            'id_city' => $city_jakarta_Jakpus->id,
+        ));
+
+        $sub = SubdistrictList::create(array(
+            'name' => 'Menteng',
+            'id_province' => $city_jakarta_Jakpus->id_province,
+            'id_city' => $city_jakarta_Jakpus->id,
+        ));
+
+        $sub = SubdistrictList::create(array(
+            'name' => 'Senen',
+            'id_province' => $city_jakarta_Jakpus->id_province,
+            'id_city' => $city_jakarta_Jakpus->id,
+        ));
+
+        $sub = SubdistrictList::create(array(
+            'name' => 'Cempaka Putih',
+            'id_province' => $city_jakarta_Jakpus->id_province,
+            'id_city' => $city_jakarta_Jakpus->id,
+        ));
+
+        $sub = SubdistrictList::create(array(
+            'name' => 'Johar Baru',
+            'id_province' => $city_jakarta_Jakpus->id_province,
+            'id_city' => $city_jakarta_Jakpus->id,
+        ));
+
+        $sub = SubdistrictList::create(array(
+            'name' => 'Kemayoran',
+            'id_province' => $city_jakarta_Jakpus->id_province,
+            'id_city' => $city_jakarta_Jakpus->id,
+        ));
+
+        $sub = SubdistrictList::create(array(
+            'name' => 'Sawah Besar',
+            'id_province' => $city_jakarta_Jakpus->id_province,
+            'id_city' => $city_jakarta_Jakpus->id,
+        ));
+
+
+        // Jaksel
+        $sub = SubdistrictList::create(array(
+            'name' => 'Kebayoran Baru',
+            'id_province' => $city_jakarta_Jaksel->id_province,
+            'id_city' => $city_jakarta_Jaksel->id,
+        ));
+
+        $sub = SubdistrictList::create(array(
+            'name' => 'Kebayoran Lama',
+            'id_province' => $city_jakarta_Jaksel->id_province,
+            'id_city' => $city_jakarta_Jaksel->id,
+        ));
+
+        $sub = SubdistrictList::create(array(
+            'name' => 'Pesanggrahan',
+            'id_province' => $city_jakarta_Jaksel->id_province,
+            'id_city' => $city_jakarta_Jaksel->id,
+        ));
+
+        $sub = SubdistrictList::create(array(
+            'name' => 'Cilandak',
+            'id_province' => $city_jakarta_Jaksel->id_province,
+            'id_city' => $city_jakarta_Jaksel->id,
+        ));
+
+        $sub = SubdistrictList::create(array(
+            'name' => 'Pasar Minggu',
+            'id_province' => $city_jakarta_Jaksel->id_province,
+            'id_city' => $city_jakarta_Jaksel->id,
+        ));
+
+        $sub = SubdistrictList::create(array(
+            'name' => 'Jagakarsa',
+            'id_province' => $city_jakarta_Jaksel->id_province,
+            'id_city' => $city_jakarta_Jaksel->id,
+        ));
+
+        $sub = SubdistrictList::create(array(
+            'name' => 'Mampang Prapatan',
+            'id_province' => $city_jakarta_Jaksel->id_province,
+            'id_city' => $city_jakarta_Jaksel->id,
+        ));
+
+        $sub = SubdistrictList::create(array(
+            'name' => 'Pancoran',
+            'id_province' => $city_jakarta_Jaksel->id_province,
+            'id_city' => $city_jakarta_Jaksel->id,
+        ));
+
+        $sub = SubdistrictList::create(array(
+            'name' => 'Tebet',
+            'id_province' => $city_jakarta_Jaksel->id_province,
+            'id_city' => $city_jakarta_Jaksel->id,
+        ));
+
+        $sub = SubdistrictList::create(array(
+            'name' => 'Setiabudi',
+            'id_province' => $city_jakarta_Jaksel->id_province,
+            'id_city' => $city_jakarta_Jaksel->id,
+        ));
+
+
+        // Jaktim
+        $sub = SubdistrictList::create(array(
+            'name' => 'Matraman',
+            'id_province' => $city_jakarta_Jaktim->id_province,
+            'id_city' => $city_jakarta_Jaktim->id,
+        ));
+        
+        $sub = SubdistrictList::create(array(
+            'name' => 'Pulo Gadung',
+            'id_province' => $city_jakarta_Jaktim->id_province,
+            'id_city' => $city_jakarta_Jaktim->id,
+        ));
+
+        $sub = SubdistrictList::create(array(
+            'name' => 'Jatinegara',
+            'id_province' => $city_jakarta_Jaktim->id_province,
+            'id_city' => $city_jakarta_Jaktim->id,
+        ));
+        
+        $sub = SubdistrictList::create(array(
+            'name' => 'Duren Sawit',
+            'id_province' => $city_jakarta_Jaktim->id_province,
+            'id_city' => $city_jakarta_Jaktim->id,
+        ));
+
+        $sub = SubdistrictList::create(array(
+            'name' => 'Kramat Jati',
+            'id_province' => $city_jakarta_Jaktim->id_province,
+            'id_city' => $city_jakarta_Jaktim->id,
+        ));
+        
+        $sub = SubdistrictList::create(array(
+            'name' => 'Makasar',
+            'id_province' => $city_jakarta_Jaktim->id_province,
+            'id_city' => $city_jakarta_Jaktim->id,
+        ));
+
+        $sub = SubdistrictList::create(array(
+            'name' => 'Pasar Rebo',
+            'id_province' => $city_jakarta_Jaktim->id_province,
+            'id_city' => $city_jakarta_Jaktim->id,
+        ));
+        
+        $sub = SubdistrictList::create(array(
+            'name' => 'Ciracas',
+            'id_province' => $city_jakarta_Jaktim->id_province,
+            'id_city' => $city_jakarta_Jaktim->id,
+        ));
+
+        $sub = SubdistrictList::create(array(
+            'name' => 'Cipayung',
+            'id_province' => $city_jakarta_Jaktim->id_province,
+            'id_city' => $city_jakarta_Jaktim->id,
+        ));
+        
+        $sub = SubdistrictList::create(array(
+            'name' => 'Cakung',
+            'id_province' => $city_jakarta_Jaktim->id_province,
+            'id_city' => $city_jakarta_Jaktim->id,
+        ));
+
+        
+        // kota denpasar
+        $sub = SubdistrictList::create(array(
+            'name' => 'Denpasar Barat',
+            'id_province' => $city_bali_Denpasar->id_province,
+            'id_city' => $city_bali_Denpasar->id,
+        ));
+
+        $sub = SubdistrictList::create(array(
+            'name' => 'Denpasar Selatan',
+            'id_province' => $city_bali_Denpasar->id_province,
+            'id_city' => $city_bali_Denpasar->id,
+        ));
+
+        $sub = SubdistrictList::create(array(
+            'name' => 'Denpasar Timur',
+            'id_province' => $city_bali_Denpasar->id_province,
+            'id_city' => $city_bali_Denpasar->id,
+        ));
+
+        $sub = SubdistrictList::create(array(
+            'name' => 'Denpasar Utara',
+            'id_province' => $city_bali_Denpasar->id_province,
+            'id_city' => $city_bali_Denpasar->id,
+        ));
+
+        
+        // kab badung
+        $sub = SubdistrictList::create(array(
+            'name' => 'Abiansemal',
+            'id_province' => $city_bali_Badung->id_province,
+            'id_city' => $city_bali_Badung->id,
+        ));
+
+        $sub = SubdistrictList::create(array(
+            'name' => 'Kuta Selatan',
+            'id_province' => $city_bali_Badung->id_province,
+            'id_city' => $city_bali_Badung->id,
+        ));
+
+        $sub = SubdistrictList::create(array(
+            'name' => 'Kuta Utara',
+            'id_province' => $city_bali_Badung->id_province,
+            'id_city' => $city_bali_Badung->id,
+        ));
+
+        $sub = SubdistrictList::create(array(
+            'name' => 'Kuta',
+            'id_province' => $city_bali_Badung->id_province,
+            'id_city' => $city_bali_Badung->id,
+        ));
+
+        $sub = SubdistrictList::create(array(
+            'name' => 'Mengwi',
+            'id_province' => $city_bali_Badung->id_province,
+            'id_city' => $city_bali_Badung->id,
+        ));
+
+        $sub = SubdistrictList::create(array(
+            'name' => 'Petang',
+            'id_province' => $city_bali_Badung->id_province,
+            'id_city' => $city_bali_Badung->id,
+        ));
+
+
+        // Kota tangerang
+        $sub = SubdistrictList::create(array(
+            'name' => 'Batuceper',
+            'id_province' => $city_banten_Tangerang->id_province,
+            'id_city' => $city_banten_Tangerang->id,
+        ));
+
+        $sub = SubdistrictList::create(array(
+            'name' => 'Benda',
+            'id_province' => $city_banten_Tangerang->id_province,
+            'id_city' => $city_banten_Tangerang->id,
+        ));
+        
+        $sub = SubdistrictList::create(array(
+            'name' => 'Cibodas',
+            'id_province' => $city_banten_Tangerang->id_province,
+            'id_city' => $city_banten_Tangerang->id,
+        ));
+        
+        $sub = SubdistrictList::create(array(
+            'name' => 'Ciledug',
+            'id_province' => $city_banten_Tangerang->id_province,
+            'id_city' => $city_banten_Tangerang->id,
+        ));
+        
+        $sub = SubdistrictList::create(array(
+            'name' => 'Cipondoh',
+            'id_province' => $city_banten_Tangerang->id_province,
+            'id_city' => $city_banten_Tangerang->id,
+        ));
+        
+        $sub = SubdistrictList::create(array(
+            'name' => 'Jatiuwung',
+            'id_province' => $city_banten_Tangerang->id_province,
+            'id_city' => $city_banten_Tangerang->id,
+        ));
+        
+        $sub = SubdistrictList::create(array(
+            'name' => 'Karang Tengah',
+            'id_province' => $city_banten_Tangerang->id_province,
+            'id_city' => $city_banten_Tangerang->id,
+        ));
+        
+        $sub = SubdistrictList::create(array(
+            'name' => 'Karawaci',
+            'id_province' => $city_banten_Tangerang->id_province,
+            'id_city' => $city_banten_Tangerang->id,
+        ));
+        
+        $sub = SubdistrictList::create(array(
+            'name' => 'Larangan',
+            'id_province' => $city_banten_Tangerang->id_province,
+            'id_city' => $city_banten_Tangerang->id,
+        ));
+        
+        $sub = SubdistrictList::create(array(
+            'name' => 'Neglasari',
+            'id_province' => $city_banten_Tangerang->id_province,
+            'id_city' => $city_banten_Tangerang->id,
+        ));
+        
+        $sub = SubdistrictList::create(array(
+            'name' => 'Periuk',
+            'id_province' => $city_banten_Tangerang->id_province,
+            'id_city' => $city_banten_Tangerang->id,
+        ));
+        
+        $sub = SubdistrictList::create(array(
+            'name' => 'Pinang',
+            'id_province' => $city_banten_Tangerang->id_province,
+            'id_city' => $city_banten_Tangerang->id,
+        ));
+
+        
+        // kota tangsel
+        $sub = SubdistrictList::create(array(
+            'name' => 'Ciputat',
+            'id_province' => $city_banten_Tangsel->id_province,
+            'id_city' => $city_banten_Tangsel->id,
+        ));
+
+        $sub = SubdistrictList::create(array(
+            'name' => 'Ciputat Timur',
+            'id_province' => $city_banten_Tangsel->id_province,
+            'id_city' => $city_banten_Tangsel->id,
+        ));
+        
+        $sub = SubdistrictList::create(array(
+            'name' => 'Pamulang',
+            'id_province' => $city_banten_Tangsel->id_province,
+            'id_city' => $city_banten_Tangsel->id,
+        ));
+
+        $sub = SubdistrictList::create(array(
+            'name' => 'Pondok Aren',
+            'id_province' => $city_banten_Tangsel->id_province,
+            'id_city' => $city_banten_Tangsel->id,
+        ));
+        
+        $sub = SubdistrictList::create(array(
+            'name' => 'Serpong',
+            'id_province' => $city_banten_Tangsel->id_province,
+            'id_city' => $city_banten_Tangsel->id,
+        ));
+
+        $sub = SubdistrictList::create(array(
+            'name' => 'Serpong Utara',
+            'id_province' => $city_banten_Tangsel->id_province,
+            'id_city' => $city_banten_Tangsel->id,
+        ));
+        
+        $sub = SubdistrictList::create(array(
+            'name' => 'Setu',
+            'id_province' => $city_banten_Tangsel->id_province,
+            'id_city' => $city_banten_Tangsel->id,
+        ));
+
+
+        // Kota depok
+        $sub = SubdistrictList::create(array(
+            'name' => 'Beji',
+            'id_province' => $city_jabar_Depok->id_province,
+            'id_city' => $city_jabar_Depok->id,
+        ));
+
+        $sub = SubdistrictList::create(array(
+            'name' => 'Bojongsari',
+            'id_province' => $city_jabar_Depok->id_province,
+            'id_city' => $city_jabar_Depok->id,
+        ));
+
+        $sub = SubdistrictList::create(array(
+            'name' => 'Cilodong',
+            'id_province' => $city_jabar_Depok->id_province,
+            'id_city' => $city_jabar_Depok->id,
+        ));
+
+        $sub = SubdistrictList::create(array(
+            'name' => 'Cimanggis',
+            'id_province' => $city_jabar_Depok->id_province,
+            'id_city' => $city_jabar_Depok->id,
+        ));
+        
+        $sub = SubdistrictList::create(array(
+            'name' => 'Cinere',
+            'id_province' => $city_jabar_Depok->id_province,
+            'id_city' => $city_jabar_Depok->id,
+        ));
+
+        $sub = SubdistrictList::create(array(
+            'name' => 'Cipayung',
+            'id_province' => $city_jabar_Depok->id_province,
+            'id_city' => $city_jabar_Depok->id,
+        ));
+        
+        $sub = SubdistrictList::create(array(
+            'name' => 'Limo',
+            'id_province' => $city_jabar_Depok->id_province,
+            'id_city' => $city_jabar_Depok->id,
+        ));
+
+        $sub = SubdistrictList::create(array(
+            'name' => 'Pancoran Mas',
+            'id_province' => $city_jabar_Depok->id_province,
+            'id_city' => $city_jabar_Depok->id,
+        ));
+        
+        $sub = SubdistrictList::create(array(
+            'name' => 'Sawangan',
+            'id_province' => $city_jabar_Depok->id_province,
+            'id_city' => $city_jabar_Depok->id,
+        ));
+
+        $sub = SubdistrictList::create(array(
+            'name' => 'Sukmajaya',
+            'id_province' => $city_jabar_Depok->id_province,
+            'id_city' => $city_jabar_Depok->id,
+        ));
+        
+        $sub = SubdistrictList::create(array(
+            'name' => 'Tapos',
+            'id_province' => $city_jabar_Depok->id_province,
+            'id_city' => $city_jabar_Depok->id,
+        ));
+
+
+        // kota bekasi
+        $sub = SubdistrictList::create(array(
+            'name' => 'Bantar Gebang',
+            'id_province' => $city_jabar_Bekasi->id_province,
+            'id_city' => $city_jabar_Bekasi->id,
+        ));
+
+        $sub = SubdistrictList::create(array(
+            'name' => 'Bekasi Barat',
+            'id_province' => $city_jabar_Bekasi->id_province,
+            'id_city' => $city_jabar_Bekasi->id,
+        ));
+        
+        $sub = SubdistrictList::create(array(
+            'name' => 'Bekasi Selatan',
+            'id_province' => $city_jabar_Bekasi->id_province,
+            'id_city' => $city_jabar_Bekasi->id,
+        ));
+        
+        $sub = SubdistrictList::create(array(
+            'name' => 'Bekasi Timur',
+            'id_province' => $city_jabar_Bekasi->id_province,
+            'id_city' => $city_jabar_Bekasi->id,
+        ));
+        
+        $sub = SubdistrictList::create(array(
+            'name' => 'Bekasi Utara',
+            'id_province' => $city_jabar_Bekasi->id_province,
+            'id_city' => $city_jabar_Bekasi->id,
+        ));
+        
+        $sub = SubdistrictList::create(array(
+            'name' => 'Jatiasih',
+            'id_province' => $city_jabar_Bekasi->id_province,
+            'id_city' => $city_jabar_Bekasi->id,
+        ));
+        
+        $sub = SubdistrictList::create(array(
+            'name' => 'Jatisampurna',
+            'id_province' => $city_jabar_Bekasi->id_province,
+            'id_city' => $city_jabar_Bekasi->id,
+        ));
+        
+        $sub = SubdistrictList::create(array(
+            'name' => 'Medan Satria',
+            'id_province' => $city_jabar_Bekasi->id_province,
+            'id_city' => $city_jabar_Bekasi->id,
+        ));
+        
+        $sub = SubdistrictList::create(array(
+            'name' => 'Mustika Jaya',
+            'id_province' => $city_jabar_Bekasi->id_province,
+            'id_city' => $city_jabar_Bekasi->id,
+        ));
+        
+        $sub = SubdistrictList::create(array(
+            'name' => 'Pondok Gede',
+            'id_province' => $city_jabar_Bekasi->id_province,
+            'id_city' => $city_jabar_Bekasi->id,
+        ));
+        
+        $sub = SubdistrictList::create(array(
+            'name' => 'Pondok Melati',
+            'id_province' => $city_jabar_Bekasi->id_province,
+            'id_city' => $city_jabar_Bekasi->id,
+        ));
+        
+        $sub = SubdistrictList::create(array(
+            'name' => 'Rawalumbu',
+            'id_province' => $city_jabar_Bekasi->id_province,
+            'id_city' => $city_jabar_Bekasi->id,
+        ));
+        
+        PaymentType::create(['name' => 'Cash']);
         DB::table('daftar_barang_regulars')->delete();
         DB::table('daftar_barang_golds')->delete();
         DB::table('airport_lists')->delete();
@@ -31,204 +708,6 @@ class DatabaseSeeder extends Seeder
         DB::table('shipments')->delete();
         DB::table('slot_lists')->delete();
 
-        $p1 = ProvinceList::create(array(
-            'name' => 'DKI Jakarta'
-        ));
-        $c1 = CityList::create(array(
-            'name' => 'Jakarta Utara',
-            'id_province' => 1
-        ));
-        $sub = SubdistrictList::create(array(
-            'name' => 'kecamatan',
-            'id_province' => 1,
-            'id_city' => $c1->id,
-        ));
-        $c2 = CityList::create(array(
-            'name' => 'Jakarta Barat',
-            'id_province' => 1
-        ));
-
-        $c3 = CityList::create(array(
-            'name' => 'Jakarta Selatan',
-            'id_province' => 1
-        ));
-
-        $c4 = CityList::create(array(
-            'name' => 'Jakarta Pusat',
-            'id_province' => 1
-        ));
-
-        $a1 = AirportList::create(array(
-            'name' => 'Husein Sastranegara International Airport',
-            'initial_code' => 'BDO',
-            'status' => 1,
-            'id_city' => $c1->id
-        ));
-
-        $a2 = AirportList::create(array(
-            'name' => 'Blimbingsari Airport',
-            'initial_code' => 'BWX',
-            'status' => 1,
-            'id_city' => $c3->id
-        ));
-
-        $a3 = AirportList::create(array(
-            'name' => 'Penggung Airport',
-            'initial_code' => 'CBN',
-            'status' => 1,
-            'id_city' => $c3->id
-        ));
-
-        $a4 = AirportList::create(array(
-            'name' => 'Tunggul Wulung Airport',
-            'initial_code' => 'CXP',
-            'status' => 1,
-            'id_city' => $c3->id
-        ));
-
-        $a5 = AirportList::create(array(
-            'name' => 'Pondok Cabe Airport',
-            'initial_code' => 'PCB',
-            'status' => 1,
-            'id_city' => $c3->id
-        ));
-
-        $a6 = AirportList::create(array(
-            'name' => 'Halim Perdanakusuma International Airport',
-            'initial_code' => 'HLP',
-            'status' => 1,
-            'id_city' => $c2->id
-        ));
-
-        $a7 = AirportList::create(array(
-            'name' => 'Soekarno–Hatta International Airport',
-            'initial_code' => 'CGK',
-            'status' => 1,
-            'id_city' => $c2->id
-        ));
-
-        $c1->airports()->attach($a1->id);
-        $c2->airports()->attach($a6->id);
-        $c2->airports()->attach($a7->id);
-        $c3->airports()->attach($a2->id);
-        $c3->airports()->attach($a3->id);
-        $c3->airports()->attach($a4->id);
-        $c3->airports()->attach($a5->id);
-
-//        $member1 = MemberList::create(array(
-//            'name' => 'testHAha',
-//            'password' => bcrypt('password'),
-//            'registered_date' => \Carbon\Carbon::now(),
-//            'birth_date' => '1990-01-01',
-//            'address' => 'Test Address',
-//            'mobile_phone_no' => '+62123456789',
-//            'email' => 'test@test.com',
-//            'id_city' => 1
-//        ));
-//
-//        SlotList::create(array(
-//            'slot_id' => 'AAAB',
-//        	'id_member' => $member1->id,
-//            'booking_code' => 'AV12453',
-//            'id_airline' => 0,
-//            'id_origin_airport' => $a1->id,
-//            'id_destination_airport' => $a4->id,
-//            'origin_city' => 'ZZZ1',
-//            'destination_city' => 'UUU1',
-//            'depature' => \Carbon\Carbon::createFromFormat('Y-m-d H:i', '2017-11-7 07:00')->toDateTimeString(),
-//            'arrival' => \Carbon\Carbon::createFromFormat('Y-m-d H:i', '2017-11-7 09:00')->toDateTimeString(),
-//            'flight_code' => 'AWWWW',
-//        	'baggage_space' => 30,
-//            'slot_price_kg' => 12542
-//        ));
-//
-//        SlotList::create(array(
-//            'slot_id' => 'AAAB',
-//            'id_member' => $member1->id,
-//            'booking_code' => 'AW12454',
-//            'id_airline' => 0,
-//            'id_origin_airport' => $a1->id,
-//            'id_destination_airport' => $a6->id,
-//            'origin_city' => 'ZZZ2',
-//            'destination_city' => 'UUU2',
-//            'depature' => \Carbon\Carbon::createFromFormat('Y-m-d H:i', '2017-11-7 11:00')->toDateTimeString(),
-//            'arrival' => \Carbon\Carbon::createFromFormat('Y-m-d H:i', '2017-11-7 12:00')->toDateTimeString(),
-//            'flight_code' => 'AWWWW',
-//            'baggage_space' => 30,
-//            'slot_price_kg' => 12542
-//        ));
-//
-//        SlotList::create(array(
-//            'slot_id' => 'AAAB',
-//            'id_member' => $member1->id,
-//            'booking_code' => 'AX12455',
-//            'id_airline' => 0,
-//            'id_origin_airport' => $a7->id,
-//            'id_destination_airport' => $a2->id,
-//            'origin_city' => 'ZZZ3',
-//            'destination_city' => 'UUU3',
-//            'depature' => \Carbon\Carbon::createFromFormat('Y-m-d H:i', '2017-11-7 08:00')->toDateTimeString(),
-//            'arrival' => \Carbon\Carbon::createFromFormat('Y-m-d H:i', '2017-11-7 10:00')->toDateTimeString(),
-//            'flight_code' => 'AWWWW',
-//            'baggage_space' => 30,
-//            'slot_price_kg' => 12542
-//        ));
-//
-//        $temp = Shipment::create(array(
-//            'shipment_id' => 'ASB999',
-//            'transaction_date' => \Carbon\Carbon::createFromFormat('Y-m-d', '2017-11-7')->toDateTimeString(),
-//            'id_origin_city' => $c1->id,
-//            'id_destination_city' => $c2->id,
-//            'is_first_class' => true,
-//            'id_shipper' => 1,
-//            'shipper_name' => 'DIKA',
-//            'shipper_address' => 'Jalan',
-//            'shipper_mobile_phone' => '112',
-//            'shipper_latitude' => 12.22,
-//            'shipper_longitude' => 99.11,
-//            'consignee_name' => 'PAPA',
-//            'consignee_address' => 'Jalan2',
-//            'consignee_mobile_phone' => '911',
-//            'id_payment_type' => 0,
-//            'shipment_contents' => 'BUKU',
-//            'estimate_goods_value' => 5000,
-//            'estimate_weight' => 6,
-//            'insurance_cost' => 1000,
-//            'is_add_insurance' => true,
-//            'add_insurance_cost' => 102,
-//            'received_time' => \Carbon\Carbon::createFromFormat('Y-m-d H:i', '2017-11-7 02:00')->toDateTimeString(),
-//        ));
-//        DaftarBarangGold::create(array('id_barang' => $temp->id));
-//
-//
-//        $temp = Shipment::create(array(
-//            'shipment_id' => 'ASB1000',
-//            'transaction_date' => \Carbon\Carbon::createFromFormat('Y-m-d', '2017-11-7')->toDateTimeString(),
-//            'id_origin_city' => $c1->id,
-//            'id_destination_city' => $c2->id,
-//            'is_first_class' => true,
-//            'id_shipper' => 1,
-//            'shipper_name' => 'DIKA',
-//            'shipper_address' => 'Jalan',
-//            'shipper_mobile_phone' => '112',
-//            'shipper_latitude' => 12.22,
-//            'shipper_longitude' => 99.11,
-//            'consignee_name' => 'PAPA',
-//            'consignee_address' => 'Jalan2',
-//            'consignee_mobile_phone' => '911',
-//            'id_payment_type' => 0,
-//            'shipment_contents' => 'BUKU',
-//            'estimate_goods_value' => 5000,
-//            'estimate_weight' => 6,
-//            'insurance_cost' => 1000,
-//            'is_add_insurance' => true,
-//            'add_insurance_cost' => 102,
-//            'received_time' => \Carbon\Carbon::createFromFormat('Y-m-d H:i', '2017-11-7 12:00')->toDateTimeString(),
-//        ));
-//        DaftarBarangGold::create(array('id_barang' => $temp->id));
-       Term::create(array('content' => 'test content'));
-//        $this->call(CitySedder::class);
-//        $this->call(MemberListSeeder::class);
         $this->call(WeigthListSeeder::class);
         $this->call(PriceListSeeder::class);
         $this->call(UserTableSeeder::class);
