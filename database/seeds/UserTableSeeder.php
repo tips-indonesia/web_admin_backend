@@ -15,17 +15,8 @@ class UserTableSeeder extends Seeder
     {
         //
         $role = Role::create(['name'=>'admin']);
-        $user = MemberList::create([
-            'first_name' => 'test',
-            'last_name' => 'test',
-            'password' => bcrypt('123'),
-            'registered_date' => \Carbon\Carbon::now(),
-            'birth_date' => '1990-01-01',
-            'address' => 'Test Address',
-            'mobile_phone_no' => '+621',
-            'email' => 'test@test.com',
-            'id_city' => 1
-        ]);
+        $user = User::create(['first_name'=>'admin','last_name'=>'admin', 'username'=>'admin', 'password' => bcrypt('123123')]);
         $user->assignRole('admin');
+        
     }
 }
