@@ -7,11 +7,13 @@ use App\DaftarBarangRegular;
 use App\SlotList;
 use App\Shipment;
 use App\AirportList;
+use App\AirlinesList;
 use App\AirportcityList;
 use App\Term;
 use App\MemberList;
 use App\PaymentType;
 use App\CityList;
+use App\PriceList;
 use App\SubdistrictList;
 use App\ProvinceList;
 
@@ -24,11 +26,41 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+
+        AirlinesList::create([
+            'name' => 'Garuda Airlines',
+            'prefix_flight_code' => 'GA',
+            'status' => true
+        ]);
+
+        AirlinesList::create([
+            'name' => 'Citilink',
+            'prefix_flight_code' => 'QZ',
+            'status' => true
+        ]);
+
         $airportcityList_Jakarta = AirportcityList::create([
             'name' => 'Jakarta'
         ]);
+
         $airportcityList_Bali = AirportcityList::create([
             'name' => 'Bali'
+        ]);
+
+        PriceList::create([
+            'id_origin_city' => $airportcityList_Jakarta->id,
+            'id_destination_city' => $airportcityList_Bali->id,
+            'tipster_price' => 10000.00,
+            'freight_cost' => 30000.00,
+            'add_first_class' => 0.00 
+        ]);
+
+        PriceList::create([
+            'id_origin_city' => $airportcityList_Bali->id,
+            'id_destination_city' => $airportcityList_Jakarta->id,
+            'tipster_price' => 10000.00,
+            'freight_cost' => 30000.00,
+            'add_first_class' => 0.00 
         ]);
 
         $airportList_CGK = AirportList::create(array(

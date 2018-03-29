@@ -16,6 +16,7 @@ class CreateAirlinesListsTable extends Migration
         Schema::create('airlines_lists', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
+            $table->string('prefix_flight_code');
             $table->boolean('status');
             $table->timestamps();
         });
