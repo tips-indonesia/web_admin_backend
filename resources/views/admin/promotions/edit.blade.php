@@ -7,6 +7,11 @@
 <span class="text-semibold">Promotions</span> - Edit
 @endsection
 @section('content')
+@if (session('status'))
+        <div class="alert alert-success">
+            {{ session('status') }}
+        </div>
+    @endif
     <!-- Vertical form options -->
     <div class="row">
         <div class="col-md-12">
@@ -48,7 +53,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label>Content Text</label>
-                                    <textarea id="content" cols="18" rows="18" class="form-control" placeholder="{{ $data->content }}" name="{{ $data->content }}"></textarea>
+                                    <textarea id="content" cols="18" rows="18" class="form-control" name="content_text">{{ $data->content }}</textarea>
                                 </div>
                             </div>
                         </div>
@@ -56,8 +61,13 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label>Template</label>
-                                    <input type="radio" name="template" value="A" required="" style="margin-left: 20px; size: 200%;"> A
-                                    <input type="radio" name="template" value="B" required="" style="margin-left: 20px; size: 200%;"> B
+                                    @if($data->template_type === 'A')
+                                        <input type="radio" name="template" value="A" required="" style="margin-left: 20px; size: 200%;" checked=""> A
+                                        <input type="radio" name="template" value="B" required="" style="margin-left: 20px; size: 200%;"> B
+                                    @else
+                                        <input type="radio" name="template" value="A" required="" style="margin-left: 20px; size: 200%;"> A
+                                        <input type="radio" name="template" value="B" required="" style="margin-left: 20px; size: 200%;" checked=""> B
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -73,6 +83,11 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label>File Image</label>
+                                    <div class="row">
+                                    <div class="col-md-6">
+                                        <img src="{{ URL::to('/') }}/storage/promotions/{{$data->file_name}}" style="width: 300px; height: 300px; margin-bottom: 10px;">
+                                    </div>
+                                    </div>
                                     <input type="file" class="form-control" name="image" id="input_file">
                                 </div>
                             </div>

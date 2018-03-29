@@ -8,6 +8,7 @@
 <button type="button" class="btn btn-success" onclick="window.location.href='{{ route('promotions.create') }}'">Create</button>
 @endsection
 @section('content')
+
     <!-- Vertical form options -->
     <div class="row">
         <div class="col-md-12">
@@ -21,7 +22,11 @@
 
                                     <select name="tahun" class="form-control">
                                         @foreach($tahun as $tahu)
-                                        <option value="{{ $tahu->year_period }}">{{ $tahu->year_period }}</option>
+                                            @if($tahu->year_period == date("Y"))
+                                                <option value="{{ $tahu->year_period }}" selected="">{{ $tahu->year_period }}</option>
+                                            @else
+                                                <option value="{{ $tahu->year_period }}">{{ $tahu->year_period }}</option>
+                                            @endif
                                         @endforeach
                                     </select> 
                                 </div>
@@ -33,17 +38,13 @@
                                     <label>Bulan</label>
                                     <select name="bulan" class="form-control">
                                         @foreach($bulan as $bula)
-                                        <option value="{{ $bula->nama }}">{{ $bula->nama }}</option>
+                                            @if($bula->nama == date("F"))
+                                                <option value="{{ $bula->nama }}" selected="">{{ $bula->nama }}</option>
+                                            @else
+                                                <option value="{{ $bula->nama }}" >{{ $bula->nama }}</option>
+                                            @endif
                                         @endforeach
                                     </select> 
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label>Tanggal</label>
-                                    <input type="text" class="form-control" name="tanggal" required="">
                                 </div>
                             </div>
                         </div>
@@ -59,6 +60,9 @@
         </div>
         <table class="table datatable-pagination" style="margin-left: 10px;">
             <thead>
+                <tr>
+                    <th>Bulan : {{ $namabulan }} {{ $namatahun }}</th>
+                </tr>
                 <tr>    
                     <th>No</th>
                     <th>Tanggal Awal</th>

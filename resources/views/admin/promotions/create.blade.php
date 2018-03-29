@@ -7,6 +7,11 @@
 <span class="text-semibold">Promotions</span> - Create
 @endsection
 @section('content')
+@if (session('status'))
+        <div class="alert alert-success">
+            {{ session('status') }}
+        </div>
+    @endif
     <!-- Vertical form options -->
     <div class="row">
         <div class="col-md-12">
