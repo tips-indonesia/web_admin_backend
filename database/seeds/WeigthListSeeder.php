@@ -18,12 +18,12 @@ class WeigthListSeeder extends Seeder
             if($i == 15 || $i == 20) {
                 WeightList::create([
                     'weight_kg' => $i,
-                ])
+                ]);
             } else {
                 WeightList::create([
                     'weight_kg' => $i,
                     'for_delivery' => false,
-                ])
+                ]);
             }
         }
     }
