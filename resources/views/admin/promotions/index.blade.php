@@ -38,7 +38,7 @@
                                     <label>Bulan</label>
                                     <select name="bulan" class="form-control">
                                         @foreach($bulan as $bula)
-                                            @if($bula->nama == date("F"))
+                                            @if($bula->id == date("n"))
                                                 <option value="{{ $bula->nama }}" selected="">{{ $bula->nama }}</option>
                                             @else
                                                 <option value="{{ $bula->nama }}" >{{ $bula->nama }}</option>
