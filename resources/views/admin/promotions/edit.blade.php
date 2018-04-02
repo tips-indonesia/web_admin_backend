@@ -21,10 +21,21 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
+                                    <h4>Bulan {{ session('bulan') }} {{ session('tahun') }}</h4>
+                                    
+                                </div>
+                            </div>
+                            
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
                                     <label>Tanggal Awal :</label>
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="icon-calendar5"></i></span>
-                                        <input type="text" class="pickadate-year form-control" name="tanggal_awal" placeholder="{{ $data->start_date}}" value="{{ $data->start_date }}">
+                                        <input type="text" class="pickadate-year-awal form-control" name="tanggal_awal" placeholder="{{ $data->start_date}}" value="{{ $data->start_date }}" >
                                     </div>
                                 </div>
                             </div>
@@ -83,12 +94,13 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label>File Image</label>
+                                    
+                                    <input type="file" class="form-control" name="image" id="input_file">
                                     <div class="row">
                                     <div class="col-md-6">
-                                        <img src="{{ URL::to('/') }}/storage/promotions/{{$data->file_name}}" style="width: 300px; height: 300px; margin-bottom: 10px;">
+                                        <img src="{{ URL::to('/') }}/storage/promotions/{{$data->file_name}}" style="width: 300px; height: 160px; margin-top: 10px;">
                                     </div>
                                     </div>
-                                    <input type="file" class="form-control" name="image" id="input_file">
                                 </div>
                             </div>
                         </div>
@@ -101,6 +113,15 @@
         </div>
     </div>
     <script type="text/javascript">
-        $('.pickadate-year').datepicker({format: 'yyyy-mm-dd',});
+        $('.pickadate-year-awal').datepicker({
+            format: 'yyyy-mm-dd',
+            // minDate: new Date($('.minnn').text()),
+        });
+
+        $('.pickadate-year').datepicker({
+            format: 'yyyy-mm-dd'
+            
+        });
+
     </script>
 @endsection

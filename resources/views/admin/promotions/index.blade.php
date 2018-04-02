@@ -60,9 +60,9 @@
         </div>
         <table class="table datatable-pagination" style="margin-left: 10px;">
             <thead>
-                <tr>
+                <!-- <tr>
                     <th>Bulan : {{ $namabulan }} {{ $namatahun }}</th>
-                </tr>
+                </tr> -->
                 <tr>    
                     <th>No</th>
                     <th>Tanggal Awal</th>
