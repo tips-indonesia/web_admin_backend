@@ -40,6 +40,44 @@ class UtilityController extends Controller
         $this->RoutineMinuteAssignment();
     }
 
+    public function getMemberList(Request $req){
+        if(!$req->header('X-TIPS-STRICT') || $req->header('X-TIPS-STRICT') != 'F814EC9B1C92C4A6538B3022F20123459093892CAECBB8A69BB84808DBD0102E'){
+            return response()->json([
+                "err" => [
+                    "code" => 401,
+                    "message" => "Unauthorized"
+                ],
+                "result" => null
+            ], 401);
+        }
+
+        if(!$req->mobile_phone_no){
+            return response()->json([
+                "err" => [
+                    "code" => 400,
+                    "message" => "Bad Request: mobile_phone_no param is required"
+                ],
+                "result" => null
+            ], 400);
+        }
+
+        $data = MemberList::where('mobile_phone_no', $req->mobile_phone_no)->first();
+
+        if(!$data)
+            return response()->json([
+                "err" => [
+                    "code" => 404,
+                    "message" => "User with mobile_phone_no " . $req->mobile_phone_no . " not found"
+                ],
+                "result" => null
+            ], 404);
+        else
+            return response()->json([
+                "err" => null,
+                "result" => $data
+            ], 400);
+    }
+
     /**
       * For debugging purpose
       *
