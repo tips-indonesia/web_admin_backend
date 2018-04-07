@@ -88,6 +88,12 @@ class DeliveryController extends Controller
                 }else{
                     $firebase_sent = "only user, no token";
                 }
+
+                $bsc = new BirdSenderController;
+                $email = $ms_user->email;
+                $nama = $ms_user->first_name . ' ' . $ms_user->last_name;
+                $antarcode = $slot->slot_id;
+                $bsc->sendMailTipsterStep1($email, $nama, $antarcode);
             }else{
                 $firebase_sent = "no user: " . $slot->slot_id;
             }
