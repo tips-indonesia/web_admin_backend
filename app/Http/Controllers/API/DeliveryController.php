@@ -114,11 +114,40 @@ class DeliveryController extends Controller
         }
     }
 
-    function get_status(Request $request) {
-        $slot_id = $request->slot_id;
+    public static function ___get_status($slot_id){
         $slot = SlotList::where('slot_id', $slot_id)->first();
 
         if($slot == null) {
+            return null;
+        } else {
+            $delivery_status = DeliveryStatus::find($slot->id_slot_status);
+            $slot->origin_airport = AirportList::find($slot->id_origin_airport);
+            $slot->destination_airport = AirportList::find($slot->id_destination_airport);
+            if($slot->photo_tag){
+                $slot->photo_tag = url('/image/photo_tag').'/'.$slot->photo_tag;
+            }
+
+            return array(
+                'status' => array(
+                    'step' => $delivery_status->step,
+                    'description' => $delivery_status->description,
+                    'detail' => $slot->detail_status
+                ),
+                'delivery' => $slot,
+                'addt_info' => array(
+                    'kode_bandara_asal' => $slot->airportOrigin->initial_code,
+                    'kode_bandara_tujuan' => $slot->airportDestination->initial_code,
+                    'airline_name' => $slot ? FlightController::getAirlineNameOfFlightCode($slot->flight_code) : ""
+                )
+            );
+        }
+    }
+
+    function get_status(Request $request) {
+        $slot_id = $request->slot_id;
+        $resdata = DeliveryController::___get_status($slot_id);
+
+        if($resdata == null) {
             $data = array(
                 'err' => [
                     'code' => 0,
@@ -127,28 +156,9 @@ class DeliveryController extends Controller
                 'result' => null
             );
         } else {
-            $delivery_status = DeliveryStatus::find($slot->id_slot_status);
-            $slot->origin_airport = AirportList::find($slot->id_origin_airport);
-            $slot->destination_airport = AirportList::find($slot->id_destination_airport);
-            if($slot->photo_tag){
-                $slot->photo_tag = url('/image/photo_tag').'/'.$slot->photo_tag;
-
-            }
             $data = array(
                 'err' => null,
-                'result' => array(
-                    'status' => array(
-                        'step' => $delivery_status->step,
-                        'description' => $delivery_status->description,
-                        'detail' => $slot->detail_status
-                    ),
-                    'delivery' => $slot,
-                    'addt_info' => array(
-                        'kode_bandara_asal' => $slot->airportOrigin->initial_code,
-                        'kode_bandara_tujuan' => $slot->airportDestination->initial_code,
-                        'airline_name' => $slot ? FlightController::getAirlineNameOfFlightCode($slot->flight_code) : ""
-                    )
-                )
+                'result' => $resdata
             );
         }
 
