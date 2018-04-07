@@ -48,7 +48,7 @@ class DeliveryController extends Controller
             $slot->slot_id = $random_string;
             $slot->id_member = $member->id;
             $slot->booking_code = $request->booking_code;
-            $slot->id_airline = 1; //$request->id_airline;
+            $slot->id_airline = FlightController::getAirlineIdOfFlightCode($request->flight_code);
             $slot->id_origin_airport = $request->id_origin_airport;
             $slot->id_destination_airport = $request->id_destination_airport;
             $slot->depature = date('Y-m-d H:i:s', strtotime($request->depature));

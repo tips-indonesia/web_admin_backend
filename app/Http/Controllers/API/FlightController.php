@@ -215,6 +215,15 @@ class FlightController extends Controller
         return "";
     }
 
+    public static function getAirlineIdOfFlightCode($flight_code){
+        $prefix_fc = substr($flight_code, 0, 2);
+        $airline = AirlinesList::where('prefix_flight_code', $prefix_fc)->where('status', 1)->first();
+        if($airline)
+            return $airline->id;
+        
+        return "";
+    }
+
     function flight_booking_code_check(Request $request){
         $flight_code = $request->code;
         if(!$flight_code){
