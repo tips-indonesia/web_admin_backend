@@ -126,7 +126,7 @@ Route::group(['middleware' => 'isWorker'], function() {
             Route::resource('receiveds','Admin\ReceivedAdminController');
         });
 
-        Route::group(['middleware' => ['permission:shipmentmatchingmonitors.']], function () {
+        Route::group(['middleware' => ['permission:shipmenttrackings.']], function () {
             Route::resource('shipmenttrackings','Admin\ShipmentTrackingAdminController');
         });
 
