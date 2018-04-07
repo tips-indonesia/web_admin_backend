@@ -6,6 +6,7 @@ use App\FlightBookingList;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\FCMSender;
+use App\Http\Controllers\BirdSenderController;
 
 use App\SlotList;
 use App\MemberList;
