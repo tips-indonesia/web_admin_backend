@@ -53,7 +53,7 @@
 								</div>
 							@endif
 							<div class="form-group has-feedback has-feedback-left">
-                                <input type="text" name="mobile_phone_no" id="username" value="{{ old('username') }}" placeholder="Phone Number" class="form-control" required>
+                                <input type="text" name="mobile_phone_no" id="phone" oninput="addStart()" value="{{ old('username') }}" placeholder="Phone Number" class="form-control" required>
                                 <div class="form-control-feedback">
 									<i class="icon-user text-muted"></i>
 								</div>
@@ -78,6 +78,14 @@
 			</div>
 		</div>
 	</div>
-
+	<script type="text/javascript">
+		function addStart() {
+			var input = document.getElementById("phone");
+			var val = input.value;
+			if (!val.startsWith("+62")) {
+				input.value = "+62" + val;
+			}
+		}
+	</script>
 </body>
 </html>
