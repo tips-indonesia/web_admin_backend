@@ -18,6 +18,8 @@ use Auth;
 use App\OfficeList;
 use Illuminate\Support\Facades\Input;
 use Carbon\Carbon;
+use App\ArrivalShipment;
+use App\ArrivalShipmentDetail;
 
 class DeliveryShipmentAdminController extends Controller
 {
@@ -31,7 +33,13 @@ class DeliveryShipmentAdminController extends Controller
             $data['date'] = Carbon::now()->toDateString();
         }
 
-        $shipments = Shipment::where('transaction_date', $data['date']);
+        // $shipments = Shipment::where('transaction_date', $data['date']);
+        $deliveries = ArrivalShipment::where('received_by_pc_date', $data['date'])
+                                     ->where('is_received_by_pc', 1)->pluck('id');
+        $packagingId = ArrivalShipmentDetail::whereIn('arrival_shipment_id', $deliveries)->pluck('packaging_lists_id');
+
+        $slotId = PackagingList::whereIn('id', $packagingId)->pluck('id_slot');
+        $shipments = Shipment::whereIn('id_slot', $slotId);
 
         if (Input::get('param') == 'blank' || !Input::get('param')) {
             $data['param'] = Input::get('param');

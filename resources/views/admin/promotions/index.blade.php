@@ -38,7 +38,7 @@
                                     <label>Bulan</label>
                                     <select name="bulan" class="form-control">
                                         @foreach($bulan as $bula)
-                                            @if($bula->nama == date("F"))
+                                            @if($bula->id == date("n"))
                                                 <option value="{{ $bula->nama }}" selected="">{{ $bula->nama }}</option>
                                             @else
                                                 <option value="{{ $bula->nama }}" >{{ $bula->nama }}</option>
@@ -60,9 +60,9 @@
         </div>
         <table class="table datatable-pagination" style="margin-left: 10px;">
             <thead>
-                <tr>
+                <!-- <tr>
                     <th>Bulan : {{ $namabulan }} {{ $namatahun }}</th>
-                </tr>
+                </tr> -->
                 <tr>    
                     <th>No</th>
                     <th>Tanggal Awal</th>

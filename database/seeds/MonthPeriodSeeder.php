@@ -13,40 +13,40 @@ class MonthPeriodSeeder extends Seeder
     {
         //
         DB::table('month_period')->insert([
-            'nama' => 'January'
+            'nama' => 'Januari'
         ]);
         DB::table('month_period')->insert([
-            'nama' => 'February'
+            'nama' => 'Februari'
         ]);
         DB::table('month_period')->insert([
-            'nama' => 'March'
+            'nama' => 'Maret'
         ]);
         DB::table('month_period')->insert([
             'nama' => 'April'
         ]);
         DB::table('month_period')->insert([
-            'nama' => 'May'
+            'nama' => 'Mei'
         ]);
         DB::table('month_period')->insert([
-            'nama' => 'June'
+            'nama' => 'Juni'
         ]);
         DB::table('month_period')->insert([
-            'nama' => 'July'
+            'nama' => 'Juli'
         ]);
         DB::table('month_period')->insert([
-            'nama' => 'August'
+            'nama' => 'Agustus'
         ]);
         DB::table('month_period')->insert([
             'nama' => 'September'
         ]);
         DB::table('month_period')->insert([
-            'nama' => 'October'
+            'nama' => 'Oktober'
         ]);
         DB::table('month_period')->insert([
             'nama' => 'November'
         ]);
         DB::table('month_period')->insert([
-            'nama' => 'December'
+            'nama' => 'Desember'
         ]);
     }
 }
