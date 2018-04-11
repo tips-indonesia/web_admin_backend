@@ -273,6 +273,13 @@ class DeliveryController extends Controller
                 }else{
                     $firebase_sent = "no user: " . $slot->slot_id;
                 }
+
+                $bsc = new BirdSenderController;
+                $email = $ms_user->email;
+                $nama = $ms_user->first_name . ' ' . $ms_user->last_name;
+                $antarcode = $slot->slot_id;
+                $waktu_3_jam_sebelumnya = date('Y-m-d H:i:s', strtotime($slot->depature) - (60 * 60 * 3));
+                $bsc->sendMailTipsterStep3($email, $nama, $antarcode, $slot->airportOrigin->name, $waktu_3_jam_sebelumnya, "+62 823 1777 6008");
             }
         }
 

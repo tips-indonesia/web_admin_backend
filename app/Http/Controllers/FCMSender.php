@@ -14,7 +14,7 @@ class FCMSender extends Controller
 			'status' => "2",
 			'message' => "Tes tes",
 			'detail' => 'wkwkwk'
-		), "eXu5s75_J3o:APA91bE2lCPNBT33Ty5Lc6FkkSOBXqSnQ_cojjLaWwB7zNtYXcVQj6LKuln9AyagqGUjnRDmvWAtYFJdi0dy1_p7oKtpIGMHPFKaA4qMN0tBMRGdapRaztEF6QISBap_nApETpdy0Trj");
+		), "dJtGaeLcVu8:APA91bEaqhShh10YAcqlX056uIWOLSM5nNLYWoIXv8B0TVcvuY70ylAdvvYTGCrIHgGQUp8Iz72m0-KR_F6UymyTVCepgvTUbdAR0SzwlpJMTthwTkZhmyWOW1W8AUvhaDVuGUhdRATj");
 	}
 	/**
 	  * @param payload data

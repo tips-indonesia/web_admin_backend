@@ -10,6 +10,7 @@ use App\ShipmentStatus;
 use App\AirportcityList;
 use Illuminate\Support\Facades\URL;
 use App\Http\Controllers\FCMSender;
+use App\Http\Controllers\BirdSenderController;
 
 class ShipmentController extends Controller
 {
@@ -142,7 +143,7 @@ class ShipmentController extends Controller
             $ms_user = MemberList::find($shipment->id_shipper);
             $mess = 'Barang kiriman Anda dengan kode pengiriman ' . $shipment->shipment_id . ' sudah diambil oleh: '
                     . $shipment->consignee_first_name . " " . $shipment->consignee_last_name;
-            if($ms_user)
+            if($ms_user){
                 if($ms_user->token) {
                     FCMSender::post(array(
                         'type' => 'Shipment',
@@ -152,6 +153,13 @@ class ShipmentController extends Controller
                         'detail' => ""
                     ), $ms_user->token);
                 }
+                $bsc = new BirdSenderController;
+                $email = $ms_user->email;
+                $nama = $ms_user->first_name . ' ' . $ms_user->last_name;
+                $kirimcode = $shipment_out->shipment_id;
+                $penerima = $shipment_out->received_by;
+                $bsc->sendMailShipperStep8($email, $nama, $kirimcode, $penerima);
+            }
 
             $data = array(
                 'err' => null,

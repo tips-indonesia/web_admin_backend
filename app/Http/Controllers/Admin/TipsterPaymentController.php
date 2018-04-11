@@ -25,6 +25,7 @@ use Illuminate\Support\Facades\Session;
 use App\User;
 use App\MemberList;
 use App\Http\Controllers\FCMSender;
+use App\Http\Controllers\BirdSenderController;
 
 class TipsterPaymentController extends Controller
 {
@@ -116,6 +117,11 @@ class TipsterPaymentController extends Controller
         }else{
             $firebase_sent = "no user: " . $slot->slot_id;
         }
+
+        $bsc = new BirdSenderController;
+        $email = $ms_user->email;
+        $nama = $ms_user->first_name . ' ' . $ms_user->last_name;
+        $bsc->sendMailTipsterStep7($email, $nama);
 
 
         return back();
