@@ -63,6 +63,7 @@ class BirdSenderController extends Controller
         $subject        = "Mail Registration Tips";
         $template       = "mail.registration";
         $timezone       = "Asia/Jakarta";
+        date_default_timezone_set($timezone);
         $datetime       = date("d-m-Y h:i:sa");
         $data           = [
             "user"     => $user,
@@ -106,6 +107,7 @@ class BirdSenderController extends Controller
         $subject        = "Mail Registration Tips";
         $template       = "mail.forgot_password";
         $timezone       = "Asia/Jakarta";
+        date_default_timezone_set($timezone);
         $datetime       = date("d-m-Y h:i:sa");
         $data           = [
             "user"     => $user,
@@ -136,6 +138,7 @@ class BirdSenderController extends Controller
         $subject        = "TIPS: $NAMA, penerbangan Anda telah terdaftar $ANTAR_CODE";
         $template       = "mail.tipster.step1";
         $timezone       = "Asia/Jakarta";
+        date_default_timezone_set($timezone);
         $datetime       = date("d-m-Y h:i:sa");
         $data           = [
             "NAMA"     => $NAMA,
@@ -153,6 +156,7 @@ class BirdSenderController extends Controller
         $subject        = "TIPS: $NAMA, barang antaran untuk penerbangan $ANTAR_CODE telah tersedia";
         $template       = "mail.tipster.step2";
         $timezone       = "Asia/Jakarta";
+        date_default_timezone_set($timezone);
         $datetime       = date("d-m-Y h:i:sa");
         $data           = [
             "NAMA"     => $NAMA,
@@ -171,6 +175,7 @@ class BirdSenderController extends Controller
         $subject        = "TIPS: $NAMA, penerbangan $ANTAR_CODE telah terkonfirmasi, harap tiba di bandara 3 jam sebelum penerbangan";
         $template       = "mail.tipster.step3";
         $timezone       = "Asia/Jakarta";
+        date_default_timezone_set($timezone);
         $datetime       = date("d-m-Y h:i:sa");
         $data           = [
             "NAMA"     => $NAMA,
@@ -191,6 +196,7 @@ class BirdSenderController extends Controller
         $subject        = "TIPS: $NAMA, terima kasih atas kerja sama Anda.";
         $template       = "mail.tipster.step7";
         $timezone       = "Asia/Jakarta";
+        date_default_timezone_set($timezone);
         $datetime       = date("d-m-Y h:i:sa");
         $data           = [
             "NAMA"     => $NAMA,
@@ -216,6 +222,7 @@ class BirdSenderController extends Controller
         $subject        = "TIPS: $NAMA, pengiriman Anda telah terdaftar dengan kode $SHIPPING_CODE";
         $template       = "mail.shipper.step1";
         $timezone       = "Asia/Jakarta";
+        date_default_timezone_set($timezone);
         $datetime       = date("d-m-Y h:i:sa");
         $data           = [
             "NAMA"     => $NAMA,
@@ -235,6 +242,7 @@ class BirdSenderController extends Controller
         $subject        = "TIPS: $NAMA, paket kiriman $SHIPPING_CODE Anda telah diterima oleh $RECIPIENT_NAME";
         $template       = "mail.shipper.step8";
         $timezone       = "Asia/Jakarta";
+        date_default_timezone_set($timezone);
         $datetime       = date("d-m-Y h:i:sa");
         $data           = [
             "NAMA"     => $NAMA,
