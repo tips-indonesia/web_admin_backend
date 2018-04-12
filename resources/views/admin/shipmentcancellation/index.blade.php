@@ -20,11 +20,29 @@
                     </div>
                 </div>
                 <div class="row">
-                
-            </div>
+	                <div class="col-md-6">
+	                    <div class="form-group">
+	                        <label>Search By :</label>
+	                        <select name="param" id="param" class="select-search">
+	                            <option value="blank" selected>&#8192;</option>
+	                            <option value="shipment_id" {{ $param == 'shipment_id' ? 'selected' : '' }}>Shipment ID</option>
+	                            <option value="shipper_first_name" {{ $param == 'shipper_first_name' ? 'selected' : '' }}>Shipper First Name</option>
+	                            <option value="shipper_last_name" {{ $param == 'shipper_last_name' ? 'selected' : '' }}>Shipper Last Name</option>
+	                        </select>
+	                    </div>
+	                </div>
+	                <div class="col-md-6">
+	                    <div class="form-group">
+	                        <label>&#8192;</label>
+	                        <input type="text" name="value" id="value" class="form-control " placeholder="Search" value="{{$value}}">                       
+	                    </div>
+	                </div>
+            	</div>
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary">View <i class="icon-arrow-right14 position-right"></i></button>
                 </div>
+            </div>
+                
             </div>
             {{ Form::close() }}
         <table class="table datatable-pagination">
@@ -58,7 +76,7 @@
                         {{ $data->name_destination }}
                     </td>
                     <td>
-                    	@if($data->id_shipment_status == 0)
+                    	@if($data->deleted_at != null)
                     	Cancelled
                     	@else
                     	Active
