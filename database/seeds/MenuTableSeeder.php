@@ -185,6 +185,12 @@ class MenuTableSeeder extends Seeder
                 'menu_parent_id' => $transaction->id,
                 'class_name' => 'tipsterpayments.'
             ]);
+
+            MenuList::create([
+                'name' => 'Shipment Cancellation',
+                'menu_parent_id' => $transaction->id,
+                'class_name' => 'shipmentcancellation.'
+            ]);
             
             // MenuList::create([
             //     'name' => 'Processing Center Package List',

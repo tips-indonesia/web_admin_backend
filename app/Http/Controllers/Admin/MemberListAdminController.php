@@ -21,7 +21,7 @@ class MemberListAdminController extends Controller
     public function index()
     {
         //
-        $data['datas'] = MemberList::paginate(10);
+        $data['datas'] = MemberList::where('is_worker', 0)->paginate(10);
         return view('admin.memberlists.index', $data);
     }
 

@@ -185,6 +185,10 @@
                                                 <textarea rows="5" class="form-control" placeholder="Enter shipper address here" name="shipper_address" disabled readonly>{{ $data->shipper_address }}</textarea>
                                             </div>
                                             <div class="form-group">
+                                                <label>Address Detail :</label>
+                                                <textarea rows="5" class="form-control" placeholder="Enter shipper address here" name="shipper_address_detail" disabled readonly>{{ $data->shipper_address_detail }}</textarea>
+                                            </div>
+                                            <div class="form-group">
                                                 <label>Mobile Phone :</label>
                                                 {{ Form::text('shipper_mobile', $data->shipper_mobile_phone, array('class' => 'form-control', 'placeholder' => 'Shipper Mobile Phone', 'disabled' => '','readonly' => '')) }}
                                             </div>
@@ -239,6 +243,10 @@
                                                 <textarea rows="5" class="form-control" placeholder="Enter consignee address here" name="consignee_address" disabled="" readonly="">{{$data->consignee_address}}</textarea>
                                             </div>
                                             <div class="form-group">
+                                                <label>Address Detail :</label>
+                                                <textarea rows="5" class="form-control" placeholder="Enter consignee address here" name="consignee_address_detail" disabled="" readonly="">{{$data->consignee_address_detail}}</textarea>
+                                            </div>
+                                            <div class="form-group">
                                                 <label>Mobile Phone :</label>
                                                 {{ Form::text('consignee_mobile', $data->consignee_mobile_phone, array('class' => 'form-control', 'placeholder' => 'Consignee Mobile Phone', 'disabled' => '')) }}
                                             </div>
@@ -262,6 +270,10 @@
                                                 <label>Estimated Weight :</label>
                                                 {{ Form::number('estimated_weight', $data->estimate_weight, array('class' => 'form-control', 'placeholder' => 'Estimated Weight', 'disabled' => '')) }}
                                             </div>
+                                            <div class="form-group">
+                                                <label>Real Weight :</label>
+                                                {{ Form::number('real_weight', $data->real_weight, array('class' => 'form-control', 'placeholder' => 'Real Weight', 'disabled' => '')) }}
+                                            </div>
                                         </div>
                                         <div class="col-md-6">
                                             <legend class="text-bold">Costs</legend>
@@ -276,6 +288,21 @@
                                                     <input type="radio" name="additional_insurance" @if($data->is_add_insurance == 1) checked="checked" @endif  value="1" disabled readonly>
                                                     Yes
                                                 </label>
+                                            </div>
+                                            
+                                            <div class="form-group">
+                                                <label>Flight Cost :</label>
+                                                {{ Form::number('flight_cost', $data->flight_cost, array('class' => 'form-control', 'placeholder' => 'Flight Cost', 'disabled' => '')) }}
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label>Insurance :</label>
+                                                {{ Form::number('insurance', $data->insurance_cost, array('class' => 'form-control', 'placeholder' => 'Insurance Cost', 'disabled' => '')) }}
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label>Total :</label>
+                                                {{ Form::number('total', $data->insurance_cost + $data->flight_cost, array('class' => 'form-control', 'placeholder' => 'Total Cost', 'disabled' => '')) }}
                                             </div>
                                         </div>
                                     </div>
