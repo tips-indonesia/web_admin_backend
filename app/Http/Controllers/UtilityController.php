@@ -656,7 +656,7 @@ class UtilityController extends Controller
         $slot->id_slot_status = 2;
         $slot->save();
 
-        $bsc = new BirdSenderController;
+        $bsc = new cURLFaker;
         $email = $ms_user->email;
         $nama = $ms_user->first_name . ' ' . $ms_user->last_name;
         $antarcode = $slot->slot_id;

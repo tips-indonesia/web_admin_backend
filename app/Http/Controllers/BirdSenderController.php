@@ -258,4 +258,45 @@ class BirdSenderController extends Controller
     }
     // ------------------------------
     // ##############################
+
+    public function APIEmailSender(Request $req){
+        if($req->type == 'antar'){
+            $code = $req->code;
+            switch ($code) {
+                case '1':
+                    $this->sendMailTipsterStep1($req->email, $req->NAMA, $req->ANTAR_CODE);
+                    break;
+                case '2':
+                    $this->sendMailTipsterStep2($req->email, $req->NAMA, $req->ANTAR_CODE, $req->JAM_TANGGAL);
+                    break;
+                case '3':
+                    $this->sendMailTipsterStep3($req->email, $req->NAMA, $req->$ORIGIN_AIRPORT_NAME, 
+                                                $req->_3HOURS_DEPARTURE_TIME, $req->NOMOR_CALL_CENTER);
+                    break;
+                case '7':
+                    $this->sendMailTipsterStep7($req->email, $req->NAMA);
+                    break;
+                
+                default:
+                    # code...
+                    break;
+            }
+        }
+
+        if($req->type == 'kirim'){
+            $code = $req->code;
+            switch ($code) {
+                case '1':
+                    $this->sendMailShipperStep1($req->email, $req->NAMA, $req->SHIPPING_CODE, $req->NOMOR_CALL_CENTER);
+                    break;
+                case '8':
+                    $this->sendMailShipperStep8($req->email, $req->NAMA, $req->SHIPPING_CODE, $req->RECIPIENT_NAME);
+                    break;
+                
+                default:
+                    # code...
+                    break;
+            }
+        }
+    }
 }

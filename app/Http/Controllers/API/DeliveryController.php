@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\FCMSender;
 use App\Http\Controllers\BirdSenderController;
+use App\Http\Controllers\cURLFaker;
 
 use App\SlotList;
 use App\MemberList;
@@ -90,7 +91,7 @@ class DeliveryController extends Controller
                     $firebase_sent = "only user, no token";
                 }
 
-                $bsc = new BirdSenderController;
+                $bsc = new cURLFaker;
                 $email = $ms_user->email;
                 $nama = $ms_user->first_name . ' ' . $ms_user->last_name;
                 $antarcode = $slot->slot_id;
@@ -274,7 +275,7 @@ class DeliveryController extends Controller
                     $firebase_sent = "no user: " . $slot->slot_id;
                 }
 
-                $bsc = new BirdSenderController;
+                $bsc = new cURLFaker;
                 $email = $ms_user->email;
                 $nama = $ms_user->first_name . ' ' . $ms_user->last_name;
                 $antarcode = $slot->slot_id;

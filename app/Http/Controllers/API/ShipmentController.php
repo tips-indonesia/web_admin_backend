@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\BirdSenderController;
+use App\Http\Controllers\cURLFaker;
 
 use App\Shipment;
 use App\PriceList;
@@ -173,7 +174,7 @@ class ShipmentController extends Controller
             $firebase_sent = "no user: " . $shipment_out->id_shipper;
         }
 
-        $bsc = new BirdSenderController;
+        $bsc = new cURLFaker;
         $email = $ms_user->email;
         $nama = $ms_user->first_name . ' ' . $ms_user->last_name;
         $kirimcode = $shipment_out->shipment_id;

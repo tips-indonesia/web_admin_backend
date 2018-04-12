@@ -11,6 +11,7 @@ use App\AirportcityList;
 use Illuminate\Support\Facades\URL;
 use App\Http\Controllers\FCMSender;
 use App\Http\Controllers\BirdSenderController;
+use App\Http\Controllers\cURLFaker;
 
 class ShipmentController extends Controller
 {
@@ -153,7 +154,7 @@ class ShipmentController extends Controller
                         'detail' => ""
                     ), $ms_user->token);
                 }
-                $bsc = new BirdSenderController;
+                $bsc = new cURLFaker;
                 $email = $ms_user->email;
                 $nama = $ms_user->first_name . ' ' . $ms_user->last_name;
                 $kirimcode = $shipment_out->shipment_id;
