@@ -32,7 +32,7 @@ class SlotListAdminController extends Controller
         $flag = false;
         $data['datas'] = SlotList::where('id', '>=', 0);
         $user = User::find(Auth::id());
-        if ($user->id_office != null) {
+        if ($user->id_office != null  && $user->id != 1) {
             $office = OfficeList::find($user->id_office);
             $data['datas'] = $data['datas']->where('id_origin_city', $office->id_area);
         }

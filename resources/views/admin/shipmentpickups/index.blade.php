@@ -54,7 +54,6 @@
                     <th>Pickup By</th>
                     <th>Pickup Status</th>
                     <th>Submit</th>
-                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -95,15 +94,6 @@
                         </td>
                         <td>
                             {{ $data->is_posted ==1 ? 'Submitted' : 'Not Submitted' }}
-                        </td>
-                        <td>
-                            <ul class="icons-list">
-                            <li>
-                            {{ Form::open(array('method' => 'DELETE', 'url' => route('shipmentpickups.destroy', $data->id))) }}
-                            <button type="submit" class="btn btn-danger" @if ($data->is_posted) DISABLED @endif><i class="icon-trash"></i> Cancel</button>
-                            {{ Form::close() }}
-                            </li>
-                            </ul>
                         </td>
                     </tr>
                 @endforeach

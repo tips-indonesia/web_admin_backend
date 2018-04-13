@@ -62,7 +62,7 @@ class TipsterPaymentController extends Controller
         }
 
         $user = User::find(Auth::id());
-        if ($user->id_office != null) {
+        if ($user->id_office != null  && $user->id != 1) {
             $office = OfficeList::find($user->id_office);
             $package = $package->where('id_destination_city', $office->id_area);
         }

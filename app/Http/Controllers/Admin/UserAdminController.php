@@ -59,7 +59,7 @@ class UserAdminController extends Controller
             'fname' => 'required',
             'lname' => 'required',
             'mobile_phone_no' => 'required',
-            'email' => 'email',
+            'email' => 'required|email',
             'birth_date' => 'required',
             'password' => 'required|min:6|confirmed',
             'role' => 'required',
@@ -80,20 +80,26 @@ class UserAdminController extends Controller
         } else {
             $phone = $this->changePhoneNumber(Input::get('mobile_phone_no'));
             
-            $user = User::create([
-            'first_name' => Input::get('fname'), 
-            'last_name' => Input::get('lname'), 
-            'mobile_phone_no' => $phone,
-            'email' => Input::get('email'),
-            'registered_date' => date('Y-m-d'),
-            'birth_date' => Input::get('birth_date'),
-            'is_worker' => Input::get('worker'),
-            'id_office' => Input::get('office'),
-            'password' => bcrypt(Input::get('password'))]);
-            $role = Role::find(Input::get('role'));
-            $user->assignRole($role->name);
-            Session::flash('message', 'Successfully created nerd!');
-            return Redirect::to(route('users.index'));
+            if (User::where('mobile_phone_no', $phone)->first() == null) {     
+                $user = User::create([
+                'first_name' => Input::get('fname'), 
+                'last_name' => Input::get('lname'), 
+                'mobile_phone_no' => $phone,
+                'email' => Input::get('email'),
+                'registered_date' => date('Y-m-d'),
+                'birth_date' => Input::get('birth_date'),
+                'is_worker' => Input::get('worker'),
+                'id_office' => Input::get('office'),
+                'password' => bcrypt(Input::get('password'))]);
+                $role = Role::find(Input::get('role'));
+                $user->assignRole($role->name);
+                Session::flash('message', 'Successfully created nerd!');
+                return Redirect::to(route('users.index'));
+            } else {
+                return Redirect::to(route('users.create'))
+                ->withErrors(['duplicate_phone_number' => 'Your phone number has been registered'])
+                ->withInput();
+            }
         }
 
     }
@@ -142,6 +148,7 @@ class UserAdminController extends Controller
             'role'  => 'required',
             'office' => 'required'
         );
+
         $validator = Validator::make(Input::all(), $rules);
 
         // process the login

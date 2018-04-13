@@ -166,12 +166,18 @@ Route::group(['middleware' => 'isWorker'], function() {
             Route::resource('receivedarrivalprocessingcenter','Admin\ReceivedArrivalProcessingCenterAdminController');
         });
 
+        Route::group(['middleware' => ['permission:shipmentcancellation.']], function () {
+            Route::resource('shipmentcancellation','Admin\ShipmentCancellationAdminController');
+        });
+
         Route::group(['middleware' => ['permission:shipmentstatuses.']], function () {
             Route::resource('shipmentstatuses','Admin\ShipmentStatusAdminController');
         });
+
         Route::group(['middleware' => ['permission:terms.']], function () {
             Route::resource('terms','Admin\TermAdminController');
         });
+        
         Route::group(['middleware' => ['permission:match.']], function () {
             Route::resource('match','Admin\MatchTest');
         });

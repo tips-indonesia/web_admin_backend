@@ -52,7 +52,7 @@ class DeliveryProcessingCenterAdminController extends Controller
         }
         $user = User::find(Auth::id());
 
-        if ($user->id_office != null) {
+        if ($user->id_office != null  && $user->id != 1) {
             $office = OfficeList::find($user->id_office);
             $slot = SlotList::where('id_destination_city', $office->id_area)->pluck('id');
             $packaginglist = PackagingList::whereIn('id_slot', $slot)->pluck('id');

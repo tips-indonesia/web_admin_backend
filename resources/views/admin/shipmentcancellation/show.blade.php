@@ -1,17 +1,27 @@
 @extends('admin.app')
 
 @section('title')
-    Show Shipment Pickup List
+    Show Shipment Cancellation
 @endsection
 @section('page_title')
-<span class="text-semibold">Shipment Pickup List</span> - Show
+<span class="text-semibold">Shipment Cancellation</span> - Show
 @endsection
 @section('content')
     <!-- Vertical form options -->
     <div class="row">
+        @if ($errors->any())
+        <div class="alert alert-danger no-border">
+            <button type="button" class="close" data-dismiss="alert"><span>&times;</span><span class="sr-only">Close</span></button>
+            <ul>
+            @foreach($errors->getMessages() as $key => $message)
+            <li>{{$key}} = {{$message[0]}}</li>
+            @endforeach
+            </ul>
+        </div>
+         @endif
         <div class="col-md-12">
             @foreach ($errors->all() as $error) {{ $error }} @endforeach
-            {{ Form::open(array('url' => route('shipmentpickups.update', $data->id), 'method' => 'PUT')) }}
+            {{ Form::open(array('url' => route('shipmentcancellation.update', $data->id), 'method' => 'PUT')) }}
                 <div class="panel panel-flat">
                     <div class="panel-body">
                         <div class="row">
@@ -369,15 +379,13 @@
                                 <div class="tab-pane" id="notes">
                                     <div class="form-group">
                                         <label>Additional Notes :</label>
-                                        <textarea rows="10" class="form-control" placeholder="Additional Notes" name="addtional_notes" disabled readonly>{{ $data->add_notes }}</textarea>
+                                        <textarea rows="10" class="form-control" placeholder="Additional Notes" name="additional_notes">{{ $data->add_notes }}</textarea>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="text-right form-group">
-                            <button type="submit" name="submit" value="save" class="btn btn-primary" disabled="">Save<i class="icon-arrow-right14 position-right"></i></button>
-                            <button type="submit" name="submit" value="post" class="btn btn-success" disabled="">Post<i class="icon-arrow-right14 position-right"></i></button>
-                            <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#modal_small">QR Code</i></button>
+                            <button type="submit" class="btn btn-danger" @if($data->deleted_at != null) disabled @endif><i class="icon-trash position-left"></i>Cancel</button>
                         </div>
                     </div>
                 </div>
@@ -393,66 +401,97 @@
                     </div>
 
                     <div class="modal-body">
-           <center>
-    <table style="width: 300px; border: solid 1px #777; background: rgba(0, 0, 0, .0); font-family: Arial">
-        <tr style="border: solid 1px #777;">
-            <td style="width: 83%;  border-right: solid 1px;">
-                <div style="text-align: background: #000;padding: 5px; font-weight: bold; padding-top: 0; font-size: 30px;">
+    <table style="width: 501px; border: solid 1px #777; background: rgba(0, 0, 0, .0); font-family: Arial">
+        <tr style=" color: #777;">
+            <td style="width: 150px;">
+                <img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(300)->margin(0)->merge('/public/images/logoqr.png',.25)->encoding('UTF-8')->errorCorrection('H')->generate($data->shipment_id)) !!}" style="width: 150px; height: 150px;">
+                <div style="width: 140px; text-align: center; background: #000; color: #FFF; padding: 5px; font-weight: bold;">
                     {!! $data->shipment_id !!}
-                </div>    
+                </div>
             </td>
-            <td style="width: 17%; padding: 4px 10px;">
-                <img src="{!! URL::to('/') . '/images/logoqr2.png' !!}" style="height: 40px;">
-                <center><span style="font-size: 8px;">tips.co.id</span></center>
+            <td style="width: 1px">
+                <div style="height: calc(150px + 1em + 15px); position: relative; width: 1px; background: #555; margin-top: 1px;"></div>
+            </td>
+            <td align="left" valign="top" style="padding-left: 8px; align: left; width: 350px;">
+                <img src="{!! URL::to('/') . '/images/logo_header.png' !!}" style="height: 20px;">
+                <table style="width: 350px; font-size: .7em;">
+                    <tr>
+                        <td style="width: 50%; margin-right: 2px; font-weight: bold;">
+                            PENGIRIM <img src="{!! URL::to('/') . '/images/plane_icon_gray.png' !!}" style="height: 10px">
+                        </td>
+                        <td style="width: 50%; margin-right: 2px; font-weight: bold;">
+                            PENERIMA <img src="{!! URL::to('/') . '/images/shipment_icon_gray.png' !!}" style="height: 10px">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width: 50%; font-size: .9em;">
+                            Nama : <br/>
+                            <span style="color: #000">{{ $data->shipper_first_name . ' ' . $data->shipper_last_name }}</span>
+                        </td>
+                        <td style="width: 50%; font-size: .9em;">
+                            Nama : <br/>
+                            <span style="color: #000">{{$data->consignee_first_name . ' ' . $data->consignee_last_name}}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width: 50%; font-size: .9em;">
+                            Alamat :<br/>
+                            <span style="color: #000">{{ $data->shipper_address }}</span>
+                        </td>
+                        <td style="width: 50%; font-size: .9em;">
+                            Alamat :<br/>
+                            <span style="color: #000">{{ $data->consignee_address }}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width: 50%; font-size: .9em;">
+                            No telp :<br/>
+                            <span style="color: #000"> {{$data->shipper_mobile_phone}}</span>
+                        </td>
+                        <td style="width: 50%; font-size: .9em;">
+                            No telp :<br/>
+                            <span style="color: #000">{{$data->consignee_mobile_phone}}</span>
+                        </td>
+                    </tr>
+                </table>
+                <table style="font-size: .65em; margin-top: 5px;">
+                    <tr>
+                        <td valign="top">
+                            <span style="font-weight: bold;">PT TIPS Inovasi Indonesia</span><br/>
+                            DBS Bank Tower Lantai 12<br/>
+                            Jl. Prof. Dr. Satrio Kav 3-5<br/>
+                            Karet Kuningan, Jakarta Selatan
+                        </td>
+                        <td valign="top" style="padding-left: 24px">
+                            <span style="font-weight: bold;">Download our free apps</span><br/>
+                            <div style=" padding-top: 2px;">
+                                <img src="{!! URL::to('/') . '/images/gs.jpg' !!}" height="30px;">   
+                            </div>
+                        </td>
+                    </tr>
+                </table>
             </td>
         </tr>
-    </table>
-    <table style="width: 300px; border: solid 1px #777; background: rgba(0, 0, 0, .0); font-family: Arial">
         <tr>
-            <td style="width: 24%; margin-right: 2px; font-weight: bold; font-size: 9px; vertical-align: top; text-align: left;">
-                <img src="{!! URL::to('/') . '/images/plane_icon_gray.png' !!}" style="height: 10px"> PENGIRIM 
-            </td>
-            <td style="width: 76%; font-size: 9px;">
-                Nama :
-                <span style="color: #000">{{ $data->shipper_first_name . ' ' . $data->shipper_last_name }}</span> <br>
-                No telp :
-                <span style="color: #000"> {{$data->shipper_mobile_phone}}</span><br>
-                Alamat :
-                <span style="color: #000">{{ $data->shipper_address }}</span>   
+            <td colspan="3">
+                <div style="width: 100%; height: 1px; background: #555"></div>
             </td>
         </tr>
-    </table>
-    <table style="width: 300px; border: solid 1px #777; background: rgba(0, 0, 0, .0); font-family: Arial">
         <tr>
-            <td style="width: 24%; margin-right: 2px; font-weight: bold; font-size: 9px; vertical-align: top; text-align: left;">
-                <img src="{!! URL::to('/') . '/images/shipment_icon_gray.png' !!}" style="height: 10px"> PENERIMA
-            </td>
-            <td style="width: 76%; font-size: 9px;">
-                Nama :
-                <span style="color: #000">{{ $data->consignee_first_name . ' ' . $data->shipper_last_name }}</span> <br>
-                No telp :
-                <span style="color: #000"> {{$data->consignee_mobile_phone}}</span><br>
-                Alamat :
-                <span style="color: #000">{{ $data->consignee_address }}</span>   
-            </td>
-        </tr>
-    </table>
-    <table style="width: 300px; border: solid 1px #777; background: rgba(0, 0, 0, .0); font-family: Arial">
-        <tr>
-            <td style="width: 30%; vertical-align: top; text-align: left; border-right: solid 1px; padding-left: 6px; ">
-                <span style="font-weight: bold; font-size: 8px; line-height: 1px;">DOWNLOAD OURFREE APPS</span><br/>
-                <center>
-                    <div style=" padding-top: 2px; ">
-                        <img src="{!! URL::to('/') . '/images/gs.jpg' !!}" height="30px;">   
-                    </div>
-                </center>
-            </td>
-            <td style="width: 70%;">
-                <img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(300)->margin(0)->merge('/public/images/logoqr.png',.25)->encoding('UTF-8')->errorCorrection('H')->generate($data->shipment_id)) !!}" style="width: 100%;">
+            <td colspan="3" valign="top">
+                <div style="width: 100%; height: 17px; text-align: center;">
+                    <!--<img src="brands/dribbble.png" style="height: 15px; border-radius: 50%;">-->
+                    <span style="margin-right: 25px; font-size: .7em; position: relative; top: -5px;">tips.co.id</span>
+                    <!--<img src="brands/facebook.png" style="height: 15px; border-radius: 50%;">-->
+                    <span style="margin-right: 25px; font-size: .7em; position: relative; top: -5px;">@tips.inovasi.id</span>
+                    <!--<img src="brands/twitter.png" style="height: 15px; border-radius: 50%;">-->
+                    <span style="margin-right: 25px; font-size: .7em; position: relative; top: -5px;">@TipsInovasi</span>
+                    <!--<img src="brands/amazon.png" style="height: 15px; border-radius: 50%;">-->
+                    <span style="margin-right: 25px; font-size: .7em; position: relative; top: -5px;">@tips.inovasi</span>
+                </div>
             </td>
         </tr>
-    </table>
-        </center>
+    </table> 
                     </div>
 
                     <div class="modal-footer">
