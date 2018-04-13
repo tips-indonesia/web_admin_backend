@@ -394,16 +394,17 @@
                     </div>
 
                     <div class="modal-body">
+                        <center>
     <table style="width: 300px; border: solid 1px #777; background: rgba(0, 0, 0, .0); font-family: Arial">
         <tr style="border: solid 1px #777;">
-            <td style="width: 85%;">
-                <div style="width: 140px; text-align: background: #000;padding: 5px; font-weight: bold; padding-top: 0; font-size: 30px;">
+            <td style="width: 83%;  border-right: solid 1px;">
+                <div style="text-align: background: #000;padding: 5px; font-weight: bold; padding-top: 0; font-size: 30px;">
                     {!! $data->shipment_id !!}
                 </div>    
             </td>
-            <td style="width: 15%;">
+            <td style="width: 17%; padding: 4px 10px;">
                 <img src="{!! URL::to('/') . '/images/logoqr2.png' !!}" style="height: 40px;">
-                <span style="font-size: 8px;">tips.co.id</span>
+                <center><span style="font-size: 8px;">tips.co.id</span></center>
             </td>
         </tr>
     </table>
@@ -439,8 +440,8 @@
     </table>
     <table style="width: 300px; border: solid 1px #777; background: rgba(0, 0, 0, .0); font-family: Arial">
         <tr>
-            <td style="width: 30%; vertical-align: top; text-align: left;">
-                <span style="font-weight: bold; font-size: 8px;">DOWNLOAD OUR <br style="margin-bottom: -10px;">FREE APPS</span><br/>
+            <td style="width: 30%; vertical-align: top; text-align: left; border-right: solid 1px; padding-left: 6px; ">
+                <span style="font-weight: bold; font-size: 8px; line-height: 1px;">DOWNLOAD OURFREE APPS</span><br/>
                 <center>
                     <div style=" padding-top: 2px; ">
                         <img src="{!! URL::to('/') . '/images/gs.jpg' !!}" height="30px;">   
@@ -452,80 +453,7 @@
             </td>
         </tr>
     </table>
-        
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
+        </center>
                     </div>
 
                     <div class="modal-footer">
