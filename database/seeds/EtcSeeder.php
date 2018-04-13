@@ -31,12 +31,12 @@ class EtcSeeder extends Seeder
         
         MenuList::create([
             'name' => 'Shipment Cancellation',
-            'menu_parent_id' => $transaction->id,
+            'menu_parent_id' => 18,
             'class_name' => 'shipmentcancellation.'
         ]);
         // $p3 = Permission::create(['name' => 'promotions.', 'show_name' => 'Promotions']);
         $p4 = Permission::create(['name' => 'shipmentcancellation.', 'show_name' => 'Shipment Cancellation']);
-        
+
         
     	// $role->givePermissionTo($p1);
     	$role = Role::all()->first();
