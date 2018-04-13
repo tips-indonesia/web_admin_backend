@@ -56,7 +56,7 @@ class PackagingSlotAdminController extends Controller
             
         }
         $user = User::find(Auth::id());
-        if ($user->id_office != null) {
+        if ($user->id_office != null  && $user->id != 1) {
             $office = OfficeList::find($user->id_office);
             $slot = SlotList::where('id_origin_city', $office->id_area)->pluck('id');
             $data['datas'] = $data['datas']->whereIn('id_slot', $slot);

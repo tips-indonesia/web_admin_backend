@@ -53,6 +53,12 @@ class ShipmentCancellationAdminController extends Controller
             $shipments = $shipments->where('transaction_date', $data['date']);
         }
 
+        $user = User::find(Auth::id());
+
+        if ($user->id_office != null  && $user->id != 1) {
+            $office = OfficeList::find($user->id_office);
+            $shipments = $shipments->where('id_origin_city', $office->id_area);
+        }
 
         $shipments = $shipments->where('id_shipment_status', 1)->paginate(10);
 

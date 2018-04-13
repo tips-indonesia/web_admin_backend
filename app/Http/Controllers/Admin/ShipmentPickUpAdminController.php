@@ -61,7 +61,7 @@ class ShipmentPickUpAdminController extends Controller
             $data['datas'] = $data['datas']->where($query_param,'=', $query_value);
         }
         $user = User::find(Auth::id());
-        if ($user->id_office != null) {
+        if ($user->id_office != null  && $user->id != 1) {
             $office = OfficeList::find($user->id_office);
             $data['datas'] = $data['datas']->where('id_origin_city', $office->id_area);
         }
@@ -101,7 +101,9 @@ class ShipmentPickUpAdminController extends Controller
         $data['subdistricts'] = SubdistrictList::where('id_city', $data['data']->id_shipper_city)->get();
         $data['cities'] = AirportcityList::all();
         $data['shipment_statuses'] = ShipmentStatus::all();
-        $data['users'] = User::all();
+        $data['users'] = User::where('is_worker', 1)
+                             ->where('id_office',User::find(Auth::id())->id_office)
+                             ->get();
         $data['payment_types'] = PaymentType::all();
         $data['banklists'] = BankList::all();
         $data['bankcardlists'] = BankCardList::where('id_bank', $data['data']->id_bank)->get();
@@ -131,7 +133,9 @@ class ShipmentPickUpAdminController extends Controller
         $data['subdistricts'] = SubdistrictList::where('id_city', $data['data']->id_shipper_city)->get();
         $data['cities'] = AirportcityList::all();
         $data['shipment_statuses'] = ShipmentStatus::all();
-        $data['users'] = User::all();
+        $data['users'] = User::where('is_worker', 1)
+                             ->where('id_office',User::find(Auth::id())->id_office)
+                             ->get();
         $data['payment_types'] = PaymentType::all();
         $data['banklists'] = BankList::all();
         $data['bankcardlists'] = BankCardList::where('id_bank', $data['data']->id_bank)->get();

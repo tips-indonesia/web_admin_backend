@@ -64,7 +64,7 @@ class DeliveryShipmentAdminController extends Controller
         }
 
         $user = User::find(Auth::id());
-        if ($user->id_office != null) {
+        if ($user->id_office != null  && $user->id != 1) {
             $office = OfficeList::find($user->id_office);
             $shipments = $shipments->where('id_destination_city', $office->id_area);
         }
@@ -110,7 +110,9 @@ class DeliveryShipmentAdminController extends Controller
 		if ($shipment->id_bank == null) $shipment['bank_name'] = null;
 		else $shipment['bank_name'] = BankList::find($shipment->id_bank)->name;
 
-        $data['users'] = User::all();
+        $data['users'] = User::where('is_worker', 1)
+                             ->where('id_office',User::find(Auth::id())->id_office)
+                             ->get();;
 
     	$data['shipment'] = $shipment;
     	return view('admin.deliveryshipment.show', $data);
