@@ -29,21 +29,19 @@ class EtcSeeder extends Seeder
      //        'class_name' => 'promotions.'
      //    ]);
         
-        // MenuList::create([
-        //     'name' => 'Shipment Cancellation',
-        //     'menu_parent_id' => 18,
-        //     'class_name' => 'shipmentcancellation.'
-        // ]);
+        MenuList::create([
+            'name' => 'Shipment Cancellation',
+            'menu_parent_id' => $transaction->id,
+            'class_name' => 'shipmentcancellation.'
+        ]);
         // $p3 = Permission::create(['name' => 'promotions.', 'show_name' => 'Promotions']);
-        $p4 = Permission::where('name', 'shipmentcancellation.')->first();
-
+        $p4 = Permission::create(['name' => 'shipmentcancellation.', 'show_name' => 'Shipment Cancellation']);
+        
         
     	// $role->givePermissionTo($p1);
-    	$roles = Role::all();
-        foreach ($roles as $key => $role) {
-            $role->givePermissionTo($p4);
-        }
+    	$role = Role::all()->first();
         // $role->givePermissionTo($p3);
+        $role->givePermissionTo($p4);
 
 
         // MenuList::create([
