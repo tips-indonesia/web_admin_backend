@@ -24,7 +24,7 @@ class SetOfficeName
             session(['officename' => $office->name]);
         }
         if ($user->id == 1) {
-            session(['officename' => 'Kantor Jakarta']);
+            session(['officename' => 'Super Admin']);
         }
         return $next($request);
     }
