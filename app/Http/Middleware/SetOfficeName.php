@@ -23,6 +23,9 @@ class SetOfficeName
             $office = OfficeList::find($user->id_office);
             session(['officename' => $office->name]);
         }
+        if ($user->id == 1) {
+            session(['officename' => 'Kantor Jakarta']);
+        }
         return $next($request);
     }
 }
