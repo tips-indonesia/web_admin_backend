@@ -402,37 +402,35 @@
                 </div>    
             </td>
             <td style="width: 17%; padding: 4px 10px;">
-                <img src="{!! URL::to('/') . '/images/logoqr2.png' !!}" style="height: 40px;">
+                <img src="{!! URL::to('/') . '/images/logoqr.png' !!}" style="height: 40px;">
                 <center><span style="font-size: 8px;">tips.co.id</span></center>
             </td>
         </tr>
     </table>
     <table style="width: 300px; border: solid 1px #777; background: rgba(0, 0, 0, .0); font-family: Arial">
         <tr>
-            <td style="width: 24%; margin-right: 2px; font-weight: bold; font-size: 9px; vertical-align: top; text-align: left;">
+           <td style="width: 27%; margin-right: 2px; font-weight: bold; font-size: 8px; vertical-align: top; text-align: left;padding: 4px 10px;">
                 <img src="{!! URL::to('/') . '/images/plane_icon_gray.png' !!}" style="height: 10px"> PENGIRIM 
             </td>
-            <td style="width: 76%; font-size: 9px;">
-                Nama :
+            <td style="width: 76%; font-size: 9px; padding: 4px 10px;">
                 <span style="color: #000">{{ $data->shipper_first_name . ' ' . $data->shipper_last_name }}</span> <br>
-                No telp :
                 <span style="color: #000"> {{$data->shipper_mobile_phone}}</span><br>
-                Alamat :
                 <span style="color: #000">{{ $data->shipper_address }}</span>   
             </td>
         </tr>
     </table>
     <table style="width: 300px; border: solid 1px #777; background: rgba(0, 0, 0, .0); font-family: Arial">
         <tr>
-            <td style="width: 24%; margin-right: 2px; font-weight: bold; font-size: 9px; vertical-align: top; text-align: left;">
+            <td style="width: 27%; margin-right: 2px; font-weight: bold; font-size: 8px; vertical-align: top; text-align: left;padding: 4px 10px;">
                 <img src="{!! URL::to('/') . '/images/shipment_icon_gray.png' !!}" style="height: 10px"> PENERIMA
             </td>
-            <td style="width: 76%; font-size: 9px;">
-                Nama :
-                <span style="color: #000">{{ $data->consignee_first_name . ' ' . $data->shipper_last_name }}</span> <br>
-                No telp :
+            <td style="width: 73%; font-size: 9px; padding: 4px 10px;">
+                <div style="position : absolute; margin-top: 0px; margin-left : -4px; border-top: solid 1px; border-left: solid 1px; height: 10px; width: 10px;"></div>
+                <div style="position : absolute; margin-top: 0px; border-top: solid 1px; border-right: solid 1px; height: 10px; width: 10px; margin-left: 195px;"></div>
+                <div style="position : absolute; margin-top: 30px; margin-left : -4px; border-bottom: solid 1px; border-left: solid 1px; height: 10px; width: 10px;"></div>
+                <div style="position : absolute; margin-top: 30px; margin-left : 195px; border-bottom: solid 1px; border-right: solid 1px; height: 10px; width: 10px;"></div>
+                <span style="color: #000">{{ $data->consignee_first_name . ' ' . $data->consignee_last_name }}</span> <br>
                 <span style="color: #000"> {{$data->consignee_mobile_phone}}</span><br>
-                Alamat :
                 <span style="color: #000">{{ $data->consignee_address }}</span>   
             </td>
         </tr>
@@ -440,7 +438,7 @@
     <table style="width: 300px; border: solid 1px #777; background: rgba(0, 0, 0, .0); font-family: Arial">
         <tr>
             <td style="width: 30%; vertical-align: top; text-align: left; border-right: solid 1px; padding-left: 6px; ">
-                <span style="font-weight: bold; font-size: 8px; line-height: 1px;">DOWNLOAD OURFREE APPS</span><br/>
+                <span style="font-weight: bold; font-size: 8px;">DOWNLOAD <hr style="display: block; margin-top: -10px; margin-bottom: 0px; visibility: hidden;">OUR FREE APPS</span><br/>
                 <center>
                     <div style=" padding-top: 2px; ">
                         <img src="{!! URL::to('/') . '/images/gs.jpg' !!}" height="30px;">   
@@ -540,37 +538,35 @@
                 </div>    \
             </td>\
             <td style="width: 17%; padding: 4px 10px;">\
-                <img src="{!! URL::to('/') . '/images/logoqr2.png' !!}" style="height: 40px;">\
+                <img src="{!! URL::to('/') . '/images/logoqr.png' !!}" style="height: 40px;">\
                 <center><span style="font-size: 8px;">tips.co.id</span></center>\
             </td>\
         </tr>\
     </table>\
     <table style="width: 300px; border: solid 1px #777; background: rgba(0, 0, 0, .0); font-family: Arial">\
         <tr>\
-            <td style="width: 24%; margin-right: 2px; font-weight: bold; font-size: 9px; vertical-align: top; text-align: left;">\
+            <td style="width: 27%; margin-right: 2px; font-weight: bold; font-size: 8px; vertical-align: top; text-align: left;padding: 4px 10px;">\
                 <img src="{!! URL::to('/') . '/images/plane_icon_gray.png' !!}" style="height: 10px"> PENGIRIM \
             </td>\
-            <td style="width: 76%; font-size: 9px;">\
-                Nama :\
+            <td style="width: 75%; font-size: 9px; padding: 4px 10px;">\
                 <span style="color: #000">{{ $data->shipper_first_name . ' ' . $data->shipper_last_name }}</span> <br>\
-                No telp :\
                 <span style="color: #000"> {{$data->shipper_mobile_phone}}</span><br>\
-                Alamat :\
                 <span style="color: #000">{{ $data->shipper_address }}</span>   \
             </td>\
         </tr>\
     </table>\
     <table style="width: 300px; border: solid 1px #777; background: rgba(0, 0, 0, .0); font-family: Arial">\
         <tr>\
-            <td style="width: 24%; margin-right: 2px; font-weight: bold; font-size: 9px; vertical-align: top; text-align: left;">\
+            <td style="width: 27%; margin-right: 2px; font-weight: bold; font-size: 8px; vertical-align: top; text-align: left;padding: 4px 10px;">\
                 <img src="{!! URL::to('/') . '/images/shipment_icon_gray.png' !!}" style="height: 10px"> PENERIMA\
             </td>\
-            <td style="width: 76%; font-size: 9px;">\
-                Nama :\
-                <span style="color: #000">{{ $data->consignee_first_name . ' ' . $data->shipper_last_name }}</span> <br>\
-                No telp :\
+            <td style="width: 73%; font-size: 9px; padding: 4px 10px;">\
+                <div style="position : absolute; margin-top: 0px; margin-left : -4px; border-top: solid 1px; border-left: solid 1px; height: 10px; width: 10px;"></div>\
+                <div style="position : absolute; margin-top: 0px; border-top: solid 1px; border-right: solid 1px; height: 10px; width: 10px; margin-left: 195px;"></div>\
+                <div style="position : absolute; margin-top: 30px; margin-left : -4px; border-bottom: solid 1px; border-left: solid 1px; height: 10px; width: 10px;"></div>\
+                <div style="position : absolute; margin-top: 30px; margin-left : 195px; border-bottom: solid 1px; border-right: solid 1px; height: 10px; width: 10px;"></div>\
+                <span style="color: #000">{{ $data->consignee_first_name . ' ' . $data->consignee_last_name }}</span> <br>\
                 <span style="color: #000"> {{$data->consignee_mobile_phone}}</span><br>\
-                Alamat :\
                 <span style="color: #000">{{ $data->consignee_address }}</span>   \
             </td>\
         </tr>\
@@ -578,7 +574,7 @@
     <table style="width: 300px; border: solid 1px #777; background: rgba(0, 0, 0, .0); font-family: Arial">\
         <tr>\
             <td style="width: 30%; vertical-align: top; text-align: left; border-right: solid 1px; padding-left: 6px; ">\
-                <span style="font-weight: bold; font-size: 8px; line-height: 1px;">DOWNLOAD OURFREE APPS</span><br/>\
+                <span style="font-weight: bold; font-size: 8px;">DOWNLOAD <hr style="display: block; margin-top: -10px; margin-bottom: 0px; visibility: hidden;">OUR FREE APPS</span><br/>\
                 <center>\
                     <div style=" padding-top: 2px; ">\
                         <img src="{!! URL::to('/') . '/images/gs.jpg' !!}" height="30px;">   \
