@@ -55,10 +55,12 @@ class ShipmentPickUpAdminController extends Controller
             $query_param = $data['param'];
             $query_value = $data['value'];
             if($query_value == 'pending'){
-                $query_param = 'is_posted';
-                $query_value = 0;
+                // $query_param = 'is_posted';
+                // $query_value = 0;
+                $data['datas'] = $data['datas']->where('id_shipment_status', '<', 3);
+            } else {
+                $data['datas'] = $data['datas']->where($query_param,'=', $query_value);
             }
-            $data['datas'] = $data['datas']->where($query_param,'=', $query_value);
         }
         $user = User::find(Auth::id());
         if ($user->id_office != null  && $user->id != 1) {

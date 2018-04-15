@@ -63,8 +63,6 @@
                     <th>Destination</th>
                     <th>Quantity</th>
                     <th>Quantity Sold</th>
-                    <th>Airlines Name</th>
-                    <th>Flight Code</th>
                     <th>Status</th>
                 </tr>
             </thead>
@@ -90,12 +88,6 @@
                         </td>
                         <td>
                             {{ $data->sold_baggage_space }}
-                        </td>
-                        <td>
-                            {{ $data->airline_data->name }}
-                        </td>
-                        <td>
-                            {{ $data->flight_code}}
                         </td>
                         <td>
                             {{ $data->status }}

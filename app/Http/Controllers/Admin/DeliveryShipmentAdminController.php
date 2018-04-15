@@ -34,7 +34,7 @@ class DeliveryShipmentAdminController extends Controller
         }
 
         // $shipments = Shipment::where('transaction_date', $data['date']);
-        $deliveries = ArrivalShipment::where('received_by_pc_date', $data['date'])
+        $deliveries = ArrivalShipment::where('delivery_date', $data['date'])
                                      ->where('is_received_by_pc', 1)->pluck('id');
         $packagingId = ArrivalShipmentDetail::whereIn('arrival_shipment_id', $deliveries)->pluck('packaging_lists_id');
 
