@@ -55,6 +55,7 @@ class SlotListAdminController extends Controller
             $data['date'] = Carbon::now()->toDateString();
         }
 
+        $data['datas'] = $data['datas']->where('depature', 'LIKE', $data['date'].'%');
         if (Input::get('param') == 'blank' || !Input::get('param') ) {
             $data['param'] = Input::get('param');
             $data['value'] = Input::get('value');
@@ -77,10 +78,6 @@ class SlotListAdminController extends Controller
             $dat['status'] = DeliveryStatus::find($dat->id_slot_status)->description;
             $dat['destination_airport'] = AirportList::find($dat->id_destination_airport)->name;
             $dat['origin_airport'] = AirportList::find($dat->id_origin_airport)->name;
-            $dat['is_included'] = true;
-                if (explode(' ', $dat->depature)[0] != $data['date']) {
-                    $dat['is_included'] = false;
-                }
         }
 
         $data['checked'] = $checked;
