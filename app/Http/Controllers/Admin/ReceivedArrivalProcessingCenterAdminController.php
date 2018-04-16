@@ -95,7 +95,7 @@ class ReceivedArrivalProcessingCenterAdminController extends Controller
             $delivery = ArrivalShipment::find($id);
 
             $delivery->is_received_by_pc = 1;
-            $delivery->received_by_pc_date = date('Y-m-d');
+            $delivery->received_by_pc_date = Carbon::now()->toDateString();
 
             $delivery->save();
 
