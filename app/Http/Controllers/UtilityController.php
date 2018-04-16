@@ -357,7 +357,7 @@ class UtilityController extends Controller
     public function allAvailableSlot(Request $req){
         $user = User::find($_GET['id']);
 
-        if ($user->id_office != null) {
+        if ($user->id_office != null && $user->id != 1) {
             $office = OfficeList::find($user->id_office);
             $slot = SlotList::where('id_origin_city', $office->id_area)->pluck('id');
         } else {

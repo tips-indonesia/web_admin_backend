@@ -68,7 +68,7 @@ class DeliveryProcessingCenterAdminController extends Controller
         $data['pending'] = SlotList::where('id_slot_status', 6)
                 ->with('airportOrigin', 'airportDestination');
 
-        if ($user->id_office != null) {
+        if ($user->id_office != null && $user->id != 1) {
             $office = OfficeList::find($user->id_office);
             $data['pending'] = $data['pending']->where('id_origin_city', $office->id_area);
         }
@@ -97,10 +97,11 @@ class DeliveryProcessingCenterAdminController extends Controller
             $data['datas'] = array(); 
         } else {
             // todo slotlist 6 that not package / deliver yet
-            $data['datas'] = SlotList::where('id_slot_status', 7);
+            $slots = Shipment::where('id_shipment_status', 10)->pluck('id_slot');
+            $data['datas'] = SlotList::whereIn('id', $slots);
             $user = User::find(Auth::id());
 
-            if ($user->id_office != null) {
+            if ($user->id_office != null && $user->id != 1) {
                 $office = OfficeList::find($user->id_office);
                 $data['datas'] = $data['datas']->where('id_destination_city', $office->id_area);
             }
@@ -173,7 +174,7 @@ class DeliveryProcessingCenterAdminController extends Controller
 
         $user = User::find(Auth::id());
 
-        if ($user->id_office != null) {
+        if ($user->id_office != null && $user->id != 1) {
             $office = OfficeList::find($user->id_office);
             $data['shipment_lists'] = $data['shipment_lists']->where('id_origin_city', $office->id_area);
         }

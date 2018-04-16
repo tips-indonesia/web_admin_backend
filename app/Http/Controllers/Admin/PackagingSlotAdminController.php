@@ -72,7 +72,7 @@ class PackagingSlotAdminController extends Controller
         $data['datas2'] = SlotList::whereNotIn('id', PackagingList::where('id_slot', '!=',null)->pluck('id_slot')->toArray())->where('status_dispatch', 'Process')->where('id_slot_status', 3);
 
         
-        if ($user->id_office != null) {
+        if ($user->id_office != null && $user->id != 1) {
             $office = OfficeList::find($user->id_office);
             $data['datas2'] = $data['datas2']->where('id_origin_city', $office->id_area)->get();
         } else {
@@ -102,7 +102,7 @@ class PackagingSlotAdminController extends Controller
         $data['slot_ids'] = SlotList::where('status_dispatch', 'Process')->whereNotIn('id', PackagingList::where('id_slot', '!=',null)->pluck('id_slot')->toArray())
                 ->where('id_slot_status', 3);
 
-        if ($user->id_office != null) {
+        if ($user->id_office != null && $user->id != 1) {
             $office = OfficeList::find($user->id_office);
             $data['slot_ids'] = $data['slot_ids']->where('id_origin_city', $office->id_area);
         } 
