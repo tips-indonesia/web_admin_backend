@@ -69,7 +69,7 @@ class DeliveryDepartureCounterAdminController extends Controller
         $selected =PackagingDelivery::all()->pluck('packaging_id')->toArray();
         $data['datas2'] = PackagingList::whereNotIn('id', $selected);
 
-        if ($user->id_office != null) {
+        if ($user->id_office != null && $user->id != 1) {
             $office = OfficeList::find($user->id_office);
             $slot = SlotList::where('id_origin_city', $office->id_area)->pluck('id');
             $data['datas2'] = $data['datas2']->whereIn('id_slot', $slot);
@@ -107,7 +107,7 @@ class DeliveryDepartureCounterAdminController extends Controller
             $data['datas'] = PackagingList::whereDate('created_at', '=', $date)->whereNotIn('id', $selected);
 
             $user = User::find(Auth::id());
-            if ($user->id_office != null) {
+            if ($user->id_office != null && $user->id != 1) {
                 $office = OfficeList::find($user->id_office);
                 $slot = SlotList::where('id_origin_city', $office->id_area)->pluck('id');
                 $data['datas'] = $data['datas']->whereIn('id_slot', $slot);
@@ -188,7 +188,7 @@ class DeliveryDepartureCounterAdminController extends Controller
         $data['packaging'] = PackagingList::whereDate('created_at', '=', DeliveryDeparture::find($id)->delivery_date)->whereNotIn('id', $selected);
 
         $user = User::find(Auth::id());
-        if ($user->id_office != null) {
+        if ($user->id_office != null && $user->id != 1) {
             $office = OfficeList::find($user->id_office);
             $slot = SlotList::where('id_origin_city', $office->id_area)->pluck('id');
             $data['packaging'] = $data['packaging']->whereIn('id_slot', $slot);

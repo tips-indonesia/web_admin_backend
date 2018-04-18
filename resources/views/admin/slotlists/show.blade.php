@@ -25,6 +25,21 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Airlines Name :</label>
+                                {{ Form::text('airlines_name', $data->airline_data->name, array('class' => 'form-control', 'placeholder' => 'Airlines Name', 'readonly' => 'readonly', 'disabled' => 'disabled' )) }}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Flight Code :</label>
+                                {{ Form::text('flight_code', $data->flight_code, array('class' => 'form-control', 'placeholder' => 'Flight Code', 'readonly' => 'readonly', 'disabled' => 'disabled' )) }}
+                            </div>
+                        </div>
+                    </div>
                     
                     <div class="row">
                     	<div class="col-md-6">

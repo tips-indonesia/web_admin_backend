@@ -98,9 +98,13 @@
 
     </div>
     <script type="text/javascript">
+        var date = new Date();
+        date.setDate(date.getDate() - 1);
+
         $('.select-search').select2();
         $('.pickadate-year').datepicker({
             format: 'yyyy-mm-dd',
+            startDate : date,
         });
         $('#param').on('select2:select', function() {
             if ($('#param').val() != 'blank') {

@@ -54,8 +54,6 @@
                 </div>
             </div>
             {{ Form::close() }}
-            
-        {{$datas}}
         <table class="table datatable-pagination">
             <thead>
                 <tr>
@@ -70,7 +68,6 @@
             </thead>
             <tbody>
                 @foreach ($datas as $data)
-                @if($data->is_included)
                     <tr>
                         <td>
                             <a href="{{ route('slotlists.show', $data->id) }}">
@@ -96,7 +93,6 @@
                             {{ $data->status }}
                         </td>
                     </tr>
-                @endif
                 @endforeach
             </tbody>
         </table>
