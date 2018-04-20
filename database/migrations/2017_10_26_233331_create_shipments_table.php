@@ -43,8 +43,8 @@ class CreateShipmentsTable extends Migration
             $table->string('shipper_province');
             $table->string('shipper_postal_code')->nullable();
             $table->string('shipper_address');
-            $table->decimal('shipper_latitude')->nullable();
-            $table->decimal('shipper_longitude')->nullable();
+            $table->decimal('shipper_latitude', 8, 7)->nullable();
+            $table->decimal('shipper_longitude', 8, 7)->nullable();
 
 
 
@@ -62,8 +62,8 @@ class CreateShipmentsTable extends Migration
             $table->string('consignee_province')->nullable();
             $table->string('consignee_postal_code')->nullable();
             $table->string('consignee_address');
-            $table->decimal('consignee_latitude')->nullable();
-            $table->decimal('consignee_longitude')->nullable();
+            $table->decimal('consignee_latitude', 8, 7)->nullable();
+            $table->decimal('consignee_longitude', 8, 7)->nullable();
 
 
 
