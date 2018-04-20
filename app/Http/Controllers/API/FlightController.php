@@ -112,7 +112,7 @@ class FlightController extends Controller
                 return response()->json($data, 200);
             }
 
-            $booking->tipster_price = $price->->tipster_price;
+            $booking->tipster_price = $price->tipster_price;
             if($booking){
                 $data = array(
                     'err' => null,

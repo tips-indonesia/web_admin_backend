@@ -881,7 +881,7 @@ class UtilityController extends Controller
                 }
 
                 // DUPLIKATTT dengan FlightController@post_flight_booking_code 
-                $new_booking->tipster_price = $price->->tipster_price;
+                $new_booking->tipster_price = $price->tipster_price;
 
                 // Terdapat masalah pada kode airport asal atau tujuan
                 if(!$new_booking){
