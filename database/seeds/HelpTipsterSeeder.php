@@ -64,7 +64,7 @@ kota Anda. Di Drop Point TIPS akan dilakukan pemeriksaan apakah barang yang akan
         DB::table('help_tipsters')->insert([
             'title' => 'Hubungi Kami',
             'description' => 'Apabila Anda menemui kendala atau permasalahan dalam menggunakan jasa TIPS, segera informasikan kepada petugas TIPS di bandara atau di kantor TIPS.',
-            'addt_info' => ''
+            'addt_info' => 'Anda dapat juga menghubungi kami melalui +62 823 1777 6008 atau amanda@tips.co.id'
         ]);
     }
 }
