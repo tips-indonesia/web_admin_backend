@@ -317,6 +317,7 @@
         <script type="text/javascript">
             $('.pickadate-year').datepicker({
                 format: 'yyyy-mm-dd',
+                startDate : date,
             });
 
             $('.pickatime').timepicker({

@@ -467,7 +467,10 @@
         <!-- /small modal -->
         <script>
         $('.select-search').select2();
-        $('.pickadate-year').datepicker({format: 'yyyy-mm-dd',});
+        $('.pickadate-year').datepicker({
+            format: 'yyyy-mm-dd',
+            startDate: date,
+        });
         $('.pickatime').timepicker({
             template : 'dropdown',
             showInputs: false,
