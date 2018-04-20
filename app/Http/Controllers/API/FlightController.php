@@ -11,6 +11,7 @@ use App\Http\Controllers\Controller;
 use App\FlightBookingList;
 use App\AirportList;
 use App\CityList;
+use App\PriceList;
 
 class FlightController extends Controller
 {
@@ -94,6 +95,24 @@ class FlightController extends Controller
             $booking->origin_city = AirportcityList::find($booking->origin_airport->id_city)->name;
             $booking->destination_city = AirportcityList::find($booking->destination_airport->id_city)->name;
 
+            $price = PriceList::where('id_origin_city', $booking->origin_airport->id_city)
+                            ->where('id_destination_city', $booking->destination_airport->id_city)
+                            ->first();
+
+            if(!$price){
+                $data = array(
+                    'err' => [
+                        'code' => 500,
+                        'message' => 'Harga Penerbangan dari ' . $booking->origin_city->name . ' ke ' . 
+                                     $booking->destination_city->name . ' tidak tersedia'
+                    ],
+                    'result' => null
+                );
+
+                return response()->json($data, 200);
+            }
+
+            $booking->tipster_price = $price->->tipster_price;
             if($booking){
                 $data = array(
                     'err' => null,
