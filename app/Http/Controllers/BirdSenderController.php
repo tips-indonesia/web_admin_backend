@@ -63,6 +63,7 @@ class BirdSenderController extends Controller
         $subject        = "Mail Registration Tips";
         $template       = "mail.registration";
         $timezone       = "Asia/Jakarta";
+        date_default_timezone_set($timezone);
         $datetime       = date("d-m-Y h:i:sa");
         $data           = [
             "user"     => $user,
@@ -106,6 +107,7 @@ class BirdSenderController extends Controller
         $subject        = "Mail Registration Tips";
         $template       = "mail.forgot_password";
         $timezone       = "Asia/Jakarta";
+        date_default_timezone_set($timezone);
         $datetime       = date("d-m-Y h:i:sa");
         $data           = [
             "user"     => $user,
@@ -124,5 +126,177 @@ class BirdSenderController extends Controller
             "nama" => "Rio"
         ];
         return BirdSenderController::sendEmail($destination, $subject, $template, $data);
+    }
+
+    // ------------------------------
+    //
+    // INI BAGIAN EMAIL UNTUK TIPSTER
+    //
+    // --
+    public function sendMailTipsterStep1($email, $NAMA, $ANTAR_CODE){
+        $destination    = $email;
+        $subject        = "TIPS: $NAMA, penerbangan Anda telah terdaftar $ANTAR_CODE";
+        $template       = "mail.tipster.step1";
+        $timezone       = "Asia/Jakarta";
+        date_default_timezone_set($timezone);
+        $datetime       = date("d-m-Y h:i:sa");
+        $data           = [
+            "NAMA"     => $NAMA,
+
+            // field wajib
+            "datetime" => $datetime,
+            "timezone" => $timezone
+        ];
+
+        return BirdSenderController::sendEmail($destination, $subject, $template, $data);
+    }
+
+    public function sendMailTipsterStep2($email, $NAMA, $ANTAR_CODE, $JAM_TANGGAL){
+        $destination    = $email;
+        $subject        = "TIPS: $NAMA, barang antaran untuk penerbangan $ANTAR_CODE telah tersedia";
+        $template       = "mail.tipster.step2";
+        $timezone       = "Asia/Jakarta";
+        date_default_timezone_set($timezone);
+        $datetime       = date("d-m-Y h:i:sa");
+        $data           = [
+            "NAMA"     => $NAMA,
+            "JAM_TANGGAL" => $JAM_TANGGAL,
+
+            // field wajib
+            "datetime" => $datetime,
+            "timezone" => $timezone
+        ];
+
+        return BirdSenderController::sendEmail($destination, $subject, $template, $data);
+    }
+
+    public function sendMailTipsterStep3($email, $NAMA, $ANTAR_CODE, $ORIGIN_AIRPORT_NAME, $_3HOURS_DEPARTURE_TIME, $NOMOR_CALL_CENTER){
+        $destination    = $email;
+        $subject        = "TIPS: $NAMA, penerbangan $ANTAR_CODE telah terkonfirmasi, harap tiba di bandara 3 jam sebelum penerbangan";
+        $template       = "mail.tipster.step3";
+        $timezone       = "Asia/Jakarta";
+        date_default_timezone_set($timezone);
+        $datetime       = date("d-m-Y h:i:sa");
+        $data           = [
+            "NAMA"     => $NAMA,
+            "ORIGIN_AIRPORT_NAME" => $ORIGIN_AIRPORT_NAME,
+            "_3HOURS_DEPARTURE_TIME" => $_3HOURS_DEPARTURE_TIME,
+            "NOMOR_CALL_CENTER" => $NOMOR_CALL_CENTER,
+
+            // field wajib
+            "datetime" => $datetime,
+            "timezone" => $timezone
+        ];
+
+        return BirdSenderController::sendEmail($destination, $subject, $template, $data);
+    }
+
+    public function sendMailTipsterStep7($email, $NAMA){
+        $destination    = $email;
+        $subject        = "TIPS: $NAMA, terima kasih atas kerja sama Anda.";
+        $template       = "mail.tipster.step7";
+        $timezone       = "Asia/Jakarta";
+        date_default_timezone_set($timezone);
+        $datetime       = date("d-m-Y h:i:sa");
+        $data           = [
+            "NAMA"     => $NAMA,
+
+            // field wajib
+            "datetime" => $datetime,
+            "timezone" => $timezone
+        ];
+
+        return BirdSenderController::sendEmail($destination, $subject, $template, $data);
+    }
+    // ------------------------------
+    // ##############################
+
+
+    // ------------------------------
+    //
+    // INI BAGIAN EMAIL UNTUK SHIPPER
+    //
+    // --
+    public function sendMailShipperStep1($email, $NAMA, $SHIPPING_CODE, $NOMOR_CALL_CENTER){
+        $destination    = $email;
+        $subject        = "TIPS: $NAMA, pengiriman Anda telah terdaftar dengan kode $SHIPPING_CODE";
+        $template       = "mail.shipper.step1";
+        $timezone       = "Asia/Jakarta";
+        date_default_timezone_set($timezone);
+        $datetime       = date("d-m-Y h:i:sa");
+        $data           = [
+            "NAMA"     => $NAMA,
+            "SHIPPING_CODE" => $SHIPPING_CODE,
+            "NOMOR_CALL_CENTER" => $NOMOR_CALL_CENTER,
+
+            // field wajib
+            "datetime" => $datetime,
+            "timezone" => $timezone
+        ];
+
+        return BirdSenderController::sendEmail($destination, $subject, $template, $data);
+    }
+
+    public function sendMailShipperStep8($email, $NAMA, $SHIPPING_CODE, $RECIPIENT_NAME){
+        $destination    = $email;
+        $subject        = "TIPS: $NAMA, paket kiriman $SHIPPING_CODE Anda telah diterima oleh $RECIPIENT_NAME";
+        $template       = "mail.shipper.step8";
+        $timezone       = "Asia/Jakarta";
+        date_default_timezone_set($timezone);
+        $datetime       = date("d-m-Y h:i:sa");
+        $data           = [
+            "NAMA"     => $NAMA,
+            "SHIPPING_CODE" => $SHIPPING_CODE,
+            "RECIPIENT_NAME" => $RECIPIENT_NAME,
+
+            // field wajib
+            "datetime" => $datetime,
+            "timezone" => $timezone
+        ];
+
+        return BirdSenderController::sendEmail($destination, $subject, $template, $data);
+    }
+    // ------------------------------
+    // ##############################
+
+    public function APIEmailSender(Request $req){
+        if($req->type == 'antar'){
+            $code = $req->code;
+            switch ($code) {
+                case '1':
+                    $this->sendMailTipsterStep1($req->email, $req->NAMA, $req->ANTAR_CODE);
+                    break;
+                case '2':
+                    $this->sendMailTipsterStep2($req->email, $req->NAMA, $req->ANTAR_CODE, $req->JAM_TANGGAL);
+                    break;
+                case '3':
+                    $this->sendMailTipsterStep3($req->email, $req->NAMA, $req->$ORIGIN_AIRPORT_NAME, 
+                                                $req->_3HOURS_DEPARTURE_TIME, $req->NOMOR_CALL_CENTER);
+                    break;
+                case '7':
+                    $this->sendMailTipsterStep7($req->email, $req->NAMA);
+                    break;
+                
+                default:
+                    # code...
+                    break;
+            }
+        }
+
+        if($req->type == 'kirim'){
+            $code = $req->code;
+            switch ($code) {
+                case '1':
+                    $this->sendMailShipperStep1($req->email, $req->NAMA, $req->SHIPPING_CODE, $req->NOMOR_CALL_CENTER);
+                    break;
+                case '8':
+                    $this->sendMailShipperStep8($req->email, $req->NAMA, $req->SHIPPING_CODE, $req->RECIPIENT_NAME);
+                    break;
+                
+                default:
+                    # code...
+                    break;
+            }
+        }
     }
 }

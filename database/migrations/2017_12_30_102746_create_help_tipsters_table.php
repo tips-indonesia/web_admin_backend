@@ -17,6 +17,7 @@ class CreateHelpTipstersTable extends Migration
             $table->increments('id');
             $table->string('title');
             $table->text('description');
+            $table->text('addt_info');
             $table->timestamps();
         });
     }

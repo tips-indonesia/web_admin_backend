@@ -4,6 +4,8 @@ namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\BirdSenderController;
+use App\Http\Controllers\cURLFaker;
 
 use App\Shipment;
 use App\PriceList;
@@ -172,6 +174,12 @@ class ShipmentController extends Controller
             $firebase_sent = "no user: " . $shipment_out->id_shipper;
         }
 
+        $bsc = new cURLFaker;
+        $email = $ms_user->email;
+        $nama = $ms_user->first_name . ' ' . $ms_user->last_name;
+        $kirimcode = $shipment_out->shipment_id;
+        $bsc->sendMailShipperStep1($email, $nama, $kirimcode, "+62 823 1777 6008");
+
         $data = array(
             'err' => null,
             'result' => array(
@@ -184,18 +192,11 @@ class ShipmentController extends Controller
         return response()->json($data, 200);
     }
 
-    function get_status(Request $request) {
-        $shipment_id = $request->shipment_id;
+    public static function ___get_status($shipment_id){
         $shipment = Shipment::where('shipment_id', $shipment_id)->first();
 
         if($shipment == null) {
-            $data = array(
-                'err' => [
-                    'code' => 0,
-                    'message' => 'Shipment tidak ditemukan'
-                ],
-                'result' => null
-            );
+            return null;
         } else {
             $shipment_status = ShipmentStatus::where('id','<=',$shipment->id_shipment_status)->where('is_hidden',false)->orderBy('id', 'desc')->first();
             $shipment->origin_city = AirportcityList::find($shipment->id_origin_city)->name;
@@ -218,22 +219,40 @@ class ShipmentController extends Controller
             $slot = false;
             if($shipment->id_slot)
                 $slot = SlotList::find($shipment->id_slot);
+
+            return array(
+                'status' => array(
+                    'step' => $shipment_status->step,
+                    'description' => $shipment_status->description,
+                    'detail' => $shipment->detail_status
+                ),
+                'shipment' => $shipment,
+                'addt_info' => array(
+                    'kode_bandara_asal' => $slot ? $slot->airportOrigin->initial_code : "",
+                    'kode_bandara_tujuan' => $slot ? $slot->airportDestination->initial_code : "",
+                    'flight_code' => $slot ? $slot->flight_code : "",
+                    'airline_name' => $slot ? FlightController::getAirlineNameOfFlightCode($slot->flight_code) : ""
+                )
+            );
+        }
+    }
+
+    function get_status(Request $request) {
+        $shipment_id = $request->shipment_id;
+        $resdata = ShipmentController::___get_status($shipment_id);
+
+        if($resdata == null) {
+            $data = array(
+                'err' => [
+                    'code' => 0,
+                    'message' => 'Shipment tidak ditemukan'
+                ],
+                'result' => null
+            );
+        } else {
             $data = array(
                 'err' => null,
-                'result' => array(
-                    'status' => array(
-                        'step' => $shipment_status->step,
-                        'description' => $shipment_status->description,
-                        'detail' => $shipment->detail_status
-                    ),
-                    'shipment' => $shipment,
-                    'addt_info' => array(
-                        'kode_bandara_asal' => $slot ? $slot->airportOrigin->initial_code : "",
-                        'kode_bandara_tujuan' => $slot ? $slot->airportDestination->initial_code : "",
-                        'flight_code' => $slot ? $slot->flight_code : "",
-                        'airline_name' => $slot ? FlightController::getAirlineNameOfFlightCode($slot->flight_code) : ""
-                    )
-                )
+                'result' => $resdata
             );
         }
 

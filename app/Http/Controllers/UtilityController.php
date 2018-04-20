@@ -40,6 +40,44 @@ class UtilityController extends Controller
         $this->RoutineMinuteAssignment();
     }
 
+    public function getMemberList(Request $req){
+        if(!$req->header('X-TIPS-STRICT') || $req->header('X-TIPS-STRICT') != 'F814EC9B1C92C4A6538B3022F20123459093892CAECBB8A69BB84808DBD0102E'){
+            return response()->json([
+                "err" => [
+                    "code" => 401,
+                    "message" => "Unauthorized"
+                ],
+                "result" => null
+            ], 401);
+        }
+
+        if(!$req->mobile_phone_no){
+            return response()->json([
+                "err" => [
+                    "code" => 400,
+                    "message" => "Bad Request: mobile_phone_no param is required"
+                ],
+                "result" => null
+            ], 400);
+        }
+
+        $data = MemberList::where('mobile_phone_no', $req->mobile_phone_no)->first();
+
+        if(!$data)
+            return response()->json([
+                "err" => [
+                    "code" => 404,
+                    "message" => "User with mobile_phone_no " . $req->mobile_phone_no . " not found"
+                ],
+                "result" => null
+            ], 404);
+        else
+            return response()->json([
+                "err" => null,
+                "result" => $data
+            ], 400);
+    }
+
     /**
       * For debugging purpose
       *
@@ -617,6 +655,13 @@ class UtilityController extends Controller
 
         $slot->id_slot_status = 2;
         $slot->save();
+
+        $bsc = new cURLFaker;
+        $email = $ms_user->email;
+        $nama = $ms_user->first_name . ' ' . $ms_user->last_name;
+        $antarcode = $slot->slot_id;
+        $waktu_30_menit_sebelumnya = date('Y-m-d H:i:s', strtotime($slot->depature) - (60 * 30));
+        $bsc->sendMailTipsterStep2($email, $nama, $antarcode, $waktu_30_menit_sebelumnya);
 
         return response()->json([
             "err" => null,

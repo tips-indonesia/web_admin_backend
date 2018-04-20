@@ -28,18 +28,20 @@ class EtcSeeder extends Seeder
      //        'menu_parent_id' => 37,
      //        'class_name' => 'promotions.'
      //    ]);
-     //    MenuList::create([
-     //        'name' => 'Banners',
-     //        'menu_parent_id' => 37,
-     //        'class_name' => 'banners.'
-     //    ]);
-     //    $p3 = Permission::create(['name' => 'promotions.', 'show_name' => 'Promotions']);
-     //    $p4 = Permission::create(['name' => 'banners.', 'show_name' => 'Banners']);
         
-    	// // $role->givePermissionTo($p1);
-    	// $role = Role::all()->first();
-     //    $role->givePermissionTo($p3);
-     //    $role->givePermissionTo($p4);
+        MenuList::create([
+            'name' => 'Shipment Cancellation',
+            'menu_parent_id' => 18,
+            'class_name' => 'shipmentcancellation.'
+        ]);
+        // $p3 = Permission::create(['name' => 'promotions.', 'show_name' => 'Promotions']);
+        $p4 = Permission::create(['name' => 'shipmentcancellation.', 'show_name' => 'Shipment Cancellation']);
+
+        
+    	// $role->givePermissionTo($p1);
+    	$role = Role::all()->first();
+        // $role->givePermissionTo($p3);
+        $role->givePermissionTo($p4);
 
 
         // MenuList::create([

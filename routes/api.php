@@ -32,10 +32,13 @@ Route::get('/fcmtest', 'FCMSender@testTopic');
 Route::get('/smstest', 'SMSSender@testSMS');
 Route::get('/scrapper_test/{booking_code}/{airport_code}/{date}/{first_name}/{last_name}', 'WebScrapper@testScrapper');
 Route::get('/tes', 'API\\VMEController@getAll');
-
+Route::get('/member_list', 'UtilityController@getMemberList');
+Route::get('/test_command', 'cURLFaker@test_command');
 
 Route::get('/pesan/{id_user}', 'API\\MessageController@getPesan');
 Route::get('/pesan/{id_user}/{id_pesan}', 'API\\MessageController@getPesanSpesifik');
+
+Route::post('/send_email', 'BirdSenderController@APIEmailSender');
 
 // + Acknowledgement +
 // dua method dibawah ini merepresentasikan proses yang sama,
