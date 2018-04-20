@@ -145,6 +145,28 @@ class FlightController extends Controller
         $new_booking = FlightController::create_new_booking($request->booking_code, $request->code_origin, 
             $request->code_destination, $request->date_origin, $request->flight_code);
 
+        // DUPLIKATTT dengan FlightController@post_flight_booking_code 
+        $price = PriceList::where('id_origin_city', $new_booking->origin_airport->id_city)
+                        ->where('id_destination_city', $new_booking->destination_airport->id_city)
+                        ->first();
+
+        // DUPLIKATTT dengan FlightController@post_flight_booking_code 
+        if(!$price){
+            $data = array(
+                'err' => [
+                    'code' => 500,
+                    'message' => 'Harga Penerbangan dari ' . $new_booking->origin_city->name . ' ke ' . 
+                                 $new_booking->destination_city->name . ' tidak tersedia'
+                ],
+                'result' => null
+            );
+
+            return response()->json($data, 200);
+        }
+
+        // DUPLIKATTT dengan FlightController@post_flight_booking_code 
+        $new_booking->tipster_price = $price->tipster_price;
+
         if(!$new_booking){
             $data = array(
                 'err' => [
