@@ -28,22 +28,45 @@ class CreateShipmentsTable extends Migration
             $table->integer('delivered_by')->nullable();
             $table->date('delivered_date')->nullable();
             $table->time('delivered_time')->nullable();
+
+            // Shipper Name + Number
             $table->string('shipper_first_name');
             $table->string('shipper_last_name')->nullable();
+            $table->string('shipper_mobile_phone');
+
+            // Shipper Address
             $table->unsignedInteger('id_shipper_districts')->nullable();
             $table->string('shipper_districts');
             $table->unsignedInteger('id_shipper_city')->nullable();
             $table->string('shipper_city');
             $table->unsignedInteger('id_shipper_province')->nullable();
             $table->string('shipper_province');
+            $table->string('shipper_postal_code')->nullable();
             $table->string('shipper_address');
-            $table->string('shipper_mobile_phone');
             $table->decimal('shipper_latitude')->nullable();
             $table->decimal('shipper_longitude')->nullable();
+
+
+
+            // Consignee Name + Number
             $table->string('consignee_first_name');
             $table->string('consignee_last_name')->nullable();
-            $table->string('consignee_address');
             $table->string('consignee_mobile_phone');
+
+            // Consignee Address
+            $table->unsignedInteger('id_consignee_districts')->nullable();
+            $table->string('consignee_districts')->nullable();
+            $table->unsignedInteger('id_consignee_city')->nullable();
+            $table->string('consignee_city')->nullable();
+            $table->unsignedInteger('id_consignee_province')->nullable();
+            $table->string('consignee_province')->nullable();
+            $table->string('consignee_postal_code')->nullable();
+            $table->string('consignee_address');
+            $table->decimal('consignee_latitude')->nullable();
+            $table->decimal('consignee_longitude')->nullable();
+
+
+
             $table->enum('status_dispatch', ['Pending', 'Process', 'Complete', 'Canceled'])->default('Pending');
             $table->enum('dispatch_type', ['Dispatch to consignee', 'Taken by consignee'])->default('Dispatch to consignee');
             $table->enum('goods_status', ['Pending', 'Received'])->default('Pending');

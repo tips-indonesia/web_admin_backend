@@ -28,14 +28,15 @@ class ShipmentController extends Controller
     //
     function submit(Request $request) {
         $price_goods_estimate = PriceGoodsEstimate::find($request->id_estimate_goods_value);
+
         $shipper_districts = SubdistrictList::find($request->id_shipper_district);
-//        $consignee_districts = SubdistrictList::find($request->id_consignee_district);
+        $consignee_districts = SubdistrictList::find($request->id_consignee_district);
 
         $shipper_city = CityList::find($shipper_districts->id_city);
-//        $consignee_city = CityList::find($consignee_districts->id_city);
+        $consignee_city = CityList::find($consignee_districts->id_city);
 
         $shipper_province = ProvinceList::find($shipper_city->id_province);
-//        $consignee_province = ProvinceList::find($consignee_city->id_province);
+        $consignee_province = ProvinceList::find($consignee_city->id_province);
 
         $insurance = Insurance::first();
         do{
@@ -59,6 +60,45 @@ class ShipmentController extends Controller
             }
         }
 
+
+        $shipment->id_consignee_districts   = $consignee_districts->id;
+        $shipment->consignee_districts      = $consignee_districts->name;
+        $shipment->id_consignee_city        = $consignee_city->id;
+        $shipment->consignee_city           = $consignee_city->name;
+        $shipment->id_consignee_province    = $consignee_province->id;
+        $shipment->consignee_province       = $consignee_province->name;
+        $shipment->consignee_postal_code    = $request->consignee_postal_code;
+        $shipment->consignee_address        = $request->consignee_address;
+        // WTF
+        $shipment->consignee_mobile_phone   = $request->consignee_mobile_phone;
+
+        $shipment->id_shipper_districts = $shipper_districts->id;
+        $shipment->shipper_districts    = $shipper_districts->name;
+        $shipment->id_shipper_city      = $shipper_city->id;
+        $shipment->shipper_city         = $shipper_city->name;
+        $shipment->id_shipper_province  = $shipper_province->id;
+        $shipment->shipper_province     = $shipper_province->name;
+        $shipment->shipper_postal_code  = $request->shipper_postal_code;
+        $shipment->shipper_address      = $request->shipper_address;
+        // WTF
+        $shipment->shipper_mobile_phone = $request->shipper_mobile_phone;
+
+
+        // FOR GPS
+        if($request->has('consignee_latitude') && $request->has('consignee_longitude')) {
+            if($request->consignee_latitude != null && $request->consignee_latitude != "" && $request->consignee_longitude != null && $request->consignee_longitude != "") {
+                $shipment->consignee_latitude = $request->consignee_latitude;
+                $shipment->consignee_longitude = $request->consignee_longitude;
+            }
+        }
+        if($request->has('shipper_latitude') && $request->has('shipper_longitude')) {
+            if($request->shipper_latitude != null && $request->shipper_latitude != "" && $request->shipper_longitude != null && $request->shipper_longitude != "") {
+                $shipment->shipper_latitude = $request->shipper_latitude;
+                $shipment->shipper_longitude = $request->shipper_longitude;
+            }
+        }
+
+        // FOR NAME
         $shipment->shipper_first_name = $request->shipper_first_name;
         if($request->has('shipper_last_name')) {
             if($request->shipper_last_name != null && $request->shipper_last_name != ""){
@@ -66,50 +106,23 @@ class ShipmentController extends Controller
             }
         }
 
-        $shipment->id_shipper_districts = $shipper_districts->id;
-        $shipment->shipper_districts = $shipper_districts->name;
-        $shipment->id_shipper_city = $shipper_city->id;
-        $shipment->shipper_city = $shipper_city->name;
-        $shipment->id_shipper_province = $shipper_province->id;
-        $shipment->shipper_province = $shipper_province->name;
-
-        $shipment->shipper_address = $request->shipper_address;
-        $shipment->shipper_mobile_phone = $request->shipper_mobile_phone;
-
-        if($request->has('shipper_latitude') && $request->has('shipper_longitude')) {
-            if($request->shipper_latitude != null && $request->shipper_latitude != "" && $request->shipper_longitude != null && $request->shipper_longitude != "") {
-                $shipment->shipper_latitude = $request->shipper_latitude;
-                $shipment->shipper_longitude = $request->shipper_longitude;
-            }
-        }
-//        $shipment->consignee_name = $request->consignee_name;
         $shipment->consignee_first_name = $request->consignee_first_name;
-
         if($request->has('consignee_last_name')) {
             if($request->consignee_last_name != null && $request->consignee_last_name != ""){
                 $shipment->consignee_last_name = $request->consignee_last_name;
             }
         }
 
-//        $shipment->id_consignee_districts = $consignee_districts->id;
-//        $shipment->consignee_districts = $consignee_districts->name;
-//        $shipment->id_consignee_city = $consignee_city->id;
-//        $shipment->consignee_city = $consignee_city->name;
-//        $shipment->id_consignee_province = $consignee_province->id;
-//        $shipment->consignee_province = $consignee_province->name;
-
-        $shipment->consignee_address = $request->consignee_address;
-        $shipment->consignee_mobile_phone = $request->consignee_mobile_phone;
         $shipment->id_payment_type = $request->id_payment_type;
         $shipment->shipment_contents = $request->shipment_contents;
         $shipment->estimate_goods_value = $price_goods_estimate->price_estimate;
         $shipment->estimate_weight = $request->estimate_weight;
-        $shipment->insurance_cost = $insurance->default_insurance;
+        $shipment->add_insurance_cost = $insurance->default_insurance;
         $shipment->is_add_insurance = $request->is_add_insurance;
         if($request->is_add_insurance == 1) {
-            $shipment->add_insurance_cost = ($price_goods_estimate->nominal * $insurance->default_insurance) / 100;
+            $shipment->insurance_cost = ($price_goods_estimate->nominal * $insurance->default_insurance) / 100;
         } else {
-            $shipment->add_insurance_cost = 0;
+            $shipment->insurance_cost = 0;
         }
 
         if($request->is_first_class == 1) {
@@ -117,15 +130,15 @@ class ShipmentController extends Controller
             $gold = $gold + (($gold * $insurance->default_insurance) /100);
             $gold = $this->round_nearest_hundreds($gold);
 
-            $shipment->flight_cost = ($gold*$request->estimate_weight) + $shipment->add_insurance_cost;
+            $shipment->flight_cost = ($gold*$request->estimate_weight) + $shipment->insurance_cost;
         } else {
             // $reguler = $price->freight_cost + (($price->freight_cost * $insurance->default_insurance) /100);
             // $reguler = $this->round_nearest_hundreds($reguler);
 
-            // $shipment->flight_cost = ($reguler*$request->estimate_weight) + $shipment->add_insurance_cost;
+            // $shipment->flight_cost = ($reguler*$request->estimate_weight) + $shipment->insurance_cost;
 
             $slot_price = PriceList::where('id_origin_city', $id_origin_city)->where('id_destination_city', $id_destination_city)->first()->slot_price_kg;
-            $shipment->flight_cost = $request->estimate_weight * $slot_price + $shipment->add_insurance_cost;
+            $shipment->flight_cost = $request->estimate_weight * $slot_price + $shipment->insurance_cost;
         }
 
         $shipment->is_delivery = $request->is_delivery;
