@@ -213,9 +213,10 @@ class DeliveryController extends Controller
 
                 $data = array(
                     'err' => null,
-                    'result' => $slot
+                    'result' => [
+                        'status' => $slot
+                    ]
                 );
-
             } else {
                 $slot->status_dispatch = 'Process';
                 $slot->id_slot_status = 3;
