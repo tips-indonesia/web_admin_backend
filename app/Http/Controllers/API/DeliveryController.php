@@ -215,7 +215,7 @@ class DeliveryController extends Controller
                     'err' => null,
                     'result' => array(
                         'status' => null,
-                        'delivery' => $slot,
+                        'delivery' => null,
                         'addt_info' => array(
                             'cancelled' => true
                         )
