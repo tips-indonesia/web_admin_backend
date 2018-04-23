@@ -69,39 +69,90 @@
 
             <div id="modal_small" class="modal fade">
             <div class="modal-dialog modal-sm">
-                <div class="modal-content" style="width: 650px" id="qrcodex">
+                <div class="modal-content" style="width: 400px" id="qrcodex">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                         <h5 class="modal-title">Packaging Label</h5>
                     </div>
  
-                <div class="modal-body" style="border: 2px solid black; margin-left: 20px; margin-right: 20px;">
-                    <table>
+                <div class="modal-body" style="border: 2px solid black; margin-left: 20px; margin-right: 20px; padding: 0;">
+                    <table style="width: 100%;">
                         <tr>
-                        <img src="{{ asset('images/logoqr.png') }}" style="width: 150px; height: 150px; margin-bottom: 0;">
-                    </tr>
-                    <tr>
-                        <h1 style="font-weight: 900;">{{ $data->packaging_id }}</h1>
+                            <td>
+                                <img src="{{ asset('images/logoqr.png') }}" style="float:right; width: 120px; height: 120px; margin-bottom: 50px;">
+                            </td>
                         </tr>
                         <tr>
-                        <h3 id="slot_id">Slot {{ $slot->slot_id }}</h3>
+                            <td>
+                                <h1 style="font-weight: 900; padding-left: 15px;">{{ $data->packaging_id }}</h1>
+                            </td>
+                        </tr>
+                    </table>
+                    <table style="margin-top: -10px; width: 100%;">
+                        <tr>
+                            <td style="font-size:15px; background-color: black; color: white; border-top: solid 1px black; border-bottom: solid 1px black; padding-left: 15px; padding-right: 15px;">
+                                <span id="slot_id">Slot {{ $slot->slot_id }}</span>
+                            </td>
+                            <td style="width: 65%;border-top: solid 1px; border-bottom: solid 1px;">
+                                &nbsp;
+                            </td>
+                        </tr>
+                    </table>
+                    <table style="width: 100%; font-size: 12px; border-bottom: solid 1px;">
+                        <style type="text/css">
+                            .cp td {
+                                border: solid 0.5px;
+                                padding: 4px 12px;
+                            }
+                            td.bot {
+                                padding-bottom: 20px;
+                            }
+                            td.head {
+                                padding-left: 15px;
+                                padding-right: 25px;
+                            }
+                        </style>
+                        <tr style="border-bottom: solid 0.5px;">
+                            <td class="bot head">
+                                From
+                            </td>
+                            <td class="bot">
+                                :
+                            </td>
+                            <td class="bot">
+                                <span id="origin1"></span>
+                            </td>
                         </tr>
                         <tr>
-                        <td>
-                            <h3>From </h3>
-                    </td>
-                    <td>
-                            <h3 id="origin1"></h3>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                            <h3>To </h3>
-                    </td>
-                    <td>
-                            <h3 id="destination1"></h3>
-                    </td>
-                </tr>
+                            <td class="bot head">
+                                To
+                            </td>
+                            <td class="bot">
+                                :
+                            </td>
+                            <td class="bot">
+                                <span id="destination1"></span>
+                            </td>
+                        </tr>
+                    </table>
+                    <table style="width: 100%; font-size: 11px;" class="cp">
+                        <tr>
+                            <td rowspan="2" style="padding-left: 15px; width: 60%; vertical-align: top; text-align: left;">
+                                <strong> PT TIPS Inovasi Indonesia </strong><br>
+                                DBS Bank Tower Lantai 12<br>
+                                Jl. Prof. Dr. Satrio Kav 3 - 5 <br>
+                                Karet Kuningan, Jakarta Selatan
+                            </td>
+                            <td style="width: 40%; vertical-align: top; text-align: left;">
+                                <strong> Customer Service </strong><br>
+                                +62 823 1777 6008
+                            </td>
+                        </tr>
+                            <td style="width: 40%;">
+                                &#9742; 021 2988871<br>
+                                &#9742; 021 2988872<br>
+                            </td>
+                        </tr>
                     </table>
                 </div>
         
@@ -132,9 +183,9 @@
                     v2 = data['origin'] + ', ' + data['shipments'][0]['origin'];
                     $('#destination').html('Destination Airport : ' + data['destination'] );
                     $('#origin').html('Origin Airport : ' + data['origin']);
-                    $('#destination1').html(' : ' + data['destination'] + ', ' + data['shipments'][0]['destination']);
+                    $('#destination1').html(data['destination'] + ', ' + data['shipments'][0]['destination']);
                     document.getElementById("hidden_btn").style.display = "block";
-                    $('#origin1').html(' : ' + data['origin'] + ', ' + data['shipments'][0]['origin']);
+                    $('#origin1').html(data['origin'] + ', ' + data['shipments'][0]['origin']);
                     $('#weight').html('Estimated Weight : ' + data['total_weight']);
                     // $('#slot_id').html(' : ' + data['id']);
                     var table = $('#shipments')
@@ -174,33 +225,80 @@
                 color-adjust: exact !important;                 /*Firefox*/\
         }\
         </style>\
-        <div style="width:500px; border:2px solid black; margin-left:20px; margin-right:20px; padding-left:30px;" >\
-        <table>\
+        <div style="width:350px; border:1px solid black; margin-left:20px; margin-right:20px;" >\
+                    <table style="width: 100%;">\
                         <tr>\
-                        <img src="{{ asset('images/logoqr.png') }}" style="width: 150px; height: 150px; margin: 0;">\
-                    </tr>\
-                    <tr>\
-                        <h1 style="font-weight: 900;">{{ $data->packaging_id }}</h1>\
+                            <td>\
+                                <img src="{{ asset('images/logoqr.png') }}" style="float:right; width: 120px; height: 120px; margin-bottom: 50px;">\
+                            </td>\
                         </tr>\
                         <tr>\
-                        <h2 style="font-weight: 900;">SLOT {{ $slot->slot_id }}</h3>\
+                            <td>\
+                                <h1 style="font-weight: 900; padding-left: 15px;">{{ $data->packaging_id }}</h1>\
+                            </td>\
+                        </tr>\
+                    </table>\
+                    <table style="margin-top: -20px; width: 100%;">\
+                        <tr>\
+                            <td style="font-size:15px; background-color: black; color: white; border-top: solid 1px black; border-bottom: solid 1px black; padding-left: 15px; padding-right: 15px;">\
+                                <span id="slot_id">Slot {{ $slot->slot_id }}</span>\
+                            </td>\
+                            <td style="width: 65%;border-top: solid 1px; border-bottom: solid 1px;">\
+                                &nbsp;\
+                            </td>\
+                        </tr>\
+                    </table>\
+                    <table style="width: 100%; font-size: 12px; border-bottom: solid 1px;">\
+                        <style type="text/css">\
+                            td.bot {\
+                                padding-bottom: 20px;\
+                            }\
+                            td.head {\
+                                padding-left: 15px;\
+                                padding-right: 25px;\
+                            }\
+                        </style>\
+                        <tr style="border-bottom: solid 0.5px;">\
+                            <td class="bot head">\
+                                From\
+                            </td>\
+                            <td class="bot">\
+                                :\
+                            </td>\
+                            <td class="bot">\
+                                <span id="origin1">'+v2+'</span>\
+                            </td>\
                         </tr>\
                         <tr>\
-                        <td>\
-                            <h3>From : </h3>\
-                    </td>\
-                    <td>\
-                            <h3 id="origin1">'+v2+'</h3>\
-                    </td>\
-                </tr>\
-                <tr>\
-                    <td>\
-                            <h3>To : </h3>\
-                    </td>\
-                    <td>\
-                            <h3 id="destination1">'+v1+'</h3>\
-                    </td>\
-                </tr>\
+                            <td class="bot head">\
+                                To\
+                            </td>\
+                            <td class="bot">\
+                                :\
+                            </td>\
+                            <td class="bot">\
+                                <span id="destination1">'+v1+'</span>\
+                            </td>\
+                        </tr>\
+                    </table>\
+                    <table style="width: 100%; font-size: 11px;" class="cp">\
+                        <tr>\
+                            <td rowspan="2" style="border-right: solid 0.5px; padding-left: 15px; width: 60%; vertical-align: top; text-align: left;">\
+                                <strong> PT TIPS Inovasi Indonesia </strong><br>\
+                                DBS Bank Tower Lantai 12<br>\
+                                Jl. Prof. Dr. Satrio Kav 3 - 5 <br>\
+                                Karet Kuningan, Jakarta Selatan\
+                            </td>\
+                            <td style="border-bottom: solid 0.5px; width: 40%; vertical-align: top; text-align: left;">\
+                                <strong> Customer Service </strong><br>\
+                                +62 823 1777 6008\
+                            </td>\
+                        </tr>\
+                            <td style="width: 40%;">\
+                                &#9742; 021 2988871<br>\
+                                &#9742; 021 2988872<br>\
+                            </td>\
+                        </tr>\
                     </table>\
                     </div>\
                 </div>\

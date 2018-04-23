@@ -441,7 +441,7 @@
                 <span style="font-weight: bold; font-size: 8px;">DOWNLOAD <hr style="display: block; margin-top: -10px; margin-bottom: 0px; visibility: hidden;">OUR FREE APPS</span><br/>
                 <center>
                     <div style=" padding-top: 2px; ">
-                        <img src="{!! URL::to('/') . '/images/gs.jpg' !!}" height="30px;">   
+                        <img src="{!! URL::to('/') . '/images/gs.jpg' !!}" height="45px;">   
                     </div>
                 </center>
             </td>
@@ -580,7 +580,7 @@
                 <span style="font-weight: bold; font-size: 8px;">DOWNLOAD <hr style="display: block; margin-top: -10px; margin-bottom: 0px; visibility: hidden;">OUR FREE APPS</span><br/>\
                 <center>\
                     <div style=" padding-top: 2px; ">\
-                        <img src="{!! URL::to('/') . '/images/gs.jpg' !!}" height="30px;">   \
+                        <img src="{!! URL::to('/') . '/images/gs.jpg' !!}" height="45px;">   \
                     </div>\
                 </center>\
             </td>\

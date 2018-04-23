@@ -421,7 +421,7 @@
         </tr>
     </table>
     <table style="width: 300px; border: solid 1px #777; background: rgba(0, 0, 0, .0); font-family: Arial">
-        <tr>
+        <tr style=" height: 55px;">
             <td style="width: 27%; margin-right: 2px; font-weight: bold; font-size: 8px; vertical-align: top; text-align: left;padding: 4px 10px;">
                 <img src="{!! URL::to('/') . '/images/shipment_icon_gray.png' !!}" style="height: 10px"> PENERIMA
             </td>
@@ -442,7 +442,7 @@
                 <span style="font-weight: bold; font-size: 8px;">DOWNLOAD <hr style="display: block; margin-top: -10px; margin-bottom: 0px; visibility: hidden;">OUR FREE APPS</span><br/>
                 <center>
                     <div style=" padding-top: 2px; ">
-                        <img src="{!! URL::to('/') . '/images/gs.jpg' !!}" height="30px;">   
+                        <img src="{!! URL::to('/') . '/images/gs.jpg' !!}" height="45px;">   
                     </div>
                 </center>
             </td>
@@ -572,7 +572,7 @@
         </tr>\
     </table>\
     <table style="width: 300px; border: solid 1px #777; background: rgba(0, 0, 0, .0); font-family: Arial">\
-        <tr>\
+        <tr style=" height: 55px;">\
             <td style="width: 27%; margin-right: 2px; font-weight: bold; font-size: 8px; vertical-align: top; text-align: left;padding: 4px 10px;">\
                 <img src="{!! URL::to('/') . '/images/shipment_icon_gray.png' !!}" style="height: 10px"> PENERIMA\
             </td>\
@@ -593,7 +593,7 @@
                 <span style="font-weight: bold; font-size: 8px;">DOWNLOAD <hr style="display: block; margin-top: -10px; margin-bottom: 0px; visibility: hidden;">OUR FREE APPS</span><br/>\
                 <center>\
                     <div style=" padding-top: 2px; ">\
-                        <img src="{!! URL::to('/') . '/images/gs.jpg' !!}" height="30px;">   \
+                        <img src="{!! URL::to('/') . '/images/gs.jpg' !!}" height="45px;">   \
                     </div>\
                 </center>\
             </td>\
