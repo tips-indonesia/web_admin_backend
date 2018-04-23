@@ -258,27 +258,33 @@
                                 padding-right: 25px;\
                             }\
                         </style>\
-                        <tr style="border-bottom: solid 0.5px;">\
-                            <td class="bot head">\
+                        <tr>\
+                            <td class="head">\
                                 From\
                             </td>\
-                            <td class="bot">\
+                            <td>\
                                 :\
                             </td>\
-                            <td class="bot">\
+                            <td>\
                                 <span id="origin1">'+v2+'</span>\
                             </td>\
                         </tr>\
                         <tr>\
-                            <td class="bot head">\
+                            <td colspan="3" style="font-size:6px; border-bottom: solid 0.5px;" class="bot">&nbsp;</td>\
+                        </tr>\
+                        <tr>\
+                            <td class="head">\
                                 To\
                             </td>\
-                            <td class="bot">\
+                            <td>\
                                 :\
                             </td>\
-                            <td class="bot">\
+                            <td>\
                                 <span id="destination1">'+v1+'</span>\
                             </td>\
+                        </tr>\
+                        <tr>\
+                            <td colspan="3" style="font-size:6px;" class="bot">&nbsp;</td>\
                         </tr>\
                     </table>\
                     <table style="width: 100%; font-size: 11px;" class="cp">\
