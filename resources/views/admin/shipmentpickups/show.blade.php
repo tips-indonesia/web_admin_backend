@@ -252,6 +252,7 @@
                                         </div>
                                     </div>
                                 </div>
+                            </div>
 
                                 <div class="tab-pane" id="goods_cost">
                                     <div class="row">
