@@ -124,12 +124,12 @@ class SlotListAdminController extends Controller
             $ret_data = array();
             $ret_data['origin'] = $data['data']['origin_airport'];
             $ret_data['destination'] = $data['data']['destination_airport'];
-            $ret_data['shipments'] = Shipment::where('id_slot', $id)->get(['shipment_id', 'transaction_date', 'id_origin_city', 'id_destination_city', 'estimate_weight']);
+            $ret_data['shipments'] = Shipment::where('id_slot', $id)->get(['shipment_id', 'transaction_date', 'id_origin_city', 'id_destination_city', 'real_weight']);
             $ret_data['total_weight'] = 0;
             foreach ($ret_data['shipments'] as $dat) {
                 $dat['origin'] = AirportcityList::find($dat['id_origin_city'])->name;
                 $dat['destination'] = AirportcityList::find($dat['id_destination_city'])->name;
-                $ret_data['total_weight'] = $ret_data['total_weight'] + $dat['estimate_weight'];
+                $ret_data['total_weight'] = $ret_data['total_weight'] + $dat['real_weight'];
             }
             return json_encode($ret_data);   
         }        

@@ -21,11 +21,11 @@
                 <div class="form-group">
                     <label class="display-block text-semibold">Status :</label>
                     <label class="radio-inline">
-                        <input type="radio" name="radio" @if($checked == 0) checked="checked" @endif value="0">
+                        <input type="radio" name="radio" @if($checked == 1) checked="checked" @endif value="1">
                         Belum Dikirim
                     </label>
                     <label class="radio-inline">
-                        <input type="radio" name="radio" @if($checked == 1) checked="checked" @endif value="1">
+                        <input type="radio" name="radio" @if($checked == 0) checked="checked" @endif value="0">
                         Sudah Dikirim
                     </label>
                     <label class="radio-inline">

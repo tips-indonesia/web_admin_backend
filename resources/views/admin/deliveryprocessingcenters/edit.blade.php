@@ -41,22 +41,23 @@
                         <div class="text-right form-group">
                             <select multiple="multiple" class="form-control listbox" name="shipments[]">
 
-                                @foreach ($inputed_shipment_lists as $data)
-                                @if(in_array($data->packagingList->id, $delivery_shipments))
-                                    <option value="{{$data->packagingList->id}}" SELECTED> {{ $data->packagingList->packaging_id }} &nbsp; - &nbsp; {{ date("Y-m-d", strtotime($data->created_at)) }} &nbsp; - &nbsp; {{ $data->airportOrigin->name }} &nbsp; - &nbsp; {{ $data->airportDestination->name }} </option>
+                                @foreach ($inputed_shipment_lists as $isl)
+                                @if(in_array($isl->packagingList->id, $delivery_shipments))
+                                    <option value="{{$isl->packagingList->id}}" SELECTED> {{ $isl->packagingList->packaging_id }} &nbsp; - &nbsp; {{ date("Y-m-d", strtotime($isl->created_at)) }} &nbsp; - &nbsp; {{ $isl->airportOrigin->name }} &nbsp; - &nbsp; {{ $isl->airportDestination->name }} </option>
                                     }
                                 @endif
                                 @endforeach
 
 
-                               @foreach ($shipment_lists as $data)
-                                    <option value="{{$data->packagingList->id}}" {{ in_array($data->packagingList->id, $delivery_shipments)? "SELECTED" : "" }}> {{ $data->packagingList->packaging_id }} &nbsp; - &nbsp; {{ date("Y-m-d", strtotime($data->created_at)) }} &nbsp; - &nbsp; {{ $data->airportOrigin->name }} &nbsp; - &nbsp; {{ $data->airportDestination->name }} </option>
+                               @foreach ($shipment_lists as $sl)
+                                    <option value="{{$sl->packagingList->id}}" {{ in_array($sl->packagingList->id, $delivery_shipments)? "SELECTED" : "" }}> {{ $sl->packagingList->packaging_id }} &nbsp; - &nbsp; {{ date("Y-m-d", strtotime($sl->created_at)) }} &nbsp; - &nbsp; {{ $sl->airportOrigin->name }} &nbsp; - &nbsp; {{ $sl->airportDestination->name }} </option>
                                 @endforeach
 
                             </select>
                         </div>
+
                         <div class="text-right form-group">
-                            <button type="submit" value="save" class="btn btn-primary" name="submit">Save <i class="icon-arrow-right14 position-right"></i></button>
+                            <button type="submit" value="save" class="btn btn-primary" name="submit" @if($data->is_posted == 1) disabled @endif>Save <i class="icon-arrow-right14 position-right"></i></button>
                             <button type="submit" value="post"  class="btn btn-success" name="submit" @if($data->is_posted == 1) disabled @endif>Submit <i class="icon-arrow-right14 position-right"></i></button>
                         </div>
             {{ Form::close() }}

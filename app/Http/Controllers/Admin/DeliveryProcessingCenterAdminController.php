@@ -50,6 +50,7 @@ class DeliveryProcessingCenterAdminController extends Controller
             $data['value'] = Input::get('value');
             $data['datas'] = $data['datas']->where(Input::get('param'),'=', Input::get('value'));
         }
+
         $user = User::find(Auth::id());
 
         if ($user->id_office != null  && $user->id != 1) {
@@ -61,7 +62,13 @@ class DeliveryProcessingCenterAdminController extends Controller
             $data['datas'] = $data['datas']->whereIn('id', $arrshipment);
         }
 
-        $data['datas'] = $data['datas']->paginate(10);
+        $slot = SlotList::where('id_slot_status', 7)->pluck('id');
+        $arrshipment = ArrivalShipmentDetail::pluck('packaging_lists_id');
+        $packaginglist = PackagingList::whereIn('id_slot', $slot)
+                                      ->whereNotIn('id', $arrshipment)
+                                      ->pluck('id');
+        $data['datas'] = $data['datas']->whereIn('id', $arrshipment)->paginate(10);
+
         foreach ($data['datas'] as $dat) {
             $dat['total'] = PackagingDelivery::where('deliveries_id', $dat->id)->get()->count();
         }

@@ -187,6 +187,7 @@
                                             <div class="form-group">
                                                 <label>Address Detail :</label>
                                                 <textarea rows="5" class="form-control" placeholder="Enter shipper address here" name="shipper_address_detail" disabled readonly>{{ $data->shipper_address_detail }}</textarea>
+                                            </div>
                                             <div class="form-group">
                                                 <label>Mobile Phone :</label>
                                                 {{ Form::text('shipper_mobile', $data->shipper_mobile_phone, array('class' => 'form-control', 'placeholder' => 'Shipper Mobile Phone', 'disabled' => '','readonly' => '')) }}
@@ -249,6 +250,7 @@
                                                 <label>Mobile Phone :</label>
                                                 {{ Form::text('consignee_mobile', $data->consignee_mobile_phone, array('class' => 'form-control', 'placeholder' => 'Consignee Mobile Phone', 'disabled' => '')) }}
                                             </div>
+
                                         </div>
                                     </div>
                                 </div>
@@ -297,7 +299,7 @@
 
                                             <div class="form-group">
                                                 <label>Insurance :</label>
-                                                {{ Form::number('insurance', $data->insurance_cost, array('class' => 'form-control', 'placeholder' => 'Insurance Cost', 'disabled' => '')) }}
+                                                {{ Form::number('insurance', $data->add_insurance_cost, array('class' => 'form-control', 'placeholder' => 'Insurance Cost', 'disabled' => '')) }}
                                             </div>
 
                                             <div class="form-group">

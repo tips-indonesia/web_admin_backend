@@ -185,7 +185,7 @@ class ShipmentPickUpAdminController extends Controller
                 $shipment->save();
             }
             Session::flash('message', 'Successfully created nerd!');
-            return Redirect::to(route('shipmentpickups.index'));
+            return back();
         }
     }
 

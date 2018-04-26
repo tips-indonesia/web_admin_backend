@@ -43,7 +43,7 @@
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label id="weight">Estimated Weight : </label>
+                        <label id="weight">Real Weight : </label>
                     </div>                                
                 </div>
             </div>
@@ -186,13 +186,13 @@
                     $('#destination1').html(data['destination'] + ', ' + data['shipments'][0]['destination']);
                     document.getElementById("hidden_btn").style.display = "block";
                     $('#origin1').html(data['origin'] + ', ' + data['shipments'][0]['origin']);
-                    $('#weight').html('Estimated Weight : ' + data['total_weight']);
+                    $('#weight').html('Real Weight : ' + data['total_weight']);
                     // $('#slot_id').html(' : ' + data['id']);
                     var table = $('#shipments')
                     var body = table.find('tbody');
                     body.html('');
                     for (var i = 0; i < data['shipments'].length; i++) {
-                        body.append("<tr><td>" + data['shipments'][i]['shipment_id'] + "</td><td>" + data['shipments'][i]['transaction_date'] + "</td><td>" + data['shipments'][i]['origin'] + "</td><td>" + data['shipments'][i]['destination'] + "</td><td>" + data['shipments'][i]['estimate_weight'] + "</td></tr>");
+                        body.append("<tr><td>" + data['shipments'][i]['shipment_id'] + "</td><td>" + data['shipments'][i]['transaction_date'] + "</td><td>" + data['shipments'][i]['origin'] + "</td><td>" + data['shipments'][i]['destination'] + "</td><td>" + data['shipments'][i]['real_weight'] + "</td></tr>");
                         
                     }
                 }

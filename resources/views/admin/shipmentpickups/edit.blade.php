@@ -297,7 +297,7 @@
 
                                             <div class="form-group">
                                                 <label>Insurance :</label>
-                                                {{ Form::number('insurance', $data->insurance_cost, array('class' => 'form-control', 'placeholder' => 'Insurance Cost', 'disabled' => '')) }}
+                                                {{ Form::number('insurance', $data->add_insurance_cost, array('class' => 'form-control', 'placeholder' => 'Insurance Cost', 'disabled' => '')) }}
                                             </div>
 
                                             <div class="form-group">
