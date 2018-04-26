@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateHomeBannerTable extends Migration
+class CreateReferralTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,12 @@ class CreateHomeBannerTable extends Migration
      */
     public function up()
     {
-        Schema::create('home_banner', function (Blueprint $table) {
+        Schema::create('referral', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('file_name', 191);
+            $table->date('start_date');
+            $table->date('end_date');
+            $table->integer('referral_amount');
+            $table->integer('referred_amount');
             $table->timestamps();
         });
     }
@@ -27,6 +30,6 @@ class CreateHomeBannerTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('home_banner');
+        Schema::dropIfExists('referral');
     }
 }

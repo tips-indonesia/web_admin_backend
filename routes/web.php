@@ -218,6 +218,14 @@ Route::group(['middleware' => 'isWorker'], function() {
             Route::resource('banner','Admin\BannerController');
         });
 
+        Route::group(['middleware' => ['permission:referral.']], function () {
+            Route::resource('referral','Admin\ReferralController');
+        });
+
+        Route::group(['middleware' => ['permission:crontimer.']], function () {
+            Route::resource('crontimer','Admin\CronTimerController');
+        });
+
         Route::resource('statuschangers','Admin\StatusChangerAdminController');
         
     });

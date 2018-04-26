@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateHomeBannerTable extends Migration
+class CreateCronTimerTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class CreateHomeBannerTable extends Migration
      */
     public function up()
     {
-        Schema::create('home_banner', function (Blueprint $table) {
+        Schema::create('cron_timer', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('file_name', 191);
+            $table->integer('cron_timer');
             $table->timestamps();
         });
     }
@@ -27,6 +27,6 @@ class CreateHomeBannerTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('home_banner');
+        Schema::dropIfExists('cron_timer');
     }
 }
