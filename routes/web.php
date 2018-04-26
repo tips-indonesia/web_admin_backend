@@ -213,6 +213,11 @@ Route::group(['middleware' => 'isWorker'], function() {
         Route::group(['middleware' => ['permission:promotions.']], function () {
             Route::resource('promotions','Admin\PromotionController');
         });
+
+        Route::group(['middleware' => ['permission:banner.']], function () {
+            Route::resource('banner','Admin\BannerController');
+        });
+
         Route::resource('statuschangers','Admin\StatusChangerAdminController');
         
     });
