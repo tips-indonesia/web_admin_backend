@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use App\Shipment;
+use App\MemberList;
 use App\ShipmentStatus;
 use App\AirportcityList;
 use Illuminate\Support\Facades\URL;
@@ -50,6 +51,51 @@ class ShipmentController extends Controller
 
             );
         }
+        return response()->json($data, 200);
+    }
+
+    function getMyShipmentsDeparture(Request $req){
+        return $this->getMyShipmentsGeneral($req, 'pickup_by');
+    }
+
+    function getMyShipmentsSDelivery(Request $req){
+        return $this->getMyShipmentsGeneral($req, 'delivered_by');
+    }
+
+    function getMyShipmentsGeneral(Request $req, $type){
+        $worker_id = $req->worker_id;
+        if($worker_id == null){
+            $data = array(
+                'err' => [
+                    'code' => 500,
+                    'message' => 'Worker id harus diisi'
+                ],
+                'result' => null
+            );
+
+            return response()->json($data, 200);
+        }
+
+        $worker_instance = MemberList::find($worker_id);
+        if($worker_instance == null){
+            $data = array(
+                'err' => [
+                    'code' => 404,
+                    'message' => 'Worker tidak ditemukan'
+                ],
+                'result' => null
+            );
+
+            return response()->json($data, 200);
+        }
+
+        $data = array(
+            'err' => null,
+            'result' => [
+                'shipments' => Shipment::where($type, $worker_id)->get()
+            ]
+        );
+
         return response()->json($data, 200);
     }
 

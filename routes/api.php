@@ -117,6 +117,8 @@ Route::get('/worker/arrival', 'API\\Worker\\ArrivalController@get_list');
 Route::post('/worker/arrival/confirm', 'API\\Worker\\ArrivalController@confirm');
 Route::get('/worker/shipment', 'API\\Worker\\ShipmentController@get_detail');
 Route::post('/worker/shipment', 'API\\Worker\\ShipmentController@pickup');
+Route::get('/worker/my_shipments_departure', 'API\\Worker\\ShipmentController@getMyShipmentsDeparture');
+Route::get('/worker/my_shipments_sdelivery', 'API\\Worker\\ShipmentController@getMyShipmentsSDelivery');
 Route::post('/worker/shipment/confirm', 'API\\Worker\\ShipmentController@upload_signature');
 
 Route::post('/payment/inquiry', 'API\\PaymentController@receiveInquiry');
