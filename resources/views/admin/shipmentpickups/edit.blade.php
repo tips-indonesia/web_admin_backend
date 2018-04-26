@@ -250,6 +250,33 @@
                                                 <label>Mobile Phone :</label>
                                                 {{ Form::text('consignee_mobile', $data->consignee_mobile_phone, array('class' => 'form-control', 'placeholder' => 'Consignee Mobile Phone', 'disabled' => '')) }}
                                             </div>
+                                            <div class="form-group">
+                                                <label>Province :</label>
+                                                <select name="consignee_province" id="cprovince" class="select-search" disabled="" readonly>
+                                                    <option disabled></option>
+                                                    @foreach ($provinces as $province)
+                                                        <option value="{{ $province->id }}" {{$province->id==$data->id_consignee_province? 'selected' : ''}}>{{ $province->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>City :</label>
+                                                <select name="consignee_city" id="ccity" class="select-search" disabled="" readonly>
+                                                    <option disabled></option>
+                                                    @foreach ($citys as $city)
+                                                        <option value="{{ $city->id }}" {{$city->id==$data->id_consignee_city ? 'selected' : ''}}>{{ $city->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Subdistrict :</label>
+                                                <select name="consignee_subdistrict" id="csubdistrict" class="select-search" disabled="" readonly>
+                                                    <option disabled ></option>
+                                                    @foreach ($subdistricts as $city)
+                                                        <option value="{{ $city->id }}" {{$city->id==$data->id_consignee_districts ? 'selected' : ''}}>{{ $city->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
