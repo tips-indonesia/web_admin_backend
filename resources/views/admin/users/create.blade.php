@@ -34,11 +34,8 @@
                         <div class="form-group">
                             <label>Phone Number :</label>
                             <div class="row">
-                                <div class="col-md-1">
-                                    <input type="text" value="+62" disabled readonly class="form-control">
-                                </div>
-                                <div class="col-md-11">
-                                    {{ Form::text('mobile_phone_no', null, array('class' => 'form-control', 'placeholder' => 'Phone Number')) }}
+                                <div class="col-md-12">
+                                    {{ Form::text('mobile_phone_no', null, array('class' => 'form-control', 'placeholder' => 'Phone Number', 'id' => 'phone', 'oninput' =>"addStart()")) }}
                                 </div>
                             </div>
                         </div>
@@ -92,6 +89,13 @@
         </div>
     </div>
         <script>
+            function addStart() {
+                var input = document.getElementById("phone");
+                var val = input.value;
+                if (!val.startsWith("+62")) {
+                    input.value = "+62" + val;
+                }
+            }
             $('.select-search').select2();
 
             $('.pickadate-year').datepicker({

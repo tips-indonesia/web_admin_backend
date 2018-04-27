@@ -78,7 +78,7 @@ class UserAdminController extends Controller
                 ->withErrors($validator)
                 ->withInput();
         } else {
-            $phone = $this->changePhoneNumber(Input::get('mobile_phone_no'));
+            $phone = Input::get('mobile_phone_no');
             
             if (User::where('mobile_phone_no', $phone)->first() == null) {     
                 $user = User::create([
