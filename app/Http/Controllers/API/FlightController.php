@@ -133,7 +133,7 @@ class FlightController extends Controller
             $data = array(
                 'err' => [
                     'code' => 404,
-                    'message' => 'Maskapai yang Anda pilih belum kami support sementara ini'
+                    'message' => 'Maskapai yang Anda pilih belum di dukung saat ini'
                 ],
                 'result' => null
             );

@@ -212,6 +212,7 @@ class ShipmentPickUpAdminController extends Controller
         // $url = 'images/qrcode/pickup/QR-' . uniqid() . '-GX.png';
         // Storage::disk('public')->put($url, $qrcode, 'public');
 
-        return base64_decode($dataqr);
+        return response(base64_decode($dataqr), 200)
+                       ->header('Content-Type', 'image/png');
     }
 }
