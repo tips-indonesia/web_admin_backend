@@ -93,7 +93,7 @@
                             <td style="font-size:15px; background-color: black; color: white; border-top: solid 1px black; border-bottom: solid 1px black; padding-left: 15px; padding-right: 15px;">
                                 <span id="slot_id">Slot {{ $slot->slot_id }}</span>
                             </td>
-                            <td style="width: 65%;border-top: solid 1px; border-bottom: solid 1px;">
+                            <td style="width: 59%;border-top: solid 1px; border-bottom: solid 1px;">
                                 &nbsp;
                             </td>
                         </tr>
@@ -105,6 +105,8 @@
                                 padding: 4px 12px;
                             }
                             td.bot {
+                                padding-top: 4px;
+                                padding-left: 4px;
                                 padding-bottom: 20px;
                             }
                             td.head {
@@ -123,7 +125,7 @@
                                 <span id="origin1"></span>
                             </td>
                         </tr>
-                        <tr>
+                        <tr style="height: 45px;">
                             <td class="bot head">
                                 To
                             </td>
@@ -131,6 +133,10 @@
                                 :
                             </td>
                             <td class="bot">
+                                <div style="position : absolute; margin-top: 0px; margin-left : -4px; border-top: solid 1.5px; border-left: solid 1.5px; height: 10px; width: 10px;"></div>
+                                <div style="position : absolute; margin-top: 0px; border-top: solid 1.5px; border-right: solid 1.5px; height: 10px; width: 10px; margin-left: 255px;"></div>
+                                <div style="position : absolute; margin-top: 25px; margin-left : -4px; border-bottom: solid 1.5px; border-left: solid 1.5px; height: 10px; width: 10px;"></div>
+                                <div style="position : absolute; margin-top: 25px; margin-left : 255px; border-bottom: solid 1.5px; border-right: solid 1.5px; height: 10px; width: 10px;"></div>
                                 <span id="destination1"></span>
                             </td>
                         </tr>
@@ -225,7 +231,7 @@
                 color-adjust: exact !important;                 /*Firefox*/\
         }\
         </style>\
-        <div style="width:350px; border:1px solid black; margin-left:20px; margin-right:20px;" >\
+        <div style="width:370px; border:1px solid black; margin-left:20px; margin-right:20px;" >\
                     <table style="width: 100%;">\
                         <tr>\
                             <td>\
@@ -250,7 +256,13 @@
                     </table>\
                     <table style="width: 100%; font-size: 12px; border-bottom: solid 1px;">\
                         <style type="text/css">\
+                            .cp td {\
+                                border: solid 0.5px;\
+                                padding: 4px 12px;\
+                            }\
                             td.bot {\
+                                padding-top: 4px;\
+                                padding-left: 4px;\
                                 padding-bottom: 20px;\
                             }\
                             td.head {\
@@ -258,33 +270,31 @@
                                 padding-right: 25px;\
                             }\
                         </style>\
-                        <tr>\
-                            <td class="head">\
+                        <tr style="border-bottom: solid 0.5px;">\
+                            <td class="bot head">\
                                 From\
                             </td>\
-                            <td>\
+                            <td class="bot">\
                                 :\
                             </td>\
-                            <td>\
-                                <span id="origin1">'+v2+'</span>\
+                            <td class="bot">\
+                                <span id="origin1">' + v2 + '</span>\
                             </td>\
                         </tr>\
-                        <tr>\
-                            <td colspan="3" style="font-size:6px; border-bottom: solid 0.5px;" class="bot">&nbsp;</td>\
-                        </tr>\
-                        <tr>\
-                            <td class="head">\
+                        <tr style="height: 45px;">\
+                            <td class="bot head">\
                                 To\
                             </td>\
-                            <td>\
+                            <td class="bot">\
                                 :\
                             </td>\
-                            <td>\
+                            <td class="bot">\
+                                <div style="position : absolute; margin-top: 0px; margin-left : -4px; border-top: solid 1.5px; border-left: solid 1.5px; height: 10px; width: 10px;"></div>\
+                                <div style="position : absolute; margin-top: 0px; border-top: solid 1.5px; border-right: solid 1.5px; height: 10px; width: 10px; margin-left: 255px;"></div>\
+                                <div style="position : absolute; margin-top: 25px; margin-left : -4px; border-bottom: solid 1.5px; border-left: solid 1.5px; height: 10px; width: 10px;"></div>\
+                                <div style="position : absolute; margin-top: 25px; margin-left : 255px; border-bottom: solid 1.5px; border-right: solid 1.5px; height: 10px; width: 10px;"></div>\
                                 <span id="destination1">'+v1+'</span>\
                             </td>\
-                        </tr>\
-                        <tr>\
-                            <td colspan="3" style="font-size:6px;" class="bot">&nbsp;</td>\
                         </tr>\
                     </table>\
                     <table style="width: 100%; font-size: 11px;" class="cp">\
