@@ -100,7 +100,10 @@ class PaymentController extends Controller
         if(array_key_exists("datetime", $data))
             $datetime = $data['datetime'];
 
-        return "$code;$message;$order_id;$amount;$currency;$description;$datetime";
+
+        $data_to_go = "$code;$message;$order_id;$amount;$currency;$description;$datetime";
+        Storage::disk('public')->append('inquiry.txt', "Response inquiry to ESPAY: " . $data_to_go);
+        return $data_to_go;
         // return "$code;$message,$RECONCILE_CODE,$order_id,$datetime";
     }
 
@@ -144,19 +147,21 @@ class PaymentController extends Controller
             $transaction = Transaction::where('payment_id', $transaction_id)->first();
 
             if(sizeof($transaction) == 0){
-                $data = $this->generateSGOEspayTemplate(array(
+                $data_to_go = array(
                     "code"      => 97,
                     "message"   => "Transaksi " . $transaction_id . " tidak ditemukan",
                     "order_id"  => $transaction_id
-                ));
+                );
+                $data = $this->generateSGOEspayTemplate($data_to_go);
             }else{
-                $data = $this->generateSGOEspayTemplate(array(
+                $data_to_go = array(
                     "code"      => 0,
                     "message"   => "Success",
                     "order_id"  => $transaction_id,
                     "amount"    => number_format($transaction->estimate_goods_value + $transaction->flight_cost,2,".",""),
                     "description"   => "Pembayaran oleh : " . $transaction->shipper_first_name
-                ));
+                );
+                $data = $this->generateSGOEspayTemplate($data_to_go);
             }
         }
 
