@@ -39,19 +39,19 @@ class EtcSeeder extends Seeder
 
         MenuList::create([
             'name' => 'Banner',
-            'menu_parent_id' => $setting->id,
+            'menu_parent_id' => 35,
             'class_name' => 'banner.'
         ]);
 
         MenuList::create([
             'name' => 'Referral',
-            'menu_parent_id' => $setting->id,
+            'menu_parent_id' => 35,
             'class_name' => 'referral.'
         ]);
 
         MenuList::create([
             'name' => 'Cron Timer',
-            'menu_parent_id' => $setting->id,
+            'menu_parent_id' => 35,
             'class_name' => 'crontimer.'
         ]);
 
