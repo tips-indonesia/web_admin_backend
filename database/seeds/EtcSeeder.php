@@ -29,19 +29,42 @@ class EtcSeeder extends Seeder
      //        'class_name' => 'promotions.'
      //    ]);
         
-        MenuList::create([
-            'name' => 'Shipment Cancellation',
-            'menu_parent_id' => 18,
-            'class_name' => 'shipmentcancellation.'
-        ]);
-        // $p3 = Permission::create(['name' => 'promotions.', 'show_name' => 'Promotions']);
-        $p4 = Permission::create(['name' => 'shipmentcancellation.', 'show_name' => 'Shipment Cancellation']);
+        // MenuList::create([
+        //     'name' => 'Shipment Cancellation',
+        //     'menu_parent_id' => 18,
+        //     'class_name' => 'shipmentcancellation.'
+        // ]);
+        // // $p3 = Permission::create(['name' => 'promotions.', 'show_name' => 'Promotions']);
+        // $p4 = Permission::create(['name' => 'shipmentcancellation.', 'show_name' => 'Shipment Cancellation']);
 
+        MenuList::create([
+            'name' => 'Banner',
+            'menu_parent_id' => $setting->id,
+            'class_name' => 'banner.'
+        ]);
+
+        MenuList::create([
+            'name' => 'Referral',
+            'menu_parent_id' => $setting->id,
+            'class_name' => 'referral.'
+        ]);
+
+        MenuList::create([
+            'name' => 'Cron Timer',
+            'menu_parent_id' => $setting->id,
+            'class_name' => 'crontimer.'
+        ]);
+
+        $p1 = Permission::create(['name' => 'banner.', 'show_name' => 'Banner']);;
+        $p2 = Permission::create(['name' => 'referral.', 'show_name' => 'Referral']);
+        $p3 = Permission::create(['name' => 'crontimer.', 'show_name' => 'Cron Timer']);
         
     	// $role->givePermissionTo($p1);
     	$role = Role::all()->first();
         // $role->givePermissionTo($p3);
-        $role->givePermissionTo($p4);
+        $role->givePermissionTo($p1);
+        $role->givePermissionTo($p2);
+        $role->givePermissionTo($p3);
 
 
         // MenuList::create([
