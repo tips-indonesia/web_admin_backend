@@ -255,7 +255,10 @@
         </div>
         <script>
         $('.select-search').select2();
-        $('.pickadate-year').datepicker({format: 'yyyy-mm-dd',});
+        $('.pickadate-year').datepicker({
+            format: 'yyyy-mm-dd',
+            startDate : date,
+        });
         $('#bank').on('select2:select', function(){
             var card = $('#card');
             card.empty();

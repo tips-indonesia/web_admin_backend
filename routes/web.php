@@ -213,6 +213,19 @@ Route::group(['middleware' => 'isWorker'], function() {
         Route::group(['middleware' => ['permission:promotions.']], function () {
             Route::resource('promotions','Admin\PromotionController');
         });
+
+        Route::group(['middleware' => ['permission:banner.']], function () {
+            Route::resource('banner','Admin\BannerController');
+        });
+
+        Route::group(['middleware' => ['permission:referral.']], function () {
+            Route::resource('referral','Admin\ReferralController');
+        });
+
+        Route::group(['middleware' => ['permission:crontimer.']], function () {
+            Route::resource('crontimer','Admin\CronTimerController');
+        });
+
         Route::resource('statuschangers','Admin\StatusChangerAdminController');
         
     });

@@ -250,6 +250,33 @@
                                                 <label>Mobile Phone :</label>
                                                 {{ Form::text('consignee_mobile', $data->consignee_mobile_phone, array('class' => 'form-control', 'placeholder' => 'Consignee Mobile Phone', 'disabled' => '')) }}
                                             </div>
+                                            <div class="form-group">
+                                                <label>Province :</label>
+                                                <select name="consignee_province" id="cprovince" class="select-search" disabled="" readonly>
+                                                    <option disabled></option>
+                                                    @foreach ($provinces as $province)
+                                                        <option value="{{ $province->id }}" {{$province->id==$data->id_consignee_province? 'selected' : ''}}>{{ $province->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>City :</label>
+                                                <select name="consignee_city" id="ccity" class="select-search" disabled="" readonly>
+                                                    <option disabled></option>
+                                                    @foreach ($citys as $city)
+                                                        <option value="{{ $city->id }}" {{$city->id==$data->id_consignee_city ? 'selected' : ''}}>{{ $city->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Subdistrict :</label>
+                                                <select name="consignee_subdistrict" id="csubdistrict" class="select-search" disabled="" readonly>
+                                                    <option disabled ></option>
+                                                    @foreach ($subdistricts as $city)
+                                                        <option value="{{ $city->id }}" {{$city->id==$data->id_consignee_districts ? 'selected' : ''}}>{{ $city->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -297,7 +324,7 @@
 
                                             <div class="form-group">
                                                 <label>Insurance :</label>
-                                                {{ Form::number('insurance', $data->insurance_cost, array('class' => 'form-control', 'placeholder' => 'Insurance Cost', 'disabled' => '')) }}
+                                                {{ Form::number('insurance', $data->add_insurance_cost, array('class' => 'form-control', 'placeholder' => 'Insurance Cost', 'disabled' => '')) }}
                                             </div>
 
                                             <div class="form-group">
@@ -409,11 +436,11 @@
         </tr>
     </table>
     <table style="width: 300px; border: solid 1px #777; background: rgba(0, 0, 0, .0); font-family: Arial">
-        <tr>
+        <tr style=" height: 90px;">
             <td style="width: 27%; margin-right: 2px; font-weight: bold; font-size: 8px; vertical-align: top; text-align: left;padding: 4px 10px;">
                 <img src="{!! URL::to('/') . '/images/plane_icon_gray.png' !!}" style="height: 10px"> PENGIRIM 
             </td>
-            <td style="width: 73%; font-size: 9px; padding: 4px 10px;">
+            <td style="width: 73%; font-size: 9px; padding: 4px 10px; vertical-align: top;">
                 <span style="color: #000">{{ $data->shipper_first_name . ' ' . $data->shipper_last_name }}</span> <br>
                 <span style="color: #000"> {{$data->shipper_mobile_phone}}</span><br>
                 <span style="color: #000">{{ $data->shipper_address }}</span>   
@@ -421,15 +448,15 @@
         </tr>
     </table>
     <table style="width: 300px; border: solid 1px #777; background: rgba(0, 0, 0, .0); font-family: Arial">
-        <tr>
+        <tr style=" height: 90px;">
             <td style="width: 27%; margin-right: 2px; font-weight: bold; font-size: 8px; vertical-align: top; text-align: left;padding: 4px 10px;">
                 <img src="{!! URL::to('/') . '/images/shipment_icon_gray.png' !!}" style="height: 10px"> PENERIMA
             </td>
-            <td style="width: 73%; font-size: 9px; padding: 4px 10px;">
+            <td style="width: 73%; font-size: 9px; padding: 4px 10px; vertical-align: top;">
                 <div style="position : absolute; margin-top: 0px; margin-left : -4px; border-top: solid 1px; border-left: solid 1px; height: 10px; width: 10px;"></div>
                 <div style="position : absolute; margin-top: 0px; border-top: solid 1px; border-right: solid 1px; height: 10px; width: 10px; margin-left: 195px;"></div>
-                <div style="position : absolute; margin-top: 30px; margin-left : -4px; border-bottom: solid 1px; border-left: solid 1px; height: 10px; width: 10px;"></div>
-                <div style="position : absolute; margin-top: 30px; margin-left : 195px; border-bottom: solid 1px; border-right: solid 1px; height: 10px; width: 10px;"></div>
+                <div style="position : absolute; margin-top: 70px; margin-left : -4px; border-bottom: solid 1px; border-left: solid 1px; height: 10px; width: 10px;"></div>
+                <div style="position : absolute; margin-top: 70px; margin-left : 195px; border-bottom: solid 1px; border-right: solid 1px; height: 10px; width: 10px;"></div>
                 <span style="color: #000">{{ $data->consignee_first_name . ' ' . $data->shipper_last_name }}</span> <br>
                 <span style="color: #000"> {{$data->consignee_mobile_phone}}</span><br>
                 <span style="color: #000">{{ $data->consignee_address }}</span>   
@@ -438,13 +465,11 @@
     </table>
     <table style="width: 300px; border: solid 1px #777; background: rgba(0, 0, 0, .0); font-family: Arial">
         <tr>
-            <td style="width: 30%; vertical-align: top; text-align: left; border-right: solid 1px; padding-left: 6px; ">
+            <td style="width: 30%; vertical-align: top; text-align: left; border-right: solid 1px; padding-left: 6px; vertical-align: bottom;">
                 <span style="font-weight: bold; font-size: 8px;">DOWNLOAD <hr style="display: block; margin-top: -10px; margin-bottom: 0px; visibility: hidden;">OUR FREE APPS</span><br/>
-                <center>
-                    <div style=" padding-top: 2px; ">
-                        <img src="{!! URL::to('/') . '/images/gs.jpg' !!}" height="30px;">   
+                    <div style=" padding-top: 2px; margin-left: -1px; margin-bottom: 2px;">
+                        <img src="{!! URL::to('/') . '/images/gs.jpg' !!}" height="45px;">   
                     </div>
-                </center>
             </td>
             <td style="width: 70%;">
                 <img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(300)->margin(0)->merge('/public/images/logoqr.png',.25)->encoding('UTF-8')->errorCorrection('H')->generate($data->shipment_id)) !!}" style="width: 100%;">
@@ -467,7 +492,10 @@
         <!-- /small modal -->
         <script>
         $('.select-search').select2();
-        $('.pickadate-year').datepicker({format: 'yyyy-mm-dd',});
+        $('.pickadate-year').datepicker({
+            format: 'yyyy-mm-dd',
+            startDate: date,
+        });
         $('.pickatime').timepicker({
             template : 'dropdown',
             showInputs: false,
@@ -557,11 +585,11 @@
         </tr>\
     </table>\
     <table style="width: 300px; border: solid 1px #777; background: rgba(0, 0, 0, .0); font-family: Arial">\
-        <tr>\
-           <td style="width: 27%; margin-right: 2px; font-weight: bold; font-size: 8px; vertical-align: top; text-align: left;padding: 4px 10px;">\
+        <tr style=" height: 90px;">\
+            <td style="width: 27%; margin-right: 2px; font-weight: bold; font-size: 8px; vertical-align: top; text-align: left;padding: 4px 10px;">\
                 <img src="{!! URL::to('/') . '/images/plane_icon_gray.png' !!}" style="height: 10px"> PENGIRIM \
             </td>\
-            <td style="width: 75%; font-size: 9px; padding: 4px 10px;">\
+            <td style="width: 73%; font-size: 9px; padding: 4px 10px; vertical-align: top;">\
                 <span style="color: #000">{{ $data->shipper_first_name . ' ' . $data->shipper_last_name }}</span> <br>\
                 <span style="color: #000"> {{$data->shipper_mobile_phone}}</span><br>\
                 <span style="color: #000">{{ $data->shipper_address }}</span>   \
@@ -569,16 +597,16 @@
         </tr>\
     </table>\
     <table style="width: 300px; border: solid 1px #777; background: rgba(0, 0, 0, .0); font-family: Arial">\
-        <tr>\
+        <tr style=" height: 90px;">\
             <td style="width: 27%; margin-right: 2px; font-weight: bold; font-size: 8px; vertical-align: top; text-align: left;padding: 4px 10px;">\
                 <img src="{!! URL::to('/') . '/images/shipment_icon_gray.png' !!}" style="height: 10px"> PENERIMA\
             </td>\
-            <td style="width: 73%; font-size: 9px; padding: 4px 10px;">\
+            <td style="width: 73%; font-size: 9px; padding: 4px 10px; vertical-align: top;">\
                 <div style="position : absolute; margin-top: 0px; margin-left : -4px; border-top: solid 1px; border-left: solid 1px; height: 10px; width: 10px;"></div>\
                 <div style="position : absolute; margin-top: 0px; border-top: solid 1px; border-right: solid 1px; height: 10px; width: 10px; margin-left: 195px;"></div>\
-                <div style="position : absolute; margin-top: 30px; margin-left : -4px; border-bottom: solid 1px; border-left: solid 1px; height: 10px; width: 10px;"></div>\
-                <div style="position : absolute; margin-top: 30px; margin-left : 195px; border-bottom: solid 1px; border-right: solid 1px; height: 10px; width: 10px;"></div>\
-                <span style="color: #000">{{ $data->consignee_first_name . ' ' . $data->consignee_last_name }}</span> <br>\
+                <div style="position : absolute; margin-top: 70px; margin-left : -4px; border-bottom: solid 1px; border-left: solid 1px; height: 10px; width: 10px;"></div>\
+                <div style="position : absolute; margin-top: 70px; margin-left : 195px; border-bottom: solid 1px; border-right: solid 1px; height: 10px; width: 10px;"></div>\
+                <span style="color: #000">{{ $data->consignee_first_name . ' ' . $data->shipper_last_name }}</span> <br>\
                 <span style="color: #000"> {{$data->consignee_mobile_phone}}</span><br>\
                 <span style="color: #000">{{ $data->consignee_address }}</span>   \
             </td>\
@@ -586,13 +614,11 @@
     </table>\
     <table style="width: 300px; border: solid 1px #777; background: rgba(0, 0, 0, .0); font-family: Arial">\
         <tr>\
-            <td style="width: 30%; vertical-align: top; text-align: left; border-right: solid 1px; padding-left: 6px; ">\
+            <td style="width: 30%; vertical-align: top; text-align: left; border-right: solid 1px; padding-left: 6px; vertical-align: bottom;">\
                 <span style="font-weight: bold; font-size: 8px;">DOWNLOAD <hr style="display: block; margin-top: -10px; margin-bottom: 0px; visibility: hidden;">OUR FREE APPS</span><br/>\
-                <center>\
-                    <div style=" padding-top: 2px; ">\
-                        <img src="{!! URL::to('/') . '/images/gs.jpg' !!}" height="30px;">   \
+                    <div style=" padding-top: 2px; margin-left: -1px; margin-bottom: 2px;">\
+                        <img src="{!! URL::to('/') . '/images/gs.jpg' !!}" height="45px;">  \ 
                     </div>\
-                </center>\
             </td>\
             <td style="width: 70%;">\
                 <img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(300)->margin(0)->merge('/public/images/logoqr.png',.25)->encoding('UTF-8')->errorCorrection('H')->generate($data->shipment_id)) !!}" style="width: 100%;">\

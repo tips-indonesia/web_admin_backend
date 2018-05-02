@@ -109,7 +109,6 @@
             $('.select-search').select2();
             $('.pickadate-year').datepicker({
                 format: 'yyyy-mm-dd',
-                startDate: date,
             });
             $('#param').on('select2:select', function() {
                 if ($('#param').val() == 'pickup_status') {

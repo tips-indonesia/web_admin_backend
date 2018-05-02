@@ -225,9 +225,27 @@ class MenuTableSeeder extends Seeder
             ]);
 
             MenuList::create([
+                'name' => 'Banner',
+                'menu_parent_id' => $setting->id,
+                'class_name' => 'banner.'
+            ]);
+
+            MenuList::create([
                 'name' => 'Promotions',
                 'menu_parent_id' => $setting->id,
                 'class_name' => 'promotions.'
+            ]);
+
+            MenuList::create([
+                'name' => 'Referral',
+                'menu_parent_id' => $setting->id,
+                'class_name' => 'referral.'
+            ]);
+
+            MenuList::create([
+                'name' => 'Cron Timer',
+                'menu_parent_id' => $setting->id,
+                'class_name' => 'crontimer.'
             ]);
 
             $user = MenuList::create([

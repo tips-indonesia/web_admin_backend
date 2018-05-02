@@ -99,8 +99,8 @@ class ShipmentPickUpAdminController extends Controller
                     $data['data'] = Shipment::find($id);
                     $shipment = Shipment::find($id);
         $data['provinces'] = ProvinceList::all();
-        $data['citys'] = CityList::where('id_province', $data['data']->id_shipper_province)->get();
-        $data['subdistricts'] = SubdistrictList::where('id_city', $data['data']->id_shipper_city)->get();
+        $data['citys'] = CityList::all();
+        $data['subdistricts'] = SubdistrictList::all();
         $data['cities'] = AirportcityList::all();
         $data['shipment_statuses'] = ShipmentStatus::all();
         $data['users'] = User::where('is_worker', 1)
@@ -131,8 +131,8 @@ class ShipmentPickUpAdminController extends Controller
             return Redirect::to(route('shipmentpickups.show', $id));
         }
         $data['provinces'] = ProvinceList::all();
-        $data['citys'] = CityList::where('id_province', $data['data']->id_shipper_province)->get();
-        $data['subdistricts'] = SubdistrictList::where('id_city', $data['data']->id_shipper_city)->get();
+        $data['citys'] = CityList::all();
+        $data['subdistricts'] = SubdistrictList::all();
         $data['cities'] = AirportcityList::all();
         $data['shipment_statuses'] = ShipmentStatus::all();
         $data['users'] = User::where('is_worker', 1)
@@ -185,7 +185,7 @@ class ShipmentPickUpAdminController extends Controller
                 $shipment->save();
             }
             Session::flash('message', 'Successfully created nerd!');
-            return Redirect::to(route('shipmentpickups.index'));
+            return back();
         }
     }
 
