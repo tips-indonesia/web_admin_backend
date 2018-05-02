@@ -10,7 +10,6 @@ use App\BankList;
 use App\PaymentType;
 use App\Transaction;
 use App\EspayNotification;
-use App\Shipment;
 use Storage;
 
 class PaymentController extends Controller
@@ -102,7 +101,7 @@ class PaymentController extends Controller
             $datetime = $data['datetime'];
 
         return "$code;$message;$order_id;$amount;$currency;$description;$datetime";
-        return "$code;$message,$RECONCILE_CODE,$order_id,$datetime";
+        // return "$code;$message,$RECONCILE_CODE,$order_id,$datetime";
     }
 
     private function generateSGOEspayResponseNotification($data, $isOK){
@@ -142,7 +141,7 @@ class PaymentController extends Controller
         }else{
 
             $transaction_id = $request->order_id;
-            $transaction = Shipment::where('payment_id', $transaction_id)->first();
+            $transaction = Transaction::where('payment_id', $transaction_id)->first();
 
             if(sizeof($transaction) == 0){
                 $data = $this->generateSGOEspayTemplate(array(
@@ -178,7 +177,7 @@ class PaymentController extends Controller
         }else{
 
             $transaction_id = $request->order_id;
-            $transaction = Shipment::where('payment_id', $transaction_id)->first();
+            $transaction = Transaction::where('payment_id', $transaction_id)->first();
 
             if(sizeof($transaction) == 0){
                 $data = $this->generateSGOEspayResponseNotification(array(
@@ -266,7 +265,7 @@ class PaymentController extends Controller
         if(!$request->payment_id)
             return 'payment_id parameter can not be null';
 
-        $transaction = Shipment::where('payment_id', $request->payment_id)->get();
+        $transaction = Transaction::where('payment_id', $request->payment_id)->get();
 
         if(sizeof($transaction) == 0)
             return 'payment_id not found, make sure payment_id is correct';
