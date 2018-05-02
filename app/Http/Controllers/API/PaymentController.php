@@ -169,7 +169,7 @@ class PaymentController extends Controller
                     "order_id"  => $transaction_id,
                     "amount"    => number_format($shipment_with_transaction->real_weight 
                         + $shipment_with_transaction->flight_cost, 2, ".", ""),
-                    "description"   => "Pembayaran oleh : " . $transaction->shipper_first_name
+                    "description"   => "Pembayaran oleh : " . $shipment_with_transaction->shipper_first_name
                 );
                 $data = $this->generateSGOEspayTemplate($data_to_go);
             }
