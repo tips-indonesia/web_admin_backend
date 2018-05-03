@@ -42,7 +42,7 @@ class UserController extends Controller
                     $member_list->profil_picture = url('/image/profil_picture').'/'.$member_list->profil_picture;
                 }
                 if($member_list->ref_code == null){
-                    $member_list->ref_code = $this->generateReferalCode();
+                    $member_list->ref_code = $this->generateReferalCode($member_list);
                     $member_list->save();
                 }
                 $member_list->is_member = true;
