@@ -249,7 +249,7 @@
                             <td style="font-size:15px; background-color: black; color: white; border-top: solid 1px black; border-bottom: solid 1px black; padding-left: 15px; padding-right: 15px;">\
                                 <span id="slot_id">Slot {{ $slot->slot_id }}</span>\
                             </td>\
-                            <td style="width: 65%;border-top: solid 1px; border-bottom: solid 1px;">\
+                            <td style="width: 59%;border-top: solid 1px; border-bottom: solid 1px;">\
                                 &nbsp;\
                             </td>\
                         </tr>\

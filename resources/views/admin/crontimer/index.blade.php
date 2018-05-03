@@ -4,7 +4,7 @@
     Insurance
 @endsection
 @section('page_title')
-    <span class="text-semibold">Insurance</span>
+    <span class="text-semibold">Cron Timer</span>
 @endsection
 @section('content')
     <!-- Vertical form options -->
