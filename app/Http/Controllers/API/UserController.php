@@ -43,7 +43,7 @@ class UserController extends Controller
                 }
                 if($member_list->ref_code == null){
                     $member_list->ref_code = $this->generateReferalCode();
-                    $member_list->save()
+                    $member_list->save();
                 }
                 $member_list->is_member = true;
                 $member_list->money = $this->getMoney($member_list->id);
