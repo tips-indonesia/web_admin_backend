@@ -113,6 +113,14 @@ class ShipmentController extends Controller
             }
         }
 
+        // FOR NAME
+        $shipment->shipper_first_name = $request->shipper_first_name;
+        if($request->has('espay_payment_code')) {
+            if($request->espay_payment_code != null && $request->espay_payment_code != ""){
+                $shipment->payment_id = $request->espay_payment_code;
+            }
+        }
+
         $shipment->id_payment_type = $request->id_payment_type;
         $shipment->shipment_contents = $request->shipment_contents;
         $shipment->estimate_goods_value = $price_goods_estimate->price_estimate;
@@ -143,7 +151,6 @@ class ShipmentController extends Controller
 
         $shipment->is_delivery = $request->is_delivery;
         $shipment->is_take = $request->is_take;
-        $shipment->payment_id = "TIPS" . strtoupper("" . uniqid());
 
         if($request->has('shipper_address_detail')) {
             if($request->shipper_address_detail != null && $request->shipper_address_detail != ""){

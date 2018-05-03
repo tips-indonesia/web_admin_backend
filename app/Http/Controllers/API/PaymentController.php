@@ -17,17 +17,6 @@ class PaymentController extends Controller
 {
     //
     function list_type_payment() {
-//        $bank_list_init = BankList::all();
-//        $cards = [];
-//
-//        foreach ($bank_list_init as $bank) {
-//            foreach (BankCardList::where('id_bank', $bank->id)->get() as $card) {
-//                $card->name = $bank->name.' - '.$card->name;
-//                array_push($cards, $card);
-//            }
-//
-//        }
-
         $payment_type = PaymentType::all();
 
         $data = array(
@@ -167,8 +156,7 @@ class PaymentController extends Controller
                     "code"      => 0,
                     "message"   => "Success",
                     "order_id"  => $transaction_id,
-                    "amount"    => number_format($shipment_with_transaction->real_weight 
-                        + $shipment_with_transaction->flight_cost, 2, ".", ""),
+                    "amount"    => number_format($transaction->amount, 2, ".", ""),
                     "description"   => "Pembayaran oleh : " . $shipment_with_transaction->shipper_first_name
                 );
                 $data = $this->generateSGOEspayTemplate($data_to_go);
@@ -223,7 +211,6 @@ class PaymentController extends Controller
             return response()->json($data, 200);
         }
 
-
         $transaction = Transaction::create(array(
             "payment_id" => $id,
             "user_id" => $request->user_id,
@@ -251,6 +238,32 @@ class PaymentController extends Controller
     }
 
     private function getStatusPayment($comm_code, $order_id){
+        $uuid = "TIPS-SR-" . strtoupper("" . uniqid());
+        
+        date_default_timezone_set("Asia/Jakarta");
+        $date       = date_create(now());
+        $datetime   = date_format($date, 'd/m/Y H:i:s');
+
+        $signature = $this->generateSignature($datetime, $order_id);
+        $header = array(
+            "Content-Type: application/x-www-form-urlencoded"
+        );
+        $context = stream_context_create(array(
+            "http" => array(
+                "method" => "POST",
+                "header" => implode("\r\n", $header),
+                "content" => "uuid=$uuid&rq_datetime=$datetime&comm_code=$comm_code&order_id=$order_id&signature=$signature",
+            ),
+        ));
+        $response = file_get_contents('https://sandbox-api.espay.id/rest/merchant/status', false, $context);
+        if (strpos($http_response_header[0], '200') === false) {
+            return http_response_code(500);
+        }else{
+            return $response;
+        }
+    }
+
+    private function getInquiryMerchantInfo_BankList($comm_code, $order_id){
         $uuid = "TIPS-SR-" . strtoupper("" . uniqid());
         
         date_default_timezone_set("Asia/Jakarta");
