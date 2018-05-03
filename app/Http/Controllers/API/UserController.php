@@ -41,6 +41,10 @@ class UserController extends Controller
                 if($member_list->profil_picture){
                     $member_list->profil_picture = url('/image/profil_picture').'/'.$member_list->profil_picture;
                 }
+                if($member_list->ref_code == null){
+                    $member_list->ref_code = $this->generateReferalCode();
+                    $member_list->save()
+                }
                 $member_list->is_member = true;
                 $member_list->money = $this->getMoney($member_list->id);
                 $data = array(
@@ -55,6 +59,11 @@ class UserController extends Controller
 
     private function generateCode($n){
         return rand(10**($n - 1), 10**$n - 1);
+    }
+
+    private function generateReferalCode($user){
+        $three_random_number = sprintf("%03d", rand(0, 999));
+        return strtolower(substr($user->first_name, 0, 3)) . strtolower(substr($user->last_name, 0, 1)) . $three_random_number . 't';
     }
 
     function register(Request $request) {

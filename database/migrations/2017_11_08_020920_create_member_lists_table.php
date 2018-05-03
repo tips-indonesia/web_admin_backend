@@ -36,6 +36,7 @@ class CreateMemberListsTable extends Migration
             $table->integer('promotion_id_used')->nullable();
             $table->integer('is_worker')->default(0);
             $table->integer('id_office')->nullable();
+            $table->string('ref_code')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
