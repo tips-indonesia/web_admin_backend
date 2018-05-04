@@ -494,8 +494,8 @@
         <script>
         $('.form-control select-search').select2();
         $('.pickadate-year').datepicker({
+            startDate: new Date,
             format: 'yyyy-mm-dd',
-            startDate: date,
         });
         $('.pickatime').timepicker({
             template : 'dropdown',
@@ -568,7 +568,7 @@
                 </div>    \
             </td>\
             <td style="width: 17%; padding: 4px 10px;">\
-                <img src="{!! URL::to('/') . '/images/logoqr.png' !!}" style="height: 40px;">\
+                <img src="{{ asset('images/logoqr.png') }}" style="height: 40px;">\
                 <center><span style="font-size: 8px;">tips.co.id</span></center>\
             </td>\
         </tr>\
@@ -576,7 +576,7 @@
     <table style="width: 300px; border: solid 1px #777; background: rgba(0, 0, 0, .0); font-family: Arial">\
         <tr style=" height: 90px;">\
             <td style="width: 27%; margin-right: 2px; font-weight: bold; font-size: 8px; vertical-align: top; text-align: left;padding: 4px 10px;">\
-                <img src="{!! URL::to('/') . '/images/plane_icon_gray.png' !!}" style="height: 10px"> PENGIRIM \
+                <img src="{{ asset('/images/plane_icon_gray.png') }}" style="height: 10px"> PENGIRIM \
             </td>\
             <td style="width: 73%; font-size: 9px; padding: 4px 10px; vertical-align: top;">\
                 <span style="color: #000">{{ $data->shipper_first_name . ' ' . $data->shipper_last_name }}</span> <br>\
@@ -588,13 +588,13 @@
     <table style="width: 300px; border: solid 1px #777; background: rgba(0, 0, 0, .0); font-family: Arial">\
         <tr style=" height: 90px;">\
             <td style="width: 27%; margin-right: 2px; font-weight: bold; font-size: 8px; vertical-align: top; text-align: left;padding: 4px 10px;">\
-                <img src="{!! URL::to('/') . '/images/shipment_icon_gray.png' !!}" style="height: 10px"> PENERIMA\
+                <img src="{{ asset('/images/shipment_icon_gray.png') }}" style="height: 10px"> PENERIMA\
             </td>\
             <td style="width: 73%; font-size: 9px; padding: 4px 10px; vertical-align: top;">\
-                <div style="position : absolute; margin-top: 0px; margin-left : -4px; border-top: solid 1px; border-left: solid 1px; height: 10px; width: 10px;"></div>\
-                <div style="position : absolute; margin-top: 0px; border-top: solid 1px; border-right: solid 1px; height: 10px; width: 10px; margin-left: 195px;"></div>\
+                <div style="position : absolute; margin-top: -2px; margin-left : -4px; border-top: solid 1px; border-left: solid 1px; height: 10px; width: 10px;"></div>\
+                <div style="position : absolute; margin-top: -2px; border-top: solid 1px; border-right: solid 1px; height: 10px; width: 10px; margin-left: 190px;"></div>\
                 <div style="position : absolute; margin-top: 70px; margin-left : -4px; border-bottom: solid 1px; border-left: solid 1px; height: 10px; width: 10px;"></div>\
-                <div style="position : absolute; margin-top: 70px; margin-left : 195px; border-bottom: solid 1px; border-right: solid 1px; height: 10px; width: 10px;"></div>\
+                <div style="position : absolute; margin-top: 70px; margin-left : 190px; border-bottom: solid 1px; border-right: solid 1px; height: 10px; width: 10px;"></div>\
                 <span style="color: #000">{{ $data->consignee_first_name . ' ' . $data->shipper_last_name }}</span> <br>\
                 <span style="color: #000"> {{$data->consignee_mobile_phone}}</span><br>\
                 <span style="color: #000">{{ $data->consignee_address }}</span>   \
@@ -606,7 +606,7 @@
             <td style="width: 30%; vertical-align: top; text-align: left; border-right: solid 1px; padding-left: 6px; vertical-align: bottom;">\
                 <span style="font-weight: bold; font-size: 8px;">DOWNLOAD <hr style="display: block; margin-top: -10px; margin-bottom: 0px; visibility: hidden;">OUR FREE APPS</span><br/>\
                     <div style=" padding-top: 2px; margin-left: -1px; margin-bottom: 2px;">\
-                        <img src="{!! URL::to('/') . '/images/gs.jpg' !!}" height="45px;">  \ 
+                        <img src="{{ asset('/images/gs.jpg') }}" style="height: 45px;">\
                     </div>\
             </td>\
             <td style="width: 70%;">\
