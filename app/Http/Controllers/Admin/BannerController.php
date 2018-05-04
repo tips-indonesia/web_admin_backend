@@ -9,6 +9,7 @@ use Validator;
 use Auth;
 use Illuminate\Support\Facades\Input;
 use App\HomeBanner;
+use Illuminate\Support\Facades\Storage;
 
 class BannerController extends Controller
 {
@@ -38,6 +39,7 @@ class BannerController extends Controller
     public function update(Request $request, $id) {
      	$banner = HomeBanner::find($id);
         if($request->hasFile('image')) {
+                unlink(storage_path('/app/public/banner/'.$banner->file_name));
                 $avatar = $request->file('image');
                 $filename = $banner->file_name;
                 $avatar->storeAs('public/banner',$filename);
