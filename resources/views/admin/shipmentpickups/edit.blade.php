@@ -45,7 +45,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Origin City :</label>
-                                    <select name="origin_city" class="select-search" disabled readonly>
+                                    <select name="origin_city" class="form-control select-search" disabled readonly>
                                         <option disabled selected></option>
                                         @foreach ($cities as $origin_city)
                                             <option value="{{ $origin_city->id }}" @if ($data->id_origin_city == $origin_city->id) selected @endif>{{ $origin_city->name }}</option>
@@ -56,7 +56,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Destination City :</label>
-                                    <select name="destination_city" class="select-search" disabled readonly>
+                                    <select name="destination_city" class="form-control select-search" disabled readonly>
                                         <option disabled selected></option>
                                         @foreach ($cities as $destination_city)
                                             <option value="{{ $destination_city->id }}"@if ($data->id_destination_city == $destination_city->id) selected @endif>{{ $destination_city->name }}</option>
@@ -101,7 +101,7 @@
                         </div-->
                         <div class="form-group">
                             <label>Shipment Status :</label>
-                            <select name="shipment_status" class="select-search" disabled readonly>
+                            <select name="shipment_status" class="form-control select-search" disabled readonly>
                                 <option disabled selected></option>
                                 @foreach ($shipment_statuses as $shipment_status)
                                     <option value="{{ $shipment_status->id }}" @if($data->id_shipment_status == $shipment_status->id) selected @endif>{{ $shipment_status->description }}</option>
@@ -130,7 +130,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label>Pickup By :</label>
-                                    <select name="pickup_by" class="select-search"  >
+                                    <select name="pickup_by" class="form-control select-search"  >
                                         <option disabled></option>
                                         @foreach ($users as $user)
                                             <option value="{{ $user->id }}" @if ($data->pickup_by == $user->id) selected @endif>{{ $user->first_name }} {{ $user->last_name }}</option>
@@ -194,7 +194,7 @@
                                             </div>
                                             <div class="form-group">
                                                 <label>Province :</label>
-                                                <select name="shipper_province" id="sprovince" class="select-search" disabled="" readonly>
+                                                <select name="shipper_province" id="sprovince" class="form-control select-search" disabled="" readonly>
                                                     <option disabled></option>
                                                     @foreach ($provinces as $province)
                                                         <option value="{{ $province->id }}" {{$province->id==$data->id_shipper_province? 'selected' : ''}}>{{ $province->name }}</option>
@@ -203,7 +203,7 @@
                                             </div>
                                             <div class="form-group">
                                                 <label>City :</label>
-                                                <select name="shipper_city" id="scity" class="select-search" disabled="" readonly>
+                                                <select name="shipper_city" id="scity" class="form-control select-search" disabled="" readonly>
                                                     <option disabled></option>
                                                     @foreach ($citys as $city)
                                                         <option value="{{ $city->id }}" {{$city->id==$data->id_shipper_city ? 'selected' : ''}}>{{ $city->name }}</option>
@@ -212,7 +212,7 @@
                                             </div>
                                             <div class="form-group">
                                                 <label>Subdistrict :</label>
-                                                <select name="shipper_subdistrict" id="ssubdistrict" class="select-search" disabled="" readonly>
+                                                <select name="shipper_subdistrict" id="ssubdistrict" class="form-control select-search" disabled="" readonly>
                                                     <option disabled ></option>
                                                     @foreach ($subdistricts as $city)
                                                         <option value="{{ $city->id }}" {{$city->id==$data->id_shipper_districts ? 'selected' : ''}}>{{ $city->name }}</option>
@@ -252,7 +252,7 @@
                                             </div>
                                             <div class="form-group">
                                                 <label>Province :</label>
-                                                <select name="consignee_province" id="cprovince" class="select-search" disabled="" readonly>
+                                                <select name="consignee_province" id="cprovince" class="form-control select-search" disabled="" readonly>
                                                     <option disabled></option>
                                                     @foreach ($provinces as $province)
                                                         <option value="{{ $province->id }}" {{$province->id==$data->id_consignee_province? 'selected' : ''}}>{{ $province->name }}</option>
@@ -261,7 +261,7 @@
                                             </div>
                                             <div class="form-group">
                                                 <label>City :</label>
-                                                <select name="consignee_city" id="ccity" class="select-search" disabled="" readonly>
+                                                <select name="consignee_city" id="ccity" class="form-control select-search" disabled="" readonly>
                                                     <option disabled></option>
                                                     @foreach ($citys as $city)
                                                         <option value="{{ $city->id }}" {{$city->id==$data->id_consignee_city ? 'selected' : ''}}>{{ $city->name }}</option>
@@ -270,7 +270,7 @@
                                             </div>
                                             <div class="form-group">
                                                 <label>Subdistrict :</label>
-                                                <select name="consignee_subdistrict" id="csubdistrict" class="select-search" disabled="" readonly>
+                                                <select name="consignee_subdistrict" id="csubdistrict" class="form-control select-search" disabled="" readonly>
                                                     <option disabled ></option>
                                                     @foreach ($subdistricts as $city)
                                                         <option value="{{ $city->id }}" {{$city->id==$data->id_consignee_districts ? 'selected' : ''}}>{{ $city->name }}</option>
@@ -338,7 +338,7 @@
                                 <div class="tab-pane" id="payment">
                                     <div class="form-group">
                                         <label>Payment Type :</label>
-                                        <select name="payment_type" class="select-search" id="payment_type" disabled readonly>
+                                        <select name="payment_type" class="form-control select-search" id="payment_type" disabled readonly>
                                             <option disabled selected></option>
                                             @foreach ($payment_types as $payment_type)
                                                 <option value="{{ $payment_type->id }}" @if($data->id_payment_type == $payment_type->id) selected @endif >{{ $payment_type->name }}</option>
@@ -359,7 +359,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Bank Name :</label>
-                                        <select name="bank" class="select-search" id="bank" @if ($data->is_online_payment == 0) disabled @endif disabled readonly>
+                                        <select name="bank" class="form-control select-search" id="bank" @if ($data->is_online_payment == 0) disabled @endif disabled readonly>
                                             <option disabled selected></option>
                                             @foreach ($banklists as $bank)
                                                 <option value="{{ $bank->id }}" @if($data->id_bank == $bank->id) selected @endif>{{ $bank->name }}</option>
@@ -368,7 +368,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Card Type :</label>
-                                        <select name="card_type" class="select-search" id="card" @if ($data->is_online_payment == 0) disabled @endif disabled readonly>
+                                        <select name="card_type" class="form-control select-search" id="card" @if ($data->is_online_payment == 0) disabled @endif disabled readonly>
                                             <option disabled selected></option>
                                             @if ($data->is_online_payment == 1)
                                                 @foreach ($bankcardlists as $bankcard)
@@ -491,7 +491,7 @@
         </div>
         <!-- /small modal -->
         <script>
-        $('.select-search').select2();
+        $('.form-control select-search').select2();
         $('.pickadate-year').datepicker({
             format: 'yyyy-mm-dd',
             startDate: date,
