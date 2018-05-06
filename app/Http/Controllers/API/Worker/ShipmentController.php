@@ -102,9 +102,38 @@ class ShipmentController extends Controller
     function pickup(Request $request) {
 
         $shipment_id = $request->shipment_id;
+        $photo_signature = $request->file('photo_signature');
+
+        if($photo_signature == null || $shipment_id == null || $request->estimate_weight == null){
+            $data = array(
+                'err' => [
+                    'code' => 0,
+                    'message' => 'Foto shipment id, estimate weight, atau tanda tangan tidak boleh kosong'
+                ],
+                'result' => null
+            );
+
+            return response()->json($data, 400);
+        }
+
+        // save photo to storage and get photo url
+        // ##########
+        // BEGIN
+        // #
+        $data_img_signature = $photo_signature;
+        $ext_file_signature = $data_img_signature->getClientOriginalExtension();
+        $name_file_signature = "" . uniqid() . '_img_item.' . $ext_file_signature;
+        $path_file_signature = public_path() . '/image/shipment/signature';
+
+        $photo_ttd_url = "";
+        if($data_img_signature->move($path_file_signature, $name_file_signature)) {
+            $photo_ttd_url = URL::to('/image/shipment/signature/' . $name_file_signature);
+        }
+        // #
+        // END
+        // ##########
+
         $shipment = Shipment::where('shipment_id', $shipment_id)->where('status_dispatch','<>','Canceled')->first();
-
-
         if($shipment == null) {
             $data = array(
                 'err' => [
@@ -123,8 +152,7 @@ class ShipmentController extends Controller
             $shipment_status = ShipmentStatus::find($shipment->id_shipment_status);
             $shipment->origin_city = AirportcityList::find($shipment->id_origin_city);
             $shipment->destination_city = AirportcityList::find($shipment->id_destination_city);
-
-
+            $shipment->pickup_signature = $photo_ttd_url;
 
             $data = array(
                 'err' => null,
