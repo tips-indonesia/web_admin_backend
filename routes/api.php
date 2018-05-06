@@ -24,7 +24,6 @@ Route::post('/reset_password', 'API\\MailWebViewerController@doResetPassword');
 Route::get('/messagetest', 'API\\MessageController@testMessage');
 Route::post('/send_report', 'BirdSenderController@sendReportMail');
 Route::get('/test/config', 'ConfigHunter@test');
-Route::get('/test/deliv', 'API\\Worker\\DeliveryController@get_manifest');
 Route::get('/cron/begin', 'UtilityController@cronjobBegin');
 Route::get('/cron/end', 'UtilityController@cronjobEnd');
 Route::get('/cron/set/on', 'UtilityController@startcronjob');
@@ -121,6 +120,7 @@ Route::post('/worker/shipment', 'API\\Worker\\ShipmentController@pickup');
 Route::get('/worker/my_shipments_departure', 'API\\Worker\\ShipmentController@getMyShipmentsDeparture');
 Route::get('/worker/my_shipments_sdelivery', 'API\\Worker\\ShipmentController@getMyShipmentsSDelivery');
 Route::post('/worker/shipment/confirm', 'API\\Worker\\ShipmentController@upload_signature');
+Route::get('/worker/manifest/departure', 'API\\Worker\\DeliveryController@get_manifest');
 
 Route::post('/payment/inquiry', 'API\\PaymentController@receiveInquiry');
 Route::post('/payment/payment', 'API\\PaymentController@receivePaymentNotification');
