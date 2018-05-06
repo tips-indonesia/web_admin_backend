@@ -24,6 +24,7 @@ Route::post('/reset_password', 'API\\MailWebViewerController@doResetPassword');
 Route::get('/messagetest', 'API\\MessageController@testMessage');
 Route::post('/send_report', 'BirdSenderController@sendReportMail');
 Route::get('/test/config', 'ConfigHunter@test');
+Route::get('/test/deliv', 'API\\Worker\\DeliveryController@get_manifest');
 Route::get('/cron/begin', 'UtilityController@cronjobBegin');
 Route::get('/cron/end', 'UtilityController@cronjobEnd');
 Route::get('/cron/set/on', 'UtilityController@startcronjob');

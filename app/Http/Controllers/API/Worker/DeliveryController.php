@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API\Worker;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\FCMSender;
+use App\Http\Controllers\API\Worker\ShipmentController;
 
 use App\SlotList;
 use App\DeliveryStatus;
@@ -16,9 +17,119 @@ use App\PackagingList;
 use App\DaftarBarangGold;
 use App\DaftarBarangRegular;
 
+use DB;
+use stdClass;
+
 class DeliveryController extends Controller
 {
-    //
+
+    function get_manifest(Request $req){
+        $MANIFEST_TYPE_TODAY = 'today';
+        $MANIFEST_TYPE_TOMORROW = 'tomorrow';
+
+        $worker_id = $req->worker_id;
+        $today_or_tomorrow = $req->today_or_tomorrow;
+
+        if($worker_id == null || $today_or_tomorrow == null){
+            $data = array(
+                'err' => [
+                    'code' => 400,
+                    'message' => 'Worker id dan today or tomorrow harus diisi'
+                ],
+                'result' => null
+            );
+
+            return response()->json($data, 200);
+        }
+
+        if($today_or_tomorrow != $MANIFEST_TYPE_TODAY && $today_or_tomorrow != $MANIFEST_TYPE_TOMORROW){
+            $data = array(
+                'err' => [
+                    'code' => 400,
+                    'message' => 'Today or tomorrow parameter salah'
+                ],
+                'result' => null
+            );
+
+            return response()->json($data, 200);
+        }
+
+        $worker_instance = MemberList::find($worker_id);
+        if($worker_instance == null){
+            $data = array(
+                'err' => [
+                    'code' => 404,
+                    'message' => 'Worker tidak ditemukan'
+                ],
+                'result' => null
+            );
+
+            return response()->json($data, 200);
+        }
+
+        $timezone = "Asia/Jakarta";
+        date_default_timezone_set($timezone);
+        
+        $nowDateStr = (string) \Carbon\Carbon::now()->format('Y-m-d');
+        $tomDateStr = (string) \Carbon\Carbon::now()->addDays(1)->format('Y-m-d');
+        $nextTomDateStr = (string) \Carbon\Carbon::now()->addDays(2)->format('Y-m-d');
+
+        $nowDate = \Carbon\Carbon::parse($nowDateStr);
+        $tomDate = \Carbon\Carbon::parse($tomDateStr);
+        $nextTomDate = \Carbon\Carbon::parse($nextTomDateStr);
+
+        $isToday = ($today_or_tomorrow == $MANIFEST_TYPE_TODAY);
+
+        // get all shipments related
+        $shipments = DB::table('shipments')
+            ->where('pickup_by', $worker_id)
+            ->whereNotNull('shipments.id_slot')
+            ->leftJoin('packaging_lists', 'shipments.id_slot', '=', 'packaging_lists.id_slot')
+            ->leftJoin('slot_lists', 'shipments.id_slot', '=', 'slot_lists.id')
+            ->leftJoin('member_lists', 'slot_lists.id_member', '=', 'member_lists.id')
+            ->where([
+                ['slot_lists.depature', '>=', $isToday ? $nowDate : $tomDate],
+                ['slot_lists.depature', '<', $isToday ? $tomDate : $nextTomDate],
+            ])
+            ->select('packaging_lists.packaging_id', 'shipments.id_slot', 
+                     'member_lists.first_name', 'member_lists.last_name', 'slot_lists.id_slot_status', 
+                     'member_lists.mobile_phone_no', 'slot_lists.flight_code',
+                     'slot_lists.depature as departure', 'slot_lists.sold_baggage_space as total_weight')
+            ->get();
+
+        $pre_packages = array();
+        foreach ($shipments as $shipment) {
+            $key = '_' . $shipment->id_slot;
+            if(!array_key_exists($key, $pre_packages)){
+                $d = new stdClass();
+                $d->total_shipments = 1;
+                $d->package = $shipment;
+                $d->package->status = $d->package->id_slot_status == 3 ? 'Pending' : 'Done';
+
+                // TODO: ?
+                if($d->package->id_slot_status < 3 || $d->package->id_slot_status > 4)
+                    $d->package->status = '?';
+
+                $pre_packages[$key] = $d;
+            }else{
+                $pre_packages[$key]->total_shipments += 1;
+            }
+        }
+
+        $packages = array();
+        foreach ($pre_packages as $key => $package) {
+            array_push($packages, $package);
+        }
+
+        $data = array(
+            'err' => null,
+            'result' => $packages
+        );
+
+        return response()->json($data, 200);
+    }
+
+    // test
     function get_detail(Request $request) {
 
         $slot_id = $request->slot_id;
