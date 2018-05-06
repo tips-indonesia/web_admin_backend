@@ -146,13 +146,13 @@ class ShipmentController extends Controller
             $shipment->real_weight = $request->estimate_weight;
             $shipment->status_dispatch = "Process";
             $shipment->id_shipment_status = 3;
+            $shipment->pickup_signature = $photo_ttd_url;
             $shipment->save();
 
             $shipment = Shipment::where('shipment_id', $shipment_id)->first();
             $shipment_status = ShipmentStatus::find($shipment->id_shipment_status);
             $shipment->origin_city = AirportcityList::find($shipment->id_origin_city);
             $shipment->destination_city = AirportcityList::find($shipment->id_destination_city);
-            $shipment->pickup_signature = $photo_ttd_url;
 
             $data = array(
                 'err' => null,
