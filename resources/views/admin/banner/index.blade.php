@@ -5,7 +5,7 @@
 @endsection
 @section('page_title')
 <span class="text-semibold">Home Banner</span>
-<button type="button" class="btn btn-success" onclick="window.location.href='{{ route('banner.create') }}'">Create</button>
+
 @endsection
 @section('content')
 	<div class="row">
