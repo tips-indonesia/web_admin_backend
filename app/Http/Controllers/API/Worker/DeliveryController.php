@@ -84,9 +84,10 @@ class DeliveryController extends Controller
         $shipments = DB::table('shipments')
             ->where('pickup_by', $worker_id)
             ->whereNotNull('shipments.id_slot')
-            ->leftJoin('packaging_lists', 'shipments.id_slot', '=', 'packaging_lists.id_slot')
             ->leftJoin('slot_lists', 'shipments.id_slot', '=', 'slot_lists.id')
+            ->leftJoin('packaging_lists', 'slot_lists.id', '=', 'packaging_lists.id_slot')
             ->leftJoin('member_lists', 'slot_lists.id_member', '=', 'member_lists.id')
+            ->whereNotNull('packaging_lists.id_slot')
             ->where([
                 ['slot_lists.depature', '>=', $isToday ? $nowDate : $tomDate],
                 ['slot_lists.depature', '<', $isToday ? $tomDate : $nextTomDate],
@@ -97,6 +98,7 @@ class DeliveryController extends Controller
                      'slot_lists.depature as departure', 'slot_lists.sold_baggage_space as total_weight')
             ->get();
 
+        // dd($shipments);
         $pre_packages = array();
         foreach ($shipments as $shipment) {
             $key = '_' . $shipment->id_slot;
