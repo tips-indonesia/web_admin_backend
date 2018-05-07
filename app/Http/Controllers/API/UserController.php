@@ -611,6 +611,7 @@ class UserController extends Controller
         }
 
         $member->mobile_phone_no = $phoneNo;
+        $member->sms_code = $this->generateCode(6);
         $member->save();
 
         $data = array(
