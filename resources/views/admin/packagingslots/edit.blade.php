@@ -231,25 +231,25 @@
                 color-adjust: exact !important;                 /*Firefox*/\
         }\
         </style>\
-        <div style="width:370px; border:1px solid black; margin-left:20px; margin-right:20px;" >\
+        <div style="width:270px; border:1px solid black;" >\
                     <table style="width: 100%;">\
                         <tr>\
                             <td>\
-                                <img src="{{ asset('images/logoqr.png') }}" style="float:right; width: 120px; height: 120px; margin-bottom: 50px;">\
+                                <img src="{{ asset('images/logoqr.png') }}" style="float:right; width: 80px; height: 80px; margin-bottom: 30px;">\
                             </td>\
                         </tr>\
                         <tr>\
                             <td>\
-                                <h1 style="font-weight: 900; padding-left: 15px;">{{ $data->packaging_id }}</h1>\
+                                <h1 style="font-size: 24px; padding-left: 15px;">{{ $data->packaging_id }}</h1>\
                             </td>\
                         </tr>\
                     </table>\
                     <table style="margin-top: -20px; width: 100%;">\
                         <tr>\
-                            <td style="font-size:15px; background-color: black; color: white; border-top: solid 1px black; border-bottom: solid 1px black; padding-left: 15px; padding-right: 15px;">\
+                            <td style="font-size:12px; background-color: black; color: white; border-top: solid 1px black; border-bottom: solid 1px black; padding-left: 15px; padding-right: 15px;">\
                                 <span id="slot_id">Slot {{ $slot->slot_id }}</span>\
                             </td>\
-                            <td style="width: 59%;border-top: solid 1px; border-bottom: solid 1px;">\
+                            <td style="width: 57%;border-top: solid 1px; border-bottom: solid 1px;">\
                                 &nbsp;\
                             </td>\
                         </tr>\
@@ -289,10 +289,11 @@
                                 :\
                             </td>\
                             <td class="bot">\
-                                <div style="position : absolute; margin-top: 0px; margin-left : -4px; border-top: solid 1.5px; border-left: solid 1.5px; height: 10px; width: 10px;"></div>\
-                                <div style="position : absolute; margin-top: 0px; border-top: solid 1.5px; border-right: solid 1.5px; height: 10px; width: 10px; margin-left: 255px;"></div>\
-                                <div style="position : absolute; margin-top: 25px; margin-left : -4px; border-bottom: solid 1.5px; border-left: solid 1.5px; height: 10px; width: 10px;"></div>\
-                                <div style="position : absolute; margin-top: 25px; margin-left : 255px; border-bottom: solid 1.5px; border-right: solid 1.5px; height: 10px; width: 10px;"></div>\
+                                <div style="position : absolute; margin-top: 0px; margin-left : -4px; border-top: solid 1px; border-left: solid 1px; height: 10px; width: 10px;"></div>\
+                                <div style="position : absolute; margin-top: 0px; border-top: solid 1px; border-right: solid 1px; height: 10px; width: 10px; margin-left: 168px;"></div>\
+                                <div style="position : absolute; margin-top: 0px; height: 10px; width: 10px; margin-left: 255px;"></div>\
+                                <div style="position : absolute; margin-top: 35px; margin-left : -4px; border-bottom: solid 1px; border-left: solid 1px; height: 10px; width: 10px;"></div>\
+                                <div style="position : absolute; margin-top: 35px; margin-left : 168px; border-bottom: solid 1px; border-right: solid 1px; height: 10px; width: 10px;"></div>\
                                 <span id="destination1">'+v1+'</span>\
                             </td>\
                         </tr>\

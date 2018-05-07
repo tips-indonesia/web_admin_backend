@@ -83,7 +83,9 @@ class PackagingSlotAdminController extends Controller
         foreach ($data['datas2'] as $dat) {
             // if($o == 1)
             //     dd(json_encode($dat), Shipment::where('id_slot', $dat->id));
-            $dat['weight'] = Shipment::where('id_slot', $dat->id)->first()->estimate_weight;
+            if (Shipment::where('id_slot', $dat->id)->first() != null)
+                $dat['weight'] = Shipment::where('id_slot', $dat->id)->first()->estimate_weight;
+            else $dat['weight'] = null;
             $dat['origin'] = AirportList::find($dat->id_origin_airport)->name;
             $dat['destination'] = AirportList::find($dat->id_destination_airport)->name;
             $o++;

@@ -23,14 +23,18 @@ class BannerController extends Controller
         $filename;
         if($request->hasFile('image')) {
                 $avatar = $request->file('image');
-                $filename = uniqid(). '.'. $avatar->getClientOriginalExtension();
+                $filename = $avatar->getClientOriginalName();
                 $avatar->storeAs('public/banner',$filename);
         }
         \Log::info($filename);
         
-        DB::table('home_banner')->insert(
-            ['file_name' => $filename]
-        );
+        // DB::table('home_banner')->insert(
+        //     ['file_name' => $filename]
+        // );
+        $bann = new HomeBanner;
+        $bann->file_name = $filename;
+
+        $bann->save();
 
         return redirect('admin/banner');
 
@@ -41,8 +45,13 @@ class BannerController extends Controller
         if($request->hasFile('image')) {
                 unlink(storage_path('/app/public/banner/'.$banner->file_name));
                 $avatar = $request->file('image');
-                $filename = $banner->file_name;
+                $filename = $avatar->getClientOriginalName();
+
+                $banner->file_name = $filename;
+                $banner->save();
+
                 $avatar->storeAs('public/banner',$filename);
+
         }
 
         \Log::info($filename);
