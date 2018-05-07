@@ -129,36 +129,33 @@ class PromotionController extends Controller
         return $promo;
     }
 
-    // public function getIklan() {
-    // 	if (isset($_GET['id_user'])) {
-    // 		// Dunno what to do
-    // 	} else {
-    // 		// Dunno what to do
-    // 	}
+    public function getReferalCodeDetail(Request $req){
+        if(!$req->ref_code)
+            return response()->json([
+                'err' => [
+                    "code" => 400,
+                    "message" => "paramter ref_code is required"
+                ],
+                'result' => null
+            ], 200);
 
-    // 	$iklans = Banner::all();
-    // 	$res = array();
+        $user = MemberList::where('ref_code', $req->ref_code)->first();
+        if(!$user)
+            return response()->json([
+                'err' => [
+                    "code" => 404,
+                    "message" => "ref code not found"
+                ],
+                'result' => null
+            ], 200);
 
-    //     foreach($iklans as $promo) {
-    //         $dum = [
-    //             'id' => $promo->id,
-    //             'start_date' => $promo->start_date,
-    //             'end_date' => $promo->end_date,
-    //             'header' => $promo->header,
-    //             'template_type' => $promo->template_type,
-    //             'discount' => $promo->discount,
-    //             'img_src' => URL::to('storage/promotions/'.$promo->filename),
-    //         ];
-    //         array_push($res, $dum);
-    //     }
-
-    // 	$data = array(
-    // 		'err' => null,
-    // 		'result' => [
-    // 			'iklan' => $res
-    // 		]
-    // 	);
-
-    // 	return response()->json($data, 200);	
-    // }
+        $data = [
+            'err' => null,
+            'result' => [
+                'ref_code' => $req->ref_code,
+                'amount' => 50000
+            ]
+        ];
+        return response()->json($data, 200);
+    }
 }

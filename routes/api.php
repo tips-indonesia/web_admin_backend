@@ -40,6 +40,8 @@ Route::get('/pesan/{id_user}/{id_pesan}', 'API\\MessageController@getPesanSpesif
 
 Route::post('/send_email', 'BirdSenderController@APIEmailSender');
 
+Route::get('/referal', 'API\\PromotionController@getReferalCodeDetail');
+
 // + Acknowledgement +
 // dua method dibawah ini merepresentasikan proses yang sama,
 // terdapat issue CORS pada web app jika menggunakan method DELETE
