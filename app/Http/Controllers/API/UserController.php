@@ -614,6 +614,8 @@ class UserController extends Controller
         $member->sms_code = $this->generateCode(6);
         $member->save();
 
+        $out = SMSSender::kirim($phoneNo, rawurlencode("TIPS App: Your code is " . $sms_code));
+
         $data = array(
             'err' => null,
             'result' => [
