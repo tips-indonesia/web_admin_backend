@@ -126,6 +126,11 @@ class UserController extends Controller
 
             $member_list->sms_code = $sms_code;
 
+            if($member_list->ref_code == null){
+                $member_list->ref_code = $this->generateReferalCode($member_list);
+                $member_list->save();
+            }
+
             $member_list->save();
             unset($member_list['password']);
 
@@ -359,6 +364,11 @@ class UserController extends Controller
                 $member_list->address = $request->address;
             }
 
+            if($member_list->ref_code == null){
+                $member_list->ref_code = $this->generateReferalCode($member_list);
+                $member_list->save();
+            }
+
             $member_list->save();
             $member_list = MemberList::where('fb_token', $request->fb_token)->first();
             $member_list->money = $this->getMoney($member_list->id);
@@ -429,6 +439,11 @@ class UserController extends Controller
 
             if($request->has('address')) {
                 $member_list->address = $request->address;
+            }
+            
+            if($member_list->ref_code == null){
+                $member_list->ref_code = $this->generateReferalCode($member_list);
+                $member_list->save();
             }
 
             $member_list->save();
