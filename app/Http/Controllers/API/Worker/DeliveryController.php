@@ -27,14 +27,18 @@ class DeliveryController extends Controller
         $MANIFEST_TYPE_TODAY = 'today';
         $MANIFEST_TYPE_TOMORROW = 'tomorrow';
 
+        $MANIFEST_TYPE_DEPARTURE = 'departure';
+        $MANIFEST_TYPE_ARRIVAL = 'arrival';
+
         $worker_id = $req->worker_id;
         $today_or_tomorrow = $req->today_or_tomorrow;
+        $departure_or_arrival = $req->departure_or_arrival;
 
-        if($worker_id == null || $today_or_tomorrow == null){
+        if($worker_id == null || $today_or_tomorrow == null || $departure_or_arrival == null){
             $data = array(
                 'err' => [
                     'code' => 400,
-                    'message' => 'Worker id dan today or tomorrow harus diisi'
+                    'message' => 'Worker id, today or tomorrow, departure or arrival harus diisi'
                 ],
                 'result' => null
             );
@@ -47,6 +51,18 @@ class DeliveryController extends Controller
                 'err' => [
                     'code' => 400,
                     'message' => 'Today or tomorrow parameter salah'
+                ],
+                'result' => null
+            );
+
+            return response()->json($data, 200);
+        }
+
+        if($departure_or_arrival != $MANIFEST_TYPE_DEPARTURE && $departure_or_arrival != $MANIFEST_TYPE_ARRIVAL){
+            $data = array(
+                'err' => [
+                    'code' => 400,
+                    'message' => 'Departure or arrival parameter salah'
                 ],
                 'result' => null
             );
@@ -79,24 +95,51 @@ class DeliveryController extends Controller
         $nextTomDate = \Carbon\Carbon::parse($nextTomDateStr);
 
         $isToday = ($today_or_tomorrow == $MANIFEST_TYPE_TODAY);
+        $isDeparture = ($departure_or_arrival == $MANIFEST_TYPE_DEPARTURE);
 
         // get all shipments related
         $shipments = DB::table('shipments')
             ->where('pickup_by', $worker_id)
+            // filter null slot shipments
             ->whereNotNull('shipments.id_slot')
+
+
+            // get slot of shipments
             ->leftJoin('slot_lists', 'shipments.id_slot', '=', 'slot_lists.id')
+
+
+            // get packaging by slot
             ->leftJoin('packaging_lists', 'slot_lists.id', '=', 'packaging_lists.id_slot')
-            ->leftJoin('member_lists', 'slot_lists.id_member', '=', 'member_lists.id')
-            ->whereNotNull('packaging_lists.id_slot')
+            // filter null package
+            ->whereNotNull('packaging_lists.id')
+
+
+            // get worker that picking up the shipment
+            ->leftJoin('member_lists', $isDeparture ? 'shipments.pickup_by' : 'shipments.delivered_by', '=', 'member_lists.id')
+            // filter null worker
+            ->whereNotNull('member_lists.id')
+
+
+            // get office of worker
+            ->leftJoin('office_lists', 'member_lists.id_office', '=', 'office_lists.id')
+            // filter worker with null office
+            ->whereNotNull('office_lists.id')
+
+            // filter today or tomorrow
             ->where([
                 ['slot_lists.depature', '>=', $isToday ? $nowDate : $tomDate],
                 ['slot_lists.depature', '<', $isToday ? $tomDate : $nextTomDate],
             ])
+
+            // filter
+            ->whereColumn('office_lists.id_area', $isDeparture ? 'slot_lists.id_origin_city' : 'slot_lists.id_destination_city')
             ->select('packaging_lists.packaging_id', 'shipments.id_slot', 
                      'member_lists.first_name', 'member_lists.last_name', 'slot_lists.id_slot_status', 
                      'member_lists.mobile_phone_no', 'slot_lists.flight_code',
                      'slot_lists.depature as departure', 'slot_lists.sold_baggage_space as total_weight')
+            // ->toSql();
             ->get();
+        
 
         // dd($shipments);
         $pre_packages = array();
