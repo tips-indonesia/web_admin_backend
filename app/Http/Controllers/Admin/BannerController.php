@@ -28,9 +28,13 @@ class BannerController extends Controller
         }
         \Log::info($filename);
         
-        DB::table('home_banner')->insert(
-            ['file_name' => $filename]
-        );
+        // DB::table('home_banner')->insert(
+        //     ['file_name' => $filename]
+        // );
+        $bann = new HomeBanner;
+        $bann->file_name = $filename;
+
+        $bann->save();
 
         return redirect('admin/banner');
 
