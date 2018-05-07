@@ -221,7 +221,7 @@ class UserController extends Controller
             $data = array(
                 'err' => [
                     'code' => 1,
-                    'message' => "Your phone number has verified"
+                    'message' => "Your phone number has been verified, please login using this number"
                 ],
                 'result' => null
             );
@@ -559,5 +559,66 @@ class UserController extends Controller
 
         }
         return response()->json($member, 200);
+    }
+
+    public function verifyFBTwitterPN(Request $req){
+        $memberId = $req->member_id;
+        $phoneNo = $req->mobile_phone_no;
+
+        $member_pn = MemberList::where('mobile_phone_no', $phoneNo)->where('sms_code', -1)->first();
+        if($member_pn){
+            $data = array(
+                'err' => [
+                    'code' => 401,
+                    'message' => '[PNVFD] terdapat kesalahan, silahkan hubungi administrator TIPS'
+                ],
+                'result' => null
+            );
+            return response()->json($data, 200);
+        }
+
+        if($memberId == null || $phoneNo == null){
+            $data = array(
+                'err' => [
+                    'code' => 400,
+                    'message' => 'paramter member id dan phone no wajib diisi'
+                ],
+                'result' => null
+            );
+            return response()->json($data, 200);
+        }
+
+        $member = MemberList::find($memberId);
+        if(!$member){
+            $data = array(
+                'err' => [
+                    'code' => 404,
+                    'message' => '[USRNF] terdapat kesalahan, silahkan hubungi administrator TIPS'
+                ],
+                'result' => null
+            );
+            return response()->json($data, 200);
+        }
+        if($member->sms_code == -1){
+            $data = array(
+                'err' => [
+                    'code' => 401,
+                    'message' => '[USPVD] terdapat kesalahan, silahkan hubungi administrator TIPS'
+                ],
+                'result' => null
+            );
+            return response()->json($data, 200);
+        }
+
+        $member->mobile_phone_no = $phoneNo;
+        $member->save();
+
+        $data = array(
+            'err' => null,
+            'result' => [
+                'mobile_phone_no' => $member->mobile_phone_no
+            ]
+        );
+        return response()->json($data, 200);
     }
 }

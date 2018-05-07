@@ -56,6 +56,7 @@ Route::post('/login', 'API\\UserController@login');
 Route::post('/login/device', 'API\\UserController@deviceRegisterOrLogin');
 Route::post('/login/fb', 'API\\UserController@actionFB');
 Route::post('/login/twitter', 'API\\UserController@actionTwitter');
+Route::post('/login/fb_twitter_pn_verify', 'API\\UserController@verifyFBTwitterPN');
 
 Route::get('/payment/bank', 'API\\PaymentController@bank_list');
 Route::get('/payment', 'API\\PaymentController@list_type_payment');
