@@ -585,7 +585,7 @@
         </tr>\
     </table>\
     <table style="width: 250px; border: solid 1px #777; background: rgba(0, 0, 0, .0); font-family: Arial">\
-        <tr style=" height: 85px;">\
+        <tr style="height: 75px;">\
             <td style="width: 27%; margin-right: 2px; font-weight: bold; font-size: 8px; vertical-align: top; text-align: left;padding: 4px 10px;">\
                 <img src="{{ asset('/images/plane_icon_gray.png') }}" style="height: 10px"> PENGIRIM \
             </td>\
@@ -597,16 +597,16 @@
         </tr>\
     </table>\
     <table style="width: 250px; border: solid 1px #777; background: rgba(0, 0, 0, .0); font-family: Arial">\
-        <tr style=" height: 85px;">\
+        <tr style="height: 75px;">\
             <td style="width: 27%; margin-right: 2px; font-weight: bold; font-size: 8px; vertical-align: top; text-align: left;padding: 4px 10px;">\
                 <img src="{{ asset('/images/shipment_icon_gray.png') }}" style="height: 10px"> PENERIMA\
             </td>\
             <td style="width: 73%; font-size: 9px; padding: 4px 10px; vertical-align: top;">\
                 <div style="position : absolute; margin-top: -2px; margin-left : -4px; border-top: solid 1px; border-left: solid 1px; height: 10px; width: 10px;"></div>\
                 <div style="position : absolute; margin-top: -2px; border-top: solid 1px; border-right: solid 1px; height: 10px; width: 10px; margin-left: 155px;"></div>\
-                 <div style="position : absolute; margin-top: -2px; height: 10px; width: 10px; margin-left: 180px;"></div>\
-                <div style="position : absolute; margin-top: 70px; margin-left : -4px; border-bottom: solid 1px; border-left: solid 1px; height: 10px; width: 10px;"></div>\
-                <div style="position : absolute; margin-top: 70px; margin-left : 155px; border-bottom: solid 1px; border-right: solid 1px; height: 10px; width: 10px;"></div>\
+                 <div style="position : absolute; margin-top: -2px; height: 10px; width: 10px; margin-left: 175px;"></div>\
+                <div style="position : absolute; margin-top: 60px; margin-left : -4px; border-bottom: solid 1px; border-left: solid 1px; height: 10px; width: 10px;"></div>\
+                <div style="position : absolute; margin-top: 60px; margin-left : 155px; border-bottom: solid 1px; border-right: solid 1px; height: 10px; width: 10px;"></div>\
                 <span style="color: #000">{{ $data->consignee_first_name . ' ' . $data->shipper_last_name }}</span> <br>\
                 <span style="color: #000"> {{$data->consignee_mobile_phone}}</span><br>\
                 <span style="color: #000">{{ $data->consignee_address }}</span>   \
