@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Promotion;
+use App\PromotionMember;
 use App\MemberList;
 use App\Banner;
 use Illuminate\Support\Facades\URL;
@@ -108,8 +109,10 @@ class PromotionController extends Controller
             return response()->json($data, 200);
         }
 
-        $user->promotion_id_used = $id_promo;
-        $user->save();
+        $new_promo_member = PromotionMember::create([
+            'id_promotion' => $promo->id,
+            'id_member' => $user->id
+        ]);
 
         $data = array(
             'err' => null,
