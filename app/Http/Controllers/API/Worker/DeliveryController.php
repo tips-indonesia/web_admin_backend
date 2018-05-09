@@ -86,9 +86,9 @@ class DeliveryController extends Controller
         $timezone = "Asia/Jakarta";
         date_default_timezone_set($timezone);
         
-        $nowDateStr = (string) \Carbon\Carbon::now()->format('Y-m-d');
-        $tomDateStr = (string) \Carbon\Carbon::now()->addDays(1)->format('Y-m-d');
-        $nextTomDateStr = (string) \Carbon\Carbon::now()->addDays(2)->format('Y-m-d');
+        $nowDateStr = (string) \Carbon\Carbon::now()->format('d/m/Y');
+        $tomDateStr = (string) \Carbon\Carbon::now()->addDays(1)->format('d/m/Y');
+        $nextTomDateStr = (string) \Carbon\Carbon::now()->addDays(2)->format('d/m/Y');
 
         $nowDate = \Carbon\Carbon::parse($nowDateStr);
         $tomDate = \Carbon\Carbon::parse($tomDateStr);
@@ -98,77 +98,63 @@ class DeliveryController extends Controller
         $isDeparture = ($departure_or_arrival == $MANIFEST_TYPE_DEPARTURE);
 
         // get all shipments related
-        $shipments = DB::table('shipments')
-            ->where('pickup_by', $worker_id)
-            // filter null slot shipments
-            ->whereNotNull('shipments.id_slot')
+        // $shipments = DB::table('shipments')
+        //     ->where('pickup_by', $worker_id)
+        //     // filter null slot shipments
+        //     ->whereNotNull('shipments.id_slot')
 
 
-            // get slot of shipments
-            ->leftJoin('slot_lists', 'shipments.id_slot', '=', 'slot_lists.id')
+        //     // get slot of shipments
+        //     ->leftJoin('slot_lists', 'shipments.id_slot', '=', 'slot_lists.id')
 
 
-            // get packaging by slot
-            ->leftJoin('packaging_lists', 'slot_lists.id', '=', 'packaging_lists.id_slot')
-            // filter null package
-            ->whereNotNull('packaging_lists.id')
+        //     // get packaging by slot
+        //     ->leftJoin('packaging_lists', 'slot_lists.id', '=', 'packaging_lists.id_slot')
+        //     // filter null package
+        //     ->whereNotNull('packaging_lists.id')
 
 
-            // get worker that picking up the shipment
-            ->leftJoin('member_lists', $isDeparture ? 'shipments.pickup_by' : 'shipments.delivered_by', '=', 'member_lists.id')
-            // filter null worker
-            ->whereNotNull('member_lists.id')
+        //     // get worker that picking up the shipment
+        //     ->leftJoin('member_lists', $isDeparture ? 'shipments.pickup_by' : 'shipments.delivered_by', '=', 'member_lists.id')
+        //     // filter null worker
+        //     ->whereNotNull('member_lists.id')
 
 
-            // get office of worker
-            ->leftJoin('office_lists', 'member_lists.id_office', '=', 'office_lists.id')
-            // filter worker with null office
-            ->whereNotNull('office_lists.id')
+        //     // get office of worker
+        //     ->leftJoin('office_lists', 'member_lists.id_office', '=', 'office_lists.id')
+        //     // filter worker with null office
+        //     ->whereNotNull('office_lists.id')
 
-            // filter today or tomorrow
-            ->where([
-                ['slot_lists.depature', '>=', $isToday ? $nowDate : $tomDate],
-                ['slot_lists.depature', '<', $isToday ? $tomDate : $nextTomDate],
-            ])
+        //     // filter today or tomorrow
+        //     ->where([
+        //         ['slot_lists.depature', '>=', $isToday ? $nowDate : $tomDate],
+        //         ['slot_lists.depature', '<', $isToday ? $tomDate : $nextTomDate],
+        //     ])
 
-            // filter
-            ->whereColumn('office_lists.id_area', $isDeparture ? 'slot_lists.id_origin_city' : 'slot_lists.id_destination_city')
-            ->select('packaging_lists.packaging_id', 'shipments.id_slot', 
-                     'member_lists.first_name', 'member_lists.last_name', 'slot_lists.id_slot_status', 
-                     'member_lists.mobile_phone_no', 'slot_lists.flight_code',
-                     'slot_lists.depature as departure', 'slot_lists.sold_baggage_space as total_weight')
-            // ->toSql();
-            ->get();
-        
+        //     // filter
+        //     ->whereColumn('office_lists.id_area', $isDeparture ? 'slot_lists.id_origin_city' : 'slot_lists.id_destination_city')
+        //     ->select('packaging_lists.packaging_id', 'shipments.id_slot', 
+        //              'member_lists.first_name', 'member_lists.last_name', 'slot_lists.id_slot_status', 
+        //              'member_lists.mobile_phone_no', 'slot_lists.flight_code',
+        //              'slot_lists.depature as departure', 'slot_lists.sold_baggage_space as total_weight')
+        //     // ->toSql();
+        //     ->get();
 
-        // dd($shipments);
-        $pre_packages = array();
-        foreach ($shipments as $shipment) {
-            $key = '_' . $shipment->id_slot;
-            if(!array_key_exists($key, $pre_packages)){
-                $d = new stdClass();
-                $d->total_shipments = 1;
-                $d->package = $shipment;
-                $d->package->status = $d->package->id_slot_status == 3 ? 'Pending' : 'Done';
+        // dd($nowDateStr);
+        $slot_packages = DB::select(DB::raw("select packaging_lists.packaging_id, packaging_lists.id_slot, slot_lists.first_name, slot_lists.last_name, slot_lists.id_slot_status, slot_lists.flight_code, (select count(*) from shipments where id_slot = slot_lists.id) as total_shipment, slot_lists.id_origin_city, slot_lists.id_member, slot_lists.depature from packaging_lists inner join slot_lists on slot_lists.id = packaging_lists.id_slot where slot_lists." . ($isDeparture ? 'id_origin_city' : 'id_destination_city') . " = (select id_area from office_lists where id = (select id_office from member_lists where member_lists.id = :workerId)) and DATE_FORMAT(slot_lists.depature,'%d/%m/%Y') = '" . ($isToday ? $nowDateStr : $tomDateStr) . "'"), 
+            array(
+                'workerId' => $worker_id
+            ));
 
-                // TODO: ?
-                if($d->package->id_slot_status < 3 || $d->package->id_slot_status > 4)
-                    $d->package->status = '?';
-
-                $pre_packages[$key] = $d;
-            }else{
-                $pre_packages[$key]->total_shipments += 1;
-            }
-        }
-
-        $packages = array();
-        foreach ($pre_packages as $key => $package) {
-            array_push($packages, $package);
+        foreach ($slot_packages as $sp) {
+            $sp->status = $sp->id_slot_status == 3 ? 'Pending' : 'Done';
+            if($sp->id_slot_status < 3 || $sp->id_slot_status > 4)
+                    $sp->status = '?';
         }
 
         $data = array(
             'err' => null,
-            'result' => $packages
+            'result' => $slot_packages
         );
 
         return response()->json($data, 200);
