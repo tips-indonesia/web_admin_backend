@@ -113,6 +113,9 @@ class PromotionController extends Controller
             'id_promotion' => $promo->id,
             'id_member' => $user->id
         ]);
+        
+        $user->promotion_id_used = $id_promo;
+        $user->save();
 
         $data = array(
             'err' => null,
