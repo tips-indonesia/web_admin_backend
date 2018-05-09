@@ -78,6 +78,7 @@ class GoodsController extends Controller
     }
 
     function get_insurance_price(Request $request) {
+        $id_user = $request->id_user;
         $id_price_good_estimate = $request->id_price_estimate;
         if(!$id_price_good_estimate){
             $data = array(
@@ -102,11 +103,23 @@ class GoodsController extends Controller
             return response()->json($data, 200);
         }
 
+        // NEW API, optional for back compability
+        $ratio_discount = 0.0;
+        if($id_user){
+            $promotion_available = PromotionController::getUserPromoOrNULL($id_user);
+            if($promotion_available['promo'] != null)
+                $ratio_discount = $promotion_available['promo']->discount_value / 100;
+        }
+
         $insurance = Insurance::first();
+        $insurance_price = ($insurance->default_insurance / 100) * $price_data->nominal;
         $data = array(
             'err' => null,
             'result' => array(
-                'price' => ($insurance->default_insurance / 100) * $price_data->nominal,
+                'price' => $insurance_price,
+                'addt_info' => [
+                    'discount' => (double) ($insurance_price * $ratio_discount)
+                ]
             )
         );
 

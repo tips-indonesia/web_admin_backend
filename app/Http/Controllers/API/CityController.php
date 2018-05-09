@@ -48,6 +48,7 @@ class CityController extends Controller
             $gold = $gold + (($gold * $insurance->default_insurance) /100);
             $discount = 0;
 
+            // NEW API, optional for back compability
             if($id_user){
                 $promotion_available = PromotionController::getUserPromoOrNULL($id_user);
                 if($promotion_available['promo'] != null)
