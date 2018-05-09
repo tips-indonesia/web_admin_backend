@@ -658,12 +658,14 @@ class UtilityController extends Controller
         $slot->id_slot_status = 2;
         $slot->save();
 
-        $bsc = new cURLFaker;
-        $email = $ms_user->email;
-        $nama = $ms_user->first_name . ' ' . $ms_user->last_name;
-        $antarcode = $slot->slot_id;
-        $waktu_30_menit_sebelumnya = date('Y-m-d H:i:s', strtotime($slot->depature) - (60 * 30));
-        $bsc->sendMailTipsterStep2($email, $nama, $antarcode, $waktu_30_menit_sebelumnya);
+        if($ms_user){
+            $bsc = new cURLFaker;
+            $email = $ms_user->email;
+            $nama = $ms_user->first_name . ' ' . $ms_user->last_name;
+            $antarcode = $slot->slot_id;
+            $waktu_30_menit_sebelumnya = date('Y-m-d H:i:s', strtotime($slot->depature) - (60 * 30));
+            $bsc->sendMailTipsterStep2($email, $nama, $antarcode, $waktu_30_menit_sebelumnya);
+        }
 
         return response()->json([
             "err" => null,

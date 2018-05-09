@@ -195,11 +195,13 @@ class ShipmentController extends Controller
         }
 
         $bsc = new cURLFaker;
-        $email = $ms_user->email;
-        $nama = $ms_user->first_name . ' ' . $ms_user->last_name;
-        $kirimcode = $shipment_out->shipment_id;
-        if($email)
-            $bsc->sendMailShipperStep1($email, $nama, $kirimcode, "+62 823 1777 6008");
+        if($ms_user){
+            $email = $ms_user->email;
+            $nama = $ms_user->first_name . ' ' . $ms_user->last_name;
+            $kirimcode = $shipment_out->shipment_id;
+            if($email)
+                $bsc->sendMailShipperStep1($email, $nama, $kirimcode, "+62 823 1777 6008");
+        }
 
         $data = array(
             'err' => null,
