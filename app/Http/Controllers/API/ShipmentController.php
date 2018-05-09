@@ -198,7 +198,8 @@ class ShipmentController extends Controller
         $email = $ms_user->email;
         $nama = $ms_user->first_name . ' ' . $ms_user->last_name;
         $kirimcode = $shipment_out->shipment_id;
-        $bsc->sendMailShipperStep1($email, $nama, $kirimcode, "+62 823 1777 6008");
+        if($email)
+            $bsc->sendMailShipperStep1($email, $nama, $kirimcode, "+62 823 1777 6008");
 
         $data = array(
             'err' => null,

@@ -233,7 +233,9 @@ class ShipmentController extends Controller
                 $nama = $ms_user->first_name . ' ' . $ms_user->last_name;
                 $kirimcode = $shipment_out->shipment_id;
                 $penerima = $shipment_out->received_by;
-                $bsc->sendMailShipperStep8($email, $nama, $kirimcode, $penerima);
+
+                if($email)
+                    $bsc->sendMailShipperStep8($email, $nama, $kirimcode, $penerima);
             }
 
             $data = array(

@@ -30,6 +30,7 @@ Route::get('/cron/set/on', 'UtilityController@startcronjob');
 Route::get('/cron/set/off', 'UtilityController@stopcronjob');
 Route::get('/fcmtest', 'FCMSender@testTopic');
 Route::get('/smstest', 'SMSSender@testSMS');
+Route::get('/tespromo', 'API\\PromotionController@testPromo2');
 Route::get('/scrapper_test/{booking_code}/{airport_code}/{date}/{first_name}/{last_name}', 'WebScrapper@testScrapper');
 Route::get('/tes', 'API\\VMEController@getAll');
 Route::get('/member_list', 'UtilityController@getMemberList');

@@ -113,7 +113,7 @@ class PromotionController extends Controller
             'id_promotion' => $promo->id,
             'id_member' => $user->id
         ]);
-        
+
         $user->promotion_id_used = $id_promo;
         $user->save();
 
@@ -133,6 +133,39 @@ class PromotionController extends Controller
             return false;
         
         return $promo;
+    }
+
+    static public function getUserPromoOrNULL($id_user){
+        $user = MemberList::find($id_user);
+        if(!$user)
+            return [
+                'promo' => null,
+                'reason' => 'User id = ' . $id_user . ' doesn\'t exist'
+            ];
+
+        $last_promo = PromotionMember::where('id_member', $id_user)->orderBy('id', 'desc')->first();
+        if(!$last_promo)
+            return [
+                'promo' => null,
+                'reason' => 'User id = ' . $id_user . ' never had any promotion'
+            ];
+
+        $end_date_promo = new \Carbon\Carbon($last_promo->promotion->end_date);
+        $end_date_promo->hour(23)->minute(59)->second(59);
+        if($end_date_promo->isPast())
+            return [
+                'promo' => null,
+                'reason' => 'Last promo of user id = ' . $id_user . ' has been expired on ' . $end_date_promo
+            ];
+
+        return [
+            'promo' => $last_promo->promotion,
+            'reason' => null
+        ];
+    }
+
+    public function testPromo2(){
+        return PromotionController::getUserPromoOrNULL(2);
     }
 
     public function getReferalCodeDetail(Request $req){
