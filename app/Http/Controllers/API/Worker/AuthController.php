@@ -30,8 +30,6 @@ class AuthController extends Controller
                     ],
                     'result' => null
                 );
-
-
             } else {
                 unset($user['password']);
                 $data = array(

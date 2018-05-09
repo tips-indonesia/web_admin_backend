@@ -9,6 +9,7 @@ use App\CityList;
 use App\PriceList;
 use App\AirportcityList;
 use App\Insurance;
+use App\Http\Controllers\API\PromotionController;
 
 class CityController extends Controller
 {
@@ -25,6 +26,7 @@ class CityController extends Controller
     }
 
     function get_price(Request $request) {
+        $id_user = $request->id_user;
         $id_origin_city = $request->id_origin_city;
         $id_destination_city = $request->id_destination_city;
         $price = PriceList::where('id_origin_city', $id_origin_city)->where('id_destination_city', $id_destination_city)->first();
@@ -44,6 +46,13 @@ class CityController extends Controller
             $reguler = $price->freight_cost;
             $gold = $price->freight_cost + $price->add_first_class;
             $gold = $gold + (($gold * $insurance->default_insurance) /100);
+            $discount = 0;
+
+            if($id_user){
+                $promotion_available = PromotionController::getUserPromoOrNULL($id_user);
+                if($promotion_available['promo'] != null)
+                    $discount = $reguler * ($promotion_available['promo']->discount_value / 100);
+            }
 
             $reguler = $this->round_nearest_hundreds($reguler);
             $gold = $this->round_nearest_hundreds($gold);
@@ -52,7 +61,10 @@ class CityController extends Controller
                 'err' => null,
                 'result' => [
                     'reguler' => (int) $reguler,
-                    'gold' => (int) $gold
+                    'gold' => (int) $gold,
+                    'addt_info' => [
+                        'discount' => (double) $discount
+                    ]
                 ]
             );
         }
