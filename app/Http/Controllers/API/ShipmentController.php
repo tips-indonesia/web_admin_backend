@@ -353,6 +353,16 @@ class ShipmentController extends Controller
     }
 
     function cancel_shipment(Request $request) {
+
+        // sekarang
+        // select * from shipments where id_shipper = X and id_shipment_status = 1 or shipment_id = Y
+
+        // seharusnya
+        // select * from shipments where shipment_id = Y
+
+        // 11 Mei 2018
+        // TODO: perbaiki nanti
+
         $shipment = Shipment::where('id_shipper', $request->id_shipper)->where('id_shipment_status', 1)->orWhere('shipment_id', $request->shipment_id)->first();
         if($shipment == null) {
             $data = array(

@@ -42,6 +42,7 @@ Route::get('/pesan/{id_user}/{id_pesan}', 'API\\MessageController@getPesanSpesif
 Route::post('/send_email', 'BirdSenderController@APIEmailSender');
 
 Route::get('/referal', 'API\\PromotionController@getReferalCodeDetail');
+Route::get('/referal/amount', 'API\\PromotionController@getReferalAmount');
 
 // + Acknowledgement +
 // dua method dibawah ini merepresentasikan proses yang sama,

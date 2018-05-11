@@ -8,6 +8,7 @@ use App\Promotion;
 use App\PromotionMember;
 use App\MemberList;
 use App\Banner;
+use App\Referral;
 use Illuminate\Support\Facades\URL;
 use DB;
 
@@ -193,6 +194,22 @@ class PromotionController extends Controller
             'result' => [
                 'ref_code' => $req->ref_code,
                 'amount' => 50000
+            ]
+        ];
+        return response()->json($data, 200);
+    }
+
+    public function getReferalAmount(Request $req){
+        $ref_data = Referral::first();
+        $amount = 0;
+        if($ref_data){
+            $amount = $ref_data->referred_amount;
+        }
+
+        $data = [
+            'err' => null,
+            'result' => [
+                'amount' => $amount
             ]
         ];
         return response()->json($data, 200);
