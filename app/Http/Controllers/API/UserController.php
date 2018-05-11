@@ -494,6 +494,7 @@ class UserController extends Controller
                 ],
                 'result' => null
             );
+            return response()->json($data, 200);
         } else if($member->sms_code == -1) {
             $data = array(
                 'err' => [
@@ -502,6 +503,7 @@ class UserController extends Controller
                 ],
                 'result' => null
             );
+            return response()->json($data, 200);
         } else {
             if($request->has('first_name')) {
                 if($request->first_name != null && $request->first_name != ''){
