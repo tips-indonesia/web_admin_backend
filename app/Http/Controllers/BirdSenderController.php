@@ -119,13 +119,14 @@ class BirdSenderController extends Controller
     }
 
     public function testMail(Request $req){
-        $destination    = "riochr17@gmail.com";
-        $subject        = "Test Emal Tips";
-        $template       = "mail.tes";
-        $data           = [
-            "nama" => "Rio"
-        ];
-        return BirdSenderController::sendEmail($destination, $subject, $template, $data);
+        // $destination    = "riochr17@gmail.com";
+        // $subject        = "Test Emal Tips";
+        // $template       = "mail.tes";
+        // $data           = [
+        //     "nama" => "Rio"
+        // ];
+        // return BirdSenderController::sendEmail($destination, $subject, $template, $data);
+        $this->sendMailTipsterStep2("riochr17@gmail.com", "Rio", "ZZZ111", "2018-05-10 12:00:00");
     }
 
     // ------------------------------
