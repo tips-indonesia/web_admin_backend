@@ -615,13 +615,13 @@
     </table>\
     <table style="width: 250px; border: solid 1px #777; background: rgba(0, 0, 0, .0); font-family: Arial">\
         <tr>\
-            <td style="width: 45%; vertical-align: top; text-align: left; border-right: solid 1px; padding-left: 6px; vertical-align: bottom;">\
+            <td style="width: 48%; vertical-align: top; text-align: left; border-right: solid 1px; padding-left: 6px; vertical-align: bottom;">\
                 <span style="font-weight: bold; font-size: 8px;">DOWNLOAD <hr style="display: block; margin-top: -10px; margin-bottom: 0px; visibility: hidden;">OUR FREE APPS</span><br/>\
                     <div style=" padding-top: 2px; margin-left: -1px; margin-bottom: 2px;">\
                         <img src="{{ asset('/images/gs.jpg') }}" style="height: 45px;">\
                     </div>\
             </td>\
-            <td style="width: 55%;">\
+            <td style="width: 52%;">\
                 <img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(300)->margin(0)->merge('/public/images/logoqr.png',.25)->encoding('UTF-8')->errorCorrection('H')->generate($data->shipment_id)) !!}" style="width: 100%;">\
             </td>\
         </tr>\
