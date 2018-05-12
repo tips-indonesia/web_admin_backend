@@ -162,22 +162,11 @@ class UserController extends Controller
             $member_list = new MemberList;
             $member_list->mobile_phone_no = $dev_identifier;
             $member_list->first_name = $dev_identifier;
-            $member_list->last_name = "";
+            $member_list->last_name = "device";
             $member_list->password = bcrypt($dev_identifier);
             $member_list->registered_date = date('Y-m-d');
 
-            if($request->has('birth_date')) {
-                $member_list->birth_date = date('Y-m-d', strtotime($request->birth_date));
-            }
-
-            if($request->has('id_city')) {
-                $member_list->id_city = $request->id_city;
-            }
-
-            if($request->has('address')) {
-                $member_list->address = $request->address;
-            }
-
+            // save if the device has token
             if($request->has('token')) {
                 $member_list->token = $request->token;
             }
@@ -190,11 +179,39 @@ class UserController extends Controller
                 'err' => null,
                 'result' => $member_list
             );
-
         }
 
         return response()->json($data, 200);
 
+    }
+
+    static function getAnonOrRegister($anon_id, $token){
+        $dev_identifier = 'dev-' . $anon_id;
+        $member_list = MemberList::where('mobile_phone_no', $dev_identifier)->first();
+
+        if($member_list == null){
+            $member_list = new MemberList;
+            $member_list->mobile_phone_no = $dev_identifier;
+            $member_list->first_name = $dev_identifier;
+            $member_list->last_name = "device";
+            $member_list->password = bcrypt($dev_identifier);
+            $member_list->registered_date = date('Y-m-d');
+
+            // save if the device has token
+            if($token != null) {
+                $member_list->token = $token;
+            }
+
+            $member_list->save();
+            unset($member_list['password']);
+            $member_list->money = (new UserController)->getMoney($member_list->id);
+        }
+
+        return $member_list;
+    }
+
+    public function testAnonRegisterLogin(Request $req){
+        return UserController::getAnonOrRegister($req->id, null);
     }
 
     public function verifyPhoneNumber(Request $request){
@@ -255,15 +272,6 @@ class UserController extends Controller
                 ],
                 'result' => null
             );
-        }else if($member_list->sms_code == -1){
-            // Kasus: sms code sudah pernah terverifikasi sebelumnya
-            $data = array(
-                'err' => [
-                    'code' => 1,
-                    'message' => "Your phone number has verified"
-                ],
-                'result' => null
-            );
         }else if($member_list->sms_code == null){
             // Kasus: sms code masih null di basis data (belum pernah di assign)
             $sms_code = $this->generateCode(6);
@@ -317,15 +325,14 @@ class UserController extends Controller
         }
      */
     function actionFB(Request $request) {
-        $member_list = MemberList::where('fb_token', $request->fb_token)->first();
+        $member_list = MemberList::where('uniq_social_id', $request->uniq_social_id)->first();
         if($member_list != null) {
             $data = array(
                 'err' => null,
                 'result' => $member_list
             );
         } else {
-            $member_list = MemberList::where('uniq_social_id', $request->uniq_social_id)->first();
-
+            
             if($member_list == null)
                 $member_list = new MemberList;
 
@@ -370,7 +377,6 @@ class UserController extends Controller
             }
 
             $member_list->save();
-            $member_list = MemberList::where('fb_token', $request->fb_token)->first();
             $member_list->money = $this->getMoney($member_list->id);
 
             $data = array(
@@ -394,14 +400,13 @@ class UserController extends Controller
         }
      */
     function actionTwitter(Request $request) {
-        $member_list = MemberList::where('twitter_token', $request->twitter_token)->first();
+        $member_list = MemberList::where('uniq_social_id', $request->uniq_social_id)->first();
         if($member_list != null) {
             $data = array(
                 'err' => null,
                 'result' => $member_list
             );
         } else {
-            $member_list = MemberList::where('uniq_social_id', $request->uniq_social_id)->first();
 
             if($member_list == null)
                 $member_list = new MemberList;
@@ -447,7 +452,6 @@ class UserController extends Controller
             }
 
             $member_list->save();
-            $member_list = MemberList::where('twitter_token', $request->twitter_token)->first();
             $member_list->money = $this->getMoney($member_list->id);
 
             $data = array(
@@ -576,6 +580,69 @@ class UserController extends Controller
 
         }
         return response()->json($member, 200);
+    }
+    public function verifyPhoneNumberForFacebookTwitter(Request $req){
+        $memberId = $req->member_id;
+        $phoneNo = $req->mobile_phone_no;
+        $uniqSocialId = $req->uniq_social_id;
+        $fbToken = $req->fb_token;
+        $twitterToken = $req->twitter_token;
+        $smsCode = $req->sms_code;
+
+        $isPhoneRegistered = true;
+        // 1. Cek apakah pengguna dengan no HP bersangkutan telah terdaftar
+        $member_list = MemberList::where('mobile_phone_no', $phoneNo)->first();
+        if(!$member_list){
+            // 1 => False. Jika tidak terdaftar maka ambil user fb/twitter 
+            //      yang sudah di daftarkan sebelumnya.
+            //      MemberList pada state ini tidak akan null,
+            //      karena user telah didaftarkan saat pertama kali
+            //      auth'd menggunakan facebook/twitter
+            $member_list = MemberList::find($memberId);
+            $isPhoneRegistered = false;
+        }else{
+            if($fbToken){
+                $member_list_will_delete = MemberList::where('uniq_social_id', $uniqSocialId)->where('mobile_phone_no', null)->first();
+                if($member_list_will_delete)
+                    $member_list_will_delete->delete();
+            }
+
+            if($twitterToken){
+                $member_list_will_delete = MemberList::where('uniq_social_id', $twitterToken)->where('mobile_phone_no', null)->first();
+                if($member_list_will_delete)
+                    $member_list_will_delete->delete();
+            }
+        }
+
+        $isSMSCodeValid = ($member_list->sms_code == $smsCode) || ($member_list->sms_code == -1);
+
+        if($isSMSCodeValid){
+            $member_list->sms_code = -1;
+            if($isPhoneRegistered){
+                $member_list->uniq_social_id = $uniqSocialId;
+                $member_list->fb_token = $fbToken;
+                $member_list->twitter_token = $twitterToken;
+            }else{
+                $member_list->mobile_phone_no = $phoneNo;
+            }
+
+            $member_list->save();
+            $data = array(
+                'err' => null,
+                'result' => true
+            );
+        }else{
+            // Kasus: kode sms verifikasi tidak sesuai dengan yang ada pada basis data
+            $data = array(
+                'err' => [
+                    'code' => 0,
+                    'message' => "SMS Code is invalid"
+                ],
+                'result' => null
+            );
+        }
+
+        return response()->json($data, 200);
     }
 
     public function verifyFBTwitterPN(Request $req){

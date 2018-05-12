@@ -25,132 +25,125 @@ use App\Http\Controllers\FCMSender;
 
 class ShipmentController extends Controller
 {
-    //
-    function submit(Request $request) {
-        $price_goods_estimate = PriceGoodsEstimate::find($request->id_estimate_goods_value);
+    public function saveShipment(Shipment $shipment){
 
-        $shipper_districts = SubdistrictList::find($request->id_shipper_district);
-        $consignee_districts = SubdistrictList::find($request->id_consignee_district);
-
-        $shipper_city = CityList::find($shipper_districts->id_city);
-        $consignee_city = CityList::find($consignee_districts->id_city);
-
-        $shipper_province = ProvinceList::find($shipper_city->id_province);
-        $consignee_province = ProvinceList::find($consignee_city->id_province);
-
-        $insurance = Insurance::first();
-        do{
-            $random_string = $this->generateRandomString();
-        }while(Shipment::where('shipment_id', $random_string)->first() != null);
-
-        $id_origin_city = $request->id_origin_city;
-        $id_destination_city = $request->id_destination_city;
-        $price = PriceList::where('id_origin_city', $id_origin_city)->where('id_destination_city', $id_destination_city)->first();
-
-        $shipment = new Shipment;
-        $shipment->shipment_id = $random_string;
-        $shipment->transaction_date = \Carbon\Carbon::now();
-        $shipment->id_origin_city = $request->id_origin_city;
-        $shipment->id_destination_city = $request->id_destination_city;
-        $shipment->is_first_class = $request->is_first_class;
-        $shipment->id_device = $request->id_device;
-        if($request->has('id_shipper')){
-            if($request->id_shipper != null && $request->id_shipper != ""){
-                $shipment->id_shipper = $request->id_shipper;
-            }
+        // request anonim akan menggunakan akun member yg telah 
+        // terdaftar sebelumnya atau dibuatkan akun baru
+        // sebagai pengenal
+        if($shipment->id_shipper == null){
+            // passing params:
+            //  mobile_phone_no  => id device
+            //  token            => token
+            $member_list = UserController::getAnonOrRegister($shipment->id_device, $shipment->token);
+            $shipment->id_shipper = $member_list->id;
         }
 
-
-        $shipment->id_consignee_districts   = $consignee_districts->id;
-        $shipment->consignee_districts      = $consignee_districts->name;
-        $shipment->id_consignee_city        = $consignee_city->id;
-        $shipment->consignee_city           = $consignee_city->name;
-        $shipment->id_consignee_province    = $consignee_province->id;
-        $shipment->consignee_province       = $consignee_province->name;
-        $shipment->consignee_postal_code    = $request->consignee_postal_code;
-        $shipment->consignee_address        = $request->consignee_address;
-        // WTF
-        $shipment->consignee_mobile_phone   = $request->consignee_mobile_phone;
-
-        $shipment->id_shipper_districts = $shipper_districts->id;
-        $shipment->shipper_districts    = $shipper_districts->name;
-        $shipment->id_shipper_city      = $shipper_city->id;
-        $shipment->shipper_city         = $shipper_city->name;
-        $shipment->id_shipper_province  = $shipper_province->id;
-        $shipment->shipper_province     = $shipper_province->name;
-        $shipment->shipper_postal_code  = $request->shipper_postal_code;
-        $shipment->shipper_address      = $request->shipper_address;
-        // WTF
-        $shipment->shipper_mobile_phone = $request->shipper_mobile_phone;
+        $shipment->save();
+        return $shipment;
+    }
 
 
-        // FOR GPS
+    function submit(Request $request) {
+
+
+        // =================================================
+        // BEGIN OF SUBMIT SHIPMENT
+        // =================================================
+
+        // 1. INITIAL STEP
+        // ---------------
+        // Instantiate new Shipment instance
+        $shipment = new Shipment;
+
+        // 1. A. PRIMER DATAS
+        // ------------------
+        $shipment->is_first_class               = $request->is_first_class;
+        $shipment->id_device                    = $request->id_device;
+        $shipment->id_origin_city               = $request->id_origin_city;
+        $shipment->id_destination_city          = $request->id_destination_city;
+        $shipment->id_payment_type              = $request->id_payment_type;
+        $shipment->shipment_contents            = $request->shipment_contents;
+        $shipment->estimate_weight              = $request->estimate_weight;
+        $shipment->is_add_insurance             = $request->is_add_insurance;
+        $shipment->shipper_first_name           = $request->shipper_first_name;
+        $shipment->consignee_first_name         = $request->consignee_first_name;
+        $shipment->is_delivery                  = $request->is_delivery;
+        $shipment->is_take                      = $request->is_take;
+
+        // 1. A. a. CONSIGNEE DATAS
+        // ------------------------
+        $shipment->consignee_postal_code        = $request->consignee_postal_code;
+        $shipment->consignee_address            = $request->consignee_address;
+        $shipment->consignee_mobile_phone       = $request->consignee_mobile_phone;
+
+        // 1. A. b. SHIPPER DATAS
+        // ----------------------
+        $shipment->shipper_postal_code          = $request->shipper_postal_code;
+        $shipment->shipper_address              = $request->shipper_address;
+        $shipment->shipper_mobile_phone         = $request->shipper_mobile_phone;
+
+        // 1. B. SECOND (DERIVED) DATAS
+        // ----------------------------
+        // 1. B. a. CONSIGNEE DATAS
+        // ------------------------
+        // subdistrict
+        $consignee_districts                    = SubdistrictList::find($request->id_consignee_district);
+        $shipment->id_consignee_districts       = $consignee_districts->id;
+        $shipment->consignee_districts          = $consignee_districts->name;
+
+        // city
+        $consignee_city                         = CityList::find($consignee_districts->id_city);
+        $shipment->id_consignee_city            = $consignee_city->id;
+        $shipment->consignee_city               = $consignee_city->name;
+
+        // province
+        $consignee_province                     = ProvinceList::find($consignee_city->id_province);
+        $shipment->id_consignee_province        = $consignee_province->id;
+        $shipment->consignee_province           = $consignee_province->name;
+
+        // 1. B. b. SHIPPER DATAS
+        // ----------------------
+        // subdistrict
+        $shipper_districts                      = SubdistrictList::find($request->id_shipper_district);
+        $shipment->id_shipper_districts         = $shipper_districts->id;
+        $shipment->shipper_districts            = $shipper_districts->name;
+
+        // city
+        $shipper_city                           = CityList::find($shipper_districts->id_city);
+        $shipment->id_shipper_city              = $shipper_city->id;
+        $shipment->shipper_city                 = $shipper_city->name;
+
+        // province
+        $shipper_province                       = ProvinceList::find($shipper_city->id_province);
+        $shipment->id_shipper_province          = $shipper_province->id;
+        $shipment->shipper_province             = $shipper_province->name;
+
+        // 1. C. THIRD (OPTIONAL) DATAS
+        // ----------------------------
         if($request->has('consignee_latitude') && $request->has('consignee_longitude')) {
             if($request->consignee_latitude != null && $request->consignee_latitude != "" && $request->consignee_longitude != null && $request->consignee_longitude != "") {
-                $shipment->consignee_latitude = $request->consignee_latitude;
-                $shipment->consignee_longitude = $request->consignee_longitude;
+                $shipment->consignee_latitude   = $request->consignee_latitude;
+                $shipment->consignee_longitude  = $request->consignee_longitude;
             }
         }
         if($request->has('shipper_latitude') && $request->has('shipper_longitude')) {
             if($request->shipper_latitude != null && $request->shipper_latitude != "" && $request->shipper_longitude != null && $request->shipper_longitude != "") {
-                $shipment->shipper_latitude = $request->shipper_latitude;
-                $shipment->shipper_longitude = $request->shipper_longitude;
+                $shipment->shipper_latitude     = $request->shipper_latitude;
+                $shipment->shipper_longitude    = $request->shipper_longitude;
             }
         }
 
-        // FOR NAME
-        $shipment->shipper_first_name = $request->shipper_first_name;
         if($request->has('shipper_last_name')) {
             if($request->shipper_last_name != null && $request->shipper_last_name != ""){
-                $shipment->shipper_last_name = $request->shipper_last_name;
+                $shipment->shipper_last_name    = $request->shipper_last_name;
             }
         }
-
-        $shipment->consignee_first_name = $request->consignee_first_name;
+        
         if($request->has('consignee_last_name')) {
             if($request->consignee_last_name != null && $request->consignee_last_name != ""){
-                $shipment->consignee_last_name = $request->consignee_last_name;
+                $shipment->consignee_last_name  = $request->consignee_last_name;
             }
         }
-
-        // FOR NAME
-        $shipment->shipper_first_name = $request->shipper_first_name;
-        if($request->has('espay_payment_code')) {
-            if($request->espay_payment_code != null && $request->espay_payment_code != ""){
-                $shipment->payment_id = $request->espay_payment_code;
-            }
-        }
-
-        $shipment->id_payment_type = $request->id_payment_type;
-        $shipment->shipment_contents = $request->shipment_contents;
-        $shipment->estimate_goods_value = $price_goods_estimate->price_estimate;
-        $shipment->estimate_weight = $request->estimate_weight;
-        $shipment->add_insurance_cost = $insurance->default_insurance;
-        $shipment->is_add_insurance = $request->is_add_insurance;
-        if($request->is_add_insurance == 1) {
-            $shipment->insurance_cost = ($price_goods_estimate->nominal * $insurance->default_insurance) / 100;
-        } else {
-            $shipment->insurance_cost = 0;
-        }
-
-        if($request->is_first_class == 1) {
-            $gold = $price->freight_cost + $price->add_first_class;
-            $gold = $gold + (($gold * $insurance->default_insurance) /100);
-            $gold = $this->round_nearest_hundreds($gold);
-
-            $shipment->flight_cost = ($gold*$request->estimate_weight) + $shipment->insurance_cost;
-        } else {
-            // $reguler = $price->freight_cost + (($price->freight_cost * $insurance->default_insurance) /100);
-            // $reguler = $this->round_nearest_hundreds($reguler);
-
-            // $shipment->flight_cost = ($reguler*$request->estimate_weight) + $shipment->insurance_cost;
-
-            $slot_price = PriceList::where('id_origin_city', $id_origin_city)->where('id_destination_city', $id_destination_city)->first()->slot_price_kg;
-            $shipment->flight_cost = $request->estimate_weight * $slot_price + $shipment->insurance_cost;
-        }
-
-        $shipment->is_delivery = $request->is_delivery;
-        $shipment->is_take = $request->is_take;
 
         if($request->has('shipper_address_detail')) {
             if($request->shipper_address_detail != null && $request->shipper_address_detail != ""){
@@ -163,20 +156,113 @@ class ShipmentController extends Controller
                 $shipment->consignee_address_detail = $request->consignee_address_detail;
             }
         }
-
-        $shipment->save();
-
-        $shipment_out = Shipment::where('shipment_id', $shipment->shipment_id)->first();
-        $shipment_out->origin_city = AirportcityList::find($shipment->id_origin_city)->name;
-        $shipment_out->destination_city = AirportcityList::find($shipment->id_destination_city)->name;
-
-        $shipment_status = ShipmentStatus::find($shipment_out->id_shipment_status);
-        $shipment_out->shipment_status_description = $shipment_status->description;
-
         
+        if($request->has('espay_payment_code')) {
+            if($request->espay_payment_code != null && $request->espay_payment_code != ""){
+                $shipment->payment_id           = $request->espay_payment_code;
+            }
+        }
+
+        // id shipper akan di cek lagi nanti pada tahap akhir ketika akan disimpan
+        // jika tidak ada id shipper maka dicari id anonim yang bersangkutan berdasarkan
+        // id device, jika tidak ada maka dibuat yg baru.
+        if($request->has('id_shipper')){
+            $shipment->id_shipper = null;
+            if($request->id_shipper != null && $request->id_shipper != ""){
+                $shipment->id_shipper           = $request->id_shipper;
+            }
+        }
+
+        // 2. PRICING STEP
+        // ---------------
+        // tahap ini berisi tentang bagaimana pemberian harga pengiriman 
+        // pada shipment berdasarkan data-data yang diatur pada administrator 
+        // TIPS. Data yang diatur berupa:
+        //      1. Estimasi asuransi harga pengiriman (PriceGoodsEstimate)
+        //      2. Asuransi (Insurance)
+        //      3. Harga pengiriman barang dari kota asal ke kota tujuan (PriceList)
+        //
+        $price_goods_estimate                   = PriceGoodsEstimate::find($request->id_estimate_goods_value);
+        $shipment->estimate_goods_value         = $price_goods_estimate->price_estimate;
+
+        $insurance                              = Insurance::first();
+        $shipment->add_insurance_cost           = $insurance->default_insurance;
+
+        // default value if insurance is not added
+        $shipment->insurance_cost               = 0;
+
+        // if insurance is added
+        if($request->is_add_insurance == 1) {
+            $shipment->insurance_cost           = ($price_goods_estimate->nominal * $insurance->default_insurance) / 100;
+        }
+
+        $price = PriceList::where('id_origin_city', $request->id_origin_city)
+                ->where('id_destination_city', $request->id_destination_city)->first();
+
+        if($request->is_first_class == 1) {
+
+            $gold                               = $price->freight_cost + $price->add_first_class;
+            $gold                               = $gold + (($gold * $insurance->default_insurance) /100);
+            $gold                               = $this->round_nearest_hundreds($gold);
+
+            $shipment->flight_cost              = ($gold * $request->estimate_weight) + $shipment->insurance_cost;
+        } else {
+
+            $shipment->flight_cost              = $request->estimate_weight * $price->slot_price_kg + $shipment->insurance_cost;
+        }
+
+        // 3. NON-REQUEST DATAS
+        // --------------------
+        // fill the non-request parameter datas
+        // generate unique string for shipment ID
+        do {
+            $random_string                      = $this->generateRandomString();
+        } while(Shipment::where('shipment_id', $random_string)->first() != null);
+
+        $shipment->shipment_id                  = $random_string;
+        $shipment->id_shipment_status           = 1;
+        $shipment->transaction_date             = \Carbon\Carbon::now();
+
+        // 4. SAVE DATAS
+        // -------------
+        $shipment_out = $this->saveShipment($shipment);
+
+        // =================================================
+        // END OF SUBMIT SHIPMENT
+        // =================================================
+
+
+
+
+        // RESPONSE SECTION
+        // respon yang dikembalikan ke pengguna membutuhkan tambahan seperti 
+        // data lengkap kota asal, kota tujuan, dan status yang tersimpan pada
+        // basis data.
+        $shipment_out->origin_city                  = AirportcityList::find($shipment->id_origin_city)->name;
+        $shipment_out->destination_city             = AirportcityList::find($shipment->id_destination_city)->name;
+        $shipment_out->shipment_status_description  = ShipmentStatus::where('step', 
+                                                      $shipment_out->id_shipment_status)->first()->description;
+
+        // USER NOTIFICATION SECTION
+        // setelah menyimpan data dan menyiapkan respon yang akan dikirimkan
+        // ke pengguna (member list), tahap berikutnya adalah memberikan
+        // pemberitahuan kepada pengguna bahwa shipment telah dibuat
+        // melalui email (untuk pengguna terdaftar) dan notifikasi push
+        // notification FCM (firebase cloud messaging)
         $ms_user = MemberList::find($shipment_out->id_shipper);
-        $mess = 'Pengiriman Anda dengan kode ' . $shipment_out->shipment_id . ' telah terdaftar. Tim TIPS akan segera menghubungi Anda.';
+        $mess = 'Pengiriman Anda dengan kode ' 
+                . $shipment_out->shipment_id 
+                . ' telah terdaftar. Tim TIPS akan segera menghubungi Anda.';
+
+        // atribut firebase_sent digunakan untuk debugging respon pada aplikasi 
+        // end user mengenai alasan pemberitahuan firebase jika tidak terkirim.
         $firebase_sent = "";
+
+        // PENGIRIMAN FCM
+        // pengiriman fcm dilakukan dengan mengirimkan pesan ke satu pengguna
+        // dengan identifikasi fcm token. Jika token tidak tersimpan pada data
+        // pengguna maka fcm tidak dikirim dan pada atribut firebase_sent diberikan
+        // alasan kegagalan pengiriman fcm tersebut.
         if($ms_user){
             if($ms_user->token) {
                 FCMSender::post(array(
@@ -194,6 +280,10 @@ class ShipmentController extends Controller
             $firebase_sent = "no user: " . $shipment_out->id_shipper;
         }
 
+        // PENGIRIMAN EMAIL
+        // pengiriman email dilakukan berdasarkan email yang terdapat pada 
+        // data email member list. Jika akun anonim maka email tidak tersedia
+        // dan tidak dilakukan pengiriman email
         $bsc = new cURLFaker;
         if($ms_user){
             $email = $ms_user->email;
@@ -203,6 +293,9 @@ class ShipmentController extends Controller
                 $bsc->sendMailShipperStep1($email, $nama, $kirimcode, "+62 823 1777 6008");
         }
 
+        // TAHAP PENGIRIMAN RESPON
+        // respon dikirim akan diproses dalam bentuk objek JSON menggunakan
+        // method yang disediakan oleh framework ini (Laravel).
         $data = array(
             'err' => null,
             'result' => array(
