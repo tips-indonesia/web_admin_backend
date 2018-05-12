@@ -477,6 +477,23 @@ class UserController extends Controller
     function update_profile(Request $request) {
         $member = MemberList::find($request->member_id);
 
+
+        if($request->has('mobile_phone_no')) {
+            if($request->mobile_phone_no != null && $request->mobile_phone_no != '') {
+                $member_no_hp = MemberList::where('mobile_phone_no', $request->mobile_phone_no);
+                if($member_no_hp->id != $member->id && $member_no_hp->sms_code == -1){
+                    $data = array(
+                        'err' => [
+                            'code' => 0,
+                            'message' => 'Nomor handphone telah terdaftar'
+                        ],
+                        'result' => null
+                    );
+                    return response()->json($data, 200);
+                }
+            }
+        }
+
         $pnlen = strlen($request->mobile_phone_no);
         if((9 + 2) > $pnlen || $pnlen > (13 + 2)) {
             $data = array(
@@ -495,15 +512,6 @@ class UserController extends Controller
                 'err' => [
                     'code' => 0,
                     'message' => 'User Id tidak ditemukan'
-                ],
-                'result' => null
-            );
-            return response()->json($data, 200);
-        } else if($member->sms_code == -1) {
-            $data = array(
-                'err' => [
-                    'code' => 0,
-                    'message' => 'Nomor handphone telah terdaftar'
                 ],
                 'result' => null
             );
