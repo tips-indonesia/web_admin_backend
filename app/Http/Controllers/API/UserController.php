@@ -568,7 +568,7 @@ class UserController extends Controller
                     $micro = sprintf("%06d", ($t - floor($t)) * 1000000);
                     $timestamp = date('YmdHis' . $micro, $t) . "_" . rand(0, 1000);
 
-                    $ext_file = $dataImg->getClientOriginalExtension();
+                    $ext_file = $dataImg->guessExtension();
                     $name_file = $timestamp . '_img_item.' . $ext_file;
                     $path_file = public_path() . '/image/profil_picture/';
 
