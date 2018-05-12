@@ -480,7 +480,7 @@ class UserController extends Controller
 
         if($request->has('mobile_phone_no')) {
             if($request->mobile_phone_no != null && $request->mobile_phone_no != '') {
-                $member_no_hp = MemberList::where('mobile_phone_no', $request->mobile_phone_no)->first()
+                $member_no_hp = MemberList::where('mobile_phone_no', $request->mobile_phone_no)->first();
                 if($member_no_hp && $member_no_hp->id != $member->id && $member_no_hp->sms_code == -1){
                     $data = array(
                         'err' => [
