@@ -8,42 +8,88 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use DateTime;
 
-class HomeController extends Controller
-{
+class HomeController extends Controller{
 
-    function isADayAfter($datetime_instance){
-        $checkTime = (new DateTime($datetime_instance))->modify('+1 day');
-        $nowTime = new DateTime();
-        // echo $checkTime->format('Y-m-d h:i') . '; ';
-        // echo $nowTime->format('Y-m-d h:i') . '; ';
-        return $checkTime <= $nowTime;
+    function getOnlyShipmentsForAnonymousUser($id_device){
+        // Mengambil pengguna yang terkait dengan device tersebut atau jika
+        // pengguna tidak ditemukan, akan dibuatkan sebuah akun baru referrence
+        // ke id device tersebut.
+        // Pengguna aplikasi TIPS yang tidak login dapat membuat shipment
+        // shipment akan dikenali melalui id device pengguna tersebut.
+        $member_list    = UserController::getAnonOrRegister($id_device, null);
+
+        // Mengambil daftar shipment terkait dengan user device
+        $shipments      = Shipment::where('id_shipper', $member_list->id)->get();
+
+        return [
+            'S' => $shipments,
+            'D' => []
+        ];
     }
 
-    //
+    function getShipmentDeliveryForRegisteredUser($id_member){
+        // Mengambil daftar shipment dan slot (delivery) yang terkait
+        // dengan id member yang telah terdaftar
+        $shipments      = Shipment::where('id_shipper', $id_member)->get();
+        $deliveries     = SlotList::where('id_member',  $id_member)->get();
+
+        return [
+            'S' => $shipments,
+            'D' => $deliveries
+        ];
+    }
+
     function list_of_shipment_and_delivery(Request $request){
+        // Mengambil passing parameter request berupa
+        // - member ID
+        // - device ID
         $member_id = $request->member_id;
-        $device_id = $request->has('device_id') ? $request->device_id : "";
+        $device_id = $request->device_id;
 
-        if($device_id)        
-            // $shipments = Shipment::select('shipment_id','status_dispatch','id_shipment_status','updated_at')->where('id_shipper', $member_id)->orWhere('id_device', $device_id)->get(); // OLD
-            $shipments = Shipment::where('id_shipper', $member_id)->orWhere('id_device', $device_id)->get();
-        else
-            // $shipments = Shipment::select('shipment_id','status_dispatch','id_shipment_status','updated_at')->where('id_shipper', $member_id)->get(); // OLD
-            $shipments = Shipment::where('id_shipper', $member_id)->get();
-        // $delivery = SlotList::select('slot_id','status_dispatch', 'sold_baggage_space', 'slot_price_kg', 'id_slot_status', 'updated_at')->where('id_member', $member_id)->get(); // OLD
-        $delivery = SlotList::where('id_member', $member_id)->get();
+        // Inisialisasi variabel
+        $dataSD = [];
+        $money  = 0;
 
-        // dd($member_id, SlotList::all());
+        // Untuk mengambil daftar shipment dan delivery, pengguna harus terdaftar
+        // terlebih dahulu ke sistem.
+        // Pengguna anonymous hanya bisa mendaftarkan shipment saja, sehingga
+        // data yang dikembalikan hanya shipment saja.
+        // Pencegahan jika parameter salah, parameter minimal ada 
+        // - member_id (dideteksi sebagai pengguna terdaftar)
+        // - device_id (dideteksi sebagai pengguna anonim)
+        if(!$member_id && $device_id)
+            $dataSD = $this->getOnlyShipmentsForAnonymousUser($device_id);
+        else if($member_id){
+            $dataSD = $this->getShipmentDeliveryForRegisteredUser($member_id);
+            $money  = $this->getMoney($member_id);
+        }else{
+            $data = array(
+                'err' => [
+                    'code' => 0,
+                    'message' => 'parameter minimal harus member_id atau device_id, tidak boleh kosong'
+                ],
+                'result' => null
+            );
 
+            return response()->json($data, 200);
+        }
+
+        // Shipment yang dikembalikan harus memenuhi ketiga syarat berikut:
+        // 1. bukan status 15
+        // 2. tanggal minimal sehari sebelum hari ini
+        // 3. belum di cancel oleh user
         $outshipment = [];
-        foreach ($shipments as $key => $shipment){
+        foreach ($dataSD['S'] as $key => $shipment){
             if(!($shipment->id_shipment_status == 15 && $this->isADayAfter($shipment->updated_at)) && !$shipment->trashed()){
                 array_push($outshipment, ShipmentController::___get_status($shipment->shipment_id));
             }
         }
 
+        // Delivery yang dikembalikan harus memenuhi dua syarat:
+        // 1. bukan status 7 (Selesai)
+        // 2. tanggal minimal sehari sebelum hari ini
         $outdelivery = [];
-        foreach ($delivery as $key => $deliv){
+        foreach ($dataSD['D'] as $key => $deliv){
             if(!($deliv->id_slot_status == 7 && $this->isADayAfter($deliv->updated_at)))
                 array_push($outdelivery, DeliveryController::___get_status($deliv->slot_id));
         }
@@ -51,13 +97,21 @@ class HomeController extends Controller
         $data = array(
             'err' => null,
             'result' => array (
-                'shipments' => $outshipment,
-                'delivery' => $outdelivery,
-                'money' => $this->getMoney($member_id)
+                'shipments'     => $outshipment,
+                'delivery'      => $outdelivery,
+                'money'         => $money
             )
         );
 
         return response()->json($data, 200);
+    }
+
+    function isADayAfter($datetime_instance){
+        $checkTime = (new DateTime($datetime_instance))->modify('+1 day');
+        $nowTime = new DateTime();
+        // echo $checkTime->format('Y-m-d h:i') . '; ';
+        // echo $nowTime->format('Y-m-d h:i') . '; ';
+        return $checkTime <= $nowTime;
     }
 
     function getMoney($id){
