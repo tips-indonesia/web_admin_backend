@@ -221,7 +221,7 @@ class ShipmentController extends Controller
 
         $shipment->shipment_id                  = $random_string;
         $shipment->id_shipment_status           = 1;
-        $shipment->transaction_date             = \Carbon\Carbon::now();
+        $shipment->transaction_date             = \Carbon\Carbon::now()->toDateTimeString();
 
         // 4. SAVE DATAS
         // -------------
