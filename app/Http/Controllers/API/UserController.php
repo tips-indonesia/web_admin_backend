@@ -265,6 +265,17 @@ class UserController extends Controller
         $member_list = MemberList::where('mobile_phone_no', $request->mobile_phone_no)->first();
         if(!$member_list){
             $member_list = MemberList::find($request->member_id);
+            if(!$member_list){
+                $data = array(
+                    'err' => [
+                        'code' => 404,
+                        'message' => 'User tidak ditemukan, harap hubungi TIPS Administrator'
+                    ],
+                    'result' => null
+                );
+                return response()->json($data, 200);
+            }
+
             $member_list->mobile_phone_no = $request->mobile_phone_no;
             $member_list->save();
         }
