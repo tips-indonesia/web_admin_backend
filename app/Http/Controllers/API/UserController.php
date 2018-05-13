@@ -656,7 +656,7 @@ class UserController extends Controller
             $member_list->save();
             $data = array(
                 'err' => null,
-                'result' => true
+                'result' => $member_list
             );
         }else{
             // Kasus: kode sms verifikasi tidak sesuai dengan yang ada pada basis data
