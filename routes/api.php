@@ -54,6 +54,7 @@ Route::post('/pesan/{id_user}/{id_pesan}', 'API\\MessageController@hapusPesan');
 Route::post('/register', 'API\\UserController@register');
 Route::post('/verify/phone', 'API\\UserController@verifyPhoneNumber');
 Route::post('/verify/resend', 'API\\UserController@resendSMSCode');
+Route::post('/verify/fb_twitter_pn', 'API\\UserController@sendSMSCodeForFBTwitterRegistered');
 Route::post('/login', 'API\\UserController@login');
 Route::post('/login/device', 'API\\UserController@deviceRegisterOrLogin');
 Route::post('/login/fb', 'API\\UserController@actionFB');

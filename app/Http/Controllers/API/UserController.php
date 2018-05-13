@@ -261,6 +261,17 @@ class UserController extends Controller
         return response()->json($data, 200);
     }
 
+    public function sendSMSCodeForFBTwitterRegistered(Request $request){
+        $member_list = MemberList::where('mobile_phone_no', $request->mobile_phone_no)->first();
+        if(!$member_list){
+            $member_list = MemberList::find($request->member_id);
+            $member_list->mobile_phone_no = $request->mobile_phone_no;
+            $member_list->save();
+        }
+
+        return $this->resendSMSCode($request);
+    }
+
     public function resendSMSCode(Request $request){
         $member_list = MemberList::where('mobile_phone_no', $request->mobile_phone_no)->first();
         if(!$member_list){
