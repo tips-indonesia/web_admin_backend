@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use App\MemberList;
 use App\SlotList;
 use App\Http\Controllers\SMSSender;
+use App\Http\Controllers\cURLFaker;
 
 class UserController extends Controller
 {
