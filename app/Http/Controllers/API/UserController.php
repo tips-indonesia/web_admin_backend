@@ -141,14 +141,18 @@ class UserController extends Controller
             $email = $member_list->email;
             $nama = $member_list->first_name . ' ' . $member_list->last_name;
 
-            if($email)
+            $debugemail = '';
+            if($email){
+                $debugemail = "sendMailRegistration($email, $nama)";
                 $bsc->sendMailRegistration($email, $nama);
+            }
 
             $member_list->money = $this->getMoney($member_list->id);
 
             $data = array(
                 'err' => null,
-                'result' => $member_list
+                'result' => $member_list,
+                'debug' => $debugemail
             );
 
         }
