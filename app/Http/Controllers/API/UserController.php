@@ -305,11 +305,8 @@ class UserController extends Controller
             $out = SMSSender::kirim($pn, rawurlencode("TIPS App: Your code is " . $sc));
 
             $data = array(
-                'err' => [
-                    'code' => 1,
-                    'message' => "Your phone number has verified"
-                ],
-                'result' => null
+                'err' => null,
+                'result' => "SMS Sent to " . $request->mobile_phone_no
             );
         }else{
 
