@@ -15,7 +15,7 @@ class cURLFaker extends Controller
     //
     // --
     public function sendMailRegistration($email, $NAMA){
-        dd(exec("sh send_post.sh 'http://127.0.0.1/api/send_email' 'type' 'registration' 'email' '$email' 'NAMA' '$NAMA'"));
+        dd(exec("sh send_post.sh 'http://127.0.0.1/api/send_email' 'type' 'registration' 'email' '$email' 'NAMA' '$NAMA' >> /var/www/html/tips/logcurl.txt"));
     }
     // ------------------------------
     // ##############################
