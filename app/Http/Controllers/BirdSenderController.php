@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\MemberList;
+use App\Http\Controllers\cURLFaker;
 
 class BirdSenderController extends Controller
 {
@@ -126,7 +127,12 @@ class BirdSenderController extends Controller
         //     "nama" => "Rio"
         // ];
         // return BirdSenderController::sendEmail($destination, $subject, $template, $data);
-        $this->sendMailRegistration("riochr17@gmail.com", "Rio0000");
+        // $this->sendMailRegistration("riochr17@gmail.com", "Rio0000");
+
+        $bsc = new cURLFaker;
+        $email = "riochr17@gmail.com";
+        $nama = 'Rio riorio';
+        $bsc->sendMailRegistration($email, $nama);
     }
 
     public function sendMailRegistration($email, $NAMA){
