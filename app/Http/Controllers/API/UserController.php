@@ -137,8 +137,8 @@ class UserController extends Controller
             $out = SMSSender::kirim($request->mobile_phone_no, rawurlencode("TIPS App: Your code is " . $sms_code));
 
             $bsc = new cURLFaker;
-            $email = $ms_user->email;
-            $nama = $ms_user->first_name . ' ' . $ms_user->last_name;
+            $email = $member_list->email;
+            $nama = $member_list->first_name . ' ' . $member_list->last_name;
 
             if($email)
                 $bsc->sendMailRegistration($email, $nama);
