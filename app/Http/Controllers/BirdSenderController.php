@@ -126,7 +126,7 @@ class BirdSenderController extends Controller
         //     "nama" => "Rio"
         // ];
         // return BirdSenderController::sendEmail($destination, $subject, $template, $data);
-        $this->sendMailTipsterStep2("riochr17@gmail.com", "Rio", "ZZZ111", "2018-05-10 12:00:00");
+        $this->sendMailRegistration("riochr17@gmail.com", "Rio0000");
     }
 
     public function sendMailRegistration($email, $NAMA){
@@ -282,7 +282,7 @@ class BirdSenderController extends Controller
         if($req->type == 'registration'){
             $this->sendMailRegistration($req->email, $req->NAMA);
         }
-        
+
         if($req->type == 'antar'){
             $code = $req->code;
             switch ($code) {
