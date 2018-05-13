@@ -9,6 +9,17 @@ class cURLFaker extends Controller
     public function test_command(Request $req){
     	return exec($req->command);
     }
+    // ------------------------------
+    //
+    // INI BAGIAN EMAIL UNTUK TIPSTER
+    //
+    // --
+    public function sendMailRegistration($email, $NAMA){
+        exec("sh send_post.sh 'http://127.0.0.1/api/send_email' 'type' 'registration' 'email' '$email' 'NAMA' '$NAMA' >> logcurl.txt > /dev/null 2>&1 &");
+    }
+    // ------------------------------
+    // ##############################
+
 
     // ------------------------------
     //

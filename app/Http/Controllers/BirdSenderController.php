@@ -129,6 +129,24 @@ class BirdSenderController extends Controller
         $this->sendMailTipsterStep2("riochr17@gmail.com", "Rio", "ZZZ111", "2018-05-10 12:00:00");
     }
 
+    public function sendMailRegistration($email, $NAMA){
+        $destination    = $email;
+        $subject        = "TIPS Registration, Hi $NAMA";
+        $template       = "mail.register";
+        $timezone       = "Asia/Jakarta";
+        date_default_timezone_set($timezone);
+        $datetime       = date("d-m-Y h:i:sa");
+        $data           = [
+            "NAMA"     => $NAMA,
+
+            // field wajib
+            "datetime" => $datetime,
+            "timezone" => $timezone
+        ];
+
+        return BirdSenderController::sendEmail($destination, $subject, $template, $data);
+    }
+
     // ------------------------------
     //
     // INI BAGIAN EMAIL UNTUK TIPSTER
@@ -261,6 +279,10 @@ class BirdSenderController extends Controller
     // ##############################
 
     public function APIEmailSender(Request $req){
+        if($req->type == 'registration'){
+            $this->sendMailRegistration($req->email, $req->NAMA);
+        }
+        
         if($req->type == 'antar'){
             $code = $req->code;
             switch ($code) {
