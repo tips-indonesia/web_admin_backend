@@ -20,10 +20,8 @@
                     
                 </div>
                     </div>
-                <div class="text-right form-group">
-                    <button type="submit" class="btn btn-primary" disabled>Choose Date <i class="icon-arrow-right14 position-right" ></i></button>
-                </div>
             {{ Form::close() }}
+            
             {{ Form::open(array('url' => route('deliverydeparturecounters.update', $data->id), 'method' => 'PUT')) }}
                 <div class="col-md-6">
                     <div class="form-group">
@@ -38,27 +36,21 @@
                                     <label>Delivery Time :</label>
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="icon-calendar5"></i></span>
-                                        <input type="text" name="delivery_time" class="form-control pickatime" placeholder="Received date" value="{{$data->delivery_date}}">
+                                        <input type="text" name="delivery_time" class="form-control pickatime" placeholder="Received date" value="{{$data->delivery_time}}">
                                     </div>
                                 </div>
                         <div class="text-right form-group">
                             <select multiple="multiple" class="form-control listbox" name="packagings[]">
-                               @foreach ($packaging as $data)
-                                    <option value="{{ $data->id }}" @if (in_array($data->id, $chosen_packaging)) selected @endif> {{ $data->packaging_id }} &nbsp; - &nbsp; {{ $data->created_at }} &nbsp; - &nbsp; {{ $data->origin_name }} &nbsp; - &nbsp; {{ $data->destination_name }} </option>
+                               @foreach ($packaging as $dat)
+                                    <option value="{{ $data->id }}" @if (in_array($dat->id, $chosen_packaging)) selected @endif> {{ $dat->packaging_id }} &nbsp; - &nbsp; {{ $dat->created_at }} &nbsp; - &nbsp; {{ $dat->origin_name }} &nbsp; - &nbsp; {{ $dat->destination_name }} </option>
                                 @endforeach
                             </select>
                         </div>
-                        @if($data->is_posted) 
                             <div class="text-right form-group">
-                                <button type="submit" value="save" class="btn btn-primary" name="submit" disabled="">Save <i class="icon-arrow-right14 position-right"></i></button>
-                                <button type="submit" value="post"  class="btn btn-success" name="submit" disabled="">Submit <i class="icon-arrow-right14 position-right"></i></button>
+
+                                <button type="submit" value="save" class="btn btn-primary" name="submit" {{$data->is_posted ? "DISABLED" : "" }}>Save <i class="icon-arrow-right14 position-right"></i></button>
+                                <button type="submit" value="post"  class="btn btn-success" name="submit" {{$data->is_posted ? "DISABLED" : "" }}>Submit <i class="icon-arrow-right14 position-right"></i></button>
                             </div>
-                        @else
-                            <div class="text-right form-group">
-                                <button type="submit" value="save" class="btn btn-primary" name="submit">Save <i class="icon-arrow-right14 position-right"></i></button>
-                                <button type="submit" value="post"  class="btn btn-success" name="submit">Submit <i class="icon-arrow-right14 position-right"></i></button>
-                            </div>
-                        @endif
             {{ Form::close() }}
         </div>
                     </div>

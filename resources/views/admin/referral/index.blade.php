@@ -12,17 +12,18 @@
     <!-- Vertical form options -->
     <div class="row">
         <div class="col-md-12">
-            {{ Form::open(array('method'=> 'get','url' => route('promotions.index'))) }}
+            {{ Form::open(array('method'=> 'get','url' => route('referral.index'))) }}
                 <div class="panel panel-flat">
                     <div class="panel-body">
                         <div class="row">
+
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label>Tahun</label>
 
                                     <select name="tahun" class="form-control">
                                         @foreach($tahun as $tahu)
-                                            @if($tahu->year_period == date("Y"))
+                                            @if($tahu->year_period == $seltahun)
                                                 <option value="{{ $tahu->year_period }}" selected="">{{ $tahu->year_period }}</option>
                                             @else
                                                 <option value="{{ $tahu->year_period }}">{{ $tahu->year_period }}</option>
@@ -38,7 +39,7 @@
                                     <label>Bulan</label>
                                     <select name="bulan" class="form-control">
                                         @foreach($bulan as $bula)
-                                            @if($bula->id == date("n"))
+                                            @if($bula->id == $selbulan)
                                                 <option value="{{ $bula->nama }}" selected="">{{ $bula->nama }}</option>
                                             @else
                                                 <option value="{{ $bula->nama }}" >{{ $bula->nama }}</option>

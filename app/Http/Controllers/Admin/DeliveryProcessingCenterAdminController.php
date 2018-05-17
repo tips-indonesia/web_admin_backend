@@ -62,12 +62,12 @@ class DeliveryProcessingCenterAdminController extends Controller
             $data['datas'] = $data['datas']->whereIn('id', $arrshipment);
         }
 
-        $slot = SlotList::where('id_slot_status', 7)->pluck('id');
-        $arrshipment = ArrivalShipmentDetail::pluck('packaging_lists_id');
-        $packaginglist = PackagingList::whereIn('id_slot', $slot)
-                                      ->whereNotIn('id', $arrshipment)
-                                      ->pluck('id');
-        $data['datas'] = $data['datas']->whereIn('id', $arrshipment)->paginate(10);
+        // $slot = SlotList::where('id_slot_status', 7)->pluck('id');
+        // $arrshipment = ArrivalShipmentDetail::pluck('packaging_lists_id');
+        // $packaginglist = PackagingList::whereIn('id_slot', $slot)
+        //                               ->whereNotIn('id', $arrshipment)
+        //                               ->pluck('id');
+        $data['datas'] = $data['datas']->paginate(10);
 
         foreach ($data['datas'] as $dat) {
             $dat['total'] = PackagingDelivery::where('deliveries_id', $dat->id)->get()->count();
@@ -104,8 +104,13 @@ class DeliveryProcessingCenterAdminController extends Controller
             $data['datas'] = array(); 
         } else {
             // todo slotlist 6 that not package / deliver yet
-            $slots = Shipment::where('id_shipment_status', 10)->pluck('id_slot');
-            $data['datas'] = SlotList::whereIn('id', $slots);
+            $slot = SlotList::where('id_slot_status', 7)->pluck('id');
+            $arrshipment = ArrivalShipmentDetail::pluck('packaging_lists_id');
+            $packaginglist = PackagingList::whereIn('id_slot', $slot)
+                                      ->whereNotIn('id', $arrshipment)
+                                      ->pluck('id');
+            // $slots = Shipment::where('id_shipment_status', 10)->pluck('id_slot');
+            $data['datas'] = SlotList::whereIn('id', $packaginglist);
             $user = User::find(Auth::id());
 
             if ($user->id_office != null && $user->id != 1) {

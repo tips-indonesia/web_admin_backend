@@ -30,6 +30,7 @@ class ReceivedAdminController extends Controller
             $data['date'] = Carbon::now()->toDateString();
             $deliveries = DeliveryShipment::whereDate('delivery_date', $data['date'])->where('is_posted', 1);
         }
+
         $flag = false;
         if (Input::get('param') == 'blank' || !Input::get('param') || Input::get('param') == 'received' || Input::get('param') == 'not_received' ) {
             $deliveries = $deliveries->where('id', '!=', null)->where('is_posted', 1);
@@ -59,8 +60,12 @@ class ReceivedAdminController extends Controller
             $shipment_data = $shipment_data->where('id_shipment_status', 3);
         }
 
+        $data['datas2'] = Shipment::where('id_shipment_status', '>=', 3)->where('is_take',1)->where('is_posted', 1)->get();
+        
         if (Input::get('date')) {
-            $shipment_data = $shipment_data->where('transaction_date', Input::get('date'));
+            $shipment_data = $shipment_data->where('pickup_date', Input::get('date'));
+        } else {
+            $shipment_data = $shipment_data->where('pickup_date', $data['date']);
         }
         $user = User::find(Auth::id());
         if ($user->id_office != null  && $user->id != 1) {
@@ -79,6 +84,7 @@ class ReceivedAdminController extends Controller
             $ship['destination'] = AirportcityList::find($ship->id_destination_city)->name;
         }
         $data['datas'] = $shipment_data;
+
 
         // print_r($data);
         return view('admin.receiveds.index', $data);

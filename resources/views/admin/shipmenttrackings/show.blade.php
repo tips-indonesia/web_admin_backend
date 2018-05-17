@@ -20,6 +20,13 @@
                             </div>
                             
                         </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Shipper Phone Number :</label>
+                                <input type="text" value="{{ $data->shipper_mobile_phone }}" class="form-control" disabled readonly />
+                            </div>
+                            
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6">
@@ -40,6 +47,12 @@
                             <div class="form-group">
                                 <label>Consignee Name :</label>
                                 <input type="text" value="{{ $data->consignee_first_name.' '.$data->consignee_last_name }}" class="form-control" disabled readonly />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Consignee Phone Number :</label>
+                                <input type="text" value="{{ $data->consignee_mobile_phone }}" class="form-control" disabled readonly />
                             </div>
                         </div>
                         <div class="col-md-6">

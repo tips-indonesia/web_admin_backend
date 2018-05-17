@@ -7,7 +7,23 @@
 <span class="text-semibold">Shipment Pickup List</span> - Edit
 @endsection
 @section('content')
-            {{ $errors }}
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+    
+    @if (session('message'))
+        <div class="alert alert-success">
+            <ul>
+                <li>{{session('message')}}
+            </ul>
+        </div>
+    @endif
     <!-- Vertical form options -->
     <div class="row">
         <div class="col-md-12">
@@ -185,7 +201,7 @@
                                                 <textarea rows="5" class="form-control" placeholder="Enter shipper address here" name="shipper_address" disabled readonly>{{ $data->shipper_address }}</textarea>
                                             </div>
                                             <div class="form-group">
-                                                <label>Address Detail :</label>
+                                                <label>Notes :</label>
                                                 <textarea rows="5" class="form-control" placeholder="Enter shipper address here" name="shipper_address_detail" disabled readonly>{{ $data->shipper_address_detail }}</textarea>
                                             </div>
                                             <div class="form-group">
@@ -243,7 +259,7 @@
                                                 <textarea rows="5" class="form-control" placeholder="Enter consignee address here" name="consignee_address" disabled="" readonly="">{{$data->consignee_address}}</textarea>
                                             </div>
                                             <div class="form-group">
-                                                <label>Address Detail :</label>
+                                                <label>Notes :</label>
                                                 <textarea rows="5" class="form-control" placeholder="Enter consignee address here" name="consignee_address_detail" disabled="" readonly="">{{$data->consignee_address_detail}}</textarea>
                                             </div>
                                             <div class="form-group">
@@ -329,7 +345,7 @@
 
                                             <div class="form-group">
                                                 <label>Total :</label>
-                                                {{ Form::number('total', $data->insurance_cost + $data->flight_cost, array('class' => 'form-control', 'placeholder' => 'Total Cost', 'disabled' => '')) }}
+                                                {{ Form::number('total', $data->add_insurance_cost + $data->flight_cost, array('class' => 'form-control', 'placeholder' => 'Total Cost', 'disabled' => '')) }}
                                             </div>
                                         </div>
                                     </div>
@@ -473,7 +489,7 @@
             <td style="width: 50%; vertical-align: top; text-align: left; border-right: solid 1px; padding-left: 6px; vertical-align: bottom;">
                 <span style="font-weight: bold; font-size: 8px;">DOWNLOAD <hr style="display: block; margin-top: -10px; margin-bottom: 0px; visibility: hidden;">OUR FREE APPS</span><br/>
                     <div style=" padding-top: 2px; margin-bottom: 2px; font-size: 9px;">
-                        bit.ly/TipsIndonesia<br>
+                        bit.ly/TIPSdownload<br>
                         app.tips.co.id   
                     </div>
             </td>
@@ -631,7 +647,7 @@
             <td style="width: 56%; vertical-align: top; text-align: left; border-right: solid 1px; padding-left: 6px; vertical-align: bottom; padding-left=10px;">\
                 <span style="font-weight: bold; font-size: 8px;">DOWNLOAD <hr style="display: block; margin-top: -10px; margin-bottom: 0px; visibility: hidden;">OUR FREE APPS</span><br/>\
                     <div style=" padding-top: 2px;margin-bottom: 2px; font-size: 9px;">\
-                        bit.ly/TipsIndonesia<br>\
+                        bit.ly/TIPSdownload<br>\
                         app.tips.co.id\
                     </div>\
             </td>\

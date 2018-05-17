@@ -168,7 +168,7 @@ class ShipmentPickUpAdminController extends Controller
             'pickup_date' => 'required',
             'pickup_time' => 'required'
         );
-        $validator = Validator::make(Input::all(), $rules);
+        $validator = Validator::make(Input::all(), $rules, ['required' => 'All field is required']);
         if ($validator->fails()) {
             return Redirect::to(route('shipmentpickups.edit', $id))
                 ->withErrors($validator)

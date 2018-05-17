@@ -61,17 +61,20 @@ class PromotionController extends Controller
             $month = '10';
         }elseif(Input::get('bulan') === 'November') {
             $month = '11';
-        }else {
+        }elseif(Input::get('bulan') === 'Desember') {
             $month = '12';
+        }else {
+            $month = date("m");
         }
-        $year = Input::get('tahun');
        
         if(Input::get('tahun')) {
+            $year = Input::get('tahun');
             $data = DB::table('promotions')->whereMonth('start_date','<=',$month)->whereMonth('end_date','>=',$month)->whereYear('start_date',$year)->get();
             session(['bulan' => Input::get('bulan')]);
             session(['tahun' => $year]);
             session(['bulanangka' => $month]);
         } else {
+            $year = date("Y");
             $data = DB::table('promotions')->whereMonth('start_date','<=',date("n"))->whereMonth('end_date','>=',date("n"))->whereYear('start_date',date("Y"))->get();
             if(date("n") === '1') {
                 session(['bulan' => 'Januari']);
@@ -99,13 +102,13 @@ class PromotionController extends Controller
                 session(['bulan' => 'Desember']);
             }
            
-            session(['tahun' => date("Y")]);
-            session(['bulanangka' => date("m")]);
+            // session(['tahun' => date("Y")]);
+            // session(['bulanangka' => date("m")]);
         }
         
-        
-       
         return view('admin.promotions.index')->with('tahun',$tahun)
+                                             ->with('seltahun', $year)
+                                             ->with('selbulan', $month)
                                              ->with('bulan',$bulan)
                                              ->with('data', $data)
                                              ->with('namabulan', Input::get('bulan'))
@@ -114,7 +117,9 @@ class PromotionController extends Controller
 
 
     public function create() {
-    	return view('admin.promotions.create');
+        $data['month'] = Input::get('month');
+        $data['year'] = Input::get('year');
+    	return view('admin.promotions.create', $data);
     }
 
     public function store(Request $request) {
