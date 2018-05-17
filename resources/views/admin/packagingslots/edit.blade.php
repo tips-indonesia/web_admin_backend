@@ -145,9 +145,7 @@
                         <tr>
                             <td rowspan="2" style="padding-left: 15px; width: 60%; vertical-align: top; text-align: left;">
                                 <strong> PT TIPS Inovasi Indonesia </strong><br>
-                                DBS Bank Tower Lantai 12<br>
-                                Jl. Prof. Dr. Satrio Kav 3 - 5 <br>
-                                Karet Kuningan, Jakarta Selatan
+                                {{$office->address}}
                             </td>
                             <td style="width: 40%; vertical-align: top; text-align: left;">
                                 <strong> Customer Service </strong><br>
@@ -155,8 +153,7 @@
                             </td>
                         </tr>
                             <td style="width: 40%;">
-                                &#9742; 021 2988871<br>
-                                &#9742; 021 2988872<br>
+                                &#9742; {{$office->phone_no}}<br>
                             </td>
                         </tr>
                     </table>
@@ -177,6 +174,8 @@
         
         let v1 = "";
         let v2 = "";
+        let v3 = "";
+        let v4 = "";
         function apicall() {
             $.ajax({
                 url: '{{ route("slotlists.index") }}/' + $('#slot').val(),
@@ -187,6 +186,8 @@
                     console.log(data);
                     v1 = data['destination'] + ', ' + data['shipments'][0]['destination'];
                     v2 = data['origin'] + ', ' + data['shipments'][0]['origin'];
+                    v3 = data['office']['address'];
+                    v4 = data['office']['phone_no'];
                     $('#destination').html('Destination Airport : ' + data['destination'] );
                     $('#origin').html('Origin Airport : ' + data['origin']);
                     $('#destination1').html(data['destination'] + ', ' + data['shipments'][0]['destination']);
@@ -231,46 +232,46 @@
                 color-adjust: exact !important;                 /*Firefox*/\
         }\
         </style>\
-        <div style="width:270px; border:1px solid black;" >\
-                    <table style="width: 100%;">\
+        <div style="width:99%; border:1px solid black;" >\
+                    <table style="width: 100%; border: none;">\
                         <tr>\
                             <td>\
-                                <img src="{{ asset('images/logoqr.png') }}" style="float:right; width: 80px; height: 80px; margin-bottom: 30px;">\
+                                <img src="{{ asset('images/logoqr.png') }}" style="float:right; width: 90px; height: 90px; margin-bottom: 20px;">\
                             </td>\
                         </tr>\
                         <tr>\
                             <td>\
-                                <h1 style="font-size: 24px; padding-left: 15px;">{{ $data->packaging_id }}</h1>\
+                                <h1 style="font-size: 34px; padding-left: 15px;">{{ $data->packaging_id }}</h1>\
                             </td>\
                         </tr>\
                     </table>\
                     <table style="margin-top: -20px; width: 100%;">\
                         <tr>\
-                            <td style="font-size:12px; background-color: black; color: white; border-top: solid 1px black; border-bottom: solid 1px black; padding-left: 15px; padding-right: 15px;">\
-                                <span id="slot_id">Slot {{ $slot->slot_id }}</span>\
+                            <td style="font-size:18px; background-color: black; color: white; border-top: solid 1px black; border-bottom: solid 1px black; padding-left: 15px; padding-right: 15px; padding-top: 5px; padding-bottom: 5px;">\
+                                <span id="slot_id" style="font-weight:bold;">Slot {{ $slot->slot_id }}</span>\
                             </td>\
-                            <td style="width: 57%;border-top: solid 1px; border-bottom: solid 1px;">\
+                            <td style="width: 50%;border-top: solid 1px; border-bottom: solid 1px;">\
                                 &nbsp;\
                             </td>\
                         </tr>\
                     </table>\
+                    <style type="text/css">\
+                        .cp td {\
+                            border: solid 0.5px;\
+                            padding: 4px 12px;\
+                        }\
+                        td.bot {\
+                            padding-top: 4px;\
+                            padding-left: 4px;\
+                            padding-bottom: 20px;\
+                        }\
+                        td.head {\
+                            padding-left: 15px;\
+                            padding-right: 25px;\
+                        }\
+                    </style>\
                     <table style="width: 100%; font-size: 12px; border-bottom: solid 1px;">\
-                        <style type="text/css">\
-                            .cp td {\
-                                border: solid 0.5px;\
-                                padding: 4px 12px;\
-                            }\
-                            td.bot {\
-                                padding-top: 4px;\
-                                padding-left: 4px;\
-                                padding-bottom: 20px;\
-                            }\
-                            td.head {\
-                                padding-left: 15px;\
-                                padding-right: 25px;\
-                            }\
-                        </style>\
-                        <tr style="border-bottom: solid 0.5px;">\
+                        <tr style="height: 60px; text-align: left; vertical-align: top; border-bottom: solid 1px;">\
                             <td class="bot head">\
                                 From\
                             </td>\
@@ -281,7 +282,9 @@
                                 <span id="origin1">' + v2 + '</span>\
                             </td>\
                         </tr>\
-                        <tr style="height: 45px;">\
+                    </table>\
+                    <table style="width: 100%; font-size: 12px; border-bottom: solid 1px;">\
+                        <tr style="height: 60px; text-align: left; vertical-align: top;">\
                             <td class="bot head">\
                                 To\
                             </td>\
@@ -289,11 +292,11 @@
                                 :\
                             </td>\
                             <td class="bot">\
-                                <div style="position : absolute; margin-top: 0px; margin-left : -4px; border-top: solid 1px; border-left: solid 1px; height: 10px; width: 10px;"></div>\
-                                <div style="position : absolute; margin-top: 0px; border-top: solid 1px; border-right: solid 1px; height: 10px; width: 10px; margin-left: 168px;"></div>\
-                                <div style="position : absolute; margin-top: 0px; height: 10px; width: 10px; margin-left: 255px;"></div>\
-                                <div style="position : absolute; margin-top: 35px; margin-left : -4px; border-bottom: solid 1px; border-left: solid 1px; height: 10px; width: 10px;"></div>\
-                                <div style="position : absolute; margin-top: 35px; margin-left : 168px; border-bottom: solid 1px; border-right: solid 1px; height: 10px; width: 10px;"></div>\
+                                <div style="position : absolute; margin-top:-3px; margin-left : -4px; border-top: solid 1px; border-left: solid 1px; height: 10px; width: 10px;"></div>\
+                                <div style="position : absolute; margin-top: -3px; border-top: solid 1px; border-right: solid 1px; height: 10px; width: 10px; right: 4%;"></div>\
+                                <div style="position : absolute; margin-top: -3px; height: 10px; width: 10px; margin-left: 255px;"></div>\
+                                <div style="position : absolute; margin-top: 42px; margin-left : -4px; border-bottom: solid 1px; border-left: solid 1px; height: 10px; width: 10px;"></div>\
+                                <div style="position : absolute; margin-top: 42px; right: 4%; border-bottom: solid 1px; border-right: solid 1px; height: 10px; width: 10px;"></div>\
                                 <span id="destination1">'+v1+'</span>\
                             </td>\
                         </tr>\
@@ -301,10 +304,7 @@
                     <table style="width: 100%; font-size: 11px;" class="cp">\
                         <tr>\
                             <td rowspan="2" style="border-right: solid 0.5px; padding-left: 15px; width: 60%; vertical-align: top; text-align: left;">\
-                                <strong> PT TIPS Inovasi Indonesia </strong><br>\
-                                DBS Bank Tower Lantai 12<br>\
-                                Jl. Prof. Dr. Satrio Kav 3 - 5 <br>\
-                                Karet Kuningan, Jakarta Selatan\
+                                <strong> PT TIPS Inovasi Indonesia </strong><br>' + v3 + '\
                             </td>\
                             <td style="border-bottom: solid 0.5px; width: 40%; vertical-align: top; text-align: left;">\
                                 <strong> Customer Service </strong><br>\
@@ -312,8 +312,7 @@
                             </td>\
                         </tr>\
                             <td style="width: 40%;">\
-                                &#9742; 021 2988871<br>\
-                                &#9742; 021 2988872<br>\
+                                &#9742; '+ v4+'<br>\
                             </td>\
                         </tr>\
                     </table>\
@@ -325,7 +324,7 @@
             setTimeout(function() {
                 WinPrint.focus();
                 WinPrint.print();
-            }, 250);
+            }, 500);
             //WinPrint.close()
         }
 
