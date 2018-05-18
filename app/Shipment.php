@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Http\Controllers\WalletAll;
 
 class Shipment extends Model
 {
@@ -27,5 +28,14 @@ class Shipment extends Model
 
     public function slotList(){
     	return $this->hasOne('App\SlotList', 'id', 'id_slot');
+    }
+
+    public function create_transaction(){
+        if($this->id_wallet_transaction != null)
+            return;
+
+        $wt = WalletAll::KIRIM_TRANSACTION($this->id_shipper, $this->flight_cost, 0, "");
+        $this->id_wallet_transaction = $wt->id;
+        $this->save();
     }
 }

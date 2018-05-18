@@ -769,5 +769,7 @@ class DatabaseSeeder extends Seeder
         $this->call(AirportcityListTableSeeder::class);
         $this->call(YearPeriodSeeder::class);
         $this->call(MonthPeriodSeeder::class);
+        $this->call(WalletSeeder::class);
+        $this->call(WalletTransactionSeeder::class);
     }
 }

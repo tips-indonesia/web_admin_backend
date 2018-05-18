@@ -73,6 +73,7 @@ class CreateShipmentsTable extends Migration
             $table->enum('registration_type', ['Offline', 'Online', 'Pickup'])->default('Pickup');
             $table->boolean('is_online_payment')->nullable();
             $table->unsignedInteger('id_payment_type');
+            $table->unsignedInteger('id_wallet_transaction')->nullable();
             $table->string('shipment_contents');
             $table->string('estimate_goods_value');
             $table->unsignedInteger('estimate_weight');

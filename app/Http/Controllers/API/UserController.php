@@ -275,7 +275,8 @@ class UserController extends Controller
 
     public function sendSMSCodeForFBTwitterRegistered(Request $request){
         $member_list = MemberList::where('mobile_phone_no', $request->mobile_phone_no)->first();
-        $member_list_social = MemberList::where('uniq_social_id', $request->uniq_social_id)->first();
+        $member_list_social = MemberList::where('fb_token', $request->uniq_social_id)
+                              ->orWhere('twitter_token', $request->uniq_social_id)->first();
         if(!$member_list){
             if(!$member_list_social){
                 $data = array(
@@ -356,20 +357,18 @@ class UserController extends Controller
         }
      */
     function actionFB(Request $request) {
-        $member_list = MemberList::where('uniq_social_id', $request->uniq_social_id)->first();
+        $member_list = MemberList::where('fb_token', $request->uniq_social_id)->first();
         if($member_list != null) {
             $data = array(
                 'err' => null,
                 'result' => $member_list
             );
         } else {
-            
             if($member_list == null)
                 $member_list = new MemberList;
 
             $member_list->registered_date = date('Y-m-d');
-            $member_list->fb_token = $request->fb_token;
-            $member_list->uniq_social_id = $request->uniq_social_id;
+            $member_list->fb_token = $request->uniq_social_id;
 
             // default name
             $member_list->first_name = "Twitter user: " . $request->uniq_social_id;
@@ -431,20 +430,18 @@ class UserController extends Controller
         }
      */
     function actionTwitter(Request $request) {
-        $member_list = MemberList::where('uniq_social_id', $request->uniq_social_id)->first();
+        $member_list = MemberList::where('twitter_token', $request->uniq_social_id)->first();
         if($member_list != null) {
             $data = array(
                 'err' => null,
                 'result' => $member_list
             );
         } else {
-
             if($member_list == null)
                 $member_list = new MemberList;
 
             $member_list->registered_date = date('Y-m-d');
-            $member_list->twitter_token = $request->twitter_token;
-            $member_list->uniq_social_id = $request->uniq_social_id;
+            $member_list->twitter_token = $request->uniq_social_id;
 
             // default name
             $member_list->first_name = "Twitter user: " . $request->uniq_social_id;
@@ -641,13 +638,15 @@ class UserController extends Controller
             $isPhoneRegistered = false;
         }else{
             if($fbToken){
-                $member_list_will_delete = MemberList::where('uniq_social_id', $uniqSocialId)->where('mobile_phone_no', null)->first();
+                $member_list_will_delete = MemberList::where('fb_token', $uniqSocialId)
+                                           ->where('mobile_phone_no', null)->first();
                 if($member_list_will_delete)
                     $member_list_will_delete->delete();
             }
 
             if($twitterToken){
-                $member_list_will_delete = MemberList::where('uniq_social_id', $twitterToken)->where('mobile_phone_no', null)->first();
+                $member_list_will_delete = MemberList::where('twitter_token', $uniqSocialId)
+                                           ->where('mobile_phone_no', null)->first();
                 if($member_list_will_delete)
                     $member_list_will_delete->delete();
             }
@@ -658,9 +657,12 @@ class UserController extends Controller
         if($isSMSCodeValid){
             $member_list->sms_code = -1;
             if($isPhoneRegistered){
-                $member_list->uniq_social_id = $uniqSocialId;
-                $member_list->fb_token = $fbToken;
-                $member_list->twitter_token = $twitterToken;
+                if($fbToken)
+                    $member_list->fb_token = $uniqSocialId;
+
+                if($twitterToken)
+                    $member_list->twitter_token = $uniqSocialId;
+
             }else{
                 $member_list->mobile_phone_no = $phoneNo;
             }

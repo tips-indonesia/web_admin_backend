@@ -39,6 +39,7 @@ class ShipmentController extends Controller
         }
 
         $shipment->save();
+
         return $shipment;
     }
 

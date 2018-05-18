@@ -974,16 +974,17 @@ class UtilityController extends Controller
     }
 
     public function tesIklan(Request $req){
+        $banner = HomeBanner::first();
         $data = array(
             'err' => null,
             'result' => [
-                "iklan" => [
+                "iklan" => $banner ? [
                     [
-                        "img_src" => URL::to('storage/banner/' . HomeBanner::first()->file_name),
+                        "img_src" => URL::to('storage/banner/' . $banner->file_name),
                         "title" => "Tes image",
                         "description" => "Lalala"
                     ]
-                ]
+                ] : []
             ]
         );
 

@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Http\Controllers\WalletAll;
 
 class SlotList extends Model
 {
@@ -39,5 +40,15 @@ class SlotList extends Model
 
     public function airportDestination(){
         return $this->hasOne('App\AirportList', 'id', 'id_destination_airport');
+    }
+
+    public function create_transaction(){
+        if($this->id_wallet_transaction != null)
+            return;
+
+        $price = $this->baggage_space * $this->slot_price_kg;
+        $wt = WalletAll::ANTAR_TRANSACTION($this->id_member, 0, $price, "");
+        $this->id_wallet_transaction = $wt->id;
+        $this->save();
     }
 }

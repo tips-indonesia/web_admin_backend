@@ -17,6 +17,7 @@ class CreateSlotListsTable extends Migration
             $table->increments('id');
             $table->string('slot_id');
             $table->unsignedInteger('id_member');
+            $table->unsignedInteger('id_wallet_transaction')->nullable();
             $table->string('booking_code');
             $table->string('first_name');
             $table->string('last_name');
