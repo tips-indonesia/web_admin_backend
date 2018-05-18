@@ -90,9 +90,9 @@ class DeliveryController extends Controller
         $tomDateStr = (string) \Carbon\Carbon::now()->addDays(1)->format('d/m/Y');
         $nextTomDateStr = (string) \Carbon\Carbon::now()->addDays(2)->format('d/m/Y');
 
-        $nowDate = \Carbon\Carbon::parse($nowDateStr);
-        $tomDate = \Carbon\Carbon::parse($tomDateStr);
-        $nextTomDate = \Carbon\Carbon::parse($nextTomDateStr);
+        $nowDate = \Carbon\Carbon::createFromFormat('d/m/Y', $nowDateStr);
+        $tomDate = \Carbon\Carbon::createFromFormat('d/m/Y', $tomDateStr);
+        $nextTomDate = \Carbon\Carbon::createFromFormat('d/m/Y', $nextTomDateStr);
 
         $isToday = ($today_or_tomorrow == $MANIFEST_TYPE_TODAY);
         $isDeparture = ($departure_or_arrival == $MANIFEST_TYPE_DEPARTURE);
