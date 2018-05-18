@@ -408,6 +408,10 @@ class UserController extends Controller
 
             $member_list->save();
             $member_list->money = $this->getMoney($member_list->id);
+            
+            if($member_list->profil_picture){
+                $member_list->profil_picture = url('/image/profil_picture').'/'.$member_list->profil_picture;
+            }
 
             $data = array(
                 'err' => null,
@@ -481,6 +485,10 @@ class UserController extends Controller
 
             $member_list->save();
             $member_list->money = $this->getMoney($member_list->id);
+            
+            if($member_list->profil_picture){
+                $member_list->profil_picture = url('/image/profil_picture').'/'.$member_list->profil_picture;
+            }
 
             $data = array(
                 'err' => null,
@@ -668,6 +676,11 @@ class UserController extends Controller
             }
 
             $member_list->save();
+
+            if($member_list->profil_picture){
+                $member_list->profil_picture = url('/image/profil_picture').'/'.$member_list->profil_picture;
+            }
+
             $data = array(
                 'err' => null,
                 'result' => $member_list
