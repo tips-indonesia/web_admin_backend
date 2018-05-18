@@ -359,6 +359,11 @@ class UserController extends Controller
     function actionFB(Request $request) {
         $member_list = MemberList::where('fb_token', $request->uniq_social_id)->first();
         if($member_list != null) {
+
+            if($member_list->profil_picture){
+                $member_list->profil_picture = url('/image/profil_picture').'/'.$member_list->profil_picture;
+            }
+
             $data = array(
                 'err' => null,
                 'result' => $member_list
@@ -436,6 +441,11 @@ class UserController extends Controller
     function actionTwitter(Request $request) {
         $member_list = MemberList::where('twitter_token', $request->uniq_social_id)->first();
         if($member_list != null) {
+
+            if($member_list->profil_picture){
+                $member_list->profil_picture = url('/image/profil_picture').'/'.$member_list->profil_picture;
+            }
+            
             $data = array(
                 'err' => null,
                 'result' => $member_list
