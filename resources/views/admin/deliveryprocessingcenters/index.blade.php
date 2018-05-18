@@ -46,7 +46,7 @@
                 <tr>
                     <th>Delivery ID</th>
                     <th>Delivery Time</th>
-                    <th>Total Shipment</th>
+                    <th>Total Packaging</th>
                     <th>Action</th>
                 </tr>
             </thead>
