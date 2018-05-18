@@ -231,8 +231,8 @@ class ShipmentController extends Controller
                 $bsc = new cURLFaker;
                 $email = $ms_user->email;
                 $nama = $ms_user->first_name . ' ' . $ms_user->last_name;
-                $kirimcode = $shipment_out->shipment_id;
-                $penerima = $shipment_out->received_by;
+                $kirimcode = $shipment->shipment_id;
+                $penerima = $shipment->received_by;
 
                 if($email)
                     $bsc->sendMailShipperStep8($email, $nama, $kirimcode, $penerima);
