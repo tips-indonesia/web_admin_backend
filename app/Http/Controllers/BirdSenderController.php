@@ -137,7 +137,7 @@ class BirdSenderController extends Controller
         $NOMOR_CALL_CENTER = "911";
         $ANTAR_CODE = "AA8834";
 
-        $this->sendMailTipsterStep3($email, $NAMA, $ANTAR_CODE, 
+        $bsc->sendMailTipsterStep3($email, $NAMA, $ANTAR_CODE, 
             $ORIGIN_AIRPORT_NAME, $_3HOURS_DEPARTURE_TIME, 
             $NOMOR_CALL_CENTER);
     }
