@@ -20,9 +20,6 @@
                         <input type="text" name="date" id="date" class="form-control pickadate-year" placeholder="Transaction date" value="{{$data->delivery_date }}" disabled>
                     </div>
                 </div>
-                <div class="text-right form-group">
-                    <button type="submit" class="btn btn-primary" disabled>Choose Date <i class="icon-arrow-right14 position-right" ></i></button>
-                </div>
             {{ Form::close() }}
             {{ Form::open(array('url' => route('deliveryprocessingcenters.update', $data->id), 'method' => 'PUT')) }}
                 <div class="col-md-6">

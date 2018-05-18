@@ -59,17 +59,14 @@ class ReceivedArrivalProcessingCenterAdminController extends Controller
 
         if ($flag == true) {
         	$packages = $packages
-              ->where('shipments.id_shipment_status', '>=', '11')
               ->where(Input::get('param'), Input::get('value'))
               ->distinct();		
         } else {
         	$packages = $packages
-                  ->where('shipments.id_shipment_status', '>=', '11')
                   ->distinct();
         }
         
         $packages = $packages->pluck('id');
-
         $deliveries = ArrivalShipment::whereIn('id', ArrivalShipmentDetail::whereIn('packaging_lists_id', $packages)->pluck('arrival_shipment_id'))->get();
         foreach($deliveries as $delivery) {
             // $detilarrivalshipment = ArrivalShipmentDetail::
