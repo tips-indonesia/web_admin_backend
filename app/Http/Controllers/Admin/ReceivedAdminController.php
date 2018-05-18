@@ -83,6 +83,11 @@ class ReceivedAdminController extends Controller
             $ship['origin'] = AirportcityList::find($ship->id_origin_city)->name;
             $ship['destination'] = AirportcityList::find($ship->id_destination_city)->name;
         }
+
+        foreach($data['datas2'] as $ship) {
+            $ship['origin'] = AirportcityList::find($ship->id_origin_city)->name;
+            $ship['destination'] = AirportcityList::find($ship->id_destination_city)->name;
+        }
         $data['datas'] = $shipment_data;
 
 

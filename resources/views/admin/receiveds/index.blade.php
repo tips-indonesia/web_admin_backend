@@ -110,22 +110,22 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($datas2 as $data)
+                                        @foreach ($datas2 as $dat)
                                             <tr>
                                                 <td>
-                                                   {{ $data->shipment_id }}
+                                                   {{ $dat->shipment_id }}
                                                 </td>
                                                 <td>
-                                                    {{ $data->transaction_date }}
+                                                    {{ $dat->transaction_date }}
                                                 </td>
                                                 <td>
-                                                    {{ $data->origin }}
+                                                    {{ $dat->origin }}
                                                 </td>
                                                 <td>
-                                                    {{ $data->destination }}
+                                                    {{ $dat->destination }}
                                                 </td>
                                                 <td>
-                                                    {{ $data->estimate_weight }}
+                                                    {{ $dat->estimate_weight }}
                                                 </td>
                                             </tr>
                                         @endforeach
