@@ -306,7 +306,8 @@ class BirdSenderController extends Controller
                     $this->sendMailTipsterStep2($req->email, $req->NAMA, $req->ANTAR_CODE, $req->JAM_TANGGAL);
                     break;
                 case '3':
-                    $this->sendMailTipsterStep3($req->email, $req->NAMA, $req->ANTAR_CODE, $req->$ORIGIN_AIRPORT_NAME, $req->_3HOURS_DEPARTURE_TIME, $req->NOMOR_CALL_CENTER);
+                    $this->sendMailTipsterStep3($req->email, $req->NAMA, $req->ANTAR_CODE, 
+                        $req->$ORIGIN_AIRPORT_NAME, $req->_3HOURS_DEPARTURE_TIME, $req->NOMOR_CALL_CENTER);
                     break;
                 case '7':
                     $this->sendMailTipsterStep7($req->email, $req->NAMA);
