@@ -92,6 +92,8 @@ class ReferralController extends Controller
         $data['namabulan'] = Input::get('bulan');
         $data['namatahun'] = Input::get('tahun');
 
+        $data['latest_referral_id'] = Referral::latest()->first()->id;
+
     	return view('admin.referral.index', $data);
     }
 

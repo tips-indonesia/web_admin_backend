@@ -52,8 +52,6 @@
                         <div class="text-right form-group">
                             <button type="submit" name="submit" value="save" class="btn btn-primary">View<i class="icon-arrow-right14 position-right"></i></button>
                         </div>
-                    </div>
-                </div>
             {{ Form::close() }}
 
             <table class="table datatable-pagination" style="margin-left: 10px;">
@@ -65,6 +63,7 @@
                     <th>No</th>
                     <th>Tanggal Awal</th>
                     <th>Tanggal Akhir</th>
+                    <th>Status</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -80,6 +79,9 @@
                         </td>                        
                         <td>
                             {{ $datas->end_date }}
+                        </td>
+                        <td>
+                            {{ $datas->id == $latest_referral_id ? "Aktif" : "Tidak Aktif" }}
                         </td>
                         <td>
                             <ul class="icons-list">
@@ -102,6 +104,7 @@
         </table>
 
         </div>
-        
+    </div>
+                </div>        
     </div>
 @endsection
