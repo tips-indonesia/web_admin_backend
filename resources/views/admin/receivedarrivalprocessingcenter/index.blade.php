@@ -58,29 +58,31 @@
         <table class="table datatable-pagination">
             <thead>
                 <tr>
-                    <th>Packaging ID</th>
                     <th>Delivery ID</th>
-                    <th>Total Shipment</th>
+                    <th>Delivery Time</th>
+                    <th>Total Packaging</th>
                     <th>Status</th>
-                    <th>Receive Date</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach($deliveries as $delivery)
+                @foreach ($deliveries as $delivery)
                 @if($delivery->is_included)
-                @if($delivery->is_received_by_pc == $checked || $checked == -1)
-                <tr>
-                	<td>
-                        <a href="{{ route('receivedarrivalprocessingcenter.show', $delivery->id) }}">
-                            {{$delivery->packaging_id}}
-                        </a>
-                    </td>
-                    <td>{{$delivery->delivery_id}}</td>
-                    <td>{{$delivery->total_shipment}}
-                    <td>{{$delivery->is_received_by_pc == 0 ? 'Belum Diterima':'Sudah Diterima'}}</td>
-                    <td>{{$delivery->received_by_pc_date}}</td>
-                </tr>
-                @endif
+                    <tr>
+                        <td>
+                            <a href="{{ route('receivedarrivalprocessingcenter.show', $delivery->id) }}">
+                                {{$delivery->delivery_id}}
+                            </a>
+                        </td>
+                        <td>
+                            {{ $delivery->delivery_time }}
+                        </td>
+                        <td>
+                            {{ $delivery->arrivalShipmentDetail->count() }}
+                        </td>
+                        <td>
+                            {{$delivery->is_received_by_pc == 0 ? 'Belum Diterima':'Sudah Diterima'}}
+                        </td>
+                    </tr>
                 @endif
                 @endforeach
             </tbody>

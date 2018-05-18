@@ -12,36 +12,64 @@
         <div class="row">
             <div class="col-sm-12">
                 <div class="form-group">
-                    <label>Packaging ID :</label>
-                    <input type="text" class="form-control" value="{{$package->packaging_id}}" readonly disabled>
+                    <label>Delivery ID :</label>
+                    <input type="text" class="form-control" value="{{$delivery->delivery_id}}" readonly disabled>
                 </div>
             </div>
 
             <div class="col-md-6">
-                <label>Total Shipment : {{count($shipments)}}</label><br><br>
-                <label>Shipment List</label>
+                <label>Receive Date : {{$delivery->received_by_pc_date}} </label><br>
+                <label>Total Packaging : {{$delivery->arrivalShipmentDetail->count()}}</label><br><br>
+                <label>Packaging List</label>
+
             </div>
 
             <table class="table datatable-pagination">
                 <thead>
                     <tr>
-                        <th>Shipment ID</th>
-                        <th>Date</th>
-                        <th>Original</th>
-                        <th>Destination</th>
-                        <th>Weight</th>
+                        <th> Package ID </th>
+                        <th> Total Shipment </th>
                     </tr>
                 </thead>
-                <tbody>
-                    @foreach($shipments as $shipment)
                     <tr>
-                        <td>{{$shipment->shipment_id}}</td>
-                        <td>{{$shipment->transaction_date}}</td>
-                        <td>{{$shipment->origin_city}}</td>
-                        <td>{{$shipment->destination_city}}</td>
-                        <td>{{$shipment->real_weight}}</td>
+                        @foreach($packages as $pack)
+                        <td> 
+                            <a data-toggle="collapse" data-target="#pack{{$pack->id}}">
+                                {{$pack->packaging_id}} 
+                            </a>
+                        </td>
+                        <td> {{count($pack->shipments)}} </td>
                     </tr>
-                    @endforeach
+                    <tr id="pack{{$pack->id}}" class="collapse">
+                        <td colspan="2">
+                                <table class="table datatable-pagination">
+                                    <thead>
+                                        <tr>
+                                            <th>Shipment ID</th>
+                                            <th>Date</th>
+                                            <th>Origin</th>
+                                            <th>Destination</th>
+                                            <th>Weight</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            @foreach($pack->shipments as $ship)
+                                                <td>{{$ship->shipment_id}}</td>
+                                                <td>{{$ship->transaction_date}}</td>
+                                                <td>{{$ship->origin_city}}</td>
+                                                <td>{{$ship->destination_city}}</td>
+                                                <td>{{$ship->real_weight}}</td>
+                                            @endforeach
+                                        </tr>
+                                    </tbody>
+                                </table>
+                        </td>
+                    </tr>
+                        @endforeach
+                    </tr>
+                <tbody>
+                    
                 </tbody>
             </table>
 
