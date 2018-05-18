@@ -60,7 +60,7 @@ class ReceivedAdminController extends Controller
             $shipment_data = $shipment_data->where('id_shipment_status', 3);
         }
 
-        $data['datas2'] = Shipment::where('id_shipment_status', '>=', 3)->where('is_take',1)->where('is_posted', 1)->get();
+        $data['datas2'] = Shipment::where('id_shipment_status', '>=', 3)->get();
         
         if (Input::get('date')) {
             $shipment_data = $shipment_data->where('pickup_date', Input::get('date'));

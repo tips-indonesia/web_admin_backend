@@ -5,6 +5,7 @@
 @endsection
 @section('page_title')
     <span class="text-semibold">Delivery Shipment</span> - Show All
+    <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#modal_small">Pending Item</i></button>
 @endsection
 
 @section('content')
@@ -97,6 +98,60 @@
     </div>  
 
     </div>
+
+    <div id="modal_small" class="modal fade">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h5 class="modal-title">Pending Item</h5>
+                    </div>
+
+                    <div class="modal-body">
+                            <div class="panel panel-flat">
+                                <table class="table datatable-pagination">
+                                    <thead>
+                                        <tr>
+                                            <th>Shipment ID</th>
+                                            <th>Status Dikirim</th>
+                                            <th>Dikirim Oleh</th>
+                                            <th>Status Diterima</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($datas2 as $dat)
+                                            <tr>
+                                                <td>
+                                                   {{ $dat->shipment_id }}
+                                                </td>
+                                                <td>
+                                                    @if($shipment->id_shipment_status == 12)
+                                                    Belum Dikirim
+                                                    @else
+                                                    Sudah Dikirim
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    {{$dat->nama_pengirim}}
+                                                </td>
+                                                <td>
+                                                    @if($shipment->id_shipment_status == 15)
+                                                    Sudah Diterima
+                                                    @else
+                                                    Belum Diterima
+                                                    @endif
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>                            </div>
+                    </div>
+
+                    <div class="modal-footer">
+                    </div>
+                </div>
+            </div>
+        </div>
     <script type="text/javascript">
         var date = new Date();
         date.setDate(date.getDate() - 1);
