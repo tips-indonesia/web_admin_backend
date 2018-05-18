@@ -39,17 +39,20 @@ class ReferralController extends Controller
             $month = '10';
         }elseif(Input::get('bulan') === 'November') {
             $month = '11';
-        }else {
+        }elseif(Input::get('bulan') === 'Desember') {
             $month = '12';
+        }else {
+            $month = date("m");
         }
-        $year = Input::get('tahun');
        
         if(Input::get('tahun')) {
+            $year = Input::get('tahun');
             $datas = DB::table('referral')->whereMonth('start_date','<=',$month)->whereMonth('end_date','>=',$month)->whereYear('start_date',$year)->get();
             session(['bulan' => Input::get('bulan')]);
             session(['tahun' => $year]);
             session(['bulanangka' => $month]);
         } else {
+            $year = date("Y");
             $datas = DB::table('referral')->whereMonth('start_date','<=',date("n"))->whereMonth('end_date','>=',date("n"))->whereYear('start_date',date("Y"))->get();
             if(date("n") === '1') {
                 session(['bulan' => 'Januari']);
@@ -83,9 +86,13 @@ class ReferralController extends Controller
 
         $data['tahun'] = $tahun;
         $data['bulan'] = $bulan;
+        $data['selbulan'] = $month;
+        $data['seltahun'] = $year;
         $data['data'] = $datas;
         $data['namabulan'] = Input::get('bulan');
         $data['namatahun'] = Input::get('tahun');
+
+        $data['latest_referral_id'] = Referral::latest()->first()->id;
 
     	return view('admin.referral.index', $data);
     }

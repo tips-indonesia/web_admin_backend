@@ -61,31 +61,33 @@ class ReceivedArrivalProcessingCenterAdminController extends Controller
         	$packages = $packages
               ->where('shipments.id_shipment_status', '>=', '11')
               ->where(Input::get('param'), Input::get('value'))
-              ->distinct()
-              ->get();       			
+              ->distinct();		
         } else {
         	$packages = $packages
                   ->where('shipments.id_shipment_status', '>=', '11')
-                  ->distinct()
-                  ->get();    
+                  ->distinct();
         }
-        foreach($packages as $delivery) {
-            $detilarrivalshipment = ArrivalShipmentDetail::
-                      where('packaging_lists_id', $delivery->id)->first();
-            $dumm = ArrivalShipment::find($detilarrivalshipment->arrival_shipment_id);
+        
+        $packages = $packages->pluck('id');
 
-            $delivery['delivery_id'] = $dumm->delivery_id;
-            $delivery['delivery_date'] = $dumm->delivery_date;
+        $deliveries = ArrivalShipment::whereIn('id', ArrivalShipmentDetail::whereIn('packaging_lists_id', $packages)->pluck('arrival_shipment_id'))->get();
+        foreach($deliveries as $delivery) {
+            // $detilarrivalshipment = ArrivalShipmentDetail::
+            //           where('packaging_lists_id', $delivery->id)->first();
+            // $dumm = ArrivalShipment::find($detilarrivalshipment->arrival_shipment_id);
+
+            // $delivery['delivery_id'] = $dumm->delivery_id;
+            // $delivery['delivery_date'] = $dumm->delivery_date;
             $delivery['is_included'] = true;
               if ($delivery['delivery_date'] != $data['date']) {
                 $delivery['is_included'] = false;
               }
             $delivery['total_shipment'] = Shipment::where('id_slot', $delivery->id_slot)->count();
-            $delivery['is_received_by_pc'] = $dumm->is_received_by_pc;
-            $delivery['received_by_pc_date'] = $dumm->received_by_pc_date;
+            // $delivery['is_received_by_pc'] = $dumm->is_received_by_pc;
+            // $delivery['received_by_pc_date'] = $dumm->received_by_pc_date;
         }
 
-    	$data['deliveries'] = $packages;
+    	$data['deliveries'] = $deliveries;
         $data['checked'] = $checked;
     	return view('admin.receivedarrivalprocessingcenter.index', $data);
     }
@@ -116,21 +118,20 @@ class ReceivedArrivalProcessingCenterAdminController extends Controller
     }
 
     public function show($id) {
-        $package = PackagingList::find($id);
-        $delivery = ArrivalShipment::find(
-          ArrivalShipmentDetail::where('packaging_lists_id', $id)
-                  ->first()
-                  ->arrival_shipment_id
-        );
+        $delivery = ArrivalShipment::find($id);
+        $package = PackagingList::whereIn('id', ArrivalShipmentDetail::where('arrival_shipment_id', $id)->pluck('packaging_lists_id'))->get();
 
-        $shipments = Shipment::where('id_slot', $package->id_slot)->get();
-        foreach ($shipments as $shipment) {
+        foreach ($package as $pack) {
+          $pack['shipments'] = Shipment::where('id_slot', $pack->id_slot)->get();  
+          foreach ($pack['shipments'] as $shipment) {
             $shipment['origin_city'] = AirportcityList::find($shipment->id_origin_city)->name;
             $shipment['destination_city'] = AirportcityList::find($shipment->id_destination_city)->name;
+          }
         }
+        
+        
         $data['delivery'] = $delivery;
-        $data['package'] = $package;
-        $data['shipments'] = $shipments;
+        $data['packages'] = $package;
         return view('admin.receivedarrivalprocessingcenter.show', $data);
     }  
 }

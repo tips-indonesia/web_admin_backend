@@ -245,7 +245,11 @@ class DeliveryDepartureCounterAdminController extends Controller
                 }
             }
         }
-        return Redirect::to(route('deliverydeparturecounters.index'));
+        if (Input::get('submit') == 'post') {
+            return Redirect::to(route('deliverydeparturecounters.index'));
+        } else if (Input::get('submit') == 'save'){
+            return back();
+        }
     }
 
     /**

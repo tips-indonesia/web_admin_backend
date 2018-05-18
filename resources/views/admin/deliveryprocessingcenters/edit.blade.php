@@ -35,7 +35,7 @@
                                     <label>Delivery Time :</label>
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="icon-calendar5"></i></span>
-                                        <input type="text" name="delivery_time" class="form-control pickatime" placeholder="Received date" value="{{$data->delivery_date    }}">
+                                        <input type="text" name="delivery_time" class="form-control pickatime" placeholder="Received date" value="{{$data->delivery_time    }}">
                                     </div>
                                 </div>
                         <div class="text-right form-group">

@@ -19,6 +19,13 @@
                 <div class="panel panel-flat">
                     <div class="panel-body">
                         <div class="row">
+                             <div class="col-md-12">
+                                <div class="form-group">
+                                    <h4>Bulan {{ session('bulan') }} {{ $year }}</h4>
+                                    
+                                </div>
+                            </div>
+                            
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label>Tanggal Awal :</label>

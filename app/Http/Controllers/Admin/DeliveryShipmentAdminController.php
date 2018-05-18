@@ -55,7 +55,8 @@ class DeliveryShipmentAdminController extends Controller
         else 
             $checked = Input::get('radio');
 
-
+        
+        $datas2 = Shipment::whereIn('id_slot', $slotId)->where('id_shipment_status', 12)->get();
         if ($flag == true) {
         	$shipments = $shipments->whereIn('id_shipment_status', [12,14,15])
                                  ->where(Input::get('param'), Input::get('value'));       			
@@ -86,9 +87,18 @@ class DeliveryShipmentAdminController extends Controller
             }
         }
 
+        // foreach($data['datas2'] as $ship) {
+        //     if ($ship->delivered_by != null) {
+        //         $user = User::find($shipment->delivered_by);
+        //         $ship['nama_pengirim'] = $user->first_name.' '.$user->last_name;
+        //     } else {
+        //         $ship['nama_pengirim'] = null;
+        //     }
+        // }
+
         $data['checked'] = $checked;
     	$data['shipments'] = $shipments;
-
+        $data['datas2'] = $datas2;
     	return view('admin.deliveryshipment.index', $data);
     }
 

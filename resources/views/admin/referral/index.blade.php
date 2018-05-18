@@ -12,17 +12,18 @@
     <!-- Vertical form options -->
     <div class="row">
         <div class="col-md-12">
-            {{ Form::open(array('method'=> 'get','url' => route('promotions.index'))) }}
+            {{ Form::open(array('method'=> 'get','url' => route('referral.index'))) }}
                 <div class="panel panel-flat">
                     <div class="panel-body">
                         <div class="row">
+
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label>Tahun</label>
 
                                     <select name="tahun" class="form-control">
                                         @foreach($tahun as $tahu)
-                                            @if($tahu->year_period == date("Y"))
+                                            @if($tahu->year_period == $seltahun)
                                                 <option value="{{ $tahu->year_period }}" selected="">{{ $tahu->year_period }}</option>
                                             @else
                                                 <option value="{{ $tahu->year_period }}">{{ $tahu->year_period }}</option>
@@ -38,7 +39,7 @@
                                     <label>Bulan</label>
                                     <select name="bulan" class="form-control">
                                         @foreach($bulan as $bula)
-                                            @if($bula->id == date("n"))
+                                            @if($bula->id == $selbulan)
                                                 <option value="{{ $bula->nama }}" selected="">{{ $bula->nama }}</option>
                                             @else
                                                 <option value="{{ $bula->nama }}" >{{ $bula->nama }}</option>
@@ -51,8 +52,6 @@
                         <div class="text-right form-group">
                             <button type="submit" name="submit" value="save" class="btn btn-primary">View<i class="icon-arrow-right14 position-right"></i></button>
                         </div>
-                    </div>
-                </div>
             {{ Form::close() }}
 
             <table class="table datatable-pagination" style="margin-left: 10px;">
@@ -64,6 +63,7 @@
                     <th>No</th>
                     <th>Tanggal Awal</th>
                     <th>Tanggal Akhir</th>
+                    <th>Status</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -79,6 +79,9 @@
                         </td>                        
                         <td>
                             {{ $datas->end_date }}
+                        </td>
+                        <td>
+                            {{ $datas->id == $latest_referral_id ? "Aktif" : "Tidak Aktif" }}
                         </td>
                         <td>
                             <ul class="icons-list">
@@ -101,6 +104,7 @@
         </table>
 
         </div>
-        
+    </div>
+                </div>        
     </div>
 @endsection

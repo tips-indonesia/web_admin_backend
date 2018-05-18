@@ -23,7 +23,12 @@ class ShipmentTrackingAdminController extends Controller
 	public function index()
     {
         if (Input::get('shipment_id') != null) {
-            $id = Shipment::where('shipment_id', Input::get('shipment_id'))->get()->first()->shipment_id;
+            $ship = Shipment::where('shipment_id', Input::get('shipment_id'))->get()->first();
+            if ($ship != null) {
+                $id = $ship->shipment_id;
+            } else {
+                return back();
+            }
             return Redirect::to(route('shipmenttrackings.show', $id));
 
         } else {

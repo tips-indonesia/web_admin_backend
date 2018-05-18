@@ -126,6 +126,8 @@ class SlotListAdminController extends Controller
             $ret_data['destination'] = $data['data']['destination_airport'];
             $ret_data['shipments'] = Shipment::where('id_slot', $id)->get(['shipment_id', 'transaction_date', 'id_origin_city', 'id_destination_city', 'real_weight']);
             $ret_data['total_weight'] = 0;
+            $user = User::find(Auth::id());
+            $ret_data['office'] = OfficeList::find($user->id_office);
             foreach ($ret_data['shipments'] as $dat) {
                 $dat['origin'] = AirportcityList::find($dat['id_origin_city'])->name;
                 $dat['destination'] = AirportcityList::find($dat['id_destination_city'])->name;

@@ -5,7 +5,7 @@
 @endsection
 @section('page_title')
 <span class="text-semibold">Promotions</span>- Show All
-<button type="button" class="btn btn-success" onclick="window.location.href='{{ route('promotions.create') }}'">Create</button>
+<button type="button" class="btn btn-success" onclick="window.location.href='{{ route('promotions.create') }}?month={{$selbulan}}&year={{$seltahun}}'">Create</button>
 @endsection
 @section('content')
 
@@ -22,7 +22,7 @@
 
                                     <select name="tahun" class="form-control">
                                         @foreach($tahun as $tahu)
-                                            @if($tahu->year_period == date("Y"))
+                                            @if($tahu->year_period == $seltahun)
                                                 <option value="{{ $tahu->year_period }}" selected="">{{ $tahu->year_period }}</option>
                                             @else
                                                 <option value="{{ $tahu->year_period }}">{{ $tahu->year_period }}</option>
@@ -38,7 +38,7 @@
                                     <label>Bulan</label>
                                     <select name="bulan" class="form-control">
                                         @foreach($bulan as $bula)
-                                            @if($bula->id == date("n"))
+                                            @if($bula->id == $selbulan)
                                                 <option value="{{ $bula->nama }}" selected="">{{ $bula->nama }}</option>
                                             @else
                                                 <option value="{{ $bula->nama }}" >{{ $bula->nama }}</option>

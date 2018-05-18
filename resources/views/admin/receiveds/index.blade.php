@@ -5,6 +5,7 @@
 @endsection
 @section('page_title')
     <span class="text-semibold">Received by Processing Center</span> - Show All
+    <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#modal_small">Pending Item</i></button>
 @endsection
 @section('content')
     <div class="panel panel-flat">
@@ -87,6 +88,57 @@
 
 {{ $datas->links() }}
     </div>
+
+     <div id="modal_small" class="modal fade">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h5 class="modal-title">Pending Item</h5>
+                    </div>
+
+                    <div class="modal-body">
+                            <div class="panel panel-flat">
+                                <table class="table datatable-pagination">
+                                    <thead>
+                                        <tr>
+                                            <th>Shipment ID</th>
+                                            <th>Transaction Date</th>
+                                            <th>Origin</th>
+                                            <th>Destination</th>
+                                            <th>Weight</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($datas2 as $dat)
+                                            <tr>
+                                                <td>
+                                                   {{ $dat->shipment_id }}
+                                                </td>
+                                                <td>
+                                                    {{ $dat->transaction_date }}
+                                                </td>
+                                                <td>
+                                                    {{ $dat->origin }}
+                                                </td>
+                                                <td>
+                                                    {{ $dat->destination }}
+                                                </td>
+                                                <td>
+                                                    {{ $dat->estimate_weight }}
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>                            </div>
+                    </div>
+
+                    <div class="modal-footer">
+                    </div>
+                </div>
+            </div>
+        </div>
+
     <script type="text/javascript">
         $('.select-search').select2();
         $('.pickadate-year').datepicker({
