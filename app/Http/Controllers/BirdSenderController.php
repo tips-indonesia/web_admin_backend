@@ -132,14 +132,10 @@ class BirdSenderController extends Controller
         $bsc = new cURLFaker;
         $email = "riochr17@gmail.com";
         $NAMA = 'Rio riorio';
-        $ORIGIN_AIRPORT_NAME = "CGK";
-        $_3HOURS_DEPARTURE_TIME = "2018-02-02 22:22";
-        $NOMOR_CALL_CENTER = "911";
-        $ANTAR_CODE = "AA8834";
+        $SHIPPING_CODE = "ASD222";
+        $RECIPIENT_NAME = "DIKA";
 
-        $bsc->sendMailTipsterStep3($email, $NAMA, $ANTAR_CODE, 
-            $ORIGIN_AIRPORT_NAME, $_3HOURS_DEPARTURE_TIME, 
-            $NOMOR_CALL_CENTER);
+        $bsc->sendMailShipperStep8($email, $NAMA, $SHIPPING_CODE, $RECIPIENT_NAME);
     }
 
     public function sendMailRegistration($email, $NAMA){
@@ -326,7 +322,8 @@ class BirdSenderController extends Controller
                     $this->sendMailShipperStep1($req->email, $req->NAMA, $req->SHIPPING_CODE, $req->NOMOR_CALL_CENTER);
                     break;
                 case '8':
-                    $this->sendMailShipperStep8($req->email, $req->NAMA, $req->SHIPPING_CODE, $req->RECIPIENT_NAME);
+                    $this->sendMailShipperStep8($req->email, $req->NAMA, $req->SHIPPING_CODE, 
+                        $req->RECIPIENT_NAME);
                     break;
                 
                 default:
