@@ -131,8 +131,15 @@ class BirdSenderController extends Controller
 
         $bsc = new cURLFaker;
         $email = "riochr17@gmail.com";
-        $nama = 'Rio riorio';
-        $bsc->sendMailRegistration($email, $nama);
+        $NAMA = 'Rio riorio';
+        $ORIGIN_AIRPORT_NAME = "CGK";
+        $_3HOURS_DEPARTURE_TIME = "2018-02-02 22:22";
+        $NOMOR_CALL_CENTER = "911";
+        $ANTAR_CODE = "AA8834";
+
+        $bsc->sendMailTipsterStep3($email, $NAMA, $ANTAR_CODE, 
+            $ORIGIN_AIRPORT_NAME, $_3HOURS_DEPARTURE_TIME, 
+            $NOMOR_CALL_CENTER);
     }
 
     public function sendMailRegistration($email, $NAMA){
