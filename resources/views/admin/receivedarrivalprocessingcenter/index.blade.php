@@ -30,7 +30,7 @@
                     </label>
                     <label class="radio-inline">
                         <input type="radio" name="radio" @if($checked == 1) checked="checked" @endif value="1">
-                        Diterima
+                        Sudah Diterima
                     </label>
                 </div>
                 <div class="row">

@@ -79,9 +79,14 @@ class ReceivedArrivalProcessingCenterAdminController extends Controller
             // $delivery['delivery_id'] = $dumm->delivery_id;
             // $delivery['delivery_date'] = $dumm->delivery_date;
             $delivery['is_included'] = true;
-              if ($delivery['delivery_date'] != $data['date']) {
+            if ($delivery['delivery_date'] != $data['date']) {
                 $delivery['is_included'] = false;
-              }
+            }
+
+            if ($delivery->is_received_by_pc == 0 && $checked != 0 && $checked != -1) $delivery['is_included'] = false;
+
+            if ($delivery->is_received_by_pc == 1 && $checked != 1 && $checked != -1) $delivery['is_included'] = false;
+
             $delivery['total_shipment'] = Shipment::where('id_slot', $delivery->id_slot)->count();
             // $delivery['is_received_by_pc'] = $dumm->is_received_by_pc;
             // $delivery['received_by_pc_date'] = $dumm->received_by_pc_date;
