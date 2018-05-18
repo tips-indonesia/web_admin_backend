@@ -136,7 +136,7 @@ class PromotionController extends Controller
             return redirect('admin/promotions')->with('status', 'Tanggal Akhir harus lebih besar dari Tanggal Awal');
         } else {
             DB::table('promotions')->insert(
-                ['start_date' => Input::post('tanggal_awal'), 'end_date' => Input::post('tanggal_akhir'), 'header' => Input::post('header_text'), 'content' => Input::post('content_text'),'template_type' => Input::post('template'), 'discount_value' => Input::post('discount'), 'file_name' => $filename]
+                ['start_date' => Input::post('tanggal_awal'), 'end_date' => Input::post('tanggal_akhir'), 'header' => Input::post('header_text'), 'content' => Input::post('content_text'),'template_type' => Input::post('template'), 'discount_value' => Input::post('discount'), 'discount_insurance' => Input::post('discount_insurance'), 'file_name' => $filename]
             );
             return redirect('admin/promotions/create');
         }
@@ -170,7 +170,7 @@ class PromotionController extends Controller
                 if(Input::get('tanggal_awal') > Input::get('tanggal_akhir')) {
                     return redirect('admin/promotions/'.$id.'/edit?')->with('status', 'Tanggal Akhir harus lebih besar dari Tanggal Awal');
                 } else {
-                    DB::table('promotions')->where('id', $id)->update(['start_date' => Input::get('tanggal_awal'), 'end_date' => Input::get('tanggal_akhir'), 'content' => Input::get('content_text'),'template_type' => Input::get('template'), 'discount_value' => Input::get('discount'), 'file_name' => $filename]);
+                    DB::table('promotions')->where('id', $id)->update(['start_date' => Input::get('tanggal_awal'), 'end_date' => Input::get('tanggal_akhir'), 'content' => Input::get('content_text'),'template_type' => Input::get('template'), 'discount_value' => Input::get('discount'), 'discount_insurance' => Input::post('discount_insurance'), 'file_name' => $filename]);
                     return Redirect::to(route('promotions.index'));
                 }
                 
@@ -178,7 +178,7 @@ class PromotionController extends Controller
             if(Input::get('tanggal_awal') > Input::get('tanggal_akhir')) {
                     return redirect('admin/promotions/'.$id.'/edit?')->with('status', 'Tanggal Akhir harus lebih besar dari Tanggal Awal');
                 } else {
-                    DB::table('promotions')->where('id', $id)->update(['start_date' => Input::get('tanggal_awal'), 'end_date' => Input::get('tanggal_akhir'), 'content' => Input::get('content_text'),'template_type' => Input::get('template'), 'discount_value' => Input::get('discount')]);
+                    DB::table('promotions')->where('id', $id)->update(['start_date' => Input::get('tanggal_awal'), 'end_date' => Input::get('tanggal_akhir'), 'content' => Input::get('content_text'),'template_type' => Input::get('template'), 'discount_value' => Input::get('discount'), 'discount_insurance' => Input::post('discount_insurance')]);
                         return Redirect::to(route('promotions.index'));
                 }
                 

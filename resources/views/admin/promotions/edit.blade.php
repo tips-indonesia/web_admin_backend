@@ -93,6 +93,14 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
+                                    <label>Discount Insurance</label>
+                                    <input type="number" class="form-control" name="discount_insurance" placeholder="{{ $data->discount_insurance }}" value="{{ $data->discount_insurance }}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
                                     <label>File Image</label>
                                     
                                     <input type="file" class="form-control" name="image" id="input_file">

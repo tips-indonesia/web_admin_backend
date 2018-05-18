@@ -21,6 +21,7 @@ class CreatePromotionsTable extends Migration
             $table->text('content');
             $table->string('template_type');
             $table->integer('discount_value');
+            $table->integer('discount_insurance');
             $table->string('file_name');
             $table->timestamps();
         });
