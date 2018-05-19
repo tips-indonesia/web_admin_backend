@@ -12,13 +12,30 @@ use App\Transaction;
 use App\EspayNotification;
 use App\Shipment;
 use Storage;
+use stdClass;
 
 class PaymentController extends Controller
 {
     //
     function list_type_payment() {
         $payment_type = PaymentType::all();
+        $payment_all = [];
 
+        foreach ($payment_type as $payment) {
+            $p = new stdClass();
+            $p->bankCode = sprintf("%03d", ($payment->id + 900) % 1000);
+            $p->productCode = 'TIPS-' . $payment->name;
+            $p->productName = $payment->name;
+            $p->isCash = $payment->name == "Cash";
+            array_push($payment_all, $p);
+        }
+
+        foreach ($this->getInquiryMerchantInfo_BankList() as $p) {
+            $p->isCash = false;
+            array_push($payment_all, $p);
+        }
+
+        dd($payment_all);
         $data = array(
             'err' => null,
             'result' => $payment_type
@@ -36,6 +53,7 @@ class PaymentController extends Controller
                 array_push($cards, $card);
             }
         }
+
         $data = array(
             'err' => null,
             'result' => $cards
@@ -263,14 +281,11 @@ class PaymentController extends Controller
         }
     }
 
-    private function getInquiryMerchantInfo_BankList($comm_code, $order_id){
-        $uuid = "TIPS-SR-" . strtoupper("" . uniqid());
+    public function getInquiryMerchantInfo_BankList(){
         
         date_default_timezone_set("Asia/Jakarta");
         $date       = date_create(now());
         $datetime   = date_format($date, 'd/m/Y H:i:s');
-
-        $signature = $this->generateSignature($datetime, $order_id);
         $header = array(
             "Content-Type: application/x-www-form-urlencoded"
         );
@@ -278,14 +293,18 @@ class PaymentController extends Controller
             "http" => array(
                 "method" => "POST",
                 "header" => implode("\r\n", $header),
-                "content" => "uuid=$uuid&rq_datetime=$datetime&comm_code=$comm_code&order_id=$order_id&signature=$signature",
+                "content" => "key=d1df1e4dc0075d52b721a9c2a67598ee",
             ),
         ));
-        $response = file_get_contents('https://sandbox-api.espay.id/rest/merchant/status', false, $context);
+        $response = file_get_contents('https://sandbox-api.espay.id/rest/merchant/merchantinfo', false, $context);
         if (strpos($http_response_header[0], '200') === false) {
-            return http_response_code(500);
+            return [];
         }else{
-            return $response;
+            $php_obj_response = json_decode($response);
+            if($php_obj_response->error_code != "0000")
+                return [];
+
+            return $php_obj_response->data;
         }
     }
 
