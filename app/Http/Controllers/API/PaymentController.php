@@ -11,6 +11,7 @@ use App\PaymentType;
 use App\Transaction;
 use App\EspayNotification;
 use App\Shipment;
+use App\MemberList;
 use Storage;
 use stdClass;
 
@@ -154,12 +155,12 @@ class PaymentController extends Controller
 
             $transaction_id = $request->order_id;
             $transaction = Transaction::where('payment_id', $transaction_id)->first();
-            $shipment_with_transaction = Shipment::find($transaction->user_id);
+            $user_with_transaction = MemberList::find($transaction->user_id);
 
-            if(!$shipment_with_transaction){
+            if(!$user_with_transaction){
                 $data_to_go = array(
                     "code"      => 95,
-                    "message"   => "Shipment dengan id transaksi " . $transaction_id . " tidak ditemukan",
+                    "message"   => "Pengguna dengan id transaksi " . $transaction_id . " tidak ditemukan",
                     "order_id"  => $transaction_id
                 );
                 $data = $this->generateSGOEspayTemplate($data_to_go);
@@ -176,7 +177,7 @@ class PaymentController extends Controller
                     "message"   => "Success",
                     "order_id"  => $transaction_id,
                     "amount"    => number_format($transaction->amount, 2, ".", ""),
-                    "description"   => "Pembayaran oleh : " . $shipment_with_transaction->shipper_first_name
+                    "description"   => "Pembayaran oleh : " . $user_with_transaction->first_name . " " . $user_with_transaction->last_name
                 );
                 $data = $this->generateSGOEspayTemplate($data_to_go);
             }
