@@ -35,10 +35,9 @@ class PaymentController extends Controller
             array_push($payment_all, $p);
         }
 
-        dd($payment_all);
         $data = array(
             'err' => null,
-            'result' => $payment_type
+            'result' => $payment_all
         );
 
         return response()->json($data, 200);
