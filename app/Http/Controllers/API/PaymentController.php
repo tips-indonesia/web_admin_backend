@@ -71,6 +71,8 @@ class PaymentController extends Controller
 
         $data['payData'] = array();
         $data['payData']['payment_id'] = $request->payment_id;
+        $data['payData']['bankCode'] = $request->bankCode;
+        $data['payData']['bankProduct'] = $request->bankProduct;
         $data['payData']['callback_url'] = 'http://localhost';
         return view('payment.pay', $data);
     }
