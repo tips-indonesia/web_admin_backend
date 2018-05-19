@@ -17,6 +17,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::get('/check_update', 'UtilityController@application_updates');
 Route::get('/demo', 'UtilityController@test');
 Route::get('/zzz', 'BirdSenderController@testMail');
 Route::get('/reset_password', 'BirdSenderController@sendResetPasswordMail');

@@ -31,8 +31,12 @@ class Shipment extends Model
     }
 
     public function create_transaction(){
-        if($this->id_wallet_transaction != null)
+        if($this->id_wallet_transaction != null){
+            WalletAll::KIRIM_TRANSACTION($this->id_shipper, 0, 0, 
+                "Fail while creating transaction, shipment " . $this->shipment_id);
             return;
+        }
+
 
         $wt = WalletAll::KIRIM_TRANSACTION($this->id_shipper, $this->flight_cost, 0, "");
         $this->id_wallet_transaction = $wt->id;

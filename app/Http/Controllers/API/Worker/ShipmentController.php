@@ -214,6 +214,7 @@ class ShipmentController extends Controller
             $shipment->id_shipment_status = 15;
 
             $shipment->save();
+            $shipment->create_transaction();
 
             $ms_user = MemberList::find($shipment->id_shipper);
             $mess = 'Barang kiriman Anda dengan kode pengiriman ' . $shipment->shipment_id . ' sudah diambil oleh: '

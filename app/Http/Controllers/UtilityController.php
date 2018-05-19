@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Auth;
 use App\OfficeList;
 use App\HomeBanner;
 use App\MemberList;
+use App\AppsUpdater;
 use Illuminate\Support\Facades\URL;
 
 use Storage;
@@ -987,6 +988,25 @@ class UtilityController extends Controller
                 ] : []
             ]
         );
+
+        return response()->json($data, 200);
+    }
+
+    public function application_updates(){
+        $data = array(
+            'err' => [
+                "code" => 404,
+                "message" => "No updates"
+            ],
+            'result' => null
+        );
+
+        $last_update = AppsUpdater::orderBy('id', 'desc')->first();
+        if($last_update)
+            $data = array(
+                'err' => null,
+                'result' => $last_update
+            );
 
         return response()->json($data, 200);
     }

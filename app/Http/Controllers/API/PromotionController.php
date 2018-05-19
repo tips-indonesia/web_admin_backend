@@ -200,9 +200,13 @@ class PromotionController extends Controller
     }
 
     public function getReferalAmount(Request $req){
-        $ref_data = Referral::first();
+        $ref_data = Referral::orderBy('id', 'desc')->first();
         $amount = 0;
-        if($ref_data){
+
+        $end_date_promo = new \Carbon\Carbon($ref_data->end_date);
+        $end_date_promo->hour(23)->minute(59)->second(59);
+
+        if($ref_data && !$end_date_promo->isPast()){
             $amount = $ref_data->referred_amount;
         }
 
