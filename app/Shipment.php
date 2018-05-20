@@ -37,8 +37,7 @@ class Shipment extends Model
             return;
         }
 
-
-        $wt = WalletAll::KIRIM_TRANSACTION($this->id_shipper, $this->flight_cost, 0, "");
+        $wt = WalletAll::KIRIM_TRANSACTION($this->id_shipper, 0, $this->flight_cost, "");
         $this->id_wallet_transaction = $wt->id;
         $this->save();
     }
