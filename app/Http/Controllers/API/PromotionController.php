@@ -200,15 +200,11 @@ class PromotionController extends Controller
     }
 
     public function getReferalAmount(Request $req){
-        $ref_data = Referral::orderBy('id', 'desc')->first();
+        $ref_data = PromotionController::getSingleReferral();
         $amount = 0;
 
-        $end_date_promo = new \Carbon\Carbon($ref_data->end_date);
-        $end_date_promo->hour(23)->minute(59)->second(59);
-
-        if($ref_data && !$end_date_promo->isPast()){
+        if($ref_data)
             $amount = $ref_data->referred_amount;
-        }
 
         $data = [
             'err' => null,
@@ -217,5 +213,21 @@ class PromotionController extends Controller
             ]
         ];
         return response()->json($data, 200);
+    }
+
+    public static function getSingleReferral(){
+        $out = null;
+        
+        $ref_data = Referral::orderBy('id', 'desc')->first();
+        if(!$ref_data)
+            return $out;
+
+        $end_date_promo = new \Carbon\Carbon($ref_data->end_date);
+        $end_date_promo->hour(23)->minute(59)->second(59);
+
+        if($ref_data && !$end_date_promo->isPast())
+            $out = $ref_data;
+
+        return $out;
     }
 }

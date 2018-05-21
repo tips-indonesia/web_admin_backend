@@ -135,6 +135,9 @@ class UserController extends Controller
             $member_list->save();
             unset($member_list['password']);
 
+            $ref_code = $request->ref_code;
+            $member_list->create_transaction_ref($ref_code);
+
             $out = SMSSender::kirim($request->mobile_phone_no, rawurlencode("TIPS App: Your code is " . $sms_code));
 
             $bsc = new cURLFaker;
