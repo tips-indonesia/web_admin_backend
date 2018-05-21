@@ -43,12 +43,6 @@ class SlotList extends Model
     }
 
     public function create_transaction(){
-        if($this->id_wallet_transaction != null){
-            WalletAll::ANTAR_TRANSACTION($this->id_member, 0, 0, 
-                "Fail while creating transaction, slot " . $this->slot_id);
-            return;
-        }
-
         $price = $this->sold_baggage_space * $this->slot_price_kg;
         $wt = WalletAll::ANTAR_TRANSACTION($this->id_member, $price, 0, "");
         $this->id_wallet_transaction = $wt->id;

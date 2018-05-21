@@ -148,6 +148,10 @@ class ShipmentController extends Controller
             $shipment->id_shipment_status = 3;
             $shipment->pickup_signature = $photo_ttd_url;
             $shipment->save();
+
+            // KIRIM
+            // pada saat Worker Submit Pick up
+            // (status shipment dari 1 menjadi 2)
             $shipment->create_transaction();
 
             $shipment = Shipment::where('shipment_id', $shipment_id)->first();
