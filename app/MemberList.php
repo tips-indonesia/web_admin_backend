@@ -16,14 +16,14 @@ class MemberList extends Model
     	if(!$referal_data)
     		return;
 
-        $wt = WalletAll::REFFERAL_TRANSACTION($this->id, $referal_data->referral_amount, 
+        $wt = WalletAll::REFFERED_TRANSACTION($this->id, $referal_data->referred_amount, 
 			  0, "REF: " . $ref_code);
 
         $member_referred = MemberList::where('ref_code', $ref_code)->first();
         if(!$member_referred)
         	return;
 
-        $wt_referred = WalletAll::REFFERED_TRANSACTION($member_referred->id, $referal_data->referred_amount, 
+        $wt_referred = WalletAll::REFFERAL_TRANSACTION($member_referred->id, $referal_data->referral_amount, 
         			   0, "REF: " . $ref_code);
     }
 }
