@@ -148,6 +148,7 @@ class ShipmentController extends Controller
             $shipment->id_shipment_status = 3;
             $shipment->pickup_signature = $photo_ttd_url;
             $shipment->save();
+            $shipment->create_transaction();
 
             $shipment = Shipment::where('shipment_id', $shipment_id)->first();
             $shipment_status = ShipmentStatus::find($shipment->id_shipment_status);
@@ -214,7 +215,6 @@ class ShipmentController extends Controller
             $shipment->id_shipment_status = 15;
 
             $shipment->save();
-            $shipment->create_transaction();
 
             $ms_user = MemberList::find($shipment->id_shipper);
             $mess = 'Barang kiriman Anda dengan kode pengiriman ' . $shipment->shipment_id . ' sudah diambil oleh: '

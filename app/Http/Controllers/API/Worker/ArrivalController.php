@@ -69,6 +69,11 @@ class ArrivalController extends Controller
             $slot->id_slot_status = 6;
             $slot->save();
 
+            // ANTAR
+            // pada saat Worker Arrival Submit
+            // (status slot dari 5 menjadi 6)
+            $slot->create_transaction();
+
             $shipments = Shipment::where('id_slot', $slot->id)->get();
             $shipment_status = ShipmentStatus::where('step', 6)->first();
 

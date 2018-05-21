@@ -97,7 +97,7 @@ class TipsterPaymentController extends Controller
         $slot->status_bayar = 1;
         $slot->id_slot_status = 7;
         $slot->save();
-        $slot->create_transaction();
+        $slot->create_transaction_bayar_cash();
 
         
         $ms_user = MemberList::find($slot->id_member);
