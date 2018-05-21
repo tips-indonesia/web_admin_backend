@@ -45,8 +45,6 @@ class SlotList extends Model
     public function create_transaction(){
         $price = $this->sold_baggage_space * $this->slot_price_kg;
         $wt = WalletAll::ANTAR_TRANSACTION($this->id_member, $price, 0, "");
-        $this->id_wallet_transaction = $wt->id;
-        $this->save();
     }
 
     public function create_transaction_bayar_cash(){
