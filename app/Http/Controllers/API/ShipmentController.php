@@ -187,15 +187,15 @@ class ShipmentController extends Controller
         $shipment->estimate_goods_value         = $price_goods_estimate->price_estimate;
 
         $insurance                              = Insurance::first();
-        $shipment->add_insurance_cost           = $insurance->default_insurance;
 
         // default value if insurance is not added
         $shipment->insurance_cost               = 0;
 
         // if insurance is added
-        if($request->is_add_insurance == 1) {
-            $shipment->insurance_cost           = ($price_goods_estimate->nominal * $insurance->default_insurance) / 100;
-        }
+        // ini udh ga dipake lagi (Benny, 22 Mei 2018 on Whatsapp)
+        // if($request->is_add_insurance == 1) {
+        //     $shipment->insurance_cost           = ($price_goods_estimate->nominal * $insurance->default_insurance) / 100;
+        // }
 
         $price = PriceList::where('id_origin_city', $request->id_origin_city)
                 ->where('id_destination_city', $request->id_destination_city)->first();
@@ -218,8 +218,10 @@ class ShipmentController extends Controller
             $shipment->flight_cost              = $request->estimate_weight * $price->slot_price_kg;
             $shipment->flight_cost              -= $promo_percent * $shipment->flight_cost;
             
-            $shipment->add_insurance_cost       = $shipment->insurance_cost;
-            $shipment->add_insurance_cost       -= $promo_percent * $shipment->add_insurance_cost;
+            if($request->is_add_insurance == 1) {
+                $shipment->add_insurance_cost       = $insurance->default_insurance * $price_goods_estimate->nominal;
+                $shipment->add_insurance_cost       -= $promo_percent * $shipment->add_insurance_cost;
+            }
         }
 
         // 3. NON-REQUEST DATAS
