@@ -217,8 +217,8 @@ class ShipmentController extends Controller
         // } else {
 
         // }
-        
-        $shipment->flight_cost              = $request->estimate_weight * $price->slot_price_kg;
+
+        $shipment->flight_cost              = $request->estimate_weight * $price->tipster_price;
         $shipment->flight_cost              -= $promo_percent * $shipment->flight_cost;
         
         if($request->is_add_insurance == 1) {
