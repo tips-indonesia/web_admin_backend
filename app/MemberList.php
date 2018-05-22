@@ -8,9 +8,15 @@ use App\Http\Controllers\WalletAll;
 
 class MemberList extends Model
 {
-    public function create_transaction_ref($ref_code){
-    	if(!$ref_code)
+    public function create_transaction_ref(){
+    	if(!$this->register_by)
     		return;
+
+        $datarc = explode(':', $this->register_by);
+        if($datarc[0] != 'REF')
+            return;
+
+        $ref_code = $datarc[1];
 
     	$referal_data = PromotionController::getSingleReferral();
     	if(!$referal_data)

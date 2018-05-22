@@ -135,8 +135,10 @@ class UserController extends Controller
             $member_list->save();
             unset($member_list['password']);
 
-            $ref_code = $request->ref_code;
-            $member_list->create_transaction_ref($ref_code);
+
+            if($request->has('ref_code')) {
+                $member_list->register_by = "REF:" . $request->ref_code;
+            }
 
             $out = SMSSender::kirim($request->mobile_phone_no, rawurlencode("TIPS App: Your code is " . $sms_code));
 
@@ -248,6 +250,7 @@ class UserController extends Controller
         if($isSMSCodeValid){
             // Kasus: kode sms sesuai dengan code pada basis data 
             $member_list->sms_code = -1;
+            $member_list->create_transaction_ref();
             $member_list->save();
             $data = array(
                 'err' => null,

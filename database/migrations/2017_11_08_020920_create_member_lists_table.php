@@ -37,6 +37,7 @@ class CreateMemberListsTable extends Migration
             $table->integer('is_worker')->default(0);
             $table->integer('id_office')->nullable();
             $table->string('ref_code')->nullable();
+            $table->string('register_by')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
