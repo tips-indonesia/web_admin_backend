@@ -200,6 +200,12 @@ class ShipmentController extends Controller
         $price = PriceList::where('id_origin_city', $request->id_origin_city)
                 ->where('id_destination_city', $request->id_destination_city)->first();
 
+
+        $promo_percent = 0;
+        $promotion = PromotionController::getUserPromoOrNULL($shipment->id_shipper);
+        if($promotion->promo)
+            $promo_percent = $promotion->discount_value / 100;
+
         if($request->is_first_class == 1) {
 
             $gold                               = $price->freight_cost + $price->add_first_class;
@@ -209,7 +215,11 @@ class ShipmentController extends Controller
             $shipment->flight_cost              = ($gold * $request->estimate_weight) + $shipment->insurance_cost;
         } else {
 
-            $shipment->flight_cost              = $request->estimate_weight * $price->slot_price_kg + $shipment->insurance_cost;
+            $shipment->flight_cost              = $request->estimate_weight * $price->slot_price_kg;
+            $shipment->flight_cost              -= $promo_percent * $shipment->flight_cost;
+            
+            $shipment->add_insurance_cost       = $shipment->insurance_cost;
+            $shipment->add_insurance_cost       -= $promo_percent * $shipment->add_insurance_cost;
         }
 
         // 3. NON-REQUEST DATAS

@@ -137,6 +137,12 @@ class PromotionController extends Controller
     }
 
     static public function getUserPromoOrNULL($id_user){
+        if(!$id_user)
+            return [
+                'promo' => null,
+                'reason' => 'User id null'
+            ];
+
         $user = MemberList::find($id_user);
         if(!$user)
             return [
