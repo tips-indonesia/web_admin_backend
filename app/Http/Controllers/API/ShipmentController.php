@@ -207,22 +207,23 @@ class ShipmentController extends Controller
             $promo_percent = $promotion['promo']->discount_value / 100;
         }
 
-        if($request->is_first_class == 1) {
+        // if($request->is_first_class == 1) {
 
-            $gold                               = $price->freight_cost + $price->add_first_class;
-            $gold                               = $gold + (($gold * $insurance->default_insurance) /100);
-            $gold                               = $this->round_nearest_hundreds($gold);
+        //     $gold                               = $price->freight_cost + $price->add_first_class;
+        //     $gold                               = $gold + (($gold * $insurance->default_insurance) /100);
+        //     $gold                               = $this->round_nearest_hundreds($gold);
 
-            $shipment->flight_cost              = ($gold * $request->estimate_weight) + $shipment->insurance_cost;
-        } else {
+        //     $shipment->flight_cost              = ($gold * $request->estimate_weight) + $shipment->insurance_cost;
+        // } else {
 
-            $shipment->flight_cost              = $request->estimate_weight * $price->slot_price_kg;
-            $shipment->flight_cost              -= $promo_percent * $shipment->flight_cost;
-            
-            if($request->is_add_insurance == 1) {
-                $shipment->add_insurance_cost       = $insurance->default_insurance * $price_goods_estimate->nominal;
-                $shipment->add_insurance_cost       -= $promo_percent * $shipment->add_insurance_cost;
-            }
+        // }
+        
+        $shipment->flight_cost              = $request->estimate_weight * $price->slot_price_kg;
+        $shipment->flight_cost              -= $promo_percent * $shipment->flight_cost;
+        
+        if($request->is_add_insurance == 1) {
+            $shipment->add_insurance_cost       = $insurance->default_insurance * $price_goods_estimate->nominal / 100;
+            $shipment->add_insurance_cost       -= $promo_percent * $shipment->add_insurance_cost;
         }
 
         // 3. NON-REQUEST DATAS
