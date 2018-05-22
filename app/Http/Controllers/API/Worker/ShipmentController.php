@@ -9,10 +9,12 @@ use App\Shipment;
 use App\MemberList;
 use App\ShipmentStatus;
 use App\AirportcityList;
+use App\PriceList;
 use Illuminate\Support\Facades\URL;
 use App\Http\Controllers\FCMSender;
 use App\Http\Controllers\BirdSenderController;
 use App\Http\Controllers\cURLFaker;
+use App\Http\Controllers\API\PromotionController;
 
 class ShipmentController extends Controller
 {
@@ -143,10 +145,25 @@ class ShipmentController extends Controller
                 'result' => null
             );
         } else {
+
+            $price = PriceList::where('id_origin_city', $shipment->id_origin_city)
+                    ->where('id_destination_city', $shipment->id_destination_city)->first();
+
+            $promo_percent = 0;
+            $promotion = PromotionController::getUserPromoOrNULL($shipment->id_shipper);
+            if($promotion['promo']){
+                $promo_percent = $promotion['promo']->discount_value / 100;
+            }
+
             $shipment->real_weight = $request->estimate_weight;
             $shipment->status_dispatch = "Process";
             $shipment->id_shipment_status = 3;
             $shipment->pickup_signature = $photo_ttd_url;
+
+            // update flight cost to real weight after pickup
+            $shipment->flight_cost = $shipment->real_weight * $price->freight_cost;
+            $shipment->flight_cost -= $promo_percent * $shipment->flight_cost;
+
             $shipment->save();
 
             // KIRIM
