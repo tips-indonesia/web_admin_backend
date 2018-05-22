@@ -6,6 +6,7 @@ use App\Shipment;
 use App\SlotList;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\WalletAll;
 use DateTime;
 
 class HomeController extends Controller{
@@ -115,13 +116,6 @@ class HomeController extends Controller{
     }
 
     function getMoney($id){
-        $my_slots = SlotList::where('id_member', $id)->where('id_slot_status', 7)->get();
-        return 0;
-
-        $sum_money = 0.00;
-        foreach ($my_slots as $slot)
-            $sum_money += $slot->sold_baggage_space * $slot->slot_price_kg;
-
-        return $sum_money;
+        return WalletAll::getWalletAmount($id);
     }
 }

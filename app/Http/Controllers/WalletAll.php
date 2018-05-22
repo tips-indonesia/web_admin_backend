@@ -18,6 +18,20 @@ class WalletAll extends Controller
 		return $obj;
 	}
 
+	public static function getWalletAmount($id){
+		$_ms = Wallet::where('member_id', $id)->get();
+		$_deb = 0;
+		$_cre = 0;
+
+		if($_ms)
+			foreach ($_ms as $_m) {
+				$_deb = $_m->debit;
+				$_cre = $_m->credit;
+			}
+
+		return $_deb - $_cre;
+	}
+
 	public static function is_pre_validate_transaction_ok($member_id, $type_of_transaction,
 	$debit, $credit, $remarks){
 		return true;
