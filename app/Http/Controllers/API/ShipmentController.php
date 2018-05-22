@@ -203,8 +203,9 @@ class ShipmentController extends Controller
 
         $promo_percent = 0;
         $promotion = PromotionController::getUserPromoOrNULL($shipment->id_shipper);
-        if($promotion->promo)
-            $promo_percent = $promotion->discount_value / 100;
+        if($promotion['promo']){
+            $promo_percent = $promotion['promo']->discount_value / 100;
+        }
 
         if($request->is_first_class == 1) {
 
