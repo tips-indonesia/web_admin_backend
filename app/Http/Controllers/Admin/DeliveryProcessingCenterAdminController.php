@@ -108,7 +108,7 @@ class DeliveryProcessingCenterAdminController extends Controller
             $arrshipment = ArrivalShipmentDetail::pluck('packaging_lists_id');
             $packaginglist = PackagingList::whereIn('id_slot', $slot)
                                       ->whereNotIn('id', $arrshipment)
-                                      ->pluck('id');
+                                      ->pluck('id_slot');
             // $slots = Shipment::where('id_shipment_status', 10)->pluck('id_slot');
             $data['datas'] = SlotList::whereIn('id', $packaginglist);
             $user = User::find(Auth::id());
