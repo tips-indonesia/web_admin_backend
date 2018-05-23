@@ -132,13 +132,12 @@ class UserController extends Controller
                 $member_list->save();
             }
 
-            $member_list->save();
-            unset($member_list['password']);
-
-
             if($request->has('ref_code')) {
                 $member_list->register_by = "REF:" . $request->ref_code;
             }
+
+            $member_list->save();
+            unset($member_list['password']);
 
             $out = SMSSender::kirim($request->mobile_phone_no, rawurlencode("TIPS App: Your code is " . $sms_code));
 
@@ -690,7 +689,7 @@ class UserController extends Controller
             }else{
                 $member_list->mobile_phone_no = $phoneNo;
             }
-            
+
             $member_list->create_transaction_ref();
             $member_list->save();
 
