@@ -72,21 +72,23 @@ class DeliveryProcessingCenterAdminController extends Controller
         foreach ($data['datas'] as $dat) {
             $dat['total'] = PackagingDelivery::where('deliveries_id', $dat->id)->get()->count();
         }
-        $data['pending'] = SlotList::where('id_slot_status', 6)
-                ->with('airportOrigin', 'airportDestination');
+        $slot = SlotList::where('id_slot_status', 7)->pluck('id');
+        $arrshipment = ArrivalShipmentDetail::pluck('packaging_lists_id');
+        $packaginglist = PackagingList::whereIn('id_slot', $slot)
+                                  ->whereNotIn('id', $arrshipment)
+                                  ->pluck('id_slot');
+
+        $data['pending'] = SlotList::whereIn('id', $packaginglist);
+
+        $user = User::find(Auth::id());
 
         if ($user->id_office != null && $user->id != 1) {
             $office = OfficeList::find($user->id_office);
-            $data['pending'] = $data['pending']->where('id_origin_city', $office->id_area);
+            $data['pending'] = $data['pending']->where('id_destination_city', $office->id_area);
         }
 
         $data['pending'] = $data['pending']->get();
-        $data['datas2'] = ArrivalShipment::whereIn('delivery_id', $data['pending'])->get();
-        foreach ($data['datas2'] as $dat) {
-            $dat['total'] = PackagingDelivery::where('deliveries_id', $dat->id)->get()->count();
-            $dat['origin'] = OfficeList::find($dat->id_origin_office)->name;
-            $dat['destination'] = OfficeList::find($dat->id_destination_office)->name;
-        }
+        
         return view('admin.deliveryprocessingcenters.index', $data);
     }
 

@@ -88,26 +88,26 @@
                                 <table class="table datatable-pagination">
                                     <thead>
                                         <tr>
-                                            <th>Delivery ID</th>
+                                            <th>Packaging ID</th>
+                                            <th>Date</th>
                                             <th>Origin</th>
                                             <th>Destination</th>
-                                            <th>Total Shipment</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach ($pending as $data)
                                             <tr>
                                                 <td>
-                                                    {{ $data->slot_id }}
+                                                    {{ $data->packagingList->packaging_id }}
+                                                </td>
+                                                <td>
+                                                    {{date("d-m-Y",strtotime($data->created_at))}}
                                                 </td>
                                                 <td>
                                                     {{ $data->airportOrigin->name }}
                                                 </td>
                                                 <td>
                                                     {{ $data->airportDestination->name }}
-                                                </td>
-                                                <td>
-                                                    {{ $data->sold_baggage_space}}
                                                 </td>
                                             </tr>
                                         @endforeach
