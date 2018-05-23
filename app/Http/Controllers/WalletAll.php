@@ -25,8 +25,8 @@ class WalletAll extends Controller
 
 		if($_ms)
 			foreach ($_ms as $_m) {
-				$_deb = $_m->debit;
-				$_cre = $_m->credit;
+				$_deb += $_m->debit;
+				$_cre += $_m->credit;
 			}
 
 		return $_deb - $_cre;
