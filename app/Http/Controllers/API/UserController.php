@@ -152,7 +152,7 @@ class UserController extends Controller
                 $bsc->sendMailRegistration($email, $nama);
             }
 
-            $member_list->money = WalletAll::getWalletAmount($id);
+            $member_list->money = WalletAll::getWalletAmount($member_list->id);
 
             $data = array(
                 'err' => null,
