@@ -690,7 +690,8 @@ class UserController extends Controller
             }else{
                 $member_list->mobile_phone_no = $phoneNo;
             }
-
+            
+            $member_list->create_transaction_ref();
             $member_list->save();
 
             if($member_list->profil_picture){
