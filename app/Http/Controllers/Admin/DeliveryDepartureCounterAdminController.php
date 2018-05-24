@@ -122,6 +122,8 @@ class DeliveryDepartureCounterAdminController extends Controller
             }
             $data['date'] = $date;
         }
+
+
         return view('admin.deliverydeparturecounters.create', $data);
     }
 
@@ -156,7 +158,7 @@ class DeliveryDepartureCounterAdminController extends Controller
             }
             $deliv_details->save();
         }
-        return Redirect::to(route('deliverydeparturecounters.index'));
+        return back();
 
 
 
