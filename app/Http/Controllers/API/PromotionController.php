@@ -59,7 +59,7 @@ class PromotionController extends Controller
     	$data = array(
     		'err' => null,
     		'result' => [
-    			'promo' => $promo,
+    			'promo' => $promos,
     		]
     	);
 
