@@ -32,4 +32,19 @@ class MemberList extends Model
         $wt_referred = WalletAll::REFFERAL_TRANSACTION($member_referred->id, $referal_data->referral_amount, 
         			   0, "REF: " . $ref_code);
     }
+
+    public function office(){
+        if(!$this->id_office)
+            return false;
+
+        return OfficeList::find($this->id_office);
+    }
+
+    public function isOfficeRight($id_city){
+        $office = $this->office();
+        if(!$office)
+            return false;
+
+        return $office->id_area == $id_city;
+    }
 }

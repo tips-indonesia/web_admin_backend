@@ -22,14 +22,37 @@ class ShipmentController extends Controller
     function get_detail(Request $request) {
 
         $shipment_id = $request->shipment_id;
-        $shipment = Shipment::where('shipment_id', $shipment_id)->where('status_dispatch','<>','Canceled')->first();
+        $is_arrival = $request->is_arrival;
+        $id_worker = $request->id_worker;
 
-
-        if($shipment == null) {
+        if(!$shipment_id || !$is_arrival || !$id_worker){
             $data = array(
                 'err' => [
                     'code' => 0,
-                    'message' => 'Shipment id tidak ditemukan'
+                    'message' => 'Paramter tidak boleh kosong'
+                ],
+                'result' => null
+            );
+            return response()->json($data, 200);
+        }
+
+        $shipment = Shipment::where('shipment_id', $shipment_id)->where('status_dispatch','<>','Canceled')->first();
+        $member_list = MemberList::find($id_worker);
+        $is_arrival = $is_arrival == 1;
+
+        if($shipment == null || $member_list == null) {
+            $data = array(
+                'err' => [
+                    'code' => 0,
+                    'message' => 'Shipment atau Worker tidak ditemukan'
+                ],
+                'result' => null
+            );
+        } else if(!$member_list->isOfficeRight($is_arrival ? $shipment->id_origin_city : $shipment->id_destination_city)){
+            $data = array(
+                'err' => [
+                    'code' => 0,
+                    'message' => 'akses Shipment ditolak'
                 ],
                 'result' => null
             );
@@ -37,8 +60,6 @@ class ShipmentController extends Controller
             $shipment_status = ShipmentStatus::find($shipment->id_shipment_status);
             $shipment->origin_city = AirportcityList::find($shipment->id_origin_city);
             $shipment->destination_city = AirportcityList::find($shipment->id_destination_city);
-
-
 
             $data = array(
                 'err' => null,
