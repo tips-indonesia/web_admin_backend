@@ -208,16 +208,24 @@ class PromotionController extends Controller
     public function getReferalAmount(Request $req){
         $ref_data = PromotionController::getSingleReferral();
         $amount = 0;
-
-        if($ref_data)
-            $amount = $ref_data->referred_amount;
-
         $data = [
-            'err' => null,
-            'result' => [
-                'amount' => $amount
-            ]
+            'err' => [
+                'code' => 404,
+                'message' => "No referral exist"
+            ],
+            'result' => null
         ];
+
+        if($ref_data){
+            $amount = $ref_data->referred_amount;
+            $data = [
+                'err' => null,
+                'result' => [
+                    'amount' => $amount
+                ]
+            ];
+        }
+        
         return response()->json($data, 200);
     }
 
