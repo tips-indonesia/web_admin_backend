@@ -189,6 +189,7 @@ class ShipmentController extends Controller
             $shipment->flight_cost -= $promo_percent * $shipment->flight_cost;
 
             $shipment->save();
+            $shipment_out->smsStep2();
 
             // KIRIM
             // pada saat Worker Submit Pick up
@@ -260,6 +261,7 @@ class ShipmentController extends Controller
             $shipment->id_shipment_status = 15;
 
             $shipment->save();
+            $shipment_out->smsStep8();
 
             $ms_user = MemberList::find($shipment->id_shipper);
             $mess = 'Barang kiriman Anda dengan kode pengiriman ' . $shipment->shipment_id . ' sudah diambil oleh: '

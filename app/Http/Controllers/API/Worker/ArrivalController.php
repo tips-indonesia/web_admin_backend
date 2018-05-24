@@ -68,6 +68,7 @@ class ArrivalController extends Controller
         } else {
             $slot->id_slot_status = 6;
             $slot->save();
+            $slot->smsStep7();
 
             // ANTAR
             // pada saat Worker Arrival Submit
@@ -81,7 +82,6 @@ class ArrivalController extends Controller
                 $shipment->id_shipment_status = $shipment_status->id;
                 $shipment->save();
             }
-
 
 
             $delivery_status = DeliveryStatus::find($slot->id_slot_status);

@@ -241,6 +241,7 @@ class ShipmentController extends Controller
         // 4. SAVE DATAS
         // -------------
         $shipment_out = $this->saveShipment($shipment);
+        $shipment_out->smsStep1();
 
         // =================================================
         // END OF SUBMIT SHIPMENT

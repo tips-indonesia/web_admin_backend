@@ -152,7 +152,7 @@ class DeliveryController extends Controller
 
         foreach ($slot_packages as $sp) {
             $sp->status = $sp->id_slot_status == 3 ? 'Pending' : 'Done';
-            if($sp->id_slot_status < 3 || $sp->id_slot_status > 4)
+            if($sp->id_slot_status < 3 || $sp->id_slot_status > 5)
                     $sp->status = '?';
         }
 

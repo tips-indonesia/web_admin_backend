@@ -227,6 +227,7 @@ class DeliveryController extends Controller
                 $slot->status_dispatch = 'Process';
                 $slot->id_slot_status = 3;
                 $slot->save();
+                $slot->smsStep3();
 
 
                 foreach ($shipments as $shipment) {

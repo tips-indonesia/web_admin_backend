@@ -658,6 +658,7 @@ class UtilityController extends Controller
 
         $slot->id_slot_status = 2;
         $slot->save();
+        $slot->smsStep2();
 
         if($ms_user){
             $bsc = new cURLFaker;

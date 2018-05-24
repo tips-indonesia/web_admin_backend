@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Http\Controllers\WalletAll;
+use App\Http\Controllers\SMSSender;
 
 class SlotList extends Model
 {
@@ -51,4 +52,44 @@ class SlotList extends Model
         $price = $this->sold_baggage_space * $this->slot_price_kg;
         $wt = WalletAll::CASH_TRANSACTION($this->id_member, 0, $price, "");
     }
+
+    public function smsStep2(){
+        if(!$this->id_member)
+            return "[EX1] XX";
+
+        $ms_user        = MemberList::find($this->id_member);
+        if(!$ms_user)
+            return "[EX1] XXY";
+        
+        $NOHP           = $ms_user->mobile_phone_no;
+        $ANTAR_CODE     = $this->slot_id;
+        SMSSender::T_send_2($NOHP, $ANTAR_CODE);
+    }
+
+    public function smsStep3(){
+        if(!$this->id_member)
+            return "[EX1] XX";
+
+        $ms_user        = MemberList::find($this->id_member);
+        if(!$ms_user)
+            return "[EX1] XXY";
+        
+        $NOHP                   = $ms_user->mobile_phone_no;
+        $ORIGIN_AIRPORT_NAME    = $this->airportOrigin->name;
+        $_3HOURS_DEPARTURE_TIME = date('Y-m-d H:i:s', strtotime($this->depature) - (60 * 60 * 4));
+        SMSSender::T_send_3($NOHP, $ORIGIN_AIRPORT_NAME, $_3HOURS_DEPARTURE_TIME);
+    }
+
+    public function smsStep7(){
+        if(!$this->id_member)
+            return "[EX1] XX";
+
+        $ms_user        = MemberList::find($this->id_member);
+        if(!$ms_user)
+            return "[EX1] XXY";
+        
+        $NOHP           = $ms_user->mobile_phone_no;
+        SMSSender::T_send_7($NOHP);
+    }
+
 }
