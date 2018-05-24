@@ -67,6 +67,7 @@ Route::get('/payment', 'API\\PaymentController@list_type_payment');
 
 Route::get('/city', 'API\\CityController@get_list');
 Route::get('/city/price', 'API\\CityController@get_price');
+Route::get('/v2/city/price', 'API\\CityController@get_price_v2');
 
 Route::get('/goods/weight', 'API\\GoodsController@get_list_weight');
 Route::get('/goods/price_estimate', 'API\\GoodsController@get_list_price_estimate');
