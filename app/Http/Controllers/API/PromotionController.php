@@ -40,28 +40,26 @@ class PromotionController extends Controller
             return response()->json($data, 200);
         }
 
-        if($user->promotion_id_used){
-            $promo = $this->findPromoOrFalse($user->promotion_id_used);
-            if($promo){
-                $data = array(
-                    'err' => null,
-                    'result' => [
-                        'promo' => [],
-                    ]
-                );
+        $promoMember = $this->getUserPromoOrNULL($req->id_user);
+        if($promoMember['promo']){
+            $data = array(
+                'err' => null,
+                'result' => []
+            );
 
-                return response()->json($data, 200);
-            }
+            return response()->json($data, 200);
         }
 
-    	$promos = Promotion::all();
+    	$promos = Promotion::whereDate('start_date', '<=', \Carbon\Carbon::now())
+                            ->whereDate('end_date', '>=', \Carbon\Carbon::now())
+                            ->get();
         foreach ($promos as $promo) {
             $promo->img_src = URL::to('storage/promotions/' . $promo->file_name);
         }
     	$data = array(
     		'err' => null,
     		'result' => [
-    			'promo' => $promos,
+    			'promo' => $promo,
     		]
     	);
 
