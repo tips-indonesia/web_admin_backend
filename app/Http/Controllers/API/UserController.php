@@ -48,7 +48,7 @@ class UserController extends Controller
                     $member_list->save();
                 }
                 $member_list->is_member = true;
-                $member_list->money = $this->getMoney($member_list->id);
+                $member_list->money = WalletAll::getWalletAmount($member_list->id);;
                 $data = array(
                     'err' => null,
                     'result' => $member_list
@@ -190,7 +190,7 @@ class UserController extends Controller
 
             $member_list->save();
             unset($member_list['password']);
-            $member_list->money = $this->getMoney($member_list->id);
+            $member_list->money = WalletAll::getWalletAmount($member_list->id);;
 
             $data = array(
                 'err' => null,
@@ -221,7 +221,7 @@ class UserController extends Controller
 
             $member_list->save();
             unset($member_list['password']);
-            $member_list->money = (new UserController)->getMoney($member_list->id);
+            $member_list->money = WalletAll::getWalletAmount($member_list->id);
         }
 
         return $member_list;
@@ -418,7 +418,7 @@ class UserController extends Controller
             }
 
             $member_list->save();
-            $member_list->money = $this->getMoney($member_list->id);
+            $member_list->money = WalletAll::getWalletAmount($member_list->id);;
             
             if($member_list->profil_picture){
                 $member_list->profil_picture = url('/image/profil_picture').'/'.$member_list->profil_picture;
@@ -500,7 +500,7 @@ class UserController extends Controller
             }
 
             $member_list->save();
-            $member_list->money = $this->getMoney($member_list->id);
+            $member_list->money = WalletAll::getWalletAmount($member_list->id);
             
             if($member_list->profil_picture){
                 $member_list->profil_picture = url('/image/profil_picture').'/'.$member_list->profil_picture;
