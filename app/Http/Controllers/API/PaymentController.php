@@ -201,6 +201,9 @@ class PaymentController extends Controller
 
             $transaction_id = $request->order_id;
             $transaction = Transaction::where('payment_id', $transaction_id)->first();
+            $shipment = Shipment::where('payment_id', $transaction_id)->first();
+            if($shipment)
+                $shipment->create_transaction();
 
             if(sizeof($transaction) == 0){
                 $data = $this->generateSGOEspayResponseNotification(array(

@@ -78,8 +78,12 @@ class WalletAll extends Controller
 		return WalletAll::create_transaction($member_id, 5, $debit, $credit, $remarks);
 	}
 
-	public static function REEDEM_TRANSACTION($member_id, $debit, $credit, $remarks){
+	public static function KIRIM_PAYMENT_TRANSACTION($member_id, $debit, $credit, $remarks){
 		return WalletAll::create_transaction($member_id, 6, $debit, $credit, $remarks);
+	}
+
+	public static function REEDEM_TRANSACTION($member_id, $debit, $credit, $remarks){
+		return WalletAll::create_transaction($member_id, 7, $debit, $credit, $remarks);
 	}
 
 	public function test_wallet(){

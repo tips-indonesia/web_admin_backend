@@ -31,6 +31,10 @@ class Shipment extends Model
     	return $this->hasOne('App\SlotList', 'id', 'id_slot');
     }
 
+    public function create_transaction_estimation(){
+        $wt = WalletAll::KIRIM_PAYMENT_TRANSACTION($this->id_shipper, 0, $this->flight_cost + $this->add_insurance_cost, "");
+    }
+
     public function create_transaction(){
         $wt = WalletAll::KIRIM_TRANSACTION($this->id_shipper, 0, $this->flight_cost + $this->add_insurance_cost, "");
     }
