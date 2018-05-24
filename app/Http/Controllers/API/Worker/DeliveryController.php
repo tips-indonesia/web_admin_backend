@@ -144,7 +144,6 @@ class DeliveryController extends Controller
         // $nowDateStr = '08/05/2018';
         $query = "select packaging_lists.packaging_id, slot_lists.slot_id, slot_lists.first_name, slot_lists.last_name, slot_lists.id_slot_status, slot_lists.flight_code, (select count(*) from shipments where id_slot = slot_lists.id) as total_shipment, (select sum(shipments.real_weight) from shipments where id_slot = slot_lists.id) as total_weight, slot_lists.id_origin_city, slot_lists.id_member, slot_lists.depature as departure, member_lists.mobile_phone_no from packaging_lists inner join slot_lists on slot_lists.id = packaging_lists.id_slot inner join member_lists on member_lists.id = slot_lists.id_member where slot_lists." . ($isDeparture ? 'id_origin_city' : 'id_destination_city') . " = (select id_area from office_lists where id = (select id_office from member_lists where member_lists.id = :workerId)) and DATE_FORMAT(slot_lists.depature,'%d/%m/%Y') = '" . ($isToday ? $nowDateStr : $tomDateStr) . "'";
 
-        dd($query);
         $slot_packages = DB::select(DB::raw($query), 
             array(
                 'workerId' => $worker_id
