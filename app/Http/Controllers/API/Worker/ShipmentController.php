@@ -77,11 +77,11 @@ class ShipmentController extends Controller
     }
 
     function getMyShipmentsDeparture(Request $req){
-        return $this->getMyShipmentsGeneral($req, 'pickup_by');
+        return $this->getMyShipmentsGeneral($req, 'pickup');
     }
 
     function getMyShipmentsSDelivery(Request $req){
-        return $this->getMyShipmentsGeneral($req, 'delivered_by');
+        return $this->getMyShipmentsGeneral($req, 'delivered');
     }
 
     function getMyShipmentsGeneral(Request $req, $type){
@@ -99,6 +99,7 @@ class ShipmentController extends Controller
         }
 
         $worker_instance = MemberList::find($worker_id);
+        $worker_id_office_area = $worker_instance->office()->id_area;
         if($worker_instance == null){
             $data = array(
                 'err' => [
@@ -114,7 +115,10 @@ class ShipmentController extends Controller
         $data = array(
             'err' => null,
             'result' => [
-                'shipments' => Shipment::where($type, $worker_id)->get()
+                'shipments' => Shipment::where($type . '_by', $worker_id)
+                                ->whereRaw('Date(' . $type . '_date) = CURDATE()')
+                                ->where($type == 'pickup' ? 'id_origin_city' : 'id_destination_city', $worker_id_office_area)
+                                ->get()
             ]
         );
 
