@@ -58,6 +58,7 @@
             </thead>
             <tbody>
                 @foreach($datas as $data)
+                <tr>
                 	<td>
                         <a href="{{ route('shipmentcancellation.show', $data->id) }}">
                         {{ $data->shipment_id }}
@@ -82,6 +83,7 @@
                     	Active
                     	@endif
                     </td>
+                </tr>
                 @endforeach
             </tbody>
         </table>
