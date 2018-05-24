@@ -152,9 +152,15 @@ class DeliveryController extends Controller
         // dd($slot_packages);
 
         foreach ($slot_packages as $sp) {
-            $sp->status = $sp->id_slot_status == 3 ? 'Pending' : 'Done';
-            if($sp->id_slot_status < 3)
-                $sp->status = '?';
+            if($isDeparture){
+                $sp->status = $sp->id_slot_status == 3 ? 'Pending' : 'Done';
+                if($sp->id_slot_status < 3)
+                    $sp->status = '?';
+            }else{
+                $sp->status = $sp->id_slot_status <= 5 ? 'Pending' : 'Done';
+                if($sp->id_slot_status <= 3)
+                    $sp->status = '?';
+            }
         }
 
         $data = array(
