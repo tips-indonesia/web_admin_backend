@@ -38,7 +38,6 @@ class ShipmentController extends Controller
 
         $shipment = Shipment::where('shipment_id', $shipment_id)->where('status_dispatch','<>','Canceled')->first();
         $member_list = MemberList::find($id_worker);
-        $is_arrival = $is_arrival == 1;
 
         if($shipment == null || $member_list == null) {
             $data = array(
