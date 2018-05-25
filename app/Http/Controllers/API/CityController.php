@@ -58,9 +58,6 @@ class CityController extends Controller
             $reguler = $this->round_nearest_hundreds($reguler);
             $gold = $this->round_nearest_hundreds($gold);
 
-            $reguler -= 
-            $gold -= 
-
             $data = array(
                 'err' => null,
                 'result' => [
