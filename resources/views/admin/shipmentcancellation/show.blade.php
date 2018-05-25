@@ -237,29 +237,29 @@
                                                 {{ Form::text('shipper_longitude', $data->shipper_longitude, array('class' => 'form-control', 'placeholder' => 'Shipper Longitude', 'disabled' => '','readonly' => '')) }}
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
-                                            <legend class="text-bold">Consignee</legend>
-                                            <div class="form-group">
-                                                <label>First Name :</label>
-                                                <input type="text" class="form-control" name="consignee_first_name" value="{{$data->consignee_first_name}}" disabled="" readonly="">
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Last Name :</label>
-                                                <input type="text" class="form-control" name="consignee_last_name" value="{{$data->consignee_last_name}}" disabled="" readonly="">
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Address :</label>
-                                                <textarea rows="5" class="form-control" placeholder="Enter consignee address here" name="consignee_address" disabled="" readonly="">{{$data->consignee_address}}</textarea>
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Address Detail :</label>
-                                                <textarea rows="5" class="form-control" placeholder="Enter consignee address here" name="consignee_address_detail" disabled="" readonly="">{{$data->consignee_address_detail}}</textarea>
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Mobile Phone :</label>
-                                                {{ Form::text('consignee_mobile', $data->consignee_mobile_phone, array('class' => 'form-control', 'placeholder' => 'Consignee Mobile Phone', 'disabled' => '')) }}
-                                            </div>
-                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <legend class="text-bold">Consignee</legend>
+                                    <div class="form-group">
+                                        <label>First Name :</label>
+                                        <input type="text" class="form-control" name="consignee_first_name" value="{{$data->consignee_first_name}}" disabled="" readonly="">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Last Name :</label>
+                                        <input type="text" class="form-control" name="consignee_last_name" value="{{$data->consignee_last_name}}" disabled="" readonly="">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Address :</label>
+                                        <textarea rows="5" class="form-control" placeholder="Enter consignee address here" name="consignee_address" disabled="" readonly="">{{$data->consignee_address}}</textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Address Detail :</label>
+                                        <textarea rows="5" class="form-control" placeholder="Enter consignee address here" name="consignee_address_detail" disabled="" readonly="">{{$data->consignee_address_detail}}</textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Mobile Phone :</label>
+                                        {{ Form::text('consignee_mobile', $data->consignee_mobile_phone, array('class' => 'form-control', 'placeholder' => 'Consignee Mobile Phone', 'disabled' => '')) }}
                                     </div>
                                 </div>
                             </div>
