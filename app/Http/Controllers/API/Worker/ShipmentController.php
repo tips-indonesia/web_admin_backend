@@ -189,7 +189,7 @@ class ShipmentController extends Controller
             $shipment->flight_cost -= $promo_percent * $shipment->flight_cost;
 
             $shipment->save();
-            $shipment_out->smsStep2();
+            $shipment->smsStep2();
 
             // KIRIM
             // pada saat Worker Submit Pick up
