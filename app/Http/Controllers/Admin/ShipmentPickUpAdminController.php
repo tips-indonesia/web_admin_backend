@@ -183,6 +183,7 @@ class ShipmentPickUpAdminController extends Controller
             if (Input::get('submit') == 'post') {
                 $shipment->is_posted = true;
                 $shipment->save();
+                $shipment->smsStep1Setengah();
             }
             Session::flash('message', 'Successfully created nerd!');
             return back();
