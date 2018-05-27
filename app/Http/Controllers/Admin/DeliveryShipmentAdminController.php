@@ -75,9 +75,9 @@ class DeliveryShipmentAdminController extends Controller
         foreach($shipments as $shipment) {
             $shipment['is_included'] = true;
             if ($shipment->delivered_by != null) {
-                if ($checked != 0) $shipment['is_included'] = false;
-            } else if ($shipment->delivered_by ==null) {
                 if ($checked != 1) $shipment['is_included'] = false;
+            } else if ($shipment->delivered_by == null) {
+                if ($checked != 0) $shipment['is_included'] = false;
             }
             if ($shipment->delivered_by != null) {
                 $user = User::find($shipment->delivered_by);
