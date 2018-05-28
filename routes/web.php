@@ -17,6 +17,7 @@ Route::get('/', function () {
 // Route::get('/admin/tipsterpayments', 'Admin\TipsterPaymentController@index');
 
 Route::get('/payment/start', 'API\\PaymentController@startPayment');
+Route::get('/v2/payment/start', 'API\\PaymentController@startPaymentV2');
 Route::get('/reset_password/{token}', 'API\\MailWebViewerController@showResetPassword');
 
 Route::prefix('admin/')->group(function ($locale) {

@@ -78,6 +78,23 @@ class PaymentController extends Controller
         return view('payment.pay', $data);
     }
 
+    public function startPaymentV2(Request $request){
+        if(!$request->payment_id || !$request->bankCode || !$request->bankProduct || !$request->callback)
+            return 'payment_id parameter can not be null';
+
+        $transaction = Transaction::where('payment_id', $request->payment_id)->get();
+
+        if(sizeof($transaction) == 0)
+            return 'payment_id not found, make sure payment_id is correct';
+
+        $data['payData'] = array();
+        $data['payData']['payment_id'] = $request->payment_id;
+        $data['payData']['bankCode'] = $request->bankCode;
+        $data['payData']['bankProduct'] = $request->bankProduct;
+        $data['payData']['callback_url'] = $request->callback;
+        return view('payment.pay', $data);
+    }
+
     private function generateSGOEspayTemplate($data){
         $code       = "1";
         $message    = "error unknown";
