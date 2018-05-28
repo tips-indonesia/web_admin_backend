@@ -54,8 +54,6 @@ class TIPSMailChimp extends Controller
 			]
 		];
 
-		var_dump($data);
-
 		return $data;
 	}
 
