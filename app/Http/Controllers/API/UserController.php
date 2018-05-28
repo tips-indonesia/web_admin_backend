@@ -142,28 +142,29 @@ class UserController extends Controller
 
             $out = SMSSender::kirim($request->mobile_phone_no, rawurlencode("TIPS App: Your code is " . $sms_code));
 
-            $bsc = new cURLFaker;
-            $email = $member_list->email;
-            $nama = $member_list->first_name . ' ' . $member_list->last_name;
-
-            $debugemail = '';
-            if($email){
-                $debugemail = "sendMailRegistration($email, $nama)";
-                $bsc->sendMailRegistration($email, $nama);
-            }
-
             $member_list->money = WalletAll::getWalletAmount($member_list->id);
 
             $data = array(
                 'err' => null,
-                'result' => $member_list,
-                'debug' => $debugemail
+                'result' => $member_list
             );
 
         }
 
         return response()->json($data, 200);
 
+    }
+
+    function sendEmailRegistration($member_list){
+        $bsc = new cURLFaker;
+        $email = $member_list->email;
+        $nama = $member_list->first_name . ' ' . $member_list->last_name;
+
+        $debugemail = '';
+        if($email){
+            $debugemail = "sendMailRegistration($email, $nama)";
+            $bsc->sendMailRegistration($email, $nama);
+        }
     }
 
     function deviceRegisterOrLogin(Request $request) {
@@ -252,6 +253,7 @@ class UserController extends Controller
             $member_list->sms_code = -1;
             $member_list->create_transaction_ref();
             $member_list->save();
+            $this->sendEmailRegistration($member_list);
             $data = array(
                 'err' => null,
                 'result' => true
@@ -682,6 +684,7 @@ class UserController extends Controller
 
             $member_list->create_transaction_ref();
             $member_list->save();
+            $this->sendEmailRegistration($member_list);
 
             if($member_list->profil_picture){
                 $member_list->profil_picture = url('/image/profil_picture').'/'.$member_list->profil_picture;
