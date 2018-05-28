@@ -47,7 +47,7 @@ class ShipmentController extends Controller
                 ],
                 'result' => null
             );
-        } else if(!$member_list->isOfficeRight($is_arrival ? $shipment->id_destination_city : $shipment->id_origin_city)){
+        } else if(!$member_list->isOfficeRight($is_arrival == 'true' ? $shipment->id_destination_city : $shipment->id_origin_city)){
             $data = array(
                 'err' => [
                     'code' => 0,
