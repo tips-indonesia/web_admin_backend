@@ -63,4 +63,43 @@ Migrated:  2018_06_06_174105_slot_list_c
 
 9. P&P -> push from local and pull on server
 
-10. 
+10. Manual seed menu baru
+    34	Shipment Cancellation	shipmentcancellation.
+    39	Banner	banner.
+    41	Referral	referral.
+    42	Cron Timer	crontimer.
+
+11. P&P
+
+12. ```php artisan db:seed --class=EtcSeeder```
+
+
+---------------------
+-- Testing section --
+---------------------
+
+13. Alpha Testing, Upload new APK to alpha 
+
+14. Testing begin...
+
+15. idle 1--
+
+16. Beta Testing
+
+17. Testing begin...
+
+18. idle 2--
+
+19. Upload new APK to production
+
+20. Wait until APK available on public
+
+21. Maintenance MODE ON
+
+22. Deploy backend to Production Server
+
+23. Final Testing
+
+24. idle 3--
+
+25. Finish
