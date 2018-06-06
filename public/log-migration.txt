@@ -61,3 +61,6 @@ Migrating: 2018_06_06_174105_slot_list_c
 Migrated:  2018_06_06_174105_slot_list_c
 ```
 
+9. P&P -> push from local and pull on server
+
+10. 

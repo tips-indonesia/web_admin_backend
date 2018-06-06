@@ -29,11 +29,11 @@ class EtcSeeder extends Seeder
      //        'class_name' => 'promotions.'
      //    ]);
         
-        // MenuList::create([
-        //     'name' => 'Shipment Cancellation',
-        //     'menu_parent_id' => 18,
-        //     'class_name' => 'shipmentcancellation.'
-        // ]);
+        MenuList::create([
+            'name' => 'Shipment Cancellation',
+            'menu_parent_id' => 18,
+            'class_name' => 'shipmentcancellation.'
+        ]);
         // // $p3 = Permission::create(['name' => 'promotions.', 'show_name' => 'Promotions']);
         // $p4 = Permission::create(['name' => 'shipmentcancellation.', 'show_name' => 'Shipment Cancellation']);
 
@@ -55,6 +55,7 @@ class EtcSeeder extends Seeder
             'class_name' => 'crontimer.'
         ]);
 
+        $p0 = Permission::create(['name' => 'shipmentcancellation.', 'show_name' => 'Shipment Cancellation']);
         $p1 = Permission::create(['name' => 'banner.', 'show_name' => 'Banner']);;
         $p2 = Permission::create(['name' => 'referral.', 'show_name' => 'Referral']);
         $p3 = Permission::create(['name' => 'crontimer.', 'show_name' => 'Cron Timer']);
@@ -62,6 +63,7 @@ class EtcSeeder extends Seeder
     	// $role->givePermissionTo($p1);
     	$role = Role::all()->first();
         // $role->givePermissionTo($p3);
+        $role->givePermissionTo($p0);
         $role->givePermissionTo($p1);
         $role->givePermissionTo($p2);
         $role->givePermissionTo($p3);
