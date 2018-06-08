@@ -87,6 +87,6 @@ class Shipment extends Model
         $NOHP           = $ms_user->mobile_phone_no;
         $SHIPPING_CODE  = $this->shipment_id;
         $RECIPIENT_NAME = $this->received_by;
-        SMSSender::S_send_2($NOHP, $SHIPPING_CODE, $RECIPIENT_NAME);
+        SMSSender::S_send_8($NOHP, $SHIPPING_CODE, $RECIPIENT_NAME);
     }
 }
