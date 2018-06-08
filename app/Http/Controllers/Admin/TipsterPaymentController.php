@@ -76,7 +76,7 @@ class TipsterPaymentController extends Controller
                                    ->get();
             }       
         } else {
-            $package = $package->paginate(10);
+            $package = $package->paginate(50);
         }
 
         
@@ -89,6 +89,8 @@ class TipsterPaymentController extends Controller
         
         $data['packages'] = $package;
         $data['checked'] = $checked;
+
+        //dd($data);
         return view('admin.tipsterpayments.index', $data);
    }
 

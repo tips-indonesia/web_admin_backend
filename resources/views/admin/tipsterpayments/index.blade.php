@@ -75,7 +75,6 @@
                     <tr>
                         <td>
                             {{ $package->slot_id }}
-                            
                         </td>
                         <td>
                             {{ $package->first_name }} {{ $package->last_name }}
