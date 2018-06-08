@@ -213,6 +213,9 @@
                     "data": {
                         "slot_id": current_active_slot.id
                     },
+                    "headers": {
+                        'app-kind': 'web-app'
+                    },
                     "beforeSend": function(xhr){
                         xhr.setRequestHeader('Content-Type', 'application/json');
                     },
@@ -236,6 +239,9 @@
                     "data": {
                         "id_shipment": id_shipment,
                         "id_slot": current_active_slot.id
+                    },
+                    "headers": {
+                        'app-kind': 'web-app'
                     },
                     "beforeSend": function(xhr){
                         xhr.setRequestHeader('Content-Type', 'application/json');
@@ -261,6 +267,9 @@
                         "id_shipment": id_shipment,
                         "id_slot": current_active_slot.id
                     },
+                    "headers": {
+                        'app-kind': 'web-app'
+                    },
                     "beforeSend": function(xhr){
                         xhr.setRequestHeader('Content-Type', 'application/json');
                     },
@@ -284,6 +293,9 @@
                     "beforeSend": function(xhr){
                         xhr.setRequestHeader('Content-Type', 'application/json');
                     },
+                    "headers": {
+                        'app-kind': 'web-app'
+                    },
                     "success": (data) => {
                         var acl = data.result;
                         if(isFunction(callback))
@@ -301,6 +313,9 @@
                     "type": "GET",
                     "beforeSend": function(xhr){
                         xhr.setRequestHeader('Content-Type', 'application/json');
+                    },
+                    "headers": {
+                        'app-kind': 'web-app'
                     },
                     "success": (data) => {
                         var shipments = data.result;
@@ -321,6 +336,9 @@
                     "type": "GET",
                     "beforeSend": function(xhr){
                         xhr.setRequestHeader('Content-Type', 'application/json');
+                    },
+                    "headers": {
+                        'app-kind': 'web-app'
                     },
                     "success": (data) => {
                         var slots = data.result;
@@ -344,6 +362,9 @@
                     "beforeSend": function(xhr){
                         xhr.setRequestHeader('Content-Type', 'application/json');
                     },
+                    "headers": {
+                        'app-kind': 'web-app'
+                    },
                     "success": (data) => {
                         var slots = data.result;
                         console.log("Slot list", slots);
@@ -362,6 +383,9 @@
                     "type": "GET",
                     "data": {
                         "slot_id": id_slot // DEPENDENCY
+                    },
+                    "headers": {
+                        'app-kind': 'web-app'
                     },
                     "beforeSend": function(xhr){
                         xhr.setRequestHeader('Content-Type', 'application/json');
@@ -384,6 +408,9 @@
                     "type": "GET",
                     "data": {
                         "id": id_tips_booking // DEPENDENCY
+                    },
+                    "headers": {
+                        'app-kind': 'web-app'
                     },
                     "beforeSend": function(xhr){
                         xhr.setRequestHeader('Content-Type', 'application/json');
