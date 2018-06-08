@@ -43,6 +43,16 @@ class UtilityController extends Controller
         $this->RoutineMinuteAssignment();
     }
 
+    public function getEtcMessage(){
+        $etc_text = ConfigHunter::isExist(ConfigHunter::$ETC_MESSAGE);
+        return response()->json([
+            "err" => null,
+            "result" => [
+                "data" => $etc_text ? $etc_text : ""
+            ]
+        ], 200);
+    }
+
     public function getMemberList(Request $req){
         if(!$req->header('X-TIPS-STRICT') || $req->header('X-TIPS-STRICT') != 'F814EC9B1C92C4A6538B3022F20123459093892CAECBB8A69BB84808DBD0102E'){
             return response()->json([

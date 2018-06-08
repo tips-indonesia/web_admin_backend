@@ -8,7 +8,8 @@ use App\ConfigZ;
 class ConfigHunter extends Controller
 {
 	public static $CRON_MINUTES_ROUTINE = "CRON_MINUTES_ROUTINE";
-	public static $CRON_ITERATOR_ROUTINE = "CRON_ITERATOR_ROUTINE";
+    public static $CRON_ITERATOR_ROUTINE = "CRON_ITERATOR_ROUTINE";
+    public static $ETC_MESSAGE = "ETC_MESSAGE";
 	public function test(){
 		ConfigHunter::set("a", "2");
 		ConfigHunter::set("a", "5");

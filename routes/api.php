@@ -35,6 +35,7 @@ Route::get('/tespromo', 'API\\PromotionController@testPromo2');
 Route::get('/scrapper_test/{booking_code}/{airport_code}/{date}/{first_name}/{last_name}', 'WebScrapper@testScrapper');
 Route::get('/tes', 'API\\VMEController@getAll');
 Route::get('/member_list', 'UtilityController@getMemberList');
+Route::get('/etc_message', 'UtilityController@getEtcMessage');
 Route::get('/test_command', 'cURLFaker@test_command');
 
 Route::get('/pesan/{id_user}', 'API\\MessageController@getPesan');
