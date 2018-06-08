@@ -7,6 +7,7 @@ use App\SlotList;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\WalletAll;
+use App\Http\Controllers\ConfigHunter;
 use DateTime;
 
 class HomeController extends Controller{
@@ -95,12 +96,15 @@ class HomeController extends Controller{
                 array_push($outdelivery, DeliveryController::___get_status($deliv->slot_id));
         }
         
+        $etc_text = ConfigHunter::isExist(ConfigHunter::$ETC_MESSAGE);
+
         $data = array(
             'err' => null,
             'result' => array (
                 'shipments'     => $outshipment,
                 'delivery'      => $outdelivery,
-                'money'         => $money
+                'money'         => $money,
+                'etc_message'   => $etc_text ? $etc_text : ""
             )
         );
 
