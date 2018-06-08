@@ -104,7 +104,7 @@ class HomeController extends Controller{
                 'shipments'     => $outshipment,
                 'delivery'      => $outdelivery,
                 'money'         => $money,
-                'etc_message'   => $etc_text ? $etc_text : ""
+                'etc_message'   => $etc_text ? $etc_text->value : ""
             )
         );
 
