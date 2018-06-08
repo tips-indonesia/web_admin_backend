@@ -100,6 +100,7 @@ class TipsterPaymentController extends Controller
         $slot->id_slot_status = 7;
         $slot->save();
         $slot->create_transaction_bayar_cash();
+        $slot->smsStep7();
         
         $ms_user = MemberList::find($slot->id_member);
         $mess = 'Barang antaran telah diterima dan dalam proses verifikasi.';
