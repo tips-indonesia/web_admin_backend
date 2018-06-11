@@ -238,7 +238,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
                                 <div class="col-md-6">
                                     <legend class="text-bold">Consignee</legend>
                                     <div class="form-group">
@@ -262,6 +261,7 @@
                                         {{ Form::text('consignee_mobile', $data->consignee_mobile_phone, array('class' => 'form-control', 'placeholder' => 'Consignee Mobile Phone', 'disabled' => '')) }}
                                     </div>
                                 </div>
+                            </div>
                             </div>
 
                                 <div class="tab-pane" id="goods_cost">

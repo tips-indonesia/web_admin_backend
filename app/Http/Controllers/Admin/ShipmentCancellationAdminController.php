@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Session;
 use App\AirportcityList;
 use App\ShipmentStatus;
 use App\User;
+use App\OfficeList;
 use App\ProvinceList;
 use App\CityList;
 use App\SubdistrictList;
