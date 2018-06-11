@@ -40,7 +40,8 @@ class SMSSender extends Controller
 	}
 
 	public static function T_send_3($NOHP, $ORIGIN_AIRPORT_NAME, $_3HOURS_DEPARTURE_TIME){
-		$msg = "Pastikan Anda tiba di bandara $ORIGIN_AIRPORT_NAME pada pukul $_3HOURS_DEPARTURE_TIME untuk mengambil barang antaran TIPS.\n\nReminder 4 hours before departure:\nJangan lupa ambil barang antaran TIPS Anda di bandara $ORIGIN_AIRPORT_NAME.";
+		// $msg = "Pastikan Anda tiba di bandara $ORIGIN_AIRPORT_NAME pada pukul $_3HOURS_DEPARTURE_TIME untuk mengambil barang antaran TIPS.\n\nReminder 4 hours before departure:\nJangan lupa ambil barang antaran TIPS Anda di bandara $ORIGIN_AIRPORT_NAME.";
+		$msg = "Pastikan Anda tiba di bandara $ORIGIN_AIRPORT_NAME pada pukul $_3HOURS_DEPARTURE_TIME untuk mengambil barang antaran TIPS.\n";
 		return SMSSender::kirim($NOHP, rawurlencode($msg));
 	}
 
