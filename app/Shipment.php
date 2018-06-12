@@ -46,6 +46,7 @@ class Shipment extends Model
         if($ms_user){
             $email                  = $ms_user->email;
             $NAMA                   = $ms_user->first_name . ' ' . $ms_user->last_name;
+            $SHIPPING_CODE          = $this->shipment_id;
 
             $STR_NAMA_PENGIRIM      = $this->shipper_first_name . ' ' . $this->shipper_last_name;
             $STR_NO_TELP_PENGIRIM   = $this->shipper_mobile_phone;
@@ -56,13 +57,13 @@ class Shipment extends Model
             $STR_ALAMAT_PENERIMA    = $this->consignee_address;
 
             $STR_JUMLAH_HARGA       = $this->flight_cost;
-            $STR_ASURANSI           = $this->$this->add_insurance_cost;
-            $STR_TOTAL_HARGA        = $this->flight_cost + $this->add_insurance_cost;
+            $STR_ASURANSI           = $this->add_insurance_cost;
+            $STR_TOTAL_HARGA        = (string) ($this->flight_cost + $this->add_insurance_cost);
 
             if($email)
-                $bsc->sendMailEReceipt($email, $NAMA, $STR_NAMA_PENGIRIM, $STR_NO_TELP_PENGIRIM, $STR_ALAMAT_PENGIRIM,
-                        $STR_NAMA_PENERIMA, $STR_NO_TELP_PENERIMA, $STR_ALAMAT_PENERIMA, $STR_JUMLAH_HARGA,
-                        $STR_ASURANSI, $STR_TOTAL_HARGA);
+                $bsc->sendMailEReceipt($email, $NAMA, $SHIPPING_CODE, $STR_NAMA_PENGIRIM, $STR_NO_TELP_PENGIRIM, 
+                        $STR_ALAMAT_PENGIRIM, $STR_NAMA_PENERIMA, $STR_NO_TELP_PENERIMA, $STR_ALAMAT_PENERIMA, 
+                        $STR_JUMLAH_HARGA, $STR_ASURANSI, $STR_TOTAL_HARGA);
         }
     }
 

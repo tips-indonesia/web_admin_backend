@@ -138,16 +138,16 @@ class cURLFaker extends Controller
 
     // Send e-receipt mail for pickup-ed goods
     // ----
-    public function sendMailEReceipt($email, $NAMA, $STR_NAMA_PENGIRIM, $STR_NO_TELP_PENGIRIM, $STR_ALAMAT_PENGIRIM,
-                                     $STR_NAMA_PENERIMA, $STR_NO_TELP_PENERIMA, $STR_ALAMAT_PENERIMA, $STR_JUMLAH_HARGA,
-                                     $STR_ASURANSI, $STR_TOTAL_HARGA){
+    public function sendMailEReceipt($email, $NAMA, $SHIPPING_CODE, $STR_NAMA_PENGIRIM, $STR_NO_TELP_PENGIRIM, 
+                                     $STR_ALAMAT_PENGIRIM, $STR_NAMA_PENERIMA, $STR_NO_TELP_PENERIMA, $STR_ALAMAT_PENERIMA, 
+                                     $STR_JUMLAH_HARGA, $STR_ASURANSI, $STR_TOTAL_HARGA){
         $receivers = [TIPSMailChimp::create_email_receiver($email, $NAMA)];
         TIPSMailChimp::send_chimp(
-            "TIPS: $NAMA, paket kiriman $SHIPPING_CODE Anda telah diterima oleh $RECIPIENT_NAME",
+            "TIPS: e-Receipt $SHIPPING_CODE",
             TIPSMailChimp::$TMP_RECEIPT,
             [
                 TIPSMailChimp::create_template_data('STR_NAMA', $NAMA),
-                
+
                 TIPSMailChimp::create_template_data('STR_NAMA_PENGIRIM', $STR_NAMA_PENGIRIM),
                 TIPSMailChimp::create_template_data('STR_NO_TELP_PENGIRIM', $STR_NO_TELP_PENGIRIM),
                 TIPSMailChimp::create_template_data('STR_ALAMAT_PENGIRIM', $STR_ALAMAT_PENGIRIM),
