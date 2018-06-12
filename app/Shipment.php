@@ -33,7 +33,7 @@ class Shipment extends Model
     }
 
     public function create_transaction_estimation(){
-        $wt = WalletAll::KIRIM_PAYMENT_TRANSACTION($this->id_shipper, 0, $this->flight_cost + $this->add_insurance_cost, "");
+        $wt = WalletAll::KIRIM_PAYMENT_TRANSACTION($this->id_shipper, $this->flight_cost + $this->add_insurance_cost, 0, "");
     }
 
     public function create_transaction(){
