@@ -129,4 +129,39 @@ class cURLFaker extends Controller
     }
     // ------------------------------
     // ##############################
+
+
+
+
+
+
+
+    // Send e-receipt mail for pickup-ed goods
+    // ----
+    public function sendMailEReceipt($email, $NAMA, $STR_NAMA_PENGIRIM, $STR_NO_TELP_PENGIRIM, $STR_ALAMAT_PENGIRIM,
+                                     $STR_NAMA_PENERIMA, $STR_NO_TELP_PENERIMA, $STR_ALAMAT_PENERIMA, $STR_JUMLAH_HARGA,
+                                     $STR_ASURANSI, $STR_TOTAL_HARGA){
+        $receivers = [TIPSMailChimp::create_email_receiver($email, $NAMA)];
+        TIPSMailChimp::send_chimp(
+            "TIPS: $NAMA, paket kiriman $SHIPPING_CODE Anda telah diterima oleh $RECIPIENT_NAME",
+            TIPSMailChimp::$TMP_RECEIPT,
+            [
+                TIPSMailChimp::create_template_data('STR_NAMA', $NAMA),
+                
+                TIPSMailChimp::create_template_data('STR_NAMA_PENGIRIM', $STR_NAMA_PENGIRIM),
+                TIPSMailChimp::create_template_data('STR_NO_TELP_PENGIRIM', $STR_NO_TELP_PENGIRIM),
+                TIPSMailChimp::create_template_data('STR_ALAMAT_PENGIRIM', $STR_ALAMAT_PENGIRIM),
+
+                TIPSMailChimp::create_template_data('STR_NAMA_PENERIMA', $STR_NAMA_PENERIMA),
+                TIPSMailChimp::create_template_data('STR_NO_TELP_PENERIMA', $STR_NO_TELP_PENERIMA),
+                TIPSMailChimp::create_template_data('STR_ALAMAT_PENERIMA', $STR_ALAMAT_PENERIMA),
+
+                TIPSMailChimp::create_template_data('STR_JUMLAH_HARGA', $STR_JUMLAH_HARGA),
+                TIPSMailChimp::create_template_data('STR_ASURANSI', $STR_ASURANSI),
+                TIPSMailChimp::create_template_data('STR_TOTAL_HARGA', $STR_TOTAL_HARGA),
+            ],
+            $receivers
+        );
+        // exec("sh send_post.sh 'http://127.0.0.1/api/send_email' 'type' 'kirim' 'code' '8' 'email' '$email' 'NAMA' '$NAMA' 'SHIPPING_CODE' '$SHIPPING_CODE' 'RECIPIENT_NAME' '$RECIPIENT_NAME' >> /var/www/html/tips/zz/logcurlx.txt > /dev/null 2>&1 &");
+    }
 }

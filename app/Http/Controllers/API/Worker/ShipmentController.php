@@ -195,6 +195,7 @@ class ShipmentController extends Controller
             // pada saat Worker Submit Pick up
             // (status shipment dari 1 menjadi 2)
             $shipment->create_transaction();
+            $shipment->send_mail_receipt();
 
             $shipment = Shipment::where('shipment_id', $shipment_id)->first();
             $shipment_status = ShipmentStatus::find($shipment->id_shipment_status);

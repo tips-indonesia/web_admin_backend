@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Http\Controllers\WalletAll;
 use App\Http\Controllers\SMSSender;
+use App\Http\Controllers\cURLFaker;
 
 class Shipment extends Model
 {
@@ -37,6 +38,32 @@ class Shipment extends Model
 
     public function create_transaction(){
         $wt = WalletAll::KIRIM_TRANSACTION($this->id_shipper, 0, $this->flight_cost + $this->add_insurance_cost, "");
+    }
+
+    public function send_mail_receipt(){
+        $bsc            = new cURLFaker;
+        $ms_user        = MemberList::find($this->id_shipper);
+        if($ms_user){
+            $email                  = $ms_user->email;
+            $NAMA                   = $ms_user->first_name . ' ' . $ms_user->last_name;
+
+            $STR_NAMA_PENGIRIM      = $this->shipper_first_name . ' ' . $this->shipper_last_name;
+            $STR_NO_TELP_PENGIRIM   = $this->shipper_mobile_phone;
+            $STR_ALAMAT_PENGIRIM    = $this->shipper_address;
+
+            $STR_NAMA_PENERIMA      = $this->consignee_first_name . ' ' . $this->consignee_last_name;
+            $STR_NO_TELP_PENERIMA   = $this->consignee_mobile_phone;
+            $STR_ALAMAT_PENERIMA    = $this->consignee_address;
+
+            $STR_JUMLAH_HARGA       = $this->flight_cost;
+            $STR_ASURANSI           = $this->$this->add_insurance_cost;
+            $STR_TOTAL_HARGA        = $this->flight_cost + $this->add_insurance_cost;
+
+            if($email)
+                $bsc->sendMailEReceipt($email, $NAMA, $STR_NAMA_PENGIRIM, $STR_NO_TELP_PENGIRIM, $STR_ALAMAT_PENGIRIM,
+                        $STR_NAMA_PENERIMA, $STR_NO_TELP_PENERIMA, $STR_ALAMAT_PENERIMA, $STR_JUMLAH_HARGA,
+                        $STR_ASURANSI, $STR_TOTAL_HARGA);
+        }
     }
 
     public function smsStep1(){
