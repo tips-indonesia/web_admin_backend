@@ -42,6 +42,10 @@ class WalletAll extends Controller
 		return true;
 	}
 
+	public static function is_pre_validate_delete_transaction_ok($member_id, $type_of_transaction, $remarks){
+		return true;
+	}
+
 	public static function create_transaction($member_id, $type_of_transaction,
 	$debit, $credit, $remarks){
 
@@ -88,6 +92,27 @@ class WalletAll extends Controller
 		return WalletAll::success_transaction($instance);
 	}
 
+	public static function delete_transaction($remarks, $member_id, $type_of_transaction){
+
+		// if data not complete then return error
+		if(!WalletAll::is_pre_validate_delete_transaction_ok($member_id, $type_of_transaction,
+		$remarks)){
+			return WalletAll::failed_transaction("transaction data not complete");
+		}
+
+		$instance = Wallet::where('trans_id', $type_of_transaction)
+					->where('member_id', $member_id)
+					->where('remarks', $remarks)
+					->first();
+
+		if(!$instance){
+			return WalletAll::failed_transaction("transaction not found");
+		}
+		$instance->delete();
+
+		return WalletAll::success_transaction($instance);
+	}
+
 	public static function ANTAR_TRANSACTION($member_id, $debit, $credit, $remarks){
 		return WalletAll::create_transaction($member_id, 1, $debit, $credit, $remarks);
 	}
@@ -114,6 +139,10 @@ class WalletAll extends Controller
 
 	public static function UPDATE_KIRIM_PAYMENT_TRANSACTION($member_id, $debit, $credit, $remarks){
 		$wtu = WalletAll::update_transaction($remarks, $member_id, 6, $debit, $credit);
+	}
+
+	public static function DELETE_KIRIM_PAYMENT_TRANSACTION($member_id, $remarks){
+		$wtu = WalletAll::delete_transaction($remarks, $member_id, 6);
 	}
 
 	public static function REEDEM_TRANSACTION($member_id, $debit, $credit, $remarks){

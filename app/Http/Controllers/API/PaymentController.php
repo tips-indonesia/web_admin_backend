@@ -21,19 +21,26 @@ class PaymentController extends Controller
     function list_type_payment() {
         $payment_type = PaymentType::all();
         $payment_all = [];
+        $isUseEspayPayment = false;
 
         foreach ($payment_type as $payment) {
-            $p = new stdClass();
-            $p->bankCode = sprintf("%03d", ($payment->id + 900) % 1000);
-            $p->productCode = 'TIPS-' . $payment->name;
-            $p->productName = $payment->name;
-            $p->isCash = $payment->name == "Cash";
-            array_push($payment_all, $p);
+            $isCashPayment = $payment->name == "Cash";
+            $isUseEspayPayment |= $payment->name == "Espay";
+            if($isCashPayment){
+                $p = new stdClass();
+                $p->bankCode = sprintf("%03d", ($payment->id + 900) % 1000);
+                $p->productCode = 'TIPS-' . $payment->name;
+                $p->productName = $payment->name;
+                $p->isCash = true;
+                array_push($payment_all, $p);
+            }
         }
 
-        foreach ($this->getInquiryMerchantInfo_BankList() as $p) {
-            $p->isCash = false;
-            array_push($payment_all, $p);
+        if($isUseEspayPayment){
+            foreach ($this->getInquiryMerchantInfo_BankList() as $p) {
+                $p->isCash = false;
+                array_push($payment_all, $p);
+            }
         }
 
         $data = array(
