@@ -25,6 +25,7 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Illuminate\Support\Facades\Storage;
 use URL;
 use Validator;
+use App\Wallets;
 
 class ShipmentCancellationAdminController extends Controller
 {
@@ -113,10 +114,15 @@ class ShipmentCancellationAdminController extends Controller
     	} else {
 	    	$shipment = Shipment::find($id);
 	    	
+            $wallets = Wallets::where('remarks', $shipment->shipment_id)->first();
+            if ($wallets != null) {
+                $wallets->delete();
+            }
+
+            $shipment->id_shipment_status = 0;
 	    	$shipment->add_notes = Input::get('additional_notes');
 	    	$shipment->deleted_at = Carbon::now()->toDateTimeString();
 	    	$shipment->save();
-	    	
 
 	    	return back();
 	    }
