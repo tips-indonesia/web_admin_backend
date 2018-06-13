@@ -37,6 +37,11 @@ class WalletAll extends Controller
 		return true;
 	}
 
+	public static function is_pre_validate_update_transaction_ok($member_id, $type_of_transaction,
+	$debit, $credit){
+		return true;
+	}
+
 	public static function create_transaction($member_id, $type_of_transaction,
 	$debit, $credit, $remarks){
 
@@ -54,6 +59,31 @@ class WalletAll extends Controller
 			'credit' 		=> $credit,
 			'remarks' 		=> $remarks,
 		]);
+
+		return WalletAll::success_transaction($instance);
+	}
+
+	public static function update_transaction($remarks, $member_id, $type_of_transaction,
+	$debit, $credit){
+
+		// if data not complete then return error
+		if(!WalletAll::is_pre_validate_update_transaction_ok($member_id, $type_of_transaction,
+		$debit, $credit)){
+			return WalletAll::failed_transaction("transaction data not complete");
+		}
+
+		$instance = Wallet::where('trans_id', $type_of_transaction)
+					->where('member_id', $member_id)
+					->where('remarks', $remarks)
+					->first();
+
+		if(!$instance){
+			return WalletAll::failed_transaction("transaction not found");
+		}
+
+		$instance->debit = $debit;
+		$instance->credit = $credit;
+		$instance->save();
 
 		return WalletAll::success_transaction($instance);
 	}
@@ -80,6 +110,10 @@ class WalletAll extends Controller
 
 	public static function KIRIM_PAYMENT_TRANSACTION($member_id, $debit, $credit, $remarks){
 		return WalletAll::create_transaction($member_id, 6, $debit, $credit, $remarks);
+	}
+
+	public static function UPDATE_KIRIM_PAYMENT_TRANSACTION($member_id, $debit, $credit, $remarks){
+		$wtu = WalletAll::update_transaction($remarks, $member_id, 6, $debit, $credit);
 	}
 
 	public static function REEDEM_TRANSACTION($member_id, $debit, $credit, $remarks){
