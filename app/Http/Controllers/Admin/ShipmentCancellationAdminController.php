@@ -113,6 +113,7 @@ class ShipmentCancellationAdminController extends Controller
     	} else {
 	    	$shipment = Shipment::find($id);
 	    	
+            $shipment->id_shipment_status = 0;
 	    	$shipment->add_notes = Input::get('additional_notes');
 	    	$shipment->deleted_at = Carbon::now()->toDateTimeString();
 	    	$shipment->save();
