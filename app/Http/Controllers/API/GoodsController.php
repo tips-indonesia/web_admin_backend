@@ -68,6 +68,8 @@ class GoodsController extends Controller
         foreach ($weight_list as $weight) {
             array_push($weight_list_final, $weight->weight_kg);
         }
+
+        return $weight_list_final;
     }
 
     function get_list_weight(Request $request) {
