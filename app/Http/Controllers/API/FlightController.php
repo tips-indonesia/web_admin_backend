@@ -227,7 +227,7 @@ class FlightController extends Controller
         return response()->json($code_booking, 200);
     }
 
-    function get_airport_list() {
+    function airport_list(){
         $airport_list_init = AirportList::all();
         $airport_list = [];
 
@@ -236,10 +236,14 @@ class FlightController extends Controller
             array_push($airport_list, $airport);
         }
 
+        return $airport_list;
+    }
+
+    function get_airport_list(){
         $data = array(
             'err' => null,
             'result' => array(
-                'airport_list' => $airport_list,
+                'airport_list' => $this->airport_list(),
             )
         );
 

@@ -104,6 +104,13 @@ class HomeController extends Controller{
                 'shipments'     => $outshipment,
                 'delivery'      => $outdelivery,
                 'money'         => $money,
+                'static_data'   => [
+                    'airport'       => (new FlightController)->airport_list(),
+                    'goods_weight'  => [
+                        'shipment'  => (new GoodsController)->list_weight('Shipment'),
+                        'delivery'  => (new GoodsController)->list_weight('Delivery')
+                    ]
+                ]
                 'etc_message'   => $etc_text ? $etc_text->value : ""
             )
         );
