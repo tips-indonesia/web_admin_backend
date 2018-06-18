@@ -125,6 +125,18 @@ class FlightController extends Controller
             }
         }
 
+        if($request->code_origin == $request->code_destination){
+            $data = array(
+                'err' => [
+                    'code' => 400,
+                    'message' => 'Asal dan tujuan penerbangan tidak boleh sama'
+                ],
+                'result' => null
+            );
+            
+            return response()->json($data, 200);
+        }
+
 
         $prefix_fc = substr($request->flight_code, 0, 2);
         $airline = AirlinesList::where('prefix_flight_code', $prefix_fc)->where('status', 1)->first();
