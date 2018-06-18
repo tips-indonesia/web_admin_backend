@@ -55,8 +55,8 @@ class DeliveryController extends Controller
             $slot->id_destination_airport = $request->id_destination_airport;
             $slot->depature = date('Y-m-d H:i:s', strtotime($request->depature));
 //            $slot->arrival = date('Y-m-d H:i:s', strtotime($request->arrival));
-            $slot->first_name = $member->first_name;
-            $slot->last_name = $member->last_name;
+            $slot->first_name = $request->first_name;
+            $slot->last_name = $request->last_name;
             $slot->flight_code = $request->flight_code;
             $slot->baggage_space = $request->baggage_space; // bagian ini jangan di hardcode
             $slot->slot_price_kg = $price->tipster_price;
