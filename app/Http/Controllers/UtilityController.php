@@ -858,8 +858,17 @@ class UtilityController extends Controller
     public function check_flight_b_n_d(Request $request){
 
         if(!$request->booking_code || !$request->kode_airport || 
-           !$request->booking_date || !$request->nama_depan || !$request->nama_belakang)
-            return "data tidak boleh kosong";
+           !$request->booking_date || !$request->nama_depan || !$request->nama_belakang){
+            $data = array(
+                'err' => [
+                    'code' => 404,
+                    'message' => 'Data tidak boleh kosong'
+                ],
+                'result' => null
+            );
+
+            return response()->json($data, 200);
+        }
         
         $res = WebScrapper::get_data($request->booking_code, substr($request->kode_airport, 0, 3), $request->booking_date, 
                                      $request->nama_depan, $request->nama_belakang);
