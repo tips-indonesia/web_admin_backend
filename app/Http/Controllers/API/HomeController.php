@@ -110,7 +110,7 @@ class HomeController extends Controller{
                         'shipment'  => (new GoodsController)->list_weight('Shipment'),
                         'delivery'  => (new GoodsController)->list_weight('Delivery')
                     ]
-                ]
+                ],
                 'etc_message'   => $etc_text ? $etc_text->value : ""
             )
         );
