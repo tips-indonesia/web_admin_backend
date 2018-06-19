@@ -18,7 +18,7 @@
                             <select name="province" class="select-search" disabled="">
                                 <option disabled></option>
                                 @foreach ($provinces as $province)
-                                    <option value="{{ $province->id }}" @if ($datas->name == $province->id) selected @endif>{{ $province->name }}</option>
+                                    <option value="{{ $province->id }}" @if ($datas->id_province == $province->id) selected @endif>{{ $province->name }}</option>
                                 @endforeach
                             </select>
                         </div>

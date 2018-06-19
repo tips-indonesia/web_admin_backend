@@ -157,10 +157,12 @@ class SubdistrictListAdminController extends Controller
     {
         //
         $subdistrictList = SubdistrictList::find($id);
+        $province = $subdistrictList->id_province;
+        $city = $subdistrictList->id_city;
         $subdistrictList->delete();
 
         // redirect
         Session::flash('message', 'Successfully deleted the nerd!');
-        return Redirect::to(route('subdistrictlists.index', ['province' => Input::get('province'), 'city' => Input::get('city')]));
+        return Redirect::to(route('subdistrictlists.index', ['province' => $province, 'city' => $city]));
     }
 }
