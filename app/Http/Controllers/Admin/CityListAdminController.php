@@ -98,7 +98,8 @@ class CityListAdminController extends Controller
     public function destroy($id)
     {
         $cityList = CityList::find($id);
+        $province = $cityList->id_province;
         $cityList->delete();
-        return Redirect::to(route('citylists.index', ['province' => Input::get('province')]));
+        return Redirect::to(route('citylists.index', ['province' => $province]));
     }
 }
