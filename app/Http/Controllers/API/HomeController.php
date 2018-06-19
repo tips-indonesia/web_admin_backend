@@ -109,7 +109,9 @@ class HomeController extends Controller{
                     'goods_weight'  => [
                         'shipment'  => (new GoodsController)->list_weight('Shipment'),
                         'delivery'  => (new GoodsController)->list_weight('Delivery')
-                    ]
+                    ],
+                    'city'          => (new CityController)->airport_city_list(),
+                    'city_price'    => (new CityController)->get_airport_city_list_price($member_id)
                 ],
                 'etc_message'   => $etc_text ? $etc_text->value : ""
             )
