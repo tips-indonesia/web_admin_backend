@@ -104,19 +104,17 @@ class BirdSenderController extends Controller
 
         $user->reset_password_token = hash('sha512', $user->password . uniqid());
         $user->save();
-        $destination    = $user->email;
-        $subject        = "Mail Registration Tips";
-        $template       = "mail.forgot_password";
-        $timezone       = "Asia/Jakarta";
-        date_default_timezone_set($timezone);
-        $datetime       = date("d-m-Y h:i:sa");
-        $data           = [
-            "user"     => $user,
-            "datetime" => $datetime,
-            "timezone" => $timezone
-        ];
 
-        return BirdSenderController::sendEmail($destination, $subject, $template, $data);
+        $url = 'https://apps.tips.co.id/reset_password/' . $user->reset_password_token;
+
+        (new cURLFaker)->sendMailForgetPassword($user->email, $user->first_name . ' ' . $user->last_name, $url);
+
+        $data = array(
+            'err' => null,
+            'result' => "email berhasil dikirim"
+        );
+
+        return response()->json($data, 200);
     }
 
     public function testMail(Request $req){

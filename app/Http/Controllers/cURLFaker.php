@@ -24,6 +24,24 @@ class cURLFaker extends Controller
         );
         // exec("sh send_post.sh 'http://127.0.0.1/api/send_email' 'type' 'registration' 'email' '$email' 'NAMA' '$NAMA' >> /var/www/html/tips/zz/logcurlx.txt > /dev/null 2>&1 &");
     }
+
+    // ------------------------------
+    //
+    // INI BAGIAN EMAIL UNTUK TIPSTER
+    //
+    // --
+    public function sendMailForgetPassword($email, $NAMA, $url){
+        $receivers = [TIPSMailChimp::create_email_receiver($email, $NAMA)];
+        return TIPSMailChimp::send_chimp(
+            "TIPS - Forgot Your Password $NAMA?",
+            TIPSMailChimp::$TMP_FORGOT_PASSWORD,
+            [
+                TIPSMailChimp::create_template_data('URL_GANTI_KATA_SANDI', $url),
+            ],
+            $receivers
+        );
+        // exec("sh send_post.sh 'http://127.0.0.1/api/send_email' 'type' 'registration' 'email' '$email' 'NAMA' '$NAMA' >> /var/www/html/tips/zz/logcurlx.txt > /dev/null 2>&1 &");
+    }
     // ------------------------------
     // ##############################
 
