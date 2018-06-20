@@ -105,7 +105,7 @@ class BirdSenderController extends Controller
         $user->reset_password_token = hash('sha512', $user->password . uniqid());
         $user->save();
 
-        $url = 'https://apps.tips.co.id/reset_password/' . $user->reset_password_token;
+        $url = 'https://app.tips.co.id/reset_password/' . $user->reset_password_token;
 
         (new cURLFaker)->sendMailForgetPassword($user->email, $user->first_name . ' ' . $user->last_name, $url);
 
