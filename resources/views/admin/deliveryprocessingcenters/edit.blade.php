@@ -46,8 +46,10 @@
                                 @endforeach
 
 
-                               @foreach ($shipment_lists as $sl)
+                                @foreach ($shipment_lists as $sl)
+                                @if($sl->packagingList != null)
                                     <option value="{{$sl->packagingList->id}}" {{ in_array($sl->packagingList->id, $delivery_shipments)? "SELECTED" : "" }}> {{ $sl->packagingList->packaging_id }} &nbsp; - &nbsp; {{ date("Y-m-d", strtotime($sl->created_at)) }} &nbsp; - &nbsp; {{ $sl->airportOrigin->name }} &nbsp; - &nbsp; {{ $sl->airportDestination->name }} </option>
+                                @endif
                                 @endforeach
 
                             </select>
