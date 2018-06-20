@@ -48,14 +48,14 @@ class LocationController extends Controller
     }
 
     function get_all_province(){
-        return ProvinceList::all()
+        return ProvinceList::all();
     }
 
     function get_all_city(){
-        return CityList::all()
+        return CityList::all();
     }
 
     function get_all_subdistrict(){
-        return SubdistrictList::all()
+        return SubdistrictList::all();
     }
 }
