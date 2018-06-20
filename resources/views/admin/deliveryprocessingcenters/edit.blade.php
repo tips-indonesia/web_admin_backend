@@ -39,7 +39,7 @@
                             <select multiple="multiple" class="form-control listbox" name="shipments[]">
 
                                 @foreach ($inputed_shipment_lists as $isl)
-                                @if($isl->packagingList != null && in_array($isl->packagingList->id, $delivery_shipments))
+                                @if(in_array($isl->packagingList->id, $delivery_shipments))
                                     <option value="{{$isl->packagingList->id}}" SELECTED> {{ $isl->packagingList->packaging_id }} &nbsp; - &nbsp; {{ date("Y-m-d", strtotime($isl->created_at)) }} &nbsp; - &nbsp; {{ $isl->airportOrigin->name }} &nbsp; - &nbsp; {{ $isl->airportDestination->name }} </option>
                                     }
                                 @endif
@@ -47,9 +47,7 @@
 
 
                                 @foreach ($shipment_lists as $sl)
-                                @if($sl->packagingList != null)
                                     <option value="{{$sl->packagingList->id}}" {{ in_array($sl->packagingList->id, $delivery_shipments)? "SELECTED" : "" }}> {{ $sl->packagingList->packaging_id }} &nbsp; - &nbsp; {{ date("Y-m-d", strtotime($sl->created_at)) }} &nbsp; - &nbsp; {{ $sl->airportOrigin->name }} &nbsp; - &nbsp; {{ $sl->airportDestination->name }} </option>
-                                @endif
                                 @endforeach
 
                             </select>
