@@ -44,7 +44,7 @@ class GoodsController extends Controller
     }
 
     function list_price_estimate(){
-        return PriceGoodsEstimate::select('id', 'price_estimate')->get();
+        return PriceGoodsEstimate::all();
     }
 
     //
