@@ -221,6 +221,7 @@ class ShipmentController extends Controller
         $shipment->flight_cost              = $request->estimate_weight * $price->freight_cost;
         $shipment->flight_cost              -= $promo_percent * $shipment->flight_cost;
         
+        $shipment->add_insurance_cost       = 0;
         if($request->is_add_insurance == 1) {
             $shipment->add_insurance_cost       = $insurance->default_insurance * $price_goods_estimate->nominal / 100;
             $shipment->add_insurance_cost       -= $promo_percent * $shipment->add_insurance_cost;
