@@ -116,7 +116,9 @@ class HomeController extends Controller{
                         'province'          => (new LocationController)->get_all_province(),
                         'city'              => (new LocationController)->get_all_city(),
                         'subdistrict'       => (new LocationController)->get_all_subdistrict()
-                    ]
+                    ],
+                    'price_goods_estimate'  => (new GoodsController)->list_price_estimate(),
+                    'payment_method'        => (new PaymentController)->payment_method_all()
                 ],
                 'etc_message'   => $etc_text ? $etc_text->value : ""
             )

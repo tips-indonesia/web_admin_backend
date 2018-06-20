@@ -17,8 +17,7 @@ use stdClass;
 
 class PaymentController extends Controller
 {
-    //
-    function list_type_payment() {
+    function payment_method_all(){
         $payment_type = PaymentType::all();
         $payment_all = [];
         $isUseEspayPayment = false;
@@ -43,9 +42,16 @@ class PaymentController extends Controller
             }
         }
 
+        return $payment_all;
+    }
+
+    //
+    function list_type_payment() {
+
+
         $data = array(
             'err' => null,
-            'result' => $payment_all
+            'result' => $this->payment_method_all()
         );
 
         return response()->json($data, 200);

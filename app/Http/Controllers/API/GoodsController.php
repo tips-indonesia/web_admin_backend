@@ -42,15 +42,17 @@ class GoodsController extends Controller
 
         return response()->json($data, 200);
     }
+
+    function list_price_estimate(){
+        return PriceGoodsEstimate::select('id', 'price_estimate')->get();
+    }
+
     //
     function get_list_price_estimate() {
-        $price_list = PriceGoodsEstimate::select('id', 'price_estimate')->get();
-
-
         $data = array(
             'err' => null,
             'result' => array(
-                'price_list' => $price_list
+                'price_list' => $this->list_price_estimate()
             )
         );
 
