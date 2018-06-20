@@ -179,11 +179,17 @@ class DeliveryProcessingCenterAdminController extends Controller
             ->pluck('packaging_lists_id')
             ->toArray();
 
-        $data['inputed_shipment_lists'] = SlotList::where('id_slot_status','=','7')
+        $slot = SlotList::where('id_slot_status', 7)->pluck('id');
+        $pl = PackagingList::whereIn('id_slot', $slot)->pluck('id_slot');
+        // $data['inputed_shipment_lists'] = SlotList::where('id_slot_status','=','7')
+        $data['inputed_shipment_lists'] = SlotList::whereIn('id', $pl)
             ->with('packagingList', 'airportDestination', 'airportOrigin')
             ->get();
 
-        $data['shipment_lists'] = SlotList::where('id_slot_status','=','6')
+        $slot = SlotList::where('id_slot_status', 6)->pluck('id');
+        $pl = PackagingList::whereIn('id_slot', $slot)->pluck('id_slot');
+        // $data['shipment_lists'] = SlotList::where('id_slot_status','=','6')
+        $data['shipment_lists'] = SlotList::whereIn('id', $pl)
             ->with('packagingList', 'airportDestination', 'airportOrigin');
 
         $user = User::find(Auth::id());
