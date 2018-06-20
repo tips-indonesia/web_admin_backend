@@ -83,6 +83,10 @@ class GoodsController extends Controller
         return response()->json($data, 200);
     }
 
+    function insurance(){
+        return Insurance::first();
+    }
+
     function get_insurance_price(Request $request) {
         $id_user = $request->id_user;
         $id_price_good_estimate = $request->id_price_estimate;
