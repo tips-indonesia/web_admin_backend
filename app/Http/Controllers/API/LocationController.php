@@ -46,4 +46,16 @@ class LocationController extends Controller
 
         return response()->json($data, 200);
     }
+
+    function get_all_province(){
+        return ProvinceList::all()
+    }
+
+    function get_all_city(){
+        return CityList::all()
+    }
+
+    function get_all_subdistrict(){
+        return SubdistrictList::all()
+    }
 }

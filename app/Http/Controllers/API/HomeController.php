@@ -105,13 +105,18 @@ class HomeController extends Controller{
                 'delivery'      => $outdelivery,
                 'money'         => $money,
                 'static_data'   => [
-                    'airport'       => (new FlightController)->airport_list(),
-                    'goods_weight'  => [
-                        'shipment'  => (new GoodsController)->list_weight('Shipment'),
-                        'delivery'  => (new GoodsController)->list_weight('Delivery')
+                    'airport'               => (new FlightController)->airport_list(),
+                    'goods_weight'          => [
+                        'shipment'          => (new GoodsController)->list_weight('Shipment'),
+                        'delivery'          => (new GoodsController)->list_weight('Delivery')
                     ],
-                    'city'          => (new CityController)->airport_city_list(),
-                    'city_price'    => (new CityController)->get_airport_city_list_price($member_id)
+                    'airport_city'          => (new CityController)->airport_city_list(),
+                    'airport_city_price'    => (new CityController)->get_airport_city_list_price($member_id),
+                    'location'              => [
+                        'province'          => (new LocationController)->get_all_province(),
+                        'city'              => (new LocationController)->get_all_city(),
+                        'subdisctrict'      => (new LocationController)->get_all_subdistrict()
+                    ]
                 ],
                 'etc_message'   => $etc_text ? $etc_text->value : ""
             )
