@@ -226,6 +226,14 @@ Route::group(['middleware' => 'isWorker'], function() {
             Route::resource('crontimer','Admin\CronTimerController');
         });
 
+        Route::group(['middleware' => ['permission:promotiontext.']], function () {
+            Route::resource('promotiontext','Admin\PromotionTextController');
+        });
+
+        Route::group(['middleware' => ['permission:addworkerability.']], function () {
+            Route::resource('addworkerability','Admin\AddWorkerAbilityController');
+        });
+
         Route::resource('statuschangers','Admin\StatusChangerAdminController');
         
     });

@@ -237,6 +237,12 @@ class MenuTableSeeder extends Seeder
             ]);
 
             MenuList::create([
+                'name' => 'Promotions',
+                'menu_parent_id' => $setting->id,
+                'class_name' => 'promotions.'
+            ]);
+
+            MenuList::create([
                 'name' => 'Referral',
                 'menu_parent_id' => $setting->id,
                 'class_name' => 'referral.'
@@ -246,6 +252,18 @@ class MenuTableSeeder extends Seeder
                 'name' => 'Cron Timer',
                 'menu_parent_id' => $setting->id,
                 'class_name' => 'crontimer.'
+            ]);
+
+            MenuList::create([
+                'name' => 'Promotion Text',
+                'menu_parent_id' => $setting->id,
+                'class_name' => 'promotiontext.'
+            ]);
+
+            MenuList::create([
+                'name' => 'Adding Worker Ability to User',
+                'menu_parent_id' => $setting->id,
+                'class_name' => 'addworkerability.'
             ]);
 
             $user = MenuList::create([
