@@ -83,12 +83,17 @@ class ShipmentController extends Controller
         $shipment->shipper_address              = $request->shipper_address;
         $shipment->shipper_mobile_phone         = $request->shipper_mobile_phone;
 
+        // 1. A. c. LET DATAS
+        $id_estimate_goods_value                = $request->id_estimate_goods_value;
+        $id_consignee_district                  = $request->id_consignee_district;
+        $id_shipper_district                    = $request->id_shipper_district;
+
         // 1. B. SECOND (DERIVED) DATAS
         // ----------------------------
         // 1. B. a. CONSIGNEE DATAS
         // ------------------------
         // subdistrict
-        $consignee_districts                    = SubdistrictList::find($request->id_consignee_district);
+        $consignee_districts                    = SubdistrictList::find($id_consignee_district);
         $shipment->id_consignee_districts       = $consignee_districts->id;
         $shipment->consignee_districts          = $consignee_districts->name;
 
@@ -105,7 +110,7 @@ class ShipmentController extends Controller
         // 1. B. b. SHIPPER DATAS
         // ----------------------
         // subdistrict
-        $shipper_districts                      = SubdistrictList::find($request->id_shipper_district);
+        $shipper_districts                      = SubdistrictList::find($id_shipper_district);
         $shipment->id_shipper_districts         = $shipper_districts->id;
         $shipment->shipper_districts            = $shipper_districts->name;
 
@@ -183,7 +188,7 @@ class ShipmentController extends Controller
         //      2. Asuransi (Insurance)
         //      3. Harga pengiriman barang dari kota asal ke kota tujuan (PriceList)
         //
-        $price_goods_estimate                   = PriceGoodsEstimate::find($request->id_estimate_goods_value);
+        $price_goods_estimate                   = PriceGoodsEstimate::find($id_estimate_goods_value);
         $shipment->estimate_goods_value         = $price_goods_estimate->price_estimate;
 
         $insurance                              = Insurance::first();
@@ -197,8 +202,8 @@ class ShipmentController extends Controller
         //     $shipment->insurance_cost           = ($price_goods_estimate->nominal * $insurance->default_insurance) / 100;
         // }
 
-        $price = PriceList::where('id_origin_city', $request->id_origin_city)
-                ->where('id_destination_city', $request->id_destination_city)->first();
+        $price = PriceList::where('id_origin_city', $shipment->id_origin_city)
+                ->where('id_destination_city', $shipment->id_destination_city)->first();
 
 
         $promo_percent = 0;
@@ -218,7 +223,7 @@ class ShipmentController extends Controller
 
         // }
 
-        $shipment->flight_cost              = $request->estimate_weight * $price->freight_cost;
+        $shipment->flight_cost              = $shipment->estimate_weight * $price->freight_cost;
         $shipment->flight_cost              -= $promo_percent * $shipment->flight_cost;
         
         $shipment->add_insurance_cost       = 0;

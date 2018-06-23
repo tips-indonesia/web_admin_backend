@@ -83,8 +83,20 @@ class GoodsController extends Controller
         return response()->json($data, 200);
     }
 
-    function insurance(){
-        return Insurance::first();
+    function insurance($id_user){
+        // NEW API, optional for back compability
+        $ratio_discount = 0.0;
+        if($id_user){
+            $promotion_available = PromotionController::getUserPromoOrNULL($id_user);
+            if($promotion_available['promo'] != null)
+                $ratio_discount = $promotion_available['promo']->discount_value / 100;
+        }
+
+        $insurance_instance = Insurance::first();
+        $insurance_instance->default_insurance      -= $insurance_instance->default_insurance * $ratio_discount;
+        $insurance_instance->additional_insurance   -= $insurance_instance->additional_insurance * $ratio_discount;
+
+        return $insurance_instance;
     }
 
     function get_insurance_price(Request $request) {
