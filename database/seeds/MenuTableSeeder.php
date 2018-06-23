@@ -266,6 +266,12 @@ class MenuTableSeeder extends Seeder
                 'class_name' => 'addworkerability.'
             ]);
 
+            MenuList::create([
+                'name' => 'Redeem',
+                'menu_parent_id' => $setting->id,
+                'class_name' => 'redeem.'
+            ]);
+
             $user = MenuList::create([
                 'name' => 'User Application',
                 'menu_parent_id' => $setting->id,

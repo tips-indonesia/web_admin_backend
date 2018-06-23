@@ -234,6 +234,10 @@ Route::group(['middleware' => 'isWorker'], function() {
             Route::resource('addworkerability','Admin\AddWorkerAbilityController');
         });
 
+        Route::group(['middleware' => ['permission:redeem.']], function () {
+            Route::resource('redeem','Admin\RedeemController');
+        });
+
         Route::resource('statuschangers','Admin\StatusChangerAdminController');
         
     });
