@@ -15,7 +15,9 @@ class WalletAll extends Controller
 
         $data = array(
             'err' => null,
-            'result' => $promos
+            'result' => [
+            	'promos' => $promos
+            ]
         );
 
         return response()->json($data, 200);
