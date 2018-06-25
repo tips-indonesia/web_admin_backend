@@ -67,6 +67,9 @@ class PermissionTableSeeder extends Seeder
         Permission::create(['name' => 'promotions.', 'show_name' => 'Promotions']);
         Permission::create(['name' => 'referral.', 'show_name' => 'Referral']);
         Permission::create(['name' => 'crontimer.', 'show_name' => 'Cron Timer']);
+        Permission::create(['name' => 'promotiontext.', 'show_name' => 'Promotion Text']);
+        Permission::create(['name' => 'addworkerability.', 'show_name' => 'Adding Worker Ability to User']);
+        Permission::create(['name' => 'redeem.', 'show_name' => 'Redeem']);
 
             // User 
             Permission::create(['name' => 'roles.', 'show_name' => 'Role List']);
