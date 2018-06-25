@@ -6,9 +6,22 @@ use Illuminate\Http\Request;
 use App\Wallet;
 use App\WalletTransaction;
 use App\MemberList;
+use App\Redeem;
 
 class WalletAll extends Controller
 {
+	public function getAllPromo(){
+		$promos = Redeem::all();
+
+        $data = array(
+            'err' => null,
+            'result' => $promos
+        );
+
+        return response()->json($data, 200);
+	}
+
+	// -------------
 
 	public static function failed_transaction($obj){
 		return $obj;
