@@ -13,10 +13,18 @@ class WalletAll extends Controller
 	public function getAllPromo(){
 		$promos = Redeem::all();
 
+		$promos_out = []
+		foreach ($promos as $promo) {
+			$start_date_promo = new \Carbon\Carbon($promo->start_date);
+			$end_date_promo = new \Carbon\Carbon($promo->end_date);
+			if(Carbon::now(+7)->between($start_date_promo, $end_date_promo))
+	            array_push($promos_out, $promo)
+		}
+
         $data = array(
             'err' => null,
             'result' => [
-            	'promos' => $promos
+            	'promos' => $promos_out
             ]
         );
 
