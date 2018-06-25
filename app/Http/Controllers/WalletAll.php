@@ -8,6 +8,7 @@ use App\WalletTransaction;
 use App\MemberList;
 use App\Redeem;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\URL;
 
 class WalletAll extends Controller
 {
@@ -18,8 +19,10 @@ class WalletAll extends Controller
 		foreach ($promos as $promo) {
 			$start_date_promo = new Carbon($promo->start_date);
 			$end_date_promo = new Carbon($promo->end_date);
-			if(Carbon::now(+7)->between($start_date_promo, $end_date_promo))
+			if(Carbon::now(+7)->between($start_date_promo, $end_date_promo)){
+				$promo->file_name = URL::to('storage/redeem/' . $promo->file_name);
 	            array_push($promos_out, $promo);
+			}
 		}
 
         $data = array(
