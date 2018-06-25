@@ -73,7 +73,7 @@ class RedeemController extends Controller
                 if(Input::get('tanggal_awal') > Input::get('tanggal_akhir')) {
                     return redirect('admin/promotions/'.$id.'/edit?')->with('status', 'Tanggal Akhir harus lebih besar dari Tanggal Awal');
                 } else {
-                    DB::table('redeem')->update(
+                    DB::table('redeem')->where('id', $id)->update(
 		                ['start_date' => Input::post('tanggal_awal'), 'end_date' => Input::post('tanggal_akhir'), 'description' => Input::post('deskripsi'), 'remarks' => Input::post('keterangan'),'url' => Input::post('url'), 'file_name' => $filename]
 		            );
                     return back();
@@ -83,7 +83,7 @@ class RedeemController extends Controller
             if(Input::get('tanggal_awal') > Input::get('tanggal_akhir')) {
                     return redirect('admin/promotions/'.$id.'/edit?')->with('status', 'Tanggal Akhir harus lebih besar dari Tanggal Awal');
                 } else {
-                    DB::table('redeem')->update(
+                    DB::table('redeem')->where('id', $id)->update(
 		                ['start_date' => Input::post('tanggal_awal'), 'end_date' => Input::post('tanggal_akhir'), 'description' => Input::post('deskripsi'), 'remarks' => Input::post('keterangan'),'url' => Input::post('url')]
 		            );
                     return back();
