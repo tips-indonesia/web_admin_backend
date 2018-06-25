@@ -7,18 +7,19 @@ use App\Wallet;
 use App\WalletTransaction;
 use App\MemberList;
 use App\Redeem;
+use Carbon\Carbon;
 
 class WalletAll extends Controller
 {
 	public function getAllPromo(){
 		$promos = Redeem::all();
 
-		$promos_out = []
+		$promos_out = [];
 		foreach ($promos as $promo) {
-			$start_date_promo = new \Carbon\Carbon($promo->start_date);
-			$end_date_promo = new \Carbon\Carbon($promo->end_date);
+			$start_date_promo = new Carbon($promo->start_date);
+			$end_date_promo = new Carbon($promo->end_date);
 			if(Carbon::now(+7)->between($start_date_promo, $end_date_promo))
-	            array_push($promos_out, $promo)
+	            array_push($promos_out, $promo);
 		}
 
         $data = array(
