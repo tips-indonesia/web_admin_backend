@@ -29,41 +29,19 @@ class EtcSeeder extends Seeder
      //        'class_name' => 'promotions.'
      //    ]);
         
-        // MenuList::create([
-        //     'name' => 'Shipment Cancellation',
-        //     'menu_parent_id' => 18,
-        //     'class_name' => 'shipmentcancellation.'
-        // ]);
-
         MenuList::create([
-            'name' => 'Promotion Text',
-            'menu_parent_id' => 34,
-            'class_name' => 'promotiontext.'
-        ]);
-
-        MenuList::create([
-            'name' => 'Adding Worker Ability to User',
-            'menu_parent_id' => 34,
-            'class_name' => 'addworkerability.'
-        ]);
-
-        MenuList::create([
-            'name' => 'Redeem',
-            'menu_parent_id' => 34,
-            'class_name' => 'redeem.'
+            'name' => 'Shipment Cancellation',
+            'menu_parent_id' => 18,
+            'class_name' => 'shipmentcancellation.'
         ]);
         // $p3 = Permission::create(['name' => 'promotions.', 'show_name' => 'Promotions']);
-        // $p4 = Permission::create(['name' => 'shipmentcancellation.', 'show_name' => 'Shipment Cancellation']);
-        $a = Permission::create(['name' => 'promotiontext.', 'show_name' => 'Promotion Text']);
-        $b = Permission::create(['name' => 'addworkerability.', 'show_name' => 'Adding Worker Ability to User']);
-        $c = Permission::create(['name' => 'redeem.', 'show_name' => 'Redeem']);
+        $p4 = Permission::create(['name' => 'shipmentcancellation.', 'show_name' => 'Shipment Cancellation']);
+
         
     	// $role->givePermissionTo($p1);
     	$role = Role::all()->first();
         // $role->givePermissionTo($p3);
-        $role->givePermissionTo($a);
-        $role->givePermissionTo($b);
-        $role->givePermissionTo($c); 
+        $role->givePermissionTo($p4);
 
 
         // MenuList::create([
