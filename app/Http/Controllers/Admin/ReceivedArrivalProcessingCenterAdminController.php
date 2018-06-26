@@ -104,12 +104,11 @@ class ReceivedArrivalProcessingCenterAdminController extends Controller
             $delivery->save();
 
             $packages_id = ArrivalShipmentDetail::where('arrival_shipment_id', $delivery->id)
-                                                ->first()
-                                                ->packaging_lists_id;
-            $package = PackagingList::find($packages_id);
+                                                ->pluck('packaging_lists_id');
+            $package = PackagingList::whereIn('id', $packages_id)->pluck('id_slot');
             
             // SHIPMENT
-      		$shipments = Shipment::where('id_slot', $package->id_slot)->get();
+      		$shipments = Shipment::whereIn('id_slot', $package)->get();
       		
       		foreach ($shipments as $shipment) {
       			$shipment->id_shipment_status = 12;

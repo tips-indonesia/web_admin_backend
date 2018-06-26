@@ -125,7 +125,7 @@
                                                    {{ $dat->shipment_id }}
                                                 </td>
                                                 <td>
-                                                    @if($shipment->id_shipment_status == 12)
+                                                    @if($dat->id_shipment_status == 12)
                                                     Belum Dikirim
                                                     @else
                                                     Sudah Dikirim
@@ -135,7 +135,7 @@
                                                     {{$dat->nama_pengirim}}
                                                 </td>
                                                 <td>
-                                                    @if($shipment->id_shipment_status == 15)
+                                                    @if($dat->id_shipment_status == 15)
                                                     Sudah Diterima
                                                     @else
                                                     Belum Diterima
