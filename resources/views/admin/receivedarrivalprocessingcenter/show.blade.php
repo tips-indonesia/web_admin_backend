@@ -23,7 +23,6 @@
                 <label>Packaging List</label>
 
             </div>
-
             <table class="table datatable-pagination">
                 <thead>
                     <tr>
@@ -53,15 +52,15 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        @foreach($pack->shipments as $ship)
                                         <tr>
-                                            @foreach($pack->shipments as $ship)
-                                                <td>{{$ship->shipment_id}}</td>
-                                                <td>{{$ship->transaction_date}}</td>
-                                                <td>{{$ship->origin_city}}</td>
-                                                <td>{{$ship->destination_city}}</td>
-                                                <td>{{$ship->real_weight}}</td>
-                                            @endforeach
+                                            <td>{{$ship->shipment_id}}</td>
+                                            <td>{{$ship->transaction_date}}</td>
+                                            <td>{{$ship->origin_city}}</td>
+                                            <td>{{$ship->destination_city}}</td>
+                                            <td>{{$ship->real_weight}}</td>
                                         </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
                         </td>
