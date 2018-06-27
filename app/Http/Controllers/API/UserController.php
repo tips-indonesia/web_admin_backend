@@ -574,7 +574,18 @@ class UserController extends Controller
 
             if($request->has('email')) {
                 if($request->email != null && $request->email != '') {
-                    $member->email = $request->email;
+                    if(MemberList::where('email', $request->email)->where('email', '!=', $member->email)->first()) {
+                        $data = array(
+                            'err' => [
+                                'code' => 0,
+                                'message' => 'Error: email sudah digunakan'
+                            ],
+                            'result' => null
+                        );
+                        return response()->json($data, 200);
+                    }else{
+                        $member->email = $request->email;
+                    }
                 }
             }
 

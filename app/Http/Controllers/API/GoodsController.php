@@ -95,6 +95,7 @@ class GoodsController extends Controller
         $insurance_instance = Insurance::first();
         $insurance_instance->default_insurance      -= $insurance_instance->default_insurance * $ratio_discount;
         $insurance_instance->additional_insurance   -= $insurance_instance->additional_insurance * $ratio_discount;
+        $insurance_instance->default_insurance      = strval($insurance_instance->default_insurance);
 
         return $insurance_instance;
     }
