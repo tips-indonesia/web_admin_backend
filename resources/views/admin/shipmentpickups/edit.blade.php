@@ -480,7 +480,7 @@
         </tr>
         <tr style=" height: 70px; max-height: 70px; text-align: justify;">
             <td colspan="2" style="font-size: 9px; padding-bottom: 4px; padding-left: 10px; padding-right: 10px; vertical-align: top;">
-                <span style="color: #000; word-wrap: break-word;">{{ $data->consignee_address }} - {{ $data->consignee_address }}</span>   
+                <span style="color: #000; word-wrap: break-word;">{{ $data->consignee_address }} - {{ $data->consignee_address_detail }}</span>   
             </td>
         </tr>
     </table>
@@ -637,7 +637,7 @@
         <tr style="padding:0;">\
             <td colspan="2" style="font-size: 9px; padding-left: 10px; padding-right: 10px;; padding-bottom: 5px vertical-align: top;">\
                 <div style="min-height: 56px; max-height: 56px; padding-bottom: 2px; text-align: justify;">\
-                    <span style="color: #000; word-wrap: break-word;">{{ $data->consignee_address }} - {{ $data->consignee_address }}</span>   \
+                    <span style="color: #000; word-wrap: break-word;">{{ $data->consignee_address }} - {{ $data->consignee_address_detail }}</span>   \
                 </div>\
             </td>\
         </tr>\
