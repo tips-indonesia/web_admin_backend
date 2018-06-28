@@ -43,7 +43,7 @@ class Kernel extends HttpKernel
             'bindings',
             \App\Http\Middleware\Cors::class,
             // \App\Http\Middleware\VerifyRequest::class,
-            \App\Http\Middleware\Cors::class,
+            // \App\Http\Middleware\Cors::class,
         ],
     ];
 
