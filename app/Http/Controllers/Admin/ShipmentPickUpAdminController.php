@@ -30,6 +30,13 @@ use URL;
 
 class ShipmentPickUpAdminController extends Controller
 {
+    public function deleteenter($input) {
+        if (strpos($input, "\n")) {
+            $input = str_replace("\n", '', $input);
+        }
+
+        return $input;
+    }
     /**
     * Display a listing of the resource.
     *
@@ -114,6 +121,10 @@ class ShipmentPickUpAdminController extends Controller
         $qrcode = base64_decode($dataqr);
         Storage::disk('local')->put('images/qrcode/pickup/'.$data['data']->shipment_id.'.png',$qrcode, 'public');
 
+        $data['data']['shipper_address'] = $this->deleteenter($data['data']->shipper_address);
+        $data['data']['shipper_address_detail'] = $this->deleteenter($data['data']->shipper_address_detail);
+        $data['data']['consignee_address'] = $this->deleteenter($data['data']->consignee_address);
+        $data['data']['consignee_address_detail'] = $this->deleteenter($data['data']->consignee_address_detail);
         return view('admin.shipmentpickups.show', $data);
         }
     }
@@ -151,7 +162,11 @@ class ShipmentPickUpAdminController extends Controller
                             ->generate($data['data']->shipment_id));
         $qrcode = base64_decode($dataqr);
         Storage::disk('local')->put('images/qrcode/pickup/'.$data['data']->shipment_id.'.png',$qrcode, 'public');
-        
+        // echo $data['data']->shipper_address;
+        $data['data']['shipper_address'] = $this->deleteenter($data['data']->shipper_address);
+        $data['data']['shipper_address_detail'] = $this->deleteenter($data['data']->shipper_address_detail);
+        $data['data']['consignee_address'] = $this->deleteenter($data['data']->consignee_address);
+        $data['data']['consignee_address_detail'] = $this->deleteenter($data['data']->consignee_address_detail);
         return view('admin.shipmentpickups.edit', $data);
     }
 
