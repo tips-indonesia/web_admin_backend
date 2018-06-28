@@ -16,7 +16,7 @@ class VerifyRequest
      */
     public function handle(Request $request, Closure $next){
         $kindApp = $request->header('app-kind');
-        if(!$kindApp || ($kindApp != 'android' && $kindApp != 'web-app' && $kindApp != 'ios')){
+        if(!$request->has('app-kind') && (!$kindApp || ($kindApp != 'android' && $kindApp != 'web-app' && $kindApp != 'ios'))){
             $data = array(
                 'err' => [
                     'code' => "405",
