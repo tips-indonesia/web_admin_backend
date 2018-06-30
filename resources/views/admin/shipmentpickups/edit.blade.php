@@ -420,7 +420,7 @@
                         </div>
                         <div class="text-right form-group">
                             <button type="submit" name="submit" value="save" class="btn btn-primary">Save<i class="icon-arrow-right14 position-right"></i></button>
-                            <button type="submit" name="submit" value="post" class="btn btn-success">Post<i class="icon-arrow-right14 position-right"></i></button>
+                            <button @if ($data->pickup_by == null || $data->pickup_date == null || $data->pickup_time == null) disabled @endif type="submit" name="submit" value="post" class="btn btn-success">Post<i class="icon-arrow-right14 position-right"></i></button>
                             <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#modal_small">QR Code</i></button>
                         </div>
                     </div>
