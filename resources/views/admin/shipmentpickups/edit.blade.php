@@ -420,7 +420,7 @@
                         </div>
                         <div class="text-right form-group">
                             <button type="submit" name="submit" value="save" class="btn btn-primary">Save<i class="icon-arrow-right14 position-right"></i></button>
-                            <button type="submit" name="submit" value="post" class="btn btn-success">Post<i class="icon-arrow-right14 position-right"></i></button>
+                            <button @if ($data->pickup_by == null || $data->pickup_date == null || $data->pickup_time == null) disabled @endif type="submit" name="submit" value="post" class="btn btn-success">Post<i class="icon-arrow-right14 position-right"></i></button>
                             <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#modal_small">QR Code</i></button>
                         </div>
                     </div>
@@ -454,7 +454,7 @@
     <table style="width: 300px; border: solid 1px #777; background: rgba(0, 0, 0, .0); font-family: Arial">
         <tr>
             <td style="width: 27%; margin-right: 2px; font-weight: bold; font-size: 8px; vertical-align: top; text-align: left; padding-left: 10px; padding-top: 4px; padding-right: 10px; ">
-                <img src="{!! URL::to('/') . '/images/plane_icon_gray.png' !!}" style="height: 10px"> PENGIRIM 
+                PENGIRIM 
             </td>
             <td style="width: 73%; font-size: 9px; padding-left: 10px; padding-top: 4px; padding-right: 10px; vertical-align: top;">
                 <span style="color: #000">{{ $data->shipper_first_name . ' ' . $data->shipper_last_name }}</span> <br>
@@ -470,7 +470,7 @@
     <table style="width: 300px; border: solid 1px #777; background: rgba(0, 0, 0, .0); font-family: Arial">
         <tr>
             <td style="width: 27%; margin-right: 2px; font-weight: bold; font-size: 8px; vertical-align: top; text-align: left; padding-left: 10px; padding-top: 4px; padding-right: 10px; ">
-                <img src="{!! URL::to('/') . '/images/shipment_icon_gray.png' !!}" style="height: 10px"> PENERIMA
+                PENERIMA
             </td>
 
             <td style="width: 73%; font-size: 9px; padding: 4px 10px; vertical-align: top;">

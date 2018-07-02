@@ -32,7 +32,7 @@ class ShipmentPickUpAdminController extends Controller
 {
     public function deleteenter($input) {
         if (strpos($input, "\n")) {
-            $input = str_replace("\n", '', $input);
+            $input = str_replace("\n", ' ', $input);
         }
 
         return $input;
