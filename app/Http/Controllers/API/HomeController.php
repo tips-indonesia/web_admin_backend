@@ -170,7 +170,7 @@ class HomeController extends Controller{
         $data = array(
             'err' => null,
             'result' => [
-                'money' => $this->getMoney($req->id)
+                'money' => $this->getMoney($req->member_id)
             ]
         );
 
