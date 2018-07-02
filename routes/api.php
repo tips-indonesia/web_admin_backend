@@ -91,7 +91,7 @@ Route::get('/flight/booking/city', 'API\\FlightController@get_booking_code_by_ci
 Route::post('/flight/check_flight_b_n_d', 'UtilityController@check_flight_b_n_d');
 Route::get('/flight/code_check', 'API\\FlightController@flight_booking_code_check');
 
-Route::get('/money/{id}', 'UtilityController@getMyMoney');
+Route::get('/get/money', 'API\\HomeController@apiMoney');
 
 Route::post('/delivery', 'API\\DeliveryController@submit');
 Route::get('/delivery/status', 'API\\DeliveryController@get_status');

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Shipment;
 use App\SlotList;
+use App\MemberList;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\WalletAll;
@@ -138,5 +139,42 @@ class HomeController extends Controller{
 
     function getMoney($id){
         return WalletAll::getWalletAmount($id);
+    }
+
+    function apiMoney(Request $req){
+        if(!$req->has('member_id')){
+            $data = array(
+                'err' => [
+                    'code' => 400,
+                    'message' => 'parameter minimal harus member_id, tidak boleh kosong'
+                ],
+                'result' => null
+            );
+
+            return response()->json($data, 200);
+        }
+
+        $member = MemberList::find($req->member_id);
+        if(!$member){
+            $data = array(
+                'err' => [
+                    'code' => 404,
+                    'message' => 'Member tidak ditemukan'
+                ],
+                'result' => null
+            );
+
+            return response()->json($data, 200);
+        }
+
+        $data = array(
+            'err' => null,
+            'result' => [
+                'money' => $this->getMoney($req->id)
+            ]
+        );
+
+        return response()->json($data, 200);
+        //
     }
 }
