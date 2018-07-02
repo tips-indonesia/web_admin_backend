@@ -454,7 +454,7 @@
     <table style="width: 300px; border: solid 1px #777; background: rgba(0, 0, 0, .0); font-family: Arial">
         <tr>
             <td style="width: 27%; margin-right: 2px; font-weight: bold; font-size: 8px; vertical-align: top; text-align: left; padding-left: 10px; padding-top: 4px; padding-right: 10px; ">
-                <img src="{!! URL::to('/') . '/images/plane_icon_gray.png' !!}" style="height: 10px"> PENGIRIM 
+                PENGIRIM 
             </td>
             <td style="width: 73%; font-size: 9px; padding-left: 10px; padding-top: 4px; padding-right: 10px; vertical-align: top;">
                 <span style="color: #000">{{ $data->shipper_first_name . ' ' . $data->shipper_last_name }}</span> <br>
@@ -470,7 +470,7 @@
     <table style="width: 300px; border: solid 1px #777; background: rgba(0, 0, 0, .0); font-family: Arial">
         <tr>
             <td style="width: 27%; margin-right: 2px; font-weight: bold; font-size: 8px; vertical-align: top; text-align: left; padding-left: 10px; padding-top: 4px; padding-right: 10px; ">
-                <img src="{!! URL::to('/') . '/images/shipment_icon_gray.png' !!}" style="height: 10px"> PENERIMA
+                PENERIMA
             </td>
 
             <td style="width: 73%; font-size: 9px; padding: 4px 10px; vertical-align: top;">
