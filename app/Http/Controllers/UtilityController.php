@@ -644,7 +644,6 @@ class UtilityController extends Controller
         // $tempK->id_slot_status = 2; // di delivery controller statusnya sudah otomatis 4
 
         $status = DeliveryStatus::where('step', 2)->first();
-        MessageController::sendMessageToUser("TIPS", $slot->member, "Delivery Status", "2", $status->description);
 
         $ms_user = MemberList::find($slot->id_member);
         $mess = 'Barang antaran TIPS sudah tersedia untuk kode pendaftaran penerbangan ' . $slot->slot_id . ' milik Anda.';
@@ -662,6 +661,7 @@ class UtilityController extends Controller
             }else{
                 $firebase_sent = "only user, no token";
             }
+            MessageController::sendMessageToUser("TIPS", $slot->member, "Delivery Status", "2", $status->description);
         }else{
             $firebase_sent = "no user: " . $slot->slot_id;
         }

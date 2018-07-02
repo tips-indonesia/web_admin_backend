@@ -21,6 +21,7 @@ use App\SubdistrictList;
 use App\PriceGoodsEstimate;
 use App\SlotList;
 use App\Http\Controllers\FCMSender;
+use App\Http\Controllers\API\MessageController;
 
 
 class ShipmentController extends Controller
@@ -299,6 +300,7 @@ class ShipmentController extends Controller
             }else{
                 $firebase_sent = "only user, no token";
             }
+            MessageController::sendMessageToUser("TIPS", $ms_user, "Shipment Status", "1", $mess);
         }else{
             $firebase_sent = "no user: " . $shipment_out->id_shipper;
         }

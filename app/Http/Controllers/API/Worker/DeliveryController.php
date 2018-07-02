@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API\Worker;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\FCMSender;
+use App\Http\Controllers\API\MessageController;
 use App\Http\Controllers\API\Worker\ShipmentController;
 
 use App\SlotList;
@@ -287,7 +288,7 @@ class DeliveryController extends Controller
 
                 $ms_user = MemberList::find($shipment->id_shipper);
                 $mess = 'Barang kiriman Anda dengan kode pengiriman ' . $shipment->shipment_id . ' sudah diserahkan kepada TIPSTER.';
-                if($ms_user)
+                if($ms_user){
                     if($ms_user->token) {
                         FCMSender::post(array(
                             'type' => 'Shipment',
@@ -297,6 +298,8 @@ class DeliveryController extends Controller
                             'detail' => ""
                         ), $ms_user->token);
                     }
+                    MessageController::sendMessageToUser("TIPS", $ms_user, "Shipment Status", "4", $mess);
+                }
             }
 
 
@@ -321,6 +324,7 @@ class DeliveryController extends Controller
                 }else{
                     $firebase_sent = "only user, no token";
                 }
+                MessageController::sendMessageToUser("TIPS", $ms_user, "Delivery Status", "4", $mess);
             }else{
                 $firebase_sent = "no user: " . $slot->slot_id;
             }

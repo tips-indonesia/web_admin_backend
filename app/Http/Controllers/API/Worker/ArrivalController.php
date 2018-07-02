@@ -12,6 +12,7 @@ use App\Shipment;
 use App\ShipmentStatus;
 use App\MemberList;
 use App\Http\Controllers\FCMSender;
+use App\Http\Controllers\API\MessageController;
 
 
 class ArrivalController extends Controller
@@ -90,16 +91,18 @@ class ArrivalController extends Controller
 
             $ms_user = MemberList::find($shipment->id_shipper);
             $mess = 'Barang kiriman Anda dengan kode pengiriman ' . $shipment->shipment_id . ' sudah tiba di bandara tujuan.';
-            if($ms_user)
+            if($ms_user){
                 if($ms_user->token) {
                     FCMSender::post(array(
                         'type' => 'Shipment',
                         'id' => $shipment->shipment_id,
-                        'status' => "4",
+                        'status' => "6",
                         'message' => $mess,
                         'detail' => ""
                     ), $ms_user->token);
                 }
+                MessageController::sendMessageToUser("TIPS", $ms_user, "Shipment Status", "6", $mess);
+            }
 
 
             $ms_user = MemberList::find($slot->id_member);
@@ -118,6 +121,7 @@ class ArrivalController extends Controller
                 }else{
                     $firebase_sent = "only user, no token";
                 }
+                MessageController::sendMessageToUser("TIPS", $ms_user, "Delivery Status", "6", $mess);
             }else{
                 $firebase_sent = "no user: " . $slot->slot_id;
             }

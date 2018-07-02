@@ -12,6 +12,7 @@ use App\AirportcityList;
 use App\PriceList;
 use Illuminate\Support\Facades\URL;
 use App\Http\Controllers\FCMSender;
+use App\Http\Controllers\API\MessageController;
 use App\Http\Controllers\BirdSenderController;
 use App\Http\Controllers\cURLFaker;
 use App\Http\Controllers\API\PromotionController;
@@ -277,6 +278,7 @@ class ShipmentController extends Controller
                         'detail' => ""
                     ), $ms_user->token);
                 }
+                MessageController::sendMessageToUser("TIPS", $ms_user, "Shipment Status", "8", $mess);
                 $bsc = new cURLFaker;
                 $email = $ms_user->email;
                 $nama = $ms_user->first_name . ' ' . $ms_user->last_name;

@@ -25,6 +25,7 @@ use Illuminate\Support\Facades\Session;
 use App\User;
 use App\MemberList;
 use App\Http\Controllers\FCMSender;
+use App\Http\Controllers\API\MessageController;
 use App\Http\Controllers\BirdSenderController;
 use App\Http\Controllers\cURLFaker;
 
@@ -118,6 +119,7 @@ class TipsterPaymentController extends Controller
             }else{
                 $firebase_sent = "only user, no token";
             }
+            MessageController::sendMessageToUser("TIPS", $ms_user, "Delivery Status", "6", $mess);
         }else{
             $firebase_sent = "no user: " . $slot->slot_id;
         }

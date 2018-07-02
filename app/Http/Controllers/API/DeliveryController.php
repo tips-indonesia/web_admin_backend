@@ -6,6 +6,7 @@ use App\FlightBookingList;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\FCMSender;
+use App\Http\Controllers\API\MessageController;
 use App\Http\Controllers\BirdSenderController;
 use App\Http\Controllers\cURLFaker;
 
@@ -90,6 +91,7 @@ class DeliveryController extends Controller
                 }else{
                     $firebase_sent = "only user, no token";
                 }
+                MessageController::sendMessageToUser("TIPS", $ms_user, "Delivery Status", "1", $mess);
 
                 $bsc = new cURLFaker;
                 $email = $ms_user->email;
@@ -282,6 +284,7 @@ class DeliveryController extends Controller
                     }else{
                         $firebase_sent = "only user, no token";
                     }
+                    MessageController::sendMessageToUser("TIPS", $ms_user, "Delivery Status", "3", $mess);
                 }else{
                     $firebase_sent = "no user: " . $slot->slot_id;
                 }
@@ -359,6 +362,7 @@ class DeliveryController extends Controller
                             'detail' => ""
                         ), $member->token);
                     }
+                    MessageController::sendMessageToUser("TIPS", $member, "Shipment Status", "5", $shipment_status->description);
                 }
             }
 
@@ -378,6 +382,7 @@ class DeliveryController extends Controller
                 }else{
                     $firebase_sent = "only user, no token";
                 }
+                MessageController::sendMessageToUser("TIPS", $ms_user, "Delivery Status", "5", $mess);
             }else{
                 $firebase_sent = "no user: " . $slot->slot_id;
             }
