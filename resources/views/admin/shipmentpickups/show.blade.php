@@ -459,7 +459,7 @@
             </td>
 
             <td style="width: 73%; font-size: 9px; padding: 4px 10px; vertical-align: top;">
-                <span style="color: #000">{{ $data->consignee_first_name . ' ' . $data->shipper_last_name }}</span> <br>
+                <span style="color: #000">{{ $data->consignee_first_name . ' ' . $data->consignee_last_name }}</span> <br>
                 <span style="color: #000"> {{$data->consignee_mobile_phone}}</span><br>
             </td>
         </tr>
@@ -603,7 +603,7 @@
                 PENERIMA\
             </td>\
             <td style="width: 73%; font-size: 11px; padding-left: 10px; padding-right: 10px;  vertical-align: top;">\
-                <span style="color: #000">{{ $data->consignee_first_name . ' ' . $data->shipper_last_name }}</span> <br>\
+                <span style="color: #000">{{ $data->consignee_first_name . ' ' . $data->consignee_last_name }}</span> <br>\
                 <span style="color: #000"> {{$data->consignee_mobile_phone}}</span><br>\
             </td>\
         </tr>\
