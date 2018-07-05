@@ -8,10 +8,12 @@ class SMSSender extends Controller
 {
 
 	public function testSMS(Request $request){
+		$request->nohp = "081214338487";
+		$request->pesan = "Sukarno - hatta";
 		if(!$request->nohp || !$request->pesan)
 			return "nohp atau pesan tidak boleh kosong";
 
-		SMSSender::kirim($request->nohp, $request->pesan);
+		dd(SMSSender::kirim($request->nohp, $request->pesan));
 	}
 
 	/**

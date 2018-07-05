@@ -101,6 +101,7 @@ Route::get('/delivery/all_status', 'API\\DeliveryController@get_all_status_deliv
 Route::post('/delivery/search', 'API\\DeliveryController@search_delivery');
 
 Route::get('/home', 'API\\HomeController@list_of_shipment_and_delivery');
+Route::get('/config/get/etc_message', 'ConfigHunter@getEtcMessage');
 
 Route::get('/term', 'API\\TermConditionsController@index');
 

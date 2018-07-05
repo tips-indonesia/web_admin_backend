@@ -36,4 +36,15 @@ class ConfigHunter extends Controller
     		));
     	}
     }
+    public function getEtcMessage(){
+        $res = ConfigHunter::isExist(ConfigHunter::$ETC_MESSAGE);
+        $data = array(
+            'err' => null,
+            'result' => [
+                "data" => ($res ? $res->value : "")
+            ]
+        );
+
+        return response()->json($data, 200);
+    } 
 }
