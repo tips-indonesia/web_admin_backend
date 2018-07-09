@@ -41,7 +41,7 @@
             </tbody>
         </table>
 
-{{ $datas->links() }}
+{{ $datas->appends(request()->input())->links() }}
     </div>
 
 @endsection

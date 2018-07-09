@@ -94,7 +94,7 @@
                 @endforeach
             </tbody>
         </table>
-        {{$shipments->links()}}
+        {{$shipments->appends(request()->input())->links()}}
     </div>  
 
     </div>

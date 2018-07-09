@@ -78,7 +78,7 @@
             </tbody>
         </table>
 
-{{ $datas->links() }}
+{{ $datas->appends(request()->input())->links() }}
     </div>
     <script type="text/javascript">
         
