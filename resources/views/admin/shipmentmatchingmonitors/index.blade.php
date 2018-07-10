@@ -131,7 +131,7 @@
             </tbody>
         </table>
 
-{{ $datas->links() }}
+{{ $datas->appends(request()->input())->links() }}
     </div>
         <script>
         $('.select-search').select2();

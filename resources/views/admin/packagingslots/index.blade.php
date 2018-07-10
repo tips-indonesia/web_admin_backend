@@ -76,7 +76,7 @@
             </tbody>
         </table>
 
-{{ $datas->links() }}
+{{ $datas->appends(request()->input())->links() }}
     </div>
     <!-- Small modal -->
         <div id="modal_small" class="modal fade">
