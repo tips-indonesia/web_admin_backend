@@ -141,11 +141,26 @@ class FlightController extends Controller
         $prefix_fc = substr($request->flight_code, 0, 2);
         $airline = AirlinesList::where('prefix_flight_code', $prefix_fc)->where('status', 1)->first();
 
+        $max_index_fc = sizeof($request->flight_code) - 1;
+        $number_fc = substr($request->flight_code, 2 - $max_index_fc);
+
         if(!$airline){
             $data = array(
                 'err' => [
                     'code' => 404,
                     'message' => 'Maskapai yang Anda pilih belum di dukung saat ini'
+                ],
+                'result' => null
+            );
+            
+            return response()->json($data, 200);
+        }
+
+        if(!is_numeric($number_fc)){
+            $data = array(
+                'err' => [
+                    'code' => 404,
+                    'message' => 'Kode penerbangan ' + $request->flight_code + ' tidak valid'
                 ],
                 'result' => null
             );
