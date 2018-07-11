@@ -160,7 +160,7 @@ class FlightController extends Controller
             $data = array(
                 'err' => [
                     'code' => 404,
-                    'message' => 'Kode penerbangan ' + $request->flight_code + ' tidak valid'
+                    'message' => 'Kode penerbangan ' . $request->flight_code . ' tidak valid'
                 ],
                 'result' => null
             );
