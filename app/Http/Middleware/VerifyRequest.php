@@ -15,6 +15,10 @@ class VerifyRequest
      * @return mixed
      */
     public function handle(Request $request, Closure $next){
+        if($request->path() == "api/qrcodeX") {
+            return $next($request);
+        }
+        
         $kindApp = $request->header('app-kind');
         if(!$request->has('app-kind') && (!$kindApp || ($kindApp != 'android' && $kindApp != 'web-app' && $kindApp != 'ios'))){
             $data = array(
