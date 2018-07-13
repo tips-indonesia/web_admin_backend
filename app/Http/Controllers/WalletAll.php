@@ -149,6 +149,12 @@ class WalletAll extends Controller
 	}
 
 	public static function CASH_TRANSACTION($member_id, $debit, $credit, $remarks){
+		$start_date_promo = new Carbon("2018-06-15");
+		$end_date_promo = new Carbon("2018-07-22");
+		if(Carbon::now()->between($start_date_promo, $end_date_promo)){
+			return WalletAll::create_transaction($member_id, 3, $debit, 0, $remarks);
+		}
+
 		return WalletAll::create_transaction($member_id, 3, $debit, $credit, $remarks);
 	}
 
