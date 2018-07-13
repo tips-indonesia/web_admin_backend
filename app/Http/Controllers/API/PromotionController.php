@@ -44,7 +44,9 @@ class PromotionController extends Controller
         if($promoMember['promo']){
             $data = array(
                 'err' => null,
-                'result' => []
+                'result' => [
+                    'promo' => []
+                ]
             );
 
             return response()->json($data, 200);
