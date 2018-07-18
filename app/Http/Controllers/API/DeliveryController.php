@@ -464,8 +464,12 @@ class DeliveryController extends Controller
 
     }
 
+    function all_status_deliveries(){
+        return DeliveryStatus::all();
+    }
+
     function get_all_status_delivery() {
-        $delivery_status = DeliveryStatus::all();
+        $delivery_status = $this->all_status_deliveries();
 
         $data = array(
             'err' => null,

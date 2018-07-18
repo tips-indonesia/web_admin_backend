@@ -460,8 +460,12 @@ class ShipmentController extends Controller
         return response()->json($data, 200);
     }
 
+    function all_status_shipments(){
+        return ShipmentStatus::all();
+    }
+
     function get_all_status_shipments() {
-        $shipment_status = ShipmentStatus::all();
+        $shipment_status = $this->all_status_shipments();
         $data = array(
             'err' => null,
             'result' => $shipment_status
