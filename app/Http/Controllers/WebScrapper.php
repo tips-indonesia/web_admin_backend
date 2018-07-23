@@ -49,7 +49,7 @@ class WebScrapper extends Controller
 		$url = "http://52.230.21.157/$booking_code/$airport_code/$date/$first_name/$last_name";
         $context  = stream_context_create(array(
         	'http' => array(
-		    	'timeout' => 7 //10 seconds
+		    	'timeout' => 10 //seconds
 		    )
 		));
         $result = @file_get_contents($url, false, $context);
