@@ -220,7 +220,15 @@ class PaymentController extends Controller
     public function receivePaymentNotification(Request $request){
         // dd($request->all());
         Storage::disk('public')->append('payment.txt', json_encode($request->all()));
-        EspayNotification::create($request->all());
+        try {
+            EspayNotification::create($request->all());
+        }
+        catch (\Exception $e) {
+            $data = $this->generateSGOEspayResponseNotification(array(
+                "code"      => 98,
+                "message"   => "Transaksi gagal #971\n" . $e->getMessage()
+            ), false);
+        }
 
         if(!$request->order_id){
             $data = $this->generateSGOEspayResponseNotification(array(
