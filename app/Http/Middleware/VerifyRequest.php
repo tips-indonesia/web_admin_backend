@@ -19,7 +19,7 @@ class VerifyRequest
             return $next($request);
         }
 
-        if($request->path() == "api/payment/inquiry") {
+        if($request->path() == "api/payment/inquiry")  {
             return $next($request);
         }
 
