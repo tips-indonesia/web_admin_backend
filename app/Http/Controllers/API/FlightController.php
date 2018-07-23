@@ -74,7 +74,7 @@ class FlightController extends Controller
                 'id_origin_airport' => $airport_origin->id,
                 'id_destination_airport' => $airport_destination->id,
                 'depature' => $date_origin,
-                'flight_code' => $flight_code,
+                'flight_code' => $flight_code ? $flight_code : "-",
             ));
         }
 
