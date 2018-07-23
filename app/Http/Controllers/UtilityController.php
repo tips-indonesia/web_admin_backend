@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Auth;
 use App\OfficeList;
 use App\HomeBanner;
 use App\MemberList;
+use App\PriceList;
 use App\AppsUpdater;
 use Illuminate\Support\Facades\URL;
 
