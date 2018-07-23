@@ -876,7 +876,7 @@ class UtilityController extends Controller
 
         if($res){
             if($res->status == 200){
-                $booking_code = property_exists($request, 'booking_code') ? $request->booking_code : null;
+                $booking_code = property_exists($request, 'booking_code') ? $request->booking_code : "-";
                 $code_origin = property_exists($res, 'Origin_Airport') ? $res->Origin_Airport : null;
                 $code_destination = property_exists($res, 'Destination_Airport') ? $res->Destination_Airport : null;
                 $date_origin = property_exists($res, 'Date') && property_exists($res, 'Time') ? date('Y-m-d H:i:s', strtotime($res->Date . ' ' . $res->Time)) : null;
