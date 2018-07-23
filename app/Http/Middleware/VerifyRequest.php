@@ -18,6 +18,14 @@ class VerifyRequest
         if($request->path() == "api/qrcodeX") {
             return $next($request);
         }
+
+        if($request->path() == "api/payment/inquiry") {
+            return $next($request);
+        }
+
+        if($request->path() == "api/payment/payment") {
+            return $next($request);
+        }
         
         $kindApp = $request->header('app-kind');
         if(!$request->has('app-kind') && (!$kindApp || ($kindApp != 'android' && $kindApp != 'web-app' && $kindApp != 'ios'))){
