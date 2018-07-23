@@ -43,17 +43,17 @@ class DeliveryController extends Controller
                 $random_string = $this->generateRandomString();
             }while(SlotList::where('slot_id', $random_string)->first() != null);
 
-            $airport_origin = AirportList::find($request->id_origin_airport);
-            $airport_destination = AirportList::find($request->id_destination_airport);
-            $price = PriceList::where('id_origin_city', $airport_origin->id_city)->where('id_destination_city', $airport_destination->id_city)->first();
+            $airport_origin = AirportList::find((int) $request->id_origin_airport);
+            $airport_destination = AirportList::find((int) $request->id_destination_airport);
+            $price = PriceList::where('id_origin_city', (int) $airport_origin->id_city)->where('id_destination_city', (int) $airport_destination->id_city)->first();
 
             $slot = new SlotList;
             $slot->slot_id = $random_string;
-            $slot->id_member = $member->id;
+            $slot->id_member = (int) $member->id;
             $slot->booking_code = $request->booking_code;
             $slot->id_airline = FlightController::getAirlineIdOfFlightCode($request->flight_code);
-            $slot->id_origin_airport = $request->id_origin_airport;
-            $slot->id_destination_airport = $request->id_destination_airport;
+            $slot->id_origin_airport = (int) $request->id_origin_airport;
+            $slot->id_destination_airport = (int) $request->id_destination_airport;
             $slot->depature = date('Y-m-d H:i:s', strtotime($request->depature));
 //            $slot->arrival = date('Y-m-d H:i:s', strtotime($request->arrival));
             $slot->first_name = $request->first_name;
@@ -61,10 +61,10 @@ class DeliveryController extends Controller
             $slot->flight_code = $request->flight_code;
             $slot->baggage_space = $request->baggage_space; // bagian ini jangan di hardcode
             $slot->slot_price_kg = $price->tipster_price;
-            $slot->id_origin_city = $airport_origin->id_city;
-            $slot->id_destination_city = $airport_destination->id_city;
-            $slot->origin_city = AirportcityList::find($airport_origin->id_city)->name;
-            $slot->destination_city = AirportcityList::find($airport_destination->id_city)->name;
+            $slot->id_origin_city = (int) $airport_origin->id_city;
+            $slot->id_destination_city = (int) $airport_destination->id_city;
+            $slot->origin_city = AirportcityList::find((int) $airport_origin->id_city)->name;
+            $slot->destination_city = AirportcityList::find((int) $airport_destination->id_city)->name;
 
             $slot->save();
 
@@ -72,10 +72,10 @@ class DeliveryController extends Controller
 
             $slot->origin_airport = $airport_origin;
             $slot->destination_airport = $airport_destination;
-            $delivery_status = DeliveryStatus::find($slot->id_slot_status);
+            $delivery_status = DeliveryStatus::find((int) $slot->id_slot_status);
             $slot->delivery_status_description = $delivery_status->description;
 
-            $ms_user = MemberList::find($slot->id_member);
+            $ms_user = MemberList::find((int) $slot->id_member);
             $mess = 'Terima kasih atas kepercayaan Anda untuk menggunakan TIPS. Penerbangan Anda sudah terdaftar dalam sistem kami dengan kode ' . $slot->slot_id;
             $firebase_sent = "";
             if($ms_user){
