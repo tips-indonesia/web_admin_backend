@@ -105,6 +105,7 @@ class HomeController extends Controller{
                 'shipments'     => $outshipment,
                 'delivery'      => $outdelivery,
                 'money'         => $money,
+                'referral'      => PromotionController::getSingleReferral(),
                 'static_data'   => [
                     'airport'               => (new FlightController)->airport_list(),
                     'goods_weight'          => [
