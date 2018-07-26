@@ -87,7 +87,7 @@ class PaymentController extends Controller
         $data['payData']['payment_id'] = $request->payment_id;
         $data['payData']['bankCode'] = $request->bankCode;
         $data['payData']['bankProduct'] = $request->bankProduct;
-        $data['payData']['callback_url'] = 'http://localhost';
+        $data['payData']['callback_url'] = 'http://ragnar.tips.co.id/payment/status/get?payment_id=' . $request->payment_id;
         return view('payment.pay', $data);
     }
 
@@ -361,5 +361,11 @@ class PaymentController extends Controller
             return 'payment_id not found, make sure payment_id is correct';
 
         return response($this->getStatusPayment("SGWTIPS", $request->payment_id), 200);
+    }
+
+    public function checkIfPaymentHasIssued(Request $req){
+        $pid = $req->payment_id;
+        $existing = EspayNotification::where('order_id', $pid)->first();
+        return redirect('tips://' . ($existing ? 'berhasil' : 'gagal'));
     }
 }
