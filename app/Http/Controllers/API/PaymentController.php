@@ -87,7 +87,7 @@ class PaymentController extends Controller
         $data['payData']['payment_id'] = $request->payment_id;
         $data['payData']['bankCode'] = $request->bankCode;
         $data['payData']['bankProduct'] = $request->bankProduct;
-        $data['payData']['callback_url'] = 'https://ragnar.tips.co.id/payment/status/get?payment_id=' . $request->payment_id;
+        $data['payData']['callback_url'] = 'https://iris.tips.co.id/payment/status/get?payment_id=' . $request->payment_id;
         return view('payment.pay', $data);
     }
 
