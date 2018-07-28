@@ -344,7 +344,8 @@ class PaymentController extends Controller
             return [];
         }else{
             $php_obj_response = json_decode($response);
-            if($php_obj_response->error_code != "0000")
+            // if($php_obj_response->error_code != "0000") // fuck you
+            if($php_obj_response->errorCode != "0000")
                 return [];
 
             return $php_obj_response->data;
