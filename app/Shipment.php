@@ -57,18 +57,16 @@ class Shipment extends Model
                 return "";
             
             case 2:
-                return "Klik untuk KONFIRMASI / PEMBATALAN";
+                return "";
             
             case 3:
-                return "Temui petugas TIPS di " . $this->airportDestination->initial_code .
-                       "\n" . $this->depature;
+                return "";
             
             case 4:
-                return "Konter " . $this->airline_data->name .
-                       "\n" . $this->depature;
+                return "";
             
             case 5:
-                return "Pada petugas TIPS di " . $this->airportDestination->initial_code;
+                return "";
             
             case 6:
                 return "";

@@ -53,7 +53,7 @@ class SlotList extends Model
                 return "Klik untuk KONFIRMASI / PEMBATALAN";
             
             case 3:
-                return "Temui petugas TIPS di " . $this->airportDestination->initial_code .
+                return "Temui petugas TIPS di " . $this->airportOrigin->initial_code .
                        "\n" . $this->depature;
             
             case 4:

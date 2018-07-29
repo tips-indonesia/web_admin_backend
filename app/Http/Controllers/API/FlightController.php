@@ -129,7 +129,7 @@ class FlightController extends Controller
             $data = array(
                 'err' => [
                     'code' => 400,
-                    'message' => 'Asal dan tujuan penerbangan tidak boleh sama'
+                    'message' => 'airport awal dan akhir tidak boleh sama'
                 ],
                 'result' => null
             );
