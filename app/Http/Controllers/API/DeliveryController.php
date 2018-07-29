@@ -145,7 +145,7 @@ class DeliveryController extends Controller
                 'status' => array(
                     'step' => $delivery_status->step,
                     'description' => $delivery_status->description,
-                    'detail' => $slot->detail_status
+                    'detail' => $slot->get_detail_status()
                 ),
                 'delivery' => $slot,
                 'addt_info' => array(
@@ -257,7 +257,7 @@ class DeliveryController extends Controller
                         'status' => array(
                             'step' => $delivery_status->step,
                             'description' => $delivery_status->description,
-                            'detail' => $slot->detail_status
+                            'detail' => $slot->get_detail_status()
                         ),
                         'delivery' => $slot,
                         'addt_info' => array(
@@ -397,7 +397,7 @@ class DeliveryController extends Controller
                     'status' => array(
                         'step' => $delivery_status->step,
                         'description' => $delivery_status->description,
-                        'detail' => $slot->detail_status
+                        'detail' => $slot->get_detail_status()
                     ),
                     'delivery' => $slot,
                     'addt_info' => array(

@@ -43,6 +43,37 @@ class SlotList extends Model
         return $this->hasOne('App\AirportList', 'id', 'id_destination_airport');
     }
 
+    function get_detail_status() {
+        $step = $this->id_slot_status;
+        switch ($step) {
+            case 1:
+                return "";
+            
+            case 2:
+                return "Klik untuk KONFIRMASI / PEMBATALAN";
+            
+            case 3:
+                return "Temui petugas TIPS di " . $this->airportDestination->initial_code .
+                       "\n" . $this->depature;
+            
+            case 4:
+                return "Konter " . $this->airline_data->name .
+                       "\n" . $this->depature;
+            
+            case 5:
+                return "Pada petugas TIPS di " . $this->airportDestination->initial_code;
+            
+            case 6:
+                return "";
+            
+            case 7:
+                return "";
+            
+            default:
+                return "";
+        }
+    }
+
     public function create_transaction(){
         $price = $this->sold_baggage_space * $this->slot_price_kg;
         $wt = WalletAll::ANTAR_TRANSACTION($this->id_member, $price, 0, "");

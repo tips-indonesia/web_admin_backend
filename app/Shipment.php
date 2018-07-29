@@ -49,6 +49,41 @@ class Shipment extends Model
                 $this->flight_cost + $this->add_insurance_cost, 0, $this->shipment_id);
     }
 
+
+    function get_detail_status() {
+        $step = $this->id_slot_status;
+        switch ($step) {
+            case 1:
+                return "";
+            
+            case 2:
+                return "Klik untuk KONFIRMASI / PEMBATALAN";
+            
+            case 3:
+                return "Temui petugas TIPS di " . $this->airportDestination->initial_code .
+                       "\n" . $this->depature;
+            
+            case 4:
+                return "Konter " . $this->airline_data->name .
+                       "\n" . $this->depature;
+            
+            case 5:
+                return "Pada petugas TIPS di " . $this->airportDestination->initial_code;
+            
+            case 6:
+                return "";
+            
+            case 7:
+                return "";
+            
+            case 8:
+                return "";
+            
+            default:
+                return "";
+        }
+    }
+
     public function send_mail_receipt(){
         $bsc            = new cURLFaker;
         $ms_user        = MemberList::find($this->id_shipper);
