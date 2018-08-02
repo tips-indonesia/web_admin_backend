@@ -13,8 +13,12 @@ class FCMSender extends Controller
 			'id' => "YPTR35P",
 			'status' => "2",
 			'message' => "Tes tes",
-			'detail' => 'wkwkwk'
-		), "dJtGaeLcVu8:APA91bEaqhShh10YAcqlX056uIWOLSM5nNLYWoIXv8B0TVcvuY70ylAdvvYTGCrIHgGQUp8Iz72m0-KR_F6UymyTVCepgvTUbdAR0SzwlpJMTthwTkZhmyWOW1W8AUvhaDVuGUhdRATj");
+			'detail' => 'wkwkwk',
+			"alert" => "Breaking News!",
+			"content_available" => true,
+			"sound" => "default",
+			"link_url" => "https://raywenderlich.com"
+		), "e_qN6JnRCd0:APA91bGB-VPOEO3XwJOxFJZkAsnj9_A8ZnOfU8UIcvUzHBI0IfyK7A8IbBF3Rb-3scw5STFHVLubdOeRBoHoJtxDBJfzomGabsrTGDz334BKbZ6ftbzq3f1sQAEwBS1teZYTeGRd20vxD5OJZ4AUOle4RC2yzY1Xng");
 	}
 	/**
 	  * @param payload data
@@ -38,9 +42,16 @@ class FCMSender extends Controller
 		// $topic = "project_".$id_project
 
 		$data = array(
-			'data'		=> $post_data,
-			'priority'	=> 'high',
-			'to'		=> $destination
+			'content_available' => true,
+			'mutable-content'	=> true,
+			'data'				=> $post_data,
+			'priority'			=> 'high',
+			"notification" => [
+				"body" => $post_data["message"],
+				"title" => $post_data["type"],
+				"icon" => "myicon"
+			],
+			'to'				=> $destination
 		);
 		
 		$url = "https://fcm.googleapis.com/fcm/send";
