@@ -269,7 +269,8 @@ class DeliveryController extends Controller
                 );
 
                 $ms_user = MemberList::find($slot->id_member);
-                $mess = 'Pastikan Anda tiba di bandara ' . $slot->airportOrigin->name . ' pada pukul <<TEST>>' . ' untuk mengambil barang antaran TIPS';
+                $_3HOURS_DEPARTURE_TIME = date('Y-m-d H:i:s', strtotime($slot->depature) - (60 * 60 * 4));
+                $mess = 'Pastikan Anda tiba di bandara ' . $slot->airportOrigin->name . ' pada pukul ' . $_3HOURS_DEPARTURE_TIME . ' untuk mengambil barang antaran TIPS';
                 $firebase_sent = "";
                 if($ms_user){
                     if($ms_user->token) {
