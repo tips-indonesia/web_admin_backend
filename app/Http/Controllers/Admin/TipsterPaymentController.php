@@ -104,7 +104,7 @@ class TipsterPaymentController extends Controller
         $slot->smsStep7();
         
         $ms_user = MemberList::find($slot->id_member);
-        $mess = 'Barang antaran telah diterima dan dalam proses verifikasi.';
+        $mess = 'Barang antaran telah diverifikasi, proses telah selesai.';
         $firebase_sent = "";
         if($ms_user){
             if($ms_user->token) {
