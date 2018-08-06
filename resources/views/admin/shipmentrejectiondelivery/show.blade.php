@@ -39,7 +39,7 @@
                             </div>
                         </div>
                     </div>
-                    {{ Form::open(array('method' => 'PUT', 'url' => route('deliveryshipment.update', $shipment->id))) }}
+                    {{ Form::open(array('method' => 'PUT', 'url' => route('shipmentrejectiondelivery.update', $shipment->id))) }}
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
@@ -149,14 +149,14 @@
                     <ul class="icons-list" style="float: right;">
                         <li>
                             <div class="text-right form-group">
-                                <button type="submit" value='save' name='submit' class="btn btn-primary" style="vertical-align: middle;" {{ $shipment->id_shipment_status == 14 ? 'disabled':'' }}><i class="icon-floppy-disk"
+                                <button type="submit" value='save' name='submit' class="btn btn-primary" style="vertical-align: middle;" {{ $shipment->id_shipment_status == -2 ? 'disabled':'' }}><i class="icon-floppy-disk"
                             ></i> Save</button>
                             </div>
                             {{ Form::close() }}
                         </li>
                         <li>
                             <div class="text-right form-group">
-                                <button type="submit" value='submit' name='submit' class="btn btn-danger" style="vertical-align: middle;" {{ $shipment->id_shipment_status == 14 ? 'disabled':'' }}>Submit</button>
+                                <button type="submit" value='submit' name='submit' class="btn btn-danger" style="vertical-align: middle;" {{ $shipment->id_shipment_status == -2 ? 'disabled':'' }}>Submit</button>
                             </div>
                         </li>
                     </ul>

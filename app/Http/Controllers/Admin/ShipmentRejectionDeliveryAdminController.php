@@ -54,13 +54,13 @@ class ShipmentRejectionDeliveryAdminController extends Controller
             $checked = Input::get('radio');
 
         
-        $datas2 = Shipment::whereIn('id_slot', $slotId)->where('id_shipment_status', -1)->get();
+        $datas2 = Shipment::whereIn('id_slot', $slotId)->whereIn('id_shipment_status', [-1, -2])->get();
         
         if ($flag == true) {
-        	$shipments = $shipments->where('id_shipment_status', -1)
+        	$shipments = $shipments->whereIn('id_shipment_status', [-1, -2])
                                  ->where(Input::get('param'), Input::get('value'));       			
         } else {
-        	$shipments = $shipments->where('id_shipment_status', -1);
+        	$shipments = $shipments->whereIn('id_shipment_status', [-1, -2]);
         }
         $user = User::find(Auth::id());
         if ($user->id_office != null  && $user->id != 1) {
@@ -111,5 +111,43 @@ class ShipmentRejectionDeliveryAdminController extends Controller
 
     	$data['shipment'] = $shipment;
     	return view('admin.shipmentrejectiondelivery.show', $data);
+    }
+
+    public function update($id) {
+        $rule = [
+            'delivered_by' => "required",
+            'delivered_date' => "required",
+            'delivered_time' => "required"
+        ];
+
+        $messages = [
+            'required' => 'This field is required.',
+        ];
+
+        $validator = Validator::make(Input::all(), $rule, $messages);
+
+        if ($validator->fails()) {
+            return $this->show($id)->withErrors($validator);
+        } else {
+        	if (Input::get('submit') == 'save') {
+                $shipment = Shipment::withTrashed()->find($id);
+
+                $shipment->delivered_by = Input::get('delivered_by');
+                $shipment->delivered_date = Input::get('delivered_date');
+                $shipment->delivered_time = Input::get('delivered_time');
+
+                $shipment->save();
+            } else if (Input::get('submit') == 'submit') {
+                $shipment = Shipment::withTrashed()->find($id);
+
+                $shipment->id_shipment_status = -2;
+
+                $shipment->save();
+
+                return redirect(route('shipmentrejectiondelivery.index'));
+            }   
+
+        	return back();
+        }
     }
 }
