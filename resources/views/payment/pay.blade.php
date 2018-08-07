@@ -20,7 +20,7 @@
 </head>
 <body>
     <div class="loader"></div>
-    <script type="text/javascript"src="https://sandbox-kit.espay.id/public/signature/js"></script>
+    <script type="text/javascript"src="https://kit.espay.id/public/signature/js"></script>
     <script type="text/javascript"> 
         console.log("Tips TEST");
 

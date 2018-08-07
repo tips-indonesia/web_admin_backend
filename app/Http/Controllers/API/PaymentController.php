@@ -316,7 +316,7 @@ class PaymentController extends Controller
                 "content" => "uuid=$uuid&rq_datetime=$datetime&comm_code=$comm_code&order_id=$order_id&signature=$signature",
             ),
         ));
-        $response = file_get_contents('https://kit.espay.id/rest/merchant/status', false, $context);
+        $response = file_get_contents('https://api.espay.id/rest/merchant/status', false, $context);
         if (strpos($http_response_header[0], '200') === false) {
             return http_response_code(500);
         }else{
@@ -339,7 +339,7 @@ class PaymentController extends Controller
                 "content" => "key=c2d89090e55d92971ac26b13f5a9bf22",
             ),
         ));
-        $response = file_get_contents('https://kit.espay.id/rest/merchant/merchantinfo', false, $context);
+        $response = file_get_contents('https://api.espay.id/rest/merchant/merchantinfo', false, $context);
         if (strpos($http_response_header[0], '200') === false) {
             return [];
         }else{
