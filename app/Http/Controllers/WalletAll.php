@@ -7,6 +7,7 @@ use App\Wallet;
 use App\WalletTransaction;
 use App\MemberList;
 use App\Redeem;
+use App\Http\Controllers\API\UserController;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\URL;
 
@@ -180,6 +181,52 @@ class WalletAll extends Controller
 
 	public static function REEDEM_TRANSACTION($member_id, $debit, $credit, $remarks){
 		return WalletAll::create_transaction($member_id, 7, $debit, $credit, $remarks);
+	}
+
+	public static function create_store_transaction(Request $req){
+		$store_token 	= $req->store_token;
+		$feed_note		= $req->note;
+		$feed_amount	= $req->amount;
+
+		if (!$store_token || !$feed_amount || !$feed_note) {
+            $data = array(
+                'err' => [
+                    'code' => 400,
+                    'message' => 'store_token, amount, and note parameters is required'
+                ],
+                'result' => null
+            );
+            return response()->json($data, 200);
+		}
+
+		if (!is_numeric($feed_amount)) {
+            $data = array(
+                'err' => [
+                    'code' => 400,
+                    'message' => 'amount parameter must be numeric'
+                ],
+                'result' => null
+            );
+            return response()->json($data, 200);
+		}
+
+		$UserController = new UserController;
+        $userByToken = $UserController->getUserFromStoreToken($store_token);
+        if (is_numeric($userByToken))
+            return $UserController->makeError($UserController->USER_LOGIN_ERROR_CODE[$userByToken], 
+                $UserController->USER_LOGIN_ERROR[$userByToken]);
+
+        // create transaction
+        $transaction = WalletAll::REEDEM_TRANSACTION($userByToken->id, 0, $feed_amount, $feed_note);
+
+        // return data
+        $data = array(
+            'err' => null,
+            'result' => [
+            	'transaction' => $transaction
+            ]
+        );
+        return response()->json($data, 200);
 	}
 
 	public function test_wallet(){

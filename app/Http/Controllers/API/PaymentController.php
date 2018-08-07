@@ -291,7 +291,7 @@ class PaymentController extends Controller
     }
 
     private function generateSignature($datetime, $order_id){
-        $espay_signature = "166v87j65ii2y93s";
+        $espay_signature = "71p5g0w012lDtiPSss";
         $uppercase = strtoupper("##$espay_signature##$datetime##$order_id##CHECKSTATUS##");
         $signature = hash('sha256', $uppercase);
 
@@ -316,7 +316,7 @@ class PaymentController extends Controller
                 "content" => "uuid=$uuid&rq_datetime=$datetime&comm_code=$comm_code&order_id=$order_id&signature=$signature",
             ),
         ));
-        $response = file_get_contents('https://api.espay.id/rest/merchant/status', false, $context);
+        $response = file_get_contents('https://sandbox-api.espay.id/rest/merchant/status', false, $context);
         if (strpos($http_response_header[0], '200') === false) {
             return http_response_code(500);
         }else{
@@ -336,10 +336,10 @@ class PaymentController extends Controller
             "http" => array(
                 "method" => "POST",
                 "header" => implode("\r\n", $header),
-                "content" => "key=c2d89090e55d92971ac26b13f5a9bf22",
+                "content" => "key=d1df1e4dc0075d52b721a9c2a67598ee",
             ),
         ));
-        $response = file_get_contents('https://api.espay.id/rest/merchant/merchantinfo', false, $context);
+        $response = file_get_contents('https://sandbox-api.espay.id/rest/merchant/merchantinfo', false, $context);
         if (strpos($http_response_header[0], '200') === false) {
             return [];
         }else{

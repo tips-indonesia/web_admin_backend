@@ -16,6 +16,7 @@ class UserController extends Controller
 {
 
     public $USER_LOGIN_ERROR = [];
+    public $USER_LOGIN_ERROR_CODE = [];
 
     public function loginAndGetStoreToken(Request $request) {
         $member_list = $this->loginByPhoneAndPassword($request->mobile_phone_no, $request->password);
@@ -54,17 +55,10 @@ class UserController extends Controller
         }
 
         // store token is found but user not found
-        $userByToken = MemberList::where('store_token', $stoken)->first();
-        if (!$userByToken) {
-            $data = array(
-                'err' => [
-                    'code' => 404,
-                    'message' => 'user not found'
-                ],
-                'result' => null
-            );
-            return response()->json($data, 200);
-        }
+        $userByToken = $this->getUserFromStoreToken($stoken);
+        if (is_numeric($userByToken))
+            return $this->makeError($this->USER_LOGIN_ERROR_CODE[$userByToken], 
+                $this->USER_LOGIN_ERROR[$userByToken]);
 
         $userByToken->store_token = null;
         $userByToken->save();
@@ -107,17 +101,10 @@ class UserController extends Controller
         }
 
         // store token is found but user not found
-        $userByToken = MemberList::where('store_token', $stoken)->first();
-        if (!$userByToken) {
-            $data = array(
-                'err' => [
-                    'code' => 404,
-                    'message' => 'user not found'
-                ],
-                'result' => null
-            );
-            return response()->json($data, 200);
-        }
+        $userByToken = $this->getUserFromStoreToken($stoken);
+        if (is_numeric($userByToken))
+            return $this->makeError($this->USER_LOGIN_ERROR_CODE[$userByToken], 
+                $this->USER_LOGIN_ERROR[$userByToken]);
 
         $userByToken = $this->getDerivedUserInformation($userByToken);
 
@@ -129,50 +116,71 @@ class UserController extends Controller
         return response()->json($data, 200);
     }
 
-    // function getUserFromStoreToken($store_token){
+    function makeError($code, $msg){
+        $data = array(
+            'err' => [
+                'code' => $code,
+                'message' => $msg
+            ],
+            'result' => null
+        );
+        return response()->json($data, 200);
+    }
 
-    //     // error required parameters is not found
-    //     $this->USER_LOGIN_ERROR[-11] = "Store token tidak boleh kosong";
-    //     if (!$store_token) {
-    //         return -11;
-    //     }
+    function getUserFromStoreToken($store_token){
 
-    //     // error required parameters is not found
-    //     $this->USER_LOGIN_ERROR[-12] = "Store token tidak boleh kosong";
-    //     if (!$store_token) {
-    //         return -11;
-    //     }
-    // }
+        // error required parameters is not found
+        $this->USER_LOGIN_ERROR[-11]        = "Store token tidak boleh kosong";
+        $this->USER_LOGIN_ERROR_CODE[-11]   = 403;
+        if (!$store_token) {
+            return -11;
+        }
+
+        // error required parameters is not found
+        $this->USER_LOGIN_ERROR[-12]        = "User tidak ditemukan";
+        $this->USER_LOGIN_ERROR_CODE[-12]   = 404;
+        $userByToken = MemberList::where('store_token', $store_token)->first();
+        if (!$userByToken) {
+            return -12;
+        }
+
+        return $userByToken;
+    }
 
     function loginByPhoneAndPassword($pn, $ps){
 
         // error required parameters is not found
-        $this->USER_LOGIN_ERROR[-1] = "Nomor handphone dan password tidak boleh kosong";
+        $this->USER_LOGIN_ERROR[-1]         = "Nomor handphone dan password tidak boleh kosong";
+        $this->USER_LOGIN_ERROR_CODE[-1]    = 403;
         if (!$pn && !$ps) {
             return -1;
         }
 
         // error phone number required parameter is not found
-        $this->USER_LOGIN_ERROR[-2] = "Nomor handphone tidak boleh kosong";
+        $this->USER_LOGIN_ERROR[-2]         = "Nomor handphone tidak boleh kosong";
+        $this->USER_LOGIN_ERROR_CODE[-2]    = 403;
         if (!$pn) {
             return -2;
         }
 
         // error password required parameter is not found
-        $this->USER_LOGIN_ERROR[-3] = "Password tidak boleh kosong";
+        $this->USER_LOGIN_ERROR[-3]         = "Password tidak boleh kosong";
+        $this->USER_LOGIN_ERROR_CODE[-3]    = 403;
         if (!$ps) {
             return -3;
         }
 
         // error user not found
-        $this->USER_LOGIN_ERROR[-4] = "Nomor handphone tidak ditemukan";
+        $this->USER_LOGIN_ERROR[-4]         = "Nomor handphone tidak ditemukan";
+        $this->USER_LOGIN_ERROR_CODE[-4]    = 404;
         $member_list = MemberList::where('mobile_phone_no', $pn)->first();
         if($member_list == null) {
             return -4;
         }
 
         // error password incorrect
-        $this->USER_LOGIN_ERROR[-5] = "Password Salah";
+        $this->USER_LOGIN_ERROR[-5]         = "Password Salah";
+        $this->USER_LOGIN_ERROR_CODE[-5]    = 400;
         if(!Hash::check($ps, $member_list->password)) {
             return -5;
         }

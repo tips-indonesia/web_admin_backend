@@ -139,6 +139,7 @@ Route::post('/payment/inquiry', 'API\\PaymentController@receiveInquiry');
 Route::post('/payment/payment', 'API\\PaymentController@receivePaymentNotification');
 Route::post('/transaction', 'API\\PaymentController@createTransaction');
 Route::post('/payment/checkstatus', 'API\\PaymentController@checkPaymentStatus');
+Route::post('/payment/store', 'WalletAll@create_store_transaction');
 Route::post('/tespay', 'API\\PaymentController@tesEspayNotif');
 Route::get('/promos', 'WalletAll@getAllPromo');
 
