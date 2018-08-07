@@ -27,7 +27,7 @@
         window.onload = function() {
             console.log("Tips TEST 2");
             var data = {
-                key: "d1df1e4dc0075d52b721a9c2a67598ee",
+                key: "c2d89090e55d92971ac26b13f5a9bf22",
                 paymentId: "<?php echo $payData['payment_id'] ?>",
                 backUrl: "<?php echo $payData['callback_url'] ?>",
                 bankCode: "<?php echo $payData['bankCode'] ?>",
