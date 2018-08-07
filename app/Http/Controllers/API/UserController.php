@@ -14,46 +14,192 @@ use App\Http\Controllers\WalletAll;
 
 class UserController extends Controller
 {
-    //
-    function login(Request $request) {
-        $member_list = MemberList::where('mobile_phone_no', $request->mobile_phone_no)->first();
-        if($member_list == null) {
+
+    public $USER_LOGIN_ERROR = [];
+
+    public function loginAndGetStoreToken(Request $request) {
+        $member_list = $this->loginByPhoneAndPassword($request->mobile_phone_no, $request->password);
+        if (is_numeric($member_list)) {
             $data = array(
                 'err' => [
                     'code' => 0,
-                    'message' => 'Nomor handphone tidak ditemukan'
+                    'message' => $this->USER_LOGIN_ERROR[$member_list]
                 ],
                 'result' => null
             );
         } else {
-            if(!Hash::check($request->password, $member_list->password)) {
-                $data = array(
-                    'err' => [
-                        'code' => 0,
-                        'message' => 'Password salah'
-                    ],
-                    'result' => null
-                );
-            } else {
-                if($request->has('token')) {
-                    $member_list->token = $request->token;
-                }
-                $member_list->save();
-                unset($member_list['password']);
-                if($member_list->profil_picture){
-                    $member_list->profil_picture = url('/image/profil_picture').'/'.$member_list->profil_picture;
-                }
-                if($member_list->ref_code == null){
-                    $member_list->ref_code = $this->generateReferalCode($member_list);
-                    $member_list->save();
-                }
-                $member_list->is_member = true;
-                $member_list->money = WalletAll::getWalletAmount($member_list->id);;
-                $data = array(
-                    'err' => null,
-                    'result' => $member_list
-                );
+            $member_list->createStoreToken();
+            $data = array(
+                'err' => null,
+                'result' => [
+                    'store_token' => $member_list->store_token
+                ]
+            );
+        }
+
+        return response()->json($data, 200);
+    }
+
+    public function logoutAndDropStoreToken(Request $request) {
+        if (!$request->store_token) {
+            $data = array(
+                'err' => [
+                    'code' => 0,
+                    'message' => "store token not found"
+                ],
+                'result' => null
+            );
+        } else {
+            $data = array(
+                'err' => null,
+                'result' => [
+                    'message' => "success"
+                ]
+            );
+        }
+
+        return response()->json($data, 200);
+    }
+
+    public function getUserByStoreToken(Request $req) {
+        // check store token parameter
+        $stoken = $req->store_token;
+        if (!$stoken) {
+            $data = array(
+                'err' => [
+                    'code' => 400,
+                    'message' => 'store_token is required'
+                ],
+                'result' => null
+            );
+            return response()->json($data, 200);
+        }
+
+        // check store token parameter
+        $filters = $req->fields;
+        if (!$filters) {
+            $data = array(
+                'err' => [
+                    'code' => 400,
+                    'message' => 'fields is required'
+                ],
+                'result' => null
+            );
+            return response()->json($data, 200);
+        }
+
+        // store token is found but user not found
+        $userByToken = MemberList::where('store_token', $stoken)->first();
+        if (!$userByToken) {
+            $data = array(
+                'err' => [
+                    'code' => 404,
+                    'message' => 'user not found'
+                ],
+                'result' => null
+            );
+            return response()->json($data, 200);
+        }
+
+        $userByToken = $this->getDerivedUserInformation($userByToken);
+        
+        // store token is found and user is found
+        $data = array(
+            'err' => null,
+            'result' => $userByToken->filter_data($userByToken, $filters)
+        );
+        return response()->json($data, 200);
+    }
+
+    function loginByPhoneAndPassword($pn, $ps){
+
+        // error required parameters is not found
+        $this->USER_LOGIN_ERROR[-1] = "Nomor handphone dan password tidak boleh kosong";
+        if (!$pn && !$ps) {
+            return -1;
+        }
+
+        // error phone number required parameter is not found
+        $this->USER_LOGIN_ERROR[-2] = "Nomor handphone tidak boleh kosong";
+        if (!$pn) {
+            return -2;
+        }
+
+        // error password required parameter is not found
+        $this->USER_LOGIN_ERROR[-3] = "Password tidak boleh kosong";
+        if (!$ps) {
+            return -3;
+        }
+
+        // error user not found
+        $this->USER_LOGIN_ERROR[-4] = "Nomor handphone tidak ditemukan";
+        $member_list = MemberList::where('mobile_phone_no', $pn)->first();
+        if($member_list == null) {
+            return -4;
+        }
+
+        // error password incorrect
+        $this->USER_LOGIN_ERROR[-5] = "Password Salah";
+        if(!Hash::check($ps, $member_list->password)) {
+            return -5;
+        }
+
+        // +--------------------------
+        // | success
+        // |
+             return $member_list;
+        // |
+        // | end success
+        // +--------------------------
+    }
+
+    function getDerivedUserInformation(MemberList $member_list){
+
+        // | unset password
+        unset($member_list['password']);
+
+        // | set profile picture relative url
+        if($member_list->profil_picture){
+            $member_list->profil_picture = url('/image/profil_picture').'/'.$member_list->profil_picture;
+        }
+
+        // | set referral code if not exist
+        if($member_list->ref_code == null){
+            $member_list->ref_code = $this->generateReferalCode($member_list);
+            $member_list->save();
+        }
+
+        // | wtf is this
+        $member_list->is_member = true;
+
+        // | set the money
+        $member_list->money = WalletAll::getWalletAmount($member_list->id);
+
+        return $member_list;
+    }
+
+    //
+    function login(Request $request) {
+        $member_list = $this->loginByPhoneAndPassword($request->mobile_phone_no, $request->password);
+        if (is_numeric($member_list)) {
+            $data = array(
+                'err' => [
+                    'code' => 0,
+                    'message' => $this->USER_LOGIN_ERROR[$member_list]
+                ],
+                'result' => null
+            );
+        } else {
+            // set token of login
+            if($request->has('token')) {
+                $member_list->token = $request->token;
             }
+            $member_list->save();
+
+            $data = array(
+                'err' => null,
+                'result' => $this->getDerivedUserInformation($member_list)
+            );
         }
 
         return response()->json($data, 200);

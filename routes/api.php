@@ -35,6 +35,7 @@ Route::get('/tespromo', 'API\\PromotionController@testPromo2');
 Route::get('/scrapper_test/{booking_code}/{airport_code}/{date}/{first_name}/{last_name}', 'WebScrapper@testScrapper');
 Route::get('/tes', 'API\\VMEController@getAll');
 Route::get('/member_list', 'UtilityController@getMemberList');
+Route::post('/member_list', 'API\\UserController@getUserByStoreToken');
 Route::get('/etc_message', 'UtilityController@getEtcMessage');
 Route::get('/test_command', 'cURLFaker@test_command');
 
@@ -60,6 +61,7 @@ Route::post('/verify/fb_twitter_pn', 'API\\UserController@sendSMSCodeForFBTwitte
 Route::post('/login', 'API\\UserController@login');
 Route::post('/login/device', 'API\\UserController@deviceRegisterOrLogin');
 Route::post('/login/fb', 'API\\UserController@actionFB');
+Route::post('/login/store', 'API\\UserController@loginAndGetStoreToken');
 Route::post('/login/twitter', 'API\\UserController@actionTwitter');
 Route::post('/login/fb_twitter_pn_verify', 'API\\UserController@verifyPhoneNumberForFacebookTwitter');
 
