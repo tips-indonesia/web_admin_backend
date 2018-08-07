@@ -41,7 +41,8 @@ class UserController extends Controller
     }
 
     public function logoutAndDropStoreToken(Request $request) {
-        if (!$request->store_token) {
+        $stoken = $request->store_token;
+        if (!$stoken) {
             $data = array(
                 'err' => [
                     'code' => 0,
@@ -49,14 +50,31 @@ class UserController extends Controller
                 ],
                 'result' => null
             );
-        } else {
-            $data = array(
-                'err' => null,
-                'result' => [
-                    'message' => "success"
-                ]
-            );
+            return response()->json($data, 200);
         }
+
+        // store token is found but user not found
+        $userByToken = MemberList::where('store_token', $stoken)->first();
+        if (!$userByToken) {
+            $data = array(
+                'err' => [
+                    'code' => 404,
+                    'message' => 'user not found'
+                ],
+                'result' => null
+            );
+            return response()->json($data, 200);
+        }
+
+        $userByToken->store_token = null;
+        $userByToken->save();
+
+        $data = array(
+            'err' => null,
+            'result' => [
+                'message' => "success"
+            ]
+        );
 
         return response()->json($data, 200);
     }
@@ -102,7 +120,7 @@ class UserController extends Controller
         }
 
         $userByToken = $this->getDerivedUserInformation($userByToken);
-        
+
         // store token is found and user is found
         $data = array(
             'err' => null,
@@ -110,6 +128,21 @@ class UserController extends Controller
         );
         return response()->json($data, 200);
     }
+
+    // function getUserFromStoreToken($store_token){
+
+    //     // error required parameters is not found
+    //     $this->USER_LOGIN_ERROR[-11] = "Store token tidak boleh kosong";
+    //     if (!$store_token) {
+    //         return -11;
+    //     }
+
+    //     // error required parameters is not found
+    //     $this->USER_LOGIN_ERROR[-12] = "Store token tidak boleh kosong";
+    //     if (!$store_token) {
+    //         return -11;
+    //     }
+    // }
 
     function loginByPhoneAndPassword($pn, $ps){
 
@@ -179,7 +212,7 @@ class UserController extends Controller
     }
 
     //
-    function login(Request $request) {
+    public function login(Request $request) {
         $member_list = $this->loginByPhoneAndPassword($request->mobile_phone_no, $request->password);
         if (is_numeric($member_list)) {
             $data = array(

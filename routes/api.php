@@ -62,6 +62,7 @@ Route::post('/login', 'API\\UserController@login');
 Route::post('/login/device', 'API\\UserController@deviceRegisterOrLogin');
 Route::post('/login/fb', 'API\\UserController@actionFB');
 Route::post('/login/store', 'API\\UserController@loginAndGetStoreToken');
+Route::post('/logout/store', 'API\\UserController@logoutAndDropStoreToken');
 Route::post('/login/twitter', 'API\\UserController@actionTwitter');
 Route::post('/login/fb_twitter_pn_verify', 'API\\UserController@verifyPhoneNumberForFacebookTwitter');
 
