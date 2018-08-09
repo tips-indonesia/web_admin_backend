@@ -291,7 +291,7 @@ class PaymentController extends Controller
     }
 
     private function generateSignature($datetime, $order_id){
-        $espay_signature = "71p5g0w012lDtiPSss";
+        $espay_signature = "166v87j65ii2y93s"; //"71p5g0w012lDtiPSss";
         $uppercase = strtoupper("##$espay_signature##$datetime##$order_id##CHECKSTATUS##");
         $signature = hash('sha256', $uppercase);
 
@@ -336,7 +336,7 @@ class PaymentController extends Controller
             "http" => array(
                 "method" => "POST",
                 "header" => implode("\r\n", $header),
-                "content" => "key=d1df1e4dc0075d52b721a9c2a67598ee",
+                "content" => "key=c2d89090e55d92971ac26b13f5a9bf22", //"key=d1df1e4dc0075d52b721a9c2a67598ee",
             ),
         ));
         $response = file_get_contents('https://sandbox-api.espay.id/rest/merchant/merchantinfo', false, $context);
