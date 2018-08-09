@@ -20,6 +20,56 @@
 </head>
 <body>
     <div class="loader"></div>
+    <iframe id="sgoplus-iframe" src="" scrolling="no" frameborder="0" display="none"></iframe>
+    <script type="text/javascript"src="https://kit.espay.id/public/signature/js"></script>
+    <script type="text/javascript">
+
+        function submit() {
+            var data = {
+                key: "c2d89090e55d92971ac26b13f5a9bf22",
+                paymentId: "<?php echo $payData['payment_id'] ?>",
+                backUrl: "<?php echo $payData['callback_url'] ?>",
+                bankCode: "<?php echo $payData['bankCode'] ?>",
+                bankProduct: "<?php echo $payData['bankProduct'] ?>"
+            }
+            sgoPlusIframe = document.getElementById("sgoplus-iframe");
+            if (sgoPlusIframe !== null) sgoPlusIframe.src = SGOSignature.getIframeURL(data);
+            SGOSignature.receiveForm();
+        };
+
+
+        window.onload = function() {
+            submit();
+        };
+
+    </script>
+
+</body>
+</html>
+
+<!-- OLD -->
+<!-- <!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <style type="text/css">
+        .loader {
+            border: 16px solid #f3f3f3; /* Light grey */
+            border-top: 16px solid #3498db; /* Blue */
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 2s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="loader"></div>
     <script type="text/javascript"src="https://sandbox-kit.espay.id/public/signature/js"></script>
     <script type="text/javascript"> 
         console.log("Tips TEST");
@@ -36,7 +86,7 @@
 
             function x_redirect(uri) {
               if(navigator.userAgent.match(/Android/i)) 
-                document.location = uri;      
+                document.location = uri;
               else
                 window.location.replace(uri);
             }
@@ -48,4 +98,4 @@
     </script>
 
 </body>
-</html>
+</html> -->
