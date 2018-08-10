@@ -390,7 +390,7 @@ class UserController extends Controller
 
             $data = array(
                 'err' => null,
-                'result' => $member_list
+                'result' => $this->getDerivedUserInformation($member_list)
             );
         }
 
