@@ -30,7 +30,11 @@
 
         function submit() {
             var data = {
+                @if (App\Http\Controllers\API\PaymentController::isDev())
+                key: "d1df1e4dc0075d52b721a9c2a67598ee",
+                @else
                 key: "c2d89090e55d92971ac26b13f5a9bf22",
+                @endif
                 paymentId: "<?php echo $payData['payment_id'] ?>",
                 backUrl: "<?php echo $payData['callback_url'] ?>",
                 bankCode: "<?php echo $payData['bankCode'] ?>",
