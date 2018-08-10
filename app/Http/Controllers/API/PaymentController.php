@@ -308,7 +308,7 @@ class PaymentController extends Controller
         
         date_default_timezone_set("Asia/Jakarta");
         $date       = date_create(now());
-        $datetime   = date_format($date, 'd/m/Y H:i:s');
+        $datetime   = date_format($date, 'd-m-Y H:i:s');
 
         $signature = $this->generateSignature($datetime, $order_id);
         $header = array(
@@ -333,7 +333,7 @@ class PaymentController extends Controller
         
         date_default_timezone_set("Asia/Jakarta");
         $date       = date_create(now());
-        $datetime   = date_format($date, 'd/m/Y H:i:s');
+        $datetime   = date_format($date, 'd-m-Y H:i:s');
         $header = array(
             "Content-Type: application/x-www-form-urlencoded"
         );
