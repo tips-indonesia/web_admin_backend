@@ -134,6 +134,9 @@ Route::get('/worker/my_shipments_departure', 'API\\Worker\\ShipmentController@ge
 Route::get('/worker/my_shipments_sdelivery', 'API\\Worker\\ShipmentController@getMyShipmentsSDelivery');
 Route::post('/worker/shipment/confirm', 'API\\Worker\\ShipmentController@upload_signature');
 Route::get('/worker/manifest/departure', 'API\\Worker\\DeliveryController@get_manifest');
+// API Worker untuk Rcvd by TPC
+Route::get('/worker/rcvd', 'API\\Worker\\RcvdController@allRcvd');
+Route::get('/worker/rcvd/receive', 'API\\Worker\\RcvdController@receiveShipment');
 
 Route::post('/payment/inquiry', 'API\\PaymentController@receiveInquiry');
 Route::post('/payment/payment', 'API\\PaymentController@receivePaymentNotification');
