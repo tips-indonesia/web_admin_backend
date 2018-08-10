@@ -20,8 +20,8 @@
 </head>
 <body>
     <div class="loader"></div>
-    <iframe id="sgoplus-iframe" src="" scrolling="no" frameborder="0" display="none"></iframe>
-    <script type="text/javascript"src="https://kit.espay.id/public/signature/js"></script>
+    <iframe id="sgoplus-iframe" src="" scrolling="no" onLoad="console.log(this.src);" frameborder="0" display="none"></iframe>
+    <script type="text/javascript" src="https://{{ \App\Http\Controllers\API\PaymentController::isDev() ? 'sandbox-' : '' }}kit.espay.id/public/signature/js"></script>
     <script type="text/javascript">
 
         function submit() {
@@ -41,11 +41,6 @@
         window.onload = function() {
             submit();
         };
-
-        $('#iframe').on('load', function(e) {
-            alert('frame has (re)loaded');
-            console.log(e);
-        });
 
     </script>
 
