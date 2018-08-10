@@ -217,7 +217,7 @@ class UserController extends Controller
             $member_list->first_name        = "TIPS";
             $member_list->last_name         = "";
             $member_list->email             = "tips@tips.com";
-            $member_list->mobile_phone_no   = "012345678";
+            $member_list->mobile_phone_no   = "0812345678";
         }
 
         // | wtf is this
