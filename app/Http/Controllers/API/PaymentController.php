@@ -17,6 +17,11 @@ use stdClass;
 
 class PaymentController extends Controller
 {
+
+    private function isDev(){
+        return file_exists("/var/www/html/tips/dev-tips");
+    }
+
     function payment_method_all(){
         $payment_type = PaymentType::all();
         $payment_all = [];
@@ -291,7 +296,7 @@ class PaymentController extends Controller
     }
 
     private function generateSignature($datetime, $order_id){
-        $espay_signature = "166v87j65ii2y93s"; //"71p5g0w012lDtiPSss";
+        $espay_signature = $this->isDev() ? "71p5g0w012lDtiPSss" : "166v87j65ii2y93s";
         $uppercase = strtoupper("##$espay_signature##$datetime##$order_id##CHECKSTATUS##");
         $signature = hash('sha256', $uppercase);
 
@@ -336,7 +341,7 @@ class PaymentController extends Controller
             "http" => array(
                 "method" => "POST",
                 "header" => implode("\r\n", $header),
-                "content" => "key=c2d89090e55d92971ac26b13f5a9bf22", //"key=d1df1e4dc0075d52b721a9c2a67598ee",
+                "content" => $this->isDev() ? "key=d1df1e4dc0075d52b721a9c2a67598ee" : "key=c2d89090e55d92971ac26b13f5a9bf22",
             ),
         ));
         $response = file_get_contents('https://api.espay.id/rest/merchant/merchantinfo', false, $context);
@@ -371,6 +376,27 @@ class PaymentController extends Controller
     public function checkIfPaymentHasIssued(Request $req){
         $pid = $req->payment_id;
         $existing = EspayNotification::where('order_id', $pid)->first();
-        return redirect('tips://' . ($existing ? 'berhasil' : 'gagal'));
+        if($existing){
+            $data = array(
+                'err' => null,
+                'result' => [
+                    'status'    => $existing->status,
+                    'amount'    => $existing->total_amount,
+                    'datetime'  => $existing->payment_datetime,
+                    'ref'       => $existing->payment_ref,
+                    'message'   => 'payment success'
+                ]
+            );
+        } else {
+            $data = array(
+                'err' => [
+                    "code" => "400",
+                    "message" => "payment is incomplete"
+                ],
+                'result' => null
+            );
+        }
+
+        return response()->json($data, 200);
     }
 }

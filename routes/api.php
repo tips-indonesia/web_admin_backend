@@ -138,6 +138,7 @@ Route::get('/worker/manifest/departure', 'API\\Worker\\DeliveryController@get_ma
 Route::post('/payment/inquiry', 'API\\PaymentController@receiveInquiry');
 Route::post('/payment/payment', 'API\\PaymentController@receivePaymentNotification');
 Route::post('/transaction', 'API\\PaymentController@createTransaction');
+Route::get('/payment/status', 'API\\PaymentController@checkIfPaymentHasIssued');
 Route::post('/payment/checkstatus', 'API\\PaymentController@checkPaymentStatus');
 Route::post('/payment/store', 'WalletAll@create_store_transaction');
 Route::post('/tespay', 'API\\PaymentController@tesEspayNotif');
