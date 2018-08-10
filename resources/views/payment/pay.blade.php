@@ -42,6 +42,11 @@
             submit();
         };
 
+        $('#iframe').on('load', function(e) {
+            alert('frame has (re)loaded');
+            console.log(e);
+        });
+
     </script>
 
 </body>

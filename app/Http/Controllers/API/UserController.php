@@ -210,6 +210,16 @@ class UserController extends Controller
             $member_list->save();
         }
 
+        // check if guest, return the name
+        $output_array = [];
+        preg_match_all("/dev-.*/", $member_list->mobile_phone_no, $output_array);
+        if(sizeof($output_array) > 0){
+            $member_list->first_name        = "TIPS";
+            $member_list->last_name         = "";
+            $member_list->email             = "tips@tips.com";
+            $member_list->mobile_phone_no   = "012345678";
+        }
+
         // | wtf is this
         $member_list->is_member = true;
 
@@ -361,7 +371,7 @@ class UserController extends Controller
         if($member_list != null)
             $data = array(
                 'err' => null,
-                'result' => $member_list
+                'result' => $this->getDerivedUserInformation($member_list)
             );
         else {
             $member_list = new MemberList;
