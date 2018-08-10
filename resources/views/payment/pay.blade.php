@@ -19,8 +19,25 @@
     </style>
 </head>
 <body>
+    <script type="text/javascript">
+        function x_redirect(uri) {
+          if(navigator.userAgent.match(/Android/i)) 
+            document.location = uri;
+          else
+            window.location.replace(uri);
+        }
+        
+        function checkframechange(src){
+            console.log("src: ", src);
+            console.log("print 4: ", src.substr(0, 4));
+            $test = "https://tips"
+            if(src.substr(0, sizeof($test)) == $test){
+                x_redirect(SGOSignature.getIframeURL(src));
+            }
+        }
+    </script>
     <div class="loader"></div>
-    <iframe id="sgoplus-iframe" src="" scrolling="no" onLoad="console.log(this.src);" frameborder="0" display="none"></iframe>
+    <iframe id="sgoplus-iframe" src="" scrolling="no" onLoad="checkframechange(this.src);" frameborder="0" display="none"></iframe>
     @if (App\Http\Controllers\API\PaymentController::isDev())
     <script type="text/javascript" src="https://sandbox-kit.espay.id/public/signature/js"></script>
     @else
