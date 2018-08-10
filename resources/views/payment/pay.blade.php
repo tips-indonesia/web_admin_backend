@@ -21,7 +21,11 @@
 <body>
     <div class="loader"></div>
     <iframe id="sgoplus-iframe" src="" scrolling="no" onLoad="console.log(this.src);" frameborder="0" display="none"></iframe>
-    <script type="text/javascript" src="https://{{ \App\Http\Controllers\API\PaymentController::isDev() ? 'sandbox-' : '' }}kit.espay.id/public/signature/js"></script>
+    @if(\App\Http\Controllers\API\PaymentController::isDev())
+    <script type="text/javascript" src="https://sandbox-kit.espay.id/public/signature/js"></script>
+    @else
+    <script type="text/javascript" src="https://kit.espay.id/public/signature/js"></script>
+    @endif
     <script type="text/javascript">
 
         function submit() {
