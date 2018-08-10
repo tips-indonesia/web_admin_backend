@@ -172,6 +172,18 @@ Route::group(['middleware' => 'isWorker'], function() {
             Route::resource('shipmentcancellation','Admin\ShipmentCancellationAdminController');
         });
 
+        Route::group(['middleware' => ['permission:shipmentrejection.']], function () {
+            Route::resource('shipmentrejection','Admin\ShipmentRejectionAdminController');
+        });
+
+        Route::group(['middleware' => ['permission:shipmentrejectiondelivery.']], function () {
+            Route::resource('shipmentrejectiondelivery','Admin\ShipmentRejectionDeliveryAdminController');
+        });
+        
+        Route::group(['middleware' => ['permission:slotrejection.']], function () {
+            Route::resource('slotrejection','Admin\SlotRejectionAdminController');
+        });
+
         Route::group(['middleware' => ['permission:shipmentstatuses.']], function () {
             Route::resource('shipmentstatuses','Admin\ShipmentStatusAdminController');
         });
