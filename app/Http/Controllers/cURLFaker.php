@@ -19,7 +19,9 @@ class cURLFaker extends Controller
         return TIPSMailChimp::send_chimp(
             "TIPS Registration, Hi $NAMA",
             TIPSMailChimp::$TMP_WELCOME,
-            [],
+            [
+                TIPSMailChimp::create_template_data('STR_NAMA', $NAMA),
+            ],
             $receivers
         );
         // exec("sh send_post.sh 'http://127.0.0.1/api/send_email' 'type' 'registration' 'email' '$email' 'NAMA' '$NAMA' >> /var/www/html/tips/zz/logcurlx.txt > /dev/null 2>&1 &");
