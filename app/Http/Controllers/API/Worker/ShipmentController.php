@@ -78,14 +78,18 @@ class ShipmentController extends Controller
     }
 
     function getMyShipmentsDeparture(Request $req){
-        return $this->getMyShipmentsGeneral($req, 'pickup');
+        return $this->getMyShipmentsGeneral($req, 'pickup', false);
     }
 
     function getMyShipmentsSDelivery(Request $req){
-        return $this->getMyShipmentsGeneral($req, 'delivered');
+        return $this->getMyShipmentsGeneral($req, 'delivered', false);
     }
 
-    function getMyShipmentsGeneral(Request $req, $type){
+    function getShipmentsRejectedDelivery(Request $req) {
+        return $this->getMyShipmentsGeneral($req, 'delivered', true);
+    }
+
+    function getMyShipmentsGeneral(Request $req, $type, $isForReject){
         $worker_id = $req->worker_id;
         if($worker_id == null){
             $data = array(
@@ -112,14 +116,18 @@ class ShipmentController extends Controller
 
             return response()->json($data, 200);
         }
+        $shipments = Shipment::where($type . '_by', $worker_id)
+                            ->whereRaw('Date(' . $type . '_date) = CURDATE()')
+                            ->where($type == 'pickup' ? 'id_origin_city' : 'id_destination_city', $worker_id_office_area);
+
+        if ($isForReject) {
+            $shipments = $shipments->where('id_shipment_status', -2)->withTrashed();
+        }
 
         $data = array(
             'err' => null,
             'result' => [
-                'shipments' => Shipment::where($type . '_by', $worker_id)
-                                ->whereRaw('Date(' . $type . '_date) = CURDATE()')
-                                ->where($type == 'pickup' ? 'id_origin_city' : 'id_destination_city', $worker_id_office_area)
-                                ->get()
+                'shipments' => $shipments->get()
             ]
         );
 
@@ -127,7 +135,6 @@ class ShipmentController extends Controller
     }
 
     function pickup(Request $request) {
-
         $shipment_id = $request->shipment_id;
         $photo_signature = $request->file('photo_signature');
 
@@ -301,5 +308,62 @@ class ShipmentController extends Controller
         return response()->json($data, 200);
     }
 
+    function shipmentRejection (Request $request) {
+        $shipment_id = $request->shipment_id;
+        $shipment = Shipment::withTrashed()->where('shipment_id', $shipment_id)->first();
+
+        if($shipment == null) {
+            $data = array(
+                'err' => [
+                    'code' => 0,
+                    'message' => 'Shipment id tidak ditemukan'
+                ],
+                'result' => null
+            );
+        } else {
+            if ($request->file('photo_ktp') && $request->file('photo_signature')) {
+                $file_ktp = $request->file('photo_ktp');
+                $file_signature = $request->file('photo_signature');
+
+
+                $t = microtime(true);
+                $micro = sprintf("%06d", ($t - floor($t)) * 1000000);
+                $timestamp = date('YmdHis' . $micro, $t) . "_" . rand(0, 1000);
+
+                $data_img_ktp = $file_ktp;
+                $ext_file_ktp = $data_img_ktp->getClientOriginalExtension();
+                $name_file_ktp = "" . uniqid() . '_img_item_rejected.' . $ext_file_ktp;
+                $path_file_ktp = public_path() . '/image/shipment_rejected/ktp';
+
+                $data_img_signature = $file_signature;
+                $ext_file_signature = $data_img_signature->getClientOriginalExtension();
+                $name_file_signature = "" . uniqid() . '_img_item_rejected.' . $ext_file_signature;
+                $path_file_signature = public_path() . '/image/shipment_rejected/signature';
+
+                if($data_img_ktp->move($path_file_ktp,$name_file_ktp)) {
+                    $shipment->photo_ktp = URL::to('/image/shipment_rejected/ktp/' . $name_file_ktp);
+                }
+
+                if($data_img_signature->move($path_file_signature,$name_file_signature)) {
+                    $shipment->photo_signature = URL::to('/image/shipment_rejected/signature/' . $name_file_signature);
+                }
+                $shipment->save();
+                $data = array(
+                    'err' => null,
+                    'result' => "Shipment Rejected"
+                );
+            } else {
+                $data = array(
+                    'err' => [
+                        'code' => 400,
+                        'message' => 'Foto KTP dan Foto Signature tidak boleh kosong'
+                    ],
+                    'result' => null
+                );
+            }
+        }
+
+        return response()->json($data, 200);
+    }
 
 }

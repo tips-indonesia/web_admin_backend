@@ -137,6 +137,9 @@ class DeliveryController extends Controller
             $delivery_status = DeliveryStatus::find($slot->id_slot_status);
             $slot->origin_airport = AirportList::find($slot->id_origin_airport);
             $slot->destination_airport = AirportList::find($slot->id_destination_airport);
+            $slot->goods = Shipment::select('shipment_contents', 'real_weight')
+                                    ->where('id_slot', $slot->id)
+                                    ->get();
             if($slot->photo_tag){
                 $slot->photo_tag = url('/image/photo_tag').'/'.$slot->photo_tag;
             }

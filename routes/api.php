@@ -134,6 +134,12 @@ Route::get('/worker/my_shipments_departure', 'API\\Worker\\ShipmentController@ge
 Route::get('/worker/my_shipments_sdelivery', 'API\\Worker\\ShipmentController@getMyShipmentsSDelivery');
 Route::post('/worker/shipment/confirm', 'API\\Worker\\ShipmentController@upload_signature');
 Route::get('/worker/manifest/departure', 'API\\Worker\\DeliveryController@get_manifest');
+// API Worker untuk Rcvd by TPC
+Route::get('/worker/rcvd', 'API\\Worker\\RcvdController@allRcvd');
+Route::get('/worker/rcvd/receive', 'API\\Worker\\RcvdController@receiveShipment');
+// API Worker untuk shipment rejection
+Route::get('/worker/shipment_rejection', 'API\\Worker\ShipmentController@getShipmentsRejectedDelivery');
+Route::post('/worker/shipment_rejection/confirm', 'API\\Worker\ShipmentController@shipmentRejection');
 
 Route::post('/payment/inquiry', 'API\\PaymentController@receiveInquiry');
 Route::post('/payment/payment', 'API\\PaymentController@receivePaymentNotification');
@@ -157,3 +163,6 @@ Route::get('/promo', 'API\\PromotionController@getPromo');
 Route::get('iklan', 'UtilityController@tesIklan');
 
 Route::post('promo', 'API\\PromotionController@postSelectPromo');
+// Route untuk favorite address
+Route::post('/favorite_address', 'API\\FavoriteAddressController@storeFavoriteAddress');
+Route::get('/favorite_address', 'API\\FavoriteAddressController@getUserFavoriteAddress');
