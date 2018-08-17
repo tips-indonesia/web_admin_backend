@@ -57,7 +57,7 @@ class PaymentTypeAdminController extends Controller
             $countryList = new PaymentType;
             $countryList->name = Input::get('name');
             $countryList->save();
-            Session::flash('message', 'Successfully created nerd!');
+            Session::flash('message', 'Successfully created data!');
             return Redirect::to(route('paymenttypes.index'));
         }
 
@@ -111,7 +111,7 @@ class PaymentTypeAdminController extends Controller
             $countryList = PaymentType::find($id);
             $countryList->name = Input::get('name');
             $countryList->save();
-            Session::flash('message', 'Successfully created nerd!');
+            Session::flash('message', 'Successfully created data!');
             return Redirect::to(route('paymenttypes.index'));
         }
     }

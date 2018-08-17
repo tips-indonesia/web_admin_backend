@@ -200,7 +200,7 @@ class ShipmentPickUpAdminController extends Controller
                 $shipment->save();
                 $shipment->smsStep1Setengah();
             }
-            Session::flash('message', 'Successfully created nerd!');
+            Session::flash('message', 'Successfully created data!');
             return back();
         }
     }

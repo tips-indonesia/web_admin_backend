@@ -65,7 +65,7 @@ class AirportListAdminController extends Controller
             $airportList->id_city = Input::get('city');
             $airportList->status = 1;
             $airportList->save();
-            Session::flash('message', 'Successfully created nerd!');
+            Session::flash('message', 'Successfully created data!');
             return Redirect::to(route('airportlists.index'));
         }
 
@@ -132,7 +132,7 @@ class AirportListAdminController extends Controller
             $airportList->id_city = Input::get('city');
             $airportList->status = Input::get('status');;
             $airportList->save();
-            Session::flash('message', 'Successfully created nerd!');
+            Session::flash('message', 'Successfully created data!');
             return Redirect::to(route('airportlists.index'));
         }
     }

@@ -106,7 +106,7 @@ class TermAdminController extends Controller
             $terms = Input::get('terms');
             $jenis = Input::get('jenis');
             ConfigHunter::set($jenis, $terms);
-            Session::flash('message', 'Successfully created nerd!');
+            Session::flash('message', 'Successfully created data!');
             return Redirect::to(route('terms.index'));
         }
     }

@@ -57,7 +57,7 @@ class OfficeTypeAdminController extends Controller
         //     $officeTypes = new OfficeType;
         //     $officeTypes->name = Input::get('name');
         //     $officeTypes->save();
-        //     Session::flash('message', 'Successfully created nerd!');
+        //     Session::flash('message', 'Successfully created data!');
         //     return Redirect::to(route('officetypes.index'));
         // }
 
@@ -111,7 +111,7 @@ class OfficeTypeAdminController extends Controller
         //     $officeTypes = OfficeType::find($id);
         //     $officeTypes->name = Input::get('name');
         //     $officeTypes->save();
-        //     Session::flash('message', 'Successfully created nerd!');
+        //     Session::flash('message', 'Successfully created data!');
         //     return Redirect::to(route('officetypes.index'));
         // }
     }

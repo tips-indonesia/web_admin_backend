@@ -202,7 +202,7 @@ class ShipmentDropOffAdminController extends Controller
             $shipment->shipment_id = $shipment->id.'2017';
             $shipment->dispatch_type = Input::get('dispatch_type');
             $shipment->save();
-            Session::flash('message', 'Successfully created nerd!');
+            Session::flash('message', 'Successfully created data!');
             return Redirect::to(route('shipmentdropoffs.index'));
         }
 
@@ -374,7 +374,7 @@ class ShipmentDropOffAdminController extends Controller
                 $shipment->id_shipment_status = 2;
             }
             $shipment->save();
-            Session::flash('message', 'Successfully created nerd!');
+            Session::flash('message', 'Successfully created data!');
             return Redirect::to(route('shipmentdropoffs.index'));
         }
     }

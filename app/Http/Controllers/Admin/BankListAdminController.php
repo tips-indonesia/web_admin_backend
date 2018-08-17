@@ -121,7 +121,7 @@ class BankListAdminController extends Controller
             $bankList->name = Input::get('name');
             $bankList->status = Input::get('status');
             $bankList->save();
-            Session::flash('message', 'Successfully created nerd!');
+            Session::flash('message', 'Successfully created data!');
             return Redirect::to(route('banklists.index'));
         }
     }

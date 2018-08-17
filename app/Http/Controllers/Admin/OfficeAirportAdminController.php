@@ -62,7 +62,7 @@ class OfficeAirportAdminController extends Controller
             $officedropPoint->id_office = $office;
             $officedropPoint->status = 1;
             $officedropPoint->save();
-            Session::flash('message', 'Successfully created nerd!');
+            Session::flash('message', 'Successfully created data!');
             return Redirect::to(route('officeairports.show', $office));
         }
 
@@ -127,7 +127,7 @@ class OfficeAirportAdminController extends Controller
             $officedropPoint->id_airport = Input::get('airport');
             $officedropPoint->status = Input::get('status');
             $officedropPoint->save();
-            Session::flash('message', 'Successfully created nerd!');
+            Session::flash('message', 'Successfully created data!');
             return Redirect::to(route('officeairports.show', $office));
         }
     }

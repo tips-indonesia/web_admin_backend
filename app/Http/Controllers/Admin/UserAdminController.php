@@ -93,7 +93,7 @@ class UserAdminController extends Controller
                 'password' => bcrypt(Input::get('password'))]);
                 $role = Role::find(Input::get('role'));
                 $user->assignRole($role->name);
-                Session::flash('message', 'Successfully created nerd!');
+                Session::flash('message', 'Successfully created data!');
                 return Redirect::to(route('users.index'));
             } else {
                 return Redirect::to(route('users.create'))
@@ -166,7 +166,7 @@ class UserAdminController extends Controller
             $user->id_office = Input::get('office');
             $user->syncRoles($role);
             $user->save();
-            Session::flash('message', 'Successfully created nerd!');
+            Session::flash('message', 'Successfully created data!');
             return Redirect::to(route('users.index'));
         }
     }
