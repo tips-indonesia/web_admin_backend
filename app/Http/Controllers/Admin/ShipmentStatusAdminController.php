@@ -59,7 +59,7 @@ class ShipmentStatusAdminController extends Controller
         //     $shipmentStatus->step = Input::get('step');
         //     $shipmentStatus->description = Input::get('description');
         //     $shipmentStatus->save();
-        //     Session::flash('message', 'Successfully created nerd!');
+        //     Session::flash('message', 'Successfully created data!');
         //     return Redirect::to(route('shipmentstatuses.index'));
         // }
 
@@ -117,7 +117,7 @@ class ShipmentStatusAdminController extends Controller
             $shipmentStatus->is_hidden = Input::get('hidden');
             $shipmentStatus->description = Input::get('description');
             $shipmentStatus->save();
-            Session::flash('message', 'Successfully created nerd!');
+            Session::flash('message', 'Successfully created data!');
             return Redirect::to(route('shipmentstatuses.index'));
         }
     }

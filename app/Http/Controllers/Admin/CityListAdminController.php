@@ -61,7 +61,7 @@ class CityListAdminController extends Controller
             $cityList->name = Input::get('name');
             $cityList->id_province = Input::get('province');
             $cityList->save();
-            Session::flash('message', 'Successfully created nerd!');
+            Session::flash('message', 'Successfully created data!');
             return Redirect::to(route('citylists.index', ['province' => Input::get('province')]));
         }
 

@@ -56,7 +56,7 @@ class RoleAdminController extends Controller
                 ->withInput();
         } else {
             $role = Role::create(['name' => Input::get('name')]);
-            Session::flash('message', 'Successfully created nerd!');
+            Session::flash('message', 'Successfully created data!');
             return Redirect::to(route('roles.index'));
         }
 
@@ -110,7 +110,7 @@ class RoleAdminController extends Controller
             $role = Role::find($id);
             $role->name = Input::get('name');
             $role->save();
-            Session::flash('message', 'Successfully created nerd!');
+            Session::flash('message', 'Successfully created data!');
             return Redirect::to(route('roles.index'));
         }
     }

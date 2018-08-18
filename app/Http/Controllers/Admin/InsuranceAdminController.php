@@ -94,7 +94,7 @@ class InsuranceAdminController extends Controller
             $airlinesList->default_insurance = Input::get('default_insurance');
             $airlinesList->additional_insurance = Input::get('additional_insurance');
             $airlinesList->save();
-            Session::flash('message', 'Successfully created nerd!');
+            Session::flash('message', 'Successfully created data!');
             return Redirect::to(route('insurances.index'));
         }
     }

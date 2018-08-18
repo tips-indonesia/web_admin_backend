@@ -108,4 +108,14 @@ class FavoriteAddressController extends Controller
         }
         return response()->json($data, 200);
     }
+
+    public function deleteFavAddress($id) {
+        $address = FavoriteAddress::find($id);
+
+        $address->delete();
+        return response()->json([
+            'err' => null,
+            'result' => "Favorite Address Deleted"
+        ], 200);
+    }
 }

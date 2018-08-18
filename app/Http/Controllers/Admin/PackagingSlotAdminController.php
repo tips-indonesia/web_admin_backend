@@ -139,7 +139,7 @@ class PackagingSlotAdminController extends Controller
             $packagingslots->save();
             $packagingslots->packaging_id = 'PS'.date('ymd').str_pad($packagingslots->id, 4, '0', STR_PAD_LEFT);
             $packagingslots->save();
-            Session::flash('message', 'Successfully created nerd!');
+            Session::flash('message', 'Successfully created data!');
             return Redirect::to(route('packagingslots.index'));
         }
         //
@@ -170,7 +170,7 @@ class PackagingSlotAdminController extends Controller
         //     $member->email = Input::get('email_address');
         //     $member->id_city = Input::get('city');
         //     $member->save();
-        //     Session::flash('message', 'Successfully created nerd!');
+        //     Session::flash('message', 'Successfully created data!');
         //     return Redirect::to(route('memberlists.index'));
         // }
     }
@@ -238,7 +238,7 @@ class PackagingSlotAdminController extends Controller
                 $ship->id_shipment_status = 5;
                 $ship->save();
             }
-            Session::flash('message', 'Successfully created nerd!');
+            Session::flash('message', 'Successfully created data!');
             return Redirect::to(route('packagingslots.index'));
         }
     }

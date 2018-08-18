@@ -58,7 +58,7 @@ class ProvinceListAdminController extends Controller
             $provinceList = new ProvinceList;
             $provinceList->name = Input::get('name');
             $provinceList->save();
-            Session::flash('message', 'Successfully created nerd!');
+            Session::flash('message', 'Successfully created data!');
             return Redirect::to(route('provincelists.index'));
         }
 
@@ -111,7 +111,7 @@ class ProvinceListAdminController extends Controller
         } else {
             $provinceList = ProvinceList::find($id); $provinceList->name = Input::get('name');
             $provinceList->save();
-            Session::flash('message', 'Successfully created nerd!');
+            Session::flash('message', 'Successfully created data!');
             return Redirect::to(route('provincelists.index'));
         }
     }

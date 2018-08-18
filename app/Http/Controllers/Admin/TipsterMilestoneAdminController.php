@@ -59,7 +59,7 @@ class TipsterMilestoneAdminController extends Controller
         //     $tipsterMilestone->step = Input::get('step');
         //     $tipsterMilestone->description = Input::get('description');
         //     $tipsterMilestone->save();
-        //     Session::flash('message', 'Successfully created nerd!');
+        //     Session::flash('message', 'Successfully created data!');
         //     return Redirect::to(route('tipstermilestones.index'));
         // }
 
@@ -115,7 +115,7 @@ class TipsterMilestoneAdminController extends Controller
             $tipsterMilestone->step = Input::get('step');
             $tipsterMilestone->description = Input::get('description');
             $tipsterMilestone->save();
-            Session::flash('message', 'Successfully created nerd!');
+            Session::flash('message', 'Successfully created data!');
             return Redirect::to(route('tipstermilestones.index'));
         }
     }

@@ -146,7 +146,7 @@ class ShipmentAdminController extends Controller
             $shipment->shipment_id = $shipment->id.'2017';
             $shipment->dispatch_type = Input::get('dispatch_type');
             $shipment->save();
-            Session::flash('message', 'Successfully created nerd!');
+            Session::flash('message', 'Successfully created data!');
             return Redirect::to(route('shipments.index'));
         }
 
@@ -294,7 +294,7 @@ class ShipmentAdminController extends Controller
                 $shipment->is_posted = true;
             }
             $shipment->save();
-            Session::flash('message', 'Successfully created nerd!');
+            Session::flash('message', 'Successfully created data!');
             return Redirect::to(route('shipments.index'));
         }
     }

@@ -62,7 +62,7 @@ class AirportCityScopeAdminController extends Controller
             $airportcityScope->id_airport = $airport;
             $airportcityScope->status = 1;
             $airportcityScope->save();
-            Session::flash('message', 'Successfully created nerd!');
+            Session::flash('message', 'Successfully created data!');
             return Redirect::to(route('airportlists.show', $airport));
         }
 
@@ -119,7 +119,7 @@ class AirportCityScopeAdminController extends Controller
             $airportcityScope->id_city = Input::get('city');
             $airportcityScope->status = Input::get('status');
             $airportcityScope->save();
-            Session::flash('message', 'Successfully created nerd!');
+            Session::flash('message', 'Successfully created data!');
             return Redirect::to(route('airportlists.show', $airport));
         }
     }

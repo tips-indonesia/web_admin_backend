@@ -102,7 +102,7 @@ class PackagingRestShipmentAdminController extends Controller
                 $shipment_item->id_packaging = $airportList->id;
                 $shipment_item->save();
             }
-            Session::flash('message', 'Successfully created nerd!');
+            Session::flash('message', 'Successfully created data!');
             return Redirect::to(route('packagingrestshipments.index'));
         }
 
@@ -181,7 +181,7 @@ class PackagingRestShipmentAdminController extends Controller
                 $shipment_item->id_packaging = $id;
                 $shipment_item->save();
             }
-            Session::flash('message', 'Successfully created nerd!');
+            Session::flash('message', 'Successfully created data!');
             return Redirect::to(route('packagingrestshipments.index'));
         }
     }

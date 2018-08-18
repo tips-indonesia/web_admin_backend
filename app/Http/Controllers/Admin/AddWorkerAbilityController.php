@@ -63,7 +63,7 @@ class AddWorkerAbilityController extends Controller
             $user->syncRoles($role);
             $user->is_worker = 1;
             $user->save();
-            Session::flash('message', 'Successfully created nerd!');
+            Session::flash('message', 'Successfully created data!');
             return Redirect::to(route('addworkerability.index'));
         }	
     }

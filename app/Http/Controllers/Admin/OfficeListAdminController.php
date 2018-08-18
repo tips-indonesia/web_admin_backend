@@ -109,7 +109,7 @@ class OfficeListAdminController extends Controller
                 $officeLists->id_airport = Input::get('airport');
             $officeLists->status = 1;
             $officeLists->save();
-            Session::flash('message', 'Successfully created nerd!');
+            Session::flash('message', 'Successfully created data!');
             return Redirect::to(route('officelists.index'));
         }
 
@@ -198,7 +198,7 @@ class OfficeListAdminController extends Controller
                 $officeLists->id_airport = Input::get('airport');
             $officeLists->status = Input::get('status');
             $officeLists->save();
-            Session::flash('message', 'Successfully created nerd!');
+            Session::flash('message', 'Successfully created data!');
             return Redirect::to(route('officelists.index'));
         }
     }

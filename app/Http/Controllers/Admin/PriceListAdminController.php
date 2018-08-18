@@ -71,7 +71,7 @@ class PriceListAdminController extends Controller
             $priceList->freight_cost = Input::get('freight_cost');
             $priceList->add_first_class = Input::get('add_first_class');
             $priceList->save();
-            Session::flash('message', 'Successfully created nerd!');
+            Session::flash('message', 'Successfully created data!');
             return Redirect::to(route('pricelists.index'));
         }
 
@@ -134,7 +134,7 @@ class PriceListAdminController extends Controller
             $priceList->freight_cost = Input::get('freight_cost');
             $priceList->add_first_class = Input::get('add_first_class');
             $priceList->save();
-            Session::flash('message', 'Successfully created nerd!');
+            Session::flash('message', 'Successfully created data!');
             return Redirect::to(route('pricelists.index'));
         }
     }

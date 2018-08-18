@@ -72,7 +72,7 @@ class MemberListAdminController extends Controller
         //     $member->email = Input::get('email_address');
         //     $member->id_city = Input::get('city');
         //     $member->save();
-        //     Session::flash('message', 'Successfully created nerd!');
+        //     Session::flash('message', 'Successfully created data!');
         //     return Redirect::to(route('memberlists.index'));
         // }
     }
@@ -143,7 +143,7 @@ class MemberListAdminController extends Controller
         //     $member->email = Input::get('email_address');
         //     $member->id_city = Input::get('city');
         //     $member->save();
-        //     Session::flash('message', 'Successfully created nerd!');
+        //     Session::flash('message', 'Successfully created data!');
         //     return Redirect::to(route('memberlists.index'));
         // }
     }

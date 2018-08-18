@@ -60,7 +60,7 @@ class AirlinesListAdminController extends Controller
             $airlinesList->prefix_flight_code = Input::get('prefix_flight_code');
             $airlinesList->status = 1;
             $airlinesList->save();
-            Session::flash('message', 'Successfully created nerd!');
+            Session::flash('message', 'Successfully created data!');
             return Redirect::to(route('airlineslists.index'));
         }
 
@@ -118,7 +118,7 @@ class AirlinesListAdminController extends Controller
             $airlinesList->prefix_flight_code = Input::get('prefix_flight_code');
             $airlinesList->status = Input::get('status');
             $airlinesList->save();
-            Session::flash('message', 'Successfully created nerd!');
+            Session::flash('message', 'Successfully created data!');
             return Redirect::to(route('airlineslists.index'));
         }
     }

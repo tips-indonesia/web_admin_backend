@@ -58,7 +58,7 @@ class WeightListAdminController extends Controller
             $WeightList->weight_kg = Input::get('weight_kg');
             $WeightList->status = 1;
             $WeightList->save();
-            Session::flash('message', 'Successfully created nerd!');
+            Session::flash('message', 'Successfully created data!');
             return Redirect::to(route('weightlists.index'));
         }
 
@@ -114,7 +114,7 @@ class WeightListAdminController extends Controller
             $WeightList->weight_kg = Input::get('weight_kg');
             $WeightList->status = Input::get('status');
             $WeightList->save();
-            Session::flash('message', 'Successfully created nerd!');
+            Session::flash('message', 'Successfully created data!');
             return Redirect::to(route('weightlists.index'));
         }
     }

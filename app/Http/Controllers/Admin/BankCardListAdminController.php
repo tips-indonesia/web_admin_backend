@@ -60,7 +60,7 @@ class BankCardListAdminController extends Controller
             $bankcardList->id_bank = $bank;
             $bankcardList->status = 1;
             $bankcardList->save();
-            Session::flash('message', 'Successfully created nerd!');
+            Session::flash('message', 'Successfully created data!');
             return Redirect::to(route('banklists.show', $bank));
         }
 
@@ -116,7 +116,7 @@ class BankCardListAdminController extends Controller
             $bankcardList->name = Input::get('name');
             $bankcardList->status = Input::get('status');
             $bankcardList->save();
-            Session::flash('message', 'Successfully created nerd!');
+            Session::flash('message', 'Successfully created data!');
             return Redirect::to(route('banklists.show', $bank));
         }
     }
