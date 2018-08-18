@@ -152,12 +152,14 @@ class ShipmentController extends Controller
             }
         }
 
+        $shipment->shipper_address_detail = "No notes";
         if($request->has('shipper_address_detail')) {
             if($request->shipper_address_detail != null && $request->shipper_address_detail != ""){
                 $shipment->shipper_address_detail = $request->shipper_address_detail;
             }
         }
 
+        $shipment->consignee_address_detail = "No notes";
         if($request->has('consignee_address_detail')) {
             if($request->consignee_address_detail != null && $request->consignee_address_detail != ""){
                 $shipment->consignee_address_detail = $request->consignee_address_detail;
