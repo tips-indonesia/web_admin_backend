@@ -137,7 +137,7 @@
                         <div class="form-group">
                             <label class="display-block text-semibold">Rejection Type :</label>
                             <label class="radio-inline">
-                                <input type="radio" name="rejection_type" value="0" @if($data->rejection_type == "0") checked @endif>
+                                <input type="radio" name="rejection_type" value="0" @if(!isset($data->rejection_type)) checked @endif @if($data->rejection_type == "0") checked @endif>
                                 Illegal Item
                             </label>
 

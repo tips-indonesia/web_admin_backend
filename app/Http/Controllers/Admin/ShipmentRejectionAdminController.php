@@ -41,11 +41,11 @@ class ShipmentRejectionAdminController extends Controller
             $shipments = $shipments->where($data['param'], $data['value']);
         }
     	if (Input::get('date')) {
-            $shipments = $shipments->where('transaction_date', Input::get('date'));
+            $shipments = $shipments->whereDate('updated_at', Input::get('date'));
             $data['date'] = Input::get('date');
         } else {
             $data['date'] = Carbon::now()->toDateString();
-            $shipments = $shipments->where('transaction_date', $data['date']);
+            $shipments = $shipments->whereDate('updated_at', $data['date']);
         }
 
         $user = User::find(Auth::id());
