@@ -103,7 +103,8 @@ class SlotRejectionAdminController extends Controller
                 $ret_data['total_weight'] = $ret_data['total_weight'] + $dat['real_weight'];
             }
             return json_encode($ret_data);   
-        }        
+        }
+        $data['shipments'] = Shipment::where('id_slot', $slot->id)->get();
         return view('admin.slotrejection.show', $data);
     }
 
@@ -117,7 +118,7 @@ class SlotRejectionAdminController extends Controller
 
         $slot->save();
 
-        $shipments = Shipment::withTrashed()->where('id_slot', $id)->get();
+        $shipments = Shipment::where('id_slot', $id)->get();
 
         foreach ($shipments as $shipment) {
             $shipment->id_slot = null;
