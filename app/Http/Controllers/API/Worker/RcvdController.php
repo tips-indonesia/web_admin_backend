@@ -73,7 +73,7 @@ class RcvdController extends Controller
             );
         } else {
             $id = $_GET['id_shipment'];
-            $process = Shipment::find($id);
+            $process = Shipment::where('shipment_id')->first();
             if ($process == null) {
                 $data = array(
                     'err' => [

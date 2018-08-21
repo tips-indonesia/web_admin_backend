@@ -33,12 +33,12 @@ class ShipmentRejectionDeliveryAdminController extends Controller
             $data['date'] = Carbon::now()->toDateString();
         }
 
-        $deliveries = ArrivalShipment::where('received_by_pc_date', $data['date'])
-                                     ->where('is_received_by_pc', 1)->pluck('id');
-        $packagingId = ArrivalShipmentDetail::whereIn('arrival_shipment_id', $deliveries)->pluck('packaging_lists_id');
+        // $deliveries = ArrivalShipment::where('received_by_pc_date', $data['date'])
+        //                              ->where('is_received_by_pc', 1)->pluck('id');
+        // $packagingId = ArrivalShipmentDetail::whereIn('arrival_shipment_id', $deliveries)->pluck('packaging_lists_id');
         
-        $slotId = PackagingList::whereIn('id', $packagingId)->pluck('id_slot');
-        $shipments = Shipment::whereIn('id_slot', $slotId)->withTrashed();
+        // $slotId = PackagingList::whereIn('id', $packagingId)->pluck('id_slot');
+        $shipments = Shipment::whereDate('updated_at', $data['date'])->withTrashed();
         if (Input::get('param') == 'blank' || !Input::get('param')) {
             $data['param'] = Input::get('param');
             $data['value'] = Input::get('value');
@@ -54,7 +54,7 @@ class ShipmentRejectionDeliveryAdminController extends Controller
             $checked = Input::get('radio');
 
         
-        $datas2 = Shipment::whereIn('id_slot', $slotId)->whereIn('id_shipment_status', [-1, -2])->get();
+        $datas2 = Shipment::whereDate('updated_at', $data['date'])->whereIn('id_shipment_status', [-1, -2])->get();
         
         if ($flag == true) {
         	$shipments = $shipments->whereIn('id_shipment_status', [-1, -2])

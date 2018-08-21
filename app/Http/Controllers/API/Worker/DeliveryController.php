@@ -17,7 +17,7 @@ use App\ShipmentStatus;
 use App\PackagingList;
 use App\DaftarBarangGold;
 use App\DaftarBarangRegular;
-
+use App\OfficeList;
 use DB;
 use stdClass;
 
@@ -174,43 +174,67 @@ class DeliveryController extends Controller
 
     // test
     function get_detail(Request $request) {
-
-        $slot_id = $request->slot_id;
-        $slot = SlotList::where('slot_id', $slot_id)->first();
-
-
-        if($slot == null) {
+        if (!isset($request->slot_id) || !isset($request->is_departure) || !isset($request->worker_id)) {
             $data = array(
                 'err' => [
-                    'code' => 0,
-                    'message' => 'Slot id tidak ditemukan'
+                    'code' => 400,
+                    'message' => "slot_id, worker_id dan is_departure tidak boleh kosong"
                 ],
                 'result' => null
             );
         } else {
-            $delivery_status = DeliveryStatus::find($slot->id_slot_status);
-            $slot->origin_airport = AirportList::find($slot->id_origin_airport);
-            $slot->destination_airport = AirportList::find($slot->id_destination_airport);
-            if($slot->photo_tag){
-                $slot->photo_tag = url('/image/photo_tag').'/'.$slot->photo_tag;
+            $isDeparture = $request->is_departure;
+            $workerId = $request->worker_id;
+            $slot_id = $request->slot_id;
+            $slot = SlotList::where('slot_id', $slot_id)->first();
+
+
+            if($slot == null) {
+                $data = array(
+                    'err' => [
+                        'code' => 0,
+                        'message' => 'Slot id tidak ditemukan'
+                    ],
+                    'result' => null
+                );
+            } else {
+                $delivery_status = DeliveryStatus::find($slot->id_slot_status);
+                $slot->origin_airport = AirportList::find($slot->id_origin_airport);
+                $slot->destination_airport = AirportList::find($slot->id_destination_airport);
+                if($slot->photo_tag){
+                    $slot->photo_tag = url('/image/photo_tag').'/'.$slot->photo_tag;
+                }
+
+                $user = MemberList::find($slot->id_member);
+                $temp = ($isDeparture) ? $slot->id_origin_city : $slot->id_destination_city;
+                $areaWorker = OfficeList::find(MemberList::find($workerId)->id_office)->id_area;
+                if ($temp == $areaWorker) {
+                    unset($user['password']);
+                    unset($user['token']);
+                    $data = array(
+                        'err' => null,
+                        'result' => array(
+                            'status' => array(
+                                'step' => $delivery_status->step,
+                                'description' => $delivery_status->description,
+                                'detail' => $slot->detail_status
+                            ),
+                            'delivery' => $slot,
+                            'user' => $user,
+                            'temp' => $user
+                        )
+
+                    );    
+                } else {
+                    $data = array(
+                        'err' => [
+                            'code' => 0,
+                            'message' => 'Slot is not in your area'
+                        ],
+                        'result' => null
+                    );    
+                }
             }
-
-            $user = MemberList::find($slot->id_member);
-            unset($user['password']);
-            unset($user['token']);
-            $data = array(
-                'err' => null,
-                'result' => array(
-                    'status' => array(
-                        'step' => $delivery_status->step,
-                        'description' => $delivery_status->description,
-                        'detail' => $slot->detail_status
-                    ),
-                    'delivery' => $slot,
-                    'user' => $user
-                )
-
-            );
         }
         return response()->json($data, 200);
     }
