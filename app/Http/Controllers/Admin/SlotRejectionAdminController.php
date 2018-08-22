@@ -122,6 +122,7 @@ class SlotRejectionAdminController extends Controller
 
         foreach ($shipments as $shipment) {
             $shipment->id_slot = null;
+            $shipment->id_shipment_status = 2;
             $shipment->save();
         }
 
