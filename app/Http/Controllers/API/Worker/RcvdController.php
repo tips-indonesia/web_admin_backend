@@ -73,7 +73,7 @@ class RcvdController extends Controller
             );
         } else {
             $id = $_GET['id_shipment'];
-            $process = Shipment::where('shipment_id')->first();
+            $process = Shipment::where('shipment_id', $id)->first();
             if ($process == null) {
                 $data = array(
                     'err' => [
@@ -87,7 +87,7 @@ class RcvdController extends Controller
                 $process->save();
                 $shipment_history = new ShipmentHistory;
                 $shipment_history->id_shipment_status = 4;
-                $shipment_history->id_shipment = $id;
+                $shipment_history->id_shipment = $process->id;
                 $shipment_history->save();
                 $data = array(
                     'err' => null,
