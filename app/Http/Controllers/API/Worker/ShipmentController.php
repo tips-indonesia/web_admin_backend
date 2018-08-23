@@ -116,13 +116,14 @@ class ShipmentController extends Controller
 
             return response()->json($data, 200);
         }
-        $shipments = Shipment::where($type . '_by', $worker_id)
-                            ->where($type == 'pickup' ? 'id_origin_city' : 'id_destination_city', $worker_id_office_area);
+        $shipments = Shipment::where($type . '_by', $worker_id);
 
         if ($isForReject) {
-            $shipments = $shipments->withTrashed()->where('id_shipment_status', -2);
+            $shipments = $shipments->withTrashed()->where('id_shipment_status', -2)
+                                   ->where('id_origin_city', $worker_id_office_area);
         } else {
-            $shipments = $shipments->whereRaw('Date(' . $type . '_date) = CURDATE()');
+            $shipments = $shipments->whereRaw('Date(' . $type . '_date) = CURDATE()')
+                                   ->where($type == 'pickup' ? 'id_origin_city' : 'id_destination_city', $worker_id_office_area);
         }
 
         $data = array(
