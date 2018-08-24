@@ -140,6 +140,7 @@ Route::get('/worker/rcvd/receive', 'API\\Worker\\RcvdController@receiveShipment'
 // API Worker untuk shipment rejection
 Route::get('/worker/shipment_rejection', 'API\\Worker\ShipmentController@getShipmentsRejectedDelivery');
 Route::post('/worker/shipment_rejection/confirm', 'API\\Worker\ShipmentController@shipmentRejection');
+Route::get('/worker/shipment_rejected', 'API\\Worker\\ShipmentController@getRejected');
 
 Route::post('/payment/inquiry', 'API\\PaymentController@receiveInquiry');
 Route::post('/payment/payment', 'API\\PaymentController@receivePaymentNotification');

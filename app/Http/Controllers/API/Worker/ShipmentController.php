@@ -77,6 +77,60 @@ class ShipmentController extends Controller
         return response()->json($data, 200);
     }
 
+    function getRejected(Request $request) {
+        $shipment_id = $request->shipment_id;
+        $id_worker = $request->id_worker;
+
+        if(!$shipment_id || !$id_worker){
+            $data = array(
+                'err' => [
+                    'code' => 0,
+                    'message' => 'Paramter shipment_id dan id_worker tidak boleh kosong'
+                ],
+                'result' => null
+            );
+            return response()->json($data, 200);
+        }
+
+        $shipment = Shipment::withTrashed()->where('shipment_id', $shipment_id)->first();
+        $member_list = MemberList::find($id_worker);
+
+        if($shipment == null || $member_list == null) {
+            $data = array(
+                'err' => [
+                    'code' => 0,
+                    'message' => 'Shipment atau Worker tidak ditemukan'
+                ],
+                'result' => null
+            );
+        // } else if(!$member_list->isOfficeRight($is_arrival == 'true' ? $shipment->id_destination_city : $shipment->id_origin_city)){
+        //     $data = array(
+        //         'err' => [
+        //             'code' => 0,
+        //             'message' => 'akses Shipment ditolak'
+        //         ],
+        //         'result' => null
+        //     );
+        } else {
+            // $shipment_status = ShipmentStatus::find($shipment->id_shipment_status);
+            $shipment->origin_city = AirportcityList::find($shipment->id_origin_city);
+            $shipment->destination_city = AirportcityList::find($shipment->id_destination_city);
+
+            $data = array(
+                'err' => null,
+                'result' => array(
+                    // 'status' => array(
+                    //     'step' => $shipment_status->step,
+                    //     'description' => $shipment_status->description,
+                    //     'detail' => $shipment->detail_status
+                    // ),
+                    'shipment' => $shipment,
+                )
+
+            );
+        }
+        return response()->json($data, 200);
+    }
     function getMyShipmentsDeparture(Request $req){
         return $this->getMyShipmentsGeneral($req, 'pickup', false);
     }
