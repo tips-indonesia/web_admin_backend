@@ -168,3 +168,4 @@ Route::post('promo', 'API\\PromotionController@postSelectPromo');
 Route::post('/favorite_address', 'API\\FavoriteAddressController@storeFavoriteAddress');
 Route::get('/favorite_address', 'API\\FavoriteAddressController@getUserFavoriteAddress');
 Route::get('/favorite_address/del/{id}', 'API\\FavoriteAddressController@deleteFavAddress');
+Route::get('/favorite_address/is_full', 'API\\FavoriteAddressController@isAlreadyFull');

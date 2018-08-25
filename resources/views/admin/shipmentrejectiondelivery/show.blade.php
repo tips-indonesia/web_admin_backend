@@ -146,17 +146,35 @@
                             @endif 
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            @if ($shipment->id_shipment_status == -3)
+                            <div class="form-group">
+                                <label>Rejected Image:</label><br>
+                                <img src="{{asset($shipment->photo_ktp)}}" width="250" style="border: solid 1px #AAA">
+                            </div>
+                            @endif
+                        </div>
+                        <div class="col-md-6">
+                            @if ($shipment->id_shipment_status == -3)
+                            <div class="form-group">
+                                <label>Signature Image:</label><br>
+                                <img src="{{asset($shipment->photo_signature)}}" width="250" style="border: solid 1px #AAA">
+                            </div>
+                            @endif 
+                        </div>
+                    </div>
                     <ul class="icons-list" style="float: right;">
                         <li>
                             <div class="text-right form-group">
-                                <button type="submit" value='save' name='submit' class="btn btn-primary" style="vertical-align: middle;" {{ $shipment->id_shipment_status == -2 ? 'disabled':'' }}><i class="icon-floppy-disk"
+                                <button type="submit" value='save' name='submit' class="btn btn-primary" style="vertical-align: middle;" {{ ($shipment->id_shipment_status == -2 || $shipment->id_shipment_status == -3 ) ? 'disabled':'' }}><i class="icon-floppy-disk"
                             ></i> Save</button>
                             </div>
                             {{ Form::close() }}
                         </li>
                         <li>
                             <div class="text-right form-group">
-                                <button type="submit" value='submit' name='submit' class="btn btn-danger" style="vertical-align: middle;" {{ $shipment->id_shipment_status == -2 ? 'disabled':'' }}>Submit</button>
+                                <button type="submit" value='submit' name='submit' class="btn btn-danger" style="vertical-align: middle;" {{ ($shipment->id_shipment_status == -2 || $shipment->id_shipment_status == -3 ) ? 'disabled':'' }}>Submit</button>
                             </div>
                         </li>
                     </ul>

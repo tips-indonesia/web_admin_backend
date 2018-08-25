@@ -172,7 +172,7 @@ class ShipmentController extends Controller
         }
 
         if ($isForReject) {
-            $shipments = Shipment::withTrashed()->where('id_shipment_status', -2)
+            $shipments = Shipment::withTrashed()->whereIn('id_shipment_status', [-2, -3])
                                    ->where('id_origin_city', $worker_id_office_area);
         } else {
             $shipments = Shipment::whereRaw('Date(' . $type . '_date) = CURDATE()')
@@ -403,6 +403,7 @@ class ShipmentController extends Controller
                 if($data_img_signature->move($path_file_signature,$name_file_signature)) {
                     $shipment->photo_signature = URL::to('/image/shipment_rejected/signature/' . $name_file_signature);
                 }
+                $shipment->id_shipment_status = -3;
                 $shipment->save();
                 $data = array(
                     'err' => null,
@@ -420,6 +421,10 @@ class ShipmentController extends Controller
         }
 
         return response()->json($data, 200);
+    }
+
+    public function submitRejectedDelivery() {
+
     }
 
 }

@@ -54,13 +54,13 @@ class ShipmentRejectionDeliveryAdminController extends Controller
             $checked = Input::get('radio');
 
         
-        $datas2 = Shipment::whereDate('updated_at', $data['date'])->whereIn('id_shipment_status', [-1, -2])->get();
+        $datas2 = Shipment::whereDate('updated_at', $data['date'])->whereIn('id_shipment_status', [-1, -2, -3])->get();
         
         if ($flag == true) {
-        	$shipments = $shipments->whereIn('id_shipment_status', [-1, -2])
+        	$shipments = $shipments->whereIn('id_shipment_status', [-1, -2, -3])
                                  ->where(Input::get('param'), Input::get('value'));       			
         } else {
-        	$shipments = $shipments->whereIn('id_shipment_status', [-1, -2]);
+        	$shipments = $shipments->whereIn('id_shipment_status', [-1, -2, -3]);
         }
         $user = User::find(Auth::id());
         if ($user->id_office != null  && $user->id != 1) {

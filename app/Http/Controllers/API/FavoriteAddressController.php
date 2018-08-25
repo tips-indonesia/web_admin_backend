@@ -11,11 +11,51 @@ use App\SubdistrictList;
 
 class FavoriteAddressController extends Controller
 {
+    public function update(Request $request) {
+        $favAdd = FavoriteAddress::where('id_member', $request->input('id_member'))
+                                ->where('keterangan_tempat', $request->input('keterangan_tempat'))
+                                ->where('is_pengirim_penerima', $request->input('is_pengirim_penerima'))
+                                ->first();
+
+        $favAdd->is_pengirim_penerima = $request->input('is_pengirim_penerima');
+        $favAdd->id_member = $request->input('id_member');
+        $favAdd->keterangan_tempat = $request->input('keterangan_tempat');
+        $favAdd->first_name = $request->input('first_name');
+        $favAdd->last_name = $request->input('last_name');
+        $favAdd->mobile_phone_no = $request->input('mobile_phone_no');
+        $favAdd->address = $request->input('address');
+        $favAdd->address_detail = $request->input('address_detail');
+        $favAdd->id_province = $request->input('id_province');
+        $favAdd->id_city = $request->input('id_city');
+        $favAdd->id_district = $request->input('id_district');
+        $favAdd->postal_code = $request->input('postal_code');
+
+        $favAdd->save();
+    }
+
+    public function store(Request $request) {
+        $favAdd = new FavoriteAddress;
+
+        $favAdd->is_pengirim_penerima = $request->input('is_pengirim_penerima');
+        $favAdd->id_member = $request->input('id_member');
+        $favAdd->keterangan_tempat = $request->input('keterangan_tempat');
+        $favAdd->first_name = $request->input('first_name');
+        $favAdd->last_name = $request->input('last_name');
+        $favAdd->mobile_phone_no = $request->input('mobile_phone_no');
+        $favAdd->address = $request->input('address');
+        $favAdd->address_detail = $request->input('address_detail');
+        $favAdd->id_province = $request->input('id_province');
+        $favAdd->id_city = $request->input('id_city');
+        $favAdd->id_district = $request->input('id_district');
+        $favAdd->postal_code = $request->input('postal_code');
+
+        $favAdd->save();
+    }
     public function addFavoriteAddress(Request $request) {
         $rule = [
             'is_pengirim_penerima' => 'required',
             'id_member' => 'required',
-            'keterangan_tempat' => 'required|unique:favorite_address',
+            'keterangan_tempat' => 'required',
             'first_name' => 'required',
             'last_name' => 'required',
             'mobile_phone_no' => 'required',
@@ -36,26 +76,23 @@ class FavoriteAddressController extends Controller
                 'result' => null
             );
         } else {
-            $favAdd = new FavoriteAddress;
-
-            $favAdd->is_pengirim_penerima = $request->input('is_pengirim_penerima');
-            $favAdd->id_member = $request->input('id_member');
-            $favAdd->keterangan_tempat = $request->input('keterangan_tempat');
-            $favAdd->first_name = $request->input('first_name');
-            $favAdd->last_name = $request->input('last_name');
-            $favAdd->mobile_phone_no = $request->input('mobile_phone_no');
-            $favAdd->address = $request->input('address');
-            $favAdd->address_detail = $request->input('address_detail');
-            $favAdd->id_province = $request->input('id_province');
-            $favAdd->id_city = $request->input('id_city');
-            $favAdd->id_district = $request->input('id_district');
-            $favAdd->postal_code = $request->input('postal_code');
-
-            $favAdd->save();
-            $data = array(
-                'err' => null,
-                'result' => 'Data Favorite Address berhasil ditambahkan'
-            );
+            $add = FavoriteAddress::where('id_member', $request->input('id_member'))
+                                  ->where('keterangan_tempat', $request->input('keterangan_tempat'))
+                                  ->where('is_pengirim_penerima', $request->input('is_pengirim_penerima'))
+                                  ->first();
+            if ($add) {
+                $this->update($request);
+                $data = array(
+                    'err' => null,
+                    'result' => 'Data Favorite Address berhasil diupdate'
+                ); 
+            } else {
+                $this->store($request);
+                $data = array(
+                    'err' => null,
+                    'result' => 'Data Favorite Address berhasil ditambahkan'
+                );
+            }
         }
 
         return response()->json($data, 200);
@@ -117,5 +154,28 @@ class FavoriteAddressController extends Controller
             'err' => null,
             'result' => "Favorite Address Deleted"
         ], 200);
+    }
+
+    public function isAlreadyFull(Request $request) {
+        if (!isset($_GET['member_id']) || !isset($_GET['is_pengirim'])) {
+            $data = array(
+                'err' => [
+                    'code' => 400,
+                    'message' => 'Parameter member_id dan is_pengirim tidak boleh kosong'
+                ],
+                'result' => null
+            );
+        } else {
+            $idmember = $_GET['member_id'];
+            $ispengirim = $_GET['is_pengirim'];
+            $addresses = FavoriteAddress::where('id_member', $idmember)
+                                        ->where('is_pengirim_penerima', $ispengirim)
+                                        ->get();
+            $data = array(
+                'err' => null,
+                'result' => (count($addresses) >= 10)
+            );
+        }
+        return response()->json($data, 200);
     }
 }

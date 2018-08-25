@@ -77,13 +77,13 @@ class ShipmentController extends Controller
         $shipment->consignee_postal_code        = $request->consignee_postal_code;
         $shipment->consignee_address            = $request->consignee_address;
         $shipment->consignee_mobile_phone       = $request->consignee_mobile_phone;
-
+        $shipment->consignee_keterangan_tempat    = $request->consignee_keterangan_tempat;
         // 1. A. b. SHIPPER DATAS
         // ----------------------
         $shipment->shipper_postal_code          = $request->shipper_postal_code;
         $shipment->shipper_address              = $request->shipper_address;
         $shipment->shipper_mobile_phone         = $request->shipper_mobile_phone;
-
+        $shipment->shipper_keterangan_tempat    = $request->shipper_keterangan_tempat;
         // 1. A. c. LET DATAS
         $id_estimate_goods_value                = $request->id_estimate_goods_value;
         $id_consignee_district                  = $request->id_consignee_district;
