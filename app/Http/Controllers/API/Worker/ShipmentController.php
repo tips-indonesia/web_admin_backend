@@ -173,7 +173,8 @@ class ShipmentController extends Controller
 
         if ($isForReject) {
             $shipments = Shipment::withTrashed()->whereIn('id_shipment_status', [-2, -3])
-                                   ->where('id_origin_city', $worker_id_office_area);
+                                   ->where('id_origin_city', $worker_id_office_area)
+                                   ->whereRaw('Date(updated_at) = CURDATE()');
         } else {
             $shipments = Shipment::whereRaw('Date(' . $type . '_date) = CURDATE()')
                                    ->where($type == 'pickup' ? 'id_origin_city' : 'id_destination_city', $worker_id_office_area);
