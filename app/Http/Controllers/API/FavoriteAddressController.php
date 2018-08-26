@@ -24,7 +24,11 @@ class FavoriteAddressController extends Controller
         $favAdd->last_name = $request->input('last_name');
         $favAdd->mobile_phone_no = $request->input('mobile_phone_no');
         $favAdd->address = $request->input('address');
-        $favAdd->address_detail = $request->input('address_detail');
+        if ($request->input('address_detail')) {
+            $favAdd->address_detail = $request->input('address_detail');
+        } else {
+            $favAdd->address_detail = 'No Notes';
+        }
         $favAdd->id_province = $request->input('id_province');
         $favAdd->id_city = $request->input('id_city');
         $favAdd->id_district = $request->input('id_district');
@@ -43,7 +47,11 @@ class FavoriteAddressController extends Controller
         $favAdd->last_name = $request->input('last_name');
         $favAdd->mobile_phone_no = $request->input('mobile_phone_no');
         $favAdd->address = $request->input('address');
-        $favAdd->address_detail = $request->input('address_detail');
+        if ($request->input('address_detail')) {
+            $favAdd->address_detail = $request->input('address_detail');
+        } else {
+            $favAdd->address_detail = 'No Notes';
+        }
         $favAdd->id_province = $request->input('id_province');
         $favAdd->id_city = $request->input('id_city');
         $favAdd->id_district = $request->input('id_district');
