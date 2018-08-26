@@ -60,7 +60,6 @@ class FavoriteAddressController extends Controller
             'last_name' => 'required',
             'mobile_phone_no' => 'required',
             'address' => 'required',
-            'address_detail' => 'required',
             'id_province' => 'required',
             'id_city' => 'required',
             'id_district' => 'required',
@@ -71,7 +70,7 @@ class FavoriteAddressController extends Controller
             $data = array(
                 'err' => [
                     'code' => 400,
-                    'message' => 'Parameter is_pengirim_penerima, id_member, keterangan_tempat, first_name, last_name, mobile_phone_no, address, address_detail, id_province, id_city, id_district, postal_code tidak boleh kosong'
+                    'message' => 'Parameter is_pengirim_penerima, id_member, keterangan_tempat, first_name, last_name, mobile_phone_no, address, id_province, id_city, id_district, postal_code tidak boleh kosong'
                 ],
                 'result' => null
             );
