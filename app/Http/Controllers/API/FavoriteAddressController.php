@@ -71,7 +71,7 @@ class FavoriteAddressController extends Controller
             $data = array(
                 'err' => [
                     'code' => 400,
-                    'message' => $validate->errors()
+                    'message' => 'Parameter is_pengirim_penerima, id_member, keterangan_tempat, first_name, last_name, mobile_phone_no, address, address_detail, id_province, id_city, id_district, postal_code tidak boleh kosong'
                 ],
                 'result' => null
             );

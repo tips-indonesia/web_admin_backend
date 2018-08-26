@@ -377,7 +377,7 @@ class ShipmentController extends Controller
                 'result' => null
             );
         } else {
-            if ($request->file('photo_ktp') && $request->file('photo_signature')) {
+            if ($request->file('photo_ktp') && $request->file('photo_signature') && $request->received_by) {
                 $file_ktp = $request->file('photo_ktp');
                 $file_signature = $request->file('photo_signature');
 
@@ -403,6 +403,7 @@ class ShipmentController extends Controller
                 if($data_img_signature->move($path_file_signature,$name_file_signature)) {
                     $shipment->photo_signature = URL::to('/image/shipment/signature/' . $name_file_signature);
                 }
+                $shipment->received_by = $request->received_by;
                 $shipment->id_shipment_status = -3;
                 $shipment->save();
                 $data = array(
@@ -413,7 +414,7 @@ class ShipmentController extends Controller
                 $data = array(
                     'err' => [
                         'code' => 400,
-                        'message' => 'Foto KTP dan Foto Signature tidak boleh kosong'
+                        'message' => 'Received By, Foto KTP, dan Foto Signature tidak boleh kosong'
                     ],
                     'result' => null
                 );
