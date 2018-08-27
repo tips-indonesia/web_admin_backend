@@ -77,13 +77,13 @@ class ShipmentController extends Controller
         $shipment->consignee_postal_code        = $request->consignee_postal_code;
         $shipment->consignee_address            = $request->consignee_address;
         $shipment->consignee_mobile_phone       = $request->consignee_mobile_phone;
-        $shipment->consignee_keterangan_tempat    = $request->consignee_keterangan_tempat;
+        $shipment->consignee_keterangan_tempat    = $request->consignee_keterangan_tempat_penerima;
         // 1. A. b. SHIPPER DATAS
         // ----------------------
         $shipment->shipper_postal_code          = $request->shipper_postal_code;
         $shipment->shipper_address              = $request->shipper_address;
         $shipment->shipper_mobile_phone         = $request->shipper_mobile_phone;
-        $shipment->shipper_keterangan_tempat    = $request->shipper_keterangan_tempat;
+        $shipment->shipper_keterangan_tempat    = $request->shipper_keterangan_tempat_pengirim;
         // 1. A. c. LET DATAS
         $id_estimate_goods_value                = $request->id_estimate_goods_value;
         $id_consignee_district                  = $request->id_consignee_district;
@@ -319,6 +319,16 @@ class ShipmentController extends Controller
             if($email)
                 $bsc->sendMailShipperStep1($email, $nama, $kirimcode, "+62 823 1777 6008");
         }
+        // TAHAP PENYIMPANAN 
+        $favAddress_pengirim_status = null;
+        $favAddress_penerima_status = null;
+        if ($request->savePengirim) {
+            $favAddress_pengirim_status = (new FavoriteAddressController)->storeFavoriteAddress($request, 'pengirim');
+        }
+        if ($request->savePenerima) {
+            $favAddress_penerima_status = (new FavoriteAddressController)->storeFavoriteAddress($request, 'penerima');
+        }
+
 
         // TAHAP PENGIRIMAN RESPON
         // respon dikirim akan diproses dalam bentuk objek JSON menggunakan
@@ -328,7 +338,9 @@ class ShipmentController extends Controller
             'result' => array(
                 'firebase_sent_time' => $firebase_sent,
                 'shipment' => $shipment_out,
-                'payment_url' => "http://174.138.24.62/payment/start?payment_id=$shipment->payment_id"
+                'payment_url' => "http://174.138.24.62/payment/start?payment_id=$shipment->payment_id",
+                'fav_address_pengirim_status' => $favAddress_pengirim_status,
+                'fav_address_penerima_status' => $favAddress_penerima_status
             )
         );
 
