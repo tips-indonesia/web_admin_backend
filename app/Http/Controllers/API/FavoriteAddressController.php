@@ -77,7 +77,8 @@ class FavoriteAddressController extends Controller
             $data = array(
                 'err' => [
                     'code' => 400,
-                    'message' => 'Parameter is_pengirim_penerima, id_member, keterangan_tempat, first_name, last_name, mobile_phone_no, address, id_province, id_city, id_district, postal_code tidak boleh kosong'
+                    'message' => 'Parameter id_member, keterangan_tempat, first_name, last_name, mobile_phone_no, address, id_province, id_city, id_district, postal_code tidak boleh kosong',
+                    'validator' => $validate->errors()
                 ],
                 'result' => null
             );
@@ -102,6 +103,47 @@ class FavoriteAddressController extends Controller
         }
 
         // return response()->json($data, 200);
+        return $data;
+    }
+    public function storeFavAddressVerse2(Request $request, $label, $province) {
+        $ketTempat = ($label == 'shipper') ? 'shipper_keterangan_tempat_pengirim' : 'consignee_keterangan_tempat_penerima';
+        $add = FavoriteAddress::where('id_member', $request->input('id_shipper'))
+                                ->where('keterangan_tempat', $request->input($ketTempat))
+                                ->where('is_pengirim_penerima', ($label == 'pengirim') ? 1 : 0)
+                                ->first();
+        if ($add) {
+            $favAdd = $add;
+            $data = array(
+                'err' => null,
+                'result' => 'Data Favorite Address berhasil diupdate'
+            ); 
+        } else {
+            $favAdd = new FavoriteAddress;
+            $data = array(
+                'err' => null,
+                'result' => 'Data Favorite Address berhasil ditambahkan'
+            );
+        }
+
+        $favAdd->is_pengirim_penerima = ($label == 'shipper') ? 1 : 0;
+        $favAdd->id_member = $request->input('id_shipper');
+        $favAdd->keterangan_tempat =  $request->input($ketTempat);
+        $favAdd->first_name = $request->input($label.'_first_name');
+        $favAdd->last_name = $request->input($label.'_last_name');
+        $favAdd->mobile_phone_no = $request->input($label.'_mobile_phone');
+        $favAdd->address = $request->input($label.'_address');
+        if ($request->input($label.'_address_detail')) {
+            $favAdd->address_detail = $request->input($label.'_address_detail');
+        } else {
+            $favAdd->address_detail = 'No Notes';
+        }
+        $favAdd->id_province = $province;
+        $favAdd->id_city = $request->input('id_'.(($label == 'shipper') ? 'origin' : 'destination').'_city');
+        $favAdd->id_district = $request->input('id_'.$label.'_district');
+        $favAdd->postal_code = $request->input($label.'_postal_code');
+
+        $favAdd->save();
+
         return $data;
     }
 
