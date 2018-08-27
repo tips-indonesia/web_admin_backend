@@ -22,7 +22,7 @@ use App\PriceGoodsEstimate;
 use App\SlotList;
 use App\Http\Controllers\FCMSender;
 use App\Http\Controllers\API\MessageController;
-
+use App\FavoriteAddress;
 
 class ShipmentController extends Controller
 {
@@ -319,14 +319,26 @@ class ShipmentController extends Controller
             if($email)
                 $bsc->sendMailShipperStep1($email, $nama, $kirimcode, "+62 823 1777 6008");
         }
-        // TAHAP PENYIMPANAN 
+
+        // TAHAP PENYIMPANAN FAVORITE ADDRESS
         $favAddress_pengirim_status = null;
         $favAddress_penerima_status = null;
-        if ($request->savePengirim) {
-            $favAddress_pengirim_status = (new FavoriteAddressController)->storeFavoriteAddress($request, 'pengirim');
-        }
-        if ($request->savePenerima) {
-            $favAddress_penerima_status = (new FavoriteAddressController)->storeFavoriteAddress($request, 'penerima');
+        if ($request->has('verse2') && $request->verse2) {
+            if ($request->savePengirim) {
+                $favAddress_pengirim_status = (new FavoriteAddressController)
+                    ->storeFavAddressVerse2($request, 'shipper', $shipper_province->id);
+            }
+            if ($request->savePenerima) {
+                $favAddress_penerima_status = (new FavoriteAddressController)
+                    ->storeFavAddressVerse2($request, 'consignee', $consignee_province->id);
+            }
+        } else {
+            if ($request->savePengirim) {
+                $favAddress_pengirim_status = (new FavoriteAddressController)->storeFavoriteAddress($request, 'pengirim');
+            }
+            if ($request->savePenerima) {
+                $favAddress_penerima_status = (new FavoriteAddressController)->storeFavoriteAddress($request, 'penerima');
+            }
         }
 
 
