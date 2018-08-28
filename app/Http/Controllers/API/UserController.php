@@ -211,9 +211,7 @@ class UserController extends Controller
         }
 
         // check if guest, return the name
-        $output_array = [];
-        preg_match_all("/dev-.*/", $member_list->mobile_phone_no, $output_array);
-        if(sizeof($output_array) > 0){
+        if(preg_match_all("/dev-.*/", $member_list->mobile_phone_no, $output_array) > 0){
             $member_list->first_name        = "TIPS";
             $member_list->last_name         = "";
             $member_list->email             = "tips@tips.com";
