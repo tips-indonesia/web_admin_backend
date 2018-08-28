@@ -174,15 +174,15 @@ class DeliveryController extends Controller
 
     // test
     function get_detail(Request $request) {
-        if (!isset($request->slot_id) || !isset($request->is_departure) || !isset($request->worker_id)) {
-            $data = array(
-                'err' => [
-                    'code' => 400,
-                    'message' => "slot_id, worker_id dan is_departure tidak boleh kosong"
-                ],
-                'result' => null
-            );
-        } else {
+        // if (!isset($request->slot_id) || !isset($request->is_departure) || !isset($request->worker_id)) {
+        //     $data = array(
+        //         'err' => [
+        //             'code' => 400,
+        //             'message' => "slot_id, worker_id dan is_departure tidak boleh kosong"
+        //         ],
+        //         'result' => null
+        //     );
+        // } else {
             $isDeparture = $request->is_departure;
             $workerId = $request->worker_id;
             $slot_id = $request->slot_id;
@@ -235,7 +235,7 @@ class DeliveryController extends Controller
                     );    
                 }
             }
-        }
+        // }
         return response()->json($data, 200);
     }
 
