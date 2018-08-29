@@ -74,7 +74,7 @@
                         </a>
                     </td>
                     <td>
-                        @if($shipment->id_shipment_status == 12)
+                        @if($shipment->delivered_by == null)
                         Belum Dikirim
                         @else
                         Sudah Dikirim
@@ -124,7 +124,7 @@
                                                    {{ $dat->shipment_id }}
                                                 </td>
                                                 <td>
-                                                    @if($dat->id_shipment_status == 12)
+                                                    @if($dat->delivered_by == null)
                                                     Belum Dikirim
                                                     @else
                                                     Sudah Dikirim

@@ -25,7 +25,7 @@ class SlotRejectionAdminController extends Controller
     public function index()
     {
         $flag = false;
-        $data['datas'] = SlotList::whereIn('id_slot_status', [4, 5]);
+        $data['datas'] = SlotList::whereIn('id_slot_status', [3, 5]);
         $user = User::find(Auth::id());
         if ($user->id_office != null  && $user->id != 1) {
             $office = OfficeList::find($user->id_office);

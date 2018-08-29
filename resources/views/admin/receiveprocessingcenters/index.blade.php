@@ -4,7 +4,7 @@
     Received Packaging by Processing Center
 @endsection
 @section('page_title')
-    <span class="text-semibold">Received Packaging by Processing Center</span> - Show All
+    <span class="text-semibold">Received Packaging from Processing Center</span> - Show All
 @endsection
 @section('content')
     <div class="panel panel-flat">

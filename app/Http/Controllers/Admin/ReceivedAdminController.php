@@ -18,7 +18,7 @@ use Validator;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
-
+    
 class ReceivedAdminController extends Controller
 {
 	public function index()
@@ -144,12 +144,16 @@ class ReceivedAdminController extends Controller
     public function update($id)
     {
         $process = Shipment::find($id);
-        $process->id_shipment_status = 4;
-        $process->save();
-        $shipment_history = new ShipmentHistory;
-        $shipment_history->id_shipment_status = 4;
-        $shipment_history->id_shipment = $id;
-        $shipment_history->save();
+        if ($process->id_shipment_status >= 4) {
+            Session::flash('received', 'Barang sudah diterima!');
+        } else {
+            $process->id_shipment_status = 4;
+            $process->save();
+            $shipment_history = new ShipmentHistory;
+            $shipment_history->id_shipment_status = 4;
+            $shipment_history->id_shipment = $id;
+            $shipment_history->save();
+        }
         return Redirect::to(route('receiveds.index'));
     }
 
