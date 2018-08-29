@@ -183,8 +183,8 @@ class DeliveryController extends Controller
         //         'result' => null
         //     );
         // } else {
-            $isDeparture = $request->is_departure;
-            $workerId = $request->worker_id;
+            // $isDeparture = $request->is_departure;
+            // $workerId = $request->worker_id;
             $slot_id = $request->slot_id;
             $slot = SlotList::where('slot_id', $slot_id)->first();
 
@@ -206,9 +206,9 @@ class DeliveryController extends Controller
                 }
 
                 $user = MemberList::find($slot->id_member);
-                $temp = ($isDeparture) ? $slot->id_origin_city : $slot->id_destination_city;
-                $areaWorker = OfficeList::find(MemberList::find($workerId)->id_office)->id_area;
-                if ($temp == $areaWorker) {
+                // $temp = ($isDeparture) ? $slot->id_origin_city : $slot->id_destination_city;
+                // $areaWorker = OfficeList::find(MemberList::find($workerId)->id_office)->id_area;
+                // if ($temp == $areaWorker) {
                     unset($user['password']);
                     unset($user['token']);
                     $data = array(
@@ -225,15 +225,15 @@ class DeliveryController extends Controller
                         )
 
                     );    
-                } else {
-                    $data = array(
-                        'err' => [
-                            'code' => 0,
-                            'message' => 'Slot is not in your area'
-                        ],
-                        'result' => null
-                    );    
-                }
+                // } else {
+                //     $data = array(
+                //         'err' => [
+                //             'code' => 0,
+                //             'message' => 'Slot is not in your area'
+                //         ],
+                //         'result' => null
+                //     );    
+                // }
             }
         // }
         return response()->json($data, 200);
