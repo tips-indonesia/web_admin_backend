@@ -444,8 +444,13 @@ class ShipmentController extends Controller
         }
 
         if($request->has('id_shipment_status')){
-            if($request->id_shipment_status != null && $request->id_shipment_status != "" && $request->id_shipment_status != 0) {
-                $shipement = $shipement->where('id_shipment_status', $request->id_shipment_status);
+            // if($request->id_shipment_status != null && $request->id_shipment_status != "" && $request->id_shipment_status != 0) {
+            if($request->id_shipment_status != null && $request->id_shipment_status != "") {
+                if ($request->id_shipment_status == -1) {
+                    $shipement = $shipement->where('id_shipment_status', '<', 0); 
+                } else {
+                   $shipement = $shipement->where('id_shipment_status', $request->id_shipment_status);
+                }
             }
         }
 
@@ -494,9 +499,31 @@ class ShipmentController extends Controller
 
     function get_all_status_shipments() {
         $shipment_status = $this->all_status_shipments();
+        $all = array();
+        foreach ($shipment_status as $status) {
+            array_push($all, $status);
+        }
+        $dumm = array(
+            'id' => 0,
+            'description' => 'Cancel',
+            'step' => 0,
+            'is_hidden' => 0,
+            'created_at' => '2018-03-29 10:38:59',
+            'updated_at' => '2018-03-29 10:38:59'
+        );
+        array_push($all, $dumm);
+        $dumm = [
+            'id' => -1,
+            'description' => 'Reject',
+            'step' => -1,
+            'is_hidden' => 0,
+            'created_at' => '2018-03-29 10:38:59',
+            'updated_at' => '2018-03-29 10:38:59'
+        ];
+        array_push($all, $dumm);
         $data = array(
             'err' => null,
-            'result' => $shipment_status
+            'result' => $all
         );
 
         return response()->json($data, 200);
