@@ -444,11 +444,12 @@ class ShipmentController extends Controller
         }
 
         if($request->has('id_shipment_status')){
-            // if($request->id_shipment_status != null && $request->id_shipment_status != "" && $request->id_shipment_status != 0) {
-            if($request->id_shipment_status != null && $request->id_shipment_status != "") {
+            if($request->id_shipment_status != null && $request->id_shipment_status != "" && $request->id_shipment_status != 0) {
                 if ($request->id_shipment_status == -1) {
                     $shipement = $shipement->where('id_shipment_status', '<', 0); 
-                } else {
+                } if ($request->id_shipment_status == 99) {
+                    $shipement = $shipement->where('id_shipment_status', 0); 
+                }else {
                    $shipement = $shipement->where('id_shipment_status', $request->id_shipment_status);
                 }
             }
@@ -504,7 +505,7 @@ class ShipmentController extends Controller
             array_push($all, $status);
         }
         $dumm = array(
-            'id' => 0,
+            'id' => 99,
             'description' => 'Cancel',
             'step' => 0,
             'is_hidden' => 0,
