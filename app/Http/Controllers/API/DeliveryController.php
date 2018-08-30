@@ -452,10 +452,10 @@ class DeliveryController extends Controller
             if($slot->id_slot_status > 0) {
                 $delivery_status = DeliveryStatus::find($slot->id_slot_status);
                 $slot->delivery_status_description = $delivery_status->description;
-            } else if ($shipment->id_slot_status == 0){
-                $slot->shipment_status_description = 'Batal';
+            } else if ($slot->id_slot_status == 0){
+                $slot->delivery_status_description = 'Batal';
             } else {
-                $slot->shipment_status_description = 'Reject';
+                $slot->delivery_status_description = 'Reject';
             }
 
             array_push($slot_list, $slot);
