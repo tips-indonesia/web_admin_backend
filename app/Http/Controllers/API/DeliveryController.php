@@ -449,7 +449,7 @@ class DeliveryController extends Controller
             $slot->origin_airport = $airport_origin;
             $slot->destination_airport = $airport_destination;
 
-            if($slot->id_slot_status != 0) {
+            if($slot->id_slot_status > 0) {
                 $delivery_status = DeliveryStatus::find($slot->id_slot_status);
                 $slot->delivery_status_description = $delivery_status->description;
             } else if ($shipment->id_shipment_status == 0){
