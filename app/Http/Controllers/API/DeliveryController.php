@@ -428,7 +428,14 @@ class DeliveryController extends Controller
 
         if($request->has('id_slot_status')){
             if($request->id_slot_status != null && $request->id_slot_status != "" && $request->id_slot_status != 0) {
-                $slot_list = $slot_list->where('id_slot_status', $request->id_slot_status);
+                if ($request->id_shipment_status == -1) {
+                    $slot_list = $slot_list->where('id_slot_status', '<', 0);
+                } if ($request->id_shipment_status == 99) {
+                    $slot_list = $slot_list->where('id_slot_status', 0);
+                }else {
+                    $slot_list = $slot_list->where('id_slot_status', $request->id_slot_status);
+                }
+                
             }
         }
 
@@ -476,10 +483,31 @@ class DeliveryController extends Controller
 
     function get_all_status_delivery() {
         $delivery_status = $this->all_status_deliveries();
-
+        $all = array();
+        foreach ($delivery_status as $status) {
+            array_push($all, $status);
+        }
+        $dumm = array(
+            'id' => 99,
+            'description' => 'Cancel',
+            'step' => 0,
+            'is_hidden' => 0,
+            'created_at' => '2018-03-29 10:38:59',
+            'updated_at' => '2018-03-29 10:38:59'
+        );
+        array_push($all, $dumm);
+        $dumm = [
+            'id' => -1,
+            'description' => 'Reject',
+            'step' => -1,
+            'is_hidden' => 0,
+            'created_at' => '2018-03-29 10:38:59',
+            'updated_at' => '2018-03-29 10:38:59'
+        ];
+        array_push($all, $dumm);
         $data = array(
             'err' => null,
-            'result' => $delivery_status
+            'result' => $all
         );
 
         return response()->json($data, 200);
