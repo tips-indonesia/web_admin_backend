@@ -471,8 +471,10 @@ class ShipmentController extends Controller
             if($shipment->id_shipment_status != 0) {
                 $shipment_status = ShipmentStatus::find($shipment->id_shipment_status);
                 $shipment->shipment_status_description = $shipment_status->description;
-            } else {
+            } else if ($shipment->id_shipment_status == 0){
                 $shipment->shipment_status_description = 'Batal';
+            } else {
+                $shipment->shipment_status_description = 'Reject';
             }
 
             array_push($shipments, $shipment);
