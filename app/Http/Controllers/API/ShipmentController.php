@@ -495,7 +495,7 @@ class ShipmentController extends Controller
     }
 
     function all_status_shipments(){
-        return ShipmentStatus::all();
+        return ShipmentStatus::where('is_hidden', 0)->get();
     }
 
     function get_all_status_shipments() {
