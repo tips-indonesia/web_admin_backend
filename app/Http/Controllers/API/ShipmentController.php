@@ -506,7 +506,7 @@ class ShipmentController extends Controller
         }
         $dumm = array(
             'id' => 99,
-            'description' => 'Cancel',
+            'description' => 'Batal',
             'step' => 0,
             'is_hidden' => 0,
             'created_at' => '2018-03-29 10:38:59',
