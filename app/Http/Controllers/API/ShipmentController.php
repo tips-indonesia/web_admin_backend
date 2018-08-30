@@ -468,7 +468,7 @@ class ShipmentController extends Controller
             $shipment->origin_city = AirportcityList::find($shipment->id_origin_city)->name;
             $shipment->destination_city = AirportcityList::find($shipment->id_destination_city)->name;
 
-            if($shipment->id_shipment_status != 0) {
+            if($shipment->id_shipment_status > 0) {
                 $shipment_status = ShipmentStatus::find($shipment->id_shipment_status);
                 $shipment->shipment_status_description = $shipment_status->description;
             } else if ($shipment->id_shipment_status == 0){
