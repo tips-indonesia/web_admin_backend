@@ -508,7 +508,7 @@ class DeliveryController extends Controller
         $delivery_status = $this->all_status_deliveries();
         $data = array(
             'err' => null,
-            'result' => $all
+            'result' => $delivery_status
         );
 
         return response()->json($data, 200);

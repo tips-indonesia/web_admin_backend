@@ -526,7 +526,7 @@ class ShipmentController extends Controller
         
         $data = array(
             'err' => null,
-            'result' => $all
+            'result' => $shipment_status
         );
 
         return response()->json($data, 200);
