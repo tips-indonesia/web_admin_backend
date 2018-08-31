@@ -478,12 +478,8 @@ class DeliveryController extends Controller
     }
 
     function all_status_deliveries(){
-        return DeliveryStatus::all();
-    }
-
-    function get_all_status_delivery() {
-        $delivery_status = $this->all_status_deliveries();
         $all = array();
+        $delivery_status = DeliveryStatus::all();
         foreach ($delivery_status as $status) {
             array_push($all, $status);
         }
@@ -505,6 +501,11 @@ class DeliveryController extends Controller
             'updated_at' => '2018-03-29 10:38:59'
         ];
         array_push($all, $dumm);
+        return $all;
+    }
+
+    function get_all_status_delivery() {
+        $delivery_status = $this->all_status_deliveries();
         $data = array(
             'err' => null,
             'result' => $all

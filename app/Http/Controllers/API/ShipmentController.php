@@ -495,11 +495,7 @@ class ShipmentController extends Controller
     }
 
     function all_status_shipments(){
-        return ShipmentStatus::where('is_hidden', 0)->get();
-    }
-
-    function get_all_status_shipments() {
-        $shipment_status = $this->all_status_shipments();
+        $shipment_status = ShipmentStatus::where('is_hidden', 0)->get();
         $all = array();
         foreach ($shipment_status as $status) {
             array_push($all, $status);
@@ -522,6 +518,12 @@ class ShipmentController extends Controller
             'updated_at' => '2018-03-29 10:38:59'
         ];
         array_push($all, $dumm);
+        return $all;
+    }
+
+    function get_all_status_shipments() {
+        $shipment_status = $this->all_status_shipments();
+        
         $data = array(
             'err' => null,
             'result' => $all
