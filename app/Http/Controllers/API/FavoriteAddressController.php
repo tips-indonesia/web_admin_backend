@@ -138,7 +138,7 @@ class FavoriteAddressController extends Controller
             $favAdd->address_detail = 'No Notes';
         }
         $favAdd->id_province = $province;
-        $favAdd->id_city = $request->input('id_'.(($label == 'shipper') ? 'origin' : 'destination').'_city');
+        $favAdd->id_city = $request->input('id_'.$label.'_city');
         $favAdd->id_district = $request->input('id_'.$label.'_district');
         $favAdd->postal_code = $request->input($label.'_postal_code');
 
