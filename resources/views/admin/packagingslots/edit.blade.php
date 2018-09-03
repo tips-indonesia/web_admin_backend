@@ -27,6 +27,12 @@
                                 @endforeach
                             </select>
                         </div>
+                        <div class="form-group">
+                            <label>Status :</label>
+                            @foreach ($slot_ids as $slot)
+                            <input type="text" value="{{ $slot->id_slot_status == -1 ? 'Rejected' : 'Active' }}" class="form-control" disable readonly />
+                            @endforeach
+                        </div>
                         <div class="text-right form-group">
                             <button type="submit" class="btn btn-primary" disabled="">Submit form <i class="icon-arrow-right14 position-right"></i></button>
                         </div>
@@ -64,9 +70,9 @@
                 </table>
 
             </div>
-             <button type="button" class="btn btn-primary" id="hidden_btn" data-toggle="modal" data-target="#modal_small" style="float: right; display: none;">Print Label</button> 
+             <button disabled="{{ $slot->id_slot_status == -1}}" type="button" class="btn btn-primary" id="hidden_btn" data-toggle="modal" data-target="#modal_small" style="float: right; display: none;">Print Label</button> 
             </div>
-
+            
             <div id="modal_small" class="modal fade">
             <div class="modal-dialog modal-sm">
                 <div class="modal-content" style="width: 400px" id="qrcodex">

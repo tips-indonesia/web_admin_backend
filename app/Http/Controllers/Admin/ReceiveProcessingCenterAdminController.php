@@ -57,7 +57,7 @@ class ReceiveProcessingCenterAdminController extends Controller
         $user = User::find(Auth::id());
         if ($user->id_office != null  && $user->id != 1) {
             $office = OfficeList::find($user->id_office);
-            $slot = SlotList::where('id_origin_city', $office->id_area)->pluck('id');
+            $slot = SlotList::withTrashed()->where('id_origin_city', $office->id_area)->pluck('id');
             $shipment_data = $shipment_data->whereIn('id_slot', $slot);
         }
 
@@ -68,7 +68,7 @@ class ReceiveProcessingCenterAdminController extends Controller
         }
         foreach($shipment_data as $ship) {
             if ($ship->id_slot != null) {
-                $slot = SlotList::find($ship->id_slot);
+                $slot = SlotList::withTrashed()->find($ship->id_slot);
                 $ship['origin_airport'] = AirportList::find($slot->id_origin_airport); 
                 $ship['destination_airport'] = AirportList::find($slot->id_destination_airport); 
             }
