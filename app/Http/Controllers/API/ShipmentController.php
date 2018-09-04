@@ -366,74 +366,74 @@ class ShipmentController extends Controller
         if($shipment == null) {
             return null;
         } else {
-            $shipment_status = ShipmentStatus::where('id','<=',$shipment->id_shipment_status)->where('is_hidden',false)->orderBy('id', 'desc')->first();
-            $shipment->origin_city = AirportcityList::find($shipment->id_origin_city)->name;
-            $shipment->destination_city = AirportcityList::find($shipment->id_destination_city)->name;
+            // $shipment_status = ShipmentStatus::where('id','<=',$shipment->id_shipment_status)->where('is_hidden',false)->orderBy('id', 'desc')->first();
+            // $shipment->origin_city = AirportcityList::find($shipment->id_origin_city)->name;
+            // $shipment->destination_city = AirportcityList::find($shipment->id_destination_city)->name;
 
 
-            // #######################
-            // Exception Status 1 - 15
-            // #######################
-            // Begin 
-            // 
-            switch ($shipment_status->step) {
-                case '6':
-                    $shipment_status->description .= "(" . $shipment->destination_city . ")";
-                    break;
-            }
-            //
-            // END 
-            // #######################
-            $slot = false;
-            if($shipment->id_slot)
-                $slot = SlotList::find($shipment->id_slot);
-
-            return array(
-                'status' => array(
-                    'step' => $shipment_status->step,
-                    'description' => $shipment_status->description,
-                    'detail' => $shipment->detail_status
-                ),
-                'shipment' => $shipment,
-                'addt_info' => array(
-                    'kode_bandara_asal' => $slot ? $slot->airportOrigin->initial_code : "",
-                    'kode_bandara_tujuan' => $slot ? $slot->airportDestination->initial_code : "",
-                    'flight_code' => $slot ? $slot->flight_code : "",
-                    'airline_name' => $slot ? FlightController::getAirlineNameOfFlightCode($slot->flight_code) : ""
-                )
-            );
-            // $ship = DB::select("select shipments.id, shipments.shipment_id, shipment_statuses.step as step_shipment_status,  shipment_statuses.description as shipment_status_name,
-            // NULL as detail_status,
-            // origin_airport_city.name as origin_airport_city_name, destination_airport_city.name as destination_airport_city_name,
-            // (select initial_code from airport_lists where id = (select id_origin_airport from slot_lists where id = shipments.id_slot))
-            // as initial_origin_airport_code, 
-            // (select initial_code from airport_lists where id = (select id_destination_airport from slot_lists where id = shipments.id_slot))
-            // as initial_destination_airport_code,
-            // (select flight_code from slot_lists where id = shipments.id_slot)
-            // as flight_code,
-            // (select name from airlines_lists where prefix_flight_code = (select substring(flight_code,1,2) from slot_lists where id = shipments.id_slot))
-            // as airlines_name
-            // from shipments 
-            // inner join shipment_statuses on shipment_statuses.id = shipments.id_shipment_status 
-            // inner join airportcity_lists origin_airport_city on origin_airport_city.id = shipments.id_origin_city
-            // inner join airportcity_lists destination_airport_city on destination_airport_city.id = shipments.id_destination_city
-            // where shipments.id = ".$shipment->id." and shipment_statuses.is_hidden = 0 
-            // and shipments.id_shipper = ".$shipment->id_shipper);
+            // // #######################
+            // // Exception Status 1 - 15
+            // // #######################
+            // // Begin 
+            // // 
+            // switch ($shipment_status->step) {
+            //     case '6':
+            //         $shipment_status->description .= "(" . $shipment->destination_city . ")";
+            //         break;
+            // }
+            // //
+            // // END 
+            // // #######################
+            // $slot = false;
+            // if($shipment->id_slot)
+            //     $slot = SlotList::find($shipment->id_slot);
 
             // return array(
             //     'status' => array(
-            //         'step' => $ship[0]->step_shipment_status,
-            //         'description' => $ship[0]->shipment_status_name,
-            //         'detail' => $ship[0]->detail_status
+            //         'step' => $shipment_status->step,
+            //         'description' => $shipment_status->description,
+            //         'detail' => $shipment->detail_status
             //     ),
             //     'shipment' => $shipment,
             //     'addt_info' => array(
-            //         'kode_bandara_asal' => $ship[0]->origin_airport_city_name,
-            //         'kode_bandara_tujuan' => $ship[0]->destination_airport_city_name,
-            //         'flight_code' => $ship[0]->flight_code,
-            //         'airline_name' => $ship[0]->airlines_name
+            //         'kode_bandara_asal' => $slot ? $slot->airportOrigin->initial_code : "",
+            //         'kode_bandara_tujuan' => $slot ? $slot->airportDestination->initial_code : "",
+            //         'flight_code' => $slot ? $slot->flight_code : "",
+            //         'airline_name' => $slot ? FlightController::getAirlineNameOfFlightCode($slot->flight_code) : ""
             //     )
             // );
+            $ship = DB::select("select shipments.id, shipments.shipment_id, shipment_statuses.step as step_shipment_status,  shipment_statuses.description as shipment_status_name,
+            NULL as detail_status,
+            origin_airport_city.name as origin_airport_city_name, destination_airport_city.name as destination_airport_city_name,
+            (select initial_code from airport_lists where id = (select id_origin_airport from slot_lists where id = shipments.id_slot))
+            as initial_origin_airport_code, 
+            (select initial_code from airport_lists where id = (select id_destination_airport from slot_lists where id = shipments.id_slot))
+            as initial_destination_airport_code,
+            (select flight_code from slot_lists where id = shipments.id_slot)
+            as flight_code,
+            (select name from airlines_lists where prefix_flight_code = (select substring(flight_code,1,2) from slot_lists where id = shipments.id_slot))
+            as airlines_name
+            from shipments 
+            inner join shipment_statuses on shipment_statuses.id = shipments.id_shipment_status 
+            inner join airportcity_lists origin_airport_city on origin_airport_city.id = shipments.id_origin_city
+            inner join airportcity_lists destination_airport_city on destination_airport_city.id = shipments.id_destination_city
+            where shipments.id = ".$shipment->id." and shipment_statuses.is_hidden = 0 
+            and shipments.id_shipper = ".$shipment->id_shipper);
+
+            return array(
+                'status' => array(
+                    'step' => $ship[0]->step_shipment_status,
+                    'description' => $ship[0]->shipment_status_name,
+                    'detail' => $ship[0]->detail_status
+                ),
+                'shipment' => $shipment,
+                'addt_info' => array(
+                    'kode_bandara_asal' => $ship[0]->origin_airport_city_name,
+                    'kode_bandara_tujuan' => $ship[0]->destination_airport_city_name,
+                    'flight_code' => $ship[0]->flight_code,
+                    'airline_name' => $ship[0]->airlines_name
+                )
+            );
         }
     }
 
