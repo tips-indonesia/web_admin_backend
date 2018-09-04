@@ -23,6 +23,7 @@ use App\SlotList;
 use App\Http\Controllers\FCMSender;
 use App\Http\Controllers\API\MessageController;
 use App\FavoriteAddress;
+use DB;
 
 class ShipmentController extends Controller
 {
@@ -401,6 +402,38 @@ class ShipmentController extends Controller
                     'airline_name' => $slot ? FlightController::getAirlineNameOfFlightCode($slot->flight_code) : ""
                 )
             );
+            // $ship = DB::select("select shipments.id, shipments.shipment_id, shipment_statuses.step as step_shipment_status,  shipment_statuses.description as shipment_status_name,
+            // NULL as detail_status,
+            // origin_airport_city.name as origin_airport_city_name, destination_airport_city.name as destination_airport_city_name,
+            // (select initial_code from airport_lists where id = (select id_origin_airport from slot_lists where id = shipments.id_slot))
+            // as initial_origin_airport_code, 
+            // (select initial_code from airport_lists where id = (select id_destination_airport from slot_lists where id = shipments.id_slot))
+            // as initial_destination_airport_code,
+            // (select flight_code from slot_lists where id = shipments.id_slot)
+            // as flight_code,
+            // (select name from airlines_lists where prefix_flight_code = (select substring(flight_code,1,2) from slot_lists where id = shipments.id_slot))
+            // as airlines_name
+            // from shipments 
+            // inner join shipment_statuses on shipment_statuses.id = shipments.id_shipment_status 
+            // inner join airportcity_lists origin_airport_city on origin_airport_city.id = shipments.id_origin_city
+            // inner join airportcity_lists destination_airport_city on destination_airport_city.id = shipments.id_destination_city
+            // where shipments.id = ".$shipment->id." and shipment_statuses.is_hidden = 0 
+            // and shipments.id_shipper = ".$shipment->id_shipper);
+
+            // return array(
+            //     'status' => array(
+            //         'step' => $ship[0]->step_shipment_status,
+            //         'description' => $ship[0]->shipment_status_name,
+            //         'detail' => $ship[0]->detail_status
+            //     ),
+            //     'shipment' => $shipment,
+            //     'addt_info' => array(
+            //         'kode_bandara_asal' => $ship[0]->origin_airport_city_name,
+            //         'kode_bandara_tujuan' => $ship[0]->destination_airport_city_name,
+            //         'flight_code' => $ship[0]->flight_code,
+            //         'airline_name' => $ship[0]->airlines_name
+            //     )
+            // );
         }
     }
 

@@ -125,6 +125,14 @@ class SlotRejectionAdminController extends Controller
             $shipment->id_slot = null;
             $shipment->id_shipment_status = 4;
             $shipment->save();
+            $barang = DaftarBarangGold::where('id_barang', $shipment->id)->first();
+            if(!$barang)
+                $barang = DaftarBarangRegular::where('id_barang', $shipment->id)->first();
+            
+            if ($barang) {
+                $barang->is_assigned = 0;
+                $barang->save();
+            }
         }
 
         return Redirect::to(route('slotrejection.index'));
