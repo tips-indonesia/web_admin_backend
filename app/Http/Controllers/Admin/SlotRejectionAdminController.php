@@ -19,8 +19,6 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use App\User;
 use App\OfficeList;
-use App\DaftarBarangGold;
-use App\DaftarBarangRegular;
 
 class SlotRejectionAdminController extends Controller
 {
@@ -126,15 +124,8 @@ class SlotRejectionAdminController extends Controller
         foreach ($shipments as $shipment) {
             $shipment->id_slot = null;
             $shipment->id_shipment_status = 4;
+            $shipment->is_matched = 0;
             $shipment->save();
-            $barang = DaftarBarangGold::where('id_barang', $shipment->id)->first();
-            if(!$barang)
-                $barang = DaftarBarangRegular::where('id_barang', $shipment->id)->first();
-            
-            if ($barang) {
-                $barang->is_assigned = 0;
-                $barang->save();
-            }
         }
 
         return Redirect::to(route('slotrejection.index'));
