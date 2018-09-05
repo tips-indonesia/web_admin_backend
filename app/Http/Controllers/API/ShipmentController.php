@@ -327,11 +327,11 @@ class ShipmentController extends Controller
         if ($request->has('verse2') && $request->verse2) {
             if ($request->savePengirim) {
                 $favAddress_pengirim_status = (new FavoriteAddressController)
-                    ->storeFavAddressVerse2($request, 'shipper', $shipper_province->id);
+                    ->storeFavAddressVerse2($request, 'shipper', $shipper_province->id, $shipper_city->id);
             }
             if ($request->savePenerima) {
                 $favAddress_penerima_status = (new FavoriteAddressController)
-                    ->storeFavAddressVerse2($request, 'consignee', $consignee_province->id);
+                    ->storeFavAddressVerse2($request, 'consignee', $consignee_province->id, $consignee_city->id);
             }
         } else {
             if ($request->savePengirim) {

@@ -105,7 +105,7 @@ class FavoriteAddressController extends Controller
         // return response()->json($data, 200);
         return $data;
     }
-    public function storeFavAddressVerse2(Request $request, $label, $province) {
+    public function storeFavAddressVerse2(Request $request, $label, $province, $city) {
         $ketTempat = ($label == 'shipper') ? 'shipper_keterangan_tempat_pengirim' : 'consignee_keterangan_tempat_penerima';
         $add = FavoriteAddress::where('id_member', $request->input('id_shipper'))
                                 ->where('keterangan_tempat', $request->input($ketTempat))
@@ -138,7 +138,7 @@ class FavoriteAddressController extends Controller
             $favAdd->address_detail = 'No Notes';
         }
         $favAdd->id_province = $province;
-        $favAdd->id_city = $request->input('id_'.$label.'_city');
+        $favAdd->id_city = $city;
         $favAdd->id_district = $request->input('id_'.$label.'_district');
         $favAdd->postal_code = $request->input($label.'_postal_code');
 
