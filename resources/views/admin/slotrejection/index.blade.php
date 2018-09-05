@@ -96,7 +96,6 @@
                 @endforeach
             </tbody>
         </table>
-{{ $datas->appends(request()->input())->links() }}
 <script type="text/javascript">
         $('.select-search').select2();
         $('.pickadate-year').datepicker({

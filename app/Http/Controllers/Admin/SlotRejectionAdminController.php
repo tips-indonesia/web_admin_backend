@@ -26,11 +26,14 @@ class SlotRejectionAdminController extends Controller
     {
         $flag = false;
         $shipments = Shipment::where('id_shipment_status', 7)->pluck('id_slot');
-        $data['datas'] = SlotList::whereIn('id_slot_status', [3, 5])->whereIn('id', $shipments);
+        $shipments2 = Shipment::where('id_shipment_status', 9)->pluck('id_slot');
+        $data1 = SlotList::where('id_slot_status', 3)->whereIn('id', $shipments);
+        $data2 = SlotList::where('id_slot_status', 5)->whereIn('id', $shipments2);
         $user = User::find(Auth::id());
         if ($user->id_office != null  && $user->id != 1) {
             $office = OfficeList::find($user->id_office);
-            $data['datas'] = $data['datas']->where('id_origin_city', $office->id_area);
+            $data1 = $data1->where('id_origin_city', $office->id_area);
+            $data2 = $data2->where('id_origin_city', $office->id_area);
         }
 
         if (!isset($_GET['radio']))
@@ -39,9 +42,11 @@ class SlotRejectionAdminController extends Controller
             $checked = Input::get('radio');
 
             if ($checked == 0) {
-                $data['datas'] = $data['datas']->where('sold_baggage_space', 0);
+                $data1 = $data1->where('sold_baggage_space', 0);
+                $data2 = $data2->where('sold_baggage_space', 0);
             } else if ($checked == 1) {
-                $data['datas'] = $data['datas']->where('sold_baggage_space', '>', 0);
+                $data1 = $data1->where('sold_baggage_space', '>', 0);
+                $data2 = $data2->where('sold_baggage_space', '>', 0);
             }
         }
 
@@ -51,7 +56,8 @@ class SlotRejectionAdminController extends Controller
             $data['date'] = Carbon::now()->toDateString();
         }
 
-        $data['datas'] = $data['datas']->where('depature', 'LIKE', $data['date'].'%');
+        $data1 = $data1->where('depature', 'LIKE', $data['date'].'%');
+        $data2 = $data2->where('depature', 'LIKE', $data['date'].'%');
         if (Input::get('param') == 'blank' || !Input::get('param') ) {
             $data['param'] = Input::get('param');
             $data['value'] = Input::get('value');
@@ -64,12 +70,14 @@ class SlotRejectionAdminController extends Controller
         if ($flag == true) {
             if (Input::get('param') == 'name') {
                 $name = Input::get('value').'%';
-                $data['datas'] = $data['datas']->where('first_name', 'like', $name)->paginate(10);
+                $data1 = $data1->where('first_name', 'like', $name)->get();
+                $data2 = $data2->where('first_name', 'like', $name)->get();
             }    
         } else {
-            $data['datas'] = $data['datas']->paginate(10);
+            $data1 = $data1->get();
+            $data2 = $data2->get();
         }
-
+        $data['datas'] = $data1->merge($data2);
         foreach($data['datas'] as $dat) {
             $dat['status'] = DeliveryStatus::find($dat->id_slot_status)->description;
             $dat['destination_airport'] = AirportList::find($dat->id_destination_airport)->name;
