@@ -19,6 +19,8 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use App\User;
 use App\OfficeList;
+use App\DaftarBarangGold;
+use App\DaftarBarangRegular;
 
 class SlotRejectionAdminController extends Controller
 {
