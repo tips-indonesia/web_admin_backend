@@ -35,6 +35,24 @@ class HomeController extends Controller{
         // Mengambil daftar shipment dan slot (delivery) yang terkait
         // dengan id member yang telah terdaftar
         $shipments      = Shipment::where('id_shipper', $id_member)->get();
+        // $shipments = DB::select("select shipments.*, shipment_statuses.step as step_shipment_status,  shipment_statuses.description as shipment_status_name,
+        // NULL as detail_status,
+        // origin_airport_city.name as origin_airport_city_name, destination_airport_city.name as destination_airport_city_name,
+        // (select initial_code from airport_lists where id = (select id_origin_airport from slot_lists where id = shipments.id_slot))
+        // as initial_origin_airport_code, 
+        // (select initial_code from airport_lists where id = (select id_destination_airport from slot_lists where id = shipments.id_slot))
+        // as initial_destination_airport_code,
+        // (select flight_code from slot_lists where id = shipments.id_slot)
+        // as flight_code,
+        // (select name from airlines_lists where prefix_flight_code = (select substring(flight_code,1,2) from slot_lists where id = shipments.id_slot))
+        // as airlines_name
+        // from shipments 
+        // inner join shipment_statuses on shipment_statuses.id = shipments.id_shipment_status 
+        // inner join airportcity_lists origin_airport_city on origin_airport_city.id = shipments.id_origin_city
+        // inner join airportcity_lists destination_airport_city on destination_airport_city.id = shipments.id_destination_city
+        // where shipment_statuses.is_hidden = 0 
+        // and shipments.id_shipper = ".$id_member."
+        // order by shipments.id desc;");
         $deliveries     = SlotList::where('id_member',  $id_member)->get();
 
         return [
@@ -61,68 +79,50 @@ class HomeController extends Controller{
         // Pencegahan jika parameter salah, parameter minimal ada 
         // - member_id (dideteksi sebagai pengguna terdaftar)
         // - device_id (dideteksi sebagai pengguna anonim)
-        if(!$member_id && $device_id)
-            $dataSD = $this->getOnlyShipmentsForAnonymousUser($device_id);
-        else if($member_id){
-            $dataSD = $this->getShipmentDeliveryForRegisteredUser($member_id);
-            $money  = $this->getMoney($member_id);
-        }else{
-            $data = array(
-                'err' => [
-                    'code' => 0,
-                    'message' => 'parameter minimal harus member_id atau device_id, tidak boleh kosong'
-                ],
-                'result' => null
-            );
+        // if(!$member_id && $device_id)
+        //     $dataSD = $this->getOnlyShipmentsForAnonymousUser($device_id);
+        // else if($member_id){
+        //     $dataSD = $this->getShipmentDeliveryForRegisteredUser($member_id);
+        //     $money  = $this->getMoney($member_id);
+        // }else{
+        //     $data = array(
+        //         'err' => [
+        //             'code' => 0,
+        //             'message' => 'parameter minimal harus member_id atau device_id, tidak boleh kosong'
+        //         ],
+        //         'result' => null
+        //     );
 
-            return response()->json($data, 200);
-        }
+        //     return response()->json($data, 200);
+        // }
 
         // Shipment yang dikembalikan harus memenuhi ketiga syarat berikut:
         // 1. bukan status 15
         // 2. tanggal minimal sehari sebelum hari ini
         // 3. belum di cancel oleh user
-        $outshipment = [];
-        foreach ($dataSD['S'] as $key => $shipment){
-            if(!($shipment->id_shipment_status == 15 && $this->isADayAfter($shipment->updated_at)) && !$shipment->trashed()){
-                array_push($outshipment, ShipmentController::___get_status($shipment->shipment_id));
-            }
-        }
-        // $outshipment = DB::select("select shipments.*, shipment_statuses.step as step_shipment_status,  shipment_statuses.description as shipment_status_name,
-        // NULL as detail_status,
-        // origin_airport_city.name as origin_airport_city_name, destination_airport_city.name as destination_airport_city_name,
-        // (select initial_code from airport_lists where id = (select id_origin_airport from slot_lists where id = shipments.id_slot))
-        // as initial_origin_airport_code, 
-        // (select initial_code from airport_lists where id = (select id_destination_airport from slot_lists where id = shipments.id_slot))
-        // as initial_destination_airport_code,
-        // (select flight_code from slot_lists where id = shipments.id_slot)
-        // as flight_code,
-        // (select name from airlines_lists where prefix_flight_code = (select substring(flight_code,1,2) from slot_lists where id = shipments.id_slot))
-        // as airlines_name
-        // from shipments 
-        // inner join shipment_statuses on shipment_statuses.id = shipments.id_shipment_status 
-        // inner join airportcity_lists origin_airport_city on origin_airport_city.id = shipments.id_origin_city
-        // inner join airportcity_lists destination_airport_city on destination_airport_city.id = shipments.id_destination_city
-        // where shipment_statuses.is_hidden = 0 
-        // and shipments.id_shipper = 671
-        // order by shipments.id desc;");
-
+        // $outshipment = [];
+        // foreach ($dataSD['S'] as $key => $shipment){
+        //     if(!($shipment->id_shipment_status == 15 && $this->isADayAfter($shipment->updated_at)) && !$shipment->trashed()){
+        //         array_push($outshipment, ShipmentController::___get_status($shipment->shipment_id));
+        //     }
+        // }
+        // $outshipment = $dataSD['S'];
         // Delivery yang dikembalikan harus memenuhi dua syarat:
         // 1. bukan status 7 (Selesai)
         // 2. tanggal minimal sehari sebelum hari ini
-        $outdelivery = [];
-        foreach ($dataSD['D'] as $key => $deliv){
-            if(!($deliv->id_slot_status == 7 && $this->isADayAfter($deliv->updated_at)))
-                array_push($outdelivery, DeliveryController::___get_status($deliv->slot_id));
-        }
+        // $outdelivery = [];
+        // foreach ($dataSD['D'] as $key => $deliv){
+        //     if(!($deliv->id_slot_status == 7 && $this->isADayAfter($deliv->updated_at)))
+        //         array_push($outdelivery, DeliveryController::___get_status($deliv->slot_id));
+        // }
         
         $etc_text = ConfigHunter::isExist(ConfigHunter::$ETC_MESSAGE);
 
         $data = array(
             'err' => null,
             'result' => array (
-                'shipments'     => $outshipment,
-                'delivery'      => $outdelivery,
+                // 'shipments'     => $outshipment,
+                // 'delivery'      => $outdelivery,
                 'money'         => $money,
                 'referral'      => PromotionController::getSingleReferral(),
                 'static_data'   => [
