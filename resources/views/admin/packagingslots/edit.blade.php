@@ -71,7 +71,7 @@
 
             </div>
             @foreach ($slot_ids as $slot)
-                <button disabled="{{ $slot->id_slot_status == -1}}" type="button" class="btn btn-primary" id="hidden_btn" data-toggle="modal" data-target="#modal_small" style="float: right; display: none;">Print Label</button> 
+                <button disabled="{{ $slot->id_slot_status != -1}}" type="button" class="btn btn-primary" id="hidden_btn" data-toggle="modal" data-target="#modal_small" style="float: right; display: none;">Print Label</button> 
             @endforeach
             </div>
             
