@@ -55,7 +55,7 @@ class ShipmentRejectionAdminController extends Controller
             $shipments = $shipments->where('id_origin_city', $office->id_area);
         }
 
-        $shipments = $shipments->where('id_shipment_status', 4)->paginate(10);
+        $shipments = $shipments->where('id_shipment_status', 4)->where('id_slot', null)->paginate(10);
 
         foreach($shipments as $dat) {
             $dat['name_origin'] = AirportcityList::find($dat->id_origin_city)->name;
