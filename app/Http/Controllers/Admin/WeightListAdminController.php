@@ -101,6 +101,8 @@ class WeightListAdminController extends Controller
         $rules = array(
             'weight_kg'       => 'required',
             'status'       => 'required',
+            'for_shipment' => 'required',
+            'for_delivery' => 'required',
         );
         $validator = Validator::make(Input::all(), $rules);
 
@@ -113,6 +115,8 @@ class WeightListAdminController extends Controller
             $WeightList = WeightList::find($id);
             $WeightList->weight_kg = Input::get('weight_kg');
             $WeightList->status = Input::get('status');
+            $WeightList->for_shipment = Input::get('for_shipment');
+            $WeightList->for_delivery = Input::get('for_delivery');
             $WeightList->save();
             Session::flash('message', 'Successfully created data!');
             return Redirect::to(route('weightlists.index'));

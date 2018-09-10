@@ -18,12 +18,26 @@
                             {{ Form::text('weight_kg', $datas->weight_kg, array('class' => 'form-control', 'placeholder' => 'Weight')) }}
                         </div>
                         <div class="form-group">
-                                <label>Status :</label>
-                                <select class="bootstrap-select" data-width="100%" name="status">
-                                    <option value="1" @if ($datas->status == 1) selected @endif>Active</option>
-                                    <option value="0" @if ($datas->status == 0) selected @endif>Inactive</option>
-                                </select>
-                            </div>
+                            <label>Status :</label>
+                            <select class="bootstrap-select" data-width="100%" name="status">
+                                <option value="1" @if ($datas->status == 1) selected @endif>Active</option>
+                                <option value="0" @if ($datas->status == 0) selected @endif>Inactive</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>For Shipment :</label>
+                            <select class="bootstrap-select" data-width="100%" name="for_shipment">
+                                <option value="1" @if ($datas->for_shipment == 1) selected @endif>Yes</option>
+                                <option value="0" @if ($datas->for_shipment == 0) selected @endif>No</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>For Delivery :</label>
+                            <select class="bootstrap-select" data-width="100%" name="for_delivery">
+                                <option value="1" @if ($datas->for_delivery == 1) selected @endif>Yes</option>
+                                <option value="0" @if ($datas->for_delivery == 0) selected @endif>No</option>
+                            </select>
+                        </div>
                         <div class="text-right form-group">
                             <button type="submit" class="btn btn-primary">Submit form <i class="icon-arrow-right14 position-right"></i></button>
                         </div>
