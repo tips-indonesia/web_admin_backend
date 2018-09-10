@@ -82,7 +82,7 @@
                     </td>
                     <td>{{$shipment->nama_pengirim}}</td>
                     <td>
-                        @if($shipment->id_shipment_status == 15)
+                        @if($shipment->id_shipment_status == -3)
                         Sudah Diterima
                         @else
                         Belum Diterima
