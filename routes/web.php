@@ -107,7 +107,9 @@ Route::group(['middleware' => 'isWorker'], function() {
         Route::group(['middleware' => ['permission:slotlists.']], function () {
             Route::resource('slotlists','Admin\SlotListAdminController');
         });
-
+        Route::group(['middleware' => ['permission:slotcancellation.']], function () {
+            Route::resource('slotcancellation','Admin\SlotCancellationAdminController');
+        });
         Route::group(['middleware' => ['permission:packagingslots.']], function () {
             Route::resource('packagingslots','Admin\PackagingSlotAdminController');
         });

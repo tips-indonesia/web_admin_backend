@@ -386,7 +386,7 @@
                             </div>
                         </div>
                         <div class="text-right form-group">
-                            <button type="submit" class="btn btn-danger" @if($data->deleted_at != null) disabled @endif><i class="icon-trash position-left"></i>Cancel</button>
+                            <button type="submit" class="btn btn-danger" @if($data->id_shipment_status == 0) disabled @endif><i class="icon-trash position-left"></i>Cancel</button>
                         </div>
                     </div>
                 </div>

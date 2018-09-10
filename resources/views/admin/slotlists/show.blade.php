@@ -129,12 +129,6 @@
 		                    </div>  
 		                </div>
 		            </div>
-
-                    {{ Form::open(array('method' => 'PUT', 'url' => route('slotlists.update', $data->id))) }}
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-danger" {{ ($data->id_slot_status <= 2) ? '' : 'disabled' }}>Cancel</button>
-                    </div>
-                    {{ Form::close() }}
                 </div>
             </div>
         </div>

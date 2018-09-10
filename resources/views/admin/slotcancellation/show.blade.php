@@ -1,10 +1,10 @@
 @extends('admin.app')
 
 @section('title')
-    Slot Rejection Detail
+    Slot Cancellation Detail
 @endsection
 @section('page_title')
-<span class="text-semibold">Slot Rejection</span> - Detail
+<span class="text-semibold">Slot Cancellation</span> - Detail
 @endsection
 @section('content')
 <div class="row">
@@ -129,49 +129,11 @@
 		                    </div>  
 		                </div>
 		            </div>
-                    <div class="row">
-                        <div class="col-md-2">
-                            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal_small">Shipment List</i></button>
-                        </div>
-                        <div class="col-md-2">
-                            {{ Form::open(array('method' => 'PUT', 'url' => route('slotrejection.update', $data->id))) }}
-                            <div class="form-group">
-                                <button type="submit" class="btn btn-danger" @if($data->id_slot_status == -1) disabled @endif>Reject</button>
-                            </div>
-                            {{ Form::close() }}
-                        </div>
+                    {{ Form::open(array('method' => 'PUT', 'url' => route('slotcancellation.update', $data->id))) }}
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-danger" @if($data->id_slot_status == 0) disabled @endif>Cancel</button>
                     </div>
-                </div>
-            </div>
-        </div>
-        <div id="modal_small" class="modal fade">
-            <div class="modal-dialog modal-sm">
-                <div class="modal-content" style="width: 550px" id="qrcodex">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h5 class="modal-title">Shipment List</h5>
-                    </div>
-
-                    <div class="modal-body">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>Shipment id </th>
-                                    <th>Keterangan Barang </th>
-                                    <th>Real Weight </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            @foreach($shipments as $shipment)
-                                <tr>
-                                    <td>{{ $shipment->shipment_id }}</td>
-                                    <td>{{ $shipment->shipment_contents }} </td>
-                                    <td>{{ $shipment->real_weight}} kg</td>
-                                </tr>
-                            @endforeach
-                            </tbody>
-                        </table>
-                    </div>
+                    {{ Form::close() }}
                 </div>
             </div>
         </div>
