@@ -9,7 +9,7 @@
 @section('content')
 
 <div class="panel panel-flat">
-        {{ Form::open(array('url' => route('slotlists.index'), 'method' => 'GET', 'id' => 'date_form')) }}
+        {{ Form::open(array('url' => route('slotcancellation.index'), 'method' => 'GET', 'id' => 'date_form')) }}
                     <div class="panel-body">
                 <div class="form-group">
                     <label>Date :</label>

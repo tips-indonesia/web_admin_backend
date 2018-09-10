@@ -1,10 +1,10 @@
 @extends('admin.app')
 
 @section('title')
-    Slot List Detail
+Slot Matching Monitoring Detail
 @endsection
 @section('page_title')
-<span class="text-semibold">Slot List</span> - Detail
+<span class="text-semibold">Slot Matching Monitoring</span> - Detail
 @endsection
 @section('content')
 <div class="row">
