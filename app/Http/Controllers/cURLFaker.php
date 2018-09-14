@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\CronTimer;
 
 class cURLFaker extends Controller
 {
@@ -183,5 +184,14 @@ class cURLFaker extends Controller
             $receivers
         );
         // exec("sh send_post.sh 'http://127.0.0.1/api/send_email' 'type' 'kirim' 'code' '8' 'email' '$email' 'NAMA' '$NAMA' 'SHIPPING_CODE' '$SHIPPING_CODE' 'RECIPIENT_NAME' '$RECIPIENT_NAME' >> /var/www/html/tips/zz/logcurlx.txt > /dev/null 2>&1 &");
+    }
+
+    public function removeSlot($slot_id){
+        $time_to_execute = 4 * 60 * 60;
+        $ct = CronTimer::first();
+        if($ct){
+            $time_to_execute = $ct->cron_timer;
+        }
+        exec("sh start_timer.sh $time_to_execute $slot_id >> ~/logcurlx.txt > /dev/null 2>&1 &");
     }
 }
