@@ -1,14 +1,15 @@
 @extends('admin.app')
 
 @section('title')
-    Slot Matching Monitoring
+    Slot Cancellation
 @endsection
 @section('page_title')
-<span class="text-semibold">Slot Matching Monitoring</span> - Show All
+<span class="text-semibold">Slot Cancellation</span> - Show All
 @endsection
 @section('content')
-    <div class="panel panel-flat">
-        {{ Form::open(array('url' => route('slotlists.index'), 'method' => 'GET', 'id' => 'date_form')) }}
+
+<div class="panel panel-flat">
+        {{ Form::open(array('url' => route('slotcancellation.index'), 'method' => 'GET', 'id' => 'date_form')) }}
                     <div class="panel-body">
                 <div class="form-group">
                     <label>Date :</label>
@@ -16,21 +17,6 @@
                         <span class="input-group-addon"><i class="icon-calendar5"></i></span>
                         <input type="text" name="date" id="date" class="form-control pickadate-year" placeholder="Transaction date" value="{{ $date }}">
                     </div>
-                </div>
-                <div class="form-group">
-                    <label class="display-block text-semibold">Status :</label>
-                    <label class="radio-inline">
-                        <input type="radio" name="radio" @if($checked != 0 && $checked != 1) checked="checked" @endif value="-1">
-                        Keseluruhan
-                    </label>
-                    <label class="radio-inline">
-                        <input type="radio" name="radio" @if($checked == 1) checked="checked" @endif value="1">
-                        Sudah Match
-                    </label>
-                    <label class="radio-inline">
-                        <input type="radio" name="radio" @if($checked == 0) checked="checked" @endif value="0">
-                        Belum Match
-                    </label>
                 </div>
                 <div class="row">
                     <div class="col-md-6">
@@ -70,7 +56,7 @@
                 @foreach ($datas as $data)
                     <tr>
                         <td>
-                            <a href="{{ route('slotlists.show', $data->id) }}">
+                            <a href="{{ route('slotcancellation.show', $data->id) }}">
                             {{ $data->slot_id }}
                             </a>
                         </td>
@@ -90,7 +76,11 @@
                             {{ $data->sold_baggage_space }}
                         </td>
                         <td>
-                            {{ $data->status }}
+                            @if ($data->id_slot_status == 0)
+                            Cancelled
+                            @elseif ($data->id_slot_status > 0)
+                            Active
+                            @endif
                         </td>
                     </tr>
                 @endforeach

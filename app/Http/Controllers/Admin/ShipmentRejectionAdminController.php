@@ -55,12 +55,12 @@ class ShipmentRejectionAdminController extends Controller
             $shipments = $shipments->where('id_origin_city', $office->id_area);
         }
 
-        $shipments = $shipments->where('id_shipment_status', 4)->paginate(10);
+        $shipments = $shipments->whereIn('id_shipment_status', [-3, -2, -1, 4])
+                ->where('id_slot', null)->paginate(10);
 
         foreach($shipments as $dat) {
             $dat['name_origin'] = AirportcityList::find($dat->id_origin_city)->name;
             $dat['name_destination'] = AirportcityList::find($dat->id_destination_city)->name;
-            $dat['status'] = ShipmentStatus::find($dat->id_shipment_status)->description;
             $dat['pickup_by_user'] = User::find($dat->pickup_by);
         }
 
@@ -105,7 +105,7 @@ class ShipmentRejectionAdminController extends Controller
                 ->withErrors($validate)
                 ->withInput();
     	} else {
-	    	$shipment = Shipment::find($id);
+	    	$shipment = Shipment::withTrashed()->find($id);
 	    	
             $wallets = Wallets::where('remarks', $shipment->shipment_id)->first();
             if ($wallets != null) {

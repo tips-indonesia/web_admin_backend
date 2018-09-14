@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\WalletAll;
 use App\Http\Controllers\ConfigHunter;
 use DateTime;
+use DB;
 
 class HomeController extends Controller{
 
@@ -87,7 +88,7 @@ class HomeController extends Controller{
                 array_push($outshipment, ShipmentController::___get_status($shipment->shipment_id));
             }
         }
-
+        // $outshipment = $dataSD['S'];
         // Delivery yang dikembalikan harus memenuhi dua syarat:
         // 1. bukan status 7 (Selesai)
         // 2. tanggal minimal sehari sebelum hari ini

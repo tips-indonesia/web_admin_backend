@@ -1,10 +1,10 @@
 @extends('admin.app')
 
 @section('title')
-    Slot List Detail
+Slot Matching Monitoring Detail
 @endsection
 @section('page_title')
-<span class="text-semibold">Slot List</span> - Detail
+<span class="text-semibold">Slot Matching Monitoring</span> - Detail
 @endsection
 @section('content')
 <div class="row">
@@ -129,12 +129,6 @@
 		                    </div>  
 		                </div>
 		            </div>
-
-                    {{ Form::open(array('method' => 'PUT', 'url' => route('slotlists.update', $data->id))) }}
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-danger" {{ ($data->id_slot_status <= 2) ? '' : 'disabled' }}>Cancel</button>
-                    </div>
-                    {{ Form::close() }}
                 </div>
             </div>
         </div>

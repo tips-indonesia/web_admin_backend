@@ -74,9 +74,9 @@
                     {{ $data->name_destination }}
                 </td>
                 <td>
-                    @if($data->deleted_at != null)
-                    Cancelled
-                    @else
+                    @if($data->id_shipment_status < 0)
+                    Rejected
+                    @elseif(($data->id_shipment_status > 0))
                     Active
                     @endif
                 </td>

@@ -20,22 +20,33 @@ use Illuminate\Support\Facades\Session;
 use App\User;
 use App\OfficeList;
 
-class SlotRejectionAdminController extends Controller
+class SlotCancellationAdminController extends Controller
 {
+     /**
+    * Display a listing of the resource.
+    *
+    * @return Response
+    */
     public function index()
     {
         $flag = false;
-        $shipments = Shipment::where('id_shipment_status', 7)->pluck('id_slot');
-        $shipments2 = Shipment::where('id_shipment_status', 9)->pluck('id_slot');
-        $data1 = SlotList::where('id_slot_status', 3)->whereIn('id', $shipments);
-        $data2 = SlotList::where('id_slot_status', 5)->whereIn('id', $shipments2);
-        $data3 = SlotList::withTrashed()->where('id_slot_status', -1);
+        $data['datas'] = SlotList::withTrashed();
         $user = User::find(Auth::id());
         if ($user->id_office != null  && $user->id != 1) {
             $office = OfficeList::find($user->id_office);
-            $data1 = $data1->where('id_origin_city', $office->id_area);
-            $data2 = $data2->where('id_origin_city', $office->id_area);
-            $data3 = $data3->where('id_origin_city', $office->id_area);
+            $data['datas'] = $data['datas']->where('id_origin_city', $office->id_area);
+        }
+
+        if (!isset($_GET['radio']))
+            $checked = -1;
+        else {
+            $checked = Input::get('radio');
+
+            if ($checked == 0) {
+                $data['datas'] = $data['datas']->where('sold_baggage_space', 0);
+            } else if ($checked == 1) {
+                $data['datas'] = $data['datas']->where('sold_baggage_space', '>', 0);
+            }
         }
 
         if (Input::get('date')) {
@@ -44,9 +55,7 @@ class SlotRejectionAdminController extends Controller
             $data['date'] = Carbon::now()->toDateString();
         }
 
-        $data1 = $data1->where('depature', 'LIKE', $data['date'].'%');
-        $data2 = $data2->where('depature', 'LIKE', $data['date'].'%');
-        $data3 = $data3->where('depature', 'LIKE', $data['date'].'%');
+        $data['datas'] = $data['datas']->where('depature', 'LIKE', $data['date'].'%');
         if (Input::get('param') == 'blank' || !Input::get('param') ) {
             $data['param'] = Input::get('param');
             $data['value'] = Input::get('value');
@@ -59,25 +68,47 @@ class SlotRejectionAdminController extends Controller
         if ($flag == true) {
             if (Input::get('param') == 'name') {
                 $name = Input::get('value').'%';
-                $data1 = $data1->where('first_name', 'like', $name)->get();
-                $data2 = $data2->where('first_name', 'like', $name)->get();
-                $data3 = $data3->where('first_name', 'like', $name)->get();
+                $data['datas'] = $data['datas']->where('first_name', 'like', $name)->paginate(10);
             }    
         } else {
-            $data1 = $data1->get();
-            $data2 = $data2->get();
-            $data3 = $data3->get();
+            $data['datas'] = $data['datas']->paginate(10);
         }
-        $datamerge = $data1->merge($data2);
-        $data['datas'] = $data3->merge($datamerge);
+
         foreach($data['datas'] as $dat) {
             $dat['destination_airport'] = AirportList::find($dat->id_destination_airport)->name;
             $dat['origin_airport'] = AirportList::find($dat->id_origin_airport)->name;
         }
 
-        return view('admin.slotrejection.index', $data);
+        $data['checked'] = $checked;
+        return view('admin.slotcancellation.index', $data);
     }
-    
+
+    /**
+    * Show the form for creating a new resource.
+    *
+    * @return Response
+    */
+    public function create()
+    {
+    }
+
+    /**
+    * Store a newly created resource in storage.
+    *
+    * @return Response
+    */
+    public function store()
+    {
+       
+
+    }
+
+    /**
+    * Display the specified resource.
+    *
+    * @param  int  $id
+    * @return Response
+    */
     public function show($id)
     {
         //
@@ -101,16 +132,31 @@ class SlotRejectionAdminController extends Controller
                 $ret_data['total_weight'] = $ret_data['total_weight'] + $dat['real_weight'];
             }
             return json_encode($ret_data);   
-        }
-        $data['shipments'] = Shipment::where('id_slot', $slot->id)->get();
-        return view('admin.slotrejection.show', $data);
+        }        
+        return view('admin.slotcancellation.show', $data);
     }
 
+    /**
+    * Show the form for editing the specified resource.
+    *
+    * @param  int  $id
+    * @return Response
+    */
+    public function edit($id)
+    {
+    }
+
+    /**
+    * Update the specified resource in storage.
+    *
+    * @param  int  $id
+    * @return Response
+    */
     public function update($id)
     {
         $slot = SlotList::find($id);
 
-        $slot->id_slot_status = -1;
+        $slot->id_slot_status = 0;
         // $slot->deleted_at = date('Y-m-d H:m:s');
         $slot->deleted_at = Carbon::now()->todatetimeString();
 
@@ -120,11 +166,19 @@ class SlotRejectionAdminController extends Controller
 
         foreach ($shipments as $shipment) {
             $shipment->id_slot = null;
-            $shipment->id_shipment_status = 4;
-            $shipment->is_matched = 0;
             $shipment->save();
         }
 
-        return Redirect::to(route('slotrejection.index'));
+        return Redirect::to(route('slotcancellation.index'));
+    }
+
+    /**
+    * Remove the specified resource from storage.
+    *
+    * @param  int  $id
+    * @return Response
+    */
+    public function destroy($id)
+    {
     }
 }

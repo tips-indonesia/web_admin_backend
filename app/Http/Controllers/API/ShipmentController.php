@@ -23,6 +23,7 @@ use App\SlotList;
 use App\Http\Controllers\FCMSender;
 use App\Http\Controllers\API\MessageController;
 use App\FavoriteAddress;
+use DB;
 
 class ShipmentController extends Controller
 {
@@ -326,11 +327,11 @@ class ShipmentController extends Controller
         if ($request->has('verse2') && $request->verse2) {
             if ($request->savePengirim) {
                 $favAddress_pengirim_status = (new FavoriteAddressController)
-                    ->storeFavAddressVerse2($request, 'shipper', $shipper_province->id);
+                    ->storeFavAddressVerse2($request, 'shipper', $shipper_province->id, $shipper_city->id);
             }
             if ($request->savePenerima) {
                 $favAddress_penerima_status = (new FavoriteAddressController)
-                    ->storeFavAddressVerse2($request, 'consignee', $consignee_province->id);
+                    ->storeFavAddressVerse2($request, 'consignee', $consignee_province->id, $consignee_city->id);
             }
         } else {
             if ($request->savePengirim) {
@@ -401,6 +402,38 @@ class ShipmentController extends Controller
                     'airline_name' => $slot ? FlightController::getAirlineNameOfFlightCode($slot->flight_code) : ""
                 )
             );
+            // $ship = DB::select("select shipments.id, shipments.shipment_id, shipment_statuses.step as step_shipment_status,  shipment_statuses.description as shipment_status_name,
+            // NULL as detail_status,
+            // origin_airport_city.name as origin_airport_city_name, destination_airport_city.name as destination_airport_city_name,
+            // (select initial_code from airport_lists where id = (select id_origin_airport from slot_lists where id = shipments.id_slot))
+            // as initial_origin_airport_code, 
+            // (select initial_code from airport_lists where id = (select id_destination_airport from slot_lists where id = shipments.id_slot))
+            // as initial_destination_airport_code,
+            // (select flight_code from slot_lists where id = shipments.id_slot)
+            // as flight_code,
+            // (select name from airlines_lists where prefix_flight_code = (select substring(flight_code,1,2) from slot_lists where id = shipments.id_slot))
+            // as airlines_name
+            // from shipments 
+            // inner join shipment_statuses on shipment_statuses.id = shipments.id_shipment_status 
+            // inner join airportcity_lists origin_airport_city on origin_airport_city.id = shipments.id_origin_city
+            // inner join airportcity_lists destination_airport_city on destination_airport_city.id = shipments.id_destination_city
+            // where shipments.id = ".$shipment->id." and shipment_statuses.is_hidden = 0 
+            // and shipments.id_shipper = ".$shipment->id_shipper);
+
+            // return array(
+            //     'status' => array(
+            //         'step' => $ship[0]->step_shipment_status,
+            //         'description' => $ship[0]->shipment_status_name,
+            //         'detail' => $ship[0]->detail_status
+            //     ),
+            //     'shipment' => $shipment,
+            //     'addt_info' => array(
+            //         'kode_bandara_asal' => $ship[0]->origin_airport_city_name,
+            //         'kode_bandara_tujuan' => $ship[0]->destination_airport_city_name,
+            //         'flight_code' => $ship[0]->flight_code,
+            //         'airline_name' => $ship[0]->airlines_name
+            //     )
+            // );
         }
     }
 
@@ -445,7 +478,13 @@ class ShipmentController extends Controller
 
         if($request->has('id_shipment_status')){
             if($request->id_shipment_status != null && $request->id_shipment_status != "" && $request->id_shipment_status != 0) {
-                $shipement = $shipement->where('id_shipment_status', $request->id_shipment_status);
+                if ($request->id_shipment_status == -1) {
+                    $shipement = $shipement->where('id_shipment_status', '<', 0); 
+                } if ($request->id_shipment_status == 99) {
+                    $shipement = $shipement->where('id_shipment_status', 0); 
+                }else {
+                   $shipement = $shipement->where('id_shipment_status', $request->id_shipment_status);
+                }
             }
         }
 
@@ -468,11 +507,13 @@ class ShipmentController extends Controller
             $shipment->origin_city = AirportcityList::find($shipment->id_origin_city)->name;
             $shipment->destination_city = AirportcityList::find($shipment->id_destination_city)->name;
 
-            if($shipment->id_shipment_status != 0) {
+            if($shipment->id_shipment_status > 0) {
                 $shipment_status = ShipmentStatus::find($shipment->id_shipment_status);
                 $shipment->shipment_status_description = $shipment_status->description;
-            } else {
+            } else if ($shipment->id_shipment_status == 0){
                 $shipment->shipment_status_description = 'Batal';
+            } else {
+                $shipment->shipment_status_description = 'Reject';
             }
 
             array_push($shipments, $shipment);
@@ -487,11 +528,31 @@ class ShipmentController extends Controller
     }
 
     function all_status_shipments(){
-        return ShipmentStatus::all();
+        $shipment_status = ShipmentStatus::where('is_hidden', 0)->get()->toArray();
+        $dumm = array(
+            'id' => 99,
+            'description' => 'Batal',
+            'step' => 0,
+            'is_hidden' => 0,
+            'created_at' => '2018-03-29 10:38:59',
+            'updated_at' => '2018-03-29 10:38:59'
+        );
+        array_push($shipment_status, $dumm);
+        $dumm = [
+            'id' => -1,
+            'description' => 'Reject',
+            'step' => -1,
+            'is_hidden' => 0,
+            'created_at' => '2018-03-29 10:38:59',
+            'updated_at' => '2018-03-29 10:38:59'
+        ];
+        array_push($shipment_status, $dumm);
+        return $shipment_status;
     }
 
     function get_all_status_shipments() {
         $shipment_status = $this->all_status_shipments();
+        
         $data = array(
             'err' => null,
             'result' => $shipment_status

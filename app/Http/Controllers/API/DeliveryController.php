@@ -452,7 +452,14 @@ class DeliveryController extends Controller
 
         if($request->has('id_slot_status')){
             if($request->id_slot_status != null && $request->id_slot_status != "" && $request->id_slot_status != 0) {
-                $slot_list = $slot_list->where('id_slot_status', $request->id_slot_status);
+                if ($request->id_shipment_status == -1) {
+                    $slot_list = $slot_list->where('id_slot_status', '<', 0);
+                } if ($request->id_shipment_status == 99) {
+                    $slot_list = $slot_list->where('id_slot_status', 0);
+                }else {
+                    $slot_list = $slot_list->where('id_slot_status', $request->id_slot_status);
+                }
+                
             }
         }
 
@@ -473,11 +480,13 @@ class DeliveryController extends Controller
             $slot->origin_airport = $airport_origin;
             $slot->destination_airport = $airport_destination;
 
-            if($slot->id_slot_status != 0) {
+            if($slot->id_slot_status > 0) {
                 $delivery_status = DeliveryStatus::find($slot->id_slot_status);
                 $slot->delivery_status_description = $delivery_status->description;
-            } else {
+            } else if ($slot->id_slot_status == 0){
                 $slot->delivery_status_description = 'Batal';
+            } else {
+                $slot->delivery_status_description = 'Reject';
             }
 
             array_push($slot_list, $slot);
@@ -493,12 +502,34 @@ class DeliveryController extends Controller
     }
 
     function all_status_deliveries(){
-        return DeliveryStatus::all();
+        // $all = array();
+        $delivery_status = DeliveryStatus::all()->toArray();
+        // foreach ($delivery_status as $status) {
+        //     array_push($all, $status);
+        // }
+        $dumm = array(
+            'id' => 99,
+            'description' => 'Batal',
+            'step' => 0,
+            'is_hidden' => 0,
+            'created_at' => '2018-03-29 10:38:59',
+            'updated_at' => '2018-03-29 10:38:59'
+        );
+        array_push($delivery_status, $dumm);
+        $dumm = [
+            'id' => -1,
+            'description' => 'Reject',
+            'step' => -1,
+            'is_hidden' => 0,
+            'created_at' => '2018-03-29 10:38:59',
+            'updated_at' => '2018-03-29 10:38:59'
+        ];
+        array_push($delivery_status, $dumm);
+        return $delivery_status;
     }
 
     function get_all_status_delivery() {
         $delivery_status = $this->all_status_deliveries();
-
         $data = array(
             'err' => null,
             'result' => $delivery_status

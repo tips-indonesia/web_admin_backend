@@ -48,6 +48,7 @@
                 <tr>
                     <th>Packaging ID</th>
                     <th>Slot Id</th>
+                    <th>Status</th>
                     <th style="display: none;">Action</th>
                 </tr>
             </thead>
@@ -60,8 +61,11 @@
                             </a>
                         </td>
                         <td>
-                            {{ $data->slot_id }}
-                        </td>                        
+                            {{ $data->slot->slot_id }}
+                        </td>
+                        <td>
+                            {{ ($data->slot->id_slot_status == -1) ? 'Rejected' : 'Active' }}
+                        </td>                  
                         <td style="display: none;">
                             <ul class="icons-list">
                             <li>
