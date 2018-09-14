@@ -67,6 +67,7 @@ class DeliveryController extends Controller
             $slot->destination_city = AirportcityList::find((int) $airport_destination->id_city)->name;
 
             $slot->save();
+            $slot->startCountingLife();
 
             $slot = SlotList::find($slot->id);
 
