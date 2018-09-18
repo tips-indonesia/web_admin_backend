@@ -67,6 +67,7 @@ class DeliveryController extends Controller
             $slot->destination_city = AirportcityList::find((int) $airport_destination->id_city)->name;
 
             $slot->save();
+            $slot->startCountingLife();
 
             $slot = SlotList::find($slot->id);
 
@@ -114,6 +115,30 @@ class DeliveryController extends Controller
         }
 
         return response()->json($data, 200);
+    }
+
+    public function remove_delivery($id_delivery){
+        $slot = SlotList::where('slot_id', $id_delivery)->where('id_slot_status', 1)->first();
+        if(!$slot) {
+            return response()->json([
+                'err' => [
+                    'code' => 0,
+                    'message' => 'Slot id tidak ditemukan'
+                ],
+                'result' => null
+            ], 200);
+        }
+        $slot->status_dispatch = 'Canceled';
+        $slot->id_slot_status = 0;
+        $slot->save();
+        $slot->delete();
+
+        return response()->json([
+            'err' => null,
+            'result' => [
+                'message' => "sukses"
+            ]
+        ], 200);
     }
 
     private function getDetailStatus($delivery){
