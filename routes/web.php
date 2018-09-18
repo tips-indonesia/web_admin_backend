@@ -34,6 +34,9 @@ Route::group(['middleware' => 'isWorker'], function() {
         Route::group(['middleware' => ['permission:citylists.']], function () {
             Route::resource('citylists','Admin\CityListAdminController');
         });
+        Route::group(['middleware' => ['permission:duallanguage.']], function () {
+            Route::resource('duallanguage','Admin\DualLanguageAdminController');
+        });
         Route::group(['middleware' => ['permission:provincelists.']], function () {
             Route::resource('provincelists','Admin\ProvinceListAdminController');
         });
