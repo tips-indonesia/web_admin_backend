@@ -33,7 +33,7 @@
                     <label>Pilih Bahasa :</label>
                     <select name="bahasa" id="param" class="form-control">
                         <option value="ID" {{ $bahasa == 'IN' ? 'selected' : '' }}>Bahasa</option>
-                        <option value="EN" {{ $param == 'EN' ? 'selected' : '' }}>English</option>
+                        <option value="EN" {{ $bahasa == 'EN' ? 'selected' : '' }}>English</option>
                     </select>
                 </div>
                 <div class="form-group">
