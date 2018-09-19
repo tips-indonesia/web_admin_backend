@@ -30,7 +30,9 @@ class DualLanguageAdminController extends Controller
     }
 
     public function create() {
-        return view('admin.duallanguage.create');
+        $data['bahasa'] = (isset($_GET['bahasa'])) ? $_GET['bahasa'] : 'ID';
+
+        return view('admin.duallanguage.create', $data);
     }
 
     public function store() {

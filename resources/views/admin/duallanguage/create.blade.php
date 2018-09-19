@@ -15,9 +15,9 @@
                     <div class="panel-body">
                         <div class="form-group">
                             <label>Pilihan Bahasa :</label>
-                            <select name="pilihan_bahasa" class="form-control">
-                                <option value="EN">English</option>
-                                <option value="ID">Bahasa</option>
+                            <select name="pilihan_bahasa" class="form-control" disabled>
+                                <option value="EN" @if($bahasa == 'EN') selected @endif>English</option>
+                                <option value="ID" @if($bahasa == 'ID') selected @endif>Bahasa</option>
                             </select>
                         </div>
                         <div class="form-group">

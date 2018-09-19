@@ -5,12 +5,19 @@
 @endsection
 @section('page_title')
     <span class="text-semibold">Dual Language</span> - Show All
-    <button type="button" class="btn btn-success" onclick="window.location.href='{{ route('duallanguage.create') }}'">Create</button>
+    <button type="button" class="btn btn-success" onclick="window.location.href='{{ route('duallanguage.create') }}?bahasa={{$bahasa}}'">Create</button>
 @endsection
 @section('content')
     <div class="panel panel-flat">     
     {{ Form::open(array('url' => route('duallanguage.index'), 'method' => 'GET')) }}
             <div class="panel-body">
+                <div class="form-group">
+                    <label>Pilih Bahasa :</label>
+                    <select name="bahasa" id="param" class="form-control">
+                        <option value="ID" {{ $bahasa == 'IN' ? 'selected' : '' }}>Bahasa</option>
+                        <option value="EN" {{ $bahasa == 'EN' ? 'selected' : '' }}>English</option>
+                    </select>
+                </div>
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
@@ -28,13 +35,6 @@
                             <input type="text" name="value" id="value" class="form-control " placeholder="Search" value="{{$value}}">                       
                         </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label>Pilih Bahasa :</label>
-                    <select name="bahasa" id="param" class="form-control">
-                        <option value="ID" {{ $bahasa == 'IN' ? 'selected' : '' }}>Bahasa</option>
-                        <option value="EN" {{ $bahasa == 'EN' ? 'selected' : '' }}>English</option>
-                    </select>
                 </div>
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary">View <i class="icon-arrow-right14  position-right"></i></button>
