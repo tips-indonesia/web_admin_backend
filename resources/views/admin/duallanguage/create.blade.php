@@ -12,10 +12,11 @@
         <div class="col-md-12">
             {{ Form::open(array('url' => route('duallanguage.store'))) }}
                 <div class="panel panel-flat">
+                    <input type="hidden" name="pilihan_bahasa" value={{$bahasa}} />
                     <div class="panel-body">
                         <div class="form-group">
                             <label>Pilihan Bahasa :</label>
-                            <select name="pilihan_bahasa" class="form-control" disabled>
+                            <select class="form-control" disabled readonly>
                                 <option value="EN" @if($bahasa == 'EN') selected @endif>English</option>
                                 <option value="ID" @if($bahasa == 'ID') selected @endif>Bahasa</option>
                             </select>

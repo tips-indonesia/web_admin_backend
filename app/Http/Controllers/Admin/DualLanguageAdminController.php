@@ -37,6 +37,7 @@ class DualLanguageAdminController extends Controller
 
     public function store() {
         $rules = array(
+            'pilihan_bahasa' => 'required',
             'key'       => 'required',
             'value'     => 'required'
         );
@@ -45,7 +46,7 @@ class DualLanguageAdminController extends Controller
 
         // process the login
         if ($validator->fails()) {
-            return Redirect::to(route('duallanguage.create'))
+            return back()
                 ->withErrors($validator)
                 ->withInput();
         } else {
