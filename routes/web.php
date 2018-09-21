@@ -189,6 +189,10 @@ Route::group(['middleware' => 'isWorker'], function() {
             Route::resource('slotrejection','Admin\SlotRejectionAdminController');
         });
 
+        Route::group(['middleware' => ['permission:printpickedupshipmentmanifest.']], function () {
+            Route::resource('printpickedupshipmentmanifest','Admin\PrintPickedUpShipmentManifestAdminController');
+        });
+
         Route::group(['middleware' => ['permission:shipmentstatuses.']], function () {
             Route::resource('shipmentstatuses','Admin\ShipmentStatusAdminController');
         });
