@@ -9,6 +9,11 @@
 @section('content')
 <div class="panel panel-flat">
     <div class="panel-body">
+    {{ Form::open(array('url' => route('manualredeem.store'))) }}
+        @if(isset($_GET['id_mr']))
+        <input type="hidden" name="id_mr"value="{{ $_GET['id_mr'] }}"/>
+        @endif
+        <input type="hidden" name="member_id" id="member-id" />
         <div class="form-group">
             <label> Date : </label>
             <div class="input-group">
@@ -24,22 +29,22 @@
                         Member List
                     </button>
                 </label>
-                <input type="text" name="member_name" class="form-control">
+                <input type="text" name="member_name" class="form-control" id="member-name">
             </div>
             <div class="col-md-6 form-group">
                 <label> Mobile Phone No : 
                 <button type="button" class="btn" style="visibility: hidden;">Hide</button>
                 </label>
                 </button>
-                <input type="text" name="mobile_phone_no" class="form-control">
+                <input type="text" name="mobile_phone_no" class="form-control" id="phone">
             </div>
             <div class="form-group col-md-12">
                 <label> Address : </label>
-                <input type="text" name="address" class="form-control">
+                <input type="text" name="address" class="form-control" id="address">
             </div>
             <div class="form-group col-md-12">
                 <label> Wallet Amount (Rp) : </label>
-                <input type="text" name="wallet_amount" class="form-control">
+                <input type="text" name="wallet_amount" class="form-control" id="wallet">
             </div>
             <br />
             <div class="form-group col-md-12">
@@ -52,14 +57,14 @@
             </div>
             <div class="form-group col-md-12">
                 <label> Qty : </label>
-                <input type="text" name="qty" class="form-control">
+                <input type="number" name="qty" class="form-control">
             </div>
             <div class="form-group col-md-12">
-                <label> Total Amount: 7500 </label>
+                <label> Total Amount: {{ $total_amount }} </label>
             </div>
             <button style="float: right;" class="btn btn-primary">Save</button>
         <div>
-        
+        {{ Form::close() }}
         <table class="table">
             <thead>
                 <tr>
@@ -71,6 +76,19 @@
                 </tr>
             </thead>
             <tbody>
+            @foreach($items as $item)
+                <tr>
+                    <td> {{ $item->item_name }} </td>
+                    <td> {{ $item->unit_price }} </td>
+                    <td> {{ $item->qty }} </td>
+                    <td> {{ $item->qty * $item->unit_price }} </td>
+                    <td>
+                        {{ Form::open(array('method' => 'DELETE', 'url' => route('manualredeem.destroy',  $item->id))) }}
+                        <button type="submit" class="btn btn-danger"> Delete </button>
+                        {{ Form::close() }}
+                    </td>
+                </tr>
+            @endforeach
             </tbody>
         </table>
     </div>
@@ -78,8 +96,36 @@
 <div class="modal" tabindex="-1" role="dialog" id="memberlist" aria-labelledby="memberlistLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">
+                    <h3>Member List</h3>
+                </div>
+            </div>
             <div class="modal-body">
-                Content modal here
+                <div class="row">
+                    <div class="col-md-4">
+                        <label style="margin-top: 8px;">Search by First Name</label>
+                    </div>
+                    <div class="col-md-5">
+                        <input type="text" class="form-control" id="query-search">
+                    </div>
+                    <div class="col-md-3">
+                        <button type="button" class="btn btn-primary" id="query-button">View</button>
+                    </div>
+                </div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th> Member Name </th>
+                            <th> Mobile Phone No </th>
+                            <th> Address </th>
+                            <th> Wallet Amount (Rp) </th>
+                        </tr>
+                    </thead>
+                    <tbody id="members">
+
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -94,6 +140,46 @@
             $('#value').prop('required', false)
         }
     });
+
+    function getMembers(query) {
+        $.ajax({
+            url: '{{ URL::to("api/manualredeem/member") }}',
+            headers: {
+                'app-kind' : 'web-app'
+            },
+            data: {'query': query},
+            type: 'GET',
+            dataType: 'json',
+            success: function(data) {
+                var html = ''
+                for (var i = 0; i < data.length; ++i) {
+                    var member = data[i]
+                    var address = (member['address'] == null) ? '' : member['address']
+                    var name = member['first_name'] + ' ' + member['last_name'];
+                    html += '<tr> <td> <a data-dismiss="modal" onclick="setUser(\'' + member['id'] + '\',\'' + name + '\', \'' + member['mobile_phone_no'] + '\', \'' + address + '\', \'' + member['wallet'] + '\')">' + name + '</a></td>' +
+                                  '<td>' + member['mobile_phone_no'] + '</td>' +
+                                  '<td>' + address + '</td>' +
+                                  '<td>' + member['wallet'] + '</td></tr>'
+                    $('#members').html(html)
+                    $('#query-button').html('View')
+                }
+            }
+        })
+    }
+
+    function setUser(id, user, phone, address, wallet) {
+        $('#member-id').val(id)
+        $('#member-name').val(user)
+        $('#phone').val(phone)
+        $('#address').val(address)
+        $('#wallet').val(wallet)
+    }
+
+    $('#query-button').on('click', function() {
+        $('#query-button').html('Searching...')
+        getMembers($('#query-search').val())
+    })
+    getMembers('all')
 </script>
 
 @endsection

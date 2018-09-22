@@ -7,6 +7,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Input;
 use Carbon\Carbon;
 use App\MemberList;
+use App\Wallet; 
+use App\ManualRedeem;
+use App\ManualRedeemDetail;
+use Illuminate\Support\Facades\Redirect;
 
 class ManualRedeemAdminController extends Controller
 {
@@ -17,22 +21,86 @@ class ManualRedeemAdminController extends Controller
             $data['date'] = Carbon::now()->toDateString();
         }
 
+        $items = ManualRedeem::where('tanggal', $data['date'])
+                                     ->join('member_lists', 'manual_redeem.id_member', '=', 'member_lists.id')
+                                     ->select('manual_redeem.*', 'member_lists.first_name', 'member_lists.last_name')
+                                     ->get();
+
+        foreach ($items as $item) {
+            $detail = ManualRedeemDetail::selectRaw('id_manual_redeem, COUNT(item_name) as total_item, sum(qty * unit_price) as total_amount')
+                                        ->where('id_manual_redeem', $item->id)
+                                        ->groupBy('id_manual_redeem')
+                                        ->first();
+
+            $item['total_item'] = $detail->total_item;
+            $item['total_amount'] = $detail->total_amount;
+        }
+
+        $data['datas'] = $items;
         return view('admin.manualredeem.index', $data);
     }
 
     public function create() {
         $data['date'] = $_GET['date'];
 
+        $id = (isset($_GET['id_mr'])) ? $_GET['id_mr'] : -1;
+        $data['items'] = ManualRedeemDetail::where('id_manual_redeem', $id)->get();
+        $sum = 0;
+
+        foreach ($data['items'] as $item) {
+            $sum += $item->qty * $item->unit_price;
+        }
+
+        $data['total_amount'] = $sum;
         return view('admin.manualredeem.create', $data);
     }
 
     public function getMemberList(Request $request) {
-        $members = MemberList::select('first_name', 'last_name', 'mobile_phone_no', 'address');
-        if ($request->get('query')) {
-            $members = $members->where('first_name', 'LIKE', $request->get('query'));
+        $batas = 10;
+        $skipped = $request->input('skipped') * $batas;
+        $members = MemberList::select('id', 'first_name', 'last_name', 'mobile_phone_no', 'address')->where('is_worker', 0);
+        if ($request->get('query') && $request->get('query') != 'all') {
+            $members = $members->where('first_name', 'LIKE', '%'.$request->get('query').'%');
         }
-        $members = $members->get();
+        $members = $members->skip($skipped)->take($batas)->get();
+        
+        foreach ($members as $member) {
+            $wallet = Wallet::where('member_id', $member->id)
+                            ->selectRaw('member_id, sum(debit) as total_debit, sum(credit) as total_kredit')
+                            ->groupBy('member_id')
+                            ->first();
+            $member['wallet'] = ($wallet != null) ? $wallet->total_debit - $wallet->total_kredit : 0;
+        }
 
         return response($members, 200);
+    }
+
+    public function store(Request $req) {
+        if ($req->input('id_mr')) {
+            // echo $req->input('id_mr');
+            $manualRedeem = ManualRedeem::find($req->input('id_mr'));
+        } else {
+            $manualRedeem = new ManualRedeem;
+        }
+
+        $manualRedeem->tanggal = $req->input('date');
+        $manualRedeem->id_member = $req->input('member_id');
+
+        $manualRedeem->save();
+
+        // echo $manualRedeem->id;
+        $manualRedeemDetail = new ManualRedeemDetail;
+        $manualRedeemDetail->id_manual_redeem = $manualRedeem->id;
+        $manualRedeemDetail->item_name = $req->input('item_name');
+        $manualRedeemDetail->qty = $req->input('qty');
+        $manualRedeemDetail->unit_price = $req->input('price');
+
+        $manualRedeemDetail->save();
+
+        if (!isset($_GET['id_mr'])) {
+            return Redirect::to(route('manualredeem.create').'?id_mr='.$manualRedeem->id.'&date='.$req->input('date'));
+        } else {
+            return back();
+        }
     }
 }

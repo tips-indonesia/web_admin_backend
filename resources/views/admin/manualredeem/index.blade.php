@@ -33,6 +33,13 @@
             </tr>
         </thead>
         <tbody>
+        @foreach($datas as $data)
+            <tr>
+                <td> {{ $data->first_name . ' ' . $data->last_name }} </td>
+                <td> {{ $data->total_item }}</td>
+                <td> {{ $data->total_amount }} </td>
+            </tr>
+        @endforeach
         </tbody>
     </table>
 
