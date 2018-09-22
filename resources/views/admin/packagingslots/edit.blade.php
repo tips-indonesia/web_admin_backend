@@ -27,12 +27,6 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="form-group">
-                            <label>Status :</label>
-                            @foreach ($slot_ids as $slot)
-                            <input type="text" value="{{ $slot->id_slot_status == -1 ? 'Rejected' : 'Active' }}" class="form-control" disable readonly />
-                            @endforeach
-                        </div>
                         <div class="text-right form-group">
                             <button type="submit" class="btn btn-primary" disabled="">Submit form <i class="icon-arrow-right14 position-right"></i></button>
                         </div>
@@ -62,6 +56,7 @@
                             <th>Origin</th>
                             <th>Destination</th>
                             <th>Weight</th>
+                            <th>Status</th>
                         </tr>
                     </thead>
 
@@ -74,7 +69,6 @@
                 <button @if($slot->id_slot_status == -1) disabled @endif type="button" class="btn btn-primary" id="hidden_btn" data-toggle="modal" data-target="#modal_small" style="float: right; display: none;">Print Label</button> 
             @endforeach
             </div>
-            <button @if($slot->id_slot_status == -1) disabled @endif> Test </button>
             
             <div id="modal_small" class="modal fade">
             <div class="modal-dialog modal-sm">
@@ -208,7 +202,8 @@
                     var body = table.find('tbody');
                     body.html('');
                     for (var i = 0; i < data['shipments'].length; i++) {
-                        body.append("<tr><td>" + data['shipments'][i]['shipment_id'] + "</td><td>" + data['shipments'][i]['transaction_date'] + "</td><td>" + data['shipments'][i]['origin'] + "</td><td>" + data['shipments'][i]['destination'] + "</td><td>" + data['shipments'][i]['real_weight'] + "</td></tr>");
+                        var status = (data['shipments'][i]['id_shipment_status'] < 0) ? 'Rejected' : 'Active'
+                        body.append("<tr><td>" + data['shipments'][i]['shipment_id'] + "</td><td>" + data['shipments'][i]['transaction_date'] + "</td><td>" + data['shipments'][i]['origin'] + "</td><td>" + data['shipments'][i]['destination'] + "</td><td>" + data['shipments'][i]['real_weight'] + "</td><td> " + status + "</td></tr>");
                         
                     }
                 }

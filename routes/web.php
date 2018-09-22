@@ -161,6 +161,10 @@ Route::group(['middleware' => 'isWorker'], function() {
             Route::resource('deliveryprocessingcenters','Admin\DeliveryProcessingCenterAdminController');
         });
 
+        Route::group(['middleware' => ['permission:manualredeem.']], function () {
+            Route::resource('manualredeem','Admin\ManualRedeemAdminController');
+        });
+
         Route::group(['middleware' => ['permission:receiveprocessingcenters.']], function () {
             Route::resource('receiveprocessingcenters','Admin\ReceiveProcessingCenterAdminController');
         });
@@ -175,6 +179,10 @@ Route::group(['middleware' => 'isWorker'], function() {
 
         Route::group(['middleware' => ['permission:shipmentcancellation.']], function () {
             Route::resource('shipmentcancellation','Admin\ShipmentCancellationAdminController');
+        });
+
+        Route::group(['middleware' => ['permission:packagingdemolition.']], function () {
+            Route::resource('packagingdemolition','Admin\PackagingDemolitionAdminController');
         });
 
         Route::group(['middleware' => ['permission:shipmentrejection.']], function () {

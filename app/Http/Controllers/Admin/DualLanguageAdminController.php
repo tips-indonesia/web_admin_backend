@@ -8,6 +8,7 @@ use App\DualLanguage;
 use Validator;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
+use DB;
 
 class DualLanguageAdminController extends Controller
 {
@@ -63,29 +64,26 @@ class DualLanguageAdminController extends Controller
     }
 
     public function update(Request $req, $id) {
-        $duallanguage = DualLanguage::find($id);
-
-        $duallanguage->lang_id = $req->input('pilihan_bahasa');
-        $duallanguage->key = $req->input('key');
-        $duallanguage->value = $req->input('value');
-
-        $duallanguage->save();
+        $duallanguage = DualLanguage::where('key', $req->input('key_default'))->where('value', $req->input('value_default'))
+                ->update([
+                    'key' => $req->input('key'),
+                    'value' => $req->input('value') 
+                ]);
 
         return Redirect::to(route('duallanguage.index'));
     }
 
     public function edit($id) {
-        $duallanguage = DualLanguage::find($id);
+        $duallanguage = DualLanguage::where('key', $_GET['key'])->where('value', $_GET['value'])->first();
 
         $data['data'] = $duallanguage;
 
         return view('admin.duallanguage.edit', $data);
     }
 
-    public function destroy($id) {
-        $duallanguage = DualLanguage::find($id);
+    public function show($id) {
+        DualLanguage::where('key', $_GET['key'])->where('value', $_GET['value'])->delete();
 
-        $duallanguage->delete();
 
         return back();
     }

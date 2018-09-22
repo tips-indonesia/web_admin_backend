@@ -62,12 +62,17 @@
                         <td>
                         <ul class="icons-list">
                             <li>
-                                {{ Form::open(array('method' => 'GET', 'url' => route('duallanguage.edit', $data->id))) }}
+                                {{ Form::open(array('method' => 'GET', 'url' => route('duallanguage.edit', 1))) }}
+                                <input type="hidden" value="{{ $data->key }}" name="key">
+                                <input type="hidden" value="{{ $data->value }}" name="value">
                                 <button type="submit" class="btn btn-primary"><i class="icon-pencil"></i> Edit</button>
                                 {{ Form::close() }}
                             </li>
                             <li>
-                                {{ Form::open(array('method' => 'DELETE', 'url' => route('duallanguage.destroy', $data->id))) }}
+                                {{ Form::open(array('method' => 'GET', 'url' => route('duallanguage.show', 1))) }}
+                                <input type="hidden" value="true" name="delete" />
+                                <input type="hidden" value="{{ $data->key }}" name="key">
+                                <input type="hidden" value="{{ $data->value }}" name="value">
                                 <button type="submit" class="btn btn-danger"><i class="icon-trash"></i> Delete</button>
                                 {{ Form::close() }}
                             </li>

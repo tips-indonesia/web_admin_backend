@@ -109,7 +109,9 @@ class AirportcityListAdminController extends Controller
                 ->withErrors($validator)
                 ->withInput();
         } else {
-            $airportcityList = AirportcityList::find($id); $airportcityList->name = Input::get('name');
+            $airportcityList = AirportcityList::find($id); 
+            $airportcityList->name = Input::get('name');
+            $airportcityList->initial_code = Input::get('initial');
             $airportcityList->save();
             Session::flash('message', 'Successfully created data!');
             return Redirect::to(route('airportcitylists.index'));

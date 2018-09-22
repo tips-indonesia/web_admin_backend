@@ -14,6 +14,7 @@
             <thead>
                 <tr>
                     <th>Name</th>
+                    <th>Initial Code</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -22,6 +23,9 @@
                     <tr>
                         <td>
                             {{ $data->name }}
+                        </td>
+                        <td>
+                            {{ $data->initial_code }}
                         </td>
                         <td>
                         <ul class="icons-list">
