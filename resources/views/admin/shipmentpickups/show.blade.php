@@ -429,7 +429,13 @@
                 <div style="text-align: background: #000;padding: 5px; font-weight: bold; padding-top: 0; font-size: 30px;">
                     {!! $data->shipment_id !!}
                 </div>
-                <span style="font-size: 10px; float: right; margin-right: 5px; margin-bottom: 5px;">tips.co.id</span>    
+                <div style="width: 100%; float: left;">
+                    <span style="width: 50%;  font-size: 16px; float: left; padding-left: 5px; margin-bottom: 5px;"> 
+                        {{ $data->initial_origin }} - {{ $data->initial_destination}} 
+                    </span>
+                    <span style="text-align: right; width: 50%; font-size: 10px; float: right; 
+                        padding-top: 6px; padding-right: 5px; margin-bottom: 5px;">tips.co.id</span>    
+                </div>
             </td>
             <td style="width: 17%; padding: 4px 10px;">
                 <img src="{!! URL::to('/') . '/images/logoqr.png' !!}" style="height: 40px; width: 40px;">
@@ -572,7 +578,12 @@
                 <div style="text-align: background: #000;padding-left: 5px; font-weight: bold; padding-top: 0; font-size: 1.5em;">\
                     {!! $data->shipment_id !!}\
                 </div>    \
-                <span style="float:right; font-size: 8px; margin-top: -8px; margin-right: 5px;">tips.co.id</span>\
+                <div style="width: 100%; float: left;">\
+                    <span style="width: 50%;  font-size: 16px; float: left; padding-left: 5px; margin-bottom: 5px;"> \
+                        {{ $data->initial_origin }} - {{ $data->initial_destination}} \
+                    </span>\
+                    <span style="float:right; margin-right: 10px; font-size: 11px; margin-top: 10px;">tips.co.id</span>\
+                </div>\
             </td>\
             <td style="width: 13%;">\
                 <center><img src="{{ asset('/images/logoqr.png') }}" style="width: 100%; height: 100%;"></center>\

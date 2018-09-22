@@ -609,8 +609,7 @@
                     <span style="width: 50%;  font-size: 16px; float: left; padding-left: 5px; margin-bottom: 5px;"> \
                         {{ $data->initial_origin }} - {{ $data->initial_destination}} \
                     </span>\
-                    <span style="text-align: right; width: 50%; font-size: 10px; float: right; \
-                        padding-top: 6px; padding-right: 5px; margin-bottom: 5px;">tips.co.id</span>   \ 
+                    <span style="float:right; margin-right: 10px; font-size: 11px; margin-top: 10px;">tips.co.id</span>\
                 </div>\
             </td>\
             <td style="width: 13%;">\

@@ -125,6 +125,8 @@ class ShipmentPickUpAdminController extends Controller
         $data['data']['shipper_address_detail'] = $this->deleteenter($data['data']->shipper_address_detail);
         $data['data']['consignee_address'] = $this->deleteenter($data['data']->consignee_address);
         $data['data']['consignee_address_detail'] = $this->deleteenter($data['data']->consignee_address_detail);
+        $data['data']['initial_origin'] = AirportcityList::find($data['data']->id_origin_city)->initial_code;
+        $data['data']['initial_destination'] = AirportcityList::find($data['data']->id_destination_city)->initial_code;
         return view('admin.shipmentpickups.show', $data);
         }
     }
