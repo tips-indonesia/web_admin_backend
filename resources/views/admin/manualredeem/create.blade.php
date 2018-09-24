@@ -39,10 +39,6 @@
                 <input type="text" name="mobile_phone_no" class="form-control" id="phone">
             </div>
             <div class="form-group col-md-12">
-                <label> Address : </label>
-                <input type="text" name="address" class="form-control" id="address">
-            </div>
-            <div class="form-group col-md-12">
                 <label> Wallet Amount (Rp) : </label>
                 <input type="text" name="wallet_amount" class="form-control" id="wallet">
             </div>
@@ -118,7 +114,6 @@
                         <tr>
                             <th> Member Name </th>
                             <th> Mobile Phone No </th>
-                            <th> Address </th>
                             <th> Wallet Amount (Rp) </th>
                         </tr>
                     </thead>
@@ -158,7 +153,6 @@
                     var name = member['first_name'] + ' ' + member['last_name'];
                     html += '<tr> <td> <a data-dismiss="modal" onclick="setUser(\'' + member['id'] + '\',\'' + name + '\', \'' + member['mobile_phone_no'] + '\', \'' + address + '\', \'' + member['wallet'] + '\')">' + name + '</a></td>' +
                                   '<td>' + member['mobile_phone_no'] + '</td>' +
-                                  '<td>' + address + '</td>' +
                                   '<td>' + member['wallet'] + '</td></tr>'
                     $('#members').html(html)
                     $('#query-button').html('View')
@@ -171,7 +165,7 @@
         $('#member-id').val(id)
         $('#member-name').val(user)
         $('#phone').val(phone)
-        $('#address').val(address)
+        // $('#address').val(address)
         $('#wallet').val(wallet)
     }
 

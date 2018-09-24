@@ -58,7 +58,7 @@ class ManualRedeemAdminController extends Controller
     public function getMemberList(Request $request) {
         $batas = 10;
         $skipped = $request->input('skipped') * $batas;
-        $members = MemberList::select('id', 'first_name', 'last_name', 'mobile_phone_no', 'address')->where('is_worker', 0);
+        $members = MemberList::select('id', 'first_name', 'last_name', 'mobile_phone_no', 'address');
         if ($request->get('query') && $request->get('query') != 'all') {
             $members = $members->where('first_name', 'LIKE', '%'.$request->get('query').'%');
         }
