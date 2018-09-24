@@ -24,7 +24,7 @@ class PrintPickedUpShipmentManifestAdminController extends Controller
         $data['param'] = Input::get('param');
         $data['value'] = Input::get('value');
 
-        $workers = Shipment::selectRaw('pickup_by, count(pickup_by) as total_shipment')
+        $workers = Shipment::withTrashed()->selectRaw('pickup_by, count(pickup_by) as total_shipment')
                             ->where('pickup_date', $data['date'])
                             ->whereNotNull('pickup_by')
                             ->groupBy('pickup_by')
@@ -53,7 +53,7 @@ class PrintPickedUpShipmentManifestAdminController extends Controller
             $data['worker_name'] = $user->first_name . " " . $user->last_name;
             $data['office_name'] = OfficeList::find($user->id_office)->name;
 
-            $shipments = Shipment::where('pickup_by', $id)->
+            $shipments = Shipment::withTrashed()->where('pickup_by', $id)->
                                    where('pickup_date', $data['date'])->
                                    get();
             
