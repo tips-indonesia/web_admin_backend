@@ -27,7 +27,7 @@
                             {{ Form::text('name', null, array('class' => 'form-control', 'placeholder' => 'Airportcity Name')) }}
                         </div>
                         <div class="form-group">
-                            <label>Initial :</label>
+                            <label>Initial (max. 4 character) :</label>
                             {{ Form::text('initial', null, array('class' => 'form-control', 'placeholder' => 'Airportcity Initial Code',
                             'style' => 'text-transform: uppercase;')) }}
                         </div>
