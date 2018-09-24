@@ -76,12 +76,7 @@ class ManualRedeemAdminController extends Controller
     }
 
     public function store(Request $req) {
-        if ($req->input('id_mr')) {
-            // echo $req->input('id_mr');
-            $manualRedeem = ManualRedeem::find($req->input('id_mr'));
-        } else {
-            $manualRedeem = new ManualRedeem;
-        }
+        $manualRedeem = new ManualRedeem;
 
         $manualRedeem->tanggal = $req->input('date');
         $manualRedeem->id_member = $req->input('member_id');
@@ -97,10 +92,70 @@ class ManualRedeemAdminController extends Controller
 
         $manualRedeemDetail->save();
 
-        if (!isset($_GET['id_mr'])) {
-            return Redirect::to(route('manualredeem.create').'?id_mr='.$manualRedeem->id.'&date='.$req->input('date'));
-        } else {
-            return back();
+        // if (!isset($_GET['id_mr'])) {
+        //     return Redirect::to(route('manualredeem.create').'?id_mr='.$manualRedeem->id.'&date='.$req->input('date'));
+        // } else {
+        //     return back();
+        // }
+
+        return Redirect::to(route('manualredeem.edit', $manualRedeem->id).'?date='.$req->input('date'));
+    }
+
+    public function edit($id) {
+        $manualRedeem = ManualRedeem::find($id);
+
+        $data['user'] = MemberList::find($manualRedeem->id_member);
+        $wallet = Wallet::where('member_id', $data['user']->id)
+                        ->selectRaw('member_id, sum(debit) as total_debit, sum(credit) as total_kredit')
+                        ->groupBy('member_id')
+                        ->first();
+        $data['wallet'] = ($wallet != null) ? $wallet->total_debit - $wallet->total_kredit : 0;
+        $data['date'] = $_GET['date'];
+
+        $data['items'] = ManualRedeemDetail::where('id_manual_redeem', $id)->get();
+        $sum = 0;
+
+        foreach ($data['items'] as $item) {
+            $sum += $item->qty * $item->unit_price;
         }
+
+        $data['total_amount'] = $sum;
+        $data['data'] = $manualRedeem;
+
+        return view('admin.manualredeem.edit', $data);
+    }
+
+    public function update(Request $req, $id) {
+        $manualRedeem = ManualRedeem::find($id);
+
+        $manualRedeem->tanggal = $req->input('date');
+        $manualRedeem->id_member = $req->input('id_mr');
+
+        $manualRedeem->save();
+
+        // echo $manualRedeem->id;
+        $manualRedeemDetail = new ManualRedeemDetail;
+        $manualRedeemDetail->id_manual_redeem = $manualRedeem->id;
+        $manualRedeemDetail->item_name = $req->input('item_name');
+        $manualRedeemDetail->qty = $req->input('qty');
+        $manualRedeemDetail->unit_price = $req->input('price');
+
+        $manualRedeemDetail->save();
+
+        return back()->with('date', $req->input('date'));
+    }
+    public function destroy($id) {
+        $data = ManualRedeemDetail::where('seq',$id)->first();
+        $id_manual_redeem = $data->id_manual_redeem;
+        ManualRedeemDetail::where('seq',$id)->delete();
+
+        $dumm = ManualRedeemDetail::where('id_manual_redeem', $id_manual_redeem)->get();
+        if (count($dumm) == 0 ) {
+            $manual = ManualRedeem::find($id_manual_redeem);
+            $manual->delete();
+            return Redirect::to(route('manualredeem.index'));
+        }
+
+        return back();
     }
 }

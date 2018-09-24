@@ -35,7 +35,11 @@
         <tbody>
         @foreach($datas as $data)
             <tr>
-                <td> {{ $data->first_name . ' ' . $data->last_name }} </td>
+                <td> 
+                    <a href="{{ route('manualredeem.edit', $data->id) }}?date={{$date}}">
+                        {{ $data->first_name . ' ' . $data->last_name }} 
+                    </a>
+                </td>
                 <td> {{ $data->total_item }}</td>
                 <td> {{ $data->total_amount }} </td>
             </tr>

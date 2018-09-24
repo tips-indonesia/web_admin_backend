@@ -4,16 +4,16 @@
     Manual Redeem
 @endsection
 @section('page_title')
-    <span class="text-semibold">Manual Redeem</span> - Create
+    <span class="text-semibold">Manual Redeem</span> -  Edit
 @endsection
 @section('content')
 <div class="panel panel-flat">
     <div class="panel-body">
-    {{ Form::open(array('url' => route('manualredeem.store'))) }}
+    {{ Form::open(array('method' => 'PUT', 'url' => route('manualredeem.update', $data->id))) }}
         @if(isset($_GET['id_mr']))
-        <input type="hidden" name="id_mr"value="{{ $_GET['id_mr'] }}"/>
+        <input type="hidden" name="id_mr" />
         @endif
-        <input type="hidden" name="member_id" id="member-id" />
+        <input type="hidden" name="id_mr" id="member-id" value="{{ $user->id }}"/>
         <div class="form-group">
             <label> Date : </label>
             <div class="input-group">
@@ -29,18 +29,21 @@
                         Member List
                     </button>
                 </label>
-                <input type="text" name="member_name" class="form-control" id="member-name" disabled>
+                <input type="text" name="member_name" class="form-control" id="member-name" disabled 
+                    value="{{$user->first_name . ' ' .$user->last_name}}">
             </div>
             <div class="col-md-6 form-group">
                 <label> Mobile Phone No : 
                 <button type="button" class="btn" style="visibility: hidden;">Hide</button>
                 </label>
                 </button>
-                <input type="text" name="mobile_phone_no" class="form-control" id="phone" disabled>
+                <input type="text" name="mobile_phone_no" class="form-control" id="phone" disabled
+                    value="{{$user->mobile_phone_no}}">
             </div>
             <div class="form-group col-md-12">
                 <label> Wallet Amount (Rp) : </label>
-                <input type="text" name="wallet_amount" class="form-control" id="wallet" disabled>
+                <input type="text" name="wallet_amount" class="form-control" id="wallet" disabled
+                    value="{{$wallet}}">
             </div>
             <br />
             <div class="form-group col-md-12">
