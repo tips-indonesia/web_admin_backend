@@ -10,6 +10,8 @@ use App\Shipment;
 use App\MemberList;
 use App\OfficeList;
 use App\AirportcityList;
+use Auth;
+use App\User;
 
 class PrintPickedUpShipmentManifestAdminController extends Controller
 {
@@ -27,8 +29,15 @@ class PrintPickedUpShipmentManifestAdminController extends Controller
         $workers = Shipment::withTrashed()->selectRaw('pickup_by, count(pickup_by) as total_shipment')
                             ->where('pickup_date', $data['date'])
                             ->whereNotNull('pickup_by')
-                            ->groupBy('pickup_by')
-                            ->get();
+                            ->groupBy('pickup_by');
+        $user = User::find(Auth::id());
+
+        if ($user->id_office != null  && $user->id != 1) {
+            $office = OfficeList::find($user->id_office);
+            $workers = $workers->where('id_origin_city', $office->id_area);
+        }
+
+        $workers = $workers->get();
 
         foreach ($workers as $worker) {
             $user = MemberList::find($worker->pickup_by);
