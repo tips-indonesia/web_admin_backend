@@ -56,7 +56,7 @@ class PrintPickedUpShipmentManifestAdminController extends Controller
 
             $shipments = Shipment::where('pickup_by', $id)->
                                    where('pickup_date', $data['date'])->
-                                   where('id_shipment_status', 2)->
+                                   where('id_shipment_status', '>=', 2)->
                                    get();
             
             foreach ($shipments as $shipment) {
