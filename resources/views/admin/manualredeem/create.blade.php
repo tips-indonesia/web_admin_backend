@@ -29,18 +29,18 @@
                         Member List
                     </button>
                 </label>
-                <input type="text" name="member_name" class="form-control" id="member-name">
+                <input type="text" name="member_name" class="form-control" id="member-name" disabled>
             </div>
             <div class="col-md-6 form-group">
                 <label> Mobile Phone No : 
                 <button type="button" class="btn" style="visibility: hidden;">Hide</button>
                 </label>
                 </button>
-                <input type="text" name="mobile_phone_no" class="form-control" id="phone">
+                <input type="text" name="mobile_phone_no" class="form-control" id="phone" disabled>
             </div>
             <div class="form-group col-md-12">
                 <label> Wallet Amount (Rp) : </label>
-                <input type="text" name="wallet_amount" class="form-control" id="wallet">
+                <input type="text" name="wallet_amount" class="form-control" id="wallet" disabled>
             </div>
             <br />
             <div class="form-group col-md-12">
@@ -136,6 +136,11 @@
         }
     });
 
+    function formatPrice (value) {
+      let val = (value / 1).toFixed(0).replace('.')
+      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
+    }
+
     function getMembers(query) {
         $.ajax({
             url: '{{ URL::to("api/manualredeem/member") }}',
@@ -153,7 +158,7 @@
                     var name = member['first_name'] + ' ' + member['last_name'];
                     html += '<tr> <td> <a data-dismiss="modal" onclick="setUser(\'' + member['id'] + '\',\'' + name + '\', \'' + member['mobile_phone_no'] + '\', \'' + address + '\', \'' + member['wallet'] + '\')">' + name + '</a></td>' +
                                   '<td>' + member['mobile_phone_no'] + '</td>' +
-                                  '<td>' + member['wallet'] + '</td></tr>'
+                                  '<td> Rp ' + formatPrice(member['wallet']) + '</td></tr>'
                     $('#members').html(html)
                     $('#query-button').html('View')
                 }
