@@ -66,10 +66,10 @@
 
             </div>
             @foreach ($slot_ids as $slot)
-                <button @if($slot->id_slot_status == -1) disabled @endif type="button" class="btn btn-primary" id="hidden_btn" data-toggle="modal" data-target="#modal_small" style="float: right; display: none;">Print Label</button> 
+                <button type="button" class="btn btn-primary" id="hidden_btn" data-toggle="modal" data-target="#modal_small" style="float: right; display: none;">Print Label</button> 
             @endforeach
             @foreach ($slot_ids as $slot)
-                <button @if($slot->id_slot_status == -1) disabled @endif type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal_manifest" style="float: right; margin-right: 10px;">Print Manifest</button> 
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal_manifest" style="float: right; margin-right: 10px;">Print Manifest</button> 
             @endforeach
             </div>
             <div id="modal_manifest" class="modal fade">
