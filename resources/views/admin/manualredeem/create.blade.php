@@ -9,6 +9,15 @@
 @section('content')
 <div class="panel panel-flat">
     <div class="panel-body">
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
     {{ Form::open(array('url' => route('manualredeem.store'))) }}
         @if(isset($_GET['id_mr']))
         <input type="hidden" name="id_mr"value="{{ $_GET['id_mr'] }}"/>
@@ -29,18 +38,18 @@
                         Member List
                     </button>
                 </label>
-                <input type="text" name="member_name" class="form-control" id="member-name" disabled>
+                <input type="text" name="member_name" class="form-control" id="member-name" readonly>
             </div>
             <div class="col-md-6 form-group">
                 <label> Mobile Phone No : 
                 <button type="button" class="btn" style="visibility: hidden;">Hide</button>
                 </label>
                 </button>
-                <input type="text" name="mobile_phone_no" class="form-control" id="phone" disabled>
+                <input type="text" name="mobile_phone_no" class="form-control" id="phone" readonly>
             </div>
             <div class="form-group col-md-12">
                 <label> Wallet Amount (Rp) : </label>
-                <input type="text" name="wallet_amount" class="form-control" id="wallet" disabled>
+                <input type="text" name="wallet_amount" class="form-control" id="wallet" readonly>
             </div>
             <br />
             <div class="form-group col-md-12">
@@ -58,7 +67,7 @@
             <div class="form-group col-md-12">
                 <label> Total Amount: {{ $total_amount }} </label>
             </div>
-            <button style="float: right;" class="btn btn-primary">Save</button>
+            <button value="save" name="submit" style="float: right;" class="btn btn-primary">Save</button>
         <div>
         {{ Form::close() }}
         <table class="table">

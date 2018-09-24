@@ -9,6 +9,15 @@
 @section('content')
 <div class="panel panel-flat">
     <div class="panel-body">
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
     {{ Form::open(array('method' => 'PUT', 'url' => route('manualredeem.update', $data->id))) }}
         @if(isset($_GET['id_mr']))
         <input type="hidden" name="id_mr" />
@@ -29,7 +38,7 @@
                         Member List
                     </button>
                 </label>
-                <input type="text" name="member_name" class="form-control" id="member-name" disabled 
+                <input type="text" name="member_name" class="form-control" id="member-name" readonly 
                     value="{{$user->first_name . ' ' .$user->last_name}}">
             </div>
             <div class="col-md-6 form-group">
@@ -37,31 +46,33 @@
                 <button type="button" class="btn" style="visibility: hidden;">Hide</button>
                 </label>
                 </button>
-                <input type="text" name="mobile_phone_no" class="form-control" id="phone" disabled
+                <input type="text" name="mobile_phone_no" class="form-control" id="phone" readonly
                     value="{{$user->mobile_phone_no}}">
             </div>
             <div class="form-group col-md-12">
                 <label> Wallet Amount (Rp) : </label>
-                <input type="text" name="wallet_amount" class="form-control" id="wallet" disabled
+                <input type="text" name="wallet_amount" class="form-control" id="wallet" readonly
                     value="{{$wallet}}">
             </div>
             <br />
             <div class="form-group col-md-12">
                 <label> Item Name : </label>
-                <input type="text" name="item_name" class="form-control" required>
+                <input type="text" name="item_name" class="form-control">
             </div>
             <div class="form-group col-md-12">
                 <label> Price (Rp) : </label>
-                <input type="number" name="price" class="form-control" required>
+                <input type="number" name="price" class="form-control">
             </div>
             <div class="form-group col-md-12">
                 <label> Qty : </label>
-                <input type="number" name="qty" class="form-control" required>
+                <input type="number" name="qty" class="form-control">
             </div>
             <div class="form-group col-md-12">
                 <label> Total Amount: {{ $total_amount }} </label>
+                <input type="hidden" value="{{ $total_amount }}" name="total_amount" />
             </div>
-            <button style="float: right;" class="btn btn-primary">Save</button>
+            <button style="float: right;" name="submit" value="save" @if($data->is_posting == 1) disabled @endif class="btn btn-primary">Save</button>
+            <button @if($data->is_posting == 1) disabled @endif value="post" name="submit" style="float: right; margin-right: 10px; margin-left: 10px;" class="btn btn-success">Post</button>
         <div>
         {{ Form::close() }}
         <table class="table">
@@ -83,7 +94,7 @@
                     <td> {{ $item->qty * $item->unit_price }} </td>
                     <td>
                         {{ Form::open(array('method' => 'DELETE', 'url' => route('manualredeem.destroy',  $item->seq))) }}
-                        <button type="submit" class="btn btn-danger"> Delete </button>
+                        <button type="submit" class="btn btn-danger" @if($data->is_posting == 1) disabled @endif > Delete </button>
                         {{ Form::close() }}
                     </td>
                 </tr>

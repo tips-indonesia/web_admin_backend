@@ -11,6 +11,7 @@ use App\Wallet;
 use App\ManualRedeem;
 use App\ManualRedeemDetail;
 use Illuminate\Support\Facades\Redirect;
+use Validator;
 
 class ManualRedeemAdminController extends Controller
 {
@@ -76,29 +77,37 @@ class ManualRedeemAdminController extends Controller
     }
 
     public function store(Request $req) {
-        $manualRedeem = new ManualRedeem;
+        if ($req->input('submit') == 'save') {
+            if ($req->input('wallet_amount') > 0) {
+                $manualRedeem = new ManualRedeem;
 
-        $manualRedeem->tanggal = $req->input('date');
-        $manualRedeem->id_member = $req->input('member_id');
+                $manualRedeem->tanggal = $req->input('date');
+                $manualRedeem->id_member = $req->input('member_id');
 
-        $manualRedeem->save();
+                $manualRedeem->save();
 
-        // echo $manualRedeem->id;
-        $manualRedeemDetail = new ManualRedeemDetail;
-        $manualRedeemDetail->id_manual_redeem = $manualRedeem->id;
-        $manualRedeemDetail->item_name = $req->input('item_name');
-        $manualRedeemDetail->qty = $req->input('qty');
-        $manualRedeemDetail->unit_price = $req->input('price');
+                // echo $manualRedeem->id;
+                $manualRedeemDetail = new ManualRedeemDetail;
+                $manualRedeemDetail->id_manual_redeem = $manualRedeem->id;
+                $manualRedeemDetail->item_name = $req->input('item_name');
+                $manualRedeemDetail->qty = $req->input('qty');
+                $manualRedeemDetail->unit_price = $req->input('price');
 
-        $manualRedeemDetail->save();
+                $manualRedeemDetail->save();
 
-        // if (!isset($_GET['id_mr'])) {
-        //     return Redirect::to(route('manualredeem.create').'?id_mr='.$manualRedeem->id.'&date='.$req->input('date'));
-        // } else {
-        //     return back();
-        // }
+                // if (!isset($_GET['id_mr'])) {
+                //     return Redirect::to(route('manualredeem.create').'?id_mr='.$manualRedeem->id.'&date='.$req->input('date'));
+                // } else {
+                //     return back();
+                // }
 
-        return Redirect::to(route('manualredeem.edit', $manualRedeem->id).'?date='.$req->input('date'));
+                return Redirect::to(route('manualredeem.edit', $manualRedeem->id).'?date='.$req->input('date'));
+            } else {
+                return back()->withErrors(['wallet' => 'Transaksi tidak dapat dilakukan karena nilai wallet tidak lebih dari 0']);
+            }
+        } else if ($req->input('submit') == 'post') {
+
+        }
     }
 
     public function edit($id) {
@@ -126,23 +135,63 @@ class ManualRedeemAdminController extends Controller
     }
 
     public function update(Request $req, $id) {
-        $manualRedeem = ManualRedeem::find($id);
+        if ($req->input('submit') == 'save') {
+            if ($req->input('wallet_amount') > 0) {
+                $rule = [
+                    'item_name' => 'required',
+                    'qty' => 'required',
+                    'price' => 'required'
+                ];
 
-        $manualRedeem->tanggal = $req->input('date');
-        $manualRedeem->id_member = $req->input('id_mr');
+                $validate = Validator::make($req->all(), $rule);
+                if ($validate->fails()) {
+                    return back()->withErrors($validate);
+                } else {
+                    $manualRedeem = ManualRedeem::find($id);
 
-        $manualRedeem->save();
+                    $manualRedeem->tanggal = $req->input('date');
+                    $manualRedeem->id_member = $req->input('id_mr');
 
-        // echo $manualRedeem->id;
-        $manualRedeemDetail = new ManualRedeemDetail;
-        $manualRedeemDetail->id_manual_redeem = $manualRedeem->id;
-        $manualRedeemDetail->item_name = $req->input('item_name');
-        $manualRedeemDetail->qty = $req->input('qty');
-        $manualRedeemDetail->unit_price = $req->input('price');
+                    $manualRedeem->save();
 
-        $manualRedeemDetail->save();
+                    // echo $manualRedeem->id;
+                    $manualRedeemDetail = new ManualRedeemDetail;
+                    $manualRedeemDetail->id_manual_redeem = $manualRedeem->id;
+                    $manualRedeemDetail->item_name = $req->input('item_name');
+                    $manualRedeemDetail->qty = $req->input('qty');
+                    $manualRedeemDetail->unit_price = $req->input('price');
 
-        return back()->with('date', $req->input('date'));
+                    $manualRedeemDetail->save();
+
+                    return back()->with('date', $req->input('date'));
+                }
+            } else {
+                return back()->withErrors(['wallet' => 'Transaksi tidak dapat dilakukan karena nilai wallet tidak lebih dari 0']);
+            }
+        } else if ($req->input('submit') == 'post') {
+            if ($req->input('total_amount') > $req->input('wallet_amount')) {
+                return back()->withErrors(['wallet' => 'Nilai Redeem tidak boleh lebih besar dari nilai wallet.']);
+            } else {
+                $manualRedeem = ManualRedeem::find($id);
+                $manualRedeem->is_posting = 1;
+                $manualRedeem->save();
+
+                $details = ManualRedeemDetail::where('id_manual_redeem', $manualRedeem->id)->get();
+                foreach ($details as $detail) {
+                    $wallet = new Wallet;
+
+                    $wallet->member_id = $manualRedeem->id_member;
+                    $wallet->trans_date = $manualRedeem->tanggal;
+                    $wallet->debit = 0;
+                    $wallet->trans_id = 6;
+                    $wallet->credit = $detail->qty * $detail->unit_price;
+                    $wallet->remarks = $detail->item_name . '(manual redeem)';
+
+                    $wallet->save();
+                }
+                return back()->with('date', $req->input('date'));
+            }
+        }
     }
     public function destroy($id) {
         $data = ManualRedeemDetail::where('seq',$id)->first();
