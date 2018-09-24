@@ -18,7 +18,7 @@
                             {{ Form::text('name', $datas->name, array('class' => 'form-control', 'placeholder' => 'Airportcity Name')) }}
                         </div>
                         <div class="form-group">
-                            <label>Name :</label>
+                            <label>Initial :</label>
                             {{ Form::text('initial', $datas->initial_code, array('class' => 'form-control', 'placeholder' => 'Airportcity Initial Code')) }}
                         </div>
                         <div class="text-right form-group">
