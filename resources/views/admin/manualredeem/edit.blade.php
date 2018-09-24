@@ -68,11 +68,11 @@
                 <input type="number" name="qty" class="form-control">
             </div>
             <div class="form-group col-md-12">
-                <label> Total Amount: {{ $total_amount }} </label>
+                <label> Total Amount: Rp {{ number_format($total_amount,2,',','.') }} </label>
                 <input type="hidden" value="{{ $total_amount }}" name="total_amount" />
             </div>
-            <button style="float: right;" name="submit" value="save" @if($data->is_posting == 1) disabled @endif class="btn btn-primary">Save</button>
-            <button @if($data->is_posting == 1) disabled @endif value="post" name="submit" style="float: right; margin-right: 10px; margin-left: 10px;" class="btn btn-success">Post</button>
+            <button @if($data->is_posting == 1) disabled @endif value="post" name="submit" style="float: right;" class="btn btn-success">Post</button>
+            <button style="float: right; margin-right: 10px; margin-left: 10px;" name="submit" value="save" @if($data->is_posting == 1) disabled @endif class="btn btn-primary">Save</button>
         <div>
         {{ Form::close() }}
         <table class="table">

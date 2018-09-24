@@ -41,7 +41,7 @@
                     </a>
                 </td>
                 <td> {{ $data->total_item }}</td>
-                <td> {{ $data->total_amount }} </td>
+                <td> Rp {{ number_format($data->total_amount,2,',','.') }} </td>
             </tr>
         @endforeach
         </tbody>
