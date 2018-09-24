@@ -45,15 +45,15 @@
             <br />
             <div class="form-group col-md-12">
                 <label> Item Name : </label>
-                <input type="text" name="item_name" class="form-control">
+                <input type="text" name="item_name" class="form-control" required>
             </div>
             <div class="form-group col-md-12">
                 <label> Price (Rp) : </label>
-                <input type="text" name="price" class="form-control">
+                <input type="text" name="price" class="form-control" required>
             </div>
             <div class="form-group col-md-12">
                 <label> Qty : </label>
-                <input type="number" name="qty" class="form-control">
+                <input type="number" name="qty" class="form-control" required>
             </div>
             <div class="form-group col-md-12">
                 <label> Total Amount: {{ $total_amount }} </label>
