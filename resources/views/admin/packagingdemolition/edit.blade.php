@@ -1,10 +1,10 @@
 @extends('admin.app')
 
 @section('title')
-    Edit Packaging Demolition
+    Edit Packaging Item Rejection
 @endsection
 @section('page_title')
-<span class="text-semibold">Packaging Demolition</span> - Edit
+<span class="text-semibold">Packaging Item Rejection</span> - Edit
 @endsection
 @section('content')
     <!-- Vertical form options -->
@@ -58,7 +58,7 @@
                                     <th>Origin</th>
                                     <th>Destination</th>
                                     <th>Weight</th>
-                                    <th>Status</th>
+                                    <th>Rejection Type</th>
                                     <th> Additional Notes</th>
                                     <th>&nbsp;</th>
                                 </tr>

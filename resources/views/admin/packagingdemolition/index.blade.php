@@ -1,10 +1,10 @@
 @extends('admin.app')
 
 @section('title')
-    Packaging Demolition
+    Packaging Item Rejection
 @endsection
 @section('page_title')
-<span class="text-semibold">Packaging Demolition</span> - Show All
+<span class="text-semibold">Packaging Item Rejection</span> - Show All
 @endsection
 @section('content')
 <div class="panel panel-flat">
