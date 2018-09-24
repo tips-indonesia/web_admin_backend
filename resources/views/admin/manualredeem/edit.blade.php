@@ -52,7 +52,7 @@
             </div>
             <div class="form-group col-md-12">
                 <label> Price (Rp) : </label>
-                <input type="text" name="price" class="form-control" required>
+                <input type="number" name="price" class="form-control" required>
             </div>
             <div class="form-group col-md-12">
                 <label> Qty : </label>
