@@ -25,7 +25,6 @@ class PrintPickedUpShipmentManifestAdminController extends Controller
         $data['value'] = Input::get('value');
 
         $workers = Shipment::selectRaw('pickup_by, count(pickup_by) as total_shipment')
-                            ->where('id_shipment_status', '>=', 2)
                             ->where('pickup_date', $data['date'])
                             ->whereNotNull('pickup_by')
                             ->groupBy('pickup_by')
@@ -56,7 +55,6 @@ class PrintPickedUpShipmentManifestAdminController extends Controller
 
             $shipments = Shipment::where('pickup_by', $id)->
                                    where('pickup_date', $data['date'])->
-                                   where('id_shipment_status', '>=', 2)->
                                    get();
             
             foreach ($shipments as $shipment) {
