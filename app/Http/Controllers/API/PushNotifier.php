@@ -22,7 +22,7 @@ class PushNotifier extends Controller
 	}
 
 	public function delivery_sms_sender($message, $user){
-        SMSSender::kirim($user->mobile_phone_no, $message);
+        SMSSender::kirim($user->mobile_phone_no, urlencode($message));
 	}
 
     public function _15mins_before_confirmation_cutoff($user, $slot){
