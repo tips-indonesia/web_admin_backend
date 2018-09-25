@@ -67,7 +67,8 @@ class DeliveryController extends Controller
             $slot->destination_city = AirportcityList::find((int) $airport_destination->id_city)->name;
 
             $slot->save();
-            $slot->startCountingLife();
+            $slot->startCountingLifeConfirmation();
+            $slot->startCountingLifePickup();
 
             $slot = SlotList::find($slot->id);
 
@@ -115,30 +116,6 @@ class DeliveryController extends Controller
         }
 
         return response()->json($data, 200);
-    }
-
-    public function remove_delivery($id_delivery){
-        $slot = SlotList::where('slot_id', $id_delivery)->where('id_slot_status', 1)->first();
-        if(!$slot) {
-            return response()->json([
-                'err' => [
-                    'code' => 0,
-                    'message' => 'Slot id tidak ditemukan'
-                ],
-                'result' => null
-            ], 200);
-        }
-        $slot->status_dispatch = 'Canceled';
-        $slot->id_slot_status = 0;
-        $slot->save();
-        $slot->delete();
-
-        return response()->json([
-            'err' => null,
-            'result' => [
-                'message' => "sukses"
-            ]
-        ], 200);
     }
 
     private function getDetailStatus($delivery){
@@ -547,5 +524,59 @@ class DeliveryController extends Controller
             $randomString .= $characters[rand(0, $charactersLength - 1)];
         }
         return $randomString;
+    }
+
+
+
+
+
+
+
+    public function remove_confirmation_delivery($slot_id){
+
+        // find slot, if fails terminate
+        $slot = SlotList::where('slot_id', $slot_id)->first();
+        if(!$slot){
+            return;
+        }
+
+        // find user, if fails terminate
+        $user = MemberList::find($slot->id_member);
+        if(!$user){
+            return;
+        }
+        
+        // send push notification if and only if slot status = 2
+        if($slot->id_slot_status == 2){
+            $slot->status_dispatch = 'Canceled';
+            $slot->id_slot_status = 0;
+            $slot->save();
+            $slot->delete();
+            (new PushNotifier)->_4hours_before_departure_confirmation_timeout($user, $slot);
+        }
+    }
+
+    public function remove_pickup_delivery($slot_id){
+
+        // find slot, if fails terminate
+        $slot = SlotList::where('slot_id', $slot_id)->first();
+        if(!$slot){
+            return;
+        }
+
+        // find user, if fails terminate
+        $user = MemberList::find($slot->id_member);
+        if(!$user){
+            return;
+        }
+        
+        // send push notification if and only if slot status = 3
+        if($slot->id_slot_status == 3){
+            $slot->status_dispatch = 'Canceled';
+            $slot->id_slot_status = 0;
+            $slot->save();
+            $slot->delete();
+            (new PushNotifier)->_2hours_before_departure_pickup_timeout($user, $slot);
+        }
     }
 }
