@@ -67,9 +67,6 @@ class DeliveryController extends Controller
             $slot->destination_city = AirportcityList::find((int) $airport_destination->id_city)->name;
 
             $slot->save();
-            $slot->startCountingLifeConfirmation();
-            $slot->startCountingLifePickup();
-
             $slot = SlotList::find($slot->id);
 
             $slot->origin_airport = $airport_origin;
@@ -105,10 +102,15 @@ class DeliveryController extends Controller
                 $firebase_sent = "no user: " . $slot->slot_id;
             }
 
+            
+            $a = $slot->startCountingLifeConfirmation();
+            $b = $slot->startCountingLifePickup();
+
             $data = array(
                 'err' => null,
                 'firebase_sent_time' => $firebase_sent,
                 'slot' => $slot,
+                'counter' => "$a|$b",
                 'result' => [
                     'slot'=> $slot
                 ]
