@@ -174,3 +174,5 @@ Route::post('promo', 'API\\PromotionController@postSelectPromo');
 Route::get('/favorite_address', 'API\\FavoriteAddressController@getUserFavoriteAddress');
 Route::get('/favorite_address/del/{id}', 'API\\FavoriteAddressController@deleteFavAddress');
 Route::get('/favorite_address/is_full', 'API\\FavoriteAddressController@isAlreadyFull');
+
+Route::get('/manualredeem/member', 'Admin\\ManualRedeemAdminController@getMemberList');

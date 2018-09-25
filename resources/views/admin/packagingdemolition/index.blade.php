@@ -1,16 +1,14 @@
 @extends('admin.app')
 
 @section('title')
-    Packaging Slot
+    Packaging Item Rejection
 @endsection
 @section('page_title')
-<span class="text-semibold">Packaging Slot</span> - Show All
-<button type="button" class="btn btn-success" onclick="window.location.href='{{ route('packagingslots.create') }}'">Create</button>
-    <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#modal_small">Pending Item</i></button>
+<span class="text-semibold">Packaging Item Rejection</span> - Show All
 @endsection
 @section('content')
-    <div class="panel panel-flat">
-        {{ Form::open(array('url' => route('packagingslots.index'), 'method' => 'GET', 'id' => 'date_form')) }}
+<div class="panel panel-flat">
+        {{ Form::open(array('url' => route('packagingdemolition.index'), 'method' => 'GET', 'id' => 'date_form')) }}
                 <div class="panel-body">
                 <div class="form-group">
                     <label>Date :</label>
@@ -55,7 +53,7 @@
                 @foreach ($datas as $data)
                     <tr>
                         <td>
-                            <a href="{{ route('packagingslots.edit', $data->id) }}">
+                            <a href="{{ route('packagingdemolition.edit', $data->id) }}">
                                 {{ $data->packaging_id }}
                             </a>
                         </td>
@@ -65,7 +63,7 @@
                         <td style="display: none;">
                             <ul class="icons-list">
                             <li>
-                            {{ Form::open(array('method' => 'DELETE', 'url' => route('packagingslots.destroy', $data->id))) }}
+                            {{ Form::open(array('method' => 'DELETE', 'url' => route('packagingdemolition.destroy', $data->id))) }}
                             <button type="submit" class="btn btn-danger"><i class="icon-trash"></i> Cancel</button>
                             {{ Form::close() }}
                             </li>

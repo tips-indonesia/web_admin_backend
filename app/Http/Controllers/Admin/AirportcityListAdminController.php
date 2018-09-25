@@ -46,6 +46,7 @@ class AirportcityListAdminController extends Controller
         //
         $rules = array(
             'name'       => 'required',
+            'initial'    => 'required|max:4'
         );
         $validator = Validator::make(Input::all(), $rules);
 
@@ -57,6 +58,7 @@ class AirportcityListAdminController extends Controller
         } else {
             $airportcityList = new AirportcityList;
             $airportcityList->name = Input::get('name');
+            $airportcityList->initial_code = strtoupper(Input::get('initial'));
             $airportcityList->save();
             Session::flash('message', 'Successfully created data!');
             return Redirect::to(route('airportcitylists.index'));
@@ -100,6 +102,7 @@ class AirportcityListAdminController extends Controller
         //
         $rules = array(
             'name'       => 'required',
+            'initial'    => 'required|max:4'
         );
         $validator = Validator::make(Input::all(), $rules);
 
@@ -109,7 +112,9 @@ class AirportcityListAdminController extends Controller
                 ->withErrors($validator)
                 ->withInput();
         } else {
-            $airportcityList = AirportcityList::find($id); $airportcityList->name = Input::get('name');
+            $airportcityList = AirportcityList::find($id); 
+            $airportcityList->name = Input::get('name');
+            $airportcityList->initial_code = strtoupper(Input::get('initial'));
             $airportcityList->save();
             Session::flash('message', 'Successfully created data!');
             return Redirect::to(route('airportcitylists.index'));

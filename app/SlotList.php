@@ -83,6 +83,7 @@ class SlotList extends Model
 
     public function create_transaction_bayar_cash(){
         $price = $this->sold_baggage_space * $this->slot_price_kg;
+        $price = 0; // Remark this to use default again
         $wt = WalletAll::CASH_TRANSACTION($this->id_member, 0, $price, "");
     }
 
