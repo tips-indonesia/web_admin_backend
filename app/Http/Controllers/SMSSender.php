@@ -21,7 +21,8 @@ class SMSSender extends Controller
 	  * @param destination -> dapat berupa token spesifik user atau topik
 	  */
     public static function kirim($nohp, $pesan){
-		$url = "https://alpha.zenziva.net/apps/smsapi.php?userkey=bj82g0&passkey=ng1r1mSMSkeV1incEnT&nohp=$nohp&pesan=$pesan";
+    	$p = urlencode($pesan);
+		$url = "https://alpha.zenziva.net/apps/smsapi.php?userkey=bj82g0&passkey=ng1r1mSMSkeV1incEnT&nohp=$nohp&pesan=$p";
         $context  = stream_context_create();
         $result = @file_get_contents($url, false, $context);
 		return $result;
