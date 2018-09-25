@@ -534,18 +534,37 @@ class DeliveryController extends Controller
 
 
 
+    private function responseOK(){
+        return [
+            'err' => null,
+            'result' => [
+                'status' => true
+            ]
+        ];
+    }
+
+    private function responseNotOK(){
+        return [
+            'err' => [
+                "code" => 500,
+                "message" => "something went wrong"
+            ],
+            'result' => null
+        ];
+    }
+
     public function remove_confirmation_delivery($slot_id){
 
         // find slot, if fails terminate
         $slot = SlotList::where('slot_id', $slot_id)->first();
         if(!$slot){
-            return;
+            return response()->json($this->responseNotOK(), 200);
         }
 
         // find user, if fails terminate
         $user = MemberList::find($slot->id_member);
         if(!$user){
-            return;
+            return response()->json($this->responseNotOK(), 200);
         }
         
         // send push notification if and only if slot status = 2
@@ -556,6 +575,8 @@ class DeliveryController extends Controller
             $slot->delete();
             (new PushNotifier)->_4hours_before_departure_confirmation_timeout($user, $slot);
         }
+
+        return response()->json($this->responseOK(), 200);
     }
 
     public function remove_pickup_delivery($slot_id){
@@ -563,13 +584,13 @@ class DeliveryController extends Controller
         // find slot, if fails terminate
         $slot = SlotList::where('slot_id', $slot_id)->first();
         if(!$slot){
-            return;
+            return response()->json($this->responseNotOK(), 200);
         }
 
         // find user, if fails terminate
         $user = MemberList::find($slot->id_member);
         if(!$user){
-            return;
+            return response()->json($this->responseNotOK(), 200);
         }
         
         // send push notification if and only if slot status = 3
@@ -580,5 +601,7 @@ class DeliveryController extends Controller
             $slot->delete();
             (new PushNotifier)->_2hours_before_departure_pickup_timeout($user, $slot);
         }
+        
+        return response()->json($this->responseOK(), 200);
     }
 }

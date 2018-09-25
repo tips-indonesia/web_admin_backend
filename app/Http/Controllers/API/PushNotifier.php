@@ -30,7 +30,7 @@ class PushNotifier extends Controller
     	$this->delivery_push_notifier($push_message, $user, $slot);
 
     	$antar_code = $slot->slot_id;
-    	$sms_message = "Sisa waktu Anda tinggal 15 menit lagi untuk konfirmasi kesediaan mengantar barang pada aplikasi TIPS dengan kode pendaftaran penerbangan $antar_code milik Anda"
+    	$sms_message = "Sisa waktu Anda tinggal 15 menit lagi untuk konfirmasi kesediaan mengantar barang pada aplikasi TIPS dengan kode pendaftaran penerbangan $antar_code milik Anda";
     	$this->delivery_sms_sender($sms_message, $user);
     }
 
@@ -39,7 +39,7 @@ class PushNotifier extends Controller
     	$this->delivery_push_notifier($push_message, $user, $slot);
 
     	$antar_code = $slot->slot_id;
-    	$sms_message = "Sisa waktu konfirmasi kesediaan mengantar pada aplikasi TIPS sudah habis, pendaftaran penerbangan $antar_code milik Anda telah dibatalkan."
+    	$sms_message = "Sisa waktu konfirmasi kesediaan mengantar pada aplikasi TIPS sudah habis, pendaftaran penerbangan $antar_code milik Anda telah dibatalkan.";
     	$this->delivery_sms_sender($sms_message, $user);
     }
 
@@ -48,7 +48,7 @@ class PushNotifier extends Controller
     	$this->delivery_push_notifier($push_message, $user, $slot);
 
     	$antar_code = $slot->slot_id;
-    	$sms_message = "Sisa waktu Anda untuk pengambilan barang antaran TIPS dengan kode pendaftaran penerbangan $antar_code pada TIPS Counter tinggal 15 menit. Bila barang antaran tidak diambil sesuai batas waktu tersebut maka kesediaan Anda menjadi TIPSTER otomatis dianggap batal."
+    	$sms_message = "Sisa waktu Anda untuk pengambilan barang antaran TIPS dengan kode pendaftaran penerbangan $antar_code pada TIPS Counter tinggal 15 menit. Bila barang antaran tidak diambil sesuai batas waktu tersebut maka kesediaan Anda menjadi TIPSTER otomatis dianggap batal.";
     	$this->delivery_sms_sender($sms_message, $user);
     }
 
@@ -57,8 +57,27 @@ class PushNotifier extends Controller
     	$this->delivery_push_notifier($push_message, $user, $slot);
 
     	$antar_code = $slot->slot_id;
-    	$sms_message = "Sisa waktu Anda telah habis untuk pengambilan barang antaran TIPS dengan kode pendaftaran penerbangan $antar_code pada TIPS Counter, kesediaan Anda menjadi TIPSTER otomatis telah dibatalkan karena tidak melakukan pengambilan."
+    	$sms_message = "Sisa waktu Anda telah habis untuk pengambilan barang antaran TIPS dengan kode pendaftaran penerbangan $antar_code pada TIPS Counter, kesediaan Anda menjadi TIPSTER otomatis telah dibatalkan karena tidak melakukan pengambilan.";
     	$this->delivery_sms_sender($sms_message, $user);
+    }
+
+    private function responseOK(){
+    	return [
+            'err' => null,
+            'result' => [
+            	'status' => true
+            ]
+        ];
+    }
+
+    private function responseNotOK(){
+    	return [
+            'err' => [
+                "code" => 500,
+                "message" => "something went wrong"
+            ],
+            'result' => null
+        ];
     }
 
     public function _1($slot_id){
@@ -66,19 +85,21 @@ class PushNotifier extends Controller
     	// find slot, if fails terminate
     	$slot = SlotList::where('slot_id', $slot_id)->first();
     	if(!$slot){
-    		return;
+    		return response()->json($this->responseNotOK(), 200);
     	}
 
     	// find user, if fails terminate
     	$user = MemberList::find($slot->id_member);
     	if(!$user){
-    		return;
+    		return response()->json($this->responseNotOK(), 200);
     	}
     	
     	// send push notification if and only if slot status = 2
     	if($slot->id_slot_status == 2){
     		$this->_15mins_before_confirmation_cutoff($user, $slot);
     	}
+
+    	return response()->json($this->responseOK(), 200);
     }
 
     public function _2($slot_id){
@@ -86,18 +107,20 @@ class PushNotifier extends Controller
     	// find slot, if fails terminate
     	$slot = SlotList::where('slot_id', $slot_id)->first();
     	if(!$slot){
-    		return;
+    		return response()->json($this->responseNotOK(), 200);
     	}
 
     	// find user, if fails terminate
     	$user = MemberList::find($slot->id_member);
     	if(!$user){
-    		return;
+    		return response()->json($this->responseNotOK(), 200);
     	}
 
     	// send push notification if and only if slot status = 3
     	if($slot->id_slot_status == 3){
     		$this->_15mins_before_pickup_cutoff($user, $slot);
     	}
+
+    	return response()->json($this->responseOK(), 200);
     }
 }
