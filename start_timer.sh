@@ -1,1 +1,1 @@
-curl -v "http://localhost:3000/add?time_end=$1&slot_id=$2" --trace-ascii /dev/stdout
+curl -v "http://localhost:3000/addgen?time_end=$1&api=$2"

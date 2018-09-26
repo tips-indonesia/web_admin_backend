@@ -102,7 +102,11 @@ Route::post('/delivery/confirm', 'API\\DeliveryController@confirm');
 Route::post('/delivery/send_tag', 'API\\DeliveryController@send_tag');
 Route::get('/delivery/all_status', 'API\\DeliveryController@get_all_status_delivery');
 Route::post('/delivery/search', 'API\\DeliveryController@search_delivery');
-Route::get('/delivery/remove/{id_delivery}', 'API\\DeliveryController@remove_delivery');
+
+Route::get('/delivery/remove/confirmation/{id_delivery}', 'API\\DeliveryController@remove_confirmation_delivery');
+Route::get('/delivery/remove/pickup/{id_delivery}', 'API\\DeliveryController@remove_pickup_delivery');
+Route::get('/pushnotif/confirmation/15before/{id_delivery}', 'API\\PushNotifier@_1');
+Route::get('/pushnotif/pickup/15before/{id_delivery}', 'API\\PushNotifier@_2');
 
 Route::get('/home', 'API\\HomeController@list_of_shipment_and_delivery');
 Route::get('/config/get/etc_message', 'ConfigHunter@getEtcMessage');
