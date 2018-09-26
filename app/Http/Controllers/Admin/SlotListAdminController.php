@@ -75,7 +75,7 @@ class SlotListAdminController extends Controller
         }
 
         foreach($data['datas'] as $dat) {
-            $dat['status'] = DeliveryStatus::find($dat->id_slot_status)->description;
+            $dat['status'] = ($dat->id_slot_status <= 0) ? "Cancelled" : DeliveryStatus::find($dat->id_slot_status)->description;
             $dat['destination_airport'] = AirportList::find($dat->id_destination_airport)->name;
             $dat['origin_airport'] = AirportList::find($dat->id_origin_airport)->name;
         }
