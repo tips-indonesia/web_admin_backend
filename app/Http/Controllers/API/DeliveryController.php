@@ -553,6 +553,25 @@ class DeliveryController extends Controller
         ];
     }
 
+    private function cancelAllShipmentOnSlot($slot_id){
+        $shipments = Shipment::where('id_slot', $slot_id)->get();
+        foreach ($shipments as $shipment) {
+            $shipment->status_dispatch = 'Pending';
+            $shipment->id_shipment_status = 4;
+            $shipment->id_slot = null;
+            $shipment->save();
+
+            if($shipment->is_first_class) {
+                $daftar_barang = DaftarBarangGold::where('id_barang', $shipment->id)->first();
+            } else {
+                $daftar_barang = DaftarBarangRegular::where('id_barang', $shipment->id)->first();
+            }
+
+            $daftar_barang->is_assigned = false;
+            $daftar_barang->save();
+        }
+    }
+
     public function remove_confirmation_delivery($slot_id){
 
         // find slot, if fails terminate
@@ -572,6 +591,7 @@ class DeliveryController extends Controller
             $slot->status_dispatch = 'Canceled';
             $slot->id_slot_status = 0;
             $slot->save();
+            $this->cancelAllShipmentOnSlot($slot->id);
             $slot->delete();
             (new PushNotifier)->_4hours_before_departure_confirmation_timeout($user, $slot);
         }
@@ -598,6 +618,7 @@ class DeliveryController extends Controller
             $slot->status_dispatch = 'Canceled';
             $slot->id_slot_status = 0;
             $slot->save();
+            $this->cancelAllShipmentOnSlot($slot->id);
             $slot->delete();
             (new PushNotifier)->_2hours_before_departure_pickup_timeout($user, $slot);
         }
