@@ -150,8 +150,8 @@ class DeliveryController extends Controller
 
             return array(
                 'status' => array(
-                    'step' => $delivery_status->step,
-                    'description' => $delivery_status->description,
+                    'step' => ($slot->id_slot_status <= 0 ) ? 0 : $delivery_status->step,
+                    'description' => ($slot->id_slot_status <= 0 ) ? "Cancelled" : $delivery_status->description,
                     'detail' => $slot->get_detail_status()
                 ),
                 'delivery' => $slot,
