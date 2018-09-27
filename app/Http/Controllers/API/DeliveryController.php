@@ -138,7 +138,7 @@ class DeliveryController extends Controller
         if($slot == null) {
             return null;
         } else {
-            $delivery_status = ($slot->id_slot_status <= 0 ) ? "Cancelled" : DeliveryStatus::find($slot->id_slot_status);
+            $delivery_status = DeliveryStatus::find($slot->id_slot_status);
             $slot->origin_airport = AirportList::find($slot->id_origin_airport);
             $slot->destination_airport = AirportList::find($slot->id_destination_airport);
             $slot->goods = Shipment::select('shipment_contents', 'real_weight')
@@ -150,7 +150,7 @@ class DeliveryController extends Controller
 
             return array(
                 'status' => array(
-                    'step' => $delivery_status->step,
+                    'step' => ($slot->id_slot_status <= 0 ) ? "Cancelled" : $delivery_status->step,
                     'description' => $delivery_status->description,
                     'detail' => $slot->get_detail_status()
                 ),
