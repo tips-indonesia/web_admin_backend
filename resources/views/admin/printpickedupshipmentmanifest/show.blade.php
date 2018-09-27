@@ -58,7 +58,7 @@
         <div class="modal-content" style="width: 600px" id="qrcodex">
             <div class="modal-body">
                 <b style="font-size: 30px; vertical-align: middle;">FORM TANDA TERIMA </b>
-                <img src="{{ asset('images/logo_header2.png') }}" style="float:right; width: 140px; height: auto;">
+                <img src="{{ asset('images/logo_header2.PNG') }}" style="float:right; width: 140px; height: auto;">
                 <div style="border-top: solid 4px black; width: 100%;"></div>
                 <table style="font-size: 14px; font-weight: 700; width: 100%; margin-top: 10px; margin-bottom: 10px;">
                     <tr>
@@ -134,7 +134,7 @@
             var WinPrint = window.open('', '', 'letf=100,top=100,width=600,height=600');
             WinPrint.document.write(
                 '<b style="font-size: 30px; vertical-align: middle;">FORM TANDA TERIMA </b>\
-                <img src="{{ asset('images/logo_header2.png') }}" style="float:right; width: 140px; height: auto;">\
+                <img src="{{ asset('images/logo_header2.PNG') }}" style="float:right; width: 140px; height: auto;">\
                 <div style="border-top: solid 4px black; width: 100%; margin-top: 15px;"></div>\
                 <table style="font-size: 14px; font-weight: 700; width: 100%; margin-top: 10px; margin-bottom: 10px;">\
                     <tr>\

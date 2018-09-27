@@ -79,7 +79,7 @@
                         <div class="modal-body">
                             <div style="width : 100%;">
                                 <b style="font-size: 32px; vertical-align: middle;">MANIFEST </b>
-                                <img src="{{ asset('images/logo_header2.png') }}" style="float:right; width: 140px; height: auto;">
+                                <img src="{{ asset('images/logo_header2.PNG') }}" style="float:right; width: 140px; height: auto;">
                                 <div style="border-top: solid 4px black; width: 100%;"></div>
                                 <br/>
                                 <div style="font-size: 14px; font-weight: 800; line-height: 2">
@@ -283,7 +283,7 @@
             WinPrint.document.write(
                 '<div style="width : 100%;">\
                     <b style="font-size: 32px; margin-top: 10px;">MANIFEST </b>\
-                    <img src="{{ asset('images/logo_header2.png') }}" style="float:right; width: 140px; height: auto;">\
+                    <img src="{{ asset('images/logo_header2.PNG') }}" style="float:right; width: 140px; height: auto;">\
                     <div style="border-top: solid 4px black; width: 100%; margin-top: 15px;"></div>\
                     <br/>\
                     <div style="font-size: 14px; font-weight: 800; line-height: 2">\
