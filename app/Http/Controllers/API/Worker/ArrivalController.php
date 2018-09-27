@@ -89,19 +89,21 @@ class ArrivalController extends Controller
             $slot->destination_airport = AirportList::find($slot->id_destination_airport);
             $user = MemberList::find($slot->id_member);
 
-            $ms_user = MemberList::find($shipment->id_shipper);
-            $mess = 'Barang kiriman Anda dengan kode pengiriman ' . $shipment->shipment_id . ' sudah tiba di bandara tujuan.';
-            if($ms_user){
-                if($ms_user->token) {
-                    FCMSender::post(array(
-                        'type' => 'Shipment',
-                        'id' => $shipment->shipment_id,
-                        'status' => "6",
-                        'message' => $mess,
-                        'detail' => ""
-                    ), $ms_user->token);
+            if ($shipment != null) {
+                $ms_user = MemberList::find($shipment->id_shipper);
+                $mess = 'Barang kiriman Anda dengan kode pengiriman ' . $shipment->shipment_id . ' sudah tiba di bandara tujuan.';
+                if($ms_user){
+                    if($ms_user->token) {
+                        FCMSender::post(array(
+                            'type' => 'Shipment',
+                            'id' => $shipment->shipment_id,
+                            'status' => "6",
+                            'message' => $mess,
+                            'detail' => ""
+                        ), $ms_user->token);
+                    }
+                    MessageController::sendMessageToUser("TIPS", $ms_user, "Shipment Status", "6", $mess);
                 }
-                MessageController::sendMessageToUser("TIPS", $ms_user, "Shipment Status", "6", $mess);
             }
 
 
