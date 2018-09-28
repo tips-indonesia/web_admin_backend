@@ -105,6 +105,7 @@ Route::post('/delivery/search', 'API\\DeliveryController@search_delivery');
 
 Route::get('/delivery/remove/confirmation/{id_delivery}', 'API\\DeliveryController@remove_confirmation_delivery');
 Route::get('/delivery/remove/pickup/{id_delivery}', 'API\\DeliveryController@remove_pickup_delivery');
+Route::get('/delivery/remove/noshipment/{id_delivery}', 'API\\DeliveryController@remove_noshipment_delivery');
 Route::get('/pushnotif/confirmation/15before/{id_delivery}', 'API\\PushNotifier@_1');
 Route::get('/pushnotif/pickup/15before/{id_delivery}', 'API\\PushNotifier@_2');
 

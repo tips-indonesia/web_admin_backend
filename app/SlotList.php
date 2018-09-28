@@ -159,4 +159,16 @@ class SlotList extends Model
 
         return "pu";
     }
+
+    public function startCountingLifeNoShipment() {
+        $_0hours = 60 /* seconds */ * 60 /* minutes */ * 0 /* hours */;
+        $seconds_left_0hours_before_departure = (new TimeGetter)->secondsToNow(-$_0hours, $this->depature);
+
+        // #5 fifth counter
+        $api = "/api/delivery/remove/noshipment/" . $this->slot_id;
+        $time_to_execute = $seconds_left_0hours_before_departure;
+        exec("sh ../start_timer.sh $time_to_execute $api >> ~/logcurlx.txt > /dev/null 2>&1 &");
+
+        return "ns";
+    }
 }

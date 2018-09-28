@@ -25,6 +25,20 @@ class PushNotifier extends Controller
         SMSSender::kirim($user->mobile_phone_no, rawurlencode($message));
 	}
 
+    //
+    public function shipment_push_notifier($message, $user, $shipment){
+        FCMSender::post([ "type"    => 'Shipment', 
+                          "id"      => $shipment->shipment_id, 
+                          "status"  => "0",
+                          "message" => $message, 
+                          "detail"  => "" ], $user->token);
+        return \Carbon\Carbon::now()->toDateTimeString();
+    }
+
+    public function shipment_sms_sender($message, $user){
+        SMSSender::kirim($user->mobile_phone_no, rawurlencode($message));
+    }
+
     public function _15mins_before_confirmation_cutoff($user, $slot){
     	$push_message = "Sisa waktu Anda 15 menit untuk konfirmasi kesediaan mengantar barang";
     	$this->delivery_push_notifier($push_message, $user, $slot);
@@ -59,6 +73,25 @@ class PushNotifier extends Controller
     	$antar_code = $slot->slot_id;
     	$sms_message = "Sisa waktu Anda telah habis untuk pengambilan barang antaran TIPS dengan kode pendaftaran penerbangan $antar_code pada TIPS Counter, kesediaan Anda menjadi TIPSTER otomatis telah dibatalkan karena tidak melakukan pengambilan.";
     	$this->delivery_sms_sender($sms_message, $user);
+    }
+
+    public function _rejection_or_return_to_sender_dg($user, $shipment){
+        $kirim_code = $shipment->shipment_id;
+        $push_message = "Paket kiriman anda dengan kode pengiriman $kirim_code tidak dapat kami proses lanjut karena teridentifikasi sebagai kategori DG (Dangerous Goods)";
+        $this->shipment_push_notifier($push_message, $user, $shipment);
+
+        $ncc = "+62 823 1777 6008";
+        $sms_message = "Paket kiriman anda tidak dapat kami proses lanjut karena teridentifikasi sebagai kategori DG (Dangerous Goods). Untuk info lebih lanjut mohon cek email inbox Anda atau hubungi tim kami di nomor $ncc";
+        $this->shipment_sms_sender($sms_message, $user);
+    }
+
+    public function _no_shipment_for_tipster($user, $slot){
+        $antar_code = $slot->slot_id;
+        $push_message = "Maaf, kode pendaftaran penerbangan $antar_code Anda otomatis telah dibatalkan karena belum tersedia barang antaran";
+        $this->delivery_push_notifier($push_message, $user, $slot);
+
+        $sms_message = "Maaf, kode pendaftaran penerbangan $antar_code Anda otomatis telah dibatalkan karena belum tersedia barang antaran sampai dengan batas waktu maksimal pengambilan barang antaran di TIPS Counter untuk penerbangan Anda.";
+        $this->delivery_sms_sender($sms_message, $user);
     }
 
     private function responseOK(){
