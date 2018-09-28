@@ -62,7 +62,7 @@
                 <div style="border-top: solid 4px black; width: 100%;"></div>
                 <table style="font-size: 14px; font-weight: 700; width: 100%; margin-top: 10px; margin-bottom: 10px;">
                     <tr>
-                        <td style="width: 60%;"> TPC : {{ $worker_name }}</td>
+                        <td style="width: 60%;"> TPC : </td>
                         <td style="width: 40%;"> Tanggal: {{ $date }}</td>
                     </tr>
                 </table>
@@ -72,7 +72,7 @@
                         padding: 4px 12px;
                     }
                 </style>
-                <table class="data" style="width: 100%;">
+                <table class="data" style="width: 100%; margin-bottom: 15px;">
                     <thead style="font-weight: 700; text-align: center;">
                         <tr>
                             <th> NO </th>
@@ -94,6 +94,24 @@
                         </tr>
                     <?php $i++ ?>
                     @endforeach
+                    </tbody>
+                </table>
+                <table class="data" style="width: 100%;">
+                    <thead style="font-weight: 700; text-align: center;">
+                        <tr>
+                            <th style="width: 50%;"> PETUGAS FIRST MILE </th>
+                            <th style="width: 50%;"> PETUGAS TPC </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td> &nbsp; <br /> &nbsp;</td>
+                            <td> &nbsp; <br /> &nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td> NAMA : {{ $worker_name }} </td>
+                            <td> NAMA : </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -138,7 +156,7 @@
                 <div style="border-top: solid 4px black; width: 100%; margin-top: 15px;"></div>\
                 <table style="font-size: 14px; font-weight: 700; width: 100%; margin-top: 10px; margin-bottom: 10px;">\
                     <tr>\
-                        <td style="width: 60%;"> TPC : {{ $worker_name }}</td>\
+                        <td style="width: 60%;"> TPC : </td>\
                         <td style="width: 40%;"> Tanggal: {{ $date }}</td>\
                     </tr>\
                 </table>\
@@ -148,7 +166,7 @@
                         padding: 4px 12px;\
                     }\
                 </style>\
-                <table class="data" style="width: 100%; border-collapse: collapse;">\
+                <table class="data" style="width: 100%; border-collapse: collapse; margin-bottom: 15px;">\
                     <thead style="font-weight: 700; text-align: center;">\
                         <tr>\
                             <th> NO </th>\
@@ -170,6 +188,24 @@
                         </tr>\
                     <?php $i++ ?>\
                     @endforeach\
+                    </tbody>\
+                </table>\
+                <table class="data" style="width: 100%; border-collapse: collapse;">\
+                    <thead style="font-weight: 700; text-align: center;">\
+                        <tr>\
+                            <th style="width: 50%;"> PETUGAS FIRST MILE </th>\
+                            <th style="width: 50%;"> PETUGAS TPC </th>\
+                        </tr>\
+                    </thead>\
+                    <tbody>\
+                        <tr>\
+                            <td> &nbsp; <br /> &nbsp;</td>\
+                            <td> &nbsp; <br /> &nbsp;</td>\
+                        </tr>\
+                        <tr>\
+                            <td> NAMA : {{ $worker_name }} </td>\
+                            <td> NAMA : </td>\
+                        </tr>\
                     </tbody>\
                 </table>'
             )
