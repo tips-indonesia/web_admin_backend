@@ -105,12 +105,13 @@ class DeliveryController extends Controller
             
             $a = $slot->startCountingLifeConfirmation();
             $b = $slot->startCountingLifePickup();
+            $c = $slot->startCountingLifeNoShipment();
 
             $data = array(
                 'err' => null,
                 'firebase_sent_time' => $firebase_sent,
                 'slot' => $slot,
-                'counter' => "$a|$b",
+                'counter' => "$a|$b|$c",
                 'result' => [
                     'slot'=> $slot
                 ]
@@ -567,8 +568,10 @@ class DeliveryController extends Controller
                 $daftar_barang = DaftarBarangRegular::where('id_barang', $shipment->id)->first();
             }
 
-            $daftar_barang->is_assigned = false;
-            $daftar_barang->save();
+            if($daftar_barang){
+                $daftar_barang->is_assigned = false;
+                $daftar_barang->save();
+            }
         }
     }
 
@@ -621,6 +624,32 @@ class DeliveryController extends Controller
             $this->cancelAllShipmentOnSlot($slot->id);
             $slot->delete();
             (new PushNotifier)->_2hours_before_departure_pickup_timeout($user, $slot);
+        }
+        
+        return response()->json($this->responseOK(), 200);
+    }
+
+    public function remove_noshipment_delivery($slot_id){
+
+        // find slot, if fails terminate
+        $slot = SlotList::where('slot_id', $slot_id)->first();
+        if(!$slot){
+            return response()->json($this->responseNotOK(), 200);
+        }
+
+        // find user, if fails terminate
+        $user = MemberList::find($slot->id_member);
+        if(!$user){
+            return response()->json($this->responseNotOK(), 200);
+        }
+        
+        // send push notification if and only if slot status = 1
+        if($slot->id_slot_status == 1){
+            $slot->status_dispatch = 'Canceled';
+            $slot->id_slot_status = 0;
+            $slot->save();
+            $slot->delete();
+            (new PushNotifier)->_no_shipment_for_tipster($user, $slot);
         }
         
         return response()->json($this->responseOK(), 200);
