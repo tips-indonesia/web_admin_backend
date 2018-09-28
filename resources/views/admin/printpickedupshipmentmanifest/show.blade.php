@@ -90,7 +90,7 @@
                             <td> {{ $shipment->shipment_id}} </td>
                             <td> {{ $shipment->shipment_contents}} </td>
                             <td> {{ $shipment->real_weight}} </td>
-                            <td> {{ $shipment->add_notes}} </td>
+                            <td> &nbsp; </td>
                         </tr>
                     <?php $i++ ?>
                     @endforeach
@@ -184,7 +184,7 @@
                             <td> {{ $shipment->shipment_id}} </td>\
                             <td> {{ $shipment->shipment_contents}} </td>\
                             <td> {{ $shipment->real_weight}} </td>\
-                            <td> {{ $shipment->add_notes}} </td>\
+                            <td> &nbsp; </td>\
                         </tr>\
                     <?php $i++ ?>\
                     @endforeach\
