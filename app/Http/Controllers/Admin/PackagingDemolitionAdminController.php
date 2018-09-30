@@ -18,7 +18,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\API\PushNotifier;
-
+use App\MemberList;
 class PackagingDemolitionAdminController extends Controller
 {
     public function index() {
