@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Input;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
+use App\Http\Controllers\API\PushNotifier;
 
 class PackagingDemolitionAdminController extends Controller
 {
@@ -134,6 +135,11 @@ class PackagingDemolitionAdminController extends Controller
             $shipment->add_notes = Input::get('additional_notes');
 
             $shipment->save();
+
+            if (Input::get('rejection_type') == 1) {
+                $user = MemberList::find($shipment->id_shipper);
+                (new PushNotifier)->_rejection_or_return_to_sender_dg($user, $shipment);
+            }
 
             return back();
         }
