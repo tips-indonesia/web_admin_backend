@@ -14,6 +14,7 @@ use App\AirportcityList;
 use App\ShipmentStatus;
 use App\User;
 use App\OfficeList;
+use App\MemberList;
 use App\ProvinceList;
 use App\CityList;
 use App\SubdistrictList;
@@ -26,6 +27,7 @@ use Illuminate\Support\Facades\Storage;
 use URL;
 use Validator;
 use App\Wallets;
+use App\Http\Controllers\API\PushNotifier;
 
 class ShipmentRejectionAdminController extends Controller
 {
@@ -55,12 +57,11 @@ class ShipmentRejectionAdminController extends Controller
             $shipments = $shipments->where('id_origin_city', $office->id_area);
         }
 
-        $shipments = $shipments->where('id_shipment_status', 4)->paginate(10);
+        $shipments = $shipments->whereIn('id_shipment_status', [-3, -2, -1, 4])->paginate(10);
 
         foreach($shipments as $dat) {
             $dat['name_origin'] = AirportcityList::find($dat->id_origin_city)->name;
             $dat['name_destination'] = AirportcityList::find($dat->id_destination_city)->name;
-            $dat['status'] = ShipmentStatus::find($dat->id_shipment_status)->description;
             $dat['pickup_by_user'] = User::find($dat->pickup_by);
         }
 
@@ -105,7 +106,7 @@ class ShipmentRejectionAdminController extends Controller
                 ->withErrors($validate)
                 ->withInput();
     	} else {
-	    	$shipment = Shipment::find($id);
+	    	$shipment = Shipment::withTrashed()->find($id);
 	    	
             $wallets = Wallets::where('remarks', $shipment->shipment_id)->first();
             if ($wallets != null) {
@@ -118,6 +119,10 @@ class ShipmentRejectionAdminController extends Controller
 	    	$shipment->deleted_at = Carbon::now()->toDateTimeString();
 	    	$shipment->save();
 
+            if (Input::get('rejection_type') == 1) {
+                $user = MemberList::find($shipment->id_shipper);
+                (new PushNotifier)->_rejection_or_return_to_sender_dg($user, $shipment);
+            }
 	    	return back();
 	    }
     }

@@ -55,7 +55,7 @@ class DeliveryProcessingCenterAdminController extends Controller
 
         if ($user->id_office != null  && $user->id != 1) {
             $office = OfficeList::find($user->id_office);
-            $slot = SlotList::where('id_destination_city', $office->id_area)->pluck('id');
+            $slot = SlotList::withTrashed()->where('id_destination_city', $office->id_area)->pluck('id');
             $packaginglist = PackagingList::whereIn('id_slot', $slot)->pluck('id');
             $arrshipment = ArrivalShipmentDetail::whereIn('packaging_lists_id', $packaginglist)
                         ->pluck('arrival_shipment_id');
@@ -72,13 +72,13 @@ class DeliveryProcessingCenterAdminController extends Controller
         foreach ($data['datas'] as $dat) {
             $dat['total'] = PackagingDelivery::where('deliveries_id', $dat->id)->get()->count();
         }
-        $slot = SlotList::where('id_slot_status', 7)->pluck('id');
+        $slot = SlotList::withTrashed()->where('id_slot_status', 7)->pluck('id');
         $arrshipment = ArrivalShipmentDetail::pluck('packaging_lists_id');
         $packaginglist = PackagingList::whereIn('id_slot', $slot)
                                   ->whereNotIn('id', $arrshipment)
                                   ->pluck('id_slot');
 
-        $data['pending'] = SlotList::whereIn('id', $packaginglist);
+        $data['pending'] = SlotList::withTrashed()->whereIn('id', $packaginglist);
 
         $user = User::find(Auth::id());
 
@@ -106,13 +106,13 @@ class DeliveryProcessingCenterAdminController extends Controller
             $data['datas'] = array(); 
         } else {
             // todo slotlist 6 that not package / deliver yet
-            $slot = SlotList::where('id_slot_status', 7)->pluck('id');
+            $slot = SlotList::withTrashed()->where('id_slot_status', 7)->pluck('id');
             $arrshipment = ArrivalShipmentDetail::pluck('packaging_lists_id');
             $packaginglist = PackagingList::whereIn('id_slot', $slot)
                                       ->whereNotIn('id', $arrshipment)
                                       ->pluck('id_slot');
             // $slots = Shipment::where('id_shipment_status', 10)->pluck('id_slot');
-            $data['datas'] = SlotList::whereIn('id', $packaginglist);
+            $data['datas'] = SlotList::withTrashed()->whereIn('id', $packaginglist);
             $user = User::find(Auth::id());
 
             if ($user->id_office != null && $user->id != 1) {
@@ -179,17 +179,17 @@ class DeliveryProcessingCenterAdminController extends Controller
             ->pluck('packaging_lists_id')
             ->toArray();
 
-        $slot = SlotList::where('id_slot_status', 7)->pluck('id');
+        $slot = SlotList::withTrashed()->where('id_slot_status', 7)->pluck('id');
         $pl = PackagingList::whereIn('id_slot', $slot)->pluck('id_slot');
         // $data['inputed_shipment_lists'] = SlotList::where('id_slot_status','=','7')
-        $data['inputed_shipment_lists'] = SlotList::whereIn('id', $pl)
+        $data['inputed_shipment_lists'] = SlotList::withTrashed()->whereIn('id', $pl)
             ->with('packagingList', 'airportDestination', 'airportOrigin')
             ->get();
 
-        $slot = SlotList::where('id_slot_status', 6)->pluck('id');
+        $slot = SlotList::withTrashed()->where('id_slot_status', 6)->pluck('id');
         $pl = PackagingList::whereIn('id_slot', $slot)->pluck('id_slot');
         // $data['shipment_lists'] = SlotList::where('id_slot_status','=','6')
-        $data['shipment_lists'] = SlotList::whereIn('id', $pl)
+        $data['shipment_lists'] = SlotList::withTrashed()->whereIn('id', $pl)
             ->with('packagingList', 'airportDestination', 'airportOrigin');
 
         $user = User::find(Auth::id());

@@ -1,10 +1,10 @@
 @extends('admin.app')
 
 @section('title')
-    Slot List
+    Slot Matching Monitoring
 @endsection
 @section('page_title')
-<span class="text-semibold">Slot List</span> - Show All
+<span class="text-semibold">Slot Matching Monitoring</span> - Show All
 @endsection
 @section('content')
     <div class="panel panel-flat">
@@ -18,7 +18,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="display-block text-semibold">Status Terima :</label>
+                    <label class="display-block text-semibold">Status :</label>
                     <label class="radio-inline">
                         <input type="radio" name="radio" @if($checked != 0 && $checked != 1) checked="checked" @endif value="-1">
                         Keseluruhan

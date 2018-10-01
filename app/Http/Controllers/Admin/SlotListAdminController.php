@@ -75,7 +75,7 @@ class SlotListAdminController extends Controller
         }
 
         foreach($data['datas'] as $dat) {
-            $dat['status'] = DeliveryStatus::find($dat->id_slot_status)->description;
+            $dat['status'] = ($dat->id_slot_status <= 0) ? "Cancelled" : DeliveryStatus::find($dat->id_slot_status)->description;
             $dat['destination_airport'] = AirportList::find($dat->id_destination_airport)->name;
             $dat['origin_airport'] = AirportList::find($dat->id_origin_airport)->name;
         }
@@ -113,18 +113,19 @@ class SlotListAdminController extends Controller
     public function show($id)
     {
         //
-        $slot = SlotList::find($id);
+        $slot = SlotList::withTrashed()->find($id);
         $data['data'] = $slot;
         $data['data']['origin_airport'] = AirportList::find($slot->id_origin_airport)->name;
         $data['data']['destination_airport'] = AirportList::find($slot->id_destination_airport)->name;
-        $data['data']['status'] = DeliveryStatus::find($data['data']->id_slot_status)->description;
+        $data['data']['status'] = ($data['data']->id_slot_status > 0) ? DeliveryStatus::find($data['data']->id_slot_status)->description : "Rejected";
         $member = MemberList::find($slot->id_member);
         $data['member'] = $member;
         if(Input::get('ajax') == 1) {
             $ret_data = array();
+            $ret_data['status'] = $data['data']['status'];
             $ret_data['origin'] = $data['data']['origin_airport'];
             $ret_data['destination'] = $data['data']['destination_airport'];
-            $ret_data['shipments'] = Shipment::where('id_slot', $id)->get(['shipment_id', 'transaction_date', 'id_origin_city', 'id_destination_city', 'real_weight']);
+            $ret_data['shipments'] = Shipment::withTrashed()->where('id_slot', $id)->get(['shipment_id', 'transaction_date', 'id_origin_city', 'id_destination_city', 'real_weight', 'id', 'id_shipment_status', 'shipment_contents']);
             $ret_data['total_weight'] = 0;
             $user = User::find(Auth::id());
             $ret_data['office'] = OfficeList::find($user->id_office);
@@ -134,6 +135,7 @@ class SlotListAdminController extends Controller
                 $ret_data['total_weight'] = $ret_data['total_weight'] + $dat['real_weight'];
             }
             return json_encode($ret_data);   
+            // return $slot;
         }        
         return view('admin.slotlists.show', $data);
     }

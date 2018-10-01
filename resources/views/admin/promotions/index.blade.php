@@ -94,11 +94,6 @@
                                     <button type="submit" class="btn btn-primary"><i class="icon-pencil"></i> Edit</button>
                                     {{ Form::close() }}
                                 </li>
-                                <li>
-                            {{ Form::open(array('method' => 'DELETE', 'url' => route('promotions.destroy', $datas->id))) }}
-                                <button type="submit" class="btn btn-danger"><i class="icon-trash"></i> Delete</button>
-                                {{ Form::close() }}
-                                </li>
                             </ul>
                         </td>
                     </tr>

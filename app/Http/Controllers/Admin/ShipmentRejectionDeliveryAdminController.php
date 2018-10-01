@@ -38,7 +38,9 @@ class ShipmentRejectionDeliveryAdminController extends Controller
         // $packagingId = ArrivalShipmentDetail::whereIn('arrival_shipment_id', $deliveries)->pluck('packaging_lists_id');
         
         // $slotId = PackagingList::whereIn('id', $packagingId)->pluck('id_slot');
-        $shipments = Shipment::whereDate('updated_at', $data['date'])->withTrashed();
+        $shipments = Shipment::whereDate('updated_at', $data['date'])
+                    ->withTrashed()
+                    ->where('rejection_type', 1);
         if (Input::get('param') == 'blank' || !Input::get('param')) {
             $data['param'] = Input::get('param');
             $data['value'] = Input::get('value');

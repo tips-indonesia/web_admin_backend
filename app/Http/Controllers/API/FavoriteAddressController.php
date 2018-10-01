@@ -14,7 +14,7 @@ class FavoriteAddressController extends Controller
     public function update(Request $request, $label) {
         $favAdd = FavoriteAddress::where('id_member', $request->input('id_member_'.$label))
                                 ->where('keterangan_tempat', $request->input('keterangan_tempat_'.$label))
-                                ->where('is_pengirim_penerima', $request->input('is_pengirim_penerima_'.$label))
+                                ->where('is_pengirim_penerima', (($label == 'pengirim') ? 1 : 0))
                                 ->first();
 
         $favAdd->is_pengirim_penerima =($label == 'pengirim') ? 1 : 0;
@@ -83,9 +83,9 @@ class FavoriteAddressController extends Controller
                 'result' => null
             );
         } else {
-            $add = FavoriteAddress::where('id_member', $request->input('id_member'))
-                                  ->where('keterangan_tempat', $request->input('keterangan_tempat'))
-                                  ->where('is_pengirim_penerima', $request->input('is_pengirim_penerima'))
+            $add = FavoriteAddress::where('id_member', $request->input('id_member_'.$label))
+                                  ->where('keterangan_tempat', $request->input('keterangan_tempat_'.$label))
+                                  ->where('is_pengirim_penerima', ($label == 'pengirim') ? 1 : 0)
                                   ->first();
             if ($add) {
                 $this->update($request, $label);
@@ -105,11 +105,11 @@ class FavoriteAddressController extends Controller
         // return response()->json($data, 200);
         return $data;
     }
-    public function storeFavAddressVerse2(Request $request, $label, $province) {
+    public function storeFavAddressVerse2(Request $request, $label, $province, $city) {
         $ketTempat = ($label == 'shipper') ? 'shipper_keterangan_tempat_pengirim' : 'consignee_keterangan_tempat_penerima';
         $add = FavoriteAddress::where('id_member', $request->input('id_shipper'))
                                 ->where('keterangan_tempat', $request->input($ketTempat))
-                                ->where('is_pengirim_penerima', ($label == 'pengirim') ? 1 : 0)
+                                ->where('is_pengirim_penerima', ($label == 'shipper') ? 1 : 0)
                                 ->first();
         if ($add) {
             $favAdd = $add;
@@ -138,7 +138,7 @@ class FavoriteAddressController extends Controller
             $favAdd->address_detail = 'No Notes';
         }
         $favAdd->id_province = $province;
-        $favAdd->id_city = $request->input('id_'.(($label == 'shipper') ? 'origin' : 'destination').'_city');
+        $favAdd->id_city = $city;
         $favAdd->id_district = $request->input('id_'.$label.'_district');
         $favAdd->postal_code = $request->input($label.'_postal_code');
 

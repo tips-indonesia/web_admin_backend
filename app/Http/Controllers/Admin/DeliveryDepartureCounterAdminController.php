@@ -54,7 +54,7 @@ class DeliveryDepartureCounterAdminController extends Controller
 
         if ($user->id_office != null && $user->id != 1) {
             $office = OfficeList::find($user->id_office);
-            $slot = SlotList::where('id_origin_city', $office->id_area)->pluck('id');
+            $slot = SlotList::withTrashed()->where('id_origin_city', $office->id_area)->pluck('id');
             $packaginglist = PackagingList::whereIn('id_slot', $slot)->pluck('id');
             $packagingdelivery = PackagingDelivery::whereIn('packaging_id', $packaginglist)
                         ->pluck('deliveries_id');
@@ -71,7 +71,7 @@ class DeliveryDepartureCounterAdminController extends Controller
 
         if ($user->id_office != null && $user->id != 1) {
             $office = OfficeList::find($user->id_office);
-            $slot = SlotList::where('id_origin_city', $office->id_area)->pluck('id');
+            $slot = SlotList::withTrashed()->where('id_origin_city', $office->id_area)->pluck('id');
             $data['datas2'] = $data['datas2']->whereIn('id_slot', $slot);
         }
 
@@ -79,7 +79,7 @@ class DeliveryDepartureCounterAdminController extends Controller
 
         foreach ($data['datas2'] as $dat) {
             if ($dat->id_slot != null) {
-                $slot = SlotList::find($dat->id_slot);
+                $slot = SlotList::withTrashed()->find($dat->id_slot);
                 $dat['total'] = Shipment::where('id_slot', $slot->id)->get()->count();
                 $dat['origin'] = AirportList::find($slot->id_origin_airport)->name;
                 $dat['destination'] = AirportList::find($slot->id_destination_airport)->name;
@@ -109,7 +109,7 @@ class DeliveryDepartureCounterAdminController extends Controller
             $user = User::find(Auth::id());
             if ($user->id_office != null && $user->id != 1) {
                 $office = OfficeList::find($user->id_office);
-                $slot = SlotList::where('id_origin_city', $office->id_area)->pluck('id');
+                $slot = SlotList::withTrashed()->where('id_origin_city', $office->id_area)->pluck('id');
                 $data['datas'] = $data['datas']->whereIn('id_slot', $slot);
             }
             $data['datas'] = $data['datas']->get();
@@ -195,7 +195,7 @@ class DeliveryDepartureCounterAdminController extends Controller
         $user = User::find(Auth::id());
         if ($user->id_office != null && $user->id != 1) {
             $office = OfficeList::find($user->id_office);
-            $slot = SlotList::where('id_origin_city', $office->id_area)->pluck('id');
+            $slot = SlotList::withTrashed()->where('id_origin_city', $office->id_area)->pluck('id');
             $data['packaging'] = $data['packaging']->whereIn('id_slot', $slot);
         }
 
@@ -203,7 +203,7 @@ class DeliveryDepartureCounterAdminController extends Controller
 
         foreach ($data['packaging'] as $dat) {
             if ($dat->id_slot != null) {
-                    $slot = SlotList::find($dat->id_slot);
+                    $slot = SlotList::withTrashed()->find($dat->id_slot);
                     $dat['origin_name'] = AirportList::find($slot->id_origin_airport)->name;
                     $dat['destination_name'] = AirportList::find($slot->id_destination_airport)->name;
                 }

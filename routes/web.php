@@ -34,6 +34,9 @@ Route::group(['middleware' => 'isWorker'], function() {
         Route::group(['middleware' => ['permission:citylists.']], function () {
             Route::resource('citylists','Admin\CityListAdminController');
         });
+        Route::group(['middleware' => ['permission:duallanguage.']], function () {
+            Route::resource('duallanguage','Admin\DualLanguageAdminController');
+        });
         Route::group(['middleware' => ['permission:provincelists.']], function () {
             Route::resource('provincelists','Admin\ProvinceListAdminController');
         });
@@ -107,7 +110,9 @@ Route::group(['middleware' => 'isWorker'], function() {
         Route::group(['middleware' => ['permission:slotlists.']], function () {
             Route::resource('slotlists','Admin\SlotListAdminController');
         });
-
+        Route::group(['middleware' => ['permission:slotcancellation.']], function () {
+            Route::resource('slotcancellation','Admin\SlotCancellationAdminController');
+        });
         Route::group(['middleware' => ['permission:packagingslots.']], function () {
             Route::resource('packagingslots','Admin\PackagingSlotAdminController');
         });
@@ -156,6 +161,10 @@ Route::group(['middleware' => 'isWorker'], function() {
             Route::resource('deliveryprocessingcenters','Admin\DeliveryProcessingCenterAdminController');
         });
 
+        Route::group(['middleware' => ['permission:manualredeem.']], function () {
+            Route::resource('manualredeem','Admin\ManualRedeemAdminController');
+        });
+
         Route::group(['middleware' => ['permission:receiveprocessingcenters.']], function () {
             Route::resource('receiveprocessingcenters','Admin\ReceiveProcessingCenterAdminController');
         });
@@ -172,6 +181,10 @@ Route::group(['middleware' => 'isWorker'], function() {
             Route::resource('shipmentcancellation','Admin\ShipmentCancellationAdminController');
         });
 
+        Route::group(['middleware' => ['permission:packagingdemolition.']], function () {
+            Route::resource('packagingdemolition','Admin\PackagingDemolitionAdminController');
+        });
+
         Route::group(['middleware' => ['permission:shipmentrejection.']], function () {
             Route::resource('shipmentrejection','Admin\ShipmentRejectionAdminController');
         });
@@ -182,6 +195,10 @@ Route::group(['middleware' => 'isWorker'], function() {
         
         Route::group(['middleware' => ['permission:slotrejection.']], function () {
             Route::resource('slotrejection','Admin\SlotRejectionAdminController');
+        });
+
+        Route::group(['middleware' => ['permission:printpickedupshipmentmanifest.']], function () {
+            Route::resource('printpickedupshipmentmanifest','Admin\PrintPickedUpShipmentManifestAdminController');
         });
 
         Route::group(['middleware' => ['permission:shipmentstatuses.']], function () {

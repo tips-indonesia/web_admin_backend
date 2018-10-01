@@ -67,7 +67,6 @@ class DeliveryController extends Controller
             $slot->destination_city = AirportcityList::find((int) $airport_destination->id_city)->name;
 
             $slot->save();
-
             $slot = SlotList::find($slot->id);
 
             $slot->origin_airport = $airport_origin;
@@ -103,10 +102,16 @@ class DeliveryController extends Controller
                 $firebase_sent = "no user: " . $slot->slot_id;
             }
 
+            
+            $a = $slot->startCountingLifeConfirmation();
+            $b = $slot->startCountingLifePickup();
+            $c = $slot->startCountingLifeNoShipment();
+
             $data = array(
                 'err' => null,
                 'firebase_sent_time' => $firebase_sent,
                 'slot' => $slot,
+                'counter' => "$a|$b|$c",
                 'result' => [
                     'slot'=> $slot
                 ]
@@ -146,8 +151,8 @@ class DeliveryController extends Controller
 
             return array(
                 'status' => array(
-                    'step' => $delivery_status->step,
-                    'description' => $delivery_status->description,
+                    'step' => ($slot->id_slot_status <= 0 ) ? 0 : $delivery_status->step,
+                    'description' => ($slot->id_slot_status <= 0 ) ? "Cancelled" : $delivery_status->description,
                     'detail' => $slot->get_detail_status()
                 ),
                 'delivery' => $slot,
@@ -428,7 +433,14 @@ class DeliveryController extends Controller
 
         if($request->has('id_slot_status')){
             if($request->id_slot_status != null && $request->id_slot_status != "" && $request->id_slot_status != 0) {
-                $slot_list = $slot_list->where('id_slot_status', $request->id_slot_status);
+                if ($request->id_shipment_status == -1) {
+                    $slot_list = $slot_list->where('id_slot_status', '<', 0);
+                } if ($request->id_shipment_status == 99) {
+                    $slot_list = $slot_list->where('id_slot_status', 0);
+                }else {
+                    $slot_list = $slot_list->where('id_slot_status', $request->id_slot_status);
+                }
+                
             }
         }
 
@@ -449,11 +461,13 @@ class DeliveryController extends Controller
             $slot->origin_airport = $airport_origin;
             $slot->destination_airport = $airport_destination;
 
-            if($slot->id_slot_status != 0) {
+            if($slot->id_slot_status > 0) {
                 $delivery_status = DeliveryStatus::find($slot->id_slot_status);
                 $slot->delivery_status_description = $delivery_status->description;
-            } else {
+            } else if ($slot->id_slot_status == 0){
                 $slot->delivery_status_description = 'Batal';
+            } else {
+                $slot->delivery_status_description = 'Reject';
             }
 
             array_push($slot_list, $slot);
@@ -469,12 +483,34 @@ class DeliveryController extends Controller
     }
 
     function all_status_deliveries(){
-        return DeliveryStatus::all();
+        // $all = array();
+        $delivery_status = DeliveryStatus::all()->toArray();
+        // foreach ($delivery_status as $status) {
+        //     array_push($all, $status);
+        // }
+        $dumm = array(
+            'id' => 99,
+            'description' => 'Batal',
+            'step' => 0,
+            'is_hidden' => 0,
+            'created_at' => '2018-03-29 10:38:59',
+            'updated_at' => '2018-03-29 10:38:59'
+        );
+        array_push($delivery_status, $dumm);
+        $dumm = [
+            'id' => -1,
+            'description' => 'Reject',
+            'step' => -1,
+            'is_hidden' => 0,
+            'created_at' => '2018-03-29 10:38:59',
+            'updated_at' => '2018-03-29 10:38:59'
+        ];
+        array_push($delivery_status, $dumm);
+        return $delivery_status;
     }
 
     function get_all_status_delivery() {
         $delivery_status = $this->all_status_deliveries();
-
         $data = array(
             'err' => null,
             'result' => $delivery_status
@@ -491,5 +527,132 @@ class DeliveryController extends Controller
             $randomString .= $characters[rand(0, $charactersLength - 1)];
         }
         return $randomString;
+    }
+
+
+
+
+
+
+
+    private function responseOK(){
+        return [
+            'err' => null,
+            'result' => [
+                'status' => true
+            ]
+        ];
+    }
+
+    private function responseNotOK(){
+        return [
+            'err' => [
+                "code" => 500,
+                "message" => "something went wrong"
+            ],
+            'result' => null
+        ];
+    }
+
+    private function cancelAllShipmentOnSlot($slot_id){
+        $shipments = Shipment::where('id_slot', $slot_id)->get();
+        foreach ($shipments as $shipment) {
+            $shipment->status_dispatch = 'Pending';
+            $shipment->id_shipment_status = 4;
+            $shipment->is_matched = 0;
+            $shipment->id_slot = null;
+            $shipment->save();
+
+            if($shipment->is_first_class) {
+                $daftar_barang = DaftarBarangGold::where('id_barang', $shipment->id)->first();
+            } else {
+                $daftar_barang = DaftarBarangRegular::where('id_barang', $shipment->id)->first();
+            }
+
+            if($daftar_barang){
+                $daftar_barang->is_assigned = false;
+                $daftar_barang->save();
+            }
+        }
+    }
+
+    public function remove_confirmation_delivery($slot_id){
+
+        // find slot, if fails terminate
+        $slot = SlotList::where('slot_id', $slot_id)->first();
+        if(!$slot){
+            return response()->json($this->responseNotOK(), 200);
+        }
+
+        // find user, if fails terminate
+        $user = MemberList::find($slot->id_member);
+        if(!$user){
+            return response()->json($this->responseNotOK(), 200);
+        }
+        
+        // send push notification if and only if slot status = 2
+        if($slot->id_slot_status == 2){
+            $slot->status_dispatch = 'Canceled';
+            $slot->id_slot_status = 0;
+            $slot->save();
+            $this->cancelAllShipmentOnSlot($slot->id);
+            $slot->delete();
+            (new PushNotifier)->_4hours_before_departure_confirmation_timeout($user, $slot);
+        }
+
+        return response()->json($this->responseOK(), 200);
+    }
+
+    public function remove_pickup_delivery($slot_id){
+
+        // find slot, if fails terminate
+        $slot = SlotList::where('slot_id', $slot_id)->first();
+        if(!$slot){
+            return response()->json($this->responseNotOK(), 200);
+        }
+
+        // find user, if fails terminate
+        $user = MemberList::find($slot->id_member);
+        if(!$user){
+            return response()->json($this->responseNotOK(), 200);
+        }
+        
+        // send push notification if and only if slot status = 3
+        if($slot->id_slot_status == 3){
+            $slot->status_dispatch = 'Canceled';
+            $slot->id_slot_status = 0;
+            $slot->save();
+            $this->cancelAllShipmentOnSlot($slot->id);
+            $slot->delete();
+            (new PushNotifier)->_2hours_before_departure_pickup_timeout($user, $slot);
+        }
+        
+        return response()->json($this->responseOK(), 200);
+    }
+
+    public function remove_noshipment_delivery($slot_id){
+
+        // find slot, if fails terminate
+        $slot = SlotList::where('slot_id', $slot_id)->first();
+        if(!$slot){
+            return response()->json($this->responseNotOK(), 200);
+        }
+
+        // find user, if fails terminate
+        $user = MemberList::find($slot->id_member);
+        if(!$user){
+            return response()->json($this->responseNotOK(), 200);
+        }
+        
+        // send push notification if and only if slot status = 1
+        if($slot->id_slot_status == 1){
+            $slot->status_dispatch = 'Canceled';
+            $slot->id_slot_status = 0;
+            $slot->save();
+            $slot->delete();
+            (new PushNotifier)->_no_shipment_for_tipster($user, $slot);
+        }
+        
+        return response()->json($this->responseOK(), 200);
     }
 }

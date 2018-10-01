@@ -42,7 +42,7 @@ class PackagingSlotAdminController extends Controller
             $data['param'] = Input::get('param');
             $data['value'] = Input::get('value');
             if ($data['param'] == 'slot_id') {
-                $slot = SlotList::where('slot_id', Input::get('value'))->first();
+                $slot = SlotList::withTrashed()->where('slot_id', Input::get('value'))->first();
                 if ($slot == null) {
                     $data['data'] = $data['datas']->where('id_slot', null);
                 } else {
@@ -58,7 +58,7 @@ class PackagingSlotAdminController extends Controller
         $user = User::find(Auth::id());
         if ($user->id_office != null  && $user->id != 1) {
             $office = OfficeList::find($user->id_office);
-            $slot = SlotList::where('id_origin_city', $office->id_area)->pluck('id');
+            $slot = SlotList::withTrashed()->where('id_origin_city', $office->id_area)->pluck('id');
             $data['datas'] = $data['datas']->whereIn('id_slot', $slot);
         }
 
@@ -66,10 +66,10 @@ class PackagingSlotAdminController extends Controller
 
         foreach ($data['datas'] as $dat) {
             if ($dat->id_slot != null)
-                $dat['slot_id'] = SlotList::find($dat->id_slot)->slot_id;
+                $dat['slot'] = SlotList::withTrashed()->find($dat->id_slot);
         }
 
-        $data['datas2'] = SlotList::whereNotIn('id', PackagingList::where('id_slot', '!=',null)->pluck('id_slot')->toArray())->where('status_dispatch', 'Process')->where('id_slot_status', 3);
+        $data['datas2'] = SlotList::withTrashed()->whereNotIn('id', PackagingList::where('id_slot', '!=',null)->pluck('id_slot')->toArray())->where('status_dispatch', 'Process')->where('id_slot_status', 3);
 
         
         if ($user->id_office != null && $user->id != 1) {
@@ -199,7 +199,8 @@ class PackagingSlotAdminController extends Controller
         $user = User::find(Auth::id());
         $data['office'] = OfficeList::find($user->id_office);
         $packId = PackagingList::where('id_slot', '==',null)->pluck('id_slot');
-        $data['slot_ids'] = SlotList::where('id', $data['data']->id_slot)->where('status_dispatch', 'Process')->whereNotIn('id', $packId)->get()->union(SlotList::find($data['data']));
+        $data['slot_ids'] = SlotList::withTrashed()->where('id', $data['data']->id_slot)->where('status_dispatch', 'Process')->whereNotIn('id', $packId)->get()->union(SlotList::withTrashed()->find($data['data']));
+        // return ($data['data']->id_slot);
         return view('admin.packagingslots.edit', $data);
 
     }

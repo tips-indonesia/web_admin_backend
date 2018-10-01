@@ -60,8 +60,8 @@
                             </a>
                         </td>
                         <td>
-                            {{ $data->slot_id }}
-                        </td>                        
+                            {{ $data->slot->slot_id }}
+                        </td>         
                         <td style="display: none;">
                             <ul class="icons-list">
                             <li>

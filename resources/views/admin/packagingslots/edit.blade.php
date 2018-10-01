@@ -56,6 +56,7 @@
                             <th>Origin</th>
                             <th>Destination</th>
                             <th>Weight</th>
+                            <th>Status</th>
                         </tr>
                     </thead>
 
@@ -64,7 +65,83 @@
                 </table>
 
             </div>
-             <button type="button" class="btn btn-primary" id="hidden_btn" data-toggle="modal" data-target="#modal_small" style="float: right; display: none;">Print Label</button> 
+            @foreach ($slot_ids as $slot)
+                <button type="button" class="btn btn-primary" id="hidden_btn" data-toggle="modal" data-target="#modal_small" style="float: right; display: none;">Print Label</button> 
+            @endforeach
+            @foreach ($slot_ids as $slot)
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal_manifest" style="float: right; margin-right: 10px;">Print Manifest</button> 
+            @endforeach
+            </div>
+            
+            <div id="modal_manifest" class="modal fade">
+                <div class="modal-dialog modal-sm">
+                    <div class="modal-content" style="width: 600px" id="qrcodex">
+                        <div class="modal-body">
+                            <div style="width : 100%;">
+                                <b style="font-size: 32px; vertical-align: middle;">MANIFEST </b>
+                                <img src="{{ asset('images/logo_header2.PNG') }}" style="float:right; width: 140px; height: auto;">
+                                <div style="border-top: solid 4px black; width: 100%;"></div>
+                                <br/>
+                                <div style="font-size: 14px; font-weight: 800; line-height: 2">
+                                    <table>
+                                        <tr>
+                                            <td>TANGGAL</td>
+                                            <td> &nbsp; : &nbsp; </td>
+                                            <td>{{ explode(' ', $slot->depature)[0] }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>PACKAGING ID</td>
+                                            <td> &nbsp; : &nbsp;  </td> 
+                                            <td>{{ $data->packaging_id }} </td>
+                                        </tr>
+                                        <tr>
+                                            <td>SLOT ID</td>
+                                            <td> &nbsp; : &nbsp;  </td>
+                                            <td>{{ $slot->slot_id }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>NAMA PENUMPANG</td>
+                                            <td> &nbsp; : &nbsp;  </td>
+                                            <td>{{ $slot->first_name . ' ' . $slot->last_name }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>PENERBANGAN</td>
+                                            <td> &nbsp; : &nbsp;  </td>
+                                            <td>{{ $slot->origin_city . ' - ' . $slot->destination_city }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>NOMOR PENERBANGAN</td>
+                                            <td> &nbsp; : &nbsp;  </td>
+                                            <td>{{ $slot->flight_code }}</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <br/>
+                                <style>
+                                    table.data td, table.data th {
+                                        border: solid 1px black;
+                                        padding: 4px 12px;
+                                    }
+                                </style>
+                                <table class="data" style="width: 100%; border: solid 1px black">
+                                    <thead style="font-size: 14px; font-weight: 800">
+                                        <tr>
+                                            <th> NO </th>
+                                            <th> SHIPMENT ID </th>
+                                            <th> CONTENT </th>
+                                            <th> BERAT (KG) </th>
+                                        </tr>
+                                    </thead >
+                                    <tbody id="manifests">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-light" id="print_manifest"> Print </button>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div id="modal_small" class="modal fade">
@@ -176,6 +253,7 @@
         let v2 = "";
         let v3 = "";
         let v4 = "";
+        let manifest_table = "";
         function apicall() {
             $.ajax({
                 url: '{{ route("slotlists.index") }}/' + $('#slot').val(),
@@ -184,6 +262,7 @@
                 dataType: 'json',
                 success: function(data) {
                     console.log(data);
+                    // bagian indeks edit
                     v1 = data['destination'] + ', ' + data['shipments'][0]['destination'];
                     v2 = data['origin'] + ', ' + data['shipments'][0]['origin'];
                     v3 = data['office']['address'];
@@ -199,9 +278,13 @@
                     var body = table.find('tbody');
                     body.html('');
                     for (var i = 0; i < data['shipments'].length; i++) {
-                        body.append("<tr><td>" + data['shipments'][i]['shipment_id'] + "</td><td>" + data['shipments'][i]['transaction_date'] + "</td><td>" + data['shipments'][i]['origin'] + "</td><td>" + data['shipments'][i]['destination'] + "</td><td>" + data['shipments'][i]['real_weight'] + "</td></tr>");
-                        
+                        var status = (data['shipments'][i]['id_shipment_status'] < 0) ? 'Rejected' : 'Active'
+                        body.append("<tr><td>" + data['shipments'][i]['shipment_id'] + "</td><td>" + data['shipments'][i]['transaction_date'] + "</td><td>" + data['shipments'][i]['origin'] + "</td><td>" + data['shipments'][i]['destination'] + "</td><td>" + data['shipments'][i]['real_weight'] + "</td><td> " + status + "</td></tr>");
+                        manifest_table += "<tr><td>" + (i + 1) + "</td><td>" + data['shipments'][i]['shipment_id'] + "</td><td>" 
+                                        + data['shipments'][i]["shipment_contents"] + "</td><td>" + data['shipments'][i]['real_weight'] + "</td></tr>"
                     }
+                    manifest_table += "<tr><td colspan='3' style='text-align: right; font-weight: 800;'> TOTAL BERAT </td><td>" + data['total_weight'].toFixed(2) +"</td></tr>"
+                    $('#manifests').html(manifest_table)
                 }
             });
         }
@@ -216,6 +299,81 @@
          $('#clickprint').click(()=>{
             PrintPartOfPage("modal_small");
         });
+
+        $('#print_manifest').click(() => {
+            printManifest()
+        })
+
+        function printManifest() {
+            var WinPrint = window.open('', '', 'letf=100,top=100,width=600,height=600');
+            WinPrint.document.write(
+                '<div style="width : 100%;">\
+                    <b style="font-size: 32px; margin-top: 10px;">MANIFEST </b>\
+                    <img src="{{ asset('images/logo_header2.PNG') }}" style="float:right; width: 140px; height: auto;">\
+                    <div style="border-top: solid 4px black; width: 100%; margin-top: 15px;"></div>\
+                    <br/>\
+                    <div style="font-size: 14px; font-weight: 800; line-height: 2">\
+                        <table>\
+                            <tr>\
+                                <td>TANGGAL</td>\
+                                <td> &nbsp; : &nbsp; </td>\
+                                <td>{{ explode(' ', $slot->depature)[0] }}</td>\
+                            </tr>\
+                            <tr>\
+                                <td>PACKAGING ID</td>\
+                                <td> &nbsp; : &nbsp;  </td> \
+                                <td>{{ $data->packaging_id }} </td>\
+                            </tr>\
+                            <tr>\
+                                <td>SLOT ID</td>\
+                                <td> &nbsp; : &nbsp;  </td>\
+                                <td>{{ $slot->slot_id }}</td>\
+                            </tr>\
+                            <tr>\
+                                <td>NAMA PENUMPANG</td>\
+                                <td> &nbsp; : &nbsp;  </td>\
+                                <td>{{ $slot->first_name . ' ' . $slot->last_name }}</td>\
+                            </tr>\
+                            <tr>\
+                                <td>PENERBANGAN</td>\
+                                <td> &nbsp; : &nbsp;  </td>\
+                                <td>{{ $slot->origin_city . ' - ' . $slot->destination_city }}</td>\
+                            </tr>\
+                            <tr>\
+                                <td>NOMOR PENERBANGAN</td>\
+                                <td> &nbsp; : &nbsp;  </td>\
+                                <td>{{ $slot->flight_code }}</td>\
+                            </tr>\
+                        </table>\
+                    </div>\
+                    <br/>\
+                    <style>\
+                        table.data td, table.data th {\
+                            border: solid 1px black;\
+                            padding: 4px 12px;\
+                        }\
+                    </style>\
+                    <table class="data" style="width: 100%; border: solid 1px black; border-collapse: collapse;">\
+                        <thead style="font-size: 14px; font-weight: 800">\
+                            <tr>\
+                                <th> NO </th>\
+                                <th> SHIPMENT ID </th>\
+                                <th> CONTENT </th>\
+                                <th> BERAT (KG) </th>\
+                            </tr>\
+                        </thead >'
+                        + manifest_table +
+                        '<tbody id="manifests">\
+                        </tbody>\
+                    </table>\
+                </div>'
+            )
+            WinPrint.document.close();
+            setTimeout(function() {
+                WinPrint.focus();
+                WinPrint.print();
+            }, 500);
+        }
 
         function PrintPartOfPage(dvprintid){
             var prtContent = document.getElementById(dvprintid);

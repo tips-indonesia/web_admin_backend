@@ -156,5 +156,10 @@
                 $('#value').prop('required', false)
             }
         });
+        $(document).ready(function() {
+            @if(session('received') !== null)
+                window.alert("{{session('received')}}")      
+            @endif
+        })
     </script>
 @endsection
