@@ -199,7 +199,8 @@ class PackagingSlotAdminController extends Controller
         $user = User::find(Auth::id());
         $data['office'] = OfficeList::find($user->id_office);
         $packId = PackagingList::where('id_slot', '==',null)->pluck('id_slot');
-        $data['slot_ids'] = SlotList::withTrashed()->where('id', $data['data']->id_slot)->where('status_dispatch', 'Process')->whereNotIn('id', $packId)->get()->union(SlotList::find($data['data']));
+        $data['slot_ids'] = SlotList::withTrashed()->where('id', $data['data']->id_slot)->where('status_dispatch', 'Process')->whereNotIn('id', $packId)->get()->union(SlotList::withTrashed()->find($data['data']));
+        // return ($data['data']->id_slot);
         return view('admin.packagingslots.edit', $data);
 
     }

@@ -83,12 +83,38 @@
                                 <div style="border-top: solid 4px black; width: 100%;"></div>
                                 <br/>
                                 <div style="font-size: 14px; font-weight: 800; line-height: 2">
-                                    TANGGAL : {{ explode(' ', $slot->depature)[0] }}<br/>
-                                    PACKAGING ID : {{ $data->packaging_id }} <br/>
-                                    SLOT ID : {{ $slot->slot_id }}<br/>
-                                    NAMA PENUMPANG : {{ $slot->first_name . ' ' . $slot->last_name }}<br/>
-                                    PENERBANGAN : {{ $slot->origin_city . ' - ' . $slot->destination_city }}<br/>
-                                    NOMOR PENERBANGAN : {{ $slot->flight_code }}<br />
+                                    <table>
+                                        <tr>
+                                            <td>TANGGAL</td>
+                                            <td> &nbsp; : &nbsp; </td>
+                                            <td>{{ explode(' ', $slot->depature)[0] }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>PACKAGING ID</td>
+                                            <td> &nbsp; : &nbsp;  </td> 
+                                            <td>{{ $data->packaging_id }} </td>
+                                        </tr>
+                                        <tr>
+                                            <td>SLOT ID</td>
+                                            <td> &nbsp; : &nbsp;  </td>
+                                            <td>{{ $slot->slot_id }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>NAMA PENUMPANG</td>
+                                            <td> &nbsp; : &nbsp;  </td>
+                                            <td>{{ $slot->first_name . ' ' . $slot->last_name }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>PENERBANGAN</td>
+                                            <td> &nbsp; : &nbsp;  </td>
+                                            <td>{{ $slot->origin_city . ' - ' . $slot->destination_city }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>NOMOR PENERBANGAN</td>
+                                            <td> &nbsp; : &nbsp;  </td>
+                                            <td>{{ $slot->flight_code }}</td>
+                                        </tr>
+                                    </table>
                                 </div>
                                 <br/>
                                 <style>
@@ -257,7 +283,7 @@
                         manifest_table += "<tr><td>" + (i + 1) + "</td><td>" + data['shipments'][i]['shipment_id'] + "</td><td>" 
                                         + data['shipments'][i]["shipment_contents"] + "</td><td>" + data['shipments'][i]['real_weight'] + "</td></tr>"
                     }
-                    manifest_table += "<tr><td colspan='3' style='text-align: right; font-weight: 800;'> TOTAL BERAT </td><td>" + data['total_weight'] +"</td></tr>"
+                    manifest_table += "<tr><td colspan='3' style='text-align: right; font-weight: 800;'> TOTAL BERAT </td><td>" + data['total_weight'].toFixed(2) +"</td></tr>"
                     $('#manifests').html(manifest_table)
                 }
             });
@@ -287,12 +313,38 @@
                     <div style="border-top: solid 4px black; width: 100%; margin-top: 15px;"></div>\
                     <br/>\
                     <div style="font-size: 14px; font-weight: 800; line-height: 2">\
-                        TANGGAL : {{ explode(' ', $slot->depature)[0] }}<br/>\
-                        PACKAGING ID : {{ $data->packaging_id }} <br/>\
-                        SLOT ID : {{ $slot->slot_id }}<br/>\
-                        NAMA PENUMPANG : {{ $slot->first_name . ' ' . $slot->last_name }}<br/>\
-                        PENERBANGAN : {{ $slot->origin_city . ' - ' . $slot->destination_city }}<br/>\
-                        NOMOR PENERBANGAN : {{ $slot->flight_code }}<br />\
+                        <table>\
+                            <tr>\
+                                <td>TANGGAL</td>\
+                                <td> &nbsp; : &nbsp; </td>\
+                                <td>{{ explode(' ', $slot->depature)[0] }}</td>\
+                            </tr>\
+                            <tr>\
+                                <td>PACKAGING ID</td>\
+                                <td> &nbsp; : &nbsp;  </td> \
+                                <td>{{ $data->packaging_id }} </td>\
+                            </tr>\
+                            <tr>\
+                                <td>SLOT ID</td>\
+                                <td> &nbsp; : &nbsp;  </td>\
+                                <td>{{ $slot->slot_id }}</td>\
+                            </tr>\
+                            <tr>\
+                                <td>NAMA PENUMPANG</td>\
+                                <td> &nbsp; : &nbsp;  </td>\
+                                <td>{{ $slot->first_name . ' ' . $slot->last_name }}</td>\
+                            </tr>\
+                            <tr>\
+                                <td>PENERBANGAN</td>\
+                                <td> &nbsp; : &nbsp;  </td>\
+                                <td>{{ $slot->origin_city . ' - ' . $slot->destination_city }}</td>\
+                            </tr>\
+                            <tr>\
+                                <td>NOMOR PENERBANGAN</td>\
+                                <td> &nbsp; : &nbsp;  </td>\
+                                <td>{{ $slot->flight_code }}</td>\
+                            </tr>\
+                        </table>\
                     </div>\
                     <br/>\
                     <style>\

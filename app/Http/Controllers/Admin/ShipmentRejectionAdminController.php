@@ -14,6 +14,7 @@ use App\AirportcityList;
 use App\ShipmentStatus;
 use App\User;
 use App\OfficeList;
+use App\MemberList;
 use App\ProvinceList;
 use App\CityList;
 use App\SubdistrictList;
@@ -26,6 +27,7 @@ use Illuminate\Support\Facades\Storage;
 use URL;
 use Validator;
 use App\Wallets;
+use App\Http\Controllers\API\PushNotifier;
 
 class ShipmentRejectionAdminController extends Controller
 {
@@ -117,6 +119,10 @@ class ShipmentRejectionAdminController extends Controller
 	    	$shipment->deleted_at = Carbon::now()->toDateTimeString();
 	    	$shipment->save();
 
+            if (Input::get('rejection_type') == 1) {
+                $user = MemberList::find($shipment->id_shipper);
+                (new PushNotifier)->_rejection_or_return_to_sender_dg($user, $shipment);
+            }
 	    	return back();
 	    }
     }
