@@ -9,6 +9,7 @@ use App\SlotList;
 use App\MemberList;
 use App\Http\Controllers\SMSSender;
 use App\Http\Controllers\cURLFaker;
+use App\Http\Controllers\ConfigHunter;
 
 class PushNotifier extends Controller
 {
@@ -92,7 +93,7 @@ class PushNotifier extends Controller
         $push_message = "Paket kiriman anda dengan kode pengiriman $kirim_code tidak dapat kami proses lanjut karena teridentifikasi sebagai kategori DG (Dangerous Goods)";
         $this->shipment_push_notifier($push_message, $user, $shipment);
 
-        $ncc = "+62 823 1777 6008";
+        $ncc = ConfigHunter::getCCNumber();
         $sms_message = "Paket kiriman anda tidak dapat kami proses lanjut karena teridentifikasi sebagai kategori DG (Dangerous Goods). Untuk info lebih lanjut mohon cek email inbox Anda atau hubungi tim kami di nomor $ncc";
         $this->shipment_sms_sender($sms_message, $user);
 
