@@ -58,6 +58,10 @@ class ConfigHunter extends Controller
         $output_array = [];
         preg_match("/\+\d+/", $x, $output_array);
 
+        if(sizeof($output_array) == 0){
+            return "";
+        }
+
         return $output_array[0];
     }
 }
