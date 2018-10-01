@@ -160,8 +160,10 @@ class SlotList extends Model
         return "pu";
     }
 
+    // CHANGELOG:
+    // revised from 0 hour to 2 hour
     public function startCountingLifeNoShipment() {
-        $_0hours = 60 /* seconds */ * 60 /* minutes */ * 0 /* hours */;
+        $_0hours = 60 /* seconds */ * 60 /* minutes */ * 2 /* hours */;
         $seconds_left_0hours_before_departure = (new TimeGetter)->secondsToNow(-$_0hours, $this->depature);
 
         // #5 fifth counter
