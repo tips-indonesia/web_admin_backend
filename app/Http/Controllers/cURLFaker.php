@@ -216,7 +216,7 @@ class cURLFaker extends Controller
     }
 
 
-    public function sendMailShipperRejection($email, $NAMA, $SHIPPING_CODE, $NOMOR_CALL_CENTER){
+    public function sendMailShipperRejection($email, $NAMA, $SHIPPING_CODE, $NOMOR_CALL_CENTER, $PLUS_TIGA_HARI){
         $receivers = [TIPSMailChimp::create_email_receiver($email, $NAMA)];
         TIPSMailChimp::send_chimp(
             "Paket kiriman anda tidak dapat kami proses lanjut karena teridentifikasi sebagai kategori DG (Dangerous Goods)",
@@ -225,6 +225,7 @@ class cURLFaker extends Controller
                 TIPSMailChimp::create_template_data('STR_NAMA', $NAMA),
                 TIPSMailChimp::create_template_data('STR_SHIPPING_CODE', $SHIPPING_CODE),
                 TIPSMailChimp::create_template_data('STR_NOMOR_CALL_CENTER', $NOMOR_CALL_CENTER),
+                TIPSMailChimp::create_template_data('DTE_PLUS_TIGA_HARI', $PLUS_TIGA_HARI),
             ],
             $receivers
         );

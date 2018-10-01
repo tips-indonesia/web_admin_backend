@@ -95,7 +95,10 @@ class PushNotifier extends Controller
         $ncc = "+62 823 1777 6008";
         $sms_message = "Paket kiriman anda tidak dapat kami proses lanjut karena teridentifikasi sebagai kategori DG (Dangerous Goods). Untuk info lebih lanjut mohon cek email inbox Anda atau hubungi tim kami di nomor $ncc";
         $this->shipment_sms_sender($sms_message, $user);
-        $this->bsc->sendMailShipperRejection($user->email, $user->first_name . " " . $user->last_name, $kirim_code, $ncc);
+
+        date_default_timezone_set('Asia/Jakarta');
+        $_3nextdays = date('d/m/Y', strtotime(date(now())) + 60 * 60 * 24 * 3);
+        $this->bsc->sendMailShipperRejection($user->email, $user->first_name . " " . $user->last_name, $kirim_code, $ncc, $_3nextdays);
     }
 
     public function _no_shipment_for_tipster($user, $slot){
