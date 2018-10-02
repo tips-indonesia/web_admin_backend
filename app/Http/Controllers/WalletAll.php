@@ -14,40 +14,33 @@ use Illuminate\Support\Facades\URL;
 class WalletAll extends Controller
 {
 	public function getAllPromo(Request $request){
-        $member = MemberList::find($request->id_member);
+		$promos = Redeem::all();
 
-        if($member == null) {
-            $data = array(
-                'err' => [
-                    'code' => 0,
-                    'message' => 'Member tidak ditemukan'
-                ],
-                'result' => null
-            );
-        } else {
-        	$token = $member->store_token;
-			$promos = Redeem::all();
-
-			$promos_out = [];
-			foreach ($promos as $promo) {
-				$start_date_promo = new Carbon($promo->start_date);
-				$end_date_promo = new Carbon($promo->end_date);
-				if(Carbon::now(+7)->between($start_date_promo, $end_date_promo)){
-					$promo->file_name = URL::to('storage/redeem/' . $promo->file_name);
-					$promo->url .= "?user=$token";
-		            array_push($promos_out, $promo);
-				}
+		$promos_out = [];
+		foreach ($promos as $promo) {
+			$start_date_promo = new Carbon($promo->start_date);
+			$end_date_promo = new Carbon($promo->end_date);
+			if(Carbon::now(+7)->between($start_date_promo, $end_date_promo)){
+				$promo->file_name = URL::to('storage/redeem/' . $promo->file_name);
+	            array_push($promos_out, $promo);
 			}
+		}
 
-	        $data = array(
-	            'err' => null,
-	            'result' => [
-	            	'promos' => $promos_out
-	            ]
-	        );
-
-	        return response()->json($data, 200);
+        if($request->id_member && ($member = MemberList::find($request->id_member)) != null) {
+        	$token = $member->store_token;
+        	foreach ($promos_out as $promo) {
+        		$promo->url .= "?user=$token";
+        	}
 	    }
+
+        $data = array(
+            'err' => null,
+            'result' => [
+            	'promos' => $promos_out
+            ]
+        );
+
+        return response()->json($data, 200);
 	}
 
 	// -------------
