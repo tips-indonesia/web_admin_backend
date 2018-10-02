@@ -22,6 +22,7 @@ class WalletAll extends Controller
 			$end_date_promo = new Carbon($promo->end_date);
 			if(Carbon::now(+7)->between($start_date_promo, $end_date_promo)){
 				$promo->file_name = URL::to('storage/redeem/' . $promo->file_name);
+				$promo->url += "?user=$token";
 	            array_push($promos_out, $promo);
 			}
 		}
