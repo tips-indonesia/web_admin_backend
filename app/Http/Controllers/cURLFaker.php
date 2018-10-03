@@ -154,6 +154,85 @@ class cURLFaker extends Controller
 
 
 
+    // ------------------------------
+    //
+    // INI BAGIAN EMAIL UNTUK TIPSTER varian 2
+    //
+    // --
+    public function sendMailTipster15MinBC($email, $NAMA, $ANTAR_CODE){
+        $receivers = [TIPSMailChimp::create_email_receiver($email, $NAMA)];
+        TIPSMailChimp::send_chimp(
+            "15 menit waktu tersisa untuk konfirmasi kesediaan mengantar barang dengan kode pendaftaran penerbangan $ANTAR_CODE",
+            TIPSMailChimp::$TMP_TIPSTER_5,
+            [
+                TIPSMailChimp::create_template_data('STR_NAMA', $NAMA),
+                TIPSMailChimp::create_template_data('STR_ANTAR_CODE', $ANTAR_CODE),
+            ],
+            $receivers
+        );
+        // exec("sh send_post.sh 'http://127.0.0.1/api/send_email' 'type' 'antar' 'code' '1' 'email' '$email' 'NAMA' '$NAMA' 'ANTAR_CODE' '$ANTAR_CODE' >> /var/www/html/tips/zz/logcurlx.txt > /dev/null 2>&1 &");
+    }
+
+    public function sendMailTipsterNoConfirmationCancelled($email, $NAMA, $ANTAR_CODE){
+        $receivers = [TIPSMailChimp::create_email_receiver($email, $NAMA)];
+        TIPSMailChimp::send_chimp(
+            "Waktu telah habis untuk konfirmasi kesediaan mengantar barang dengan kode pendaftaran penerbangan $ANTAR_CODE",
+            TIPSMailChimp::$TMP_TIPSTER_6,
+            [
+                TIPSMailChimp::create_template_data('STR_NAMA', $NAMA),
+                TIPSMailChimp::create_template_data('STR_ANTAR_CODE', $ANTAR_CODE),
+            ],
+            $receivers
+        );
+        // exec("sh send_post.sh 'http://127.0.0.1/api/send_email' 'type' 'antar' 'code' '1' 'email' '$email' 'NAMA' '$NAMA' 'ANTAR_CODE' '$ANTAR_CODE' >> /var/www/html/tips/zz/logcurlx.txt > /dev/null 2>&1 &");
+    }
+
+    public function sendMailTipster15MinBP($email, $NAMA, $ANTAR_CODE){
+        $receivers = [TIPSMailChimp::create_email_receiver($email, $NAMA)];
+        TIPSMailChimp::send_chimp(
+            "15 menit waktu tersisa untuk pengambilan barang antaran TIPS pada TIPS Counter",
+            TIPSMailChimp::$TMP_TIPSTER_7,
+            [
+                TIPSMailChimp::create_template_data('STR_NAMA', $NAMA),
+                TIPSMailChimp::create_template_data('STR_ANTAR_CODE', $ANTAR_CODE),
+            ],
+            $receivers
+        );
+        // exec("sh send_post.sh 'http://127.0.0.1/api/send_email' 'type' 'antar' 'code' '1' 'email' '$email' 'NAMA' '$NAMA' 'ANTAR_CODE' '$ANTAR_CODE' >> /var/www/html/tips/zz/logcurlx.txt > /dev/null 2>&1 &");
+    }
+
+    public function sendMailTipsterNoPickupCancelled($email, $NAMA, $ANTAR_CODE){
+        $receivers = [TIPSMailChimp::create_email_receiver($email, $NAMA)];
+        TIPSMailChimp::send_chimp(
+            "Waktu telah habis untuk pengambilan barang antaran TIPS pada TIPS Counter",
+            TIPSMailChimp::$TMP_TIPSTER_8,
+            [
+                TIPSMailChimp::create_template_data('STR_NAMA', $NAMA),
+                TIPSMailChimp::create_template_data('STR_ANTAR_CODE', $ANTAR_CODE),
+            ],
+            $receivers
+        );
+        // exec("sh send_post.sh 'http://127.0.0.1/api/send_email' 'type' 'antar' 'code' '1' 'email' '$email' 'NAMA' '$NAMA' 'ANTAR_CODE' '$ANTAR_CODE' >> /var/www/html/tips/zz/logcurlx.txt > /dev/null 2>&1 &");
+    }
+
+
+    public function sendMailShipperRejection($email, $NAMA, $SHIPPING_CODE, $NOMOR_CALL_CENTER){
+        $receivers = [TIPSMailChimp::create_email_receiver($email, $NAMA)];
+        TIPSMailChimp::send_chimp(
+            "Paket kiriman anda tidak dapat kami proses lanjut karena teridentifikasi sebagai kategori DG (Dangerous Goods)",
+            TIPSMailChimp::$TMP_TIPSTER_9,
+            [
+                TIPSMailChimp::create_template_data('STR_NAMA', $NAMA),
+                TIPSMailChimp::create_template_data('STR_SHIPPING_CODE', $SHIPPING_CODE),
+                TIPSMailChimp::create_template_data('STR_NOMOR_CALL_CENTER', $NOMOR_CALL_CENTER),
+            ],
+            $receivers
+        );
+        // exec("sh send_post.sh 'http://127.0.0.1/api/send_email' 'type' 'kirim' 'code' '8' 'email' '$email' 'NAMA' '$NAMA' 'SHIPPING_CODE' '$SHIPPING_CODE' 'RECIPIENT_NAME' '$RECIPIENT_NAME' >> /var/www/html/tips/zz/logcurlx.txt > /dev/null 2>&1 &");
+    }
+    // ------------------------------
+    // ##############################
+
 
 
     // Send e-receipt mail for pickup-ed goods

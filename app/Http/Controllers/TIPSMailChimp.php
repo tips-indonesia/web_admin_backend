@@ -15,10 +15,19 @@ class TIPSMailChimp extends Controller
 	public static $TMP_FORGOT_PASSWORD = "Forgot Password";
 	public static $TMP_SHIPMENT_1 = "Transaction Mail Shipment-1";
 	public static $TMP_SHIPMENT_2 = "Transaction Mail Shipment-2";
+
 	public static $TMP_TIPSTER_1 = "Transaction Mail Tipster-1";
 	public static $TMP_TIPSTER_2 = "Transaction Mail Tipster-2";
 	public static $TMP_TIPSTER_3 = "Transaction Mail Tipster-3";
 	public static $TMP_TIPSTER_4 = "Transaction Mail Tipster-4";
+
+	public static $TMP_TIPSTER_5 = "Transaction Mail Tipster-5";
+	public static $TMP_TIPSTER_6 = "Transaction Mail Tipster-6";
+	public static $TMP_TIPSTER_7 = "Transaction Mail Tipster-7";
+	public static $TMP_TIPSTER_8 = "Transaction Mail Tipster-8";
+
+	public static $TMP_TIPSTER_9 = "Transaction Mail Tipster-9";
+
 	public static $TMP_WELCOME = "Welcome Mail";
 
 	public static function create_email_receiver($email, $name){
