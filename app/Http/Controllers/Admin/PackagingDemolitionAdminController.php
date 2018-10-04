@@ -19,6 +19,8 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\API\PushNotifier;
 use App\MemberList;
+use App\Wallets;
+
 class PackagingDemolitionAdminController extends Controller
 {
     public function index() {
@@ -135,6 +137,13 @@ class PackagingDemolitionAdminController extends Controller
             $shipment->add_notes = Input::get('additional_notes');
 
             $shipment->save();
+
+            $wallets = Wallets::where('remarks', $shipment->shipment_id)->where('trans_id', 6)->first();
+            if ($wallets != null) {
+                $wallets->credit = 0;
+                $wallets->remarks = $wallets->remarks.' Rejected';
+                $wallets->save();
+            }
 
             if (Input::get('rejection_type') == 1) {
                 $user = MemberList::find($shipment->id_shipper);

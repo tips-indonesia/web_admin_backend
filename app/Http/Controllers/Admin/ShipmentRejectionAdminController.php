@@ -108,9 +108,11 @@ class ShipmentRejectionAdminController extends Controller
     	} else {
 	    	$shipment = Shipment::withTrashed()->find($id);
 	    	
-            $wallets = Wallets::where('remarks', $shipment->shipment_id)->first();
+            $wallets = Wallets::where('remarks', $shipment->shipment_id)->where('trans_id', 6)->first();
             if ($wallets != null) {
-                $wallets->delete();
+                $wallets->credit = 0;
+                $wallets->remarks = $wallets->remarks.' Rejected';
+                $wallets->save();
             }
 
             $shipment->rejection_type = Input::get('rejection_type');
