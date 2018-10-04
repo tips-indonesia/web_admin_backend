@@ -29,7 +29,10 @@ class UserController extends Controller
                 'result' => null
             );
         } else {
-            $member_list->createStoreToken();
+            if(!$member_list->store_token){
+                $member_list->createStoreToken();
+            }
+            
             $data = array(
                 'err' => null,
                 'result' => [

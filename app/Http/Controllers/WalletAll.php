@@ -27,6 +27,7 @@ class WalletAll extends Controller
 		}
 
         if($request->id_member && ($member = MemberList::find($request->id_member)) != null) {
+            $member->createStoreToken();
         	$token = $member->store_token;
         	foreach ($promos_out as $promo) {
         		$promo->url .= "?user=$token";
