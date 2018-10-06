@@ -77,7 +77,7 @@ class TipsterPaymentController extends Controller
                                    ->get();
             }       
         } else {
-            $package = $package->paginate(50);
+            $package = $package->get();
         }
 
         
