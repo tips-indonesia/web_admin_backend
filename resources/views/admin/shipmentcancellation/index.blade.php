@@ -87,6 +87,7 @@
                 @endforeach
             </tbody>
         </table>
+        {{ $datas->appends(request()->input())->links() }}
 
     </div>
         <script>
