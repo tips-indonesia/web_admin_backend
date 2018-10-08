@@ -152,7 +152,7 @@ class CityController extends Controller
     }
 
     function airport_city_list(){
-        $airportcity = AirportcityList::all();
+        $airportcity = AirportcityList::where('is_active', true)->get();
 
         return $airportcity;
     }
