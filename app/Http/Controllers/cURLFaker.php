@@ -231,6 +231,22 @@ class cURLFaker extends Controller
         );
         // exec("sh send_post.sh 'http://127.0.0.1/api/send_email' 'type' 'kirim' 'code' '8' 'email' '$email' 'NAMA' '$NAMA' 'SHIPPING_CODE' '$SHIPPING_CODE' 'RECIPIENT_NAME' '$RECIPIENT_NAME' >> /var/www/html/tips/zz/logcurlx.txt > /dev/null 2>&1 &");
     }
+
+
+
+    public function sendMailNoShipmentForTipster($email, $NAMA, $ANTAR_CODE){
+        $receivers = [TIPSMailChimp::create_email_receiver($email, $NAMA)];
+        TIPSMailChimp::send_chimp(
+            "Maaf, belum tersedia barang antaran untuk kode pendaftaran penerbangan $ANTAR_CODE Anda",
+            TIPSMailChimp::$TMP_TIPSTER_10,
+            [
+                TIPSMailChimp::create_template_data('STR_NAMA', $NAMA),
+                TIPSMailChimp::create_template_data('STR_ANTAR_CODE', $ANTAR_CODE),
+            ],
+            $receivers
+        );
+        // exec("sh send_post.sh 'http://127.0.0.1/api/send_email' 'type' 'kirim' 'code' '8' 'email' '$email' 'NAMA' '$NAMA' 'SHIPPING_CODE' '$SHIPPING_CODE' 'RECIPIENT_NAME' '$RECIPIENT_NAME' >> /var/www/html/tips/zz/logcurlx.txt > /dev/null 2>&1 &");
+    }
     // ------------------------------
     // ##############################
 

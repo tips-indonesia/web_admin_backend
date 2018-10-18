@@ -109,6 +109,7 @@ class PushNotifier extends Controller
 
         $sms_message = "Maaf, kode pendaftaran penerbangan $antar_code Anda otomatis telah dibatalkan karena belum tersedia barang antaran sampai dengan batas waktu maksimal pengambilan barang antaran di TIPS Counter untuk penerbangan Anda.";
         $this->delivery_sms_sender($sms_message, $user);
+        $this->bsc->sendMailNoShipmentForTipster($user->email, $user->first_name . " " . $user->last_name, $antar_code);
     }
 
     private function responseOK(){
