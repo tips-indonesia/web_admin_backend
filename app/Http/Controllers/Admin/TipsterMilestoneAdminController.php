@@ -9,6 +9,7 @@ use Validator;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
+use App\DeliveryStatus;
 
 class TipsterMilestoneAdminController extends Controller
 {
@@ -20,7 +21,7 @@ class TipsterMilestoneAdminController extends Controller
     public function index()
     {
         //
-        $data['datas'] = TipsterMilestone::paginate(10);
+        $data['datas'] = DeliveryStatus::paginate(10);
         return view('admin.tipstermilestones.index', $data);
     }
 
@@ -85,7 +86,7 @@ class TipsterMilestoneAdminController extends Controller
     public function edit($id)
     {
         //
-        $tipsterMilestone = TipsterMilestone::find($id);
+        $tipsterMilestone = DeliveryStatus::find($id);
         $data['datas'] =  $tipsterMilestone;
         return view('admin.tipstermilestones.edit', $data);
     }
@@ -111,7 +112,7 @@ class TipsterMilestoneAdminController extends Controller
                 ->withErrors($validator)
                 ->withInput();
         } else {
-            $tipsterMilestone = TipsterMilestone::find($id);
+            $tipsterMilestone = DeliveryStatus::find($id);
             $tipsterMilestone->step = Input::get('step');
             $tipsterMilestone->description = Input::get('description');
             $tipsterMilestone->save();
@@ -129,7 +130,7 @@ class TipsterMilestoneAdminController extends Controller
     public function destroy($id)
     {
         //
-        $tipsterMilestone = TipsterMilestone::find($id);
+        $tipsterMilestone = DeliveryStatus::find($id);
         $tipsterMilestone->delete();
 
         // redirect

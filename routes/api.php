@@ -177,3 +177,5 @@ Route::get('/favorite_address/del/{id}', 'API\\FavoriteAddressController@deleteF
 Route::get('/favorite_address/is_full', 'API\\FavoriteAddressController@isAlreadyFull');
 
 Route::get('/manualredeem/member', 'Admin\\ManualRedeemAdminController@getMemberList');
+
+Route::get('/maxWeight', 'API\\WeightController@getMaxQty');

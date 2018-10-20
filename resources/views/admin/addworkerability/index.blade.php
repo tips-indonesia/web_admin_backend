@@ -55,6 +55,7 @@
                 		@endforeach
             		</tbody>
             	</table>
+				{{ $users->appends(request()->input())->links() }}
             </div>
         </div>
     </div>

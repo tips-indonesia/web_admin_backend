@@ -31,4 +31,16 @@ class WeightController extends Controller
 
         return response()->json($data, 200);
     }
+
+    function getMaxQty(Request $request) {
+        $maxWeight = WeightList::where('for_shipment', 1)
+                        ->max('weight_kg');
+        
+        $resp = array(
+            'err' => null,
+            'result' => $maxWeight
+        );
+
+        return response()->json($resp, 200);
+    }
 }
