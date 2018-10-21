@@ -28,6 +28,8 @@ class TIPSMailChimp extends Controller
 
 	public static $TMP_TIPSTER_9 = "Transaction Mail Tipster-9";
 
+	public static $TMP_TIPSTER_10 = "Transaction Mail Tipster-10";
+
 	public static $TMP_WELCOME = "Welcome Mail";
 
 	public static function create_email_receiver($email, $name){

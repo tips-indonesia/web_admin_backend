@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\URL;
 
 class WalletAll extends Controller
 {
-	public function getAllPromo(){
+	public function getAllPromo(Request $request){
 		$promos = Redeem::all();
 
 		$promos_out = [];
@@ -25,6 +25,14 @@ class WalletAll extends Controller
 	            array_push($promos_out, $promo);
 			}
 		}
+
+        if($request->id_member && ($member = MemberList::find($request->id_member)) != null) {
+            $member->createStoreToken();
+        	$token = $member->store_token;
+        	foreach ($promos_out as $promo) {
+        		$promo->url .= "?user=$token";
+        	}
+	    }
 
         $data = array(
             'err' => null,

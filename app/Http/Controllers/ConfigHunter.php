@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\ConfigZ;
+use App\HelpTipster;
 
 class ConfigHunter extends Controller
 {
@@ -47,4 +48,20 @@ class ConfigHunter extends Controller
 
         return response()->json($data, 200);
     } 
+
+    public static function getCCNumber(){
+        $x = HelpTipster::whereNotNull('addt_info')->orderBy('id', 'desc')->first();
+        if(!$x){
+            return "";
+        }
+
+        $output_array = [];
+        preg_match("/\+\d+/", $x, $output_array);
+
+        if(sizeof($output_array) == 0){
+            return "";
+        }
+
+        return $output_array[0];
+    }
 }

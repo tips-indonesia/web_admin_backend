@@ -9,6 +9,7 @@ use App\SlotList;
 use App\MemberList;
 use App\Http\Controllers\SMSSender;
 use App\Http\Controllers\cURLFaker;
+use App\Http\Controllers\ConfigHunter;
 
 class PushNotifier extends Controller
 {
@@ -92,10 +93,13 @@ class PushNotifier extends Controller
         $push_message = "Paket kiriman anda dengan kode pengiriman $kirim_code tidak dapat kami proses lanjut karena teridentifikasi sebagai kategori DG (Dangerous Goods)";
         $this->shipment_push_notifier($push_message, $user, $shipment);
 
-        $ncc = "+62 823 1777 6008";
+        $ncc = ConfigHunter::getCCNumber();
         $sms_message = "Paket kiriman anda tidak dapat kami proses lanjut karena teridentifikasi sebagai kategori DG (Dangerous Goods). Untuk info lebih lanjut mohon cek email inbox Anda atau hubungi tim kami di nomor $ncc";
         $this->shipment_sms_sender($sms_message, $user);
-        $this->bsc->sendMailShipperRejection($user->email, $user->first_name . " " . $user->last_name, $kirim_code, $ncc);
+
+        date_default_timezone_set('Asia/Jakarta');
+        $_3nextdays = date('d/m/Y', strtotime(date(now())) + 60 * 60 * 24 * 3);
+        $this->bsc->sendMailShipperRejection($user->email, $user->first_name . " " . $user->last_name, $kirim_code, $ncc, $_3nextdays);
     }
 
     public function _no_shipment_for_tipster($user, $slot){
@@ -105,6 +109,7 @@ class PushNotifier extends Controller
 
         $sms_message = "Maaf, kode pendaftaran penerbangan $antar_code Anda otomatis telah dibatalkan karena belum tersedia barang antaran sampai dengan batas waktu maksimal pengambilan barang antaran di TIPS Counter untuk penerbangan Anda.";
         $this->delivery_sms_sender($sms_message, $user);
+        $this->bsc->sendMailNoShipmentForTipster($user->email, $user->first_name . " " . $user->last_name, $antar_code);
     }
 
     private function responseOK(){

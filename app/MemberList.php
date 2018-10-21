@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use App\Http\Controllers\API\PromotionController;
 use App\Http\Controllers\WalletAll;
+use DateTime;
 
 class MemberList extends Model
 {
@@ -71,7 +72,10 @@ class MemberList extends Model
     }
 
     public function createStoreToken(){
+        date_default_timezone_set('Asia/Jakarta');
+        $expiry_time = strtotime('now + 10 minutes');
         $this->store_token = $this->gen_uuid();
+        $this->store_token_expiry = $expiry_time;
         $this->save();
     }
 

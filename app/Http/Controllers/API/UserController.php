@@ -29,7 +29,10 @@ class UserController extends Controller
                 'result' => null
             );
         } else {
-            $member_list->createStoreToken();
+            if(!$member_list->store_token){
+                $member_list->createStoreToken();
+            }
+            
             $data = array(
                 'err' => null,
                 'result' => [
@@ -366,12 +369,12 @@ class UserController extends Controller
         $dev_identifier = 'dev-' . $request->mobile_phone_no;
         $member_list = MemberList::where('mobile_phone_no', $dev_identifier)->first();
 
-        if($member_list != null)
+        if($member_list != null){
             $data = array(
                 'err' => null,
                 'result' => $this->getDerivedUserInformation($member_list)
             );
-        else {
+        }else {
             $member_list = new MemberList;
             $member_list->mobile_phone_no = $dev_identifier;
             $member_list->first_name = $dev_identifier;
@@ -386,11 +389,12 @@ class UserController extends Controller
 
             $member_list->save();
             unset($member_list['password']);
+            $member_list = $this->getDerivedUserInformation($member_list);
             $member_list->money = WalletAll::getWalletAmount($member_list->id);;
 
             $data = array(
                 'err' => null,
-                'result' => $this->getDerivedUserInformation($member_list)
+                'result' => $member_list
             );
         }
 

@@ -216,7 +216,7 @@ class cURLFaker extends Controller
     }
 
 
-    public function sendMailShipperRejection($email, $NAMA, $SHIPPING_CODE, $NOMOR_CALL_CENTER){
+    public function sendMailShipperRejection($email, $NAMA, $SHIPPING_CODE, $NOMOR_CALL_CENTER, $PLUS_TIGA_HARI){
         $receivers = [TIPSMailChimp::create_email_receiver($email, $NAMA)];
         TIPSMailChimp::send_chimp(
             "Paket kiriman anda tidak dapat kami proses lanjut karena teridentifikasi sebagai kategori DG (Dangerous Goods)",
@@ -225,6 +225,23 @@ class cURLFaker extends Controller
                 TIPSMailChimp::create_template_data('STR_NAMA', $NAMA),
                 TIPSMailChimp::create_template_data('STR_SHIPPING_CODE', $SHIPPING_CODE),
                 TIPSMailChimp::create_template_data('STR_NOMOR_CALL_CENTER', $NOMOR_CALL_CENTER),
+                TIPSMailChimp::create_template_data('DTE_PLUS_TIGA_HARI', $PLUS_TIGA_HARI),
+            ],
+            $receivers
+        );
+        // exec("sh send_post.sh 'http://127.0.0.1/api/send_email' 'type' 'kirim' 'code' '8' 'email' '$email' 'NAMA' '$NAMA' 'SHIPPING_CODE' '$SHIPPING_CODE' 'RECIPIENT_NAME' '$RECIPIENT_NAME' >> /var/www/html/tips/zz/logcurlx.txt > /dev/null 2>&1 &");
+    }
+
+
+
+    public function sendMailNoShipmentForTipster($email, $NAMA, $ANTAR_CODE){
+        $receivers = [TIPSMailChimp::create_email_receiver($email, $NAMA)];
+        TIPSMailChimp::send_chimp(
+            "Maaf, belum tersedia barang antaran untuk kode pendaftaran penerbangan $ANTAR_CODE Anda",
+            TIPSMailChimp::$TMP_TIPSTER_10,
+            [
+                TIPSMailChimp::create_template_data('STR_NAMA', $NAMA),
+                TIPSMailChimp::create_template_data('STR_ANTAR_CODE', $ANTAR_CODE),
             ],
             $receivers
         );

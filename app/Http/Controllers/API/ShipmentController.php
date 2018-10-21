@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\BirdSenderController;
 use App\Http\Controllers\cURLFaker;
+use App\Http\Controllers\ConfigHunter;
 
 use App\Shipment;
 use App\PriceList;
@@ -318,7 +319,7 @@ class ShipmentController extends Controller
             $nama = $ms_user->first_name . ' ' . $ms_user->last_name;
             $kirimcode = $shipment_out->shipment_id;
             if($email)
-                $bsc->sendMailShipperStep1($email, $nama, $kirimcode, "+62 823 1777 6008");
+                $bsc->sendMailShipperStep1($email, $nama, $kirimcode, ConfigHunter::getCCNumber());
         }
 
         // TAHAP PENYIMPANAN FAVORITE ADDRESS
