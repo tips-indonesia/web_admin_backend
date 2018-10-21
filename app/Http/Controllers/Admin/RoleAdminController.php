@@ -125,8 +125,14 @@ class RoleAdminController extends Controller
     {
         //
         $role = Role::find($id);
-        $role->delete();
-
+        try {
+            $role->delete();
+        } catch (\Illuminate\Database\QueryException $e) {
+            if ($e->getCode() == 23000) {
+                // report($e);
+                return back()->withErrors("Can't delete data because violating database integrity constraint");
+            }
+        }
         // redirect
         Session::flash('message', 'Successfully deleted the nerd!');
         return Redirect::to(route('roles.index'));

@@ -147,7 +147,15 @@ class AirportListAdminController extends Controller
     {
         //
         $airportList = AirportList::find($id);
-        $airportList->delete();
+        
+        try {
+            $airportList->delete();
+        } catch (\Illuminate\Database\QueryException $e) {
+            if ($e->getCode() == 23000) {
+                // report($e);
+                return back()->withErrors("Can't delete data because violating database integrity constraint");
+            }
+        }
 
         // redirect
         Session::flash('message', 'Successfully deleted the nerd!');

@@ -148,8 +148,14 @@ class PromotionController extends Controller
     public function destroy($id)
     {
         //
-        DB::table('promotions')->where('id',$id)->delete();
-
+        try {
+            DB::table('promotions')->where('id',$id)->delete();
+        } catch (\Illuminate\Database\QueryException $e) {
+            if ($e->getCode() == 23000) {
+                // report($e);
+                return back()->withErrors("Can't delete data because violating database integrity constraint");
+            }
+        }
         // redirect
         Session::flash('message', 'Successfully deleted the nerd!');
         return Redirect::to(route('promotions.index'));

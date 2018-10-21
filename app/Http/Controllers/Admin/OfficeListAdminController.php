@@ -213,7 +213,14 @@ class OfficeListAdminController extends Controller
     {
         //
         $officeLists = OfficeList::find($id);
-        $officeLists->delete();
+        try {
+            $officeLists->delete();
+        } catch (\Illuminate\Database\QueryException $e) {
+            if ($e->getCode() == 23000) {
+                // report($e);
+                return back()->withErrors("Can't delete data because violating database integrity constraint");
+            }
+        }
 
         // redirect
         Session::flash('message', 'Successfully deleted the nerd!');

@@ -21,7 +21,7 @@ class SetOfficeName
         $user = User::find(Auth::id());
         if ($user->id_office != null) {
             $office = OfficeList::find($user->id_office);
-            session(['officename' => $office->name]);
+            session(['officename' => ($office) ? $office->name : '']);
         }
         if ($user->id == 1) {
             session(['officename' => 'Super Admin']);

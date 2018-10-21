@@ -99,7 +99,14 @@ class CityListAdminController extends Controller
     {
         $cityList = CityList::find($id);
         $province = $cityList->id_province;
-        $cityList->delete();
+        try {
+            $cityList->delete();
+        } catch (\Illuminate\Database\QueryException $e) {
+            if ($e->getCode() == 23000) {
+                // report($e);
+                return back()->withErrors("Can't delete data because violating database integrity constraint");
+            }
+        }
         return Redirect::to(route('citylists.index', ['province' => $province]));
     }
 }
