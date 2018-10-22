@@ -359,9 +359,9 @@ class DeliveryController extends Controller
                 'err' => null,
                 'result' => array(
                     'status' => array(
-                        'step' => $delivery_status->step,
-                        'description' => $delivery_status->description,
-                        'detail' => $slot->detail_status
+                        'step' => ($delivery_status) ? $delivery_status->step : 0,
+                        'description' => ($delivery_status) ? $delivery_status->description : '',
+                        'detail' => ($delivery_status) ? $slot->detail_status : ''
                     ),
                     'delivery' => $slot,
                     'user' => $user
