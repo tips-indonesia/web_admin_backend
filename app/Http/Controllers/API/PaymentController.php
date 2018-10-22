@@ -28,7 +28,7 @@ class PaymentController extends Controller
         $isUseEspayPayment = false;
 
         foreach ($payment_type as $payment) {
-            $isCashPayment = $payment->name == "Cash";
+            $isCashPayment = $payment->name == "Tunai";
             $isUseEspayPayment |= $payment->name == "Espay";
             if($isCashPayment){
                 $p = new stdClass();
