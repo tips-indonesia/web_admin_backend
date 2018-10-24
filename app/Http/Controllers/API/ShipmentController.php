@@ -588,7 +588,8 @@ class ShipmentController extends Controller
         } else {
             $shipment->status_dispatch = 'Canceled';
             $shipment->id_shipment_status = 0;
-            $date_deleted = new DateTime(new DateTimeZone('Asia/Jakarta'));
+            $date_deleted = new DateTime();
+            $date_deleted->setTimezone(new DateTimeZone('Asia/Jakarta'));
             // $shipment->deleted_at = Carbon::now()->toDateTimeString();
             $shipment->deleted_at = $date_deleted->format('Y-m-d H:i:s');
             $shipment->save();
