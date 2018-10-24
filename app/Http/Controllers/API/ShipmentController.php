@@ -594,6 +594,7 @@ class ShipmentController extends Controller
             $data = array(
                 'err' => null,
                 'result' => [
+                    'test_date' => Carbon::now()->toDateTimeString()
                     'code' => 1,
                     'message' => 'Shipment berasil dibatalkan'
                 ]
