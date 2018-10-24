@@ -25,6 +25,7 @@ use App\Http\Controllers\FCMSender;
 use App\Http\Controllers\API\MessageController;
 use App\FavoriteAddress;
 use DB;
+use Carbon\Carbon;
 
 class ShipmentController extends Controller
 {
@@ -585,9 +586,10 @@ class ShipmentController extends Controller
         } else {
             $shipment->status_dispatch = 'Canceled';
             $shipment->id_shipment_status = 0;
+            $shipment->deleted_at = Carbon::now()->toDateTimeString();
             $shipment->save();
             $shipment->delete_transaction_estimation();
-            $shipment->delete();
+            // $shipment->delete();
 
             $data = array(
                 'err' => null,
