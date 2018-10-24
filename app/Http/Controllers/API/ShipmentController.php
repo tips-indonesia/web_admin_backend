@@ -599,7 +599,6 @@ class ShipmentController extends Controller
             $data = array(
                 'err' => null,
                 'result' => [
-                    'test_date' => $date_deleted->format('Y-m-d H:i:s'),
                     'code' => 1,
                     'message' => 'Shipment berasil dibatalkan'
                 ]
