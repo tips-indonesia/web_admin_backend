@@ -586,7 +586,9 @@ class ShipmentController extends Controller
         } else {
             $shipment->status_dispatch = 'Canceled';
             $shipment->id_shipment_status = 0;
-            $shipment->deleted_at = Carbon::now()->toDateTimeString();
+            $date_deleted = new DateTime();
+            // $shipment->deleted_at = Carbon::now()->toDateTimeString();
+            $shipment->deleted_at = $date_deleted->format('Y-m-d H:i:s');
             $shipment->save();
             $shipment->delete_transaction_estimation();
             // $shipment->delete();
@@ -594,7 +596,7 @@ class ShipmentController extends Controller
             $data = array(
                 'err' => null,
                 'result' => [
-                    'test_date' => Carbon::now()->toDateTimeString(),
+                    'test_date' => $date_deleted->format('Y-m-d H:i:s'),
                     'code' => 1,
                     'message' => 'Shipment berasil dibatalkan'
                 ]
