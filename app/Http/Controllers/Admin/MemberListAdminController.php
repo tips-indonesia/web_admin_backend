@@ -21,7 +21,14 @@ class MemberListAdminController extends Controller
     public function index()
     {
         //
-        $data['datas'] = MemberList::where('is_worker', 0)->paginate(10);
+        $data['datas'] = MemberList::where('is_worker', 0)
+                                    ->where('sms_code', -1);
+
+        if (Input::get('param') && Input::get('value')) {
+            $data['datas'] = $data['datas']->where(Input::get('param'), 'LIKE', '%'.Input::get('value').'%');
+        }
+
+        $data['datas'] = $data['datas']->paginate(10);
         return view('admin.memberlists.index', $data);
     }
 
