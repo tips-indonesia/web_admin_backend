@@ -144,7 +144,7 @@ class SlotList extends Model
     }
 
     public function startCountingLifePickup() {
-        $_2hours = 60 /* seconds */ * 60 /* minutes */ * 2 /* hours */;
+        $_2hours = 60 /* seconds */ * 45 /* minutes */ * 1 /* hours */;
         $seconds_left_2hours_before_departure = (new TimeGetter)->secondsToNow(-$_2hours, $this->depature);
 
         // #3 third counter
@@ -163,7 +163,7 @@ class SlotList extends Model
     // CHANGELOG:
     // revised from 0 hour to 2 hour
     public function startCountingLifeNoShipment() {
-        $_0hours = 60 /* seconds */ * 60 /* minutes */ * 2 /* hours */;
+        $_0hours = 60 /* seconds */ * 45 /* minutes */ * 1 /* hours */;
         $seconds_left_0hours_before_departure = (new TimeGetter)->secondsToNow(-$_0hours, $this->depature);
 
         // #5 fifth counter
