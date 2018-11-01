@@ -484,6 +484,7 @@ class UserController extends Controller
         $member_list = MemberList::where('mobile_phone_no', $request->mobile_phone_no)->first();
         $member_list_social = MemberList::where('fb_token', $request->uniq_social_id)
                               ->orWhere('twitter_token', $request->uniq_social_id)->first();
+        
         if(!$member_list){
             if(!$member_list_social){
                 $data = array(
@@ -511,6 +512,15 @@ class UserController extends Controller
                 'err' => [
                     'code' => 0,
                     'message' => 'Nomor handphone tidak terdaftar'
+                ],
+                'result' => null
+            );
+        }else if($member_list->sms_code == -1){
+            // Kasus: member dengan no hp bersangkutan tidak terdaftar pada basis data
+            $data = array(
+                'err' => [
+                    'code' => 0,
+                    'message' => 'Nomor handphone telah digunakan dan terverifikasi'
                 ],
                 'result' => null
             );
