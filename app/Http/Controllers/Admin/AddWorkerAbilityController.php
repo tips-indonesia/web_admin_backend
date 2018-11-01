@@ -17,11 +17,12 @@ class AddWorkerAbilityController extends Controller
      public function index() {
      	if (isset($_GET['firstname'])) {
      		$data['firstname'] = $_GET['firstname'];
-     		$users = User::where('first_name', 'LIKE', '%'.$data['firstname'].'%')->paginate(10);
+             $users = User::where('first_name', 'LIKE', '%'.$data['firstname'].'%')
+                            ->where('sms_code', -1);
      	} else {
-     		$users = User::paginate(10);
+     		$users = User::where('sms_code', -1);
      	}
-
+        $users = $users->paginate(10);
      	$data['users'] = $users;
     	return view('admin.addworkerability.index', $data);
     }

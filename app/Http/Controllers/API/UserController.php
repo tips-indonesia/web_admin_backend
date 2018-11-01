@@ -932,11 +932,12 @@ class UserController extends Controller
 
             }else{
                 $member_list->mobile_phone_no = $phoneNo;
+                $this->sendEmailRegistration($member_list);
             }
 
             $member_list->create_transaction_ref();
             $member_list->save();
-            $this->sendEmailRegistration($member_list);
+            // $this->sendEmailRegistration($member_list);
 
             if($member_list->profil_picture){
                 $member_list->profil_picture = url('/image/profil_picture').'/'.$member_list->profil_picture;
