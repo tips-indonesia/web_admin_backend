@@ -622,6 +622,11 @@ class UserController extends Controller
             if($request->has('address')) {
                 $member_list->address = $request->address;
             }
+            
+            // set token of login
+            if($request->has('token')) {
+                $member_list->token = $request->token;
+            }
 
             if($member_list->ref_code == null){
                 $member_list->ref_code = $this->generateReferalCode($member_list);
@@ -703,6 +708,11 @@ class UserController extends Controller
 
             if($request->has('address')) {
                 $member_list->address = $request->address;
+            }
+            
+            // set token of login
+            if($request->has('token')) {
+                $member_list->token = $request->token;
             }
             
             if($member_list->ref_code == null){
