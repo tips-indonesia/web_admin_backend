@@ -576,6 +576,17 @@ class UserController extends Controller
     function actionFB(Request $request) {
         $member_list = MemberList::where('fb_token', $request->uniq_social_id)->first();
         if($member_list != null) {
+            
+            // set token of login
+            if($request->has('token')) {
+                $member_list->token = $request->token;
+                $member_list->save();
+            }
+            
+            if($member_list->ref_code == null){
+                $member_list->ref_code = $this->generateReferalCode($member_list);
+                $member_list->save();
+            }
 
             if($member_list->profil_picture){
                 $member_list->profil_picture = url('/image/profil_picture').'/'.$member_list->profil_picture;
@@ -663,6 +674,17 @@ class UserController extends Controller
     function actionTwitter(Request $request) {
         $member_list = MemberList::where('twitter_token', $request->uniq_social_id)->first();
         if($member_list != null) {
+            
+            // set token of login
+            if($request->has('token')) {
+                $member_list->token = $request->token;
+                $member_list->save();
+            }
+            
+            if($member_list->ref_code == null){
+                $member_list->ref_code = $this->generateReferalCode($member_list);
+                $member_list->save();
+            }
 
             if($member_list->profil_picture){
                 $member_list->profil_picture = url('/image/profil_picture').'/'.$member_list->profil_picture;
