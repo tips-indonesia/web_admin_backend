@@ -8,7 +8,22 @@
 @endsection
 @section('content')
     <div class="panel panel-flat">     
-
+    {{ Form::open(array('url' => route('memberlists.index'), 'method' => 'GET', 'id' => 'member_list_form')) }}
+        <div class="col-md-12">
+            <div class="form-group">
+                <label> First Name </label>
+                <div class="row">
+                    <div class="col-md-5">
+                        <input type="hidden" name="param" value="first_name" />
+                        <input type="text" required placeholder="First Name" name="value" class="form-control" />
+                    </div>
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-primary"> Search </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {{ Form::close() }}
         <table class="table datatable-pagination">
             <thead>
                 <tr>

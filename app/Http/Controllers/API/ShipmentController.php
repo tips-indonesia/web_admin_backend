@@ -25,6 +25,9 @@ use App\Http\Controllers\FCMSender;
 use App\Http\Controllers\API\MessageController;
 use App\FavoriteAddress;
 use DB;
+use Carbon\Carbon;
+use DateTime;
+use DateTimeZone;
 
 class ShipmentController extends Controller
 {
@@ -585,9 +588,13 @@ class ShipmentController extends Controller
         } else {
             $shipment->status_dispatch = 'Canceled';
             $shipment->id_shipment_status = 0;
+            $date_deleted = new DateTime();
+            // $date_deleted->setTimezone(new DateTimeZone('Asia/Jakarta'));
+            // $shipment->deleted_at = Carbon::now()->toDateTimeString();
+            $shipment->deleted_at = $date_deleted->format('Y-m-d H:i:s');
             $shipment->save();
             $shipment->delete_transaction_estimation();
-            $shipment->delete();
+            // $shipment->delete();
 
             $data = array(
                 'err' => null,

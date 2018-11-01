@@ -26,6 +26,8 @@ use Illuminate\Support\Facades\Storage;
 use URL;
 use Validator;
 use App\Wallets;
+use DateTime;
+use DateTimeZone;
 
 class ShipmentCancellationAdminController extends Controller
 {
@@ -119,8 +121,11 @@ class ShipmentCancellationAdminController extends Controller
             }
 
             $shipment->id_shipment_status = 0;
-	    	$shipment->add_notes = Input::get('additional_notes');
-	    	$shipment->deleted_at = Carbon::now()->toDateTimeString();
+            $shipment->add_notes = Input::get('additional_notes');
+            $date_deleted = new DateTime();
+            $date_deleted->setTimezone(new DateTimeZone('Asia/Jakarta'));
+            // $shipment->deleted_at = Carbon::now()->toDateTimeString();
+            $shipment->deleted_at = $date_deleted->format('Y-m-d H:i:s');
 	    	$shipment->save();
 
 	    	return back();
