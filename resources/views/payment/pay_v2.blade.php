@@ -41,6 +41,7 @@
             $test = "https://tips"
             if(src.substr(0, sizeof($test)) == $test){
                 window.opener.postMessage(window.location.href, '*')
+                console.log("Redirected", window.opener)
                 x_redirect(SGOSignature.getIframeURL(src));
             }
         }
