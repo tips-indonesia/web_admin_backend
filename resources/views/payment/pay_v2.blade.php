@@ -35,14 +35,14 @@
             
 
         function checkframechange(src){
-            setInterval(() => {
-                console.log("sending post message")
-                window.opener.postMessage(window.location.href, '*')
-            }, 500)
-            // document.addEventListener('click', function(e) {
+            // setInterval(() => {
             //     console.log("sending post message")
             //     window.opener.postMessage(window.location.href, '*')
-            // }, false);
+            // }, 500)
+            document.addEventListener('click', function(e) {
+                console.log("sending post message")
+                window.opener.postMessage(window.location.href, '*')
+            }, false);
             console.log("src: ", src);
             console.log("print 4: ", src.substr(0, 4));
             var test = "https://tips"
