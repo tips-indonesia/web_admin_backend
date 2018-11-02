@@ -76,9 +76,10 @@
                 sgoPlusIframe.src = SGOSignature.getIframeURL(data);
                 sgoPlusIframe.load(function() {
                     sgoPlusIframe[0].contentWindow.onbeforeunload = function() {
-                        console.log("REDIRECTING", window.location.href)
-                        console.log("sending post message")
-                        window.opener.postMessage(window.location.href, '*')    
+                        setInterval(() => {
+                            console.log('sending post message')
+                            window.opener.postMessage(window.location.href, '*')    
+                        },500)
                     }
                 })
             }
