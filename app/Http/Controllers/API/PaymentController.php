@@ -93,7 +93,13 @@ class PaymentController extends Controller
         $data['payData']['bankCode'] = $request->bankCode;
         $data['payData']['bankProduct'] = $request->bankProduct;
         $data['payData']['callback_url'] = 'https://tips.co.id';
-        return view('payment.pay', $data);
+        if (isset($_GET['app'])) {
+            if ($_GET['app'] == 'webapp') {
+                return view('payment.pay_v2', $data);
+            }
+        } else {
+            return view('payment.pay', $data);
+        }
     }
 
     public function startPaymentV2(Request $request){

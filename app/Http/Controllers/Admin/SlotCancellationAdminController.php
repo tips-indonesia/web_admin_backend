@@ -166,6 +166,7 @@ class SlotCancellationAdminController extends Controller
 
         foreach ($shipments as $shipment) {
             $shipment->id_slot = null;
+            $shipment->is_matched = false;
             $shipment->save();
         }
 
