@@ -29,10 +29,10 @@
             
 
         function checkframechange(src){
-            window.addEventListener('beforeunload', function (e) {
+            setInterval(() => {
                 console.log("sending post message")
                 window.opener.postMessage(window.location.href, '*')
-            })
+            }, 500)
             console.log("src: ", src);
             console.log("print 4: ", src.substr(0, 4));
             var test = "https://tips"
