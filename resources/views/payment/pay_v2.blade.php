@@ -40,6 +40,7 @@
             console.log("print 4: ", src.substr(0, 4));
             $test = "https://tips"
             if(src.substr(0, sizeof($test)) == $test){
+                window.opener.postMessage(window.location.href, '*')
                 x_redirect(SGOSignature.getIframeURL(src));
             }
         }
@@ -67,7 +68,6 @@
             sgoPlusIframe = document.getElementById("sgoplus-iframe");
             if (sgoPlusIframe !== null) sgoPlusIframe.src = SGOSignature.getIframeURL(data);
             SGOSignature.receiveForm();
-            window.opener.postMessage(window.location.href, '*')
         };
 
 
