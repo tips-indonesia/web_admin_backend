@@ -35,10 +35,10 @@
             
 
         function checkframechange(src){
-            setInterval(() => {
-                console.log("sending post message")
-                window.opener.postMessage(window.location.href, '*')
-            }, 500)
+            // setInterval(() => {
+            //     console.log("sending post message")
+            //     window.opener.postMessage(window.location.href, '*')
+            // }, 500)
             // window.addEventListener('click', function(e) {
             //     console.log("sending post message")
             //     window.opener.postMessage(window.location.href, '*')
@@ -76,7 +76,10 @@
             SGOSignature.receiveForm();
         };
 
-
+        window.addEventListener('popstate', () => {
+            console.log("sending post message")
+            window.opener.postMessage(window.location.href, '*')
+        })
         window.onload = function() {
             submit();
         };
