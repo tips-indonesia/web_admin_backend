@@ -75,7 +75,7 @@
             if (sgoPlusIframe !== null) sgoPlusIframe.src = SGOSignature.getIframeURL(data);
             SGOSignature.receiveForm();
         };
-
+        console.log("add popstate listener")
         window.addEventListener('popstate', () => {
             console.log("sending post message")
             window.opener.postMessage(window.location.href, '*')
