@@ -74,14 +74,12 @@
             sgoPlusIframe = document.getElementById("sgoplus-iframe");
             if (sgoPlusIframe !== null) {
                 sgoPlusIframe.src = SGOSignature.getIframeURL(data);
-                sgoPlusIframe.load(function() {
-                    sgoPlusIframe[0].contentWindow.onbeforeunload = function() {
-                        setInterval(() => {
-                            console.log('sending post message')
-                            window.opener.postMessage(window.location.href, '*')    
-                        },500)
-                    }
-                })
+                sgoPlusIframe.onload = function() {
+                    setInterval(() => {
+                        console.log('sending post message')
+                        window.opener.postMessage(window.location.href, '*')    
+                    },500)
+                }
             }
             SGOSignature.receiveForm();
         };
