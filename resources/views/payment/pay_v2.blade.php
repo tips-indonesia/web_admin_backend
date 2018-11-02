@@ -39,7 +39,7 @@
             //     console.log("sending post message")
             //     window.opener.postMessage(window.location.href, '*')
             // }, 500)
-            document.addEventListener('click', function(e) {
+            window.addEventListener('click', function(e) {
                 console.log("sending post message")
                 window.opener.postMessage(window.location.href, '*')
             }, false);
