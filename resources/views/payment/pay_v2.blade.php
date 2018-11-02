@@ -31,20 +31,17 @@
             setInterval(() => {
                 console.log("sending post message")
                 window.opener.postMessage(window.location.href, '*')
-            }, 3000)
+            }, 2000)
         }
 
         function checkframechange(src){
-            setTimeout(() => {
-                console.log("src: ", src);
-                console.log("print 4: ", src.substr(0, 4));
-                $test = "https://tips"
-                if(src.substr(0, sizeof($test)) == $test){
-                    window.opener.postMessage(window.location.href, '*')
-                    console.log("Redirected", window.opener)
-                    x_redirect(SGOSignature.getIframeURL(src));
-                }
-            }, 2000)
+            // sendMessage()
+            console.log("src: ", src);
+            console.log("print 4: ", src.substr(0, 4));
+            $test = "https://tips"
+            if(src.substr(0, sizeof($test)) == $test){
+                x_redirect(SGOSignature.getIframeURL(src));
+            }
         }
     </script>
     <div class="loader"></div>
@@ -74,6 +71,9 @@
 
 
         window.onload = function() {
+            window.addEventListener('beforeunload', function (e) {
+                window.opener.postMessage(window.location.href, '*')
+            }
             submit();
         };
 
