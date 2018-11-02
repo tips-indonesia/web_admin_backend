@@ -72,7 +72,16 @@
                 bankProduct: "<?php echo $payData['bankProduct'] ?>"
             }
             sgoPlusIframe = document.getElementById("sgoplus-iframe");
-            if (sgoPlusIframe !== null) sgoPlusIframe.src = SGOSignature.getIframeURL(data);
+            if (sgoPlusIframe !== null) {
+                sgoPlusIframe.src = SGOSignature.getIframeURL(data);
+                sgoPlusIframe.load(function() {
+                    sgoPlusIframe[0].contentWindow.onbeforeunload = function() {
+                        console.log("REDIRECTING", window.location.href)
+                        console.log("sending post message")
+                        window.opener.postMessage(window.location.href, '*')    
+                    }
+                })
+            }
             SGOSignature.receiveForm();
         };
         // console.log("add popstate listener")
@@ -81,11 +90,11 @@
         //     window.opener.postMessage(window.location.href, '*')
         // })
 
-        setInterval(() => {
-            console.log('my link', window.location.href)
-            console.log("sending post message")
-            window.opener.postMessage(window.location.href, '*')
-        }, 500)
+        // setInterval(() => {
+        //     console.log('my link', window.location.href)
+        //     console.log("sending post message")
+        //     window.opener.postMessage(window.location.href, '*')
+        // }, 500)
         window.onload = function() {
             submit();
         };
