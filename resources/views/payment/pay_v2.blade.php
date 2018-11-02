@@ -26,20 +26,14 @@
           else
             window.location.replace(uri);
         }
-        
-        function sendMessage() {
-            setInterval(() => {
-                console.log("sending post message")
-                window.opener.postMessage(window.location.href, '*')
-            }, 2000)
-        }
+            
 
         function checkframechange(src){
             // sendMessage()
             console.log("src: ", src);
             console.log("print 4: ", src.substr(0, 4));
-            $test = "https://tips"
-            if(src.substr(0, sizeof($test)) == $test){
+            var test = "https://tips"
+            if(src.substr(0, test.length) == test) {
                 x_redirect(SGOSignature.getIframeURL(src));
             }
         }
@@ -71,9 +65,11 @@
 
 
         window.onload = function() {
-            window.addEventListener('beforeunload', function (e) {
+            setInterval(() => {
+                console.log("sending post message")
                 window.opener.postMessage(window.location.href, '*')
-            }
+            }, 3000)
+
             submit();
         };
 
