@@ -17,12 +17,6 @@
             100% { transform: rotate(360deg); }
         }
     </style>
-    <script type="text/javascript">
-        function sendMessage() {
-            console.log("sending post message")
-            window.opener.postMessage(window.location.href, '*')
-        }
-    </script>
 </head>
 <body>
     <script type="text/javascript">
@@ -35,10 +29,10 @@
             
 
         function checkframechange(src){
-            // setInterval(() => {
-            //     console.log("sending post message")
-            //     window.opener.postMessage(window.location.href, '*')
-            // }, 500)
+            setInterval(() => {
+                console.log("sending post message")
+                window.opener.postMessage(window.location.href, '*')
+            }, 500)
             // window.addEventListener('click', function(e) {
             //     console.log("sending post message")
             //     window.opener.postMessage(window.location.href, '*')
