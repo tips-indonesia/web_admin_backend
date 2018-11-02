@@ -29,7 +29,10 @@
             
 
         function checkframechange(src){
-            // sendMessage()
+            window.addEventListener('beforeunload', function (e) {
+                console.log("sending post message")
+                window.opener.postMessage(window.location.href, '*')
+            })
             console.log("src: ", src);
             console.log("print 4: ", src.substr(0, 4));
             var test = "https://tips"
@@ -65,11 +68,6 @@
 
 
         window.onload = function() {
-            setInterval(() => {
-                console.log("sending post message")
-                window.opener.postMessage(window.location.href, '*')
-            }, 3000)
-
             submit();
         };
 
