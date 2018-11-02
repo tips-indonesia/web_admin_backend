@@ -35,15 +35,16 @@
         }
 
         function checkframechange(src){
-            // sendMessage()
-            console.log("src: ", src);
-            console.log("print 4: ", src.substr(0, 4));
-            $test = "https://tips"
-            if(src.substr(0, sizeof($test)) == $test){
-                window.opener.postMessage(window.location.href, '*')
-                console.log("Redirected", window.opener)
-                x_redirect(SGOSignature.getIframeURL(src));
-            }
+            setTimeout(() => {
+                console.log("src: ", src);
+                console.log("print 4: ", src.substr(0, 4));
+                $test = "https://tips"
+                if(src.substr(0, sizeof($test)) == $test){
+                    window.opener.postMessage(window.location.href, '*')
+                    console.log("Redirected", window.opener)
+                    x_redirect(SGOSignature.getIframeURL(src));
+                }
+            }, 2000)
         }
     </script>
     <div class="loader"></div>
