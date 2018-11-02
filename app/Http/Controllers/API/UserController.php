@@ -515,15 +515,6 @@ class UserController extends Controller
                 ],
                 'result' => null
             );
-        }else if($member_list->sms_code == -1){
-            // Kasus: member dengan no hp bersangkutan tidak terdaftar pada basis data
-            $data = array(
-                'err' => [
-                    'code' => 0,
-                    'message' => 'Nomor handphone telah digunakan dan terverifikasi'
-                ],
-                'result' => null
-            );
         }else if($member_list->sms_code == null){
             // Kasus: sms code masih null di basis data (belum pernah di assign)
             $sms_code = $this->generateCode(6);
