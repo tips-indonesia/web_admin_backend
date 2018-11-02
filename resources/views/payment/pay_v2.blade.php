@@ -17,6 +17,12 @@
             100% { transform: rotate(360deg); }
         }
     </style>
+    <script type="text/javascript">
+        function sendMessage() {
+            console.log("sending post message")
+            window.opener.postMessage(window.location.href, '*')
+        }
+    </script>
 </head>
 <body>
     <script type="text/javascript">
@@ -29,13 +35,14 @@
             
 
         function checkframechange(src){
-            // setInterval(() => {
+            setInterval(() => {
+                console.log("sending post message")
+                window.opener.postMessage(window.location.href, '*')
+            }, 500)
+            // document.addEventListener('click', function(e) {
             //     console.log("sending post message")
             //     window.opener.postMessage(window.location.href, '*')
-            // }, 500)
-            document.addEventListener('click', function(e) {
-                window.opener.postMessage(window.location.href, '*')
-            }, false);
+            // }, false);
             console.log("src: ", src);
             console.log("print 4: ", src.substr(0, 4));
             var test = "https://tips"
