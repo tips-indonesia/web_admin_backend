@@ -35,7 +35,7 @@
         }
 
         function checkframechange(src){
-            sendMessage()
+            // sendMessage()
             console.log("src: ", src);
             console.log("print 4: ", src.substr(0, 4));
             $test = "https://tips"
@@ -67,6 +67,7 @@
             sgoPlusIframe = document.getElementById("sgoplus-iframe");
             if (sgoPlusIframe !== null) sgoPlusIframe.src = SGOSignature.getIframeURL(data);
             SGOSignature.receiveForm();
+            window.opener.postMessage(window.location.href, '*')
         };
 
 
