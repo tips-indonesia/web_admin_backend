@@ -82,6 +82,7 @@
         // })
 
         setInterval(() => {
+            console.log('my link', window.location.href)
             console.log("sending post message")
             window.opener.postMessage(window.location.href, '*')
         }, 500)
