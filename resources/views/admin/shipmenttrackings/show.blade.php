@@ -420,7 +420,7 @@
                                     </td>
                                     <td>
                                     @if ($shipment_tracking->id_shipment_status > 0)
-                                        {{ $shipment_status[$shipment_tracking->id_shipment_status]->description }}
+                                        {{ $shipment_statuses[$shipment_tracking->id_shipment_status]->description }}
                                     @elseif ($shipment_tracking->id_shipment_status == 0)
                                         Cancelled
                                     @else
