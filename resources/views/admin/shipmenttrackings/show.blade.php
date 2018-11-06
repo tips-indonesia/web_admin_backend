@@ -419,7 +419,13 @@
                                         {{ $shipment_tracking->created_at->format('H:i') }}
                                     </td>
                                     <td>
+                                    @if ($shipment_tracking->id_shipment_status > 0)
                                         {{ $shipment_status[$shipment_tracking->id_shipment_status]->description }}
+                                    @elseif ($shipment_tracking->id_shipment_status == 0)
+                                        Cancelled
+                                    @else
+                                        Rejected
+                                    @endif
                                     </td>
                                 </tr>
                             @endforeach
