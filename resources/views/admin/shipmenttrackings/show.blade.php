@@ -63,7 +63,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <!-- <div class="form-group">
                             <label class="display-block text-semibold">Class Type :</label>
                             <label class="radio-inline">
                                 <input type="radio" name="class_type" @if($data->is_first_class == 0) checked="checked" @endif value="0" disabled readonly>
@@ -86,7 +86,7 @@
                                 Taken by consignee
                             </label>
                         </div>
-                        <!--div class="form-group">
+                        div class="form-group">
                             <label class="display-block text-semibold">Goods Status :</label>
                             <label class="radio-inline">
                                 <input type="radio" name="goods_status" value="Pending" @if($data->goods_status == 'Pending') checked @endif disabled>
@@ -96,7 +96,7 @@
                                 <input type="radio" name="goods_status"  value="Received" @if($data->goods_status == 'Received') checked @endif disabled>
                                 Received
                             </label>
-                        </div-->
+                        </div
                         <div class="form-group">
                             <label>Shipment Status :</label>
                             <select name="shipment_status" class="form-control select-search" disabled readonly>
@@ -105,7 +105,7 @@
                                     <option value="{{ $shipment_status->id }}" @if($data->id_shipment_status == $shipment_status->id) selected @endif>{{ $shipment_status->description }}</option>
                                 @endforeach
                             </select>
-                        </div>
+                        </div> -->
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
