@@ -17,13 +17,20 @@ use Validator;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
+use App\User;
+use App\ProvinceList;
+use App\CityList;
+use App\SubdistrictList;
+use App\PaymentType;
+use App\BankCardList;
+use App\BankList;
 
 class ShipmentTrackingAdminController extends Controller
 {
 	public function index()
     {
         if (Input::get('shipment_id') != null) {
-            $ship = Shipment::where('shipment_id', Input::get('shipment_id'))->get()->first();
+            $ship = Shipment::where('shipment_id', Input::get('shipment_id'))->first();
             if ($ship != null) {
                 $id = $ship->shipment_id;
             } else {
@@ -74,6 +81,18 @@ class ShipmentTrackingAdminController extends Controller
         $data['shipment_trackings'] = ShipmentHistory::where('id_shipment', $shipment->id)->orderBy('created_at')->get();
         $data['shipment_status'] = ShipmentStatus::all()->keyBy('id');
         $data['shipper'] = MemberList::find($shipment->id_shipper);
+        $data['cities'] = AirportcityList::all();
+        $data['shipment_statuses'] = ShipmentStatus::all();
+        $data['users'] = User::where('is_worker', 1)
+                            ->where('id_office',User::find(Auth::id())->id_office)
+                            ->get();
+        $data['provinces'] = ProvinceList::all();
+        $data['citys'] = CityList::all();
+        $data['subdistricts'] = SubdistrictList::all();
+        $data['payment_types'] = PaymentType::all();
+        $data['banklists'] = BankList::all();
+        $data['bankcardlists'] = BankCardList::where('id_bank', $data['data']->id_bank)->get();
+
         return view('admin.shipmenttrackings.show', $data);
     }
 
