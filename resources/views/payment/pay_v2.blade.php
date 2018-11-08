@@ -29,14 +29,6 @@
             
 
         function checkframechange(src){
-            // setInterval(() => {
-            //     console.log("sending post message")
-            //     window.opener.postMessage(window.location.href, '*')
-            // }, 500)
-            // window.addEventListener('click', function(e) {
-            //     console.log("sending post message")
-            //     window.opener.postMessage(window.location.href, '*')
-            // }, false);
             console.log("src: ", src);
             console.log("print 4: ", src.substr(0, 4));
             var test = "https://tips"
@@ -68,12 +60,6 @@
             sgoPlusIframe = document.getElementById("sgoplus-iframe");
             if (sgoPlusIframe !== null) {
                 sgoPlusIframe.src = SGOSignature.getIframeURL(data);
-                sgoPlusIframe.onload = function() {
-                    setInterval(() => {
-                        console.log('sending post message')
-                        window.opener.postMessage(window.location.href, '*')    
-                    },500)
-                }
             }
             SGOSignature.receiveForm();
         };
