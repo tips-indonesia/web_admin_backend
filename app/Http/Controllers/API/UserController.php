@@ -687,7 +687,7 @@ class UserController extends Controller
 
             $data = array(
                 'err' => [
-                    'code' => 404,
+                    'code' => 401,
                     'message' => 'User tidak ditemukan'
                 ],
                 'result' => null
@@ -792,7 +792,7 @@ class UserController extends Controller
             // );
             $data = array(
                 'err' => [
-                    'code' => 404,
+                    'code' => 401,
                     'message' => 'User tidak ditemukan'
                 ],
                 'result' => null
