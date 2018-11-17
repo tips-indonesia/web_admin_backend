@@ -687,8 +687,8 @@ class UserController extends Controller
 
             $data = array(
                 'err' => [
-                    'code' => 401,
-                    'message' => 'User belum terdaftar'
+                    'code' => 404,
+                    'message' => 'User tidak ditemukan'
                 ],
                 'result' => null
             );
@@ -792,8 +792,8 @@ class UserController extends Controller
             // );
             $data = array(
                 'err' => [
-                    'code' => 401,
-                    'message' => 'User belum terdaftar'
+                    'code' => 404,
+                    'message' => 'User tidak ditemukan'
                 ],
                 'result' => null
             );
@@ -980,74 +980,82 @@ class UserController extends Controller
 
                 if (!$member_list) {
                     $member_list = new MemberList;
-                }
 
-                $member_list->mobile_phone_no = $phoneNo;
+                    $member_list->mobile_phone_no = $phoneNo;
 
-                $member_list->registered_date = date('Y-m-d');
-        
-                if ($twitterToken) {
-                    $member_list->twitter_token = $twitterToken;
-                }
-                if ($fbToken) {
-                    $member_list->fb_token = $fbToken;
-                }
-        
-                // default name
-                // $member_list->first_name = "Twitter user: " . $request->uniq_social_id;
-        
-                if($req->has('first_name')) {
-                    $member_list->first_name = $req->first_name;
-                }
-        
-                if($req->has('last_name')) {
-                    $member_list->last_name = $req->last_name;
-                }
-        
-                if($req->has('email')) {
-                    $member_list->email = $req->email;
-                }
-        
-                if($req->has('sex')) {
-                    $member_list->sex = $req->sex;
-                }
-        
-                if($req->has('birth_date')) {
-                    $member_list->birth_date = date('Y-m-d', strtotime($req->birth_date));
-                }
-        
-                if($req->has('id_city')) {
-                    $member_list->id_city = $req->id_city;
-                }
-        
-                if($req->has('address')) {
-                    $member_list->address = $req->address;
-                }
-                
-                // set token of login
-                if($req->has('token')) {
-                    $member_list->token = $req->token;
-                }
-                
-                if($member_list->ref_code == null){
-                    $member_list->ref_code = $this->generateReferalCode($member_list);
-                    // $member_list->save();
-                }
-                $member_list->sms_code = -1;
-                $member_list->save();
-        
-                // $member_list->save();
-                $member_list->money = WalletAll::getWalletAmount($member_list->id);
-                
-                // if($member_list->profil_picture){
-                //     $member_list->profil_picture = url('/image/profil_picture').'/'.$member_list->profil_picture;
-                // }
+                    $member_list->registered_date = date('Y-m-d');
             
-                $member_list->create_transaction_ref();
-                // $this->sendEmailRegistration($member_list);
+                    if ($twitterToken) {
+                        $member_list->twitter_token = $twitterToken;
+                    }
+                    if ($fbToken) {
+                        $member_list->fb_token = $fbToken;
+                    }
+            
+                    // default name
+                    // $member_list->first_name = "Twitter user: " . $request->uniq_social_id;
+            
+                    if($req->has('first_name')) {
+                        $member_list->first_name = $req->first_name;
+                    }
+            
+                    if($req->has('last_name')) {
+                        $member_list->last_name = $req->last_name;
+                    }
+            
+                    if($req->has('email')) {
+                        $member_list->email = $req->email;
+                    }
+            
+                    if($req->has('sex')) {
+                        $member_list->sex = $req->sex;
+                    }
+            
+                    if($req->has('birth_date')) {
+                        $member_list->birth_date = date('Y-m-d', strtotime($req->birth_date));
+                    }
+            
+                    if($req->has('id_city')) {
+                        $member_list->id_city = $req->id_city;
+                    }
+            
+                    if($req->has('address')) {
+                        $member_list->address = $req->address;
+                    }
+                    
+                    // set token of login
+                    if($req->has('token')) {
+                        $member_list->token = $req->token;
+                    }
+                    
+                    if($member_list->ref_code == null){
+                        $member_list->ref_code = $this->generateReferalCode($member_list);
+                        // $member_list->save();
+                    }
+                    $member_list->sms_code = -1;
+                    $member_list->save();
+            
+                    // $member_list->save();
+                    $member_list->money = WalletAll::getWalletAmount($member_list->id);
+                    
+                    // if($member_list->profil_picture){
+                    //     $member_list->profil_picture = url('/image/profil_picture').'/'.$member_list->profil_picture;
+                    // }
+                
+                    $member_list->create_transaction_ref();
+                    // $this->sendEmailRegistration($member_list);
 
-                if($member_list->profil_picture){
-                    $member_list->profil_picture = url('/image/profil_picture').'/'.$member_list->profil_picture;
+                    if($member_list->profil_picture){
+                        $member_list->profil_picture = url('/image/profil_picture').'/'.$member_list->profil_picture;
+                    }
+                } else {
+                    if ($twitterToken) {
+                        $member_list->twitter_token = $twitterToken;
+                    }
+                    if ($fbToken) {
+                        $member_list->fb_token = $fbToken;
+                    }
+                    $member_list->save();
                 }
 
 
