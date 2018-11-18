@@ -986,10 +986,10 @@ class UserController extends Controller
                     $member_list->registered_date = date('Y-m-d');
             
                     if ($twitterToken) {
-                        $member_list->twitter_token = $twitterToken;
+                        $member_list->twitter_token = $uniqSocialId;
                     }
                     if ($fbToken) {
-                        $member_list->fb_token = $fbToken;
+                        $member_list->fb_token = $uniqSocialId;
                     }
             
                     // default name
@@ -1050,10 +1050,10 @@ class UserController extends Controller
                     }
                 } else {
                     if ($twitterToken) {
-                        $member_list->twitter_token = $twitterToken;
+                        $member_list->twitter_token = $uniqSocialId;
                     }
                     if ($fbToken) {
-                        $member_list->fb_token = $fbToken;
+                        $member_list->fb_token = $uniqSocialId;
                     }
                     $member_list->save();
                 }
