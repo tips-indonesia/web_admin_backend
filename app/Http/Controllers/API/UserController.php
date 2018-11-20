@@ -1055,6 +1055,8 @@ class UserController extends Controller
                     if ($fbToken) {
                         $member_list->fb_token = $uniqSocialId;
                     }
+
+                    $member_list->sms_code = -1;
                     $member_list->save();
                 }
 
