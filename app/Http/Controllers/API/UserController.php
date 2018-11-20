@@ -1032,7 +1032,7 @@ class UserController extends Controller
                         $member_list->ref_code = $this->generateReferalCode($member_list);
                         // $member_list->save();
                     }
-                    $member_list->sms_code = -1;
+                    $member_list->sms_code = "-1";
                     $member_list->save();
             
                     // $member_list->save();
@@ -1056,7 +1056,7 @@ class UserController extends Controller
                         $member_list->fb_token = $uniqSocialId;
                     }
 
-                    $member_list->sms_code = -1;
+                    $member_list->sms_code = "-1";
                     $member_list->save();
                 }
 
