@@ -1160,4 +1160,31 @@ class UserController extends Controller
         );
         return response()->json($data, 200);
     }
+
+    public function updateFCMToken(Request $request) {
+        $token = $request->input('token');
+        $user_id = $request->input('user_id');
+
+        if ($token && $user_id)  {
+            $user = MemberList::find($user_id);
+
+            $user->token = $token;
+
+            $user->save();
+            $data = [
+                'err' => null,
+                'result' => 'Token berhasil di update'
+            ];
+        } else {
+            $data = [
+                'err' => [
+                    'code' => 400,
+                    'message' => 'Bad Request. token dan user_id tidak boleh kosong'
+                ],
+                'result' => null
+            ];
+        }
+
+        return response()->json($data, 200);
+    }
 }

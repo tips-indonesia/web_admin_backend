@@ -179,3 +179,5 @@ Route::get('/favorite_address/is_full', 'API\\FavoriteAddressController@isAlread
 Route::get('/manualredeem/member', 'Admin\\ManualRedeemAdminController@getMemberList');
 
 Route::get('/maxWeight', 'API\\WeightController@getMaxQty');
+
+Route::post('/update_fcm_token', 'API\\UserController@updateFCMToken');
