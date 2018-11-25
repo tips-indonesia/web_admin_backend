@@ -42,7 +42,7 @@ class FCMSender extends Controller
 		// $topic = "project_".$id_project
 
 		$data = array(
-			'content_available' => true,
+			// 'content_available' => true,
 			'mutable-content'	=> true,
 			'data'				=> $post_data,
 			'priority'			=> 'high',
