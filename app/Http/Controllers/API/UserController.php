@@ -11,6 +11,7 @@ use App\SlotList;
 use App\Http\Controllers\SMSSender;
 use App\Http\Controllers\cURLFaker;
 use App\Http\Controllers\WalletAll;
+use App\SmsCode;
 
 class UserController extends Controller
 {
@@ -485,40 +486,77 @@ class UserController extends Controller
     }
 
     public function sendSMSCodeForFBTwitterRegistered(Request $request){
-        $member_list = MemberList::where('mobile_phone_no', $request->mobile_phone_no)->first();
-        $member_list_social = MemberList::where('fb_token', $request->uniq_social_id)
-                              ->orWhere('twitter_token', $request->uniq_social_id)->first();
+        // $member_list = MemberList::where('mobile_phone_no', $request->mobile_phone_no)->first();
+        // $member_list_social = MemberList::where('fb_token', $request->uniq_social_id)
+        //                       ->orWhere('twitter_token', $request->uniq_social_id)->first();
         
-        if(!$member_list){
-            if(!$member_list_social){
-                $data = array(
-                    'err' => [
-                        'code' => 404,
-                        'message' => 'User tidak ditemukan, harap hubungi TIPS Administrator'
-                    ],
-                    'result' => null
-                );
-                return response()->json($data, 200);
-            }
+        // if(!$member_list){
+        //     if(!$member_list_social){
+        //         $data = array(
+        //             'err' => [
+        //                 'code' => 404,
+        //                 'message' => 'User tidak ditemukan, harap hubungi TIPS Administrator'
+        //             ],
+        //             'result' => null
+        //         );
+        //         return response()->json($data, 200);
+        //     }
 
-            $member_list_social->mobile_phone_no = $request->mobile_phone_no;
-            $member_list_social->save();
+        //     $member_list_social->mobile_phone_no = $request->mobile_phone_no;
+        //     $member_list_social->save();
+        // }
+        $isRegistered = SmsCode::where('mobile_phone_no', $request->mobile_phone_no)->first();
+        if ($isRegistered) {
+            $new_sms_code = $isRegistered;
+        } else {
+            $new_sms_code = new SmsCode;
         }
+        $new_sms_code->mobile_phone_no = $request->mobile_phone_no;
+        $sms_code = $this->generateCode(6);
+        $new_sms_code->sms_code = $sms_code;
 
-        return $this->resendSMSCode($request);
+        $new_sms_code->save();
+
+        // return $this->resendSMSCode($request);
+        $pn = $request->mobile_phone_no;
+        $sc = $sms_code;
+        $out = SMSSender::kirim($pn, rawurlencode("TIPS App: Your code is " . $sc));
+
+        $data = array(
+            'err' => null,
+            'result' => "SMS Sent to " . $request->mobile_phone_no
+        );
+
+        return json_encode($data, 200);
     }
 
     public function resendSMSCode(Request $request){
         $member_list = MemberList::where('mobile_phone_no', $request->mobile_phone_no)->first();
         if(!$member_list){
-            // Kasus: member dengan no hp bersangkutan tidak terdaftar pada basis data
-            $data = array(
-                'err' => [
-                    'code' => 0,
-                    'message' => 'Nomor handphone tidak terdaftar'
-                ],
-                'result' => null
-            );
+            // Kasus terdafar di tabel sms_code
+            $sCode = SmsCode::where('mobile_phone_no', $request->mobile_phone_no)->first();
+            if ($sCode) {
+                $pn = $request->mobile_phone_no;
+                $sms_code = $this->generateCode(6);
+
+                $sCode->sms_code = $sms_code;
+                $sCode->save();
+                $out = SMSSender::kirim($pn, rawurlencode("TIPS App: Your code is " . $sms_code));
+
+                $data = array(
+                    'err' => null,
+                    'result' => "SMS Sent to " . $request->mobile_phone_no
+                );
+            } else {
+                // Kasus: member dengan no hp bersangkutan tidak terdaftar pada basis data
+                $data = array(
+                    'err' => [
+                        'code' => 0,
+                        'message' => 'Nomor handphone tidak terdaftar'
+                    ],
+                    'result' => null
+                );
+            }
         }else if($member_list->sms_code == null){
             // Kasus: sms code masih null di basis data (belum pernah di assign)
             $sms_code = $this->generateCode(6);
@@ -592,63 +630,71 @@ class UserController extends Controller
                 'result' => $member_list
             );
         } else {
-            if($member_list == null)
-                $member_list = new MemberList;
+            // if($member_list == null)
+            //     $member_list = new MemberList;
 
-            $member_list->registered_date = date('Y-m-d');
-            $member_list->fb_token = $request->uniq_social_id;
+            // $member_list->registered_date = date('Y-m-d');
+            // $member_list->fb_token = $request->uniq_social_id;
 
-            // default name
-            $member_list->first_name = "Twitter user: " . $request->uniq_social_id;
+            // // default name
+            // $member_list->first_name = "Twitter user: " . $request->uniq_social_id;
 
-            if($request->has('first_name')) {
-                $member_list->first_name = $request->first_name;
-            }
+            // if($request->has('first_name')) {
+            //     $member_list->first_name = $request->first_name;
+            // }
 
-            if($request->has('last_name')) {
-                $member_list->last_name = $request->last_name;
-            }
+            // if($request->has('last_name')) {
+            //     $member_list->last_name = $request->last_name;
+            // }
 
-            if($request->has('email')) {
-                $member_list->email = $request->email;
-            }
+            // if($request->has('email')) {
+            //     $member_list->email = $request->email;
+            // }
 
-            if($request->has('sex')) {
-                $member_list->sex = $request->sex;
-            }
+            // if($request->has('sex')) {
+            //     $member_list->sex = $request->sex;
+            // }
 
-            if($request->has('birth_date')) {
-                $member_list->birth_date = date('Y-m-d', strtotime($request->birth_date));
-            }
+            // if($request->has('birth_date')) {
+            //     $member_list->birth_date = date('Y-m-d', strtotime($request->birth_date));
+            // }
 
-            if($request->has('id_city')) {
-                $member_list->id_city = $request->id_city;
-            }
+            // if($request->has('id_city')) {
+            //     $member_list->id_city = $request->id_city;
+            // }
 
-            if($request->has('address')) {
-                $member_list->address = $request->address;
-            }
+            // if($request->has('address')) {
+            //     $member_list->address = $request->address;
+            // }
             
-            // set token of login
-            if($request->has('token')) {
-                $member_list->token = $request->token;
-            }
+            // // set token of login
+            // if($request->has('token')) {
+            //     $member_list->token = $request->token;
+            // }
 
-            if($member_list->ref_code == null){
-                $member_list->ref_code = $this->generateReferalCode($member_list);
-                $member_list->save();
-            }
+            // if($member_list->ref_code == null){
+            //     $member_list->ref_code = $this->generateReferalCode($member_list);
+            //     $member_list->save();
+            // }
 
-            $member_list->save();
-            $member_list->money = WalletAll::getWalletAmount($member_list->id);;
+            // $member_list->save();
+            // $member_list->money = WalletAll::getWalletAmount($member_list->id);;
             
-            if($member_list->profil_picture){
-                $member_list->profil_picture = url('/image/profil_picture').'/'.$member_list->profil_picture;
-            }
+            // if($member_list->profil_picture){
+            //     $member_list->profil_picture = url('/image/profil_picture').'/'.$member_list->profil_picture;
+            // }
+
+            // $data = array(
+            //     'err' => null,
+            //     'result' => $member_list
+            // );
 
             $data = array(
-                'err' => null,
-                'result' => $member_list
+                'err' => [
+                    'code' => 401,
+                    'message' => 'User tidak ditemukan'
+                ],
+                'result' => null
             );
         }
 
@@ -690,63 +736,70 @@ class UserController extends Controller
                 'result' => $member_list
             );
         } else {
-            if($member_list == null)
-                $member_list = new MemberList;
+            // if($member_list == null)
+            //     $member_list = new MemberList;
 
-            $member_list->registered_date = date('Y-m-d');
-            $member_list->twitter_token = $request->uniq_social_id;
+            // $member_list->registered_date = date('Y-m-d');
+            // $member_list->twitter_token = $request->uniq_social_id;
 
-            // default name
-            $member_list->first_name = "Twitter user: " . $request->uniq_social_id;
+            // // default name
+            // $member_list->first_name = "Twitter user: " . $request->uniq_social_id;
 
-            if($request->has('first_name')) {
-                $member_list->first_name = $request->first_name;
-            }
+            // if($request->has('first_name')) {
+            //     $member_list->first_name = $request->first_name;
+            // }
 
-            if($request->has('last_name')) {
-                $member_list->last_name = $request->last_name;
-            }
+            // if($request->has('last_name')) {
+            //     $member_list->last_name = $request->last_name;
+            // }
 
-            if($request->has('email')) {
-                $member_list->email = $request->email;
-            }
+            // if($request->has('email')) {
+            //     $member_list->email = $request->email;
+            // }
 
-            if($request->has('sex')) {
-                $member_list->sex = $request->sex;
-            }
+            // if($request->has('sex')) {
+            //     $member_list->sex = $request->sex;
+            // }
 
-            if($request->has('birth_date')) {
-                $member_list->birth_date = date('Y-m-d', strtotime($request->birth_date));
-            }
+            // if($request->has('birth_date')) {
+            //     $member_list->birth_date = date('Y-m-d', strtotime($request->birth_date));
+            // }
 
-            if($request->has('id_city')) {
-                $member_list->id_city = $request->id_city;
-            }
+            // if($request->has('id_city')) {
+            //     $member_list->id_city = $request->id_city;
+            // }
 
-            if($request->has('address')) {
-                $member_list->address = $request->address;
-            }
+            // if($request->has('address')) {
+            //     $member_list->address = $request->address;
+            // }
             
-            // set token of login
-            if($request->has('token')) {
-                $member_list->token = $request->token;
-            }
+            // // set token of login
+            // if($request->has('token')) {
+            //     $member_list->token = $request->token;
+            // }
             
-            if($member_list->ref_code == null){
-                $member_list->ref_code = $this->generateReferalCode($member_list);
-                $member_list->save();
-            }
+            // if($member_list->ref_code == null){
+            //     $member_list->ref_code = $this->generateReferalCode($member_list);
+            //     $member_list->save();
+            // }
 
-            $member_list->save();
-            $member_list->money = WalletAll::getWalletAmount($member_list->id);
+            // $member_list->save();
+            // $member_list->money = WalletAll::getWalletAmount($member_list->id);
             
-            if($member_list->profil_picture){
-                $member_list->profil_picture = url('/image/profil_picture').'/'.$member_list->profil_picture;
-            }
+            // if($member_list->profil_picture){
+            //     $member_list->profil_picture = url('/image/profil_picture').'/'.$member_list->profil_picture;
+            // }
 
+            // $data = array(
+            //     'err' => null,
+            //     'result' => $member_list
+            // );
             $data = array(
-                'err' => null,
-                'result' => $member_list
+                'err' => [
+                    'code' => 401,
+                    'message' => 'User tidak ditemukan'
+                ],
+                'result' => null
             );
         }
 
@@ -879,6 +932,7 @@ class UserController extends Controller
         }
         return response()->json($member, 200);
     }
+    
     public function verifyPhoneNumberForFacebookTwitter(Request $req){
         $memberId = $req->member_id;
         $phoneNo = $req->mobile_phone_no;
@@ -889,69 +943,160 @@ class UserController extends Controller
 
         $isPhoneRegistered = true;
         // 1. Cek apakah pengguna dengan no HP bersangkutan telah terdaftar
-        $member_list = MemberList::where('mobile_phone_no', $phoneNo)->first();
-        if(!$member_list){
+        $code = SmsCode::where('mobile_phone_no', $phoneNo)->first();
+        if(!$code){
             // 1 => False. Jika tidak terdaftar maka ambil user fb/twitter 
             //      yang sudah di daftarkan sebelumnya.
             //      MemberList pada state ini tidak akan null,
             //      karena user telah didaftarkan saat pertama kali
             //      auth'd menggunakan facebook/twitter
-            $member_list = MemberList::find($memberId);
+            // $member_list = MemberList::find($memberId);
             $isPhoneRegistered = false;
-        }else{
-            if($fbToken){
-                $member_list_will_delete = MemberList::where('fb_token', $uniqSocialId)
-                                           ->where('mobile_phone_no', null)->first();
-                if($member_list_will_delete)
-                    $member_list_will_delete->delete();
-            }
-
-            if($twitterToken){
-                $member_list_will_delete = MemberList::where('twitter_token', $uniqSocialId)
-                                           ->where('mobile_phone_no', null)->first();
-                if($member_list_will_delete)
-                    $member_list_will_delete->delete();
-            }
         }
+        // Deprecated
+        // else{
+        //     if($fbToken){
+        //         $member_list_will_delete = MemberList::where('fb_token', $uniqSocialId)
+        //                                    ->where('mobile_phone_no', null)->first();
+        //         if($member_list_will_delete)
+        //             $member_list_will_delete->delete();
+        //     }
 
-        $isSMSCodeValid = ($member_list->sms_code == $smsCode) || ($member_list->sms_code == -1);
+        //     if($twitterToken){
+        //         $member_list_will_delete = MemberList::where('twitter_token', $uniqSocialId)
+        //                                    ->where('mobile_phone_no', null)->first();
+        //         if($member_list_will_delete)
+        //             $member_list_will_delete->delete();
+        //     }
+        // }
 
-        if($isSMSCodeValid){
-            $member_list->sms_code = -1;
-            if($isPhoneRegistered){
-                if($fbToken)
-                    $member_list->fb_token = $uniqSocialId;
+        // $isSMSCodeValid = ($member_list->sms_code == $smsCode) || ($member_list->sms_code == -1);
 
-                if($twitterToken)
-                    $member_list->twitter_token = $uniqSocialId;
+        // if($isSMSCodeValid){
+        if($isPhoneRegistered){
+            $isSMSCodeValid = ($code->sms_code == $smsCode) || ($code->sms_code == -1);
+            if ($isSMSCodeValid) {
+                $code->sms_code = -1;
+                $code->save();
+                // $this->sendEmailRegistration($member_list);
+            // Create User Baru
+                $member_list = MemberList::where('mobile_phone_no', $phoneNo)->first();
 
-            }else{
-                $member_list->mobile_phone_no = $phoneNo;
-                $this->sendEmailRegistration($member_list);
+                if (!$member_list) {
+                    $member_list = new MemberList;
+
+                    $member_list->mobile_phone_no = $phoneNo;
+
+                    $member_list->registered_date = date('Y-m-d');
+            
+                    if ($twitterToken) {
+                        $member_list->twitter_token = $uniqSocialId;
+                    }
+                    if ($fbToken) {
+                        $member_list->fb_token = $uniqSocialId;
+                    }
+            
+                    // default name
+                    // $member_list->first_name = "Twitter user: " . $request->uniq_social_id;
+            
+                    if($req->has('first_name')) {
+                        $member_list->first_name = $req->first_name;
+                    }
+            
+                    if($req->has('last_name')) {
+                        $member_list->last_name = $req->last_name;
+                    }
+            
+                    if($req->has('email')) {
+                        $member_list->email = $req->email;
+                    }
+            
+                    if($req->has('sex')) {
+                        $member_list->sex = $req->sex;
+                    }
+            
+                    if($req->has('birth_date')) {
+                        $member_list->birth_date = date('Y-m-d', strtotime($req->birth_date));
+                    }
+            
+                    if($req->has('id_city')) {
+                        $member_list->id_city = $req->id_city;
+                    }
+            
+                    if($req->has('address')) {
+                        $member_list->address = $req->address;
+                    }
+                    
+                    // set token of login
+                    if($req->has('token')) {
+                        $member_list->token = $req->token;
+                    }
+                    
+                    if($member_list->ref_code == null){
+                        $member_list->ref_code = $this->generateReferalCode($member_list);
+                        // $member_list->save();
+                    }
+                    $member_list->sms_code = "-1";
+                    $member_list->save();
+            
+                    // $member_list->save();
+                    $member_list->money = WalletAll::getWalletAmount($member_list->id);
+                    
+                    // if($member_list->profil_picture){
+                    //     $member_list->profil_picture = url('/image/profil_picture').'/'.$member_list->profil_picture;
+                    // }
+                
+                    $member_list->create_transaction_ref();
+                    // $this->sendEmailRegistration($member_list);
+
+                    if($member_list->profil_picture){
+                        $member_list->profil_picture = url('/image/profil_picture').'/'.$member_list->profil_picture;
+                    }
+                } else {
+                    if ($twitterToken) {
+                        $member_list->twitter_token = $uniqSocialId;
+                    }
+                    if ($fbToken) {
+                        $member_list->fb_token = $uniqSocialId;
+                    }
+
+                    $member_list->sms_code = "-1";
+                    $member_list->save();
+                }
+
+
+                $data = array(
+                    'err' => null,
+                    'result' => $member_list
+                );
+            } else {
+                $data = [
+                    'err' => [
+                        'code' => 401,
+                        'message' => 'SMS Code is invalid'
+                    ],
+                    'result' => null
+                ];
             }
-
-            $member_list->create_transaction_ref();
-            $member_list->save();
-            // $this->sendEmailRegistration($member_list);
-
-            if($member_list->profil_picture){
-                $member_list->profil_picture = url('/image/profil_picture').'/'.$member_list->profil_picture;
-            }
-
-            $data = array(
-                'err' => null,
-                'result' => $member_list
-            );
         }else{
-            // Kasus: kode sms verifikasi tidak sesuai dengan yang ada pada basis data
-            $data = array(
+            $data = [
                 'err' => [
-                    'code' => 0,
-                    'message' => "SMS Code is invalid"
+                    'code' => 404,
+                    'message' => 'Phone Number not found'
                 ],
                 'result' => null
-            );
+            ];
         }
+        // }else{
+        //     // Kasus: kode sms verifikasi tidak sesuai dengan yang ada pada basis data
+        //     $data = array(
+        //         'err' => [
+        //             'code' => 0,
+        //             'message' => "SMS Code is invalid"
+        //         ],
+        //         'result' => null
+        //     );
+        // }
 
         return response()->json($data, 200);
     }
@@ -1017,6 +1162,33 @@ class UserController extends Controller
                 'mobile_phone_no' => $member->mobile_phone_no
             ]
         );
+        return response()->json($data, 200);
+    }
+
+    public function updateFCMToken(Request $request) {
+        $token = $request->input('token');
+        $user_id = $request->input('user_id');
+
+        if ($token && $user_id)  {
+            $user = MemberList::find($user_id);
+
+            $user->token = $token;
+
+            $user->save();
+            $data = [
+                'err' => null,
+                'result' => 'Token berhasil di update'
+            ];
+        } else {
+            $data = [
+                'err' => [
+                    'code' => 400,
+                    'message' => 'Bad Request. token dan user_id tidak boleh kosong'
+                ],
+                'result' => null
+            ];
+        }
+
         return response()->json($data, 200);
     }
 }
