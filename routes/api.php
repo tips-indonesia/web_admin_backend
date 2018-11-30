@@ -181,3 +181,5 @@ Route::get('/manualredeem/member', 'Admin\\ManualRedeemAdminController@getMember
 Route::get('/maxWeight', 'API\\WeightController@getMaxQty');
 
 Route::post('/update_fcm_token', 'API\\UserController@updateFCMToken');
+
+Route::get('/dual_language', 'API\\DualLanguageController@all');
