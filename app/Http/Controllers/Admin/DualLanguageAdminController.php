@@ -18,12 +18,7 @@ class DualLanguageAdminController extends Controller
         } else {
             $duallanguage = DualLanguage::all();
         }
-
-        if (Input::get('bahasa')) {
-            $data['bahasa'] = Input::get('bahasa');
-        } else {
-            $data['bahasa'] = 'ID';
-        }
+        
         $data['param'] = Input::get('param');
         $data['value'] = Input::get('value');
         $data['datas'] = $duallanguage;
@@ -64,17 +59,18 @@ class DualLanguageAdminController extends Controller
     }
 
     public function update(Request $req, $id) {
-        $duallanguage = DualLanguage::where('key', $req->input('key_default'))->where('value', $req->input('value_default'))
+        $duallanguage = DualLanguage::where('text_key', $req->input('text_key'))
                 ->update([
-                    'key' => $req->input('key'),
-                    'value' => $req->input('value') 
+                    'text_key' => $req->input('text_key'),
+                    'text_id' => $req->input('text_id'),
+                    'text_en' => $req->input('text_en')
                 ]);
 
         return Redirect::to(route('duallanguage.index'));
     }
 
     public function edit($id) {
-        $duallanguage = DualLanguage::where('key', $_GET['key'])->where('value', $_GET['value'])->first();
+        $duallanguage = DB::table('dual_language')->where('text_key', $_GET['text_key'])->first();
 
         $data['data'] = $duallanguage;
 
@@ -82,7 +78,7 @@ class DualLanguageAdminController extends Controller
     }
 
     public function show($id) {
-        DualLanguage::where('key', $_GET['key'])->where('value', $_GET['value'])->delete();
+        DualLanguage::where('text_key', $_GET['text_key'])->delete();
 
 
         return back();
