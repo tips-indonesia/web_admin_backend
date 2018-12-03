@@ -287,7 +287,8 @@ class UserController extends Controller
             return response()->json($data, 200);
         }
 
-        if($member_list != null && $member_list->sms_code == -1) {
+        // if($member_list != null && $member_list->sms_code == -1) {
+        if($member_list != null) {
             $data = array(
                 'err' => [
                     'code' => 0,

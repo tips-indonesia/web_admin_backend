@@ -13,22 +13,17 @@
             {{ Form::open(array('url' => route('duallanguage.update', 1), 'method' => 'PUT')) }}
                 <div class="panel panel-flat">
                     <div class="panel-body">
-                        <input type="hidden" value="{{ $data->key }}" name="key_default">
-                        <input type="hidden" value="{{ $data->value }}" name="value_default">
-                        <div class="form-group">
-                            <label>Pilihan Bahasa :</label>
-                            <select name="pilihan_bahasa" class="form-control" disabled>
-                                <option value="EN" @if ($data->lang_id == 'EN') selected @endif>English</option>
-                                <option value="ID" @if ($data->lang_id == 'ID') selected @endif>Bahasa</option>
-                            </select>
-                        </div>
                         <div class="form-group">
                             <label>Key :</label>
-                            {{ Form::text('key', $data->key, array('class' => 'form-control', 'placeholder' => 'Key')) }}
+                            {{ Form::text('text_key', $data->text_key, array('class' => 'form-control', 'placeholder' => 'Key')) }}
                         </div>
                         <div class="form-group">
-                            <label>Value :</label>
-                            {{ Form::text('value', $data->value, array('class' => 'form-control', 'placeholder' => 'Value')) }}
+                            <label>Bahasa :</label>
+                            {{ Form::text('text_id', $data->text_id, array('class' => 'form-control', 'placeholder' => 'Value')) }}
+                        </div>
+                        <div class="form-group">
+                            <label>English :</label>
+                            {{ Form::text('text_en', $data->text_en, array('class' => 'form-control', 'placeholder' => 'Value')) }}
                         </div>
                         <div class="text-right form-group">
                             <button type="submit" class="btn btn-primary">Submit form <i class="icon-arrow-right14 position-right"></i></button>

@@ -5,27 +5,20 @@
 @endsection
 @section('page_title')
     <span class="text-semibold">Dual Language</span> - Show All
-    <button type="button" class="btn btn-success" onclick="window.location.href='{{ route('duallanguage.create') }}?bahasa={{$bahasa}}'">Create</button>
 @endsection
 @section('content')
     <div class="panel panel-flat">     
     {{ Form::open(array('url' => route('duallanguage.index'), 'method' => 'GET')) }}
             <div class="panel-body">
-                <div class="form-group">
-                    <label>Pilih Bahasa :</label>
-                    <select name="bahasa" id="param" class="form-control">
-                        <option value="ID" {{ $bahasa == 'IN' ? 'selected' : '' }}>Bahasa</option>
-                        <option value="EN" {{ $bahasa == 'EN' ? 'selected' : '' }}>English</option>
-                    </select>
-                </div>
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>Search By :</label>
                             <select name="param" id="param" class="form-control">
                                 <option value="blank" ></option>
-                                <option value="key" {{ $param == 'key' ? 'selected' : '' }}>Key</option>
-                                <option value="value" {{ $param == 'value' ? 'selected' : '' }}>Value</option>
+                                <option value="text_key" {{ $param == 'text_key' ? 'selected' : '' }}>Key</option>
+                                <option value="text_id" {{ $param == 'text_id' ? 'selected' : '' }}>Bahasa</option>
+                                <option value="text_en" {{ $param == 'text_en' ? 'selected' : '' }}>English</option>
                             </select>
                         </div>
                     </div>
@@ -45,41 +38,41 @@
             <thead>
                 <tr>
                     <th>Key</th>
-                    <th>Value</th>
-                    <th>Actions</th>
+                    <th>Bahasa</th>
+                    <th>English</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($datas as $data)
-                @if ($bahasa == $data->lang_id)
                     <tr>
                         <td>
-                            {{ $data->key }}
+                            {{ $data->text_key }}
                         </td>
                         <td>
-                            {{ $data->value }}
+                            {{ $data->text_id }}
+                        </td>
+                        <td>
+                            {{ $data->text_en }}
                         </td>
                         <td>
                         <ul class="icons-list">
                             <li>
                                 {{ Form::open(array('method' => 'GET', 'url' => route('duallanguage.edit', 1))) }}
-                                <input type="hidden" value="{{ $data->key }}" name="key">
-                                <input type="hidden" value="{{ $data->value }}" name="value">
+                                <input type="hidden" value="{{ $data->text_key }}" name="text_key">
                                 <button type="submit" class="btn btn-primary"><i class="icon-pencil"></i> Edit</button>
                                 {{ Form::close() }}
                             </li>
                             <li>
                                 {{ Form::open(array('method' => 'GET', 'url' => route('duallanguage.show', 1))) }}
                                 <input type="hidden" value="true" name="delete" />
-                                <input type="hidden" value="{{ $data->key }}" name="key">
-                                <input type="hidden" value="{{ $data->value }}" name="value">
+                                <input type="hidden" value="{{ $data->text_key }}" name="text_key">
                                 <button type="submit" class="btn btn-danger"><i class="icon-trash"></i> Delete</button>
                                 {{ Form::close() }}
                             </li>
                         </ul>
                         </td>
                     </tr>
-                    @endif
                 @endforeach
             </tbody>
         </table>

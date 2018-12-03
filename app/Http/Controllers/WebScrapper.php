@@ -46,7 +46,7 @@ class WebScrapper extends Controller
 	  * @param destination -> dapat berupa token spesifik user atau topik
 	  */
     public static function get_data($booking_code, $airport_code, $date, $first_name, $last_name){
-		$url = "http://52.230.21.157/$booking_code/$airport_code/$date/$first_name/$last_name";
+		$url = "http://137.116.130.118/$booking_code/$airport_code/$date/$first_name/$last_name";
         $context  = stream_context_create(array(
         	'http' => array(
 		    	'timeout' => 4 //seconds
