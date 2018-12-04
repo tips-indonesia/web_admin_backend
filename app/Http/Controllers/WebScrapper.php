@@ -52,7 +52,8 @@ class WebScrapper extends Controller
 		    	'timeout' => 4 //seconds
 		    )
 		));
-        $result = @file_get_contents($url, false, $context);
+		$result = @file_get_contents($url, false, $context);
+		// echo $result;
 		return json_decode($result);
 	}
 }

@@ -874,9 +874,9 @@ class UtilityController extends Controller
         $res = WebScrapper::get_data($request->booking_code, substr($request->kode_airport, 0, 3), $request->booking_date, 
                                      $request->nama_depan, $request->nama_belakang);
 
-
+        
         if($res){
-            if($res->status == 200){
+            // if($res->status == 200){
                 $booking_code = property_exists($request, 'booking_code') ? ($request->booking_code ? $request->booking_code : "-") : "-";
                 $code_origin = property_exists($res, 'Origin_Airport') ? $res->Origin_Airport : null;
                 $code_destination = property_exists($res, 'Destination_Airport') ? $res->Destination_Airport : null;
@@ -931,7 +931,7 @@ class UtilityController extends Controller
                     )
                 );
                 return response()->json($data, 200);
-            }
+            // }
         }
 
         // Scrapper tidak mengembalikan apapun (timeout)
