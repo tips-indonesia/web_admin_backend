@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\DualLanguage;
+use App\UpdateLanguage;
 
 class DualLanguageController extends Controller
 {
@@ -23,6 +24,27 @@ class DualLanguageController extends Controller
             $data = [
                 'err' => null,
                 'result' => $langs
+            ];
+        }
+
+        return response()->json($data, 200);
+    }
+
+    public function flag() {
+        $currentFlag = UpdateLanguage::select('seq')->first();
+
+        if (!$currentFlag) {
+            $data = [
+                'err' => [
+                    'code' => 500,
+                    'message' => 'Oops... Someting Error'
+                ],
+                'result' => null
+            ];
+        } else {
+            $data = [
+                'err' => null,
+                'result' => $currentFlag
             ];
         }
 

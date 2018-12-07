@@ -183,3 +183,4 @@ Route::get('/maxWeight', 'API\\WeightController@getMaxQty');
 Route::post('/update_fcm_token', 'API\\UserController@updateFCMToken');
 
 Route::get('/dual_language', 'API\\DualLanguageController@all');
+Route::get('/flag_language', 'API\\DualLanguageController@flag');
