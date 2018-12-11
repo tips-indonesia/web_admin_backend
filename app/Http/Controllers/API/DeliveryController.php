@@ -133,12 +133,13 @@ class DeliveryController extends Controller
         }
     }
 
-    public static function ___get_status($slot_id){
+    public static function ___get_status($slot_id, $lang){
         $slot = SlotList::where('slot_id', $slot_id)->first();
 
         if($slot == null) {
             return null;
         } else {
+            $label = $lang == 'en' ? '_en' : '';
             $delivery_status = DeliveryStatus::find($slot->id_slot_status);
             $slot->origin_airport = AirportList::find($slot->id_origin_airport);
             $slot->destination_airport = AirportList::find($slot->id_destination_airport);
@@ -152,7 +153,7 @@ class DeliveryController extends Controller
             return array(
                 'status' => array(
                     'step' => ($slot->id_slot_status <= 0 ) ? 0 : $delivery_status->step,
-                    'description' => ($slot->id_slot_status <= 0 ) ? "Cancelled" : $delivery_status->description,
+                    'description' => ($slot->id_slot_status <= 0 ) ? "Cancelled" : $delivery_status['description'.$label],
                     'detail' => $slot->get_detail_status()
                 ),
                 'delivery' => $slot,

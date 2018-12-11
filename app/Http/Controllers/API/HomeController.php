@@ -47,6 +47,17 @@ class HomeController extends Controller{
         // Mengambil passing parameter request berupa
         // - member ID
         // - device ID
+        if (!$request->header('lang')) {
+            $data = array(
+                'err' => [
+                    'code' => 400,
+                    'message' => 'Header lang tidak boleh kosong'
+                ],
+                'result' => null
+            );
+
+            return response()->json($data, 200); 
+        }
         $member_id = $request->member_id;
         $device_id = $request->device_id;
 
@@ -85,7 +96,7 @@ class HomeController extends Controller{
         $outshipment = [];
         foreach ($dataSD['S'] as $key => $shipment){
             if(!($shipment->id_shipment_status == 15 && $this->isADayAfter($shipment->updated_at)) && !$shipment->trashed()){
-                array_push($outshipment, ShipmentController::___get_status($shipment->shipment_id));
+                array_push($outshipment, ShipmentController::___get_status($shipment->shipment_id, $request->header('lang')));
             }
         }
         // $outshipment = $dataSD['S'];
@@ -95,7 +106,7 @@ class HomeController extends Controller{
         $outdelivery = [];
         foreach ($dataSD['D'] as $key => $deliv){
             if(!($deliv->id_slot_status == 7 && $this->isADayAfter($deliv->updated_at)))
-                array_push($outdelivery, DeliveryController::___get_status($deliv->slot_id));
+                array_push($outdelivery, DeliveryController::___get_status($deliv->slot_id, $request->header('lang')));
         }
         
         $etc_text = ConfigHunter::isExist(ConfigHunter::$ETC_MESSAGE);

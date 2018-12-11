@@ -364,12 +364,14 @@ class ShipmentController extends Controller
         return response()->json($data, 200);
     }
 
-    public static function ___get_status($shipment_id){
+    public static function ___get_status($shipment_id, $lang){
         $shipment = Shipment::where('shipment_id', $shipment_id)->first();
 
         if($shipment == null) {
             return null;
         } else {
+            $label = $lang == 'en' ? '_en' : '';
+
             $shipment_status = ShipmentStatus::where('id','<=',$shipment->id_shipment_status)->where('is_hidden',false)->orderBy('id', 'desc')->first();
             $shipment->origin_city = AirportcityList::find($shipment->id_origin_city)->name;
             $shipment->destination_city = AirportcityList::find($shipment->id_destination_city)->name;
@@ -395,7 +397,7 @@ class ShipmentController extends Controller
             return array(
                 'status' => array(
                     'step' => $shipment_status->step,
-                    'description' => $shipment_status->description,
+                    'description' => $shipment_status['description'.$label],
                     'detail' => $shipment->detail_status
                 ),
                 'shipment' => $shipment,
