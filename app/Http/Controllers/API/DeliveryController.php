@@ -149,7 +149,7 @@ class DeliveryController extends Controller
             if($slot->photo_tag){
                 $slot->photo_tag = url('/image/photo_tag').'/'.$slot->photo_tag;
             }
-
+            $slot->setLang($lang);
             return array(
                 'status' => array(
                     'step' => ($slot->id_slot_status <= 0 ) ? 0 : $delivery_status->step,

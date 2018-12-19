@@ -20,6 +20,11 @@ class SlotList extends Model
      * @var array
      */
     protected $dates = ['deleted_at'];
+    private $lang = '';
+
+    public function setLang($lang) {
+        $this->lang = $lang;
+    }
 
     public function shipments(){
         return $this->hasMany('App\Shipment', 'id_slot', 'id');
@@ -52,21 +57,28 @@ class SlotList extends Model
                 return "";
             
             case 2:
-                return "Klik untuk KONFIRMASI / PEMBATALAN";
+                // return "Klik untuk KONFIRMASI / PEMBATALAN";
+                return DualLanguage::getByKey('detil_homeantar_status02_line02', $this->lang);
             
             case 3:
-                return "Temui petugas TIPS di " . $this->airportOrigin->initial_code .
-                       "\n" . $this->depature;
+                // return "Temui petugas TIPS di " . $this->airportOrigin->initial_code .
+                //        "\n" . $this->depature;
+                return DualLanguage::getByKeyWithChange('detil_homeantar_status03_line01', $this->lang,
+                        [$this->airportOrigin->initial_code, $this->depature]);
             
             case 4:
-                return "Konter " . $this->airline_data->name .
-                       "\n" . $this->depature;
+                // return "Konter " . $this->airline_data->name .
+                //        "\n" . $this->depature;
+                return DualLanguage::getByKeyWithChange('homeantar_status04_line01', $this->lang, [
+                    $this->airline_data->name
+                ]);
             
             case 5:
-                return "Pada petugas TIPS di " . $this->airportDestination->initial_code;
+                // return "Pada petugas TIPS di " . $this->airportDestination->initial_code;
+                return DualLanguage::getByKey('homeantar_status05_line01', $this->lang);
             
             case 6:
-                return "";
+                return DualLanguage::getByKey('homeantar_status06_line01', $this->lang);
             
             case 7:
                 return "";
