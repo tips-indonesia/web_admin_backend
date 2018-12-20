@@ -26,8 +26,8 @@ class DualLanguage extends Model
             if (!$value) return '';
             else {
                 $result = $value['text_' . $lang];
-                for ($i = 0; $i < count($var); ++$i) {
-                    $result = self::changeCertainString($result, $var[$i]);
+                for ($i = 0; $i < count($var); $i++) {
+                    $result = str_replace_first('%@', $var[$i], $result);
                 }
 
                 return $result;
