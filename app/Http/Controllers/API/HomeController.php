@@ -137,8 +137,8 @@ class HomeController extends Controller{
                     'payment_method'        => (new PaymentController)->payment_method_all(),
                     'insurance'             => (new GoodsController)->insurance($member_id),
                     'all_status'            => [
-                        'shipment'          => (new ShipmentController)->all_status_shipments(),
-                        'delivery'          => (new DeliveryController)->all_status_deliveries()
+                        'shipment'          => (new ShipmentController)->all_status_shipments($lang),
+                        'delivery'          => (new DeliveryController)->all_status_deliveries($lang)
                     ]
                 ],
                 'etc_message'   => $etc_text ? $etc_text->value : ""
