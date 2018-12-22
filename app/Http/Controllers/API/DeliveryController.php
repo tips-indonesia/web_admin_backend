@@ -168,7 +168,8 @@ class DeliveryController extends Controller
 
     function get_status(Request $request) {
         $slot_id = $request->slot_id;
-        $resdata = DeliveryController::___get_status($slot_id);
+        $lang = $request->header('lang') ? $request->header('lang') : $request->lang;
+        $resdata = DeliveryController::___get_status($slot_id, $lang);
 
         if($resdata == null) {
             $data = array(
@@ -463,7 +464,11 @@ class DeliveryController extends Controller
             $slot->destination_airport = $airport_destination;
 
             if($slot->id_slot_status > 0) {
-                $delivery_status = DeliveryStatus::find($slot->id_slot_status);
+                $lang = $request->header('lang') ? $request->header('lang') : $request->lang;
+                $label = $lang == 'en' ? '_en' : '';
+                $delivery_status = DeliveryStatus::
+                    select('id', 'description'.$label.' as description', 'step', 'created_at', 'updated_at')->
+                    where('id', $slot->id_slot_status)->first();
                 $slot->delivery_status_description = $delivery_status->description;
             } else if ($slot->id_slot_status == 0){
                 $slot->delivery_status_description = 'Batal';
@@ -483,15 +488,17 @@ class DeliveryController extends Controller
 
     }
 
-    function all_status_deliveries(){
+    function all_status_deliveries($lang){
         // $all = array();
-        $delivery_status = DeliveryStatus::all()->toArray();
+        $label = $lang == 'en' ? '_en' : '';
+        $delivery_status = DeliveryStatus::
+            select('id', 'description'.$label.' as description', 'step', 'created_at', 'updated_at')->get()->toArray();
         // foreach ($delivery_status as $status) {
         //     array_push($all, $status);
         // }
         $dumm = array(
             'id' => 99,
-            'description' => 'Batal',
+            'description' => $lang == 'id' ? 'Batal' : 'Cancel',
             'step' => 0,
             'is_hidden' => 0,
             'created_at' => '2018-03-29 10:38:59',
@@ -500,7 +507,7 @@ class DeliveryController extends Controller
         array_push($delivery_status, $dumm);
         $dumm = [
             'id' => -1,
-            'description' => 'Reject',
+            'description' => $lang == 'id' ? 'Ditolak' : 'Reject',
             'step' => -1,
             'is_hidden' => 0,
             'created_at' => '2018-03-29 10:38:59',
@@ -510,8 +517,9 @@ class DeliveryController extends Controller
         return $delivery_status;
     }
 
-    function get_all_status_delivery() {
-        $delivery_status = $this->all_status_deliveries();
+    function get_all_status_delivery(Request $request) {
+        $lang = $request->header('lang') ? $request->header('lang') : $request->lang;
+        $delivery_status = $this->all_status_deliveries($lang);
         $data = array(
             'err' => null,
             'result' => $delivery_status

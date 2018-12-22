@@ -445,7 +445,8 @@ class ShipmentController extends Controller
 
     function get_status(Request $request) {
         $shipment_id = $request->shipment_id;
-        $resdata = ShipmentController::___get_status($shipment_id);
+        $lang = $request->header('lang') ? $request->header('lang') : $request->lang;
+        $resdata = ShipmentController::___get_status($shipment_id, $lang);
 
         if($resdata == null) {
             $data = array(
@@ -514,7 +515,12 @@ class ShipmentController extends Controller
             $shipment->destination_city = AirportcityList::find($shipment->id_destination_city)->name;
 
             if($shipment->id_shipment_status > 0) {
-                $shipment_status = ShipmentStatus::find($shipment->id_shipment_status);
+                $lang = $request->header('lang') ? $request->header('lang') : $request->lang;
+                $label = $lang == 'en' ? '_en' : '';
+                $shipment_status = ShipmentStatus::
+                    select('id', 'description'.$label.' as description', 'step', 'created_at', 'updated_at')->
+                    where('id', $shipment->id_shipment_status)->
+                    first();
                 $shipment->shipment_status_description = $shipment_status->description;
             } else if ($shipment->id_shipment_status == 0){
                 $shipment->shipment_status_description = 'Batal';
@@ -533,8 +539,12 @@ class ShipmentController extends Controller
         return response()->json($data, 200);
     }
 
-    function all_status_shipments(){
-        $shipment_status = ShipmentStatus::where('is_hidden', 0)->get()->toArray();
+    function all_status_shipments($lang){
+        $label = $lang == 'en' ? '_en' : '';
+        $shipment_status = ShipmentStatus::
+            select('id', 'description'.$label.' as description', 'is_hidden', 'step', 'created_at', 'updated_at')->
+            where('is_hidden', 0)
+            ->get()->toArray();
         $dumm = array(
             'id' => 99,
             'description' => 'Batal',
@@ -556,8 +566,9 @@ class ShipmentController extends Controller
         return $shipment_status;
     }
 
-    function get_all_status_shipments() {
-        $shipment_status = $this->all_status_shipments();
+    function get_all_status_shipments(Request $request) {
+        $lang = $request->header('lang') ? $request->header('lang') : $request->lang;
+        $shipment_status = $this->all_status_shipments($lang);
         
         $data = array(
             'err' => null,
