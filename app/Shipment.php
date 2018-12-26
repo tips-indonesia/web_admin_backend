@@ -19,6 +19,11 @@ class Shipment extends Model
      * @var array
      */
     protected $dates = ['deleted_at'];
+    private $lang = '';
+
+    public function setLang($lang) {
+        $this->lang = $lang;
+    }
 
     public function cityOrigin(){
     	return $this->hasOne('App\AirportcityList', 'id', 'id_origin_city');
@@ -52,6 +57,7 @@ class Shipment extends Model
 
     function get_detail_status() {
         $step = $this->id_slot_status;
+        $flight = SlotList::find($this->id_slot);
         switch ($step) {
             case 1:
                 return "";
@@ -60,16 +66,22 @@ class Shipment extends Model
                 return "";
             
             case 3:
-                return "";
+                return DualLanguage::getByKey('homekirim_status03_line01', $this->lang);
             
             case 4:
-                return "";
+                return DualLanguage::getByKey('homekirim_status04_line01', $this->lang);
             
-            case 5:
-                return "";
+            case 5: {
+                return DualLanguage::getByKeyWithChange('homekirim_status05_line01', $this->lang, [
+                    $flight->flight_code
+                ]);
+            }
             
-            case 6:
-                return "";
+            case 6:{
+                return DualLanguage::getByKeyWithChange('homekirim_status06_line01', $this->lang, [
+                    $flight->flight_code
+                ]);
+            }
             
             case 7:
                 return "";

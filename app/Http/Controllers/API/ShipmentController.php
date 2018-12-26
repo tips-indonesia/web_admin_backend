@@ -393,12 +393,12 @@ class ShipmentController extends Controller
             $slot = false;
             if($shipment->id_slot)
                 $slot = SlotList::find($shipment->id_slot);
-
+            $shipment->setLang($lang);
             return array(
                 'status' => array(
                     'step' => $shipment_status->step,
                     'description' => $shipment_status['description'.$label],
-                    'detail' => $shipment->detail_status
+                    'detail' => $shipment->get_detail_status()
                 ),
                 'shipment' => $shipment,
                 'addt_info' => array(
