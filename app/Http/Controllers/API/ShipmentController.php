@@ -398,7 +398,7 @@ class ShipmentController extends Controller
                 'status' => array(
                     'step' => $shipment_status->step,
                     'description' => $shipment_status['description'.$label],
-                    'detail' => $shipment->get_detail_status()
+                    'detail' => $shipment->get_detail_status($shipment_status->step)
                 ),
                 'shipment' => $shipment,
                 'addt_info' => array(

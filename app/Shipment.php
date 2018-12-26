@@ -55,8 +55,7 @@ class Shipment extends Model
     }
 
 
-    function get_detail_status() {
-        $step = $this->id_slot_status;
+    function get_detail_status($step) {
         $flight = SlotList::find($this->id_slot);
         switch ($step) {
             case 1:
@@ -73,13 +72,13 @@ class Shipment extends Model
             
             case 5: {
                 return DualLanguage::getByKeyWithChange('homekirim_status05_line01', $this->lang, [
-                    $flight->flight_code
+                    $flight ? $flight->flight_code : ''
                 ]);
             }
             
             case 6:{
                 return DualLanguage::getByKeyWithChange('homekirim_status06_line01', $this->lang, [
-                    $flight->flight_code
+                    $flight ? $flight->flight_code : ''
                 ]);
             }
             
