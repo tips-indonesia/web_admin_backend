@@ -134,7 +134,7 @@ class HomeController extends Controller{
                         'subdistrict'       => (new LocationController)->get_all_subdistrict()
                     ],
                     'price_goods_estimate'  => (new GoodsController)->list_price_estimate(),
-                    'payment_method'        => (new PaymentController)->payment_method_all(),
+                    // 'payment_method'        => (new PaymentController)->payment_method_all(),
                     'insurance'             => (new GoodsController)->insurance($member_id),
                     'all_status'            => [
                         'shipment'          => (new ShipmentController)->all_status_shipments($lang),
