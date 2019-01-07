@@ -141,7 +141,7 @@ class HomeController extends Controller{
                         'delivery'          => (new DeliveryController)->all_status_deliveries($lang)
                     ]
                 ],
-                'etc_message'   => $etc_text ? $etc_text->value : ""
+                'etc_message'   => $etc_text ? ($lang == 'id' ? $etc_text->value : $etc_text->value_en) : ""
             )
         );
 
