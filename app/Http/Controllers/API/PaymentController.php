@@ -14,6 +14,8 @@ use App\Shipment;
 use App\MemberList;
 use Storage;
 use stdClass;
+use App\DualLanguage;
+use App\ErrorDualLanguage;
 
 class PaymentController extends Controller
 {
@@ -394,10 +396,21 @@ class PaymentController extends Controller
                 ]
             );
         } else {
+            $lang = DualLanguage::getLang($req);
+            if (!$lang) {
+                $data = array(
+                    'err' => [
+                        "code" => "400",
+                        "message" => 'Lang can\'t be null'
+                    ],
+                    'result' => null
+                );
+                return response()->json($data, 200);
+            }
             $data = array(
                 'err' => [
                     "code" => "400",
-                    "message" => "payment is incomplete"
+                    "message" => ErrorDualLanguage::get_message_by_key($lang, 'shippage07_error01')//"payment is incomplete"
                 ],
                 'result' => null
             );

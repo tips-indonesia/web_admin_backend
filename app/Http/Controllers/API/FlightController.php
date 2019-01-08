@@ -12,6 +12,8 @@ use App\FlightBookingList;
 use App\AirportList;
 use App\CityList;
 use App\PriceList;
+use App\DualLanguage;
+use App\ErrorDualLanguage;
 
 class FlightController extends Controller
 {
@@ -87,6 +89,18 @@ class FlightController extends Controller
     }
 
     function post_flight_booking_code(Request $request){
+        $lang = DualLanguage::getLang($request);
+        if (!$lang) {
+            $data = array(
+                'err' => [
+                    'code' => 400,
+                    'message' => 'Lang can\'t be null'
+                ],
+                'result' => null
+            );
+
+            return response()->json($data, 200);
+        }
 
         if($request->booking_id){
             $booking = FlightBookingList::find($request->booking_id);
@@ -148,7 +162,7 @@ class FlightController extends Controller
             $data = array(
                 'err' => [
                     'code' => 404,
-                    'message' => 'Maskapai yang Anda pilih belum di dukung saat ini'
+                    'message' => ErrorDualLanguage::get_message_by_key($lang, 'deliverpage02_error02')//'Maskapai yang Anda pilih belum di dukung saat ini'
                 ],
                 'result' => null
             );
@@ -297,6 +311,19 @@ class FlightController extends Controller
     }
 
     function flight_booking_code_check(Request $request){
+        $lang = DualLanguage::getLang($request);
+        if (!$lang) {
+            $data = array(
+                'err' => [
+                    'code' => 400,
+                    'message' => 'Lang can\'t be null'
+                ],
+                'result' => null
+            );
+
+            return response()->json($data, 200);
+        }
+
         $flight_code = $request->code;
         if(!$flight_code){
             $data = array(
@@ -324,7 +351,7 @@ class FlightController extends Controller
             $data = array(
                 'err' => [
                     'code' => 404,
-                    'message' => 'Maskapai yang Anda pilih belum kami support sementara ini'
+                    'message' => ErrorDualLanguage::get_message_by_key($lang, 'deliverpage02_error02')//'Maskapai yang Anda pilih belum kami support sementara ini'
                 ],
                 'result' => null
             );

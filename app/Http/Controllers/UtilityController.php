@@ -23,7 +23,8 @@ use App\MemberList;
 use App\PriceList;
 use App\AppsUpdater;
 use Illuminate\Support\Facades\URL;
-
+use App\DualLanguage;
+use App\ErrorDualLanguage;
 use Storage;
 
 class UtilityController extends Controller
@@ -857,13 +858,24 @@ class UtilityController extends Controller
     }
 
     public function check_flight_b_n_d(Request $request){
+        $lang = DualLanguage::getLang($request);
+        if (!$lang) {
+            $data = array(
+                'err' => [
+                    'code' => 404,
+                    'message' => 'Lang can\'t be null'
+                ],
+                'result' => null
+            );
 
+            return response()->json($data, 200);
+        }
         if(!$request->booking_code || !$request->kode_airport || 
            !$request->booking_date || !$request->nama_depan || !$request->nama_belakang){
             $data = array(
                 'err' => [
                     'code' => 404,
-                    'message' => 'Data tidak boleh kosong'
+                    'message' => ErrorDualLanguage::get_message_by_key($lang, 'deliverpage02_error01')//'Data tidak boleh kosong'
                 ],
                 'result' => null
             );

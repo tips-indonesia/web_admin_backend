@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\MemberList;
 use App\Http\Controllers\cURLFaker;
+use App\DualLanguage;
+use App\ErrorDualLanguage;
 
 class BirdSenderController extends Controller
 {
@@ -24,7 +26,7 @@ class BirdSenderController extends Controller
     }
 
     public function sendReportMail(Request $req){
-    	$user 			= MemberList::find($req->id);
+        $user 			= MemberList::find($req->id);
     	if(!$user){
     		$data = array(
 	            'err' => null,
@@ -89,12 +91,23 @@ class BirdSenderController extends Controller
         }
 
         $user = MemberList::where('email', $req->email)->first();
+        $lang = DualLanguage::getLang($req);
+        if (!$lang) {
+            $data = array(
+                "err" => [
+                    "code" => 404,
+                    "message" => "Lang can't be null"
+                ],
+                "result" => null
+            );
 
+            return response()->json($data, 200);
+        }
         if(!$user){
             $data = array(
                 "err" => [
                     "code" => 404,
-                    "message" => "user tidak ditemukan"
+                    "message" => ErrorDualLanguage::get_message_by_key($lang, 'forgotpassword_page01')//"user tidak ditemukan"
                 ],
                 "result" => null
             );

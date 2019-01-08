@@ -10,6 +10,8 @@ use App\PriceList;
 use App\AirportcityList;
 use App\Insurance;
 use App\Http\Controllers\API\PromotionController;
+use App\DualLanguage;
+use App\ErrorDualLanguage;
 
 class CityController extends Controller
 {
@@ -31,12 +33,24 @@ class CityController extends Controller
         $id_destination_city = $request->id_destination_city;
         $price = PriceList::where('id_origin_city', $id_origin_city)->where('id_destination_city', $id_destination_city)->first();
         $insurance = Insurance::first();
+        $lang = DualLanguage::getLang($request);
 
+        if (!$lang) {
+            $data = array(
+                'err' => [
+                    'code' => 0,
+                    'message' => 'Lang can\'t be null'
+                ],
+                'result' => null
+            );
+
+            return response()->json($data, 200);
+        }
         if($price == null) {
             $data = array(
                 'err' => [
                     'code' => 0,
-                    'message' => 'Id city origin dan destination tidak ditemukan'
+                    'message' => ErrorDualLanguage::get_message_by_key($lang, 'shippage01_error02')//'Id city origin dan destination tidak ditemukan'
                 ],
                 'result' => null
             );
@@ -127,11 +141,25 @@ class CityController extends Controller
         $id_destination_city = $request->id_destination_city;
         $data = $this->get_price_with_insurance($id_user, $id_origin_city, $id_destination_city);
 
+        $lang = DualLanguage::getLang($request);
+
+        if (!$lang) {
+            $data = array(
+                'err' => [
+                    'code' => 0,
+                    'message' => 'Lang can\'t be null'
+                ],
+                'result' => null
+            );
+
+            return response()->json($data, 200);
+        }
+
         if(!$data) {
             $data = array(
                 'err' => [
                     'code' => 0,
-                    'message' => 'Id city origin dan destination tidak ditemukan'
+                    'message' => ErrorDualLanguage::get_message_by_key($lang, 'shippage01_error02')//'Id city origin dan destination tidak ditemukan'
                 ],
                 'result' => null
             );

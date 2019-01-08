@@ -38,4 +38,13 @@ class DualLanguage extends Model
     public static function changeCertainString($text, $val) {
         return str_replace('%@', $val, $text);
     }
+
+    public static function getLang($request) {
+        $lang = $request->header('lang') ? $request->header('lang') : null;
+        if (!$lang) {
+            $lang = isset($_GET['lang']) ? $_GET['lang'] : null;
+        }
+
+        return $lang;
+    }
 }
