@@ -121,6 +121,7 @@ Route::get('/qrcodeX', 'Admin\\ShipmentPickUpAdminController@createQR');
 Route::post('/profile/update', 'API\\UserController@update_profile');
 
 Route::get('/help', 'API\\HelpTipsterController@index');
+Route::get('/dangerous_good_info', 'API\\HelpTipsterController@dangerous_good_info');
 
 Route::post('/report', 'API\\FeedbackController@submit');
 

@@ -10,10 +10,15 @@ use App\ConfigZ;
 class TermConditionsController extends Controller
 {
     //
-    function index(){
+    function index(Request $request){
+		$lang = 'id'; // Set default languange to indonesia
+		if ($request->header('lang') || isset($_GET['lang'])) {
+			$lang = $request->header('lang') ? $request->header('lang') : $_GET['lang'];
+		}
+
     	$terms = null;
     	if (isset($_GET['type'])) {
-    		$res = ConfigZ::where('key', $_GET['type'])->value('value');
+    		$res = ConfigZ::where('key', $_GET['type'])->value('value' . ($lang == 'en' ? '_en' : ''));
     		$terms = array(
     			"value" => explode("<br />", $res),
     		);
