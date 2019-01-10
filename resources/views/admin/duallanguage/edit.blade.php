@@ -4,7 +4,7 @@
     Edit Dual Language
 @endsection
 @section('page_title')
-    <span class="text-semibold">Dual Language</span> - Edit
+    <span class="text-semibold">App Label Dual Language</span> - Edit
 @endsection
 @section('content')
     <!-- Vertical form options -->
@@ -15,7 +15,7 @@
                     <div class="panel-body">
                         <div class="form-group">
                             <label>Key :</label>
-                            {{ Form::text('text_key', $data->text_key, array('class' => 'form-control', 'placeholder' => 'Key')) }}
+                            {{ Form::text('text_key', $data->text_key, array('disabled' => true, 'class' => 'form-control', 'placeholder' => 'Key')) }}
                         </div>
                         <div class="form-group">
                             <label>Bahasa :</label>

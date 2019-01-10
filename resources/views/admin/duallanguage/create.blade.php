@@ -4,7 +4,7 @@
     Create Dual Language
 @endsection
 @section('page_title')
-    <span class="text-semibold">Dual Language</span> - Create
+    <span class="text-semibold">App Label Dual Language</span> - Create
 @endsection
 @section('content')
     <!-- Vertical form options -->

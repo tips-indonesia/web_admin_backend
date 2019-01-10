@@ -10,7 +10,8 @@ class PromotionTextController extends Controller
 {
     public function index() {
     	$conf = ConfigZ::find(5);
-    	$data['text'] = $conf->value;
+		$data['text'] = $conf->value;
+		$data['text_en'] = $conf->value_en;
     	return view('admin.promotiontext.index', $data);
     }
 
@@ -18,7 +19,8 @@ class PromotionTextController extends Controller
     	$conf = ConfigZ::find(5);
 
     	if ($req->input('submit') == 'save') {
-	    	$conf->value = $req->input('promotion_text');
+			$conf->value = $req->input('promotion_text');
+			$conf->value_en = $req->input('promotion_text_en');
 	    } else if ($req->input('submit') == 'clear') {
 	    	$conf->value = ' ';
 	    }

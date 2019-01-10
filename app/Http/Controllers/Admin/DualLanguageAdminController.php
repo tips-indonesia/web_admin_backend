@@ -9,19 +9,29 @@ use Validator;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use DB;
+use App\AppPageName;
+use Illuminate\Support\Facades\URL;
 
 class DualLanguageAdminController extends Controller
 {
     public function index() {
-        if (Input::get('param') && Input::get('value') && Input::get('param') != 'blank') {
-            $duallanguage = DualLanguage::where(Input::get('param'), 'LIKE', '%'.Input::get('value').'%')->get();
-        } else {
-            $duallanguage = DualLanguage::all();
+        $id_page = 1;
+        if (isset($_GET['id'])) {
+            $id_page = $_GET['id'];
         }
+        if (Input::get('param') && Input::get('value') && Input::get('param') != 'blank') {
+            $duallanguage = DualLanguage::where(Input::get('param'), 'LIKE', '%'.Input::get('value').'%')->orderBy('text_key', 'asc');
+        } else {
+            $duallanguage = DualLanguage::orderBy('text_key', 'asc');
+        }
+
+        $duallanguage = $duallanguage->where('id_page_name', $id_page)->get();
         
         $data['param'] = Input::get('param');
         $data['value'] = Input::get('value');
         $data['datas'] = $duallanguage;
+        $data['pages'] = AppPageName::all();
+        $data['id_page'] = $id_page;
         return view('admin.duallanguage.index', $data);
     }
 
@@ -54,7 +64,7 @@ class DualLanguageAdminController extends Controller
 
             $duallanguage->save();
 
-            return Redirect::to(route('duallanguage.index'));
+            return Redirect::to(route('duallanguage.index') . '?id=' . $duallanguage->id_page_name);
         }
     }
 
@@ -65,8 +75,10 @@ class DualLanguageAdminController extends Controller
                     'text_id' => $req->input('text_id'),
                     'text_en' => $req->input('text_en')
                 ]);
+        
+        $duallanguage = DualLanguage::where('text_key', $req->input('text_key'))->first();
 
-        return Redirect::to(route('duallanguage.index'));
+        return Redirect::to(route('duallanguage.index') . '?id=' . $duallanguage->id_page_name);
     }
 
     public function edit($id) {

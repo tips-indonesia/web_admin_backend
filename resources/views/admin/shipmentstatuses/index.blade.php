@@ -22,7 +22,8 @@
             <thead>
                 <tr>
                     <th>Step</th>
-                    <th>Description</th>
+                    <th>Bahasa Indonesia</th>
+                    <th>English</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -34,6 +35,9 @@
                         </td>
                         <td>
                             {{ $data->description }}
+                        </td>
+                        <td>
+                            {{ $data->description_en }}
                         </td>
                         <td>
                             <ul class="icons-list">

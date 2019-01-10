@@ -21,17 +21,24 @@ class TermAdminController extends Controller
     */
     public function index()
     {
+        $lang = 'id';
+        if (isset($_GET['lang'])) {
+            $lang = $_GET['lang'];
+        }
         //
-        $data['antar'] = ConfigZ::where('key', 'antar')->first();
+        $label = $lang == 'en' ? '_en' : '';
+
+        $data['antar'] = ConfigZ::where('key', 'antar')->select('id', 'value' . $label . ' as value', 'comment')->first();
         if ($data['antar'] == null) {
             ConfigHunter::set("antar", "Terms and Agreement Here");
             $data['antar'] = ConfigZ::where('key', 'antar')->first();
         }
-        $data['kirim'] = ConfigZ::where('key', 'kirim')->first();
+        $data['kirim'] = ConfigZ::where('key', 'kirim')->select('id', 'value' . $label . ' as value', 'comment')->first();
         if ($data['kirim'] == null) {
             ConfigHunter::set("kirim", "Terms and Agreement Here");
             $data['kirim'] = ConfigZ::where('key', 'kirim')->first();
         }
+        $data['lang'] = $lang;
         return view('admin.terms.create', $data);
     }
 

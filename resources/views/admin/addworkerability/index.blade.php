@@ -5,7 +5,7 @@
 @endsection
 
 @section('page_title')
-    <span class="text-semibold">Add Worker Ability To User</span> - Show All
+    <span class="text-semibold">Member List Status Maintenance</span> - Show All
 @endsection
 @section('content')
 <div class="row">
@@ -16,7 +16,7 @@
             	<div class="row">
             		{{ Form::open(array('url' => route('addworkerability.index'), 'method' => 'GET')) }}
             		<div class="col-md-6">
-            			<input type="text" name="firstname" class="form-control" placeholder="First Name" required @if(isset($firstname)) value="{{$firstname}} @endif">
+            			<input type="text" name="firstname" class="form-control" placeholder="First Name" @if(isset($firstname)) value="{{$firstname}} @endif">
             		</div>
             		<div class="col-md-2">
             			<button type="submit" class="btn btn-primary"> Search </button>
@@ -27,7 +27,8 @@
             		<thead>
             			<th>First Name</th>
             			<th>Last Name</th>
-            			<th>E-mail</th>
+            			<th>Worker ?</th>
+						<th>Status</th>
             			<th>Actions</th>
             		</thead>
             		<tbody>
@@ -40,8 +41,11 @@
 	                            {{ $user->last_name }}
 	                        </td>
 	                        <td>
-	                            {{ $user->email }}
+	                            {{ $user->is_worker ? 'Yes' : 'No' }}
 	                        </td>
+							<td>
+								{{ $user->status_member ? 'Active' : 'Inactive' }}
+							</td>
 	                        <td>
 	                        <ul class="icons-list">
 	                        <li>

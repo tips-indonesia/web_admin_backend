@@ -101,21 +101,21 @@ class ShipmentStatusAdminController extends Controller
         //
         $rules = array(
             'description'       => 'required',
-            'step'       => 'required',
+            'description_en' => 'required',
             'hidden'    => 'required'
         );
         $validator = Validator::make(Input::all(), $rules);
 
         // process the login
         if ($validator->fails()) {
-            return Redirect::to(route('shipmentstatuses.edit'))
+            return back()
                 ->withErrors($validator)
                 ->withInput();
         } else {
             $shipmentStatus = ShipmentStatus::find($id);
-            $shipmentStatus->step = Input::get('step');
             $shipmentStatus->is_hidden = Input::get('hidden');
             $shipmentStatus->description = Input::get('description');
+            $shipmentStatus->description_en = Input::get('description_en');
             $shipmentStatus->save();
             Session::flash('message', 'Successfully created data!');
             return Redirect::to(route('shipmentstatuses.index'));

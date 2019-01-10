@@ -14,12 +14,16 @@
                 <div class="panel panel-flat">
                     <div class="panel-body">
                         <div class="form-group">
-                            <label>Description :</label>
-                            {{ Form::text('step', $datas->step, array('class' => 'form-control', 'placeholder' => 'Tipster Milestone Step')) }}
+                            <label>Id :</label>
+                            {{ Form::text('step', $datas->step, array('class' => 'form-control', 'placeholder' => 'Tipster Milestone Step', 'disabled' => true)) }}
                         </div>
                         <div class="form-group">
-                            <label>Description :</label>
+                            <label>Bahasa Indonesia :</label>
                             {{ Form::text('description', $datas->description, array('class' => 'form-control', 'placeholder' => 'Tipster Milestone Description')) }}
+                        </div>
+                        <div class="form-group">
+                            <label>English :</label>
+                            {{ Form::text('description_en', $datas->description_en, array('class' => 'form-control', 'placeholder' => 'Tipster Milestone Description English')) }}
                         </div>
                         <div class="text-right form-group">
                             <button type="submit" class="btn btn-primary">Submit form <i class="icon-arrow-right14 position-right"></i></button>

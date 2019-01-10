@@ -14,7 +14,12 @@
                     <div class="panel-body">
                     	{{ Form::open(array('url' => route('promotiontext.store'), 'method' => 'POST')) }}
                         <div class="form-group">
+                            <label>Bahasa Indonesia</label>
                             <input required type="text" class="form-control" placeholder="Promotion Text" name="promotion_text" value="{{$text}}">
+                        </div>
+                        <div class="form-group">
+                            <label>English</label>
+                            <input required type="text" class="form-control" placeholder="Promotion Text English" name="promotion_text_en" value="{{$text_en}}">
                         </div>
                         <div class="text-right form-group">
                             <button name="submit" type="submit" value="save" class="btn btn-primary">Save <i class="icon-arrow-right14 position-right"></i></button>

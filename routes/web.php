@@ -37,6 +37,15 @@ Route::group(['middleware' => 'isWorker'], function() {
         Route::group(['middleware' => ['permission:duallanguage.']], function () {
             Route::resource('duallanguage','Admin\DualLanguageAdminController');
         });
+        Route::group(['middleware' => ['permission:help.']], function () {
+            Route::resource('help','Admin\HelpAdminController');
+        });
+        Route::group(['middleware' => ['permission:apperrormessage.']], function () {
+            Route::resource('apperrormessage','Admin\AppErrorMessageController');
+        });
+        Route::group(['middleware' => ['permission:dangerousgoodsinfo.']], function () {
+            Route::resource('dangerousgoodsinfo','Admin\DangerousGoodsInfoController');
+        });
         Route::group(['middleware' => ['permission:provincelists.']], function () {
             Route::resource('provincelists','Admin\ProvinceListAdminController');
         });

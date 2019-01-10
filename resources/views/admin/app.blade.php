@@ -29,4 +29,5 @@
         <div id="loading_modal" hidden>LOADING... Please Wait...</div>
     </body>
     @include('admin.footer')
+    @yield('scripts')
 </html>

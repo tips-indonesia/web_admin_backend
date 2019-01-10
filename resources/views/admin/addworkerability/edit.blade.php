@@ -4,22 +4,27 @@
     Add Worker Ability to User
 @endsection
 @section('page_title')
-    <span class="text-semibold">Add Worker Ability to User</span> - Edit
+    <span class="text-semibold">Member List Status Maintenance</span> - Edit
 @endsection
 @section('content')
     <!-- Vertical form options -->
     <div class="row">
         <div class="col-md-12">
+        @if ($errors->any())
+            @foreach($errors as $error)
+                {{ $error }}
+            @endforeach
+        @endif
             {{ Form::open(array('url' => route('addworkerability.update', $datas->id), 'method' => 'PUT')) }}
                 <div class="panel panel-flat">
                     <div class="panel-body">
                         <div class="form-group">
                             <label>First Name :</label>
-                            {{ Form::text('fname', $datas->first_name, array('class' => 'form-control', 'placeholder' => 'First Name')) }}
+                            {{ Form::text('fname', $datas->first_name, array('class' => 'form-control', 'placeholder' => 'First Name', 'disabled' => true)) }}
                         </div>
                         <div class="form-group">
                             <label>Last Name :</label>
-                            {{ Form::text('lname', $datas->last_name, array('class' => 'form-control', 'placeholder' => 'Last Name')) }}
+                            {{ Form::text('lname', $datas->last_name, array('class' => 'form-control', 'placeholder' => 'Last Name', 'disabled' => true)) }}
                         </div>
                         <div class="form-group">
                             <label>Phone Number :</label>
@@ -32,37 +37,20 @@
 
                         <div class="form-group">
                             <label>Email :</label>
-                            <input type="email" name="email" class="form-control" value="{{$datas->email}}">
-                        </div>
-                        <input type="hidden" name="worker" value="1">
-                        <div class="form-group">
-                            <label>Birth Date :</label>
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="icon-calendar5"></i></span>
-                                <input value="{{$datas->birth_date}}" type="text" name="birth_date" id="date" class="form-control pickadate-year">
-                            </div>
+                            <input type="email" name="email" class="form-control" value="{{$datas->email}}" disabled>
                         </div>
                         
                         <div class="form-group">
-                            <label>Role :</label>
-                            <select name="role" class="select-search">
-                                <option selected disabled></option> 
-                                @foreach ($roles as $role)
-                                    <option value="{{ $role->id }}" @if ($datas->hasRole($role)) selected @endif>{{ $role->name }}</option>
-                                @endforeach
-                            </select>
+                            <label>Worker :</label> <br/>
+                            <input type="radio" name="is_worker" value="0" @if($datas->is_worker == 0) checked @endif/> Tidak &nbsp; &nbsp; &nbsp;
+                            <input type="radio" name="is_worker" value="1" @if($datas->is_worker == 1) checked @endif/> Ya
                         </div>
+
                         <div class="form-group">
-                            <label>New Password :</label>
-                            {{ Form::password('password', array('class' => 'form-control', 'placeholder' => 'Password', 'disabled' => 'disabled')) }}
-                        </div>
-                        <div class="form-group">
-                            <label>Office Name :</label>
-                            <select name="office" class="select-search" id="office">
-                                <option disabled selected></option>
-                                @foreach ($offices as $office)
-                                    <option value="{{ $office->id }}"@if($datas->id_office == $office->id) selected @endif>{{ $office->name }}</option>
-                                @endforeach
+                            <label>Status Member : </label>
+                            <select name="status_member" class="form-control">
+                                <option value="1" @if($datas->status_member == 1) selected @endif>Aktif</option>
+                                <option value="0" @if($datas->status_member == 0) selected @endif>Tidak Aktif</option>
                             </select>
                         </div>
                         <div class="text-right form-group">

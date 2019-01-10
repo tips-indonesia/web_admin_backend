@@ -102,19 +102,19 @@ class TipsterMilestoneAdminController extends Controller
         //
         $rules = array(
             'description'       => 'required',
-            'step'       => 'required',
+            'description_en'    => 'required'
         );
         $validator = Validator::make(Input::all(), $rules);
 
         // process the login
         if ($validator->fails()) {
-            return Redirect::to(route('tipstermilestones.edit'))
+            return back()
                 ->withErrors($validator)
                 ->withInput();
         } else {
             $tipsterMilestone = DeliveryStatus::find($id);
-            $tipsterMilestone->step = Input::get('step');
             $tipsterMilestone->description = Input::get('description');
+            $tipsterMilestone->description_en = Input::get('description_en');
             $tipsterMilestone->save();
             Session::flash('message', 'Successfully created data!');
             return Redirect::to(route('tipstermilestones.index'));

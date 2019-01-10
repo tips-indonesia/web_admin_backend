@@ -38,12 +38,8 @@ class AddWorkerAbilityController extends Controller
 
     public function update($id) {
         $rules = array(
-            'fname' => 'required',
-            'lname' => 'required',
-            'email' => 'required',
-            'birth_date' => 'required',
-            'role'  => 'required',
-            'office' => 'required'
+            'is_worker' => 'required',
+            'status_member' => 'required'
         );
 
         $validator = Validator::make(Input::all(), $rules);
@@ -55,15 +51,11 @@ class AddWorkerAbilityController extends Controller
                 ->withInput();
         } else {
             $user = User::find($id);
-            $user->first_name = Input::get('fname');
-            $user->last_name = Input::get('lname');
-            $user->email = Input::get('email');
-            $user->birth_date = Input::get('birth_date');
-            $role = Role::find(Input::get('role'));
-            $user->id_office = Input::get('office');
-            $user->syncRoles($role);
-            $user->is_worker = 1;
+
+            $user->is_worker = Input::get('is_worker');
+            $user->status_member = Input::get('status_member');
             $user->save();
+            
             Session::flash('message', 'Successfully created data!');
             return Redirect::to(route('addworkerability.index'));
         }	
