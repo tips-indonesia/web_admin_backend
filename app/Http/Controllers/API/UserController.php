@@ -189,6 +189,11 @@ class UserController extends Controller
         $this->USER_LOGIN_ERROR[-4]         = ErrorDualLanguage::get_message_by_key($lang, 'login_page03');//"Nomor handphone tidak ditemukan";
         $this->USER_LOGIN_ERROR_CODE[-4]    = 404;
         $member_list = MemberList::where('mobile_phone_no', $pn)->first();
+        $this->USER_LOGIN_ERROR[-7]         = ErrorDualLanguage::get_message_by_key($lang, 'login_page04');//"Nomor handphone tidak ditemukan";
+        $this->USER_LOGIN_ERROR_CODE[-7]    = 400;
+        if ($member_list->status_member == 0) {
+            return -7;
+        }
         if($member_list == null) {
             return -4;
         }
