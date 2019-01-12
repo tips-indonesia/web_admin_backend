@@ -10,7 +10,7 @@
     <!-- Vertical form options -->
     <div class="row">
         <div class="col-md-12">
-            {{ Form::open(array('url' => route('duallanguage.update', 1), 'method' => 'PUT')) }}
+            {{ Form::open(array('url' => route('duallanguage.update', $data->text_key), 'method' => 'PUT')) }}
                 <div class="panel panel-flat">
                     <div class="panel-body">
                         <div class="form-group">

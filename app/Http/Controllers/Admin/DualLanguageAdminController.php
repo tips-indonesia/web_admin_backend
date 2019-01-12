@@ -69,15 +69,13 @@ class DualLanguageAdminController extends Controller
     }
 
     public function update(Request $req, $id) {
-        $duallanguage = DualLanguage::where('text_key', $req->input('text_key'))
+        $duallanguage = DualLanguage::where('text_key', $id)
                 ->update([
-                    'text_key' => $req->input('text_key'),
                     'text_id' => $req->input('text_id'),
                     'text_en' => $req->input('text_en')
                 ]);
         
-        $duallanguage = DualLanguage::where('text_key', $req->input('text_key'))->first();
-
+        $duallanguage = DualLanguage::where('text_key', $id)->first();
         return Redirect::to(route('duallanguage.index') . '?id=' . $duallanguage->id_page_name);
     }
 
