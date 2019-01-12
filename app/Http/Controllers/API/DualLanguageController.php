@@ -11,8 +11,8 @@ use App\ErrorDualLanguage;
 class DualLanguageController extends Controller
 {
     public function all() {
-        $langs = DualLanguage::select('text_key', 'text_id', 'text_en', 'id_page_name')->get();
-        $error_langs = ErrorDualLanguage::select('text_key', 'text_id', 'text_en', 'id_page_name')->get();
+        $langs = DualLanguage::select('text_key', 'text_id', 'text_en', 'id_page_name')->get()->toArray();
+        $error_langs = ErrorDualLanguage::select('text_key', 'text_id', 'text_en', 'id_page_name')->get()->toArray();
         if (count($langs) == 0) {
             $data = [
                 'err' => [
