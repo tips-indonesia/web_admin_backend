@@ -6,12 +6,13 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\DualLanguage;
 use App\UpdateLanguage;
+use App\ErrorDualLanguage;
 
 class DualLanguageController extends Controller
 {
     public function all() {
         $langs = DualLanguage::select('text_key', 'text_id', 'text_en', 'id_page_name')->get();
-
+        $error_langs = ErrorDualLanguage::select('text_key', 'text_id', 'text_en', 'id_page_name')->get();
         if (count($langs) == 0) {
             $data = [
                 'err' => [
@@ -23,7 +24,7 @@ class DualLanguageController extends Controller
         } else {
             $data = [
                 'err' => null,
-                'result' => $langs
+                'result' => array_merge($langs, $error_langs)
             ];
         }
 
