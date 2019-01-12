@@ -20,11 +20,11 @@
             </div>
             <div class="form-group">
                 <label> Bahasa : </label>
-                <input type="text" name="text_id" class="form-control" value="{{ $message->text_id }}"/>
+                <textarea id="textarea" class="form-control" name="text_id"> {{ $message->text_id }} </textarea>
             </div>
             <div class="form-group">
                 <label> English : </label>
-                <input required type="text" name="text_en" class="form-control" value="{{ $message->text_en }}"/>
+                <textarea id="textareaen" class="form-control" name="text_en"> {{ $message->text_en }} </textarea>
             </div>
             <div class="text-right form-group">
                 <button required type="submit" class="btn btn-primary">Submit form <i class="icon-arrow-right14 position-right"></i></button>
@@ -32,4 +32,21 @@
         {{ Form::close()}}
         </div>
     </div>
+@endsection
+
+
+@section('scripts')
+<script type="text/javascript">
+    function auto_grow(element) {
+        element.style.height = "5px";
+        element.style.height = (element.scrollHeight)+"px";
+    }
+
+    window.onload = () => {
+        let el = document.getElementById("textarea")
+        let el2 = document.getElementById("textareaen")
+        auto_grow(el)
+        auto_grow(el2)
+    }
+</script>
 @endsection

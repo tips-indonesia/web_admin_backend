@@ -8,6 +8,7 @@
 @endsection
 @section('content')
     <!-- Vertical form options -->
+    </style>
     <div class="row">
         <div class="col-md-12">
             {{ Form::open(array('url' => route('duallanguage.update', $data->text_key), 'method' => 'PUT')) }}
@@ -19,11 +20,11 @@
                         </div>
                         <div class="form-group">
                             <label>Bahasa :</label>
-                            {{ Form::text('text_id', $data->text_id, array('class' => 'form-control', 'placeholder' => 'Value')) }}
+                            <textarea id="textarea" class="form-control" name="text_id"> {{ $data->text_id }} </textarea>
                         </div>
                         <div class="form-group">
                             <label>English :</label>
-                            {{ Form::text('text_en', $data->text_en, array('class' => 'form-control', 'placeholder' => 'Value')) }}
+                            <textarea id="textareaen" class="form-control" name="text_en"> {{ $data->text_en }} </textarea>
                         </div>
                         <div class="text-right form-group">
                             <button type="submit" class="btn btn-primary">Submit form <i class="icon-arrow-right14 position-right"></i></button>
@@ -36,4 +37,20 @@
             $('.select-search').select2();
         </script>
     </div>
+@endsection
+
+@section('scripts')
+<script type="text/javascript">
+    function auto_grow(element) {
+        element.style.height = "5px";
+        element.style.height = (element.scrollHeight)+"px";
+    }
+
+    window.onload = () => {
+        let el = document.getElementById("textarea")
+        let el2 = document.getElementById("textareaen")
+        auto_grow(el)
+        auto_grow(el2)
+    }
+</script>
 @endsection

@@ -22,7 +22,7 @@
             </div>
             <div class="form-group">
                 <label>Description</label>
-                <textarea name="description" required class="form-control">{{$help->description}}</textarea>
+                <textarea id="textarea" name="description" required class="form-control">{{$help->description}}</textarea>
             </div>
             <div class="form-group" style="float:right;">
                 <button type="submit" class="btn btn-primary">Submit <i class="icon-arrow-right14 position-right"></i></button>
@@ -30,4 +30,18 @@
         {{ Form::close() }}
         </div>
     <div>
+@endsection
+
+@section('scripts')
+<script type="text/javascript">
+    function auto_grow(element) {
+        element.style.height = "5px";
+        element.style.height = (element.scrollHeight)+"px";
+    }
+
+    window.onload = () => {
+        let el = document.getElementById("textarea")
+        auto_grow(el)
+    }
+</script>
 @endsection
