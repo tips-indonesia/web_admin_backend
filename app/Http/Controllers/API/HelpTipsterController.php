@@ -27,7 +27,7 @@ class HelpTipsterController extends Controller
         }
         $label = ($lang == 'en') ? '_en' : '';
         $help_tipster = HelpTipster::
-            select('id', 'title' . $label . ' as title', 'description' . $label . ' as description')->
+            select('id', 'title' . $label . ' as title', 'description' . $label . ' as description', 'addt_info' . $label .' as addt_info')->
             get();
             
         $final_help = [];
