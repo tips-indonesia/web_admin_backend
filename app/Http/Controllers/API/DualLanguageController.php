@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\DualLanguage;
 use App\UpdateLanguage;
 use App\ErrorDualLanguage;
+use App\User;
 
 class DualLanguageController extends Controller
 {
@@ -50,5 +51,44 @@ class DualLanguageController extends Controller
         }
 
         return response()->json($data, 200);
+    }
+
+    public function change_active_lang(Request $request) {
+        if (!isset($request['user_id'])) {
+            return response()->json([
+                'err' => [
+                    'code' => 400,
+                    'message' => 'user_id can\'t be null'
+                ],
+                'result' => null
+            ], 200);
+        }
+        if (!isset($request['lang_active'])) {
+            return response()->json([
+                'err' => [
+                    'code' => 400,
+                    'message' => 'lang_active can\'t be null'
+                ],
+                'result' => null
+            ], 200);
+        }
+
+        $user = User::find($request['user_id']);
+        if (!$user) {
+            return response()->json([
+                'err' => [
+                    'code' => 401,
+                    'message' => 'user not found'
+                ],
+                'result' => null
+            ]);
+        }
+        $user->lang_active = $request['lang_active'];
+        $user->save();
+
+        return response()->json([
+            'err' => null,
+            'result' => 1
+        ]);
     }
 }
