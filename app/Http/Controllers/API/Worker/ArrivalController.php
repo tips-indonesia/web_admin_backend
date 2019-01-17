@@ -11,6 +11,8 @@ use App\DeliveryStatus;
 use App\Shipment;
 use App\ShipmentStatus;
 use App\MemberList;
+use App\DualLanguage;
+use App\NotificationText;
 use App\Http\Controllers\FCMSender;
 use App\Http\Controllers\API\MessageController;
 
@@ -46,9 +48,10 @@ class ArrivalController extends Controller
     }
 
     function confirm(Request $request) {
+        $lang = DualLanguage::getLang($request);
+
         $slot_id = $request->slot_id;
         $slot = SlotList::where('slot_id', $slot_id)->first();
-
 
         if($slot == null) {
             $data = array(
@@ -91,7 +94,7 @@ class ArrivalController extends Controller
 
             if (count($shipments) != 0) {
                 $ms_user = MemberList::find($shipment->id_shipper);
-                $mess = 'Barang kiriman Anda dengan kode pengiriman ' . $shipment->shipment_id . ' sudah tiba di bandara tujuan.';
+                $mess = NotificationText::getByKeyWithChange('notifshipper06', $lang, [$shipment->shipment_id], NotificationText::PUSH_COLUMN);//'Barang kiriman Anda dengan kode pengiriman ' . $shipment->shipment_id . ' sudah tiba di bandara tujuan.';
                 if($ms_user){
                     if($ms_user->token) {
                         FCMSender::post(array(
@@ -108,7 +111,7 @@ class ArrivalController extends Controller
 
 
             $ms_user = MemberList::find($slot->id_member);
-            $mess = 'Barang antaran telah diterima dan dalam proses verifikasi.';
+            $mess = NotificationText::getByKey('notiftipster06');//'Barang antaran telah diterima dan dalam proses verifikasi.';
             $firebase_sent = "";
             if($ms_user){
                 if($ms_user->token) {

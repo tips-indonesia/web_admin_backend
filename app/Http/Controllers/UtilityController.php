@@ -25,6 +25,7 @@ use App\AppsUpdater;
 use Illuminate\Support\Facades\URL;
 use App\DualLanguage;
 use App\ErrorDualLanguage;
+use App\NotificationText;
 use Storage;
 
 class UtilityController extends Controller
@@ -620,6 +621,7 @@ class UtilityController extends Controller
     }
 
     public function postingMatching(Request $req){
+        $lang = DualLanguage::getLang($req);
         $id_slot = $req->slot_id;
         if(!$id_slot){
             return response()->json([
@@ -648,7 +650,8 @@ class UtilityController extends Controller
         $status = DeliveryStatus::where('step', 2)->first();
 
         $ms_user = MemberList::find($slot->id_member);
-        $mess = 'Barang antaran TIPS sudah tersedia untuk kode pendaftaran penerbangan ' . $slot->slot_id . ' milik Anda.';
+        $mess = NotificationText::getByKeyWithChange('notiftipster02', $lang, [$slot->slot_id], NotificationText::PUSH_COLUMN);
+        //'Barang antaran TIPS sudah tersedia untuk kode pendaftaran penerbangan ' . $slot->slot_id . ' milik Anda.';
         $firebase_sent = "";
         if($ms_user){
             if($ms_user->token) {

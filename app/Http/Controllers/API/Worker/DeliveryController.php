@@ -18,6 +18,8 @@ use App\PackagingList;
 use App\DaftarBarangGold;
 use App\DaftarBarangRegular;
 use App\OfficeList;
+use App\DualLanguage;
+use App\NotificationText;
 use DB;
 use stdClass;
 
@@ -240,6 +242,8 @@ class DeliveryController extends Controller
     }
 
     function departure(Request $request) {
+        $lang = DualLanguage::getLang($request);
+
         $slot_id = $request->slot_id;
         $slot = SlotList::where('slot_id', $slot_id)->first();
 
@@ -311,7 +315,7 @@ class DeliveryController extends Controller
                 $shipment->save();
 
                 $ms_user = MemberList::find($shipment->id_shipper);
-                $mess = 'Barang kiriman Anda dengan kode pengiriman ' . $shipment->shipment_id . ' sudah diserahkan kepada TIPSTER.';
+                $mess = NotificationText::getByKeyWithChange('notifshipper04', $lang, $shipment->shipment_id, NotificationText::PUSH_COLUMN);//'Barang kiriman Anda dengan kode pengiriman ' . $shipment->shipment_id . ' sudah diserahkan kepada TIPSTER.';
                 if($ms_user){
                     if($ms_user->token) {
                         FCMSender::post(array(
@@ -333,7 +337,7 @@ class DeliveryController extends Controller
             $user = MemberList::find($slot->id_member);
 
             $ms_user = MemberList::find($slot->id_member);
-            $mess = 'Jangan lupa untuk foto label bagasi Anda melalui aplikasi TIPS. Selamat menikmati penerbangan Anda.';
+            $mess = NotificationText::getByKey('notiftipster04', $lang, NotificationText::PUSH_COLUMN);//'Jangan lupa untuk foto label bagasi Anda melalui aplikasi TIPS. Selamat menikmati penerbangan Anda.';
             $firebase_sent = "";
             if($ms_user){
                 if($ms_user->token) {

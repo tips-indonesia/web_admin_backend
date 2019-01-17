@@ -21,6 +21,8 @@ use App\CityList;
 use App\SubdistrictList;
 use App\PriceGoodsEstimate;
 use App\SlotList;
+use App\DualLanguage;
+use App\NotificationText;
 use App\Http\Controllers\FCMSender;
 use App\Http\Controllers\API\MessageController;
 use App\FavoriteAddress;
@@ -51,7 +53,7 @@ class ShipmentController extends Controller
 
 
     function submit(Request $request) {
-
+        $lang = DualLanguage::getLang($request);
 
         // =================================================
         // BEGIN OF SUBMIT SHIPMENT
@@ -281,9 +283,9 @@ class ShipmentController extends Controller
         // melalui email (untuk pengguna terdaftar) dan notifikasi push
         // notification FCM (firebase cloud messaging)
         $ms_user = MemberList::find($shipment_out->id_shipper);
-        $mess = 'Pengiriman Anda dengan kode ' 
-                . $shipment_out->shipment_id 
-                . ' telah terdaftar. Tim TIPS akan segera menghubungi Anda.';
+        $mess = NotificationText::getByKeyWithChange('notifshipper01', $lang, [$shipment_out->shipment_id], NotificationText::PUSH_COLUMN); //'Pengiriman Anda dengan kode ' 
+                // . $shipment_out->shipment_id 
+                // . ' telah terdaftar. Tim TIPS akan segera menghubungi Anda.';
 
         // atribut firebase_sent digunakan untuk debugging respon pada aplikasi 
         // end user mengenai alasan pemberitahuan firebase jika tidak terkirim.

@@ -14,6 +14,7 @@ use App\Http\Controllers\WalletAll;
 use App\SmsCode;
 use App\DualLanguage;
 use App\ErrorDualLanguage;
+use App\NotificationText;
 
 class UserController extends Controller
 {
@@ -373,7 +374,7 @@ class UserController extends Controller
 
             $member_list->save();
             unset($member_list['password']);
-
+            // $msg = NotificationText::getByKeyWithChange('')
             $out = SMSSender::kirim($request->mobile_phone_no, rawurlencode("TIPS App: Your code is " . $sms_code));
 
             $member_list->money = WalletAll::getWalletAmount($member_list->id);

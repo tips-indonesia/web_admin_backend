@@ -10,6 +10,8 @@ use App\MemberList;
 use App\ShipmentStatus;
 use App\AirportcityList;
 use App\PriceList;
+use App\DualLanguage;
+use App\NotificationText;
 use Illuminate\Support\Facades\URL;
 use App\Http\Controllers\FCMSender;
 use App\Http\Controllers\API\MessageController;
@@ -284,6 +286,7 @@ class ShipmentController extends Controller
     }
 
     function upload_signature(Request $request) {
+        $lang = DualLanguage::getLang($request);
         $shipment_id = $request->shipment_id;
         $shipment = Shipment::where('shipment_id', $shipment_id)->first();
 
@@ -330,8 +333,9 @@ class ShipmentController extends Controller
             $shipment->smsStep8();
 
             $ms_user = MemberList::find($shipment->id_shipper);
-            $mess = 'Barang kiriman Anda dengan kode pengiriman ' . $shipment->shipment_id . ' sudah diambil oleh: '
-                    . $shipment->received_by;
+            $mess = NotificationText::getByKeyWithChange('notifshipper08', $lang, [$shipment->shipment_id, $shipment->received_by], NotificationText::PUSH_COLUMN);
+            //'Barang kiriman Anda dengan kode pengiriman ' . $shipment->shipment_id . ' sudah diambil oleh: '
+                    // . $shipment->received_by;
             if($ms_user){
                 if($ms_user->token) {
                     FCMSender::post(array(

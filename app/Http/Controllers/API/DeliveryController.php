@@ -22,12 +22,15 @@ use App\Shipment;
 use App\DaftarBarangGold;
 use App\DaftarBarangRegular;
 use App\ShipmentStatus;
+use App\DualLanguage;
+use App\NotificationText;
 
 class DeliveryController extends Controller
 {
     //
 
     function submit(Request $request) {
+        $lang = DualLanguage::getLang($request);
         $member = MemberList::find($request->id_member);
 
         if($member == null) {
@@ -75,7 +78,7 @@ class DeliveryController extends Controller
             $slot->delivery_status_description = $delivery_status->description;
 
             $ms_user = MemberList::find((int) $slot->id_member);
-            $mess = 'Terima kasih atas kepercayaan Anda untuk menggunakan TIPS. Penerbangan Anda sudah terdaftar dalam sistem kami dengan kode ' . $slot->slot_id;
+            $mess = NotificationText::getByKeyWithChange('notiftipster01', $lang, [$slot->slot_id], NotificationText::PUSH_COLUMN);//'Terima kasih atas kepercayaan Anda untuk menggunakan TIPS. Penerbangan Anda sudah terdaftar dalam sistem kami dengan kode ' . $slot->slot_id;
             $firebase_sent = "";
             if($ms_user){
                 if($ms_user->token) {
@@ -190,6 +193,7 @@ class DeliveryController extends Controller
     }
 
     function confirm(Request $request) {
+        $lang = DualLanguage::getLang($request);
         $slot = SlotList::where('slot_id', $request->slot_id)->first();
         if($slot == null) {
             $data = array(
@@ -280,7 +284,7 @@ class DeliveryController extends Controller
 
                 $ms_user = MemberList::find($slot->id_member);
                 $_3HOURS_DEPARTURE_TIME = date('Y-m-d H:i:s', strtotime($slot->depature) - (60 * 60 * 4));
-                $mess = 'Pastikan Anda tiba di bandara ' . $slot->airportOrigin->name . ' pada pukul ' . $_3HOURS_DEPARTURE_TIME . ' untuk mengambil barang antaran TIPS';
+                $mess = NotificationText::getByKeyWithChange('notiftipster03', $lang, [$slot->airportOrigin->name, $_3HOURS_DEPARTURE_TIME], NotificationText::PUSH_COLUMN);//'Pastikan Anda tiba di bandara ' . $slot->airportOrigin->name . ' pada pukul ' . $_3HOURS_DEPARTURE_TIME . ' untuk mengambil barang antaran TIPS';
                 $firebase_sent = "";
                 if($ms_user){
                     if($ms_user->token) {
@@ -316,6 +320,7 @@ class DeliveryController extends Controller
     }
 
     function send_tag(Request $request) {
+        $lang = DualLanguage::getLang($request);
         $slot = SlotList::where('slot_id', $request->slot_id)->first();
         if($slot == null) {
             $data = array(
@@ -378,7 +383,7 @@ class DeliveryController extends Controller
             }
 
             $ms_user = MemberList::find($slot->id_member);
-            $mess = 'Selamat menikmati perjalanan Anda. Setibanya di bandara tujuan, serahkan barang antaran TIPS kepada petugas TIPS di bandara tujuan.';
+            $mess = NotificationText::getByKey('notiftipster05', $lang, NotificationText::PUSH_COLUMN);//'Selamat menikmati perjalanan Anda. Setibanya di bandara tujuan, serahkan barang antaran TIPS kepada petugas TIPS di bandara tujuan.';
             $firebase_sent = "";
             if($ms_user){
                 if($ms_user->token) {
