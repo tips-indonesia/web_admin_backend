@@ -113,11 +113,15 @@ class DeliveryDepartureCounterAdminController extends Controller
                 $data['datas'] = $data['datas']->whereIn('id_slot', $slot);
             }
             $data['datas'] = $data['datas']->get();
-            foreach ($data['datas'] as $dat) {
+            foreach ($data['datas'] as $key=>$dat) {
                 if ($dat->id_slot != null) {
-                    $slot = SlotList::find($dat->id_slot);
-                    $dat['origin_name'] = AirportList::find($slot->id_origin_airport)->name;
-                    $dat['destination_name'] = AirportList::find($slot->id_destination_airport)->name;
+                    $slot = SlotList::withTrashed()->where('id',$dat->id_slot)->first();
+                    if ($slot->id_slot_status <= 0) {
+                        unset($data['datas'][$key]);
+                    } else {
+                        $dat['origin_name'] = AirportList::find($slot->id_origin_airport)->name;
+                        $dat['destination_name'] = AirportList::find($slot->id_destination_airport)->name;
+                    }
                 }
             }
             $data['date'] = $date;
