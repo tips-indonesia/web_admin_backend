@@ -91,4 +91,21 @@ class DualLanguageController extends Controller
             'result' => 1
         ]);
     }
+
+    public function get_active_lang($userid) {
+        $user = User::find($userid);
+        if (!$user) {
+            return response()->json([
+                'err' => [
+                    'code' => 401,
+                    'message' => 'user not found'
+                ],
+                'result' => null
+            ]);
+        }
+        return response()->json([
+            'err' => null,
+            'result' => $user->lang_active
+        ]);
+    }
 }

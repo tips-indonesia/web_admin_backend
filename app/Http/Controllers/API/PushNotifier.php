@@ -10,6 +10,8 @@ use App\MemberList;
 use App\Http\Controllers\SMSSender;
 use App\Http\Controllers\cURLFaker;
 use App\Http\Controllers\ConfigHunter;
+use App\DualLanguage;
+use App\NotificationText;
 
 class PushNotifier extends Controller
 {
@@ -49,6 +51,7 @@ class PushNotifier extends Controller
     }
 
     public function _15mins_before_confirmation_cutoff($user, $slot){
+        $lang = DualLanguage::getActiveLang($user->id);
     	$push_message = "Sisa waktu Anda 15 menit untuk konfirmasi kesediaan mengantar barang";
     	$this->delivery_push_notifier($push_message, $user, $slot);
 
@@ -89,6 +92,7 @@ class PushNotifier extends Controller
     }
 
     public function _rejection_or_return_to_sender_dg($user, $shipment){
+        // $lang = DualLanguage::getActiveLang($user->id)
         $kirim_code = $shipment->shipment_id;
         $push_message = "Paket kiriman anda dengan kode pengiriman $kirim_code tidak dapat kami proses lanjut karena teridentifikasi sebagai kategori DG (Dangerous Goods)";
         $this->shipment_push_notifier($push_message, $user, $shipment);

@@ -186,3 +186,4 @@ Route::post('/update_fcm_token', 'API\\UserController@updateFCMToken');
 Route::get('/dual_language', 'API\\DualLanguageController@all');
 Route::get('/flag_language', 'API\\DualLanguageController@flag');
 Route::post('/active_language', 'API\\DualLanguageController@change_active_lang');
+Route::get('/active_language/{userid}', 'API\\DualLanguageController@get_active_lang');

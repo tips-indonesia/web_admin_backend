@@ -47,4 +47,12 @@ class DualLanguage extends Model
 
         return $lang;
     }
+
+    public static function getActiveLang($userid) {
+        $lang = null;
+        $user = User::find($userid);
+        $lang = $user->lang_active;
+
+        return $lang;
+    }
 }

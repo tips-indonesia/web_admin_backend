@@ -11,6 +11,7 @@ use App\Http\Controllers\WalletAll;
 use App\Http\Controllers\ConfigHunter;
 use DateTime;
 use DB;
+use App\DualLanguage;
 
 class HomeController extends Controller{
 
@@ -141,7 +142,8 @@ class HomeController extends Controller{
                         'delivery'          => (new DeliveryController)->all_status_deliveries($lang)
                     ]
                 ],
-                'etc_message'   => $etc_text ? ($lang == 'id' ? $etc_text->value : $etc_text->value_en) : ""
+                'etc_message'   => $etc_text ? ($lang == 'id' ? $etc_text->value : $etc_text->value_en) : "",
+                'lang_active'   => DualLanguage::getActiveLang($member_id)
             )
         );
 
