@@ -374,8 +374,8 @@ class UserController extends Controller
 
             $member_list->save();
             unset($member_list['password']);
-            // $msg = NotificationText::getByKeyWithChange('')
-            $out = SMSSender::kirim($request->mobile_phone_no, rawurlencode("TIPS App: Your code is " . $sms_code));
+            $msg = NotificationText::getByKeyWithChange('sms_registration_code', $lang, [$sms_code], NotificationText::SMS_COLUMN);
+            $out = SMSSender::kirim($request->mobile_phone_no, rawurlencode($msg));//"TIPS App: Your code is " . $sms_code));
 
             $member_list->money = WalletAll::getWalletAmount($member_list->id);
 
@@ -552,7 +552,8 @@ class UserController extends Controller
         // return $this->resendSMSCode($request);
         $pn = $request->mobile_phone_no;
         $sc = $sms_code;
-        $out = SMSSender::kirim($pn, rawurlencode("TIPS App: Your code is " . $sc));
+        $msg = NotificationText::getByKeyWithChange('sms_registration_code', $lang, [$sc], NotificationText::SMS_COLUMN);
+        $out = SMSSender::kirim($pn, rawurlencode($msg));//"TIPS App: Your code is " . $sc));
 
         $data = array(
             'err' => null,
@@ -573,7 +574,8 @@ class UserController extends Controller
 
                 $sCode->sms_code = $sms_code;
                 $sCode->save();
-                $out = SMSSender::kirim($pn, rawurlencode("TIPS App: Your code is " . $sms_code));
+                $msg = NotificationText::getByKeyWithChange('sms_registration_code', $lang, [$sms_code], NotificationText::SMS_COLUMN);
+                $out = SMSSender::kirim($pn, rawurlencode($msg));//"TIPS App: Your code is " . $sms_code));
 
                 $data = array(
                     'err' => null,
@@ -597,7 +599,8 @@ class UserController extends Controller
 
             $pn = $request->mobile_phone_no;
             $sc = $sms_code;
-            $out = SMSSender::kirim($pn, rawurlencode("TIPS App: Your code is " . $sc));
+            $msg = NotificationText::getByKeyWithChange('sms_registration_code', $lang, [$sms_code], NotificationText::SMS_COLUMN);
+            $out = SMSSender::kirim($pn, rawurlencode($msg));//"TIPS App: Your code is " . $sc));
 
             $data = array(
                 'err' => null,
@@ -611,7 +614,8 @@ class UserController extends Controller
 
             $pn = $request->mobile_phone_no;
             $sc = $sms_code;
-            $out = SMSSender::kirim($pn, rawurlencode("TIPS App: Your code is " . $sc));
+            $msg = NotificationText::getByKeyWithChange('sms_registration_code', $lang, [$sms_code], NotificationText::SMS_COLUMN);
+            $out = SMSSender::kirim($pn, rawurlencode($msg));//"TIPS App: Your code is " . $sc));
 
             $data = array(
                 'err' => null,

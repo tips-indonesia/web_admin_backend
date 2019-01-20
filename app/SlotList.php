@@ -109,6 +109,7 @@ class SlotList extends Model
         
         $NOHP           = $ms_user->mobile_phone_no;
         $ANTAR_CODE     = $this->slot_id;
+        $lang = DualLanguage::getActiveLang($this->id_member);
         SMSSender::T_send_2($NOHP, $ANTAR_CODE);
     }
 
@@ -123,7 +124,8 @@ class SlotList extends Model
         $NOHP                   = $ms_user->mobile_phone_no;
         $ORIGIN_AIRPORT_NAME    = $this->airportOrigin->name;
         $_3HOURS_DEPARTURE_TIME = date('Y-m-d H:i:s', strtotime($this->depature) - (60 * 60 * 4));
-        SMSSender::T_send_3($NOHP, $ORIGIN_AIRPORT_NAME, $_3HOURS_DEPARTURE_TIME);
+        $lang = DualLanguage::getActiveLang($this->id_member);
+        SMSSender::T_send_3($NOHP, $ORIGIN_AIRPORT_NAME, $_3HOURS_DEPARTURE_TIME, $lang);
     }
 
     public function smsStep7(){
@@ -135,7 +137,8 @@ class SlotList extends Model
             return "[EX1] XXY";
         
         $NOHP           = $ms_user->mobile_phone_no;
-        SMSSender::T_send_7($NOHP);
+        $lang = DualLanguage::getActiveLang($this->id_member);
+        SMSSender::T_send_7($NOHP, $lang);
     }
 
     public function startCountingLifeConfirmation(){

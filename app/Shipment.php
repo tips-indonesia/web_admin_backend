@@ -130,6 +130,7 @@ class Shipment extends Model
 
         $NOHP           = $ms_user->mobile_phone_no;
         $SHIPPING_CODE  = $this->shipment_id;
+        $lang = DualLanguage::getActiveLang($this->id_shipper);
         SMSSender::S_send_1($NOHP, $SHIPPING_CODE);
     }
 
@@ -140,9 +141,9 @@ class Shipment extends Model
         $ms_user        = MemberList::find($this->id_shipper);
         if(!$ms_user)
             return;
-        
+        $lang = DualLanguage::getActiveLang($this->id_shipper);
         $NOHP           = $ms_user->mobile_phone_no;
-        SMSSender::S_send_1_setengah($NOHP);
+        SMSSender::S_send_1_setengah($NOHP, $lang);
     }
 
     public function smsStep2(){
@@ -154,7 +155,8 @@ class Shipment extends Model
             return;
         
         $NOHP           = $ms_user->mobile_phone_no;
-        SMSSender::S_send_2($NOHP);
+        $lang = DualLanguage::getActiveLang($this->id_shipper);
+        SMSSender::S_send_2($NOHP, $lang);
     }
 
     public function smsStep8(){
@@ -168,6 +170,7 @@ class Shipment extends Model
         $NOHP           = $ms_user->mobile_phone_no;
         $SHIPPING_CODE  = $this->shipment_id;
         $RECIPIENT_NAME = $this->received_by;
-        SMSSender::S_send_8($NOHP, $SHIPPING_CODE, $RECIPIENT_NAME);
+        $lang = DualLanguage::getActiveLang($this->id_shipper);
+        SMSSender::S_send_8($NOHP, $SHIPPING_CODE, $RECIPIENT_NAME, $lang);
     }
 }

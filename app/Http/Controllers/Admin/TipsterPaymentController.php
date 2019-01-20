@@ -17,6 +17,8 @@ use App\CityList;
 use App\AirportcityList;
 use App\AirportList;
 use App\SlotList;
+use App\DualLanguage;
+use App\NotificationText;
 use Auth;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Input;
@@ -100,11 +102,13 @@ class TipsterPaymentController extends Controller
         $slot->status_bayar = 1;
         $slot->id_slot_status = 7;
         $slot->save();
+        $lang = DualLanguage::getActiveLang($slot->id_member);
         $slot->create_transaction_bayar_cash();
         $slot->smsStep7();
         
         $ms_user = MemberList::find($slot->id_member);
-        $mess = 'Barang antaran telah diverifikasi, proses telah selesai.';
+        $mess = NotificationText::getByKey('notiftipster07', $lang, NotificationText::PUSH_COLUMN);
+        //'Barang antaran telah diverifikasi, proses telah selesai.';
         $firebase_sent = "";
         if($ms_user){
             if($ms_user->token) {
