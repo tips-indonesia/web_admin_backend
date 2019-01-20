@@ -26,11 +26,11 @@
             </div>
             <div class="form-group">
                 <label>Push Notification:</label>
-                <textarea id="textarea" name="push_notif" required class="form-control">{{$text->text_push}}</textarea>
+                <textarea id="textarea" name="push_notif" class="form-control">{{$text->text_push}}</textarea>
             </div>
             <div class="form-group">
                 <label>SMS Notification:</label>
-                <textarea id="textarea" name="sms_notif" required class="form-control">{{$text->text_sms}}</textarea>
+                <textarea id="textarea" name="sms_notif" class="form-control">{{$text->text_sms}}</textarea>
             </div>
             <div class="form-group" style="float:right;">
                 <button type="submit" class="btn btn-primary">Submit <i class="icon-arrow-right14 position-right"></i></button>
