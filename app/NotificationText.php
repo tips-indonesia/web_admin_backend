@@ -7,6 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class NotificationText extends Model
 {
     protected $table = 'notification_text';
+    protected $primaryKey = 'text_key';
+    public $timestamps = false;
+    public $incrementing = false;
+
     public const PUSH_COLUMN = 'text_push';
     public const SMS_COLUMN = 'text_sms';
     public const EMAIL_SUBJECT_COLUMN = 'text_email_subject';

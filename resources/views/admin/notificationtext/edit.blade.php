@@ -1,10 +1,10 @@
 @extends('admin.app')
 
 @section('title')
-    Help
+    Notification Text
 @endsection
 @section('page_title')
-    <span class="text-semibold">Help</span> - Edit
+    <span class="text-semibold">Notification Text</span> - Edit
 @endsection
 @section('content')
     <div class="panel panel-flat">
@@ -14,19 +14,23 @@
                 <input disabled type="radio" name="lang" value="en" {{ $lang == 'en' ? 'checked' : ''}}/> English
             </div>
 
-        {{ Form::open(array('url' => route('help.update', $help->id), 'method' => 'PUT')) }}
+        {{ Form::open(array('url' => route('notificationtext.update', $text->text_key), 'method' => 'PUT')) }}
             <input type="hidden" name="lang" value="{{$lang}}" />
             <div class="form-group">
-                <label>Title:</label>
-                <input required type="text" name="title" class="form-control" value="{{$help->title}}" />
+                <label>App Page Name:</label>
+                <input required type="text" name="title" class="form-control" value="{{$page->name}}" disabled/>
             </div>
             <div class="form-group">
-                <label>Description:</label>
-                <textarea id="textarea" name="description" required class="form-control">{{$help->description}}</textarea>
+                <label>Key:</label>
+                <input required type="text" name="title" class="form-control" value="{{$text->text_key}}" disabled/>
             </div>
             <div class="form-group">
-                <label>Additional Information:</label>
-                <textarea id="textarea" name="description" required class="form-control">{{$help->addt_info}}</textarea>
+                <label>Push Notification:</label>
+                <textarea id="textarea" name="push_notif" required class="form-control">{{$text->text_push}}</textarea>
+            </div>
+            <div class="form-group">
+                <label>SMS Notification:</label>
+                <textarea id="textarea" name="sms_notif" required class="form-control">{{$text->text_sms}}</textarea>
             </div>
             <div class="form-group" style="float:right;">
                 <button type="submit" class="btn btn-primary">Submit <i class="icon-arrow-right14 position-right"></i></button>

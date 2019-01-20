@@ -26,7 +26,7 @@ class HelpAdminController extends Controller
         $data['lang'] = $_GET['lang'];
         $label = $data['lang'] == 'en' ? '_en' : '';
         $help = HelpTipster::where('id', $id)
-            ->select('id', 'title' . $label . ' as title', 'description' . $label . ' as description')
+            ->select('id', 'title' . $label . ' as title', 'description' . $label . ' as description', 'addt_info' . $label . ' as addt_info')
             ->first();
 
         $data['help'] = $help;

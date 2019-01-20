@@ -40,6 +40,9 @@ Route::group(['middleware' => 'isWorker'], function() {
         Route::group(['middleware' => ['permission:help.']], function () {
             Route::resource('help','Admin\HelpAdminController');
         });
+        Route::group(['middleware' => ['permission:notificationtext.']], function () {
+            Route::resource('notificationtext','Admin\NotificationTextAdminController');
+        });
         Route::group(['middleware' => ['permission:apperrormessage.']], function () {
             Route::resource('apperrormessage','Admin\AppErrorMessageController');
         });

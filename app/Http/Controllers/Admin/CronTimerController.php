@@ -27,7 +27,10 @@ class CronTimerController extends Controller
     	$cron = CronTimer::find($id);
 
     	$cron->cron_timer = $req->input('cron_timer');
-
+		$cron->reminder_timer = $req->input('reminder_timer');
+		$cron->no_tipster_pickup_timer = $req->input('no_tipster_pickup_timer');
+		$cron->no_shipment_timer = $req->input('no_shipment_timer');
+		
     	$cron->save();
 
     	return back();
