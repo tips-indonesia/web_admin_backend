@@ -11,10 +11,10 @@ class NotificationText extends Model
     public $timestamps = false;
     public $incrementing = false;
 
-    public const PUSH_COLUMN = 'text_push';
-    public const SMS_COLUMN = 'text_sms';
-    public const EMAIL_SUBJECT_COLUMN = 'text_email_subject';
-    public const EMAIL_COLUMN = 'text_email';
+    const PUSH_COLUMN = 'text_push';
+    const SMS_COLUMN = 'text_sms';
+    const EMAIL_SUBJECT_COLUMN = 'text_email_subject';
+    const EMAIL_COLUMN = 'text_email';
 
     public static function getByKey($key, $lang, $type) {
         if ($lang == '') {
