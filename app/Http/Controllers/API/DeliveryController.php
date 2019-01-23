@@ -321,6 +321,7 @@ class DeliveryController extends Controller
 
     function send_tag(Request $request) {
         $lang = DualLanguage::getLang($request);
+        $label = $lang == 'en' ? '_en' : '';
         $slot = SlotList::where('slot_id', $request->slot_id)->first();
         if($slot == null) {
             $data = array(
@@ -358,7 +359,9 @@ class DeliveryController extends Controller
 
             $slot->id_slot_status = 5;
             $slot->save();
-            $shipment_status = ShipmentStatus::where('step', 5)->first();
+            $shipment_status = ShipmentStatus::where('step', 5)
+                                ->select('id', 'step', 'is_hidden', 'description' . $label . ' as description')
+                                ->first();
 
             foreach ($shipments as $shipment) {
 

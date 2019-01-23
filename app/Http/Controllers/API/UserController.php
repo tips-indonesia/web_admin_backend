@@ -518,6 +518,7 @@ class UserController extends Controller
     }
 
     public function sendSMSCodeForFBTwitterRegistered(Request $request){
+        $lang = DualLanguage::getLang($request);
         // $member_list = MemberList::where('mobile_phone_no', $request->mobile_phone_no)->first();
         // $member_list_social = MemberList::where('fb_token', $request->uniq_social_id)
         //                       ->orWhere('twitter_token', $request->uniq_social_id)->first();
