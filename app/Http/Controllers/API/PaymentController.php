@@ -24,13 +24,14 @@ class PaymentController extends Controller
         return file_exists("/var/www/html/tips/dev-tips");
     }
 
-    function payment_method_all(){
+    function payment_method_all($lang = 'id'){
         $payment_type = PaymentType::all();
         $payment_all = [];
         $isUseEspayPayment = false;
 
         foreach ($payment_type as $payment) {
             $isCashPayment = $payment->name == "Tunai";
+            if ($isCashPayment) $payment->name = ($lang == 'id') ? $payment->name : 'Cash';
             $isUseEspayPayment |= $payment->name == "Espay";
             if($isCashPayment){
                 $p = new stdClass();
@@ -53,12 +54,12 @@ class PaymentController extends Controller
     }
 
     //
-    function list_type_payment() {
-
+    function list_type_payment(Request $req) {
+        $lang = DualLanguage::getLang($req);
 
         $data = array(
             'err' => null,
-            'result' => $this->payment_method_all()
+            'result' => $this->payment_method_all($lang)
         );
 
         return response()->json($data, 200);
