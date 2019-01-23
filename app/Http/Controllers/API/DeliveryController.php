@@ -423,7 +423,8 @@ class DeliveryController extends Controller
                         'kode_bandara_asal' => $slot->airportOrigin->initial_code,
                         'kode_bandara_tujuan' => $slot->airportDestination->initial_code,
                         'airline_name' => $slot ? FlightController::getAirlineNameOfFlightCode($slot->flight_code) : ""
-                    )
+                    ),
+                    'frebase_sent' => $firebase_sent,
                 )
             );
 
