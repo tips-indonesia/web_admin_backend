@@ -646,8 +646,10 @@ class UtilityController extends Controller
 
         $slot->status_dispatch = 'Process';
         // $tempK->id_slot_status = 2; // di delivery controller statusnya sudah otomatis 4
-
-        $status = DeliveryStatus::where('step', 2)->first();
+        $label = $lang == 'en' ? '_en' : '';
+        $status = DeliveryStatus::where('step', 2)
+                    ->select('id', 'step', 'description' . $label . ' as description')
+                    ->first();
 
         $ms_user = MemberList::find($slot->id_member);
         $mess = NotificationText::getByKeyWithChange('notiftipster02', $lang, [$slot->slot_id], NotificationText::PUSH_COLUMN);

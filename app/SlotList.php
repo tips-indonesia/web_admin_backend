@@ -110,7 +110,7 @@ class SlotList extends Model
         $NOHP           = $ms_user->mobile_phone_no;
         $ANTAR_CODE     = $this->slot_id;
         $lang = DualLanguage::getActiveLang($this->id_member);
-        SMSSender::T_send_2($NOHP, $ANTAR_CODE);
+        SMSSender::T_send_2($NOHP, $ANTAR_CODE, $lang);
     }
 
     public function smsStep3(){
