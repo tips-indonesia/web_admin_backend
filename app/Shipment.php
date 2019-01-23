@@ -131,7 +131,7 @@ class Shipment extends Model
         $NOHP           = $ms_user->mobile_phone_no;
         $SHIPPING_CODE  = $this->shipment_id;
         $lang = DualLanguage::getActiveLang($this->id_shipper);
-        SMSSender::S_send_1($NOHP, $SHIPPING_CODE);
+        SMSSender::S_send_1($NOHP, $SHIPPING_CODE, $lang);
     }
 
     public function smsStep1Setengah(){
