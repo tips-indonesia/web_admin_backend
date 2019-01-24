@@ -176,17 +176,17 @@ class DeliveryController extends Controller
 
     // test
     function get_detail(Request $request) {
-        // if (!isset($request->slot_id) || !isset($request->is_departure) || !isset($request->worker_id)) {
-        //     $data = array(
-        //         'err' => [
-        //             'code' => 400,
-        //             'message' => "slot_id, worker_id dan is_departure tidak boleh kosong"
-        //         ],
-        //         'result' => null
-        //     );
-        // } else {
-            // $isDeparture = $request->is_departure;
-            // $workerId = $request->worker_id;
+        if (!isset($request->slot_id) || !isset($request->is_departure) || !isset($request->worker_id)) {
+            $data = array(
+                'err' => [
+                    'code' => 400,
+                    'message' => "slot_id, worker_id dan is_departure tidak boleh kosong"
+                ],
+                'result' => null
+            );
+        } else {
+            $isDeparture = $request->is_departure;
+            $workerId = $request->worker_id;
             $slot_id = $request->slot_id;
             $slot = SlotList::where('slot_id', $slot_id)->first();
 
@@ -208,9 +208,9 @@ class DeliveryController extends Controller
                 }
 
                 $user = MemberList::find($slot->id_member);
-                // $temp = ($isDeparture) ? $slot->id_origin_city : $slot->id_destination_city;
-                // $areaWorker = OfficeList::find(MemberList::find($workerId)->id_office)->id_area;
-                // if ($temp == $areaWorker) {
+                $temp = ($isDeparture) ? $slot->id_origin_city : $slot->id_destination_city;
+                $areaWorker = OfficeList::find(MemberList::find($workerId)->id_office)->id_area;
+                if ($temp == $areaWorker) {
                     unset($user['password']);
                     unset($user['token']);
                     $data = array(
@@ -227,17 +227,17 @@ class DeliveryController extends Controller
                         )
 
                     );    
-                // } else {
-                //     $data = array(
-                //         'err' => [
-                //             'code' => 0,
-                //             'message' => 'Slot is not in your area'
-                //         ],
-                //         'result' => null
-                //     );    
-                // }
+                } else {
+                    $data = array(
+                        'err' => [
+                            'code' => 0,
+                            'message' => 'Slot is not in your area'
+                        ],
+                        'result' => null
+                    );    
+                }
             }
-        // }
+        }
         return response()->json($data, 200);
     }
 
