@@ -369,20 +369,20 @@ class DeliveryController extends Controller
                 $shipment->save();
 
 
-                $member = MemberList::find($shipment->id_shipper);
+                // $member = MemberList::find($shipment->id_shipper);
 
-                if($member != null) {
-                    if($member->token != null) {
-                        FCMSender::post(array(
-                            'type' => 'Shipment',
-                            'id' => $shipment->shipment_id,
-                            'status' => "5",
-                            'message' => $shipment_status->description,
-                            'detail' => ""
-                        ), $member->token);
-                    }
-                    MessageController::sendMessageToUser("TIPS", $member, "Shipment Status", "5", $shipment_status->description);
-                }
+                // if($member != null) {
+                //     if($member->token != null) {
+                //         FCMSender::post(array(
+                //             'type' => 'Shipment',
+                //             'id' => $shipment->shipment_id,
+                //             'status' => "5",
+                //             'message' => $shipment_status->description,
+                //             'detail' => ""
+                //         ), $member->token);
+                //     }
+                //     MessageController::sendMessageToUser("TIPS", $member, "Shipment Status", "5", $shipment_status->description);
+                // }
             }
 
             $ms_user = MemberList::find($slot->id_member);
