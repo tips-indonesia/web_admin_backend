@@ -111,7 +111,7 @@ class ArrivalController extends Controller
 
 
             $ms_user = MemberList::find($slot->id_member);
-            $mess = NotificationText::getByKey('notiftipster06');//'Barang antaran telah diterima dan dalam proses verifikasi.';
+            $mess = NotificationText::getByKey('notiftipster06', $lang, NotificationText::PUSH_COLUMN);//'Barang antaran telah diterima dan dalam proses verifikasi.';
             $firebase_sent = "";
             if($ms_user){
                 if($ms_user->token) {
