@@ -21,8 +21,12 @@ class UserAdminController extends Controller
     */
     public function index()
     {
-        //
-        $data['datas'] = User::where('is_worker', 1)->paginate(10);
+        $data['datas'] = User::where('is_worker', 1);
+        if (isset($_GET['firstname'])) {
+            $data['firstname'] = $_GET['firstname'];
+            $data['datas'] = $data['datas']->where('first_name', 'LIKE', '%' . $data['firstname'] . '%');
+        }
+        $data['datas'] = $data['datas']->paginate(10);
         return view('admin.users.index', $data);
     }
 

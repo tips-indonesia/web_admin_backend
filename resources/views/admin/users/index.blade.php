@@ -8,8 +8,18 @@
     <button type="button" class="btn btn-success" onclick="window.location.href='{{ route('users.create') }}'">Create</button>
 @endsection
 @section('content')
-    <div class="panel panel-flat">
-        
+<div class="panel panel-flat">
+    <div class="panel-body">
+        <div class="row">
+            {{ Form::open(array('url' => route('users.index'), 'method' => 'GET')) }}
+            <div class="col-md-6">
+                <input type="text" name="firstname" class="form-control" placeholder="First Name" @if(isset($firstname)) value="{{$firstname}} @endif">
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary"> Search </button>
+            </div>
+            {{ Form::close() }}
+        </div>
 
         <table class="table datatable-pagination">
             <thead>
@@ -51,5 +61,6 @@
 
 {{ $datas->appends(request()->input())->links() }}
     </div>
+</div>
 
 @endsection
