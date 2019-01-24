@@ -22,6 +22,7 @@ Route::get('/v2/payment/start', 'API\\PaymentController@startPaymentV2');
 Route::get('/reset_password/{token}', 'API\\MailWebViewerController@showResetPassword');
 
 Route::prefix('admin/')->group(function ($locale) {
+    Route::post('login_', 'Auth\\LoginController@authenticate');
     Auth::routes();
 Route::group(['middleware' => 'officename'], function() {
 Route::group(['middleware' => 'isWorker'], function() {    

@@ -51,4 +51,16 @@ class LoginController extends Controller
 
         return redirect('/admin');
     }
+
+    public function authenticate(Request $request) {
+        if (Auth::attempt([
+            'mobile_phone_no' => $request->input('mobile_phone_no'),
+            'password' => $request->input('password'),
+            'status_member' => 1
+        ])) {
+            return redirect('/admin');
+        } else {
+            return back();
+        }
+    }
 }

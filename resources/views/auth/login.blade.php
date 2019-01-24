@@ -36,7 +36,7 @@
 		<div class="page-content">
 			<div class="content-wrapper">
 				<div class="content pb-20">
-					<form action="{{ Auth::routes('login') }}" method="POST" class="form-validate">
+					<form action="{{URL::to('/admin/login_')}}" method="POST" class="form-validate">
                         
                         <div class="panel panel-body login-form">
 							
