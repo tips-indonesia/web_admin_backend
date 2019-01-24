@@ -645,7 +645,7 @@ class UtilityController extends Controller
 
         $slot->status_dispatch = 'Process';
         // $tempK->id_slot_status = 2; // di delivery controller statusnya sudah otomatis 4
-        $lang = DualLanguage::getLang($slot->id_member);
+        $lang = DualLanguage::getActiveLang($slot->id_member);
         $label = $lang == 'en' ? '_en' : '';
         $status = DeliveryStatus::where('step', 2)
                     ->select('id', 'step', 'description' . $label . ' as description')
