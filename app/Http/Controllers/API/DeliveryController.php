@@ -384,7 +384,9 @@ class DeliveryController extends Controller
                 //     MessageController::sendMessageToUser("TIPS", $member, "Shipment Status", "5", $shipment_status->description);
                 // }
             }
-
+            if (!$lang) {
+                $lang = DualLanguage::getActiveLang($slot->id_member);
+            }
             $ms_user = MemberList::find($slot->id_member);
             $mess = NotificationText::getByKey('notiftipster05', $lang, NotificationText::PUSH_COLUMN);//'Selamat menikmati perjalanan Anda. Setibanya di bandara tujuan, serahkan barang antaran TIPS kepada petugas TIPS di bandara tujuan.';
             $firebase_sent = "";
