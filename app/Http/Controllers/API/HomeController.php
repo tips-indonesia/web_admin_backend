@@ -143,7 +143,7 @@ class HomeController extends Controller{
                     ]
                 ],
                 'etc_message'   => $etc_text ? ($lang == 'id' ? $etc_text->value : $etc_text->value_en) : "",
-                'lang_active'   => DualLanguage::getActiveLang($member_id)
+                'lang_active'   => $member_id ? DualLanguage::getActiveLang($member_id) : 'id'
             )
         );
 
