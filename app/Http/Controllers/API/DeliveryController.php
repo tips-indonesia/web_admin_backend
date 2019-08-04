@@ -39,95 +39,83 @@ class DeliveryController extends Controller
                 'result' => null
             );
         } else {
-            $departure_time = strtotime($request->depature);
-            $date_diff = ($departure_time - time())/ (60*60);
-            if ($date_diff<24) {
-                $data = array(
-                    'err' => [
-                        'code' => 0,
-                        'message' => 'Waktu penerbangan kurang dari 24 jam'
-                    ],
-                    'result' => null
-                );
-            } else {
-                do {
-                    $random_string = $this->generateRandomString();
-                } while (SlotList::where('slot_id', $random_string)->first() != null);
+            do{
+                $random_string = $this->generateRandomString();
+            }while(SlotList::where('slot_id', $random_string)->first() != null);
 
-                $airport_origin = AirportList::find((int)$request->id_origin_airport);
-                $airport_destination = AirportList::find((int)$request->id_destination_airport);
-                $price = PriceList::where('id_origin_city', (int)$airport_origin->id_city)->where('id_destination_city', (int)$airport_destination->id_city)->first();
+            $airport_origin = AirportList::find((int) $request->id_origin_airport);
+            $airport_destination = AirportList::find((int) $request->id_destination_airport);
+            $price = PriceList::where('id_origin_city', (int) $airport_origin->id_city)->where('id_destination_city', (int) $airport_destination->id_city)->first();
 
-                $slot = new SlotList;
-                $slot->slot_id = $random_string;
-                $slot->id_member = (int)$member->id;
-                $slot->booking_code = $request->booking_code;
-                $slot->id_airline = FlightController::getAirlineIdOfFlightCode($request->flight_code);
-                $slot->id_origin_airport = (int)$request->id_origin_airport;
-                $slot->id_destination_airport = (int)$request->id_destination_airport;
-                $slot->depature = date('Y-m-d H:i:s', $departure_time);
+            $slot = new SlotList;
+            $slot->slot_id = $random_string;
+            $slot->id_member = (int) $member->id;
+            $slot->booking_code = $request->booking_code;
+            $slot->id_airline = FlightController::getAirlineIdOfFlightCode($request->flight_code);
+            $slot->id_origin_airport = (int) $request->id_origin_airport;
+            $slot->id_destination_airport = (int) $request->id_destination_airport;
+            $slot->depature = date('Y-m-d H:i:s', strtotime($request->depature));
 //            $slot->arrival = date('Y-m-d H:i:s', strtotime($request->arrival));
-                $slot->first_name = $request->first_name;
-                $slot->last_name = $request->last_name;
-                $slot->flight_code = $request->flight_code;
-                $slot->baggage_space = $request->baggage_space; // bagian ini jangan di hardcode
-                $slot->slot_price_kg = $price->tipster_price;
-                $slot->id_origin_city = (int)$airport_origin->id_city;
-                $slot->id_destination_city = (int)$airport_destination->id_city;
-                $slot->origin_city = AirportcityList::find((int)$airport_origin->id_city)->name;
-                $slot->destination_city = AirportcityList::find((int)$airport_destination->id_city)->name;
+            $slot->first_name = $request->first_name;
+            $slot->last_name = $request->last_name;
+            $slot->flight_code = $request->flight_code;
+            $slot->baggage_space = $request->baggage_space; // bagian ini jangan di hardcode
+            $slot->slot_price_kg = $price->tipster_price;
+            $slot->id_origin_city = (int) $airport_origin->id_city;
+            $slot->id_destination_city = (int) $airport_destination->id_city;
+            $slot->origin_city = AirportcityList::find((int) $airport_origin->id_city)->name;
+            $slot->destination_city = AirportcityList::find((int) $airport_destination->id_city)->name;
 
-                $slot->save();
-                $slot = SlotList::find($slot->id);
+            $slot->save();
+            $slot = SlotList::find($slot->id);
 
-                $slot->origin_airport = $airport_origin;
-                $slot->destination_airport = $airport_destination;
-                $delivery_status = DeliveryStatus::find((int)$slot->id_slot_status);
-                $slot->delivery_status_description = $delivery_status->description;
+            $slot->origin_airport = $airport_origin;
+            $slot->destination_airport = $airport_destination;
+            $delivery_status = DeliveryStatus::find((int) $slot->id_slot_status);
+            $slot->delivery_status_description = $delivery_status->description;
 
-                $ms_user = MemberList::find((int)$slot->id_member);
-                $mess = 'Terima kasih atas kepercayaan Anda untuk menggunakan TIPS. Penerbangan Anda sudah terdaftar dalam sistem kami dengan kode ' . $slot->slot_id;
-                $firebase_sent = "";
-                if ($ms_user) {
-                    if ($ms_user->token) {
-                        FCMSender::post(array(
-                            'type' => 'Delivery',
-                            'id' => $slot->slot_id,
-                            'status' => "1",
-                            'message' => $mess,
-                            'detail' => ""
-                        ), $ms_user->token);
-                        $firebase_sent = \Carbon\Carbon::now()->toDateTimeString();
-                    } else {
-                        $firebase_sent = "only user, no token";
-                    }
-                    MessageController::sendMessageToUser("TIPS", $ms_user, "Delivery Status", "1", $mess);
-
-                    $bsc = new cURLFaker;
-                    $email = $ms_user->email;
-                    $nama = $ms_user->first_name . ' ' . $ms_user->last_name;
-                    $antarcode = $slot->slot_id;
-                    if ($email)
-                        $bsc->sendMailTipsterStep1($email, $nama, $antarcode);
-                } else {
-                    $firebase_sent = "no user: " . $slot->slot_id;
+            $ms_user = MemberList::find((int) $slot->id_member);
+            $mess = 'Terima kasih atas kepercayaan Anda untuk menggunakan TIPS. Penerbangan Anda sudah terdaftar dalam sistem kami dengan kode ' . $slot->slot_id;
+            $firebase_sent = "";
+            if($ms_user){
+                if($ms_user->token) {
+                    FCMSender::post(array(
+                        'type' => 'Delivery',
+                        'id' => $slot->slot_id,
+                        'status' => "1",
+                        'message' => $mess,
+                        'detail' => ""
+                    ), $ms_user->token);
+                    $firebase_sent = \Carbon\Carbon::now()->toDateTimeString();
+                }else{
+                    $firebase_sent = "only user, no token";
                 }
+                MessageController::sendMessageToUser("TIPS", $ms_user, "Delivery Status", "1", $mess);
 
-
-                $a = $slot->startCountingLifeConfirmation();
-                $b = $slot->startCountingLifePickup();
-                $c = $slot->startCountingLifeNoShipment();
-
-                $data = array(
-                    'err' => null,
-                    'firebase_sent_time' => $firebase_sent,
-                    'slot' => $slot,
-                    'counter' => "$a|$b|$c",
-                    'result' => [
-                        'slot' => $slot
-                    ]
-                );
+                $bsc = new cURLFaker;
+                $email = $ms_user->email;
+                $nama = $ms_user->first_name . ' ' . $ms_user->last_name;
+                $antarcode = $slot->slot_id;
+                if($email)
+                    $bsc->sendMailTipsterStep1($email, $nama, $antarcode);
+            }else{
+                $firebase_sent = "no user: " . $slot->slot_id;
             }
+
+
+            $a = $slot->startCountingLifeConfirmation();
+            $b = $slot->startCountingLifePickup();
+            $c = $slot->startCountingLifeNoShipment();
+
+            $data = array(
+                'err' => null,
+                'firebase_sent_time' => $firebase_sent,
+                'slot' => $slot,
+                'counter' => "$a|$b|$c",
+                'result' => [
+                    'slot'=> $slot
+                ]
+            );
         }
 
         return response()->json($data, 200);

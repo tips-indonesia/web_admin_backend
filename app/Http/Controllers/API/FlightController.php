@@ -87,6 +87,18 @@ class FlightController extends Controller
     }
 
     function post_flight_booking_code(Request $request){
+        $departure_time = strtotime($request->date_origin);
+        $date_diff = ($departure_time - time())/ (60*60);
+        if ($date_diff<24) {
+            $data = array(
+                'err' => [
+                    'code' => 0,
+                    'message' => 'Waktu penerbangan kurang dari 24 jam'
+                ],
+                'result' => null
+            );
+            return response()->json($data, 200);
+        }
 
         if($request->booking_id){
             $booking = FlightBookingList::find($request->booking_id);
