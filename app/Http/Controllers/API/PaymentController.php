@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\UserFlight;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -251,9 +252,15 @@ class PaymentController extends Controller
             $transaction_id = $request->order_id;
             $transaction = Transaction::where('payment_id', $transaction_id)->first();
             $shipment = Shipment::where('payment_id', $transaction_id)->first();
-            if($shipment)
-                $shipment->create_transaction();
-
+            $flight = UserFlight::where('payment_id', $transaction_id)->first();
+            if ($transaction->type==null) {
+                if ($shipment)
+                    $shipment->create_transaction();
+            } else if ($transaction->type=='flight') {
+                if ($flight) {
+                    $flight->update_status(3);
+                }
+            }
             if(sizeof($transaction) == 0){
                 $data = $this->generateSGOEspayResponseNotification(array(
                     "code"      => 97,
